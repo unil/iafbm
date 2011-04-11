@@ -17,7 +17,6 @@ Ext.onReady(function(){
         writeAllFields: false
     });
     var writer = new Ext.data.JsonWriter({
-        root: 'data',
         encode: false
     });
 
@@ -104,10 +103,10 @@ Ext.onReady(function(){
 
     var proxy = new Ext.data.HttpProxy({
         api: {
-            read : {url: '/api/personnes/get', method: 'GET'},
-            create : {url: '/api/personnes/put', method: 'PUT'},
-            update: {url: '/api/personnes/post', method: 'POST'},
-            destroy: {url: '/api/personnes/delete', method: 'DELETE'}
+            read : {url: '/api/personnes', method: 'GET'},
+            create : {url: '/api/personnes', method: 'PUT'},
+            update: {url: '/api/personnes', method: 'POST'},
+            destroy: {url: '/api/personnes', method: 'DELETE'}
         }
     });
     Ext.data.DataProxy.addListener('exception', function(proxy, type, action, options, res) {

@@ -22,4 +22,8 @@ class PersonnesController extends xWebController {
     function put() {
         return xModel::load('personne', $this->params)->put();
     }
+
+    function delete() {
+        return xModel::load('personne', $this->params)->delete();
+    }
 }
