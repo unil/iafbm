@@ -1,0 +1,20 @@
+<?php
+
+class ErrorDisplayView extends xView {
+
+    function render() {
+        $status = isset($this->data['exception']->status) ? $this->data['exception']->status : 500;
+        $msg = array(
+            400 => _('The data you provided is not correct'),
+            401 => _('You are not allowed to access this page'),
+            404 => _('The page you requested was not found'),
+            500 => _('An unexpected error happened'),
+            'default' => _('An unknown error happened')
+        );
+        $this->data['previous_page'] = xWebFront::previous_url();
+        $this->data['msg'] = isset($msg[$status]) ? $msg[$status] : $msg['default'];
+        return $this->apply('display.tpl');
+    }
+}
+
+?>

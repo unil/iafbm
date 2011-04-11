@@ -1,0 +1,30 @@
+DROP TABLE IF EXISTS personnes;
+CREATE TABLE personnes (
+	id INTEGER(9) NOT NULL AUTO_INCREMENT,
+	id_unil INTEGER(9),
+	id_chuv INTEGER(9),
+	id_adifac INTEGER(9),
+	nom VARCHAR(50) NOT NULL,
+	prenom VARCHAR(50) NOT NULL,
+	adresse VARCHAR(100),
+	tel VARCHAR(15),
+	email VARCHAR(50) NOT NULL,
+	date_naissance DATE NOT NULL,
+	etat_civil VARCHAR(10),
+	sexe VARCHAR(1) NOT NULL,
+	pays_id INTEGER(9) NOT NULL,
+	cantons_id INTEGER(9),
+	permis_id INTEGER(9),
+	titre_lecon_inaug VARCHAR(100),
+	date_lecon_inaug DATE,
+	etat INTEGER(1) NOT NULL,
+	created DATE NOT NULL,
+	modified DATE NOT NULL,
+	util_creat VARCHAR(50),
+	util_modif VARCHAR(50),
+	PRIMARY KEY (id)/*,
+	FOREIGN KEY (pays_id) REFERENCES pays(id),
+	FOREIGN KEY (cantons_id) REFERENCES cantons(id),
+	FOREIGN KEY (permis_id) REFERENCES permis(id)
+*/
+) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

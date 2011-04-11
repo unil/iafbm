@@ -1,0 +1,55 @@
+<?php
+$items = array(
+    array(
+        'label' => _('About us'),
+        'link' => u('about/us'),
+        'img' => u('a/img/views/footer/about.png')
+    ),
+    array(
+        'label' => _('Careers'),
+        'link' => u('career/joblist'),
+        'img' => u('a/img/views/footer/careers.png')
+    ),
+    array(
+        'label' => _('Media'),
+        'link' => u('about/media'),
+        'img' => u('a/img/views/footer/media.png')
+    ),
+    array(
+        'label' => _('FAQs'),
+        'link' => u('about/faq'),
+        'img' => u('a/img/views/footer/faq.png')
+    ),
+    array(
+        'label' => _('Contact us'),
+        'link' => u('about/contact'),
+        'img' => u('a/img/views/footer/contact.png')
+    ),
+    array(
+        'label' => _('Investors'),
+        'link' => u('about/investor'),
+        'img' => u('a/img/views/footer/invest.png')
+    ),
+    array(
+        'label' => _('Licencees'),
+        'link' => u('about/licence'),
+        'img' => u('a/img/views/footer/licence.png')
+    ),
+    array(
+        'label' => _('Sitemap'),
+        'link' => u('about/sitemap'),
+        'img' => u('a/img/views/footer/sitemap.png')
+    )
+);
+?>
+
+<div id="footer">
+  <div class="footer-links">
+<?php foreach($items as $item): ?>
+    <a href="<?php echo $item['link'] ?>"><img src="<?php echo $item['img'] ?>"/></a>
+    <a style="vertical-align:5px;margin-right:20px" href="<?php echo $item['link'] ?>"><?php echo $item['label'] ;?></a>
+<?php endforeach ?>
+  </div>
+  &copy; Digicall, <?php echo _('all rights reserved') ?>.
+</div>
+

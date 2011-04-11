@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/xfreemwork/!svn/ver/1/trunk/scripts/i18n
+END
+po2mo.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/xfreemwork/!svn/ver/1/trunk/scripts/i18n/po2mo.php
+END
+po_update.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svnroot/xfreemwork/!svn/ver/1/trunk/scripts/i18n/po_update.php
+END
+testgettext.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/xfreemwork/!svn/ver/1/trunk/scripts/i18n/testgettext.php
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/xfreemwork/!svn/ver/48/trunk/lib/Core
+END
+View.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/xfreemwork/!svn/ver/47/trunk/lib/Core/View.php
+END
+Rest.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/xfreemwork/!svn/ver/47/trunk/lib/Core/Rest.php
+END
+Model.php
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/xfreemwork/!svn/ver/60/trunk/lib/Core/Model.php
+END
+WebController.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/xfreemwork/!svn/ver/48/trunk/lib/Core/WebController.php
+END
+Controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/xfreemwork/!svn/ver/47/trunk/lib/Core/Controller.php
+END
+ModelMysql.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/xfreemwork/!svn/ver/34/trunk/lib/Core/ModelMysql.php
+END
+ModelPostgres.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/xfreemwork/!svn/ver/62/trunk/lib/Core/ModelPostgres.php
+END
+Front.php
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/xfreemwork/!svn/ver/63/trunk/lib/Core/Front.php
+END

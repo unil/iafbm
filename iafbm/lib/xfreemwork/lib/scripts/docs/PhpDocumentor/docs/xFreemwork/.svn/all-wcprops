@@ -1,0 +1,479 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork
+END
+xModelMysql.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xModelMysql.html
+END
+xFormFieldSelectNumeric.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldSelectNumeric.html
+END
+xDeveloperInformation.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xDeveloperInformation.html
+END
+xValidatorEmail.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorEmail.html
+END
+xException.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xException.html
+END
+_Core---WebController.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---WebController.php.html
+END
+xValidatorRegexp.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorRegexp.html
+END
+xValidatorDatetime.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorDatetime.html
+END
+xValidatorStore.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorStore.html
+END
+_Core---ModelMysql.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---ModelMysql.php.html
+END
+_Core---ModelPostgres.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---ModelPostgres.php.html
+END
+_Core---Front.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---Front.php.html
+END
+_Util---Form.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Form.php.html
+END
+_Fronts---ModelFront.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Fronts---ModelFront.php.html
+END
+xView.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xView.html
+END
+xFormFieldCheckbox.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldCheckbox.html
+END
+_Util---Util.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Util.php.html
+END
+_Util---Logger.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Logger.php.html
+END
+_Util---Router.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Router.php.html
+END
+xValidatorDate.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorDate.html
+END
+xController.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xController.html
+END
+xValidatorHelper.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorHelper.html
+END
+xValidator.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidator.html
+END
+xJsFront.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xJsFront.html
+END
+_Fronts---JsFront.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Fronts---JsFront.php.html
+END
+_Fronts---WebFront.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Fronts---WebFront.php.html
+END
+_Util---Context.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Context.php.html
+END
+xFormFieldCaptcha.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldCaptcha.html
+END
+xDummyLogger.html
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xDummyLogger.html
+END
+xValidatorMinlength.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorMinlength.html
+END
+xValidatorChecked.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorChecked.html
+END
+_Core---Controller.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---Controller.php.html
+END
+xSiteMap.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xSiteMap.html
+END
+_Util---Auth.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Auth.php.html
+END
+xValidatorInteger.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorInteger.html
+END
+_Util---Script.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Script.php.html
+END
+xValidatorModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorModel.html
+END
+xFormFieldSelect.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldSelect.html
+END
+_Helpers---ValidatorHelper.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Helpers---ValidatorHelper.php.html
+END
+_Util---Bootstrap.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Bootstrap.php.html
+END
+xApiFront.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xApiFront.html
+END
+xFormFieldPassword.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldPassword.html
+END
+_Helpers---FormHelper.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Helpers---FormHelper.php.html
+END
+xFormFieldSubmit.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldSubmit.html
+END
+xModel.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xModel.html
+END
+_Util---Exception.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Exception.php.html
+END
+xValidatorConfirm.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorConfirm.html
+END
+xFormHelper.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormHelper.html
+END
+xForm.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xForm.html
+END
+xValidatorMandatory.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorMandatory.html
+END
+_Reusables---Sitemap---Sitemap.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Reusables---Sitemap---Sitemap.php.html
+END
+xFormField.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormField.html
+END
+xModelFront.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xModelFront.html
+END
+xFormFieldText.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldText.html
+END
+xValidatorUnique.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorUnique.html
+END
+xUtil.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xUtil.html
+END
+xLogger.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xLogger.html
+END
+xRouter.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xRouter.html
+END
+xWebController.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xWebController.html
+END
+xContext.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xContext.html
+END
+xRestFront.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xRestFront.html
+END
+_Fronts---RestFront.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Fronts---RestFront.php.html
+END
+xValidatorMinvalue.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorMinvalue.html
+END
+xWebFront.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xWebFront.html
+END
+xModelPostgres.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xModelPostgres.html
+END
+_Core---View.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---View.php.html
+END
+_Util---Validator.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Util---Validator.php.html
+END
+xFront.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFront.html
+END
+_Reusables---DeveloperInformation---DeveloperInformation.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Reusables---DeveloperInformation---DeveloperInformation.php.html
+END
+xValidatorMaxvalue.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorMaxvalue.html
+END
+xValidatorMaxlength.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorMaxlength.html
+END
+xFormFieldOption.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xFormFieldOption.html
+END
+xAuth.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xAuth.html
+END
+xScript.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xScript.html
+END
+xValidatorTime.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorTime.html
+END
+xValidatorUrl.html
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xValidatorUrl.html
+END
+_Core---Model.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Core---Model.php.html
+END
+xBootstrap.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/xBootstrap.html
+END
+_Fronts---ApiFront.php.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/docs/xFreemwork/_Fronts---ApiFront.php.html
+END

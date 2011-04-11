@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svnroot/xfreemwork/!svn/ver/56/trunk/lib/Util
+END
+Bootstrap.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/xfreemwork/!svn/ver/56/trunk/lib/Util/Bootstrap.php
+END
+Util.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/xfreemwork/!svn/ver/37/trunk/lib/Util/Util.php
+END
+Exception.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/xfreemwork/!svn/ver/32/trunk/lib/Util/Exception.php
+END
+Logger.php
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/xfreemwork/!svn/ver/47/trunk/lib/Util/Logger.php
+END
+Router.php
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/xfreemwork/!svn/ver/47/trunk/lib/Util/Router.php
+END
+Auth.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/xfreemwork/!svn/ver/39/trunk/lib/Util/Auth.php
+END
+Form.php
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/xfreemwork/!svn/ver/55/trunk/lib/Util/Form.php
+END
+Context.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/xfreemwork/!svn/ver/39/trunk/lib/Util/Context.php
+END
+Script.php
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/xfreemwork/!svn/ver/33/trunk/lib/Util/Script.php
+END
+Validator.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/xfreemwork/!svn/ver/51/trunk/lib/Util/Validator.php
+END

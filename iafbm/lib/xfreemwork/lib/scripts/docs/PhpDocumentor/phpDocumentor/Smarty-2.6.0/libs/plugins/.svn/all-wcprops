@@ -1,0 +1,299 @@
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins
+END
+function.html_image.php
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_image.php
+END
+modifier.spacify.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.spacify.php
+END
+modifier.count_sentences.php
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.count_sentences.php
+END
+modifier.escape.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.escape.php
+END
+modifier.count_paragraphs.php
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.count_paragraphs.php
+END
+modifier.strip.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.strip.php
+END
+modifier.count_words.php
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.count_words.php
+END
+modifier.cat.php
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.cat.php
+END
+modifier.htmlentities.php
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.htmlentities.php
+END
+modifier.debug_print_var.php
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.debug_print_var.php
+END
+function.assign.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.assign.php
+END
+modifier.replace.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.replace.php
+END
+function.eval.php
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.eval.php
+END
+modifier.string_format.php
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.string_format.php
+END
+modifier.nl2br.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.nl2br.php
+END
+modifier.strip_tags.php
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.strip_tags.php
+END
+modifier.default.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.default.php
+END
+modifier.date_format.php
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.date_format.php
+END
+modifier.capitalize.php
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.capitalize.php
+END
+function.cycle.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.cycle.php
+END
+modifier.count_characters.php
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.count_characters.php
+END
+modifier.lower.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.lower.php
+END
+block.textformat.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/block.textformat.php
+END
+function.popup.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.popup.php
+END
+function.assign_debug_info.php
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.assign_debug_info.php
+END
+function.html_radios.php
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_radios.php
+END
+block.strip.php
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/block.strip.php
+END
+outputfilter.trimwhitespace.php
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/outputfilter.trimwhitespace.php
+END
+function.html_table.php
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_table.php
+END
+function.var_dump.php
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.var_dump.php
+END
+modifier.regex_replace.php
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.regex_replace.php
+END
+modifier.wordwrap.php
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.wordwrap.php
+END
+function.counter.php
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.counter.php
+END
+function.html_options.php
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_options.php
+END
+function.html_select_time.php
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_select_time.php
+END
+shared.make_timestamp.php
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/shared.make_timestamp.php
+END
+function.mailto.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.mailto.php
+END
+function.popup_init.php
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.popup_init.php
+END
+function.debug.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.debug.php
+END
+function.math.php
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.math.php
+END
+function.fetch.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.fetch.php
+END
+modifier.indent.php
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.indent.php
+END
+modifier.truncate.php
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.truncate.php
+END
+function.html_select_date.php
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_select_date.php
+END
+shared.escape_special_chars.php
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/shared.escape_special_chars.php
+END
+function.html_checkboxes.php
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.html_checkboxes.php
+END
+modifier.rawurlencode.php
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.rawurlencode.php
+END
+function.config_load.php
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/function.config_load.php
+END
+modifier.upper.php
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Smarty-2.6.0/libs/plugins/modifier.upper.php
+END

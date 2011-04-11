@@ -1,0 +1,1 @@
+../lib/xfreemwork/scripts/i18n/po2mo.php

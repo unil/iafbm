@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/xfreemwork/!svn/ver/46/trunk/lib/Helpers
+END
+FormHelper.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/xfreemwork/!svn/ver/46/trunk/lib/Helpers/FormHelper.php
+END
+ValidatorHelper.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/xfreemwork/!svn/ver/46/trunk/lib/Helpers/ValidatorHelper.php
+END

@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates
+END
+include.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/include.tpl
+END
+function.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/function.tpl
+END
+const.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/const.tpl
+END
+blank.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/blank.tpl
+END
+header.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/header.tpl
+END
+var.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/var.tpl
+END
+define.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/define.tpl
+END
+tutorial_nav.tp
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/tutorial_nav.tp
+END
+tutorial_toc.tp
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/tutorial_toc.tp
+END
+footer.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/footer.tpl
+END
+global.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/global.tpl
+END
+filesource.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/filesource.tpl
+END
+examplesource.tp
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/examplesource.tp
+END
+todolist.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/todolist.tpl
+END
+tutorial.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/tutorial.tpl
+END
+left_frame.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/left_frame.tpl
+END
+elementindex.tp
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/elementindex.tp
+END
+class.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/class.tpl
+END
+tutorial_tree.tp
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/tutorial_tree.tp
+END
+index.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/index.tpl
+END
+pkgelementindex.tp
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/pkgelementindex.tp
+END
+classtrees.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/classtrees.tpl
+END
+basicindex.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/basicindex.tpl
+END
+errors.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/errors.tpl
+END
+page.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/page.tpl
+END
+top_frame.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/top_frame.tpl
+END
+ric.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/ric.tpl
+END
+docblock.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/docblock.tpl
+END
+method.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/frames/templates/earthli/templates/method.tpl
+END

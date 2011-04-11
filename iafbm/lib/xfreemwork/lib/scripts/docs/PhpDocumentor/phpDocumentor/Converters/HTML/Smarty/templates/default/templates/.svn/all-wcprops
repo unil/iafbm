@@ -1,0 +1,191 @@
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates
+END
+function.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/function.tpl
+END
+blank.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/blank.tpl
+END
+style.css
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/style.css
+END
+fileleft.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/fileleft.tpl
+END
+footer.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/footer.tpl
+END
+filesource.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/filesource.tpl
+END
+global.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/global.tpl
+END
+todolist.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/todolist.tpl
+END
+tutorial.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/tutorial.tpl
+END
+elementindex.tp
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/elementindex.tp
+END
+ric.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/ric.tpl
+END
+packages.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/packages.tpl
+END
+classleft.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/classleft.tpl
+END
+include.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/include.tpl
+END
+const.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/const.tpl
+END
+var.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/var.tpl
+END
+header.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/header.tpl
+END
+define.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/define.tpl
+END
+tutorial_toc.tp
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/tutorial_toc.tp
+END
+examplesource.tp
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/examplesource.tp
+END
+class.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/class.tpl
+END
+tutorial_tree.tp
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/tutorial_tree.tp
+END
+layout.css
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/layout.css
+END
+pkgelementindex.tp
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/pkgelementindex.tp
+END
+index.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/index.tpl
+END
+classtrees.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/classtrees.tpl
+END
+basicindex.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/basicindex.tpl
+END
+page.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/page.tpl
+END
+errors.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/errors.tpl
+END
+method.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/method.tpl
+END
+docblock.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/default/templates/docblock.tpl
+END

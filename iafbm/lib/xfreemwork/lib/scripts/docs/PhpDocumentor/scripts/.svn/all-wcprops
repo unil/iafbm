@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/scripts
+END
+tokenizer_test.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/scripts/tokenizer_test.php
+END
+create_package.xml.php
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/scripts/create_package.xml.php
+END
+create_examples.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/scripts/create_examples.php
+END
+add_cvs.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/scripts/add_cvs.php
+END
+makedoc.sh
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/scripts/makedoc.sh
+END

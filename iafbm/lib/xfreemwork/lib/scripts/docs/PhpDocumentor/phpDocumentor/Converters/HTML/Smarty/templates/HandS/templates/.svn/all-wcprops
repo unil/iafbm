@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates
+END
+elementindex.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/elementindex.tpl
+END
+classtags.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/classtags.tpl
+END
+function.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/function.tpl
+END
+blank.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/blank.tpl
+END
+fileleft.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/fileleft.tpl
+END
+tags.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/tags.tpl
+END
+footer.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/footer.tpl
+END
+global.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/global.tpl
+END
+filesource.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/filesource.tpl
+END
+todolist.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/todolist.tpl
+END
+tutorial.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/tutorial.tpl
+END
+ric.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/ric.tpl
+END
+packages.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/packages.tpl
+END
+classleft.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/classleft.tpl
+END
+include.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/include.tpl
+END
+const.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/const.tpl
+END
+header.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/header.tpl
+END
+var.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/var.tpl
+END
+define.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/define.tpl
+END
+filetags.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/filetags.tpl
+END
+examplesource.tp
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/examplesource.tp
+END
+class.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/class.tpl
+END
+tutorial_tree.tp
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/tutorial_tree.tp
+END
+pkgelementindex.tp
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/pkgelementindex.tp
+END
+index.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/index.tpl
+END
+tutorial_toc.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/tutorial_toc.tpl
+END
+classtrees.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/classtrees.tpl
+END
+basicindex.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/basicindex.tpl
+END
+page.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/page.tpl
+END
+errors.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/errors.tpl
+END
+docblock.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/docblock.tpl
+END
+method.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/HandS/templates/method.tpl
+END

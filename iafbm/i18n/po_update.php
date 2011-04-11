@@ -1,0 +1,1 @@
+../lib/xfreemwork/scripts/i18n/po_update.php

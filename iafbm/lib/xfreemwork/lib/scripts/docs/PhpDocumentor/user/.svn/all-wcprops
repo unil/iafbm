@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user
+END
+default.ini
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user/default.ini
+END
+demo.ini
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user/demo.ini
+END
+makedocs.ini
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user/makedocs.ini
+END
+error.ini
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user/error.ini
+END
+pear-makedocs.ini
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user/pear-makedocs.ini
+END
+testdocbook.ini
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svnroot/xfreemwork/!svn/ver/41/trunk/scripts/docs/PhpDocumentor/user/testdocbook.ini
+END
