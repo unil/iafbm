@@ -69,7 +69,7 @@ class xRestFront extends xFront {
     }
     function decode_json($data) {
         if (!function_exists('json_decode')) throw new xException("JSON decoding unavailable", 501);
-        return json_decode($data);
+        return json_decode($data, true);
     }
     function decode_xml($data) {
         // Warning: get_object_vars() might not be suitable for deep nested XML
@@ -117,7 +117,7 @@ class xRestFront extends xFront {
         } else {
             $xml = $result;
         }
-        return "<?xml version=\"1.0\" encoding=\"{$this->encoding}\"?>\n{$xml}";
+        return "<?xml version=\"1.0\" encoding=\"{$this->encoding}\"?>\r\n{$xml}";
     }
     function encode_xml_nodes($data) {
         if (!is_array($data)) return $data;

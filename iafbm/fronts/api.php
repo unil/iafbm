@@ -3,12 +3,15 @@
 class ApiFront extends xApiFront {
 
     /**
-     * Merges the HTTP Request body paramters with the object parameters.
+     * Merges the HTTP Request body paramters with the the instance parameters.
      */
     function prepare() {
-        $this->params['xmethod'] = $this->http['method'];
+        // Sets the called method according the HTTP Request Verb
+//        $this->params['xmethod'] = $this->http['method'];
+        // Merges HTTP Request body with the instance parameters
         $body = $this->get_request_body();
         $params = $this->decode($body);
+        $params = array_shift($params); // Removes JSON root cell
         $this->params = xUtil::array_merge($this->params, $params);
     }
 

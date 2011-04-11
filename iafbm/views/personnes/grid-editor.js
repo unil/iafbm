@@ -10,13 +10,19 @@ Ext.onReady(function(){
     });
     */
 
+
     var writer = new Ext.data.XmlWriter({
         xmlEncoding: 'UTF-8',
         encode: true,
         writeAllFields: false
     });
+    var writer = new Ext.data.JsonWriter({
+        root: 'data',
+        encode: false
+    });
 
-    var reader = new Ext.data.XmlReader({
+//    var reader = new Ext.data.XmlReader({
+    var reader = new Ext.data.JsonReader({
         // records will have a 'plant' tag
         record: 'item',
         successProperty: 'success',
@@ -30,7 +36,7 @@ Ext.onReady(function(){
             {name: 'prenom', type: 'string'},
             {name: 'adresse', type: 'string'},
             {name: 'tel', type: 'string'},
-            {name: 'date_naissance', type: 'date', dateFormat: 'd.m.Y'},
+            {name: 'date_naissance', type: 'date', dateFormat: 'Y-d-m'},
     /*
             {name: 'botanical', type: 'string'},
             {name: 'light'},
@@ -89,6 +95,7 @@ Ext.onReady(function(){
             dataIndex: 'date_naissance',
             editor: {
                 xtype: 'datefield',
+                startDay: 1,
                 //allowBlank: false,
                 format: 'd.m.Y'
             }
