@@ -7,7 +7,6 @@ class PersonnesController extends xWebController {
     }
 
     function indexAction() {
-        $personnes = $this->get();
         return xView::load('personnes/index')->render();
     }
 
