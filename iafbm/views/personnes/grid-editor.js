@@ -3,28 +3,34 @@
 
 Ext.onReady(function(){
 
-    /*
-    var writer = new Ext.data.JsonWriter({
-        encode: true,
-        writeAllFields: false
+    /**
+     * Events bound to any DataProxy child instance
+     */
+    Ext.data.DataProxy.addListener('exception', function(proxy, type, action, options, res) {
+        Ext.MessageBox.alert([
+            'Erreur', 'Une erreur est survenue :(',
+            '<br>',
+            res.toString()
+        ].join(''));
     });
-    */
 
-
+/*
     var writer = new Ext.data.XmlWriter({
         xmlEncoding: 'UTF-8',
         encode: true,
         writeAllFields: false
     });
+*/
     var writer = new Ext.data.JsonWriter({
-        encode: false
+        encode: false,
+        writeAllFields: true
     });
 
 //    var reader = new Ext.data.XmlReader({
     var reader = new Ext.data.JsonReader({
         // records will have a 'plant' tag
         record: 'item',
-        successProperty: 'success',
+        successProperty: 'xsuccess',
         idProperty: 'id',
         // use an Array of field definition objects to implicitly create a Record constructor
         fields: [
@@ -34,6 +40,7 @@ Ext.onReady(function(){
             {name: 'nom', type: 'string'},
             {name: 'prenom', type: 'string'},
             {name: 'adresse', type: 'string'},
+            {name: 'pays_id', type: 'int'},
             {name: 'tel', type: 'string'},
             {name: 'date_naissance', type: 'date', dateFormat: 'Y-d-m'},
     /*
@@ -53,8 +60,7 @@ Ext.onReady(function(){
         },
         columns: [{
             header: "Nom",
-            width: 170,
-            sortable: true,
+            //width: 170,
             dataIndex: 'nom',
             editor: {
                 xtype: 'textfield',
@@ -62,8 +68,7 @@ Ext.onReady(function(){
             }
         },{
             header: "Prénom",
-            width: 170,
-            sortable: true,
+            //width: 170,
             dataIndex: 'prenom',
             editor: {
                 xtype: 'textfield',
@@ -71,8 +76,7 @@ Ext.onReady(function(){
             }
         },{
             header: "Adresse",
-            width: 170,
-            sortable: true,
+            //width: 170,
             dataIndex: 'adresse',
             editor: {
                 xtype: 'textfield',
@@ -80,23 +84,60 @@ Ext.onReady(function(){
             }
         },{
             header: "Téléphone",
-            width: 170,
-            sortable: true,
+            //width: 170,
             dataIndex: 'tel',
             editor: {
                 xtype: 'textfield',
                 allowBlank: false
             }
         },{
+            header: "Pays",
+            //width: 170,
+            dataIndex: 'pays_id',
+            editor: {
+                xtype: 'combo',
+                //lazyRender: true,
+                typeAhead: true,
+                minChars: 1,
+                triggerAction: 'all',
+                displayField: 'nom',
+                valueField: 'id',
+                store: new Ext.data.JsonStore({
+                    autoDestroy: true,
+                    url: '/api/pays',
+                    restful: true,
+                    idProperty: 'id',
+                    fields: ['id', 'nom'],
+                    autoLoad: true
+                })
+/*
+                store: new Ext.data.Store({
+                    proxy: new Ext.data.HttpProxy({
+                        url: '/api/pays'
+                    }),
+                    restful: true,
+                    autoLoad: true,
+                    reader: new Ext.data.JsonReader({
+                        //root: 'items',
+                        //totalProperty: 'count',
+                        idProperty: 'id'
+                    }, [
+                        {name: 'id'},
+                        {name: 'nom'}
+                    ])
+                })
+*/
+                //allowBlank: false
+            }
+        },{
             header: "Date de naissance",
-            width: 170,
-            sortable: true,
+            //width: 170,
             dataIndex: 'date_naissance',
             editor: {
                 xtype: 'datefield',
                 startDay: 1,
                 //allowBlank: false,
-                format: 'd.m.Y'
+                format: 'Y-d-m'
             }
         }]
     });
@@ -109,26 +150,22 @@ Ext.onReady(function(){
             destroy: {url: '/api/personnes', method: 'DELETE'}
         }
     });
-    Ext.data.DataProxy.addListener('exception', function(proxy, type, action, options, res) {
-        Ext.MessageBox.alert([
-            'Erreur', 'Une erreur est survenue :(',
-            '<br>',
-            res.toString()
-        ].join(''));
-    });
 
     var store = new Ext.data.Store({
         id: 'personnes',
         proxy: proxy,
         reader: reader,
         writer: writer,  // <-- plug a DataWriter into the store just as you would a Reader
-        autoSave: false, // <-- false would delay executing create, update, destroy requests until specifically told to do so with some [save] buton.
+        autoSave: false, // <-- true would delay executing create, update, destroy requests until specifically told to do so with some [save] buton.
         restful: true
     });
 
     var editor = new Ext.ux.grid.RowEditor({
         saveText: 'Appliquer',
-        cancelText: 'Annuler'
+        cancelText: 'Annuler',
+        listeners: {
+            afteredit: function() { /*console.log('afteredit EVENT!')*/ }
+        }
     });
 
     // create grid
@@ -136,11 +173,12 @@ Ext.onReady(function(){
         store: store,
         renderTo: 'editor-grid',
         cm: cm,
+        sm: new Ext.grid.RowSelectionModel({singleSelect:true}),
         plugins: [editor],
         title: 'Personnes',
-        height: 300,
-        width: '100%',
-        frame:true,
+        height: 500,
+        width: 900,
+        frame: true,
         tbar: [{
             iconCls: 'icon-add',
             text: 'Ajouter',
@@ -172,7 +210,10 @@ Ext.onReady(function(){
             handler: function(){
                 store.save();
             }
-        }]
+        }],
+        viewConfig: {
+            forceFit: true // Expands columns width to fit the grid
+        }
     });
 
     store.load();
