@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS pays;
 CREATE TABLE pays (
-	id INTEGER(9) NOT NULL,
-	code VARCHAR(2) NOT NULL,
-	nom VARCHAR(100) NOT NULL,
-	nom_en VARCHAR(100) NOT NULL,
-	PRIMARY KEY (id)
+    id INT NOT NULL,
+    code VARCHAR(2) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
+    nom_en VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
 ) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO pays VALUES (1,'AF','Afghanistan','Afghanistan');

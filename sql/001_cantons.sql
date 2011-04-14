@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS cantons;
 CREATE TABLE cantons (
-	id INTEGER(9) NOT NULL,
-	code VARCHAR(2) NOT NULL,
-	nom VARCHAR(100) NOT NULL,
-	PRIMARY KEY (id)
+    id INT NOT NULL,
+    code VARCHAR(2) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
 ) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO cantons VALUES (1, 'AG', 'Argovie');
