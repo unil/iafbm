@@ -13,7 +13,7 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
                 xUtil::url('a/js/ext-ux/form/XDateField.js')
             ),
             'css' => array(
-                xUtil::url('a/js/ext-ux/ux/css/RowEditor.css')
+                xUtil::url('a/js/ext-ux/native/css/RowEditor.css')
             )
         ));
         // Setups default data values
