@@ -18,7 +18,7 @@
       <div id="header">
         <?php //echo xView::load('layout/i18n')->render(); ?>
         <?php //echo xView::load('member/authline')->render(); ?>
-        <a href="<?php echo u('') ?>"><img src="<?php echo xContext::$baseuri ?>/a/img/id/header-logo.png" alt="Example site"/></a>
+        <a href="<?php echo u('') ?>"><img src="<?php echo u('a/img/id/header-logo.png') ?>" alt="UNIL - IAFBM"/></a>
       </div>
       <div style="clear:both"></div>
       <hr/>

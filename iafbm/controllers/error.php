@@ -8,17 +8,10 @@ class ErrorController extends xWebController {
     }
 
     function defaultAction() {
-        $html = xView::load('error/display', $this->params)->render();
-        // 404 Not found error processing
-        if (@$this->params['exception']->status == 404) {
-            $this->add_meta(array('title' => _('Page not found')));
-            xWebFront::messages($html, 'error');
-        }
-        // Default error processing
-        $this->meta = xUtil::array_merge($this->meta, array(
-            'title' => _('Error')
-        ));
-        // Save exception in session for
+        // Error message display
+        $html = xView::load('error/display', $this->params, $this->meta)->render();
+        xWebFront::messages($html, 'error');
+        // Save exception in session for optional report action
         $this->session('exception', $this->params['exception']);
         return $this->error_contents();
     }
@@ -34,15 +27,18 @@ class ErrorController extends xWebController {
                 'username' => xContext::$auth->username(),
                 'history' => xWebFront::$history
             )))->render();
-            mail(
+            $mail_sent = mail(
                 xContext::$config->site->mail->webmaster->mail,
-                'Okikoo error report',
+                'Error report',
                 $report,
                 "From: ".xContext::$config->site->mail->noreply->name."<".xContext::$config->site->mail->noreply->mail.">"
             );
         }
         // Reset session exception
         $this->session('exception', null);
+        // Setups user message
+        if ($mail_sent) xWebFront::messages(_('Error details have been sent to our team'), 'ok');
+        else xWebFront::messages(_('Error details could not be sent to our team :('), 'error');
         return xView::load('error/report')->render();
     }
 }

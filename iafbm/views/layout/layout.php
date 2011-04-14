@@ -21,6 +21,7 @@ class LayoutLayoutView extends xView {
             ),
             'css' => array(
                 xUtil::url('a/js/ext/resources/css/ext-all.css'),
+                //xUtil::url('a/js/ext/resources/css/xtheme-gray.css'),
                 xUtil::url('a/css/main.css'),
             )
         ));

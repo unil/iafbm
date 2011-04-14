@@ -1,4 +1,7 @@
 <p class="title"><?php echo $d['msg'] ?></p>
+
+<p><?php echo $d['exception']->getMessage() ?></p>
+
 <p>
   <?php
 printf (
@@ -13,3 +16,7 @@ printf (
 )
   ?>.
 </p>
+
+<hr/>
+
+<pre><?php echo $d['exception'] ?></pre>

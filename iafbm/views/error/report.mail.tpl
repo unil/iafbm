@@ -1,4 +1,4 @@
-Okikoo error report from user: <?php echo $d['items']['username'] ? $d['items']['username'] : '[user not logged in]' ?>
+Error report from user: <?php echo $d['items']['username'] ? $d['items']['username'] : '[user not logged in]' ?>
 
 Date: <?php echo xUtil::date() . ' at ' . xUtil::time() ?>
 

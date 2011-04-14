@@ -7,7 +7,14 @@ class PersonnesController extends xWebController {
     }
 
     function indexAction() {
-        return xView::load('personnes/index')->render();
+        $data = array(
+            'title' => 'Personnes',
+            'id' => 'personnes',
+            'url' => '/api/personnes',
+            'fields' => xView::load('personnes/extjs/fields')->render(),
+            'columns' => xView::load('personnes/extjs/columns')->render()
+        );
+        return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
 
     function get() {

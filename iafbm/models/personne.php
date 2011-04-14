@@ -18,21 +18,20 @@ class PersonneModel extends xModelMysql {
         'etat_civil' => 'etat_civil',
         'sexe' => 'sexe',
         'pays_id' => 'pays_id',
-        'cantons_id' => 'cantons_id',
+        'canton_id' => 'canton_id',
         'permis_id' => 'permis_id',
         'titre_lecon_inaug' => 'titre_lecon_inaug',
         'date_lecon_inaug' => 'date_lecon_inaug',
-        'etat' => 'etat',
+        'actif' => 'actif',
         'created' => 'created',
         'modified' => 'modified'
     );
 
     var $validation = array(
-/*
-        'begin' => array(
-            'mandatory',
-            'datetime'
+        'nom' => array(
+            'mandatory'
         ),
+/*
         'end' => array(
             'mandatory',
             'datetime'
