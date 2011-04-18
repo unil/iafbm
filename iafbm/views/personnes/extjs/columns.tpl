@@ -63,8 +63,15 @@
         format: 'Y-d-m',
     }
 },{
-    header: "Actif",
-    dataIndex: 'actif',
     xtype: 'checkcolumn',
-    width: 25
+    //xtype: 'booleancolumn',
+    //trueText: 'Oui',
+    //falseText: 'Non',
+    header: 'Actif',
+    dataIndex: 'actif',
+    align: 'center',
+    width: 25,
+    editor: {
+        xtype: 'checkbox'
+    }
 }]
