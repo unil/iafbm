@@ -17,10 +17,6 @@ class ApiFront extends xApiFront {
         // Merges HTTP Request body with the instance parameters
         $body = $this->get_request_body();
         $params = $this->decode($body);
-        // Removes JSON root cell post+get requests (According Ext.data.JsonWriter behaviour)
-        if (in_array(strtolower($this->params['xmethod']), array('put', 'post'))) {
-            $params = @array_shift($params);
-        }
         $this->params = xUtil::array_merge($this->params, xUtil::arrize($params));
     }
 

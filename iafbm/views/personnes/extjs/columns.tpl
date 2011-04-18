@@ -31,7 +31,7 @@
     dataIndex: 'pays_id',
     editor: {
         xtype: 'combo',
-        //lazyRender: true,
+        lazyRender: true,
         typeAhead: true,
         minChars: 1,
         triggerAction: 'all',
@@ -44,29 +44,17 @@
             restful: true,
             idProperty: 'id',
             fields: ['id', 'nom'],
-            //autoLoad: true
+            autoLoad: true
         })
+    },
+    renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+        var store = this.getEditor().store;
+        return store.getById(value) ? store.getById(value).get('nom') : '...';
     }
-},{
-    header: 'Pays test',
-    dataIndex: 'pays_id',
-    editor: new Ext.form.ComboBox({
-        typeAhead: true,
-        triggerAction: 'all',
-        lazyRender: true,
-        store: new Ext.data.JsonStore({
-            autoDestroy: true,
-            url: '/api/pays',
-            restful: true,
-            idProperty: 'id',
-            fields: ['id', 'nom'],
-            //autoLoad: true
-        })
-    })
 },{
     header: "Date de naissance",
     dataIndex: 'date_naissance',
-    renderer: function(value) { return value ? value.dateFormat('d-M-Y') : '' },
+    renderer: Ext.util.Format.dateRenderer('d.m.Y'),
     editor: {
         // TODO: date submit format is not good :(
         xtype: 'xdatefield',

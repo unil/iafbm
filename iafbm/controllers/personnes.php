@@ -1,6 +1,8 @@
 <?php
 
-class PersonnesController extends xWebController {
+class PersonnesController extends iaWebController {
+
+    var $model = 'personne';
 
     function defaultAction() {
         return $this->indexAction();
@@ -15,21 +17,5 @@ class PersonnesController extends xWebController {
             'columns' => xView::load('personnes/extjs/columns')->render()
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
-    }
-
-    function get() {
-        return xModel::load('personne', $this->params)->get();
-    }
-
-    function post() {
-        return xModel::load('personne', $this->params)->post();
-    }
-
-    function put() {
-        return xModel::load('personne', $this->params)->put();
-    }
-
-    function delete() {
-        return xModel::load('personne', $this->params)->delete();
     }
 }
