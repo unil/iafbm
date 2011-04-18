@@ -1,6 +1,8 @@
 <?php
 
-class EmployesController extends xWebController {
+class EmployesController extends iaWebController {
+
+    var $model = 'employe';
 
     function defaultAction() {
         return $this->indexAction();
@@ -17,45 +19,42 @@ class EmployesController extends xWebController {
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
 
-    function get() {
-        return xModel::load('employe', $this->params)->get();
-    }
-
     function post() {
-        $employe = xModel::load('employe', $this->params);
+        $params = $this->params['items'];
+        $employe = xModel::load('employe', $params);
         $personne = xModel::load('personne', $employe->foreign_fields_values('personne'));
         $t = new xTransaction();
         $t->start();
         $t->execute($employe, 'post');
         $t->execute($personne, 'post');
-        $t->end();
-        return xUtil::array_merge(
-            array('xsuccess' => true),
-            array_shift(xModel::load('employe', array('id' => $this->params['id']))->get())
-        );
+        $r = $t->end();
+        $r['items'] = array_shift(xModel::load('employe', array('id' => $params['id']))->get());
+        return $r;
     }
 
     function put() {
-        $employe = xModel::load('employe', $this->params);
+        $params = $this->params['items'];
+        $employe = xModel::load('employe', $params);
         $personne = xModel::load('personne', $employe->foreign_fields_values('personne'));
         $t = new xTransaction();
         $t->start();
         $t->execute($personne, 'put');
         $employe->params['personne_id'] = $t->insertid();
         $t->execute($employe, 'put');
-        $t->end();
-        return xUtil::array_merge(
-            array('xsuccess' => true),
-            array_shift(xModel::load('employe', array('id' => $t->insertid()))->get())
-        );
+        $r = $t->end();
+        $r['items'] = array_shift(xModel::load('employe', array('id' => $t->insertid()))->get());
+        return $r;
     }
 
     function delete() {
-        $employe = array_shift(xModel::load('employe', array('id'=>$this->params['id']))->get());
+        $params = $this->params;
+        $employe = array_shift(xModel::load('employe', array('id'=>$params['id']))->get());
         $t = new xTransaction();
         $t->start();
-        $t->execute(xModel::load('employe', $this->params), 'delete');
+        $t->execute(xModel::load('employe', $params), 'delete');
         $t->execute(xModel::load('personne', array('id'=>$employe['personne_id'])), 'delete');
-        return array_merge($t->end(), array('id' => $this->params['id']));
+        $r = $t->end();
+        $r['items']['id'] = $params['id'];
+        return $r;
     }
 }

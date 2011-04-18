@@ -119,7 +119,7 @@ Ext.onReady(function(){
         listeners: {
             'keyup': function(c, e) {
                 //if (e.getKey() !== e.ENTER) return;
-                var store = Ext.getCmp('personnes_grid').store;
+                var store = Ext.getCmp('<?php echo "{$d['id']}_grid" ?>').store;
                 //store.load({params:{'query':this.getValue()}});
                 if (this.getValue().length > 0) store.setBaseParam('query', this.getValue());
                 else delete store.baseParams.query;

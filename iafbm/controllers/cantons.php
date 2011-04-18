@@ -1,12 +1,6 @@
 <?php
 
-class CantonsController extends xWebController {
-
-    function get() {
-        $params = array(
-            'nom' => @"{$this->params['query']}%",
-            'nom_comparator' => 'LIKE'
-        );
-        return xModel::load('canton', $params)->get();
-    }
+class CantonsController extends iaWebController {
+    var $model = 'canton';
+    var $allow = array('get');
 }

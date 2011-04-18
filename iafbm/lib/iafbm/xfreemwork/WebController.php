@@ -29,7 +29,7 @@ class iaWebController extends xWebController {
         // Creates extjs compatible result
         return array(
             'items' => xModel::load($this->model, $params)->get(),
-            'xcount' => xModel::load($this->model)->count()
+            'xcount' => xModel::load($this->model, $params)->count()
         );
     }
 
@@ -49,6 +49,6 @@ class iaWebController extends xWebController {
 
     function delete() {
         if (!in_array('delete', $this->allow)) throw new xException("Method not allowed", 403);
-        return xModel::load($this->model, $this->params['items'])->delete();
+        return xModel::load($this->model, $this->params['id'])->delete();
     }
 }

@@ -47,6 +47,7 @@
             autoDestroy: true,
             url: '/api/pays',
             restful: true,
+            root: 'items',
             idProperty: 'id',
             fields: ['id', 'nom'],
             //autoLoad: true
