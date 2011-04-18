@@ -1,12 +1,8 @@
 <?php
 
-class PaysController extends xWebController {
+class PaysController extends iaWebController {
 
-    function get() {
-        $params = array(
-            'nom' => @"{$this->params['query']}%",
-            'nom_comparator' => 'LIKE'
-        );
-        return xModel::load('pays', $params)->get();
-    }
+    var $model = 'pays';
+
+    var $allow = array('get');
 }
