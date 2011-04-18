@@ -9,8 +9,7 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
         $this->add_meta(array(
             'js' => array(
                 xUtil::url('a/js/ext-ux/native/RowEditor.js'),
-                xUtil::url('a/js/ext-ux/native/CheckColumn.js'),
-                xUtil::url('a/js/ext-ux/form/XDateField.js')
+                xUtil::url('a/js/ext-ux/native/CheckColumn.js')
             ),
             'css' => array(
                 xUtil::url('a/js/ext-ux/native/css/RowEditor.css')

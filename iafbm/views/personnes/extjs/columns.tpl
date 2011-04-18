@@ -56,12 +56,10 @@
     dataIndex: 'date_naissance',
     renderer: Ext.util.Format.dateRenderer('d F Y'),
     editor: {
-        // TODO: date submit format is not good :(
-        xtype: 'xdatefield',
+        xtype: 'datefield',
         startDay: 1,
         //allowBlank: false,
         format: 'Y-d-m',
-        submitFormat: 'timestamp',
     }
 },{
     header: "Actif",
