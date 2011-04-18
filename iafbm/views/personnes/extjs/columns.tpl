@@ -54,7 +54,7 @@
 },{
     header: "Date de naissance",
     dataIndex: 'date_naissance',
-    renderer: Ext.util.Format.dateRenderer('d.m.Y'),
+    renderer: Ext.util.Format.dateRenderer('d F Y'),
     editor: {
         // TODO: date submit format is not good :(
         xtype: 'xdatefield',

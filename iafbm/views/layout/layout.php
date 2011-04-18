@@ -11,6 +11,7 @@ class LayoutLayoutView extends xView {
                 error_reporting() ?
                     xUtil::url('a/js/ext/ext-all-debug.js') :
                     xUtil::url('a/js/ext/ext-all.js'),
+                xUtil::url('a/js/ext-custom/date.i18n.js')
                 //xUtil::url('a/js/xfreemwork/lib/core.js')
             ),
             'layout' => array(
