@@ -15,12 +15,6 @@ class EmployeModel extends xModelMysql {
         'util_modif' => 'util_modif'
     );
 
-    var $validation = array(
-        'section' => array(
-            'mandatory'
-        ),
-    );
-
     var $primary = array('id');
 
     var $joins = array(
@@ -28,4 +22,10 @@ class EmployeModel extends xModelMysql {
     );
 
     var $join = 'personne';
+
+    var $validation = array(
+        'section' => array(
+            'mandatory'
+        ),
+    );
 }

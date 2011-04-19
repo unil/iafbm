@@ -27,6 +27,14 @@ class PersonneModel extends xModelMysql {
         'modified' => 'modified'
     );
 
+    var $primary = array('id');
+
+    var $joins = array(
+        'pays' => 'LEFT JOIN pays ON (personnes.pays_id = pays.id)'
+    );
+
+    var $join = 'pays';
+
     var $validation = array(
         'nom' => array(
             'mandatory'
@@ -55,11 +63,5 @@ class PersonneModel extends xModelMysql {
             'integer'
         ),
 */
-    );
-
-    var $primary = array('id');
-
-    var $joins = array(
-        //'supplier' => 'LEFT JOIN profile_supplier ON (availability.fk_profile = profile_supplier.id)'
     );
 }

@@ -6,13 +6,21 @@ class CommissionModel extends xModelMysql {
 
     var $mapping = array(
         'id' => 'id',
-        'commissiontype-id' => 'commission_type_id',
+        'commission-type_id' => 'commission_type_id',
         'nom' => 'nom',
         'description' => 'description',
         'actif' => 'actif',
         'created' => 'created',
         'modified' => 'modified'
     );
+
+    var $primary = array('id');
+
+    var $joins = array(
+        'commission-type' => 'LEFT JOIN commissions_types ON (commissions.commission_type_id = commissions_types.id)'
+    );
+
+    var $join = 'commission-type';
 
     var $validation = array(
         'nom' => array(
@@ -42,11 +50,5 @@ class CommissionModel extends xModelMysql {
             'integer'
         ),
 */
-    );
-
-    var $primary = array('id');
-
-    var $joins = array(
-        //'supplier' => 'LEFT JOIN profile_supplier ON (availability.fk_profile = profile_supplier.id)'
     );
 }

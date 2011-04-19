@@ -18,4 +18,7 @@
   <li>
     <a href="<?php echo u('commissions/index')?>">Gérer des commissions</a>
   </li>
+  <li>
+    <a href="<?php echo u('commissions-types/index')?>">Gérer des types de commissions</a>
+  </li>
 </ul>

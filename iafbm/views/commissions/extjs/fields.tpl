@@ -1,5 +1,5 @@
 [{name: 'id', type: 'int'},
 {name: 'nom', type: 'string'},
 {name: 'description', type: 'string'},
-{name: 'date_naissance', type: 'date', dateFormat: 'Y-d-m'},
+{name: 'commission-type_id', type: 'commission_type_id'},
 {name: 'actif', type: 'bool'}]

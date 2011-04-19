@@ -13,9 +13,6 @@ class EtudiantModel extends xModelMysql {
         'util_modif' => 'util_modif'
     );
 
-    var $validation = array(
-    );
-
     var $primary = array('id');
 
     var $joins = array(
@@ -23,4 +20,7 @@ class EtudiantModel extends xModelMysql {
     );
 
     var $join = 'personne';
+
+    var $validation = array(
+    );
 }
