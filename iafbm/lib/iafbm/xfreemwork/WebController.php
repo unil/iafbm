@@ -31,8 +31,8 @@ class iaWebController extends xWebController {
         }
         // Creates extjs compatible result
         return array(
-            'items' => xModel::load($this->model, $params)->get(),
-            'xcount' => xModel::load($this->model, xUtil::filter_keys($params, array('xoffset', 'xlimit'), true))->count()
+            'xcount' => xModel::load($this->model, xUtil::filter_keys($params, array('xoffset', 'xlimit'), true))->count(),
+            'items' => xModel::load($this->model, $params)->get()
         );
     }
 
