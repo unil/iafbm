@@ -19,7 +19,10 @@ class iaWebController extends xWebController {
         // Creates parameter for model instance
         $params = $this->params;
         if (@$this->params['query']) {
-            $fields = array_keys(xModel::load($this->model)->mapping);
+            $fields = array_merge(
+                array_keys(xModel::load($this->model)->mapping),
+                array_keys(xModel::load($this->model)->foreign_mapping())
+            );
             foreach ($fields as $field) {
                 $params[$field] = "%{$this->params['query']}%";
                 $params["{$field}_comparator"] = 'LIKE';
@@ -29,7 +32,7 @@ class iaWebController extends xWebController {
         // Creates extjs compatible result
         return array(
             'items' => xModel::load($this->model, $params)->get(),
-            'xcount' => xModel::load($this->model, $params)->count()
+            'xcount' => xModel::load($this->model, xUtil::filter_keys($params, array('xoffset', 'xlimit'), true))->count()
         );
     }
 
