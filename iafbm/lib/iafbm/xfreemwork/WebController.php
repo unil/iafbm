@@ -18,7 +18,7 @@ class iaWebController extends xWebController {
      * Excluded fields for model parameters creation on query.
      * @see iaWebController::get()
      */
-    var $query_exclude = array();
+    var $query_exclude_fields = array();
 
     function get() {
         if (!in_array('get', $this->allow)) throw new xException("Method not allowed", 403);
@@ -30,7 +30,7 @@ class iaWebController extends xWebController {
                 array_keys(xModel::load($this->model)->foreign_mapping())
             );
             foreach ($fields as $field) {
-                if (in_array($field, $this->query_exclude)) continue;
+                if (in_array($field, $this->query_exclude_fields)) continue;
                 $params[$field] = "%{$this->params['query']}%";
                 $params["{$field}_comparator"] = 'LIKE';
                 $params["{$field}_operator"] = 'OR';
