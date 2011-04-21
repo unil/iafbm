@@ -5,13 +5,13 @@
       <?php echo $m['title'] ?>
     </title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-    <script type="text/javascript" src="<?php echo xContext::$baseuri.'/a/js/view/context.js' ?>"></script>
-<?php foreach (isset($m['js']) ? $m['js'] : array() as $js): ?>
-    <script type="text/javascript" src="<?php echo $js ?>"></script>
-<?php endforeach ?>
 <?php foreach (isset($m['css']) ? $m['css'] : array() as $css): ?>
     <link rel="stylesheet" href="<?php echo $css ?>" type="text/css"/>
 <?php endforeach ?>
+<?php foreach (isset($m['js']) ? $m['js'] : array() as $js): ?>
+    <script type="text/javascript" src="<?php echo $js ?>"></script>
+<?php endforeach ?>
+    <script type="text/javascript" src="<?php echo xContext::$baseuri.'/a/js/view/context.js' ?>"></script>
   </head>
   <body>
     <div id="wrapper">
