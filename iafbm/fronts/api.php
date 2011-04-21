@@ -7,17 +7,6 @@ class ApiFront extends xApiFront {
         parent::__construct($params);
         // Sets the called method according the HTTP Request Verb if no method specified
         if (!@$this->params['xmethod']) $this->params['xmethod'] = @$this->http['method'];
-        $this->prepare();
-    }
-
-    /**
-     * Merges the HTTP Request body paramters with the the instance parameters.
-     */
-    function prepare() {
-        // Merges HTTP Request body with the instance parameters
-        $body = $this->get_request_body();
-        $params = $this->decode($body);
-        $this->params = xUtil::array_merge($this->params, xUtil::arrize($params));
     }
 
     function get() {
