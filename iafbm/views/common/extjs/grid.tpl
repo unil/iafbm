@@ -4,15 +4,13 @@
 
 Ext.require(['Ext.data.*', 'Ext.grid.*']);
 
-/* Models definition */
-<?php foreach ($d['models'] as $model) echo "{$model}\r\n" ?>
 
 Ext.onReady(function(){
 
     Ext.QuickTips.init();
 
-    // Overrides Extjs default mapping for action <> HTTP method.
 /*
+    // Overrides Extjs default mapping for action <> HTTP method.
     Ext.override(Ext.data.proxy.Rest, {
         actionMethods: {
             create : 'PUT',
@@ -23,6 +21,10 @@ Ext.onReady(function(){
     });
 */
 
+    /* Models definition */
+    <?php foreach ($d['models'] as $model) echo "{$model}\r\n" ?>
+
+    // Grid store
     var store = new Ext.data.Store({
         model: '<?php echo $d["model"] ?>',
         proxy: {
@@ -45,19 +47,19 @@ Ext.onReady(function(){
         autoSync: true
     });
 
-    var rowEditing = new Ext.grid.plugin.RowEditing();
+    var rowediting = new Ext.grid.plugin.RowEditing({id:'rowediting'});
 
 //    var grid = Ext.create('Ext.grid.Panel', {
     var grid = new Ext.grid.Panel({
         id: '<?php echo "{$d["id"]}_grid" ?>',
         title: '<?php echo $d["title"] ?>',
         iconCls: 'icon-user',
-        renderTo: 'editor-grid',
+        renderTo: '<?php echo $d["renderTo"] ?>',
         loadMask: true,
         width: 880,
         height: 300,
         frame: true,
-        plugins: [rowEditing],
+        plugins: [rowediting],
         store: store,
         columns: <?php echo $d['columns'] ?>,
         dockedItems: [{
@@ -67,8 +69,8 @@ Ext.onReady(function(){
                 iconCls: 'icon-add',
                 handler: function(){
                     // empty record
-                    store.insert(0, new <?php echo $d['model'] ?>());
-                    rowEditing.startEdit(0, 0);
+                    this.up('gridpanel').store.insert(0, new <?php echo $d['model'] ?>());
+                    rowediting.startEdit(0, 0);
                 }
             }, '-', {
                 text: 'Delete',
@@ -76,7 +78,7 @@ Ext.onReady(function(){
                 handler: function(){
                     var selection = grid.getView().getSelectionModel().getSelection()[0];
                     if (selection) {
-                        store.remove(selection);
+                        this.up('gridpanel').store.remove(selection);
                     }
                 }
             }, '->', '-', 'Rechercher',
@@ -89,7 +91,7 @@ Ext.onReady(function(){
             store: store,
             displayInfo: true,
             displayMsg: 'Eléments {0} à {1} sur {2}',
-            emptyMsg: "Pas d'éléments à afficher",
+            emptyMsg: "Aucun élément à afficher",
             items:[],
             //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
         })

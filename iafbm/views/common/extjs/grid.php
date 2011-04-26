@@ -10,7 +10,8 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
         // Setups default data values
         $this->defaults(array(
             'title' => 'Elements',
-            'id' => sha1(microtime().session_id())
+            'id' => sha1(microtime().session_id()),
+            'renderTo' => 'editor-grid'
         ));
         // Checks madatory data values
         if (!@$this->data['url']) throw new xException('url data missing');
