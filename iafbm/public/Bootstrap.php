@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__file__).'/../lib/xfreemwork/lib/lib/Util/Bootstrap.php');
+require_once(dirname(__file__).'/../lib/xfreemwork/lib/lib/Core/Bootstrap.php');
 
 /**
  * Project specific bootsrap extension
