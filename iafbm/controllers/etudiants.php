@@ -4,10 +4,6 @@ class EtudiantsController extends iaWebController {
 
     var $model = 'etudiant';
 
-    function defaultAction() {
-        return $this->indexAction();
-    }
-
     function indexAction() {
         $grid = array(
             'title' => 'Etudiants',

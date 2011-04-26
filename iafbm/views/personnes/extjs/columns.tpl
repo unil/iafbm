@@ -26,7 +26,7 @@
         xtype: 'textfield',
         allowBlank: false
     }
-},{
+}, {
     header: "Pays",
     dataIndex: 'pays_id',
     editor: {
@@ -38,21 +38,24 @@
         displayField: 'nom',
         valueField: 'id',
         //allowBlank: false,
-        store: new Ext.data.JsonStore({
-            autoDestroy: true,
-            url: '/api/pays',
-            restful: true,
-            root: 'items',
-            idProperty: 'id',
-            fields: ['id', 'nom'],
+        store: new Ext.data.Store({
+            model: 'Pays',
+            proxy: {
+                type: 'rest',
+                url : '/api/pays',
+                reader: {
+                    type: 'json',
+                    root: 'items'
+                }
+            },
             autoLoad: true
         })
     },
-    renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+    _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var store = this.getEditor().store;
         return store.getById(value) ? store.getById(value).get('nom') : '...';
     }
-},{
+}, {
     header: "Date de naissance",
     dataIndex: 'date_naissance',
     renderer: Ext.util.Format.dateRenderer('d F Y'),
@@ -63,10 +66,9 @@
         format: 'Y-d-m',
     }
 },{
-    xtype: 'checkcolumn',
-    //xtype: 'booleancolumn',
-    //trueText: 'Oui',
-    //falseText: 'Non',
+    xtype: 'booleancolumn',
+    trueText: 'Oui',
+    falseText: 'Non',
     header: 'Actif',
     dataIndex: 'actif',
     align: 'center',

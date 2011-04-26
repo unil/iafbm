@@ -16,7 +16,13 @@ class PersonnesController extends iaWebController {
             'id' => 'personnes',
             'url' => '/api/personnes',
             'fields' => xView::load('personnes/extjs/fields')->render(),
-            'columns' => xView::load('personnes/extjs/columns')->render()
+            'columns' => xView::load('personnes/extjs/columns')->render(),
+            'models' => array(
+                xView::load('personnes/extjs/model')->render(),
+                xView::load('pays/extjs/model')->render()
+            ),
+            'model' => 'Personne'
+
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }

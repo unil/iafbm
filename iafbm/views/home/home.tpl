@@ -3,22 +3,22 @@
 <h2>Personnes</h2>
 <ul>
   <li>
-    <a href="<?php echo u('personnes/index')?>">Gérer des personnes</a>
+    <a href="<?php echo u('personnes')?>">Gérer des personnes</a>
   </li>
   <li>
-    <a href="<?php echo u('employes/index')?>">Gérer des employés</a>
+    <a href="<?php echo u('employes')?>">Gérer des employés</a>
   </li>
   <li>
-    <a href="<?php echo u('etudiants/index')?>">Gérer des étudiants</a>
+    <a href="<?php echo u('etudiants')?>">Gérer des étudiants</a>
   </li>
 </ul>
 
 <h2>Commissions</h2>
 <ul>
   <li>
-    <a href="<?php echo u('commissions/index')?>">Gérer des commissions</a>
+    <a href="<?php echo u('commissions')?>">Gérer des commissions</a>
   </li>
   <li>
-    <a href="<?php echo u('commissions-types/index')?>">Gérer des types de commissions</a>
+    <a href="<?php echo u('commissions-types')?>">Gérer des types de commissions</a>
   </li>
 </ul>

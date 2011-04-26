@@ -4,10 +4,6 @@ class EmployesController extends iaWebController {
 
     var $model = 'employe';
 
-    function defaultAction() {
-        return $this->indexAction();
-    }
-
     function indexAction() {
         $data = array(
             'title' => 'Employés',

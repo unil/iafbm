@@ -24,23 +24,31 @@
         displayField: 'nom',
         valueField: 'id',
         //allowBlank: false,
-        store: new Ext.data.JsonStore({
-            autoDestroy: true,
-            url: '/api/commissions-types',
-            restful: true,
-            root: 'items',
-            idProperty: 'id',
-            fields: ['id', 'nom'],
+        store: new Ext.data.Store({
+            model: 'CommissionType',
+            proxy: {
+                type: 'rest',
+                url : '/api/commissions-types',
+                reader: {
+                    type: 'json',
+                    root: 'items'
+                }
+            },
             autoLoad: true
         })
     },
-    renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+    _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var store = this.getEditor().store;
         return store.getById(value) ? store.getById(value).get('nom') : '...';
     }
 },{
     header: "Actif",
     dataIndex: 'actif',
-    xtype: 'checkcolumn',
-    width: 25
+    xtype: 'booleancolumn',
+    trueText: 'Oui',
+    falseText: 'Non',
+    width: 25,
+    editor: {
+        xtype: 'checkbox'
+    }
 }]
