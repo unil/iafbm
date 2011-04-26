@@ -6,6 +6,9 @@ Ext.onReady(function() {
 
     Ext.QuickTips.init();
 
+    <?php echo xView::load('commissions/extjs/model')->render() ?>
+    <?php echo xView::load('personnes/extjs/model')->render() ?>
+/*
     var store = new Ext.data.Store({
         model: 'Commission',
         proxy: {
@@ -27,21 +30,36 @@ Ext.onReady(function() {
         autoLoad: true,
         autoSync: true
     });
+*/
 
-    var rowEditing = new Ext.grid.plugin.RowEditing();
-
-//    var grid = Ext.create('Ext.grid.Panel', {
     var grid = new Ext.grid.Panel({
-        id: 'commissions_grid',
-        title: 'Commissions',
-        iconCls: 'icon-user',
-        //renderTo: 'editor-grid',
+        id: 'abc-grid',
         loadMask: true,
         width: 880,
         height: 300,
         frame: true,
-        plugins: [rowEditing],
-        store: store,
+        plugins: [new Ext.grid.plugin.RowEditing()],
+        store: new Ext.data.Store({
+            model: 'Personne',
+            proxy: {
+                type: 'rest',
+                url : '<?php echo u('api/personnes') ?>',
+                limitParam: 'xlimit',
+                startParam: 'xoffset',
+                pageParam: undefined,
+                reader: {
+                    type: 'json',
+                    root: 'items',
+                    totalProperty: 'xcount'
+                },
+                writer: {
+                    root: 'items'
+                }
+            },
+            pageSize: 10,
+            autoLoad: true,
+            autoSync: true
+        }),
         columns: [{
             header: "Nom",
             dataIndex: 'nom',
@@ -50,50 +68,11 @@ Ext.onReady(function() {
                 allowBlank: false
             }
         },{
-            header: "Description",
-            dataIndex: 'description',
+            header: "Prénom",
+            dataIndex: 'prenom',
             editor: {
                 xtype: 'textfield',
                 allowBlank: false
-            }
-        },{
-            header: "Type",
-            dataIndex: 'commission-type_id',
-            editor: {
-                xtype: 'combo',
-                lazyRender: true,
-                typeAhead: true,
-                minChars: 1,
-                triggerAction: 'all',
-                displayField: 'nom',
-                valueField: 'id',
-                //allowBlank: false,
-                store: new Ext.data.Store({
-                    model: 'CommissionType',
-                    proxy: {
-                        type: 'rest',
-                        url : '/api/commissions-types',
-                        reader: {
-                            type: 'json',
-                            root: 'items'
-                        }
-                    },
-                    autoLoad: true
-                })
-            },
-            _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-                var store = this.getEditor().store;
-                return store.getById(value) ? store.getById(value).get('nom') : '...';
-            }
-        },{
-            header: "Actif",
-            dataIndex: 'actif',
-            xtype: 'booleancolumn',
-            trueText: 'Oui',
-            falseText: 'Non',
-            width: 25,
-            editor: {
-                xtype: 'checkbox'
             }
         }],
         dockedItems: [{
@@ -103,7 +82,7 @@ Ext.onReady(function() {
                 iconCls: 'icon-add',
                 handler: function(){
                     // empty record
-                    store.insert(0, new Commission());
+                    this.up('gridpanel').store.insert(0, new Personne());
                     rowEditing.startEdit(0, 0);
                 }
             }, '-', {
@@ -112,35 +91,23 @@ Ext.onReady(function() {
                 handler: function(){
                     var selection = grid.getView().getSelectionModel().getSelection()[0];
                     if (selection) {
-                        store.remove(selection);
-                    }
-                }
-            }, '-', 'Rechercher:', {
-                xtype:'textfield',
-                enableKeyEvents: true,
-                id: 'query',
-                listeners: {
-                    'keyup': function(c, e) {
-                        //if (e.getKey() !== e.ENTER) return;
-                        var store = Ext.getCmp('commissions_grid').store;
-                        if (this.getValue().length > 0) store.proxy.extraParams.query = this.getValue();
-                        else delete store.proxy.extraParams.query;
-                        store.load();
+                        this.up('gridpanel').store.remove(selection);
                     }
                 }
             }]
-        }],
+        }]/*,
         bbar: new Ext.PagingToolbar({
             store: store,
             displayInfo: true,
-            displayMsg: 'Affichage des éléments {0} à {1} sur {2}',
+            displayMsg: 'Eléments {0} à {1} sur {2}',
             emptyMsg: "Pas d'éléments à afficher",
-            items:[]
+            items:[],
+            //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
         })
+*/
     });
 
 
-    <?php echo xView::load('commissions/extjs4/model')->render() ?>
 
     var defaults_fieldset = {
         labelWidth: 89,
@@ -190,33 +157,52 @@ Ext.onReady(function() {
             //vtype: 'email',
             allowBlank: false
         }, {
-            xtype: 'fieldcontainer',
-            fieldLabel: 'Date Range',
-            combineErrors: true,
-            layout: 'hbox',
-            defaults: {
-                flex: 1,
-                hideLabel: true
-            },
-            items: [{
-                xtype: 'datefield',
-                name: 'startDate',
-                fieldLabel: 'Start',
-                margin: '0 5 0 0',
-                allowBlank: false
-            }, {
-                xtype: 'datefield',
-                name: 'endDate',
-                fieldLabel: 'End',
-                allowBlank: false
-            }]
-        }, {
             xtype: 'fieldset',
             title: 'Composition de la commission',
             collapsible: true,
             defaults: defaults_fieldset,
             items: [grid]
-        },{
+        }, {
+            xtype: 'fieldset',
+            title: 'Candidat(s)',
+            collapsible: true,
+            defaults: defaults_fieldset,
+            items: [
+                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
+            ]
+        }, {
+            xtype: 'fieldset',
+            title: 'Phase de création',
+            collapsible: true,
+            defaults: defaults_fieldset,
+            items: [
+                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
+            ]
+        }, {
+            xtype: 'fieldset',
+            title: 'Phase de travail',
+            collapsible: true,
+            defaults: defaults_fieldset,
+            items: [
+                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
+            ]
+        }, {
+            xtype: 'fieldset',
+            title: 'Validation de rapport',
+            collapsible: true,
+            defaults: defaults_fieldset,
+            items: [
+                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
+            ]
+        }, {
+            xtype: 'fieldset',
+            title: 'Finalisation',
+            collapsible: true,
+            defaults: defaults_fieldset,
+            items: [
+                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
+            ]
+        }, {
             xtype: 'fieldset',
             title: 'Details',
             collapsible: true,
@@ -307,7 +293,28 @@ Ext.onReady(function() {
                         margins: '0'
                     }
                 ]
+            }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Date Range',
+            combineErrors: true,
+            layout: 'hbox',
+            defaults: {
+                flex: 1,
+                hideLabel: true
+            },
+            items: [{
+                xtype: 'datefield',
+                name: 'startDate',
+                fieldLabel: 'Start',
+                margin: '0 5 0 0',
+                allowBlank: false
+            }, {
+                xtype: 'datefield',
+                name: 'endDate',
+                fieldLabel: 'End',
+                allowBlank: false
             }]
+        }]
         }],
         buttons: [{
             text: 'Load data',
