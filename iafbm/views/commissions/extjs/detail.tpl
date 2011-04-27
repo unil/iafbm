@@ -109,15 +109,6 @@ Ext.onReady(function() {
 
 
 
-    var defaults_fieldset = {
-        labelWidth: 89,
-        anchor: '100%',
-        layout: {
-            type: 'hbox',
-            defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
-        }
-    };
-
     var form = Ext.create('Ext.form.Panel', {
         url: '<?php echo u('api/commissions/') ?>',
         method: 'GET',
@@ -160,13 +151,11 @@ Ext.onReady(function() {
             xtype: 'fieldset',
             title: 'Composition de la commission',
             collapsible: true,
-            defaults: defaults_fieldset,
             items: [grid]
         }, {
             xtype: 'fieldset',
             title: 'Candidat(s)',
             collapsible: true,
-            defaults: defaults_fieldset,
             items: [
                 {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
             ]
@@ -174,147 +163,333 @@ Ext.onReady(function() {
             xtype: 'fieldset',
             title: 'Phase de création',
             collapsible: true,
-            defaults: defaults_fieldset,
-            items: [
-                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
-            ]
+            flex: 1,
+            items: [{
+                xtype: 'fieldcontainer',
+                combineErrors: true,
+                layout: 'hbox',
+                defaults: {
+                    border: false,
+                    flex: 1
+                },
+                fieldDefaults: { labelWidth: 200 },
+                items: [{
+                    items: [{
+                        xtype:'datefield',
+                        fieldLabel: 'Date de décision du Décanat',
+                        name: 'first'
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: 'Ordre du jour CDir',
+                        name: 'company'
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: 'Autorisation du CDir',
+                        name: 'company'
+                    }]
+                }, {
+                    items: [{
+                        xtype:'datefield',
+                        fieldLabel: 'Annonce journaux OK le',
+                        name: 'last'
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: 'Composition OK le',
+                        name: 'email',
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: 'Date de la validation composition par le vice-recteur',
+                        name: 'email',
+                    }]
+                }]
+            }, {
+                xtype: 'textareafield',
+                name: 'desc',
+                width: 835
+            }]
         }, {
             xtype: 'fieldset',
             title: 'Phase de travail',
             collapsible: true,
-            defaults: defaults_fieldset,
-            items: [
-                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
-            ]
-        }, {
-            xtype: 'fieldset',
-            title: 'Validation de rapport',
-            collapsible: true,
-            defaults: defaults_fieldset,
-            items: [
-                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
-            ]
-        }, {
-            xtype: 'fieldset',
-            title: 'Finalisation',
-            collapsible: true,
-            defaults: defaults_fieldset,
-            items: [
-                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
-            ]
-        }, {
-            xtype: 'fieldset',
-            title: 'Details',
-            collapsible: true,
-            defaults: defaults_fieldset,
             items: [{
                 xtype: 'fieldcontainer',
-                fieldLabel: 'Phone',
+                combineErrors: true,
+                layout: 'hbox',
+                defaults: {
+                    border: false,
+                    flex: 1
+                },
+                fieldDefaults: { labelWidth: 200 },
+                items: [{
+                    items: [{
+                        xtype: 'displayfield',
+                        value: '<b>Séances annoncées</b>',
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: "Séance d'évaluation",
+                        name: 'first'
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: 'Journée de visite',
+                        name: 'company'
+                    }, {
+                        xtype:'datefield',
+                        fieldLabel: 'Séance de délibération',
+                        name: 'company'
+                    }]
+                }, {
+                    items: [{
+                        xtype: 'displayfield',
+                        value: '<b>Choix des candidats</b>',
+                    }, {
+                        xtype:'textfield',
+                        fieldLabel: 'Primo loco',
+                        name: 'last'
+                    }, {
+                        xtype:'textfield',
+                        fieldLabel: 'Secondo loco',
+                        name: 'email',
+                    }, {
+                        xtype:'textfield',
+                        fieldLabel: 'Terzio loco',
+                        name: 'email',
+                    }]
+                }]
+            },{
+                xtype: 'textareafield',
+                name: 'desc',
+                width: 835
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: 'Validation du rapport',
+            collapsible: true,
+            defaults: {
+                labelWidth: 200,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
+            items: [{
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Validation par le décanat',
                 combineErrors: true,
                 msgTarget: 'under',
                 defaults: {
                     hideLabel: true
                 },
-                items: [
-                    {xtype: 'displayfield', value: '('},
-                    {xtype: 'textfield',    fieldLabel: 'Phone 1', name: 'phone-1', width: 29, allowBlank: false},
-                    {xtype: 'displayfield', value: ')'},
-                    {xtype: 'textfield',    fieldLabel: 'Phone 2', name: 'phone-2', width: 29, allowBlank: false, margins: '0 5 0 0'},
-                    {xtype: 'displayfield', value: '-'},
-                    {xtype: 'textfield',    fieldLabel: 'Phone 3', name: 'phone-3', width: 48, allowBlank: false}
-                ]
+                items: [{
+                    xtype: 'datefield',
+                    name: 'date',
+                    allowBlank: false
+                }, {
+                    xtype: 'combo',
+                    name: 'etat',
+                    value: 'mrs',
+                    mode: 'local',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    editable: false,
+                    displayField: 'name',
+                    valueField: 'value',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['name', 'value'],
+                        data: [
+                            {name: 'Oui', value: 2},
+                            {name: 'Non', value: 1},
+                            {name: 'Pas de décision', value: 0}
+                        ]
+                    })
+                }, {
+                    xtype: 'textareafield',
+                    name: 'commentaires',
+                    anchor: '100%',
+                    width: 320,
+                    growMin: 21,
+                    grow: true,
+                    allowBlank: false
+                }]
             }, {
                 xtype: 'fieldcontainer',
-                fieldLabel: 'Time worked',
-                combineErrors: false,
+                fieldLabel: 'Validation par la DG-CHUV',
+                combineErrors: true,
+                msgTarget: 'under',
                 defaults: {
                     hideLabel: true
                 },
                 items: [{
-                        name: 'hours',
-                        xtype: 'numberfield',
-                        width: 48,
-                        allowBlank: false
-                    }, {
-                        xtype: 'displayfield',
-                        value: 'hours'
-                    }, {
-                        name: 'minutes',
-                        xtype: 'numberfield',
-                        width: 48,
-                        allowBlank: false
-                    }, {
-                        xtype: 'displayfield',
-                        value: 'mins'
-                    }]
+                    xtype: 'datefield',
+                    name: 'date',
+                    allowBlank: false
                 }, {
-                    xtype: 'fieldcontainer',
-                    combineErrors: true,
-                    fieldLabel: 'Full Name',
-                    defaults: {
-                        hideLabel: true
-                    },
-                    items: [{
-                        //the width of this field in the HBox layout is set directly
-                        //the other 2 items are given flex: 1, so will share the rest of the space
-                        width:          50,
-
-                        xtype:          'combo',
-                        mode:           'local',
-                        value:          'mrs',
-                        triggerAction:  'all',
-                        forceSelection: true,
-                        editable:       false,
-                        fieldLabel:     'Title',
-                        name:           'title',
-                        displayField:   'name',
-                        valueField:     'value',
-                        queryMode: 'local',
-                        store: Ext.create('Ext.data.Store', {
-                            fields: ['name', 'value'],
-                            data: [
-                                {name : 'Mr',   value: 'mr'},
-                                {name : 'Mrs',  value: 'mrs'},
-                                {name : 'Miss', value: 'miss'}
-                            ]
-                        })
-                    }, {
-                        xtype: 'textfield',
-                        flex: 1,
-                        name: 'firstName',
-                        fieldLabel: 'First',
-                        allowBlank: false
-                    }, {
-                        xtype: 'textfield',
-                        flex: 1,
-                        name: 'lastName',
-                        fieldLabel: 'Last',
-                        allowBlank: false,
-                        margins: '0'
-                    }
-                ]
+                    xtype: 'combo',
+                    name: 'etat',
+                    value: 'mrs',
+                    mode: 'local',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    editable: false,
+                    displayField: 'name',
+                    valueField: 'value',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['name', 'value'],
+                        data: [
+                            {name: 'Oui', value: 2},
+                            {name: 'Non', value: 1},
+                            {name: 'Pas de décision', value: 0}
+                        ]
+                    })
+                }, {
+                    xtype: 'textareafield',
+                    name: 'commentaires',
+                    anchor: '100%',
+                    width: 320,
+                    growMin: 21,
+                    grow: true,
+                    allowBlank: false
+                }]
             }, {
-            xtype: 'fieldcontainer',
-            fieldLabel: 'Date Range',
-            combineErrors: true,
-            layout: 'hbox',
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Validation par le CF',
+                combineErrors: true,
+                msgTarget: 'under',
+                defaults: {
+                    hideLabel: true
+                },
+                items: [{
+                    xtype: 'datefield',
+                    name: 'date',
+                    allowBlank: false
+                }, {
+                    xtype: 'combo',
+                    name: 'etat',
+                    value: 'mrs',
+                    mode: 'local',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    editable: false,
+                    displayField: 'name',
+                    valueField: 'value',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['name', 'value'],
+                        data: [
+                            {name: 'Oui', value: 2},
+                            {name: 'Non', value: 1},
+                            {name: 'Pas de décision', value: 0}
+                        ]
+                    })
+                }, {
+                    xtype: 'textareafield',
+                    name: 'commentaires',
+                    anchor: '100%',
+                    width: 320,
+                    growMin: 21,
+                    grow: true,
+                    allowBlank: false
+                }]
+            }, {
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Validation par le CDir',
+                combineErrors: true,
+                msgTarget: 'under',
+                defaults: {
+                    hideLabel: true
+                },
+                items: [{
+                    xtype: 'datefield',
+                    name: 'date',
+                    allowBlank: false
+                }, {
+                    xtype: 'combo',
+                    name: 'etat',
+                    value: 'mrs',
+                    mode: 'local',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    editable: false,
+                    displayField: 'name',
+                    valueField: 'value',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['name', 'value'],
+                        data: [
+                            {name: 'Oui', value: 2},
+                            {name: 'Non', value: 1},
+                            {name: 'Pas de décision', value: 0}
+                        ]
+                    })
+                }, {
+                    xtype: 'textareafield',
+                    name: 'commentaires',
+                    anchor: '100%',
+                    width: 320,
+                    growMin: 21,
+                    grow: true,
+                    allowBlank: false
+                }]
+            }, {
+                xtype: 'textareafield',
+                name: 'desc',
+                width: 835
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: 'Finalisation',
+            collapsible: true,
             defaults: {
-                flex: 1,
-                hideLabel: true
+                labelWidth: 200,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
             },
             items: [{
-                xtype: 'datefield',
-                name: 'startDate',
-                fieldLabel: 'Start',
-                margin: '0 5 0 0',
-                allowBlank: false
-            }, {
-                xtype: 'datefield',
-                name: 'endDate',
-                fieldLabel: 'End',
-                allowBlank: false
+                xtype: 'fieldcontainer',
+                fieldLabel: 'Réception du contrat',
+                combineErrors: true,
+                msgTarget: 'under',
+                defaults: {
+                    hideLabel: true
+                },
+                items: [{
+                    xtype: 'datefield',
+                    name: 'date',
+                    allowBlank: false
+                }, {
+                    xtype: 'combo',
+                    name: 'etat',
+                    value: 'mrs',
+                    mode: 'local',
+                    triggerAction: 'all',
+                    forceSelection: true,
+                    editable: false,
+                    displayField: 'name',
+                    valueField: 'value',
+                    queryMode: 'local',
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['name', 'value'],
+                        data: [
+                            {name: 'Oui', value: 2},
+                            {name: 'Non', value: 1},
+                            {name: 'Pas de décision', value: 0}
+                        ]
+                    })
+                }, {
+                    xtype: 'textareafield',
+                    name: 'commentaires',
+                    anchor: '100%',
+                    width: 320,
+                    growMin: 21,
+                    grow: true,
+                    allowBlank: false
+                }]
             }]
-        }]
         }],
         buttons: [{
             text: 'Load data',
