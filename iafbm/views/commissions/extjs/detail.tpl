@@ -19,7 +19,7 @@
     border-right: 1px dotted gray;
 }
 .ia-status.done {
-    background-color: #af5;
+    background-color: #df7;
 }
 .ia-status.todo {
     background-color: #fd5;
@@ -34,29 +34,6 @@ Ext.onReady(function() {
 
     <?php echo xView::load('commissions/extjs/model')->render() ?>
     <?php echo xView::load('personnes/extjs/model')->render() ?>
-/*
-    var store = new Ext.data.Store({
-        model: 'Commission',
-        proxy: {
-            type: 'rest',
-            url : '/api/commissions',
-            limitParam: 'xlimit',
-            startParam: 'xoffset',
-            pageParam: undefined,
-            reader: {
-                type: 'json',
-                root: 'items',
-                totalProperty: 'xcount'
-            },
-            writer: {
-                root: 'items'
-            }
-        },
-        pageSize: 10,
-        autoLoad: true,
-        autoSync: true
-    });
-*/
 
     var grid = new Ext.grid.Panel({
         id: 'abc-grid',
@@ -134,24 +111,40 @@ Ext.onReady(function() {
     });
 
 
+    /**
+     * Overrides Form.submit() logic: posts json to api url
+     */
+    Ext.override(Ext.form.Action.Submit, {
+        run: function() {
+            var json = Ext.encode({
+                items: this.form.getValues()
+            });
+            console.log(json);
+/*
+            Ext.Ajax.request({
+                action: 'update',
+
+            });
+*/
+        }
+    });
 
     var form = Ext.create('Ext.form.Panel', {
         url: '<?php echo u('api/commissions/') ?>',
         method: 'GET',
-        reader: {
-            type: 'json',
+        reader: new Ext.data.reader.Json({
             root: 'items',
             totalProperty: 'xcount',
             model: 'Commission'
-        },
+        }),
         renderTo: 'form',
         title: 'Commission',
         autoHeight: true,
         width: 880,
         bodyPadding: 10,
         defaults: {
-            anchor: '100%',
-            labelWidth: 100,
+            //labelWidth: 100,
+            //anchor: '100%',
             msgTarget: 'side'
         },
         items: [{
@@ -159,7 +152,8 @@ Ext.onReady(function() {
             combineErrors: true,
             layout: 'hbox',
             defaults: {
-                flex: 1
+                //flex: 1,
+                labelAlign: 'right',
             },
             items: [
                 {xtype: 'displayfield', fieldLabel: 'N°', name: 'id'},
@@ -171,7 +165,7 @@ Ext.onReady(function() {
             xtype: 'textarea',
             name: 'description',
             fieldLabel: 'Description',
-            //vtype: 'email',
+            anchor: '100%',
             allowBlank: false
         }, {
             xtype: 'fieldcontainer',
@@ -199,9 +193,7 @@ Ext.onReady(function() {
             xtype: 'fieldset',
             title: 'Candidat(s)',
             collapsible: true,
-            items: [
-                {xtype: 'displayfield', fieldLabel: 'TODO', name: ''}
-            ]
+            items: []
         }, {
             xtype: 'fieldset',
             title: 'Phase de création',
@@ -237,11 +229,11 @@ Ext.onReady(function() {
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Composition OK le',
-                        name: 'email',
+                        name: 'email'
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Date de la validation composition par le vice-recteur',
-                        name: 'email',
+                        name: 'email'
                     }]
                 }]
             }, {
@@ -290,11 +282,11 @@ Ext.onReady(function() {
                     }, {
                         xtype:'textfield',
                         fieldLabel: 'Secondo loco',
-                        name: 'email',
+                        name: 'email'
                     }, {
                         xtype:'textfield',
                         fieldLabel: 'Terzio loco',
-                        name: 'email',
+                        name: 'email'
                     }]
                 }]
             },{
@@ -325,7 +317,6 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
-                    allowBlank: false
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -351,8 +342,7 @@ Ext.onReady(function() {
                     anchor: '100%',
                     width: 320,
                     growMin: 21,
-                    grow: true,
-                    allowBlank: false
+                    grow: true
                 }]
             }, {
                 xtype: 'fieldcontainer',
@@ -365,7 +355,6 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
-                    allowBlank: false
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -391,8 +380,7 @@ Ext.onReady(function() {
                     anchor: '100%',
                     width: 320,
                     growMin: 21,
-                    grow: true,
-                    allowBlank: false
+                    grow: true
                 }]
             }, {
                 xtype: 'fieldcontainer',
@@ -405,7 +393,6 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
-                    allowBlank: false
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -431,8 +418,7 @@ Ext.onReady(function() {
                     anchor: '100%',
                     width: 320,
                     growMin: 21,
-                    grow: true,
-                    allowBlank: false
+                    grow: true
                 }]
             }, {
                 xtype: 'fieldcontainer',
@@ -445,7 +431,6 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
-                    allowBlank: false
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -471,8 +456,7 @@ Ext.onReady(function() {
                     anchor: '100%',
                     width: 320,
                     growMin: 21,
-                    grow: true,
-                    allowBlank: false
+                    grow: true
                 }]
             }, {
                 xtype: 'textareafield',
@@ -502,7 +486,6 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
-                    allowBlank: false
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -528,37 +511,29 @@ Ext.onReady(function() {
                     anchor: '100%',
                     width: 320,
                     growMin: 21,
-                    grow: true,
-                    allowBlank: false
+                    grow: true
                 }]
             }]
         }],
         buttons: [{
-            text: 'Load data',
+            text: 'Reset data',
             handler: function() {
                 var form = this.up('form');
                 form.load({params:{id:'<?php echo $d['id'] ?>'}});
-                aa = form;
             }
         }, {
             text: 'Save',
             handler: function() {
-                var form = this.up('form').getForm(),
-                    s = '';
-                if (form.isValid()) {
-                    Ext.iterate(form.getValues(), function(key, value) {
-                        s += Ext.util.Format.format("{0} = {1}<br />", key, value);
-                    }, this);
+                var form = this.up('form').getForm();
+                if (form.isValid()) form.submit();
+            }
+        }],
+        listeners: {
+            afterrender: function() {
+                this.load({params:{id:'<?php echo $d['id'] ?>'}});
+            }
+        },
 
-                    Ext.Msg.alert('Form Values', s);
-                }
-            }
-        }, {
-            text: 'Reset',
-            handler: function() {
-                this.up('form').getForm().reset();
-            }
-        }]
     });
 });
 
