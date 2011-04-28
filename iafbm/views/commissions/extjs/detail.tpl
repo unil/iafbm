@@ -35,7 +35,11 @@ Ext.onReady(function() {
     <?php echo xView::load('commissions/extjs/model')->render() ?>
     <?php echo xView::load('personnes/extjs/model')->render() ?>
 
-    var grid = new Ext.grid.Panel({
+
+    /**
+     * Grid for commission composition
+     */
+    var composition_grid = new Ext.grid.Panel({
         id: 'abc-grid',
         loadMask: true,
         width: 857,
@@ -59,7 +63,7 @@ Ext.onReady(function() {
                     root: 'items'
                 }
             },
-            pageSize: 10,
+            pageSize: null,
             autoLoad: true,
             autoSync: true
         }),
@@ -111,6 +115,97 @@ Ext.onReady(function() {
     });
 
 
+
+
+    /**
+     * Grid for commission candidates
+     */
+    var myData = [
+        { name : "Rec 0", column1 : "0", column2 : "0" },
+        { name : "Rec 1", column1 : "1", column2 : "1" },
+        { name : "Rec 2", column1 : "2", column2 : "2" },
+        { name : "Rec 3", column1 : "3", column2 : "3" },
+        { name : "Rec 4", column1 : "4", column2 : "4" },
+        { name : "Rec 5", column1 : "5", column2 : "5" },
+        { name : "Rec 6", column1 : "6", column2 : "6" },
+        { name : "Rec 7", column1 : "7", column2 : "7" },
+        { name : "Rec 8", column1 : "8", column2 : "8" },
+        { name : "Rec 9", column1 : "9", column2 : "9" }
+    ];
+
+    var candidates_grid_source = Ext.create('Ext.grid.Panel', {
+        viewConfig: {
+            plugins: {
+                ptype: 'gridviewdragdrop',
+                dragGroup: 'firstGridDDGroup',
+                dropGroup: 'secondGridDDGroup'
+            }
+        },
+        store: new Ext.data.Store({
+            model: 'Personne',
+            proxy: {
+                type: 'rest',
+                url : '<?php echo u('api/personnes') ?>',
+                limitParam: 'xlimit',
+                startParam: 'xoffset',
+                pageParam: undefined,
+                reader: {
+                    type: 'json',
+                    root: 'items',
+                    totalProperty: 'xcount'
+                },
+                writer: {
+                    root: 'items'
+                }
+            },
+            pageSize: null,
+            autoLoad: true
+        }),
+        columns: <? echo xView::load('personnes/extjs/columns')->render() ?>,
+        stripeRows: true,
+        title: 'Disponibles',
+        margins: '0 2 0 0',
+        listeners: {
+            drop: function(node, data, dropRec, dropPosition) {
+                var dropOn = dropRec ? ' ' + dropPosition + ' ' + dropRec.get('name') : ' on empty view';
+                Ext.example.msg("Drag from left to right", 'Dropped ' + data.records[0].get('name') + dropOn);
+            }
+        }
+    });
+
+    var candidates_grid_destination = Ext.create('Ext.grid.Panel', {
+        viewConfig: {
+            plugins: {
+                ptype: 'gridviewdragdrop',
+                dragGroup: 'secondGridDDGroup',
+                dropGroup: 'firstGridDDGroup'
+            }
+        },
+        store: Ext.create('Ext.data.Store', {
+            model: 'Personne'
+        }),
+        columns: <? echo xView::load('personnes/extjs/columns')->render() ?>,
+        stripeRows: true,
+        title: 'Selectionnés',
+        margins: '0 0 0 3'
+    });
+
+    var candidates_panel = Ext.create('Ext.Panel', {
+        flex: 1,
+        height: 300,
+        border: 0,
+        layout: {
+            type: 'hbox',
+            align: 'stretch'
+        },
+        defaults: { flex : 1 }, //auto stretch
+        items: [
+            candidates_grid_source,
+            candidates_grid_destination
+        ]
+    });
+
+
     /**
      * Overrides Form.submit() logic: posts json to api url
      */
@@ -129,6 +224,9 @@ Ext.onReady(function() {
         }
     });
 
+    /**
+     * Actual form
+     */
     var form = Ext.create('Ext.form.Panel', {
         url: '<?php echo u('api/commissions/') ?>',
         method: 'GET',
@@ -188,12 +286,12 @@ Ext.onReady(function() {
             xtype: 'fieldset',
             title: 'Composition de la commission',
             collapsible: true,
-            items: [grid]
+            items: [composition_grid]
         }, {
             xtype: 'fieldset',
             title: 'Candidat(s)',
             collapsible: true,
-            items: []
+            items: [candidates_panel]
         }, {
             xtype: 'fieldset',
             title: 'Phase de création',
