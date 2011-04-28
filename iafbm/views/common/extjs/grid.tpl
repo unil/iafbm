@@ -24,33 +24,10 @@ Ext.onReady(function(){
     /* Models definition */
     <?php foreach ($d['models'] as $model) echo "{$model}\r\n" ?>
 
-    // Grid store
-    var store = new Ext.data.Store({
-        model: '<?php echo $d["model"] ?>',
-        proxy: {
-            type: 'rest',
-            url : '<?php echo $d["url"] ?>',
-            limitParam: 'xlimit',
-            startParam: 'xoffset',
-            pageParam: undefined,
-            reader: {
-                type: 'json',
-                root: 'items',
-                totalProperty: 'xcount'
-            },
-            writer: {
-                root: 'items'
-            }
-        },
-        pageSize: 10,
-        autoLoad: true,
-        autoSync: true
-    });
-
     var rowediting = new Ext.grid.plugin.RowEditing({id:'rowediting'});
 
 //    var grid = Ext.create('Ext.grid.Panel', {
-    var grid = new Ext.grid.Panel({
+    var <?php echo $d['var'] ?> = new Ext.grid.Panel({
         id: '<?php echo "{$d["id"]}_grid" ?>',
         title: '<?php echo $d["title"] ?>',
         iconCls: 'icon-user',
@@ -60,7 +37,27 @@ Ext.onReady(function(){
         height: 300,
         frame: true,
         plugins: [rowediting],
-        store: store,
+        store: new Ext.data.Store({
+            model: '<?php echo $d["model"] ?>',
+            proxy: {
+                type: 'rest',
+                url : '<?php echo $d["url"] ?>',
+                limitParam: 'xlimit',
+                startParam: 'xoffset',
+                pageParam: undefined,
+                reader: {
+                    type: 'json',
+                    root: 'items',
+                    totalProperty: 'xcount'
+                },
+                writer: {
+                    root: 'items'
+                }
+            },
+            pageSize: 10,
+            autoLoad: true,
+            autoSync: true
+        }),
         columns: <?php echo $d['columns'] ?>,
         dockedItems: [{
             xtype: 'toolbar',
@@ -83,16 +80,22 @@ Ext.onReady(function(){
                 }
             }, '->', '-', 'Rechercher',
             new Ext.ux.form.SearchField({
-                store: store,
-                emptyText: 'Mots-clés'
+                store: null,
+                emptyText: 'Mots-clés',
+                listeners: {
+                    beforerender: function() { this.store = this.up('gridpanel').store }
+                }
             })]
         }],
         bbar: new Ext.PagingToolbar({
-            store: store,
+            store: null,
             displayInfo: true,
             displayMsg: 'Eléments {0} à {1} sur {2}',
             emptyMsg: "Aucun élément à afficher",
             items:[],
+            listeners: {
+                beforerender: function() { this.bindStore(this.up('gridpanel').store) }
+            }
             //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
         })
     });
