@@ -1,5 +1,31 @@
 <div id="form"></div>
 
+<style>
+.x-fieldset {
+    border-bottom: 0 none;
+    border-left: 0 none;
+    border-right: 0 none;
+    padding: 0;
+    margin-top: 25px;
+    padding-top: 10px;
+}
+.x-fieldset-header-text {
+    font-weight: bold;
+}
+.x-fieldset-collapsed .x-fieldset-header {
+    color: gray;
+}
+.ia-status {
+    border-right: 1px dotted gray;
+}
+.ia-status.done {
+    background-color: #af5;
+}
+.ia-status.todo {
+    background-color: #fd5;
+}
+</style>
+
 <script type="text/javascript">
 
 Ext.onReady(function() {
@@ -35,9 +61,9 @@ Ext.onReady(function() {
     var grid = new Ext.grid.Panel({
         id: 'abc-grid',
         loadMask: true,
-        width: 880,
-        height: 300,
-        frame: true,
+        width: 857,
+        height: 200,
+        //frame: true,
         plugins: [new Ext.grid.plugin.RowEditing()],
         store: new Ext.data.Store({
             model: 'Personne',
@@ -148,6 +174,23 @@ Ext.onReady(function() {
             //vtype: 'email',
             allowBlank: false
         }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Avancement',
+            combineErrors: true,
+            layout: 'hbox',
+            defaults: {
+                flex: 1,
+                padding: 5,
+                baseCls: 'ia-status'
+            },
+            items: [
+                {xtype: 'displayfield', value: 'Candidat', cls: 'done'},
+                {xtype: 'displayfield', value: 'Phase de création', cls: 'done'},
+                {xtype: 'displayfield', value: 'Phase de travail', cls: 'done'},
+                {xtype: 'displayfield', value: 'Validation de rapport', cls: 'todo'},
+                {xtype: 'displayfield', value: 'Finalisation', cls: 'todo'}
+            ]
+        }, {
             xtype: 'fieldset',
             title: 'Composition de la commission',
             collapsible: true,
@@ -163,7 +206,6 @@ Ext.onReady(function() {
             xtype: 'fieldset',
             title: 'Phase de création',
             collapsible: true,
-            flex: 1,
             items: [{
                 xtype: 'fieldcontainer',
                 combineErrors: true,
