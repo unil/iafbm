@@ -15,6 +15,7 @@
 .x-fieldset-collapsed .x-fieldset-header {
     color: gray;
 }
+
 .ia-status {
     border-right: 1px dotted gray;
 }
@@ -24,6 +25,15 @@
 .ia-status.todo {
     background-color: #fd5;
 }
+
+.ia-search-item {
+    border-bottom: 1px dotted lightgray;
+}
+.ia-search-item img {
+    float: left;
+    margin-right: 10px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -35,6 +45,49 @@ Ext.onReady(function() {
     <?php echo xView::load('commissions/extjs/model')->render() ?>
     <?php echo xView::load('personnes/extjs/model')->render() ?>
 
+    /**
+     * Candidates templated combobox
+     */
+    /*var*/ composition_combo = new Ext.form.field.ComboBox({
+        store: <?php echo xView::load('personnes/extjs/store', array('pagesize'=>5))->render() ?>,
+        pageSize: 5,
+        limitParam: undefined,
+        startParam: undefined,
+        pageParam: undefined,
+        typeAhead: false,
+        minChars: 1,
+        //hideLabel: true,
+        //fieldLabel: 'Rechercher',
+        //displayField: 'nom',
+        hideTrigger:true,
+        width: 350,
+        listConfig: {
+            loadingText: 'Recherche...',
+            emptyText: 'Aucun résultat.',
+            // Custom rendering template for each item
+            getInnerTpl: function() {
+                return [
+                    '<div class="ia-search-item">',
+                    '<img src="<?php echo u('a/img/icons/trombi_empty.png') ?>"/>',
+                    '<h3>{prenom} {nom}</h3>',
+                    '<div>{adresse}, {pays_nom}</div>',
+                    '<div>{pays_id}, {pays_nom}, {pays_nom_en}, {pays_code}</div>',
+                    '<div>{[Ext.Date.format(values.date_naissance, "j M Y")]}</div>',
+                    //'<h3><span>{[Ext.Date.format(values.lastPost, "M j, Y")]}<br />by {author}</span>{title}</h3>' +
+                    //'{excerpt}' +
+                    '</div>'
+                ].join('');
+            }
+        },
+        listeners: {
+            select: function(combo, selection) {
+                // Inserts record into grid store
+                this.up('gridpanel').store.insert(0, selection);
+                this.reset();
+            }//,
+            //focus: function(combo, event) { this.onTriggerClick() }
+        }
+    });
 
     /**
      * Grid for commission composition
@@ -45,27 +98,10 @@ Ext.onReady(function() {
         width: 857,
         height: 200,
         //frame: true,
-        plugins: [new Ext.grid.plugin.RowEditing()],
-        store: new Ext.data.Store({
-            model: 'Personne',
-            proxy: {
-                type: 'rest',
-                url : '<?php echo u('api/personnes') ?>',
-                limitParam: 'xlimit',
-                startParam: 'xoffset',
-                pageParam: undefined,
-                reader: {
-                    type: 'json',
-                    root: 'items',
-                    totalProperty: 'xcount'
-                },
-                writer: {
-                    root: 'items'
-                }
-            },
-            pageSize: null,
-            autoLoad: true,
-            autoSync: true
+        //plugins: [new Ext.grid.plugin.RowEditing({id:'rowediting'})],
+        /*store: <?php echo xView::load('personnes/extjs/store', array('autoload'=>true))->render() ?>,*/
+        store: Ext.create('Ext.data.Store', {
+            model: 'Personne'
         }),
         columns: [{
             header: "Nom",
@@ -74,34 +110,36 @@ Ext.onReady(function() {
                 xtype: 'textfield',
                 allowBlank: false
             }
-        },{
+        }, {
             header: "Prénom",
             dataIndex: 'prenom',
             editor: {
                 xtype: 'textfield',
                 allowBlank: false
             }
+        }, {
+            header: "Fonction",
+            dataIndex: '',
+            editor: {
+                xtype: 'combo',
+                allowBlank: false
+            }
+        }, {
+            header: "Département",
+            dataIndex: '',
+            editor: {
+                xtype: 'combo',
+                allowBlank: false
+            }
         }],
-        dockedItems: [{
-            xtype: 'toolbar',
-            items: [{
-                text: 'Add',
-                iconCls: 'icon-add',
-                handler: function(){
-                    // empty record
-                    this.up('gridpanel').store.insert(0, new Personne());
-                    rowEditing.startEdit(0, 0);
-                }
-            }, '-', {
-                text: 'Delete',
-                iconCls: 'icon-delete',
-                handler: function(){
-                    var selection = grid.getView().getSelectionModel().getSelection()[0];
-                    if (selection) {
-                        this.up('gridpanel').store.remove(selection);
-                    }
-                }
-            }]
+        tbar: ['Ajouter', composition_combo],
+        bbar: [{
+            text: 'Supprimer le candidat sélectionné',
+            iconCls: 'icon-delete',
+            handler: function(){
+                var selection = this.up('gridpanel').getView().getSelectionModel().getSelection()[0];
+                if (selection) this.up('gridpanel').store.remove(selection);
+            }
         }]/*,
         bbar: new Ext.PagingToolbar({
             store: store,
@@ -120,19 +158,6 @@ Ext.onReady(function() {
     /**
      * Grid for commission candidates
      */
-    var myData = [
-        { name : "Rec 0", column1 : "0", column2 : "0" },
-        { name : "Rec 1", column1 : "1", column2 : "1" },
-        { name : "Rec 2", column1 : "2", column2 : "2" },
-        { name : "Rec 3", column1 : "3", column2 : "3" },
-        { name : "Rec 4", column1 : "4", column2 : "4" },
-        { name : "Rec 5", column1 : "5", column2 : "5" },
-        { name : "Rec 6", column1 : "6", column2 : "6" },
-        { name : "Rec 7", column1 : "7", column2 : "7" },
-        { name : "Rec 8", column1 : "8", column2 : "8" },
-        { name : "Rec 9", column1 : "9", column2 : "9" }
-    ];
-
     var candidates_grid_source = Ext.create('Ext.grid.Panel', {
         viewConfig: {
             plugins: {
@@ -141,34 +166,14 @@ Ext.onReady(function() {
                 dropGroup: 'secondGridDDGroup'
             }
         },
-        store: new Ext.data.Store({
-            model: 'Personne',
-            proxy: {
-                type: 'rest',
-                url : '<?php echo u('api/personnes') ?>',
-                limitParam: 'xlimit',
-                startParam: 'xoffset',
-                pageParam: undefined,
-                reader: {
-                    type: 'json',
-                    root: 'items',
-                    totalProperty: 'xcount'
-                },
-                writer: {
-                    root: 'items'
-                }
-            },
-            pageSize: null,
-            autoLoad: true
-        }),
+        store: <?php echo xView::load('personnes/extjs/store', array('autoload'=>true))->render() ?>,
         columns: <? echo xView::load('personnes/extjs/columns')->render() ?>,
         stripeRows: true,
         title: 'Disponibles',
         margins: '0 2 0 0',
         listeners: {
             drop: function(node, data, dropRec, dropPosition) {
-                var dropOn = dropRec ? ' ' + dropPosition + ' ' + dropRec.get('name') : ' on empty view';
-                Ext.example.msg("Drag from left to right", 'Dropped ' + data.records[0].get('name') + dropOn);
+                console.log('drop');
             }
         }
     });
@@ -406,7 +411,7 @@ Ext.onReady(function() {
             },
             items: [{
                 xtype: 'fieldcontainer',
-                fieldLabel: 'Validation par le décanat',
+                fieldLabel: 'Validation par le Décanat',
                 combineErrors: true,
                 msgTarget: 'under',
                 defaults: {
