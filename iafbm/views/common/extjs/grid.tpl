@@ -62,7 +62,7 @@ Ext.onReady(function(){
         dockedItems: [{
             xtype: 'toolbar',
             items: [{
-                text: 'Add',
+                text: 'Ajouter',
                 iconCls: 'icon-add',
                 handler: function(){
                     // empty record
@@ -70,7 +70,7 @@ Ext.onReady(function(){
                     rowediting.startEdit(0, 0);
                 }
             }, '-', {
-                text: 'Delete',
+                text: 'Supprimer',
                 iconCls: 'icon-delete',
                 handler: function(){
                     var selection = grid.getView().getSelectionModel().getSelection()[0];
@@ -94,6 +94,8 @@ Ext.onReady(function(){
             emptyMsg: "Aucun élément à afficher",
             items:[],
             listeners: {
+                // Wait for render time so that the grid store is created
+                // and ready to be bound to the pager
                 beforerender: function() { this.bindStore(this.up('gridpanel').store) }
             }
             //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
