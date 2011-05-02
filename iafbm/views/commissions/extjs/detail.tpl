@@ -83,7 +83,7 @@ Ext.onReady(function() {
             select: function(combo, selection) {
                 // Inserts record into grid store
                 this.up('gridpanel').store.insert(0, selection);
-                this.reset();
+                this.clearValue();
             }//,
             //focus: function(combo, event) { this.onTriggerClick() }
         }
@@ -132,6 +132,13 @@ Ext.onReady(function() {
                 allowBlank: false
             }
         }],
+        viewConfig: {
+            plugins: {
+                ptype: 'gridviewdragdrop',
+                dragGroup: 'composition_dd-group',
+                dropGroup: 'composition_dd-group'
+            }
+        },
         tbar: ['Ajouter', composition_combo],
         bbar: [{
             text: 'Supprimer le candidat sélectionné',
@@ -166,7 +173,7 @@ Ext.onReady(function() {
                 dropGroup: 'secondGridDDGroup'
             }
         },
-        store: <?php echo xView::load('personnes/extjs/store', array('autoload'=>true))->render() ?>,
+        store: <?php echo xView::load('personnes/extjs/store', array('autosync'=>false))->render() ?>,
         columns: <? echo xView::load('personnes/extjs/columns')->render() ?>,
         stripeRows: true,
         title: 'Disponibles',
@@ -246,23 +253,26 @@ Ext.onReady(function() {
         width: 880,
         bodyPadding: 10,
         defaults: {
-            //labelWidth: 100,
             //anchor: '100%',
             msgTarget: 'side'
+        },
+        fieldDefaults: {
+            labelWidth: 80
         },
         items: [{
             xtype: 'fieldcontainer',
             combineErrors: true,
-            layout: 'hbox',
+            //layout: 'hbox',
             defaults: {
-                //flex: 1,
-                labelAlign: 'right',
+                flex: 1,
+                labelWidth: 60
             },
             items: [
                 {xtype: 'displayfield', fieldLabel: 'N°', name: 'id'},
-                {xtype: 'displayfield', fieldLabel: 'Président', name: '...'},
-                {xtype: 'displayfield', fieldLabel: 'Candidat', name: '...'},
-                {xtype: 'displayfield', fieldLabel: 'Etat', name: 'actif'}
+                {xtype: 'displayfield', fieldLabel: 'Type', name: 'commission-type_nom'},
+                {xtype: 'displayfield', fieldLabel: 'Etat', name: 'actif'},
+                {xtype: 'displayfield', fieldLabel: 'Président', value: 'Prof. I. Stamenovic'},//,name: '...'},
+                {xtype: 'displayfield', fieldLabel: 'Candidat', value: 'Dr. Jekyll'},//},
             ]
         }, {
             xtype: 'textarea',
@@ -309,34 +319,42 @@ Ext.onReady(function() {
                     border: false,
                     flex: 1
                 },
-                fieldDefaults: { labelWidth: 200 },
                 items: [{
                     items: [{
                         xtype:'datefield',
                         fieldLabel: 'Date de décision du Décanat',
-                        name: 'first'
+                        name: 'first',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Ordre du jour CDir',
-                        name: 'company'
+                        name: 'company',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Autorisation du CDir',
-                        name: 'company'
+                        name: 'company',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+
                     }]
                 }, {
                     items: [{
                         xtype:'datefield',
                         fieldLabel: 'Annonce journaux OK le',
-                        name: 'last'
+                        name: 'last',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Composition OK le',
-                        name: 'email'
+                        name: 'email',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Date de la validation composition par le vice-recteur',
-                        name: 'email'
+                        name: 'email',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                     }]
                 }]
             }, {
@@ -356,7 +374,6 @@ Ext.onReady(function() {
                     border: false,
                     flex: 1
                 },
-                fieldDefaults: { labelWidth: 200 },
                 items: [{
                     items: [{
                         xtype: 'displayfield',
@@ -364,15 +381,21 @@ Ext.onReady(function() {
                     }, {
                         xtype:'datefield',
                         fieldLabel: "Séance d'évaluation",
-                        name: 'first'
+                        name: 'first',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Journée de visite',
-                        name: 'company'
+                        name: 'company',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+
                     }, {
                         xtype:'datefield',
                         fieldLabel: 'Séance de délibération',
-                        name: 'company'
+                        name: 'company',
+                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+
                     }]
                 }, {
                     items: [{
@@ -402,7 +425,6 @@ Ext.onReady(function() {
             title: 'Validation du rapport',
             collapsible: true,
             defaults: {
-                labelWidth: 200,
                 anchor: '100%',
                 layout: {
                     type: 'hbox',
@@ -420,6 +442,7 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
+                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -458,6 +481,7 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
+                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -496,6 +520,7 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
+                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -534,6 +559,7 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
+                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -571,7 +597,6 @@ Ext.onReady(function() {
             title: 'Finalisation',
             collapsible: true,
             defaults: {
-                labelWidth: 200,
                 anchor: '100%',
                 layout: {
                     type: 'hbox',
@@ -589,6 +614,7 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'datefield',
                     name: 'date',
+                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -632,7 +658,7 @@ Ext.onReady(function() {
             }
         }],
         listeners: {
-            afterrender: function() {
+            beforerender: function() {
                 this.load({params:{id:'<?php echo $d['id'] ?>'}});
             }
         },

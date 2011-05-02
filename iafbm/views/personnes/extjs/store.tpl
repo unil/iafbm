@@ -16,6 +16,6 @@ new Ext.data.Store({
         }
     },
     pageSize: <?php echo isset($d['pagesize']) ? $d['pagesize'] : 'null'; ?>,
-    autoLoad: <?php echo isset($d['autoload']) ? $d['autoload'] : 'false'; ?>,
-    autoSync: <?php echo isset($d['autoload']) ? $d['autoload'] : 'false'; ?>
+    autoLoad: <?php echo isset($d['autoload']) ? var_export((bool)$d['autoload']) : 'true'; ?>,
+    autoSync: <?php echo isset($d['autosync']) ? var_export((bool)$d['autosync']) : 'true'; ?>
 })
