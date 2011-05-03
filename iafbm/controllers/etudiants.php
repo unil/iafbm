@@ -10,7 +10,12 @@ class EtudiantsController extends iaWebController {
             'id' => 'etudiants',
             'url' => '/api/etudiants',
             'fields' => xView::load('etudiants/extjs/fields')->render(),
-            'columns' => xView::load('etudiants/extjs/columns')->render()
+            'columns' => xView::load('etudiants/extjs/columns')->render(),
+            'models' => array(
+                xView::load('etudiants/extjs/model')->render(),
+                xView::load('pays/extjs/model')->render()
+            ),
+            'model' => 'Etudiant'
         );
         return xView::load('common/extjs/grid', $grid, $this->meta)->render();
     }

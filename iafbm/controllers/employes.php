@@ -10,7 +10,12 @@ class EmployesController extends iaWebController {
             'id' => 'employes',
             'url' => '/api/employes',
             'fields' => xView::load('employes/extjs/fields')->render(),
-            'columns' => xView::load('employes/extjs/columns')->render()
+            'columns' => xView::load('employes/extjs/columns')->render(),
+            'models' => array(
+                xView::load('employes/extjs/model')->render(),
+                xView::load('pays/extjs/model')->render()
+            ),
+            'model' => 'Employe'
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
