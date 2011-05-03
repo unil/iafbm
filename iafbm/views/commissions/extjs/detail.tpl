@@ -272,7 +272,7 @@ Ext.onReady(function() {
                 {xtype: 'displayfield', fieldLabel: 'Type', name: 'commission-type_nom'},
                 {xtype: 'displayfield', fieldLabel: 'Etat', name: 'actif'},
                 {xtype: 'displayfield', fieldLabel: 'Président', value: 'Prof. I. Stamenovic'},//,name: '...'},
-                {xtype: 'displayfield', fieldLabel: 'Candidat', value: 'Dr. Jekyll'},//},
+                {xtype: 'displayfield', fieldLabel: 'Candidat', value: 'Dr. Jekyll'},//,name: '...'},
             ]
         }, {
             xtype: 'textarea',
@@ -321,40 +321,31 @@ Ext.onReady(function() {
                 },
                 items: [{
                     items: [{
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Date de décision du Décanat',
-                        name: 'first',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                        name: 'first'
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Ordre du jour CDir',
-                        name: 'company',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-
+                        name: 'company'
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Autorisation du CDir',
-                        name: 'company',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-
+                        name: 'company'
                     }]
                 }, {
                     items: [{
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Annonce journaux OK le',
-                        name: 'last',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-
+                        name: 'last'
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Composition OK le',
-                        name: 'email',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                        name: 'email'
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Date de la validation composition par le vice-recteur',
-                        name: 'email',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                        name: 'email'
                     }]
                 }]
             }, {
@@ -379,23 +370,17 @@ Ext.onReady(function() {
                         xtype: 'displayfield',
                         value: '<b>Séances annoncées</b>',
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: "Séance d'évaluation",
-                        name: 'first',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-
+                        name: 'first'
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Journée de visite',
-                        name: 'company',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-
+                        name: 'company'
                     }, {
-                        xtype:'datefield',
+                        xtype:'ia-datefield',
                         fieldLabel: 'Séance de délibération',
-                        name: 'company',
-                        format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-
+                        name: 'company'
                     }]
                 }, {
                     items: [{
@@ -440,9 +425,10 @@ Ext.onReady(function() {
                     hideLabel: true
                 },
                 items: [{
-                    xtype: 'datefield',
+                    xtype: 'ia-datefield',
                     name: 'date',
                     format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                    startDay: 1
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -479,9 +465,10 @@ Ext.onReady(function() {
                     hideLabel: true
                 },
                 items: [{
-                    xtype: 'datefield',
+                    xtype: 'ia-datefield',
                     name: 'date',
                     format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                    startDay: 1
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -518,9 +505,10 @@ Ext.onReady(function() {
                     hideLabel: true
                 },
                 items: [{
-                    xtype: 'datefield',
+                    xtype: 'ia-datefield',
                     name: 'date',
                     format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                    startDay: 1
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -557,9 +545,10 @@ Ext.onReady(function() {
                     hideLabel: true
                 },
                 items: [{
-                    xtype: 'datefield',
+                    xtype: 'ia-datefield',
                     name: 'date',
                     format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                    startDay: 1
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -612,9 +601,10 @@ Ext.onReady(function() {
                     hideLabel: true
                 },
                 items: [{
-                    xtype: 'datefield',
+                    xtype: 'ia-datefield',
                     name: 'date',
                     format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
+                    startDay: 1
                 }, {
                     xtype: 'combo',
                     name: 'etat',

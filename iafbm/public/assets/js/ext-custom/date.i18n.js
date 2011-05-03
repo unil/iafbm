@@ -1,4 +1,4 @@
-Date.dayNames = [
+Ext.Date.dayNames = [
     "Dimanche",
     "Lundi",
     "Mardi",
@@ -7,7 +7,7 @@ Date.dayNames = [
     "Vendredi",
     "Samedi"
 ];
-Date.monthNames = [
+Ext.Date.monthNames = [
     "janvier",
     "février",
     "mars",
@@ -21,7 +21,7 @@ Date.monthNames = [
     "novembre",
     "décembre"
 ];
-Date.monthNumbers = {
+Ext.Date.monthNumbers = {
     'jan':0,
     'fév':1,
     'mar':2,
@@ -36,7 +36,7 @@ Date.monthNumbers = {
     'dec':11
 };
 // This is a custom array for overriden Date.getShortMonthName()
-Date.shortMonthNames = [
+Ext.Date.shortMonthNames = [
     'jan',
     'fév',
     'mar',
@@ -50,6 +50,17 @@ Date.shortMonthNames = [
     'nov',
     'dec'
 ];
-Date.getShortMonthName = function(month) {
-    return Date.shortMonthNames[month];
+Ext.Date.getShortMonthName = function(month) {
+    return Ext.Date.shortMonthNames[month];
 };
+Ext.Date.defaultFormat = 'd m Y';
+
+
+Ext.define('Ext.ia.form.field.Date', {
+    extend:'Ext.form.field.Date',
+    alias: 'widget.ia-datefield',
+    requires: ['Ext.picker.Date'],
+    format: 'd F Y',
+    altFormats: 'd.m.Y|d-m-Y|d m Y',
+    startDay: 1
+});

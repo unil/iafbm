@@ -59,10 +59,7 @@
     dataIndex: 'personne_date_naissance',
     renderer: function(value) { return value ? value.dateFormat('d-M-Y') : '' },
     editor: {
-        xtype: 'datefield',
-        startDay: 1,
-        //allowBlank: false,
-        format: 'Y-d-m',
-        altFormat: 'Y-m-d H:i:s'
+        xtype: 'ia-datefield'
+        //allowBlank: false
     }
 }]

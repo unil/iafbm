@@ -48,7 +48,7 @@
                     root: 'items'
                 }
             },
-            autoLoad: true
+            autoLoad: false//true
         })
     },
     _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
@@ -60,10 +60,7 @@
     dataIndex: 'date_naissance',
     renderer: Ext.util.Format.dateRenderer('d F Y'),
     editor: {
-        xtype: 'datefield',
-        startDay: 1,
-        //allowBlank: false,
-        format: 'Y-d-m',
+        xtype: 'ia-datefield'
     }
 },{
     xtype: 'booleancolumn',
