@@ -44,11 +44,12 @@ Ext.onReady(function() {
 
     <?php echo xView::load('commissions/extjs/model')->render() ?>
     <?php echo xView::load('personnes/extjs/model')->render() ?>
+    <?php echo xView::load('membres/extjs/model')->render() ?>
 
     /**
      * Candidates templated combobox
      */
-    /*var*/ composition_combo = new Ext.form.field.ComboBox({
+    var composition_combo = new Ext.form.field.ComboBox({
         store: <?php echo xView::load('personnes/extjs/store', array('pagesize'=>5))->render() ?>,
         pageSize: 5,
         limitParam: undefined,
@@ -99,39 +100,14 @@ Ext.onReady(function() {
         height: 200,
         //frame: true,
         //plugins: [new Ext.grid.plugin.RowEditing({id:'rowediting'})],
-        /*store: <?php echo xView::load('personnes/extjs/store', array('autoload'=>true))->render() ?>,*/
         store: Ext.create('Ext.data.Store', {
             model: 'Personne'
         }),
-        columns: [{
-            header: "Nom",
-            dataIndex: 'nom',
-            editor: {
-                xtype: 'textfield',
-                allowBlank: false
-            }
-        }, {
-            header: "Prénom",
-            dataIndex: 'prenom',
-            editor: {
-                xtype: 'textfield',
-                allowBlank: false
-            }
-        }, {
-            header: "Fonction",
-            dataIndex: '',
-            editor: {
-                xtype: 'combo',
-                allowBlank: false
-            }
-        }, {
-            header: "Département",
-            dataIndex: '',
-            editor: {
-                xtype: 'combo',
-                allowBlank: false
-            }
-        }],
+        columns: <?php echo xView::load('personnes/extjs/columns')->render() ?>,
+/*
+        store: <?php echo xView::load('membres/extjs/store')->render() ?>,
+        columns: <?php echo xView::load('membres/extjs/columns')->render() ?>,
+*/
         viewConfig: {
             plugins: {
                 ptype: 'gridviewdragdrop',
@@ -143,7 +119,7 @@ Ext.onReady(function() {
         bbar: [{
             text: 'Supprimer le candidat sélectionné',
             iconCls: 'icon-delete',
-            handler: function(){
+            handler: function() {
                 var selection = this.up('gridpanel').getView().getSelectionModel().getSelection()[0];
                 if (selection) this.up('gridpanel').store.remove(selection);
             }
@@ -262,7 +238,7 @@ Ext.onReady(function() {
         items: [{
             xtype: 'fieldcontainer',
             combineErrors: true,
-            //layout: 'hbox',
+            layout: 'hbox',
             defaults: {
                 flex: 1,
                 labelWidth: 60

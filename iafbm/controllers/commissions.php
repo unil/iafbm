@@ -31,6 +31,6 @@ class CommissionsController extends iaWebController {
             'columns' => xView::load('commissions/extjs4/columns')->render()
 */
         );
-        return xView::load('commissions/extjs/detail', $data, $this->meta)->render();
+        return xView::load('commissions/detail', $data, $this->meta)->render();
     }
 }
