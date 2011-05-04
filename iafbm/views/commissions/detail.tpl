@@ -83,7 +83,16 @@ Ext.onReady(function() {
         listeners: {
             select: function(combo, selection) {
                 // Inserts record into grid store
-                this.up('gridpanel').store.insert(0, selection);
+                var membres = [];
+                Ext.each(selection, function(personne) {
+                    membres.push(Ext.ModelManager.create({
+                        personne_id: personne.get('id'),
+                        fonction_id: 1,
+                        commission_id: <?php echo $d['id'] ?>,
+                        actif: 1
+                    }, 'Membre'));
+                });
+                this.up('gridpanel').store.insert(0, membres);
                 this.clearValue();
             }//,
             //focus: function(combo, event) { this.onTriggerClick() }
@@ -100,14 +109,14 @@ Ext.onReady(function() {
         height: 200,
         //frame: true,
         //plugins: [new Ext.grid.plugin.RowEditing({id:'rowediting'})],
+/*
         store: Ext.create('Ext.data.Store', {
             model: 'Personne'
         }),
         columns: <?php echo xView::load('personnes/extjs/columns')->render() ?>,
-/*
+*/
         store: <?php echo xView::load('membres/extjs/store')->render() ?>,
         columns: <?php echo xView::load('membres/extjs/columns')->render() ?>,
-*/
         viewConfig: {
             plugins: {
                 ptype: 'gridviewdragdrop',
