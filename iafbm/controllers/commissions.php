@@ -8,7 +8,7 @@ class CommissionsController extends iaWebController {
         $data = array(
             'title' => 'Commissions',
             'id' => 'commissions',
-            'url' => '/api/commissions',
+            'url' => xUtil::url('api/commissions'),
             'fields' => xView::load('commissions/extjs/fields')->render(),
             'columns' => xView::load('commissions/extjs/columns')->render(),
             'models' => array(
@@ -26,7 +26,7 @@ class CommissionsController extends iaWebController {
 /*
             'title' => 'Commissions',
             'id' => 'commissions',
-            'url' => '/api/commissions',
+            'url' => xUtil::url('api/commissions'),
             'fields' => xView::load('commissions/extjs4/fields')->render(),
             'columns' => xView::load('commissions/extjs4/columns')->render()
 */

@@ -42,7 +42,7 @@
             model: 'Pays',
             proxy: {
                 type: 'rest',
-                url : '/api/pays',
+                url : '<?php echo u('api/pays') ?>',
                 reader: {
                     type: 'json',
                     root: 'items'

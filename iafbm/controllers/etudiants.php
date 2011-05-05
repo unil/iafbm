@@ -8,7 +8,7 @@ class EtudiantsController extends iaWebController {
         $grid = array(
             'title' => 'Etudiants',
             'id' => 'etudiants',
-            'url' => '/api/etudiants',
+            'url' => xUtil::url('/api/etudiants'),
             'fields' => xView::load('etudiants/extjs/fields')->render(),
             'columns' => xView::load('etudiants/extjs/columns')->render(),
             'models' => array(

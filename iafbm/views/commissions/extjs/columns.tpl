@@ -28,7 +28,7 @@
             model: 'CommissionType',
             proxy: {
                 type: 'rest',
-                url : '/api/commissions-types',
+                url : '<?php echo u('api/commissions-types') ?>',
                 reader: {
                     type: 'json',
                     root: 'items'

@@ -45,7 +45,7 @@
         //allowBlank: false,
         store: new Ext.data.JsonStore({
             autoDestroy: true,
-            url: '/api/pays',
+            url: '<?php echo u('api/pays') ?>',
             restful: true,
             root: 'items',
             idProperty: 'id',

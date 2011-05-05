@@ -8,7 +8,7 @@ class EmployesController extends iaWebController {
         $data = array(
             'title' => 'Employés',
             'id' => 'employes',
-            'url' => '/api/employes',
+            'url' => xUtil::url('api/employes'),
             'fields' => xView::load('employes/extjs/fields')->render(),
             'columns' => xView::load('employes/extjs/columns')->render(),
             'models' => array(

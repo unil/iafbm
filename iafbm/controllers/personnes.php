@@ -14,7 +14,7 @@ class PersonnesController extends iaWebController {
         $data = array(
             'title' => 'Personnes',
             'id' => 'personnes',
-            'url' => '/api/personnes',
+            'url' => xUtil::url('api/personnes'),
             'fields' => xView::load('personnes/extjs/fields')->render(),
             'columns' => xView::load('personnes/extjs/columns')->render(),
             'models' => array(

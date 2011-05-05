@@ -8,7 +8,7 @@ class CommissionsTypesController extends iaWebController {
         $data = array(
             'title' => 'Types de commissions',
             'id' => 'commissions-types',
-            'url' => '/api/commissions-types',
+            'url' => xUtil::url('api/commissions-types'),
             'fields' => xView::load('commissions-types/extjs/fields')->render(),
             'columns' => xView::load('commissions-types/extjs/columns')->render(),
             'models' => xView::load('commissions-types/extjs/model')->render(),
