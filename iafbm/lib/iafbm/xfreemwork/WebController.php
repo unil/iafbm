@@ -54,6 +54,7 @@ class iaWebController extends xWebController {
 
     function post() {
         if (!isset($this->params['id'])) return $this->put();
+        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
         if (!in_array('post', $this->allow)) throw new xException("Method not allowed", 403);
         $r = xModel::load($this->model, $this->params['items'])->post();
         $r['items'] = array_shift(xModel::load($this->model, array('id'=>$this->params['items']['id']))->get());
@@ -62,6 +63,7 @@ class iaWebController extends xWebController {
 
     function put() {
         if (isset($this->params['id'])) return $this->post();
+        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
         if (!in_array('put', $this->allow)) throw new xException("Method not allowed", 403);
         $r = xModel::load($this->model, $this->params['items'])->put();
         $r['items'] = array_shift(xModel::load($this->model, array('id'=>$r['xinsertid']))->get());
