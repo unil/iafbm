@@ -60,7 +60,7 @@ Ext.define('Ext.ia.form.field.Date', {
     extend:'Ext.form.field.Date',
     alias: 'widget.ia-datefield',
     requires: ['Ext.picker.Date'],
-    format: 'd F Y',
+    format: 'd.m.Y',
     altFormats: 'd.m.Y|d-m-Y|d m Y',
     startDay: 1
 });

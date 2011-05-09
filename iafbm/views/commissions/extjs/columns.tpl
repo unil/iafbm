@@ -1,6 +1,7 @@
 [{
     header: "Nom",
     dataIndex: 'nom',
+    flex: 1,
     editor: {
         xtype: 'textfield',
         allowBlank: false
@@ -8,6 +9,7 @@
 },{
     header: "Description",
     dataIndex: 'description',
+    flex: 1,
     editor: {
         xtype: 'textfield',
         allowBlank: false
@@ -15,6 +17,7 @@
 },{
     header: "Type",
     dataIndex: 'commission-type_id',
+    flex: 1,
     editor: {
         xtype: 'combo',
         lazyRender: true,
@@ -48,6 +51,7 @@
     trueText: 'Oui',
     falseText: 'Non',
     width: 25,
+    flex: 1,
     editor: {
         xtype: 'checkbox'
     }
