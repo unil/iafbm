@@ -6,10 +6,6 @@ class PersonnesController extends iaWebController {
 
     var $query_exclude_fields = array('pays_nom_en');
 
-    function defaultAction() {
-        return $this->indexAction();
-    }
-
     function indexAction() {
         $data = array(
             'title' => 'Personnes',
@@ -25,5 +21,19 @@ class PersonnesController extends iaWebController {
 
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
+    }
+
+    function detailAction() {
+        $data = array(
+            'id' => $this->params['id'],
+/*
+            'title' => 'Commissions',
+            'id' => 'commissions',
+            'url' => xUtil::url('api/commissions'),
+            'fields' => xView::load('commissions/extjs4/fields')->render(),
+            'columns' => xView::load('commissions/extjs4/columns')->render()
+*/
+        );
+        return xView::load('personnes/detail', $data, $this->meta)->render();
     }
 }
