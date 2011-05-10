@@ -42,15 +42,11 @@ Ext.onReady(function() {
 
     Ext.QuickTips.init();
 
-    <?php echo xView::load('commissions/extjs/model')->render() ?>
-    <?php echo xView::load('personnes/extjs/model')->render() ?>
-    <?php echo xView::load('membres/extjs/model')->render() ?>
-
     /**
      * Candidates templated combobox
      */
     var composition_combo = new Ext.form.field.ComboBox({
-        store: <?php echo xView::load('personnes/extjs/store', array('pagesize'=>5))->render() ?>,
+        store: new iafbm.store.Personne({}),
         pageSize: 5,
         limitParam: undefined,
         startParam: undefined,
@@ -135,7 +131,7 @@ Ext.onReady(function() {
      * Grid for commission candidates
      */
     var candidates_combo = new Ext.form.field.ComboBox({
-        store: <?php echo xView::load('personnes/extjs/store', array('pagesize'=>5))->render() ?>,
+        store: new iafbm.store.Personne(),
         pageSize: 5,
         limitParam: undefined,
         startParam: undefined,

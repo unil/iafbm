@@ -19,7 +19,7 @@
     dataIndex: 'commission-type_id',
     flex: 1,
     editor: {
-        xtype: 'combo',
+        xtype: 'ia-combo',
         lazyRender: true,
         typeAhead: true,
         minChars: 1,
@@ -27,22 +27,7 @@
         displayField: 'nom',
         valueField: 'id',
         //allowBlank: false,
-        store: new Ext.data.Store({
-            model: 'CommissionType',
-            proxy: {
-                type: 'rest',
-                url : '<?php echo u('api/commissions-types') ?>',
-                reader: {
-                    type: 'json',
-                    root: 'items'
-                }
-            },
-            autoLoad: true
-        })
-    },
-    _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-        var store = this.getEditor().store;
-        return store.getById(value) ? store.getById(value).get('nom') : '...';
+        store: new iafbm.store.CommissionType({})
     }
 },{
     header: "Actif",

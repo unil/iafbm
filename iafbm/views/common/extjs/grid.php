@@ -15,12 +15,7 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
             'var' => 'grid'
         ));
         // Checks madatory data values
-        if (!@$this->data['url']) throw new xException('url data missing');
-        if (!@$this->data['fields']) throw new xException('fields data missing: mandatory for Ext.data.Reader');
         if (!@$this->data['columns']) throw new xException('columns data missing: mandatory for Ext.grid.GridPanel');
-        if (!@$this->data['models']) throw new xException('models data missing: mandatory for Ext.grid.GridPanel');
         if (!@$this->data['model']) throw new xException('model data missing: mandatory for Ext.grid.GridPanel');
-        // Processes models
-        $this->data['models'] = xUtil::arrize($this->data['models']);
     }
 }

@@ -9,23 +9,8 @@ Ext.onReady(function(){
 
     Ext.QuickTips.init();
 
-/*
-    // Overrides Extjs default mapping for action <> HTTP method.
-    Ext.override(Ext.data.proxy.Rest, {
-        actionMethods: {
-            create : 'PUT',
-            read   : 'GET',
-            update : 'POST',
-            destroy: 'DELETE'
-        }
-    });
-*/
-
-    /* Models definition */
-    <?php foreach ($d['models'] as $model) echo "{$model}\r\n" ?>
-
-//    var grid = Ext.create('Ext.grid.Panel', {
-    var <?php echo $d['var'] ?> = a = new Ext.grid.Panel({
+    //    var grid = Ext.create('Ext.grid.Panel', {
+    var <?php echo $d['var'] ?> = new Ext.grid.Panel({
         id: '<?php echo "{$d["id"]}_grid" ?>',
         title: '<?php echo $d["title"] ?>',
         iconCls: 'icon-user',
@@ -34,24 +19,8 @@ Ext.onReady(function(){
         width: 880,
         height: 300,
         frame: true,
-        plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
-        store: new Ext.data.Store({
-            model: '<?php echo $d["model"] ?>',
-            proxy: {
-                type: 'rest',
-                url : '<?php echo $d["url"] ?>',
-                limitParam: 'xlimit',
-                startParam: 'xoffset',
-                pageParam: undefined,
-                reader: {
-                    type: 'json',
-                    root: 'items',
-                    totalProperty: 'xcount'
-                },
-                writer: {
-                    root: 'items'
-                }
-            },
+        plugins: [new Ext.grid.plugin.CellEditing({clicksToEdit:1,pluginId:'rowediting'})],
+        store: new iafbm.store.<?php echo $d['model'] ?>({
             pageSize: 10,
             autoLoad: true,
             autoSync: true
