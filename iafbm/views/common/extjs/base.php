@@ -9,6 +9,7 @@ class CommonExtjsBaseView extends xView {
     }
 
     /**
+     * TODO
      * Returns an ExtJs column model from an xModel.
      */
     static function ext_column_model(xModel $model) {
