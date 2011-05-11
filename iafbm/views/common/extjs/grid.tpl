@@ -25,7 +25,7 @@ Ext.onReady(function(){
             autoLoad: true,
             autoSync: true
         }),
-        columns: <?php echo $d['columns'] ?>,
+        columns: iafbm.columns.<?php echo $d['model'] ?>,
         dockedItems: [{
             xtype: 'toolbar',
             items: [{

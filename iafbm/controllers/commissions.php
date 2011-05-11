@@ -8,7 +8,6 @@ class CommissionsController extends iaWebController {
         $data = array(
             'title' => 'Commissions',
             'id' => 'commissions',
-            'columns' => xView::load('commissions/extjs/columns')->render(),
             'model' => 'Commission'
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();

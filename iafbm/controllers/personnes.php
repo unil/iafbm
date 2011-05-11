@@ -10,7 +10,6 @@ class PersonnesController extends iaWebController {
         $data = array(
             'title' => 'Personnes',
             'id' => 'personnes',
-            'columns' => xView::load('personnes/extjs/columns')->render(),
             'model' => 'Personne'
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
