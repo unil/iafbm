@@ -1,4 +1,4 @@
-/**
+/******************************************************************************
  * Date i18n
 **/
 Ext.Date.dayNames = [
@@ -58,7 +58,9 @@ Ext.Date.getShortMonthName = function(month) {
 };
 Ext.Date.defaultFormat = 'd m Y';
 
-/**
+
+
+/******************************************************************************
  * Ext classes: customized default
 **/
 
@@ -66,7 +68,7 @@ Ext.define('Ext.ia.data.Store', {
     extend:'Ext.data.Store',
     alias: 'store.ia-store',
     pageSize: null,
-    autoLoad: true,
+    autoLoad: false,
     autoSync: false
 });
 
@@ -98,6 +100,9 @@ Ext.define('Ext.ia.form.field.Date', {
 Ext.define('Ext.ia.form.field.ComboBox', {
     extend:'Ext.form.field.ComboBox',
     alias: 'widget.ia-combo',
+    listeners: {
+        afterrender: { fn: function() { console.log('activated') } }
+    },
     // Workaround for displayField issue (not yet working)
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var store = Ext.data.StoreManager.lookup('store-pays');
@@ -106,7 +111,8 @@ Ext.define('Ext.ia.form.field.ComboBox', {
 });
 
 
-/**
+
+/******************************************************************************
  * Business objects
 **/
 
@@ -157,7 +163,7 @@ Ext.define('iafbm.model.Pays', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url : '/api/commissions-types', //TODO: this must be dynamic (basepath aware)
+        url : '/api/pays', //TODO: this must be dynamic (basepath aware)
     }
 });
 Ext.define('iafbm.model.Commission', {
@@ -275,7 +281,6 @@ iafbm.columns.Personne = [{
     header: "Date de naissance",
     dataIndex: 'date_naissance',
     flex: 1,
-    renderer: Ext.util.Format.dateRenderer('d F Y'),
     editor: {
         xtype: 'ia-datefield'
     }
@@ -357,3 +362,16 @@ iafbm.columns.CommissionType = [{
 }];
 
 //iafbm.Personne.fields: not used, defined in Model
+
+
+/******************************************************************************
+ * Menu tree
+ */
+
+// TODO
+
+
+
+/******************************************************************************
+ * Application
+ */

@@ -436,9 +436,7 @@ Ext.onReady(function() {
                 },
                 items: [{
                     xtype: 'ia-datefield',
-                    name: 'date',
-                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-                    startDay: 1
+                    name: 'date'
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -476,9 +474,7 @@ Ext.onReady(function() {
                 },
                 items: [{
                     xtype: 'ia-datefield',
-                    name: 'date',
-                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-                    startDay: 1
+                    name: 'date'
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -516,9 +512,7 @@ Ext.onReady(function() {
                 },
                 items: [{
                     xtype: 'ia-datefield',
-                    name: 'date',
-                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-                    startDay: 1
+                    name: 'date'
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -556,9 +550,7 @@ Ext.onReady(function() {
                 },
                 items: [{
                     xtype: 'ia-datefield',
-                    name: 'date',
-                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-                    startDay: 1
+                    name: 'date'
                 }, {
                     xtype: 'combo',
                     name: 'etat',
@@ -612,9 +604,7 @@ Ext.onReady(function() {
                 },
                 items: [{
                     xtype: 'ia-datefield',
-                    name: 'date',
-                    format: 'd F Y', altFormats: 'd.m.Y|d-m-Y|d m Y',
-                    startDay: 1
+                    name: 'date'
                 }, {
                     xtype: 'combo',
                     name: 'etat',
