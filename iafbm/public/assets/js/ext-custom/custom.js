@@ -1,4 +1,15 @@
 /******************************************************************************
+ * Checks
+ */
+//<debug>
+
+if (typeof(x)=='undefined'||typeof(x.context)=='undefined'||typeof(x.context.baseuri)=='undefined')
+    Ext.Error.raise("x.context.baseuri must be defined");
+//</debug>
+
+
+
+/******************************************************************************
  * Date i18n
 **/
 Ext.Date.dayNames = [
@@ -61,7 +72,7 @@ Ext.Date.defaultFormat = 'd m Y';
 
 
 /******************************************************************************
- * Ext classes: customized default
+ * Ext classes customization
 **/
 
 Ext.define('Ext.ia.data.Store', {
@@ -101,15 +112,117 @@ Ext.define('Ext.ia.form.field.ComboBox', {
     extend:'Ext.form.field.ComboBox',
     alias: 'widget.ia-combo',
     listeners: {
-        afterrender: { fn: function() { console.log('activated') } }
+        activate: function() { console.log('activated') },
+        enable: function() { console.log('enable') },
+        beforeactivate: function() { console.log('beforeactivate') },
+        beforerender: function() { console.log('beforerender') },
     },
     // Workaround for displayField issue (not yet working)
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-        var store = Ext.data.StoreManager.lookup('store-pays');
+        var store = Ext.data.StoreManager.lookup('editor-grid-store');
         return store.getById(value) ? store.getById(value).get('nom') : '...';
     }
 });
 
+Ext.define('Ext.ia.selectiongrid.Panel', {
+    extend: 'Ext.grid.Panel',
+    alias: 'widget.ia-selectiongrid',
+    //uses:?
+    requires: [
+        'Ext.grid.Panel',
+        'Ext.form.field.ComboBox'
+    ],
+    config: {
+        combo: {
+            store: null,
+            tpl: null, //TODO
+        },
+        grid: {
+             store: null
+        },
+        makeData: function(record) {
+            // Returns a hashtable for feeding Ext.data.Model data, eg:
+            // return {
+            //     field1: record.get('id'),
+            //     field2: record.get('name'),
+            //     field3: 'static value'
+            // }
+            return record.data;
+        }
+    },
+    mixins: {
+        //combo: null,?
+        //grid: null,?
+    },
+    initComponent: function() {
+        this.grid.store.load();
+        // Component
+        this.store = this.grid.store;
+        this.columns = this.grid.columns;
+        this.tbar = [
+            'Ajouter',
+            this.getCombo()
+        ];
+        this.bbar = [{
+            text: 'Supprimer la sélection',
+            iconCls: 'icon-delete',
+            handler: function() {
+                var grid = this.up('gridpanel');
+                var selection = grid.getView().getSelectionModel().getSelection()[0];
+                if (selection) grid.store.remove(selection);
+                grid.store.sync();
+            }
+        }];
+        var me = this;
+        me.callParent();
+        //Ext.ia.selectiongrid.Panel.superclass.initComponent.call(this, arguments);
+    },
+    getCombo: function() {
+        //return new Ext.ia.form.field.ComboBox({
+        return new Ext.form.field.ComboBox({
+            store: this.combo.store,
+            pageSize: 5,
+            limitParam: undefined,
+            startParam: undefined,
+            pageParam: undefined,
+            typeAhead: false,
+            minChars: 1,
+            hideTrigger: true,
+            width: 350,
+            listConfig: {
+                loadingText: 'Recherche...',
+                emptyText: 'Aucun résultat.',
+                // Custom rendering template for each item
+                getInnerTpl: function() {
+                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                    return [
+                        '<div>',
+                        '<img src="'+img+'" style="float:left;margin-right:5px"/>',
+                        '<h3>{prenom} {nom}</h3>',
+                        '<div>{adresse}, {pays_nom}</div>',
+                        '<div>{pays_id}, {pays_nom}, {pays_nom_en}, {pays_code}</div>',
+                        '<div>{[Ext.Date.format(values.date_naissance, "j M Y")]}</div>',
+                        '</div>'
+                    ].join('');
+                }
+            },
+            listeners: {
+                select: function(combo, selection) {
+                    // Inserts record into grid store
+                    var grid = this.up('gridpanel'),
+                        records = [];
+                    Ext.each(selection, function(record) {
+                        records.push(new grid.store.model(grid.makeData(record)));
+                    });
+                    grid.store.insert(grid.store.getCount(), records);
+                    grid.store.sync();
+                    this.clearValue();
+                },
+                blur: function() { this.clearValue() }
+            }
+        });
+    }
+});
 
 
 /******************************************************************************
@@ -132,7 +245,7 @@ Ext.define('iafbm.model.Personne', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url : '/api/personnes', //TODO: this must be dynamic (basepath aware)
+        url: x.context.baseuri+'/api/personnes',
     }
 });
 Ext.define('iafbm.model.Membre', {
@@ -149,7 +262,23 @@ Ext.define('iafbm.model.Membre', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url : '/api/membres', //TODO: this must be dynamic (basepath aware)
+        url: x.context.baseuri+'/api/membres',
+    }
+});
+Ext.define('iafbm.model.Candidat', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'personne_id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'personne_nom', type: 'string'},
+        {name: 'personne_prenom', type: 'string'},
+        {name: 'actif', type: 'bool'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/candidats',
     }
 });
 Ext.define('iafbm.model.Pays', {
@@ -163,7 +292,7 @@ Ext.define('iafbm.model.Pays', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url : '/api/pays', //TODO: this must be dynamic (basepath aware)
+        url: x.context.baseuri+'/api/pays',
     }
 });
 Ext.define('iafbm.model.Commission', {
@@ -178,7 +307,7 @@ Ext.define('iafbm.model.Commission', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url : '/api/commissions', //TODO: this must be dynamic (basepath aware)
+        url: x.context.baseuri+'/api/commissions',
     }
 });
 Ext.define('iafbm.model.CommissionType', {
@@ -191,7 +320,7 @@ Ext.define('iafbm.model.CommissionType', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url : '/api/commissions-types', //TODO: this must be dynamic (basepath aware)
+        url: x.context.baseuri+'/api/commissions-types',
     }
 });
 
@@ -199,20 +328,14 @@ Ext.define('iafbm.model.CommissionType', {
 Ext.define('iafbm.store.Personne', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.Personne'
-/*
-    //iafbm.model.Personne should be used automagically from the model
-    proxy: {
-        type: 'ia-rest',
-        url : '<?php echo u('api/personnes') ?>',
-    },
-    pageSize: <?php echo isset($d['pagesize']) ? $d['pagesize'] : 'null'; ?>,
-    autoLoad: <?php echo isset($d['autoload']) ? var_export((bool)$d['autoload']) : 'true'; ?>,
-    autoSync: <?php echo isset($d['autosync']) ? var_export((bool)$d['autosync']) : 'true'; ?>
-*/
 });
 Ext.define('iafbm.store.Membre', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.Membre'
+});
+Ext.define('iafbm.store.Candidat', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.Candidat'
 });
 Ext.define('iafbm.store.Pays', {
     extend: 'Ext.ia.data.Store',
@@ -234,7 +357,7 @@ iafbm.columns.Personne = [{
     header: "Nom",
     dataIndex: 'nom',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -242,7 +365,7 @@ iafbm.columns.Personne = [{
     header: "Prénom",
     dataIndex: 'prenom',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -250,7 +373,7 @@ iafbm.columns.Personne = [{
     header: "Adresse",
     dataIndex: 'adresse',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -258,7 +381,7 @@ iafbm.columns.Personne = [{
     header: "Téléphone",
     dataIndex: 'tel',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -266,7 +389,7 @@ iafbm.columns.Personne = [{
     header: "Pays",
     dataIndex: 'pays_id',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'ia-combo',
         lazyRender: true,
         typeAhead: true,
@@ -281,7 +404,7 @@ iafbm.columns.Personne = [{
     header: "Date de naissance",
     dataIndex: 'date_naissance',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'ia-datefield'
     }
 },{
@@ -293,8 +416,44 @@ iafbm.columns.Personne = [{
     align: 'center',
     width: 25,
     flex: 1,
-    editor: {
+    field: {
         xtype: 'checkbox'
+    }
+}];
+
+iafbm.columns.Membre = [{
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}];
+
+iafbm.columns.Candidat = [{
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
     }
 }];
 
@@ -302,7 +461,7 @@ iafbm.columns.Commission = [{
     header: "Nom",
     dataIndex: 'nom',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -310,7 +469,7 @@ iafbm.columns.Commission = [{
     header: "Description",
     dataIndex: 'description',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -318,7 +477,7 @@ iafbm.columns.Commission = [{
     header: "Type",
     dataIndex: 'commission-type_id',
     flex: 1,
-    editor: {
+    field: {
         xtype: 'ia-combo',
         lazyRender: true,
         typeAhead: true,
@@ -337,7 +496,7 @@ iafbm.columns.Commission = [{
     falseText: 'Non',
     width: 25,
     flex: 1,
-    editor: {
+    field: {
         xtype: 'checkbox'
     }
 }];
@@ -345,7 +504,7 @@ iafbm.columns.Commission = [{
 iafbm.columns.CommissionType = [{
     header: "Nom",
     dataIndex: 'nom',
-    editor: {
+    field: {
         xtype: 'textfield',
         allowBlank: false
     }
@@ -356,7 +515,7 @@ iafbm.columns.CommissionType = [{
     header: 'Actif',
     dataIndex: 'actif',
     align: 'center',
-    editor: {
+    field: {
         xtype: 'checkbox'
     }
 }];

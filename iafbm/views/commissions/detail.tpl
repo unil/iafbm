@@ -42,181 +42,6 @@ Ext.onReady(function() {
 
     Ext.QuickTips.init();
 
-    /**
-     * Candidates templated combobox
-     */
-    var composition_combo = new Ext.form.field.ComboBox({
-        store: new iafbm.store.Personne({}),
-        pageSize: 5,
-        limitParam: undefined,
-        startParam: undefined,
-        pageParam: undefined,
-        typeAhead: false,
-        minChars: 1,
-        hideTrigger:true,
-        width: 350,
-        listConfig: {
-            loadingText: 'Recherche...',
-            emptyText: 'Aucun résultat.',
-            // Custom rendering template for each item
-            getInnerTpl: function() {
-                return [
-                    '<div class="ia-search-item">',
-                    '<img src="<?php echo u('a/img/icons/trombi_empty.png') ?>"/>',
-                    '<h3>{prenom} {nom}</h3>',
-                    '<div>{adresse}, {pays_nom}</div>',
-                    '<div>{pays_id}, {pays_nom}, {pays_nom_en}, {pays_code}</div>',
-                    '<div>{[Ext.Date.format(values.date_naissance, "j M Y")]}</div>',
-                    //'<h3><span>{[Ext.Date.format(values.lastPost, "M j, Y")]}<br />by {author}</span>{title}</h3>' +
-                    //'{excerpt}' +
-                    '</div>'
-                ].join('');
-            }
-        },
-        listeners: {
-            select: function(combo, selection) {
-                // Inserts record into grid store
-                var membres = [];
-                Ext.each(selection, function(personne) {
-                    membres.push(Ext.ModelManager.create({
-                        personne_id: personne.get('id'),
-                        fonction_id: 1,
-                        commission_id: <?php echo $d['id'] ?>,
-                        actif: 1
-                    }, 'Membre'));
-                });
-                this.up('gridpanel').store.insert(0, membres);
-                this.clearValue();
-            }//,
-            //focus: function(combo, event) { this.onTriggerClick() }
-        }
-    });
-
-    /**
-     * Grid for commission composition
-     */
-    var composition_grid = new Ext.grid.Panel({
-        id: 'composition-grid',
-        title: 'Composition',
-        loadMask: true,
-        width: 857,
-        height: 200,
-        margins: '0 5 0 0',
-        //frame: true,
-        //plugins: [new Ext.grid.plugin.RowEditing({id:'rowediting'})],
-        store: <?php echo xView::load('membres/extjs/store')->render() ?>,
-        columns: <?php echo xView::load('membres/extjs/columns')->render() ?>,
-        tbar: ['Ajouter', composition_combo],
-        bbar: [{
-            text: 'Supprimer la sélection',
-            iconCls: 'icon-delete',
-            handler: function() {
-                var selection = this.up('gridpanel').getView().getSelectionModel().getSelection()[0];
-                if (selection) this.up('gridpanel').store.remove(selection);
-            }
-        }]/*,
-        bbar: new Ext.PagingToolbar({
-            store: store,
-            displayInfo: true,
-            displayMsg: 'Eléments {0} à {1} sur {2}',
-            emptyMsg: "Pas d'éléments à afficher",
-            items:[],
-            //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
-        })
-*/
-    });
-
-
-    /**
-     * Grid for commission candidates
-     */
-    var candidates_combo = new Ext.form.field.ComboBox({
-        store: new iafbm.store.Personne(),
-        pageSize: 5,
-        limitParam: undefined,
-        startParam: undefined,
-        pageParam: undefined,
-        typeAhead: false,
-        minChars: 1,
-        hideTrigger:true,
-        width: 350,
-        listConfig: {
-            loadingText: 'Recherche...',
-            emptyText: 'Aucun résultat.',
-            // Custom rendering template for each item
-            getInnerTpl: function() {
-                return [
-                    '<div class="ia-search-item">',
-                    '<img src="<?php echo u('a/img/icons/trombi_empty.png') ?>"/>',
-                    '<h3>{prenom} {nom}</h3>',
-                    '<div>{adresse}, {pays_nom}</div>',
-                    '<div>{pays_id}, {pays_nom}, {pays_nom_en}, {pays_code}</div>',
-                    '<div>{[Ext.Date.format(values.date_naissance, "j M Y")]}</div>',
-                    //'<h3><span>{[Ext.Date.format(values.lastPost, "M j, Y")]}<br />by {author}</span>{title}</h3>' +
-                    //'{excerpt}' +
-                    '</div>'
-                ].join('');
-            }
-        },
-        listeners: {
-            select: function(combo, selection) {
-                // Inserts record into grid store
-                var membres = [];
-                Ext.each(selection, function(personne) {
-                    membres.push(Ext.ModelManager.create({
-                        personne_id: personne.get('id'),
-                        fonction_id: 1,
-                        commission_id: <?php echo $d['id'] ?>,
-                        // nom+prenom is added because the related store is local
-                        personne_nom: personne.get('nom'),
-                        personne_prenom: personne.get('prenom'),
-                        actif: 1
-                    }, 'Membre'));
-                });
-                this.up('gridpanel').store.insert(0, membres);
-                this.clearValue();
-            }//,
-            //focus: function(combo, event) { this.onTriggerClick() }
-        }
-    });
-
-    var candidates_grid = new Ext.grid.Panel({
-        id: 'candidates-grid',
-        title: 'Candidats',
-        loadMask: true,
-        width: 857,
-        height: 200,
-        margins: '0 5 0 0',
-        //frame: true,
-        //plugins: [new Ext.grid.plugin.RowEditing({id:'rowediting'})],
-        store: Ext.create('Ext.data.Store', {
-            model: 'Membre'
-        }),
-        columns: <?php echo xView::load('membres/extjs/columns')->render() ?>,
-/*
-        store: <?php echo xView::load('membres/extjs/store')->render() ?>,
-        columns: <?php echo xView::load('membres/extjs/columns')->render() ?>,
-*/
-        tbar: ['Ajouter', candidates_combo],
-        bbar: [{
-            text: 'Supprimer la sélection',
-            iconCls: 'icon-delete',
-            handler: function() {
-                var selection = this.up('gridpanel').getView().getSelectionModel().getSelection()[0];
-                if (selection) this.up('gridpanel').store.remove(selection);
-            }
-        }]/*,
-        bbar: new Ext.PagingToolbar({
-            store: store,
-            displayInfo: true,
-            displayMsg: 'Eléments {0} à {1} sur {2}',
-            emptyMsg: "Pas d'éléments à afficher",
-            items:[],
-            //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
-        })
-*/
-    });
-
     var composition_panel = Ext.create('Ext.Panel', {
         flex: 1,
         height: 300,
@@ -227,8 +52,46 @@ Ext.onReady(function() {
         },
         defaults: { flex : 1 }, //auto stretch
         items: [
-            composition_grid,
-            candidates_grid
+            new Ext.ia.selectiongrid.Panel({
+                title: 'Membres',
+                width: 857,
+                height: 200,
+                margins: '0 5 0 0',
+                combo: {
+                    store: new iafbm.store.Personne(),
+                },
+                grid: {
+                    store: new iafbm.store.Membre(),
+                    columns: iafbm.columns.Membre
+                },
+                makeData: function(record) {
+                    return {
+                        personne_id: record.get('id'),
+                        fonction_id: 1,
+                        commission_id: <?php echo $d['id'] ?>,
+                        actif: 1
+                    }
+                }
+            }),
+            new Ext.ia.selectiongrid.Panel({
+                title: 'Candidat(s)',
+                width: 857,
+                height: 200,
+                combo: {
+                    store: new iafbm.store.Personne(),
+                },
+                grid: {
+                    store: new iafbm.store.Candidat(),
+                    columns: iafbm.columns.Candidat
+                },
+                makeData: function(record) {
+                    return {
+                        personne_id: record.get('id'),
+                        commission_id: <?php echo $d['id'] ?>,
+                        actif: 1
+                    }
+                }
+            }),
         ]
     });
 
@@ -645,6 +508,7 @@ Ext.onReady(function() {
             handler: function() {
                 var form = this.up('form').getForm();
                 if (form.isValid()) form.submit();
+                // FIXME: see personnes/details form
             }
         }],
         listeners: {

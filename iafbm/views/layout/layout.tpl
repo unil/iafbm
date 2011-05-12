@@ -11,7 +11,6 @@
 <?php foreach (isset($m['js']) ? $m['js'] : array() as $js): ?>
     <script type="text/javascript" src="<?php echo $js ?>"></script>
 <?php endforeach ?>
-    <script type="text/javascript" src="<?php echo xContext::$baseuri.'/a/js/view/context.js' ?>"></script>
   </head>
   <body>
     <div id="wrapper">
@@ -46,18 +45,6 @@
       <?php echo xView::load('layout/footer')->render(); ?>
 
     </div>
-
-<?php if (xContext::$auth->is_role('developer')): ?>
-    <div>
-      <hr/>
-      <?php
-          require_once(xContext::$basepath."/lib/xfreemwork/lib/Reusables/DeveloperInformation/DeveloperInformation.php");
-          $devinfo = new xDeveloperInformation();
-          echo $devinfo->render();
-      ?>
-      <hr/>
-    </div>
-<?php endif ?>
 
     <?php // echo xView::load('all/google.analytics')->render(); ?>
   </body>

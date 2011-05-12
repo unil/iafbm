@@ -23,7 +23,8 @@ Ext.onReady(function(){
         store: new iafbm.store.<?php echo $d['model'] ?>({
             pageSize: 10,
             autoLoad: true,
-            autoSync: true
+            autoSync: true,
+            id: 'editor-grid-store'
         }),
         columns: iafbm.columns.<?php echo $d['model'] ?>,
         dockedItems: [{

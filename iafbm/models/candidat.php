@@ -23,32 +23,5 @@ class CandidatModel extends xModelMysql {
     var $join = array('personne', 'commission');
 
     var $validation = array(
-        'nom' => array(
-            'mandatory'
-        ),
-/*
-        'end' => array(
-            'mandatory',
-            'datetime'
-        ),
-        'zip' => array(
-            'mandatory',
-            'integer',
-            'minlength' => array('length'=>4),
-            'maxlength' => array('length'=>4)
-        ),
-        'location' => array(
-            'mandatory'
-        ),
-        'distance' => array(
-            'mandatory',
-            'integer',
-            'minvalue' => array('length'=>0)
-        ),
-        'profile' => array(
-            'mandatory',
-            'integer'
-        ),
-*/
     );
 }

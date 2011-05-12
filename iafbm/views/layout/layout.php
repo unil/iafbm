@@ -5,9 +5,10 @@ class LayoutLayoutView extends xView {
     function init() {
         $this->meta = xUtil::array_merge($this->meta, array(
             'js' => array(
+                xUtil::url('a/js/view/context.js'),
+                //xUtil::url('a/js/xfreemwork/lib/core.js')
                 xUtil::url('a/js/ext/bootstrap.js'),
                 xUtil::url('a/js/ext-custom/custom.js')
-                //xUtil::url('a/js/xfreemwork/lib/core.js')
             ),
             'layout' => array(
                 'template' => 'layout.tpl',
