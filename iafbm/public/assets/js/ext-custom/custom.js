@@ -240,9 +240,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
             handler: function(){
                 // empty record
                 var grid = this.up('gridpanel');
-grid.store.autoSync = false;
+                grid.store.autoSync = false;
                 grid.store.insert(0, new grid.store.model());
-grid.store.autoSync = true;
+                grid.store.autoSync = true;
                 grid.getPlugin('rowediting').startEdit(0, 0);
             }
         }, '-', {
