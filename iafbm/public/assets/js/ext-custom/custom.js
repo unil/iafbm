@@ -97,6 +97,12 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     },
     writer: {
         root: 'items'
+    },
+    actionMethods: {
+        read: 'get',
+        create: 'put',
+        update: 'post',
+        destroy: 'delete'
     }
 });
 
@@ -111,12 +117,6 @@ Ext.define('Ext.ia.form.field.Date', {
 Ext.define('Ext.ia.form.field.ComboBox', {
     extend:'Ext.form.field.ComboBox',
     alias: 'widget.ia-combo',
-    listeners: {
-        activate: function() { console.log('activated') },
-        enable: function() { console.log('enable') },
-        beforeactivate: function() { console.log('beforeactivate') },
-        beforerender: function() { console.log('beforerender') },
-    },
     // Workaround for displayField issue (not yet working)
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var store = Ext.data.StoreManager.lookup('editor-grid-store');
@@ -149,10 +149,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             // }
             return record.data;
         }
-    },
-    mixins: {
-        //combo: null,?
-        //grid: null,?
     },
     initComponent: function() {
         this.grid.store.load();
@@ -221,6 +217,71 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                 blur: function() { this.clearValue() }
             }
         });
+    }
+});
+
+Ext.define('Ext.ia.grid.EditPanel', {
+    extend: 'Ext.grid.Panel',
+    alias: 'widget.ia-editgrid',
+    config: {
+        loadMask: true,
+        width: 880,
+        height: 300,
+        frame: true,
+        store: null,
+        columns: null,
+    },
+    plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
+    dockedItems: [{
+        xtype: 'toolbar',
+        items: [{
+            text: 'Ajouter',
+            iconCls: 'icon-add',
+            handler: function(){
+                // empty record
+                var grid = this.up('gridpanel');
+grid.store.autoSync = false;
+                grid.store.insert(0, new grid.store.model());
+grid.store.autoSync = true;
+                grid.getPlugin('rowediting').startEdit(0, 0);
+            }
+        }, '-', {
+            text: 'Supprimer',
+            iconCls: 'icon-delete',
+            handler: function(){
+                var selection = grid.getView().getSelectionModel().getSelection()[0];
+                if (selection) {
+                    this.up('gridpanel').store.remove(selection);
+                }
+            }
+        }, '->', '-', 'Rechercher',
+        new Ext.ux.form.SearchField({
+            store: null,
+            emptyText: 'Mots-clés',
+            listeners: {
+                beforerender: function() { this.store = this.up('gridpanel').store }
+            }
+        })]
+    }],
+    bbar: new Ext.PagingToolbar({
+        store: null,
+        displayInfo: true,
+        displayMsg: 'Eléments {0} à {1} sur {2}',
+        emptyMsg: "Aucun élément à afficher",
+        items:[],
+        listeners: {
+            // Wait for render time so that the grid store is created
+            // and ready to be bound to the pager
+            beforerender: function() { this.bindStore(this.up('gridpanel').store) }
+        }
+        //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
+    }),
+    initComponent: function() {
+        this.store.pageSize = 10;
+        this.store.autoSync = true;
+        this.store.load();
+        var me = this;
+        me.callParent();
     }
 });
 
