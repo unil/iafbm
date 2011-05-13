@@ -6,8 +6,9 @@ class LayoutLayoutView extends xView {
         $this->meta = xUtil::array_merge($this->meta, array(
             'js' => array(
                 xUtil::url('a/js/view/context.js'),
-                //xUtil::url('a/js/xfreemwork/lib/core.js')
+                //xUtil::url('a/js/xfreemwork/lib/core.js'),
                 xUtil::url('a/js/ext/bootstrap.js'),
+                xUtil::url('a/js/ext-ux/native/form/SearchField.js'),
                 xUtil::url('a/js/ext-custom/custom.js')
             ),
             'layout' => array(
