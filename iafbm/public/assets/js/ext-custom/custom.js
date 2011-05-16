@@ -135,7 +135,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
     config: {
         combo: {
             store: null,
-            tpl: null, //TODO
         },
         grid: {
              store: null
@@ -169,8 +168,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                 grid.store.sync();
             }
         }];
-        var me = this;
-        me.callParent();
+        var me = this; me.callParent();
         //Ext.ia.selectiongrid.Panel.superclass.initComponent.call(this, arguments);
     },
     getCombo: function() {
@@ -230,6 +228,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         frame: true,
         store: null,
         columns: null,
+        pageSize: 10
     },
     plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
     dockedItems: [{
@@ -277,11 +276,11 @@ Ext.define('Ext.ia.grid.EditPanel', {
         //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
     }),
     initComponent: function() {
-        this.store.pageSize = 10;
-        this.store.autoSync = true;
-        this.store.load();
         var me = this;
         me.callParent();
+        this.store.pageSize = this.pageSize;
+        this.store.autoSync = true;
+        this.store.load();
     }
 });
 
@@ -556,10 +555,20 @@ iafbm.columns.Commission = [{
     trueText: 'Oui',
     falseText: 'Non',
     width: 25,
-    flex: 1,
     field: {
         xtype: 'checkbox'
     }
+}, {
+    xtype: 'actioncolumn',
+    width: 25,
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/go-next.png',  // Use a URL in the icon config
+        tooltip: 'Détails',
+        handler: function(grid, rowIndex, colIndex, item) {
+            var id = this.up('gridpanel').store.getAt(rowIndex).get('id');
+            location.href = x.context.baseuri+'/commissions/'+id;
+        }
+    }]
 }];
 
 iafbm.columns.CommissionType = [{

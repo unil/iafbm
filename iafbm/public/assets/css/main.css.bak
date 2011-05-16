@@ -2,20 +2,95 @@
 HTML
 **/
 
-body {
+body, table,
+.normal {
+  text-align: center;
   margin: 0px;
   font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif;
   font-size: 11px;
+  /* background-color: #eeeeee; */
   color: #444444;
+  /* background: black url(../img/bg.jpg) no-repeat scroll right top; */
 }
 
-a, a:link, a:visited {
-  text-decoration: none;
-  color: #C17717;
+.normal {
+  text-align: left;
+  font-weight: normal;
 }
-a:hover {
+
+h1, .h1 {
+  color: black;
+  font-family: "Trebuchet MS", Tahoma, arial, sans-serif;
+  font-weight: normal;
+  font-size: 18px;
+  padding: 8px 0 8px;
+  margin: 0;
+}
+h2, .h2 {
+  font-family: "Trebuchet MS", Tahoma, arial, sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 0 8px;
+  margin: 0;
+}
+h3, .h3 {
+  font-family: "Trebuchet MS", Tahoma, arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 8px 0 0;
+  margin: 0;
+}
+
+a, a:link, a:visited,
+.a, .a:link .a:visited {
+  text-decoration: none;
+  color: #0a0;
+}
+a:hover,
+.a:hover {
   text-decoration: underline;
+  color: #050;
   cursor: pointer;
+}
+
+p {
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 8px;
+}
+p.last {
+  padding-bottom: 0px;
+}
+
+ol, ul {
+  list-style-position: outside;
+  margin: 0;
+  padding: 0 0 15px 15px;
+}
+ol.last, ul.last {
+  padding-bottom: 0px;
+}
+ol {
+  list-style-type: decimal;
+}
+ul {
+  /* list-style-image: url(../img/bullet.gif); */
+  /* list-style-type: none; */
+  /*margin-left: 5px;*/
+  list-style-type: circle;
+}
+li {
+  margin-left:5px;
+}
+ol p, ul p {
+  margin-top: 0px;
+  color: #666666;
+}
+
+ol h1, ol h2, ol h3, ol h4,
+ul h1, ul h2, ul h3, ul h4 {
+  margin: 0;
+  padding: 0;
 }
 
 hr {
@@ -24,10 +99,109 @@ hr {
   height: 1px;
 }
 
+img {
+  border: none;
+}
+
+
+blockquote {
+  /* background: transparent url(../img/quote.gif) no-repeat scroll left top; */
+  margin: 0;
+  padding-left: 30px;
+  text-align: justify;
+}
+blockquote .source {
+  font-size: 8px;
+  opacity: 0.3;
+}
+blockquote:hover .source {
+  opacity: 1;
+}
+
+label {
+}
+
+form input.invalid,
+form textarea.invalid,
+form select.invlalid {
+  border-color: #faa;
+}
+
+label,
+form input,
+form textarea {
+  vertical-align: middle;
+}
+
+form tr {
+  width: 100%;
+}
+form th,
+table th,
+table.vertical th {
+  text-align: left;
+  font-weight: bold;
+  padding-right: 5px;
+  white-space: nowrap;
+  vertical-align: top;
+}
+form td,
+table td,
+table.vertical td {
+  text-align: left;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+table.horizontal th {
+  text-align: left;
+  vertical-align: bottom;
+}
+table.horizontal td {
+}
+
+table.grid,
+table.grid td,
+table.grid th {
+  border-collapse: collapse;
+  border: 2px solid white;
+  padding: 5px;
+}
+table.grid th {
+  background-color: #fda;
+}
+table.grid td {
+  background-color: #eee;
+}
+
+form table td {
+  height: 22px;
+}
+
+input, textarea {
+  border: 1px solid lightgray;
+  padding: 2px 5px;
+}
+
+input.button {
+  font-weight: bold;
+  color: white;
+  border-top-color: lightgray;
+  border-left-color: lightgray;
+  border-bottom-color: gray;
+  border-right-color: gray;
+  padding: 1px 5px;
+  cursor: pointer;
+}
+input.button:hover {
+  background-image: none;
+  background-color: #80BEE0;
+}
+
+
 /**
 LAYOUT
 **/
-
 #wrapper {
   margin: auto;
   text-align: left;
@@ -66,7 +240,7 @@ LAYOUT
   font-size: 14px;
   border-bottom: 1px solid #ddd;
   /* Special layout */
-  padding-top: 125px;
+  padding-top:125px;
 }
 #navigation a {
   padding: 15px 15px 5px;
@@ -103,8 +277,11 @@ LAYOUT
   opacity: 0.5; */
 }
 
+#content {}
 #additional { width: 200px }
+
 #additional.half { width: 400px }
+
 #additional.full { width: 0px }
 
 #footer {
@@ -122,6 +299,42 @@ LAYOUT
 }
 #footer .footer-legal {
   float: right;
+}
+#footer .footer-links img {
+  margin-right: 3px;
+}
+
+
+/**
+BOXES
+**/
+
+.tab {
+  float: left;
+  position: relative;
+  left: 20px;
+  font-size: 10px;
+  font-weight: bold;
+}
+.tab, .tab * {
+  cursor: pointer;
+}
+.tab {
+  border-radius: 4px 4px 0px 0px;
+  -webkit-border-radius: 4px 4px 0px 0px;
+  -moz-border-radius: 4px 4px 0px 0px;
+  margin-right: 2px;
+}
+.tab-content {
+  padding: 5px 20px 2px 12px;
+  margin-left: 8px;
+  display: inline-block;
+}
+
+.rounded {
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
 }
 
 

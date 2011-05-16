@@ -20,6 +20,22 @@ class iaWebController extends xWebController {
      */
     var $query_exclude_fields = array();
 
+    /**
+     * @todo
+     * Return true if the method is allowed.
+     * Checks for:
+     * - $this->allow rights
+     * - authenticated role
+     */
+    function is_allowed() {
+        /* TODO
+        if (!in_array($this->http['method'], $this->allow))
+            throw new xException('Method not allowed', 403);
+        if (false)
+            throw new xException('Insufficent privileges', 403);
+        */
+    }
+
     function defaultAction() {
         if (!isset($this->params['id'])) {
             if (method_exists($this, 'indexAction')) return $this->indexAction();
@@ -54,8 +70,8 @@ class iaWebController extends xWebController {
 
     function post() {
         if (!isset($this->params['id'])) return $this->put();
-        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
         if (!in_array('post', $this->allow)) throw new xException("Method not allowed", 403);
+        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
         $r = xModel::load($this->model, $this->params['items'])->post();
         $r['items'] = array_shift(xModel::load($this->model, array('id'=>$this->params['items']['id']))->get());
         return $r;
@@ -63,8 +79,8 @@ class iaWebController extends xWebController {
 
     function put() {
         if (isset($this->params['id'])) return $this->post();
-        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
         if (!in_array('put', $this->allow)) throw new xException("Method not allowed", 403);
+        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
         $r = xModel::load($this->model, $this->params['items'])->put();
         $r['items'] = array_shift(xModel::load($this->model, array('id'=>$r['xinsertid']))->get());
         return $r;

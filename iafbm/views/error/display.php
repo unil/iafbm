@@ -19,7 +19,7 @@ class ErrorDisplayView extends xView {
         // Default exception status setup
         $status = isset($this->data['exception']->status) ? $this->data['exception']->status : 500;
         // Page title setup
-        $this->meta['title'] = $this->titles[$status] ? $this->titles[$status] : $this->titles['default'];
+        $this->meta['title'] = @$this->titles[$status] ? $this->titles[$status] : $this->titles['default'];
         // Setup view data
         $this->data['previous_page'] = xWebFront::previous_url();
         $this->data['msg'] = $this->msgs[$status] ? $this->msgs[$status] : $this->msgs['default'];

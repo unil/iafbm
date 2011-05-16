@@ -72,7 +72,6 @@ Ext.onReady(function() {
                 }, {
                     xtype: 'checkboxfield',
                     fieldLabel: 'Actif',
-                    emptyText: 'Actif',
                     name: 'actif'
             }]
         }],
@@ -93,6 +92,7 @@ Ext.onReady(function() {
             formBind: true,
             handler: function() {
                 var form = this.up('form').getForm();
+console.log(form.getValues());
                 if (form.isValid()) {
                     var values = Ext.apply(form.getRecord().data, form.getValues());
                     new iafbm.model.Personne(values).save();

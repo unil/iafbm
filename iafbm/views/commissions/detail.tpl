@@ -118,12 +118,12 @@ Ext.onReady(function() {
      * Actual form
      */
     var form = Ext.create('Ext.form.Panel', {
-        url: '<?php echo u('api/commissions/') ?>',
+        url: '<?php echo u('api/commissions') ?>',
         method: 'GET',
         reader: new Ext.data.reader.Json({
             root: 'items',
             totalProperty: 'xcount',
-            model: 'Commission'
+            model: 'iafbm.model.Commission'
         }),
         renderTo: 'form',
         title: 'Commission',
@@ -259,19 +259,31 @@ Ext.onReady(function() {
                     items: [{
                         xtype: 'displayfield',
                         value: '<b>Choix des candidats</b>',
-                    }, {
-                        xtype:'textfield',
-                        fieldLabel: 'Primo loco',
-                        name: 'last'
-                    }, {
-                        xtype:'textfield',
-                        fieldLabel: 'Secondo loco',
-                        name: 'email'
-                    }, {
-                        xtype:'textfield',
-                        fieldLabel: 'Terzio loco',
-                        name: 'email'
-                    }]
+                    },
+                    new Ext.ia.selectiongrid.Panel({
+                        //title: 'Membres',
+                        frame: false,
+                        width: 404,
+                        height: 140,
+                        combo: {
+                            store: new iafbm.store.Candidat(),
+                        },
+                        grid: {
+                            // FIXME: wrong store (just for demo)
+                            //store: Ext.create('Ext.ia.data.Store', {model: 'Membre'}),
+                            store: new iafbm.store.Candidat(),
+                            columns: iafbm.columns.Candidat
+                        },
+                        makeData: function(record) {
+                            return {
+                                personne_id: record.get('id'),
+                                fonction_id: 1,
+                                commission_id: <?php echo $d['id'] ?>,
+                                actif: 1
+                            }
+                        }
+                    })
+                    ]
                 }]
             },{
                 xtype: 'textareafield',

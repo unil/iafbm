@@ -9,8 +9,7 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
         $this->defaults(array(
             'title' => 'Elements',
             'id' => sha1(microtime().session_id()),
-            'renderTo' => 'editor-grid',
-            'var' => 'grid'
+            'pageSize' => 10,
         ));
         // Checks madatory data values
         if (!@$this->data['model']) throw new xException('model data missing: mandatory for Ext.grid.GridPanel');

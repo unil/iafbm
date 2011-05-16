@@ -34,8 +34,27 @@ c = new Ext.ia.selectiongrid.Panel({
 
 });
 </script>
-
 EOL;
     }
 
+    function editgridAction() {
+return <<<EOL
+<div id="target"></div>
+<script>
+Ext.onReady(function() {
+
+c = new Ext.ia.grid.EditPanel({
+    renderTo: 'target',
+    frame: true,
+    title: 'Test',
+    width: 500,
+    height: 300,
+    store: new iafbm.store.Personne(),
+    columns: iafbm.columns.Personne
+});
+
+});
+</script>
+EOL;
+    }
 }
