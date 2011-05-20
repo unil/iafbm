@@ -1,4 +1,4 @@
-<div id="form"></div>
+<div id="target"></div>
 
 
 <script type="text/javascript">
@@ -8,7 +8,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
 
     var formPanel = Ext.create('Ext.form.Panel', {
-        renderTo: 'form',
+        renderTo: 'target',
         frame: true,
         title:'Personne',
         width: 340,
@@ -25,9 +25,6 @@ Ext.onReady(function() {
             model: 'Personne',
             root: 'items'
         }),
-        listeners: {
-            afterrender: function() { console.log('TODO: autoload logic') }
-        },
         items: [{
             xtype: 'fieldset',
             title: 'Contact Information',
@@ -75,10 +72,8 @@ Ext.onReady(function() {
                     name: 'actif'
             }]
         }],
-        buttons: [{
-            text: 'Load',
-            handler: function() {
-                // TODO: run this on form load
+        listeners: {
+            afterrender: function() {
                 var id = <?php echo $d['id'] ?>;
                 iafbm.model.Personne.load(id, {
                     success: function(record, operation) {
@@ -86,16 +81,17 @@ Ext.onReady(function() {
                     }
                 });
             }
-        }, {
+        },
+        buttons: [{
             text: 'Sauvegarder',
             //disabled: true,
             formBind: true,
             handler: function() {
                 var form = this.up('form').getForm();
-console.log(form.getValues());
                 if (form.isValid()) {
                     var values = Ext.apply(form.getRecord().data, form.getValues());
-                    new iafbm.model.Personne(values).save();
+                    var model = new iafbm.model.Personne(values);
+                    model.save();
                 }
             }
         }]

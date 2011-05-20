@@ -24,6 +24,7 @@ VALUES ('Matthieu', 'Kassovic', 'Smart 7', '0216101017', '16', '2011-04-01T00:00
  * COMMISSIONS
  ******************************************************************************/
 
+/*
 -- commissions
 INSERT INTO `commissions` (nom, description, commission_type_id, actif, created)
 VALUES ('Nom de la commission', 'Description de cette commission', '1', '1', CURRENT_TIMESTAMP);
@@ -49,3 +50,4 @@ INSERT INTO commissions_candidats (actif, created, personne_id, commission_id)
 VALUES ('1', CURRENT_TIMESTAMP, 7, 1);
 INSERT INTO commissions_candidats (actif, created, personne_id, commission_id)
 VALUES ('1', CURRENT_TIMESTAMP, 8, 1);
+*/

@@ -18,7 +18,7 @@ $items = array(
 <?php endforeach ?>
   </div>
   <div class="footer-legal">
-    &copy; Example author, <?php echo _('all rights reserved') ?>.
+    &copy; UNIL, Faculté de Biologie et Medecine, tous droits réservés.
   </div>
   <div style="clear:both"></div>
 </div>

@@ -8,6 +8,7 @@ CREATE TABLE commissions_candidats (
     actif BOOLEAN NOT NULL DEFAULT true,
     personne_id INT NOT NULL,
     commission_id INT NOT NULL,
+    description TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id)

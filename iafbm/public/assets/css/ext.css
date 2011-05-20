@@ -9,7 +9,7 @@
 
 
 /**********************************************************
- * FIXME: this should be part of a theme
+ * FIXME: this should be part of a theme, using scss/sass
 **/
 
 .x-grid-header-ct {
@@ -45,4 +45,10 @@
     background-color: #EC9B33;
     background-image: -moz-linear-gradient(center top , #EC9B33, #EC9B33 45%, #EC9B33 46%, #EC9B33 50%, #EC9B33 51%, #EC9B33);
     border: 1px solid #EC9B33;
+}
+
+.x-panel-body-default-framed {
+    background: none repeat scroll 0 0 white;
+    border: 0 solid #99BBE8;
+    color: black;
 }

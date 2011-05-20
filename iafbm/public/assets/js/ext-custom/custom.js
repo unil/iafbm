@@ -111,7 +111,49 @@ Ext.define('Ext.ia.form.field.Date', {
     alias: 'widget.ia-datefield',
     format: 'd.m.Y',
     altFormats: 'd.m.Y|d-m-Y|d m Y',
-    startDay: 1
+    startDay: 1,
+    valueToRaw: function(value) {
+        return this.formatDate(this.parseDate(value));
+    },
+    parseDate : function(value) {
+        if(!value || Ext.isDate(value)){
+console.log('parseDate(1)', {
+    value: value,
+    return: value
+});
+            return value;
+        }
+
+        var me = this,
+            val = me.safeParse(value, me.format),
+            altFormats = me.altFormats,
+            altFormatsArray = me.altFormatsArray,
+            i = 0,
+            len;
+
+        if (!val && altFormats) {
+            altFormatsArray = altFormatsArray || altFormats.split('|');
+            len = altFormatsArray.length;
+            for (; i < len && !val; ++i) {
+                val = me.safeParse(value, altFormatsArray[i]);
+            }
+        }
+console.log('parseDate(2)', {
+    value: value,
+    return: val
+});
+        return val;
+    },
+    formatDate : function(date){
+        var val = Ext.isDate(date) ? Ext.Date.dateFormat(date, this.format) : date;
+console.log('formatDate', {
+    value: date,
+    return: val,
+    format: this.format
+});
+        return val;
+    }
+
 });
 
 Ext.define('Ext.ia.form.field.ComboBox', {
@@ -248,9 +290,10 @@ Ext.define('Ext.ia.grid.EditPanel', {
             text: 'Supprimer',
             iconCls: 'icon-delete',
             handler: function(){
+                var grid = this.up('gridpanel');
                 var selection = grid.getView().getSelectionModel().getSelection()[0];
                 if (selection) {
-                    this.up('gridpanel').store.remove(selection);
+                    grid.store.remove(selection);
                 }
             }
         }, '->', '-', 'Rechercher',
@@ -258,6 +301,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
             store: null,
             emptyText: 'Mots-clés',
             listeners: {
+                // Wait for render time so that the grid store is created
+                // and ready to be bound to the search field
                 beforerender: function() { this.store = this.up('gridpanel').store }
             }
         })]
@@ -284,6 +329,62 @@ Ext.define('Ext.ia.grid.EditPanel', {
     }
 });
 
+Ext.define('Ext.ia.form.Panel', {
+    extend: 'Ext.form.Panel',
+    alias: 'widget.ia-form',
+    autoHeight: true,
+    bodyPadding: 10,
+    border: 0,
+    defaults: {
+        //anchor: '100%',
+        msgTarget: 'side'
+    },
+    fieldDefaults: {
+        labelWidth: 80
+    },
+    store: null,
+    loadParams: {},
+    initComponent: function() {
+        if (this.store) this.buttons = [{
+            text: 'Save',
+            handler: function() {
+                var form = this.up('form').getForm();
+                var store = this.up('form').store;
+                if (form.isValid()) {
+                    var values = Ext.apply(form.getValues());
+                    store.getAt(0).set(values);
+console.log(values.date, store.getAt(0).get('date'));
+                    store.getAt(0).save();
+                }
+            }
+        }];
+        var me = this; me.callParent();
+    },
+    listeners: {
+        beforerender: function() {
+            // Store loading is optional
+            if (!this.store) return;
+            // Store autoloading logic
+            var me = this;
+            if (this.store.getCount() == 0) {
+                this.store.load({ params: this.loadParams,
+                    callback: function(records, operation, success) {
+                        var record = me.store.getAt(0);
+                        if (record) {
+                            me.form.loadRecord(record);
+                        } else {
+                            Ext.Error.raise('Failed loading store');
+                        }
+                    }
+                });
+            } else {
+                this.form.loadRecord(this.store.getAt(0));
+            }
+        }
+    }
+});
+
+
 
 /******************************************************************************
  * Business objects
@@ -300,7 +401,7 @@ Ext.define('iafbm.model.Personne', {
         {name: 'pays_id', type: 'int'},
         {name: 'tel', type: 'string'},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'actif', type: 'bool'}
+        {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -317,7 +418,7 @@ Ext.define('iafbm.model.Membre', {
         {name: 'commission_id', type: 'int'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
-        {name: 'actif', type: 'bool'}
+        {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -333,7 +434,7 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'commission_id', type: 'int'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
-        {name: 'actif', type: 'bool'}
+        {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -362,7 +463,7 @@ Ext.define('iafbm.model.Commission', {
         {name: 'nom', type: 'string'},
         {name: 'description', type: 'string'},
         {name: 'commission-type_id', type: 'commission_type_id'},
-        {name: 'actif', type: 'bool'}
+        {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -375,12 +476,32 @@ Ext.define('iafbm.model.CommissionType', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
-        {name: 'actif', type: 'bool'}
+        {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/commissions-types',
+    }
+});
+Ext.define('iafbm.model.CommissionCreation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'actif', type: 'bool', defaultValue: true},
+        {name: 'decision', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'ordrejour', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'authorisation', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'annonce', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'composition', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'composition_validation', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-creations',
     }
 });
 
@@ -409,7 +530,10 @@ Ext.define('iafbm.store.CommissionType', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.CommissionType'
 });
-
+Ext.define('iafbm.store.CommissionCreation', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionCreation'
+});
 
 // columns
 Ext.ns('iafbm.columns');
@@ -466,18 +590,6 @@ iafbm.columns.Personne = [{
     flex: 1,
     field: {
         xtype: 'ia-datefield'
-    }
-},{
-    xtype: 'booleancolumn',
-    trueText: 'Oui',
-    falseText: 'Non',
-    header: 'Actif',
-    dataIndex: 'actif',
-    align: 'center',
-    width: 25,
-    flex: 1,
-    field: {
-        xtype: 'checkbox'
     }
 }];
 
@@ -549,16 +661,6 @@ iafbm.columns.Commission = [{
         store: new iafbm.store.CommissionType({})
     }
 },{
-    header: "Actif",
-    dataIndex: 'actif',
-    xtype: 'booleancolumn',
-    trueText: 'Oui',
-    falseText: 'Non',
-    width: 25,
-    field: {
-        xtype: 'checkbox'
-    }
-}, {
     xtype: 'actioncolumn',
     width: 25,
     items: [{
@@ -577,16 +679,6 @@ iafbm.columns.CommissionType = [{
     field: {
         xtype: 'textfield',
         allowBlank: false
-    }
-},{
-    xtype: 'booleancolumn',
-    trueText: 'Oui',
-    falseText: 'Non',
-    header: 'Actif',
-    dataIndex: 'actif',
-    align: 'center',
-    field: {
-        xtype: 'checkbox'
     }
 }];
 

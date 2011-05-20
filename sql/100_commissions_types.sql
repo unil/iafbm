@@ -10,10 +10,10 @@ CREATE TABLE commissions_types (
     PRIMARY KEY (id)
 ) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Commission de présentation');
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Groupe de réflexion');
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Commission de promotion');
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Commission d''appel');
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Commission de titularisation');
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Commission d''appel');
-INSERT INTO `commissions_types` (actif, created, nom) VALUES ('1', CURRENT_TIMESTAMP, 'Commission d''évaluation');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('1', '1', CURRENT_TIMESTAMP, 'Commission de présentation');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('2', '1', CURRENT_TIMESTAMP, 'Groupe de réflexion');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('3', '1', CURRENT_TIMESTAMP, 'Commission de promotion');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('4', '1', CURRENT_TIMESTAMP, 'Commission d''appel');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('5', '1', CURRENT_TIMESTAMP, 'Commission de titularisation');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('6', '1', CURRENT_TIMESTAMP, 'Commission d''appel');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('7', '1', CURRENT_TIMESTAMP, 'Commission d''évaluation');
