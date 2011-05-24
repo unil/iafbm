@@ -117,10 +117,10 @@ Ext.define('Ext.ia.form.field.Date', {
     },
     parseDate : function(value) {
         if(!value || Ext.isDate(value)){
-console.log('parseDate(1)', {
-    value: value,
-    return: value
-});
+//console.log('parseDate(1)', {
+//    value: value,
+//    return: value
+//});
             return value;
         }
 
@@ -138,19 +138,19 @@ console.log('parseDate(1)', {
                 val = me.safeParse(value, altFormatsArray[i]);
             }
         }
-console.log('parseDate(2)', {
-    value: value,
-    return: val
-});
+//console.log('parseDate(2)', {
+//    value: value,
+//    return: val
+//});
         return val;
     },
     formatDate : function(date){
         var val = Ext.isDate(date) ? Ext.Date.dateFormat(date, this.format) : date;
-console.log('formatDate', {
-    value: date,
-    return: val,
-    format: this.format
-});
+//console.log('formatDate', {
+//    value: date,
+//    return: val,
+//    format: this.format
+//});
         return val;
     }
 
@@ -353,7 +353,7 @@ Ext.define('Ext.ia.form.Panel', {
                 if (form.isValid()) {
                     var values = Ext.apply(form.getValues());
                     store.getAt(0).set(values);
-console.log(values.date, store.getAt(0).get('date'));
+//console.log(values.date, store.getAt(0).get('date'));
                     store.getAt(0).save();
                 }
             }
@@ -385,6 +385,55 @@ console.log(values.date, store.getAt(0).get('date'));
 });
 
 
+Ext.define('Ext.ia.ux.grid.History', {
+    extend: 'Ext.grid.Panel',
+    alias: 'widget.ia-history',
+    title: 'Historique',
+    columns: [{
+        header: 'Champs',
+        dataIndex: 'field',
+        width: 100,
+        field: {
+            xtype: 'textfield'
+        }
+    }, {
+        header: 'Valeur',
+        dataIndex: 'value',
+        flex: 1,
+        field: {
+            xtype: 'textfield'
+        }
+    }, {
+        header: 'Date',
+        dataIndex: 'date',
+        width: 100,
+        field: {
+            xtype: 'textfield'
+            //xtype: 'ia-datefield'
+        }
+    }, {
+        header: 'Utilisateur',
+        dataIndex: 'user',
+        width: 100,
+        field: {
+            xtype: 'textfield'
+        }
+    }],
+    // Dummy store with dummy data
+    store: new Ext.data.ArrayStore({
+        autoDestroy: true,
+        fields: [
+            {name: 'field'},
+            {name: 'value'},
+            {name: 'date'},//, type: 'date', dateFormat: 'd.m.Y'},
+            {name: 'user'}
+        ],
+        data: [
+            ['Descrption', 'Promenade cowpoke dumb rustle plumb, highway, redblooded, ails tobaccee, has, tonic buy.', '03.05.2011', 'smeier06@unil.ch'],
+            ['Commentaire', 'Plug-nickel caboodle hoosegow caught hobo grandpa aunt.', '01.06.2011', 'dcorpata@unil.ch'],
+        ]
+    })
+});
 
 /******************************************************************************
  * Business objects
@@ -456,19 +505,47 @@ Ext.define('iafbm.model.Pays', {
         url: x.context.baseuri+'/api/pays',
     }
 });
+Ext.define('iafbm.model.Section', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'code', type: 'string'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/sections',
+    }
+});
 Ext.define('iafbm.model.Commission', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
         {name: 'description', type: 'string'},
-        {name: 'commission-type_id', type: 'commission_type_id'},
+        {name: 'commission-type_id', type: 'int'},
+        {name: 'commission-etat_id', type: 'int'},
+        {name: 'section_id', type: 'int'},
         {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/commissions',
+    }
+});
+Ext.define('iafbm.model.CommissionEtat', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'},
+        {name: 'description', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-etats',
     }
 });
 Ext.define('iafbm.model.CommissionType', {
@@ -482,6 +559,20 @@ Ext.define('iafbm.model.CommissionType', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/commissions-types',
+    }
+});
+Ext.define('iafbm.model.CommissionFonction', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'},
+        {name: 'description', type: 'string'},
+        {name: 'actif', type: 'bool', defaultValue: true}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-fonctions',
     }
 });
 Ext.define('iafbm.model.CommissionCreation', {
@@ -522,13 +613,25 @@ Ext.define('iafbm.store.Pays', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.Pays'
 });
+Ext.define('iafbm.store.Section', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.Section'
+});
 Ext.define('iafbm.store.Commission', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.Commission'
 });
+Ext.define('iafbm.store.CommissionEtat', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionEtat'
+});
 Ext.define('iafbm.store.CommissionType', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.CommissionType'
+});
+Ext.define('iafbm.store.CommissionFonction', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionFonction'
 });
 Ext.define('iafbm.store.CommissionCreation', {
     extend: 'Ext.ia.data.Store',
@@ -599,7 +702,6 @@ iafbm.columns.Membre = [{
     flex: 1,
     field: {
         xtype: 'textfield',
-        allowBlank: false
     }
 }, {
     header: "Prénom",
@@ -607,7 +709,22 @@ iafbm.columns.Membre = [{
     flex: 1,
     field: {
         xtype: 'textfield',
-        allowBlank: false
+        editable: false
+    }
+}, {
+    header: "Fonction",
+    dataIndex: 'fonction_id',
+    flex: 1,
+    editor: {
+        xtype: 'ia-combo',
+        lazyRender: true,
+        typeAhead: true,
+        minChars: 1,
+        triggerAction: 'all',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionFonction({autoLoad:true})
     }
 }];
 
@@ -630,25 +747,9 @@ iafbm.columns.Candidat = [{
 }];
 
 iafbm.columns.Commission = [{
-    header: "Nom",
-    dataIndex: 'nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-},{
-    header: "Description",
-    dataIndex: 'description',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-},{
     header: "Type",
     dataIndex: 'commission-type_id',
-    flex: 1,
+    width: 175,
     field: {
         xtype: 'ia-combo',
         lazyRender: true,
@@ -657,14 +758,61 @@ iafbm.columns.Commission = [{
         triggerAction: 'all',
         displayField: 'nom',
         valueField: 'id',
-        //allowBlank: false,
+        allowBlank: false,
         store: new iafbm.store.CommissionType({})
     }
-},{
+}, {
+    header: "N°",
+    dataIndex: 'id',
+    width: 75,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Section",
+    dataIndex: 'section_id',
+    width: 75,
+    field: {
+        xtype: 'ia-combo',
+        lazyRender: true,
+        typeAhead: true,
+        minChars: 1,
+        triggerAction: 'all',
+        displayField: 'code',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Section({})
+    }
+}, {
+    header: "Etat",
+    dataIndex: 'commission-etat_id',
+    width: 100,
+    field: {
+        xtype: 'ia-combo',
+        lazyRender: true,
+        typeAhead: true,
+        minChars: 1,
+        triggerAction: 'all',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionEtat({})
+    }
+}, {
     xtype: 'actioncolumn',
     width: 25,
     items: [{
-        icon: x.context.baseuri+'/a/img/ext/go-next.png',  // Use a URL in the icon config
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
+        text: 'Détails',
         tooltip: 'Détails',
         handler: function(grid, rowIndex, colIndex, item) {
             var id = this.up('gridpanel').store.getAt(rowIndex).get('id');

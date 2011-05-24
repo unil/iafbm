@@ -7,6 +7,8 @@ class CommissionModel extends xModelMysql {
     var $mapping = array(
         'id' => 'id',
         'commission-type_id' => 'commission_type_id',
+        'commission-etat_id' => 'commission_etat_id',
+        'section_id' => 'section_id',
         'nom' => 'nom',
         'description' => 'description',
         'actif' => 'actif',
@@ -17,7 +19,9 @@ class CommissionModel extends xModelMysql {
     var $primary = array('id');
 
     var $joins = array(
-        'commission-type' => 'LEFT JOIN commissions_types ON (commissions.commission_type_id = commissions_types.id)'
+        'commission-type' => 'LEFT JOIN commissions_types ON (commissions.commission_type_id = commissions_types.id)',
+        'commission-etat' => 'LEFT JOIN commissions_etats ON (commissions.commission_etat_id = commissions_etats.id)',
+        'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)'
     );
 
     var $join = 'commission-type';

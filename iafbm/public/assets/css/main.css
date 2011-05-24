@@ -110,11 +110,8 @@ LAYOUT
 #footer {
   /* background: white url(../img/fade-vertical-top.png) repeat-x scroll left top; */
   clear: both;
-  font-family: "Trebuchet MS",Tahoma,arial,sans-serif;
   padding: 10px 0;
   text-align: center;
-  color: gray;
-  font-size: 12px;
   border-top: 1px solid #ccc;
 }
 #footer .footer-links {
@@ -122,6 +119,18 @@ LAYOUT
 }
 #footer .footer-legal {
   float: right;
+}
+
+/**
+CLASSES
+**/
+
+.title {
+    border-bottom: 2px solid black;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 

@@ -1,17 +1,64 @@
 .icon-add {
     background-image: url(../img/ext/add.png) !important;
 }
-
 .icon-delete {
     background-image: url(../img/ext/delete.png) !important;
+}
+.icon-get {
+    background-image: url(../img/ext/page_white_get.png) !important;
+}
+
+.tab-icon-ok,
+.tab-icon-done {
+    background-image: url(../img/ext/bullet_green.png) !important;
+}
+
+.tab-icon-todo {
+    background-image: url(../img/ext/bullet_orange.png) !important;
 }
 
 
 
 /**********************************************************
+ * Fixes Ext.form.field.Display vertical alignment
+**/
+.x-form-display-field {
+    padding-top: 3px !important;
+}
+
+
+/**********************************************************
+ * Custom panel title
  * FIXME: this should be part of a theme, using scss/sass
 **/
+.title-body {
+    border: none;
+    font-size: 11px;
+    margin-top: 13px;
+}
+.x-panel-header-default {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    padding: 0;
+    /**/
+    border-bottom: 2px solid black !important;
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin: 10px 0px 10px 0px;
+}
+.x-panel-header-text-default {
+    color: black;
+}
 
+
+
+/**********************************************************
+ * Custom colors for extjs widgets
+ * FIXME: this should be part of a theme, using scss/sass
+**/
+/*
 .x-grid-header-ct {
     border: 1px solid #EC9B33;
 }
@@ -52,3 +99,4 @@
     border: 0 solid #99BBE8;
     color: black;
 }
+*/

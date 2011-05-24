@@ -1,14 +1,11 @@
 <?php
 
-class CommissionFonctionModel extends xModelMysql {
+class CommissionEtatModel extends xModelMysql {
 
-    var $table = 'commissions_fonctions';
+    var $table = 'commissions_etats';
 
     var $mapping = array(
         'id' => 'id',
-        'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'nom' => 'nom',
         'description' => 'description'
     );
