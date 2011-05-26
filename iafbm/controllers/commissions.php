@@ -6,7 +6,7 @@ class CommissionsController extends iaWebController {
 
     function indexAction() {
         $data = array(
-            'title' => 'Commissions',
+            'title' => 'Gestion des commissions',
             'id' => 'commissions',
             'model' => 'Commission'
         );

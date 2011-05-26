@@ -1,22 +1,8 @@
-<div class="title">N° 12345 - Commission nom</div>
+<div class="title">N° <?php echo $d['id'] ?> - Commission de titularisation pour le Prof. Marc Robinson-Rechavi</div>
+
 <div id="target"></div>
 
-
-<style>
-.ia-status {
-    border-right: 1px dotted gray;
-}
-.ia-status.done {
-    background-color: #df7;
-}
-.ia-status.todo {
-    background-color: #fd5;
-}
-</style>
-
-
 <script type="text/javascript">
-
 
 Ext.onReady(function() {
 
@@ -36,10 +22,9 @@ Ext.onReady(function() {
             combineErrors: true,
             layout: 'hbox',
             items: [
-                {xtype: 'displayfield', name: 'nom', fieldLabel: 'Type', labelWidth: 33, width: 200},
+                {xtype: 'displayfield', value: 'Titularisation', name: 'commission-type_nom', fieldLabel: 'Type', labelWidth: 33, width: 200},
                 {xtype: 'displayfield', name: 'actif', fieldLabel: 'Etat', labelWidth: 27, width: 100},
-                {xtype: 'displayfield', value: 'Prof. I. Stamenovic', fieldLabel: 'Président', labelWidth: 58, width: 280},
-                {xtype: 'displayfield', value: 'Dr. Jekyll', fieldLabel: 'Candidat', labelWidth: 55, width: 280},
+                {xtype: 'displayfield', value: 'SSF', fieldLabel: 'Section', labelWidth: 47, width: 100},
             ]
         }, {
             xtype: 'textarea',
@@ -195,6 +180,7 @@ Ext.onReady(function() {
                     value: '<b>Choix des candidats</b>',
                     height: 25
                 },
+/*
                 new Ext.ia.selectiongrid.Panel({
                     //title: 'Membres',
                     frame: false,
@@ -218,7 +204,26 @@ Ext.onReady(function() {
                         }
                     }
                 })
-                ]
+*/
+                {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Primo Loco',
+                    displayField: 'personne_display_nom',
+                    valueField: 'id',
+                    store: new iafbm.store.Candidat()
+                }, {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Secondo Loco',
+                    displayField: 'personne_display_nom',
+                    valueField: 'id',
+                    store: new iafbm.store.Candidat()
+                }, {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Tertio Loco',
+                    displayField: 'personne_display_nom',
+                    valueField: 'id',
+                    store: new iafbm.store.Candidat()
+                }]
             }]
         },{
             xtype: 'textareafield',
@@ -277,7 +282,7 @@ Ext.onReady(function() {
             }]
         }, {
             xtype: 'fieldcontainer',
-            fieldLabel: 'Validation par la DG-CHUV',
+            fieldLabel: 'Commentaire DG-CHUV',
             items: [{
                 xtype: 'ia-datefield',
                 name: 'date'
@@ -296,8 +301,7 @@ Ext.onReady(function() {
                     fields: ['name', 'value'],
                     data: [
                         {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1},
-                        {name: 'Pas de décision', value: 0}
+                        {name: 'Non', value: 1}
                     ]
                 })
             }, {
@@ -376,31 +380,13 @@ Ext.onReady(function() {
             }]
         }, {
             baseCls: 'title',
-            html: 'Documents'
+            html: 'Informations complémentaires'
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Réception du rapport',
             items: [{
                 xtype: 'ia-datefield',
                 name: 'date',
-            }, {
-                xtype: 'combo',
-                name: 'etat',
-                value: 'mrs',
-                mode: 'local',
-                triggerAction: 'all',
-                forceSelection: true,
-                editable: false,
-                displayField: 'name',
-                valueField: 'value',
-                queryMode: 'local',
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['name', 'value'],
-                    data: [
-                        {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1}
-                    ]
-                })
             }]
         }, {
             xtype: 'fieldcontainer',
@@ -410,8 +396,8 @@ Ext.onReady(function() {
                 name: 'date',
             }, {
                 xtype: 'button',
-                text: 'Télécharger le formulaire',
-                iconCls: 'icon-get',
+                text: 'Formulaire',
+                iconCls: 'icon-details',
                 handler: function() {
                     Ext.Msg.alert('Non disponible', "Cette fonctionnalité n'est pas encore disponible");
                 }

@@ -7,6 +7,10 @@
 .icon-get {
     background-image: url(../img/ext/page_white_get.png) !important;
 }
+.icon-details {
+    background-image: url(../img/ext/page_white_magnify.png) !important;
+}
+
 
 .tab-icon-ok,
 .tab-icon-done {

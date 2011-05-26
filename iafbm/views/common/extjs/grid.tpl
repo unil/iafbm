@@ -1,3 +1,5 @@
+<div class="title"><?php echo $d['title'] ?></div>
+
 <div id="editor-grid"></div>
 
 <script type="text/javascript">
@@ -9,8 +11,7 @@ Ext.onReady(function(){
     new Ext.ia.grid.EditPanel({
         id: '<?php echo $d['id'] ?>',
         renderTo: 'editor-grid',
-        frame: true,
-        title: 'Test',
+        frame: false,
         width: 880,
         height: 330,
         store: new iafbm.store.<?php echo $d['model'] ?>(),

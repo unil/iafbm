@@ -90,6 +90,7 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     limitParam: 'xlimit',
     startParam: 'xoffset',
     pageParam: undefined,
+    timeout: 10000,
     reader: {
         type: 'json',
         root: 'items',
@@ -103,6 +104,16 @@ Ext.define('Ext.ia.data.proxy.Rest', {
         create: 'put',
         update: 'post',
         destroy: 'delete'
+    },
+    listeners: {
+        exception: function(proxy, response, operation) {
+            Ext.Msg.show({
+                title: 'Erreur',
+                msg: "Une erreur est survenue pendant la lecture ou l'écriture des données",
+                buttons: Ext.Msg.OK,
+                icon: Ext.window.MessageBox.QUESTION
+            });
+        }
     }
 });
 
@@ -112,6 +123,7 @@ Ext.define('Ext.ia.form.field.Date', {
     format: 'd.m.Y',
     altFormats: 'd.m.Y|d-m-Y|d m Y',
     startDay: 1,
+    // TODO: see Ext.field.Combobox.rawToValue() !!!!!!!
     valueToRaw: function(value) {
         return this.formatDate(this.parseDate(value));
     },
@@ -467,6 +479,7 @@ Ext.define('iafbm.model.Membre', {
         {name: 'commission_id', type: 'int'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
+        {name: 'titre', type: 'string', defaultValue: 'Prof.'},
         {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
@@ -483,6 +496,12 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'commission_id', type: 'int'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
+        {name: 'personne_display_nom', mapping: 0, convert: function(value, record) {
+            return [
+                record.get('personne_prenom'),
+                record.get('personne_nom'),
+                '[H]'].join(' ');
+        }},
         {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
@@ -640,6 +659,13 @@ Ext.define('iafbm.store.CommissionCreation', {
 
 // columns
 Ext.ns('iafbm.columns');
+var pays_store = Ext.create('Ext.data.Store', {
+    fields: ['nom', 'id'],
+    data: [
+        {nom: 'Oui', id: 2},
+        {nom: 'Non', id: 1},
+    ]
+});
 iafbm.columns.Personne = [{
     header: "Nom",
     dataIndex: 'nom',
@@ -697,11 +723,18 @@ iafbm.columns.Personne = [{
 }];
 
 iafbm.columns.Membre = [{
+    header: "Titre",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
     header: "Nom",
     dataIndex: 'personne_nom',
     flex: 1,
     field: {
-        xtype: 'textfield',
+        xtype: 'textfield'
     }
 }, {
     header: "Prénom",
@@ -729,6 +762,13 @@ iafbm.columns.Membre = [{
 }];
 
 iafbm.columns.Candidat = [{
+    header: "Titre",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
     header: "Nom",
     dataIndex: 'personne_nom',
     flex: 1,
@@ -744,6 +784,44 @@ iafbm.columns.Candidat = [{
         xtype: 'textfield',
         allowBlank: false
     }
+}, {
+    header: "Date de naissance",
+    dataIndex: 'date_naissance',
+    flex: 1,
+    field: {
+        xtype: 'ia-datefield'
+    }
+}, {
+    header: "Sexe",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Formation supérieure",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Position actuelle",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Détails",
+    xtype: 'actioncolumn',
+    width: 25,
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(grid, rowIndex, colIndex, item) {}
+    }]
 }];
 
 iafbm.columns.Commission = [{
@@ -793,6 +871,14 @@ iafbm.columns.Commission = [{
         store: new iafbm.store.Section({})
     }
 }, {
+    header: "Président",
+    dataIndex: '',
+    width: 150,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
     header: "Etat",
     dataIndex: 'commission-etat_id',
     width: 100,
@@ -824,6 +910,7 @@ iafbm.columns.Commission = [{
 iafbm.columns.CommissionType = [{
     header: "Nom",
     dataIndex: 'nom',
+    flex: 1,
     field: {
         xtype: 'textfield',
         allowBlank: false
@@ -844,3 +931,17 @@ iafbm.columns.CommissionType = [{
 /******************************************************************************
  * Application
  */
+
+// TODO
+
+
+
+/******************************************************************************
+ * Temporary local stores
+ * FIXME: waiting for "remote combo within grid bug" workaround
+ */
+Ext.ns('iafbm.localdata');
+iafbm.localdata.CommissionType;
+iafbm.localdata.CommissionEtat;
+iafbm.localdata.Pays=[];
+//new iafbm.store.Pays().load(function() { this.data.each(function(r) { iafbm.localdata.Pays.push(r.data) }) });
