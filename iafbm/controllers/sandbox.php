@@ -96,4 +96,40 @@ console.log('----8<------------------');
 </script>
 EOL;
     }
+
+    function remoteComboGridAction() {
+return <<<EOL
+<div id="target"></div>
+<script>
+Ext.onReady(function() {
+
+p = new Ext.ia.grid.EditPanel({
+    renderTo: 'target',
+    frame: false,
+    width: 880,
+    height: 330,
+    store: new iafbm.store.Personne(),
+    columns: [{
+        header: "Pays",
+        dataIndex: 'pays_id',
+        flex: 1,
+        field: {
+            xtype: 'ia-combo',
+            lazyRender: true,
+            typeAhead: true,
+            minChars: 1,
+            triggerAction: 'all',
+            displayField: 'id',
+            valueField: 'nom',
+            //allowBlank: false,
+            store: new iafbm.store.Pays({})
+        }
+    }],
+    pageSize: 10
+});
+
+});
+</script>
+EOL;
+    }
 }
