@@ -44,20 +44,19 @@ Ext.onReady(function() {
                     fieldLabel: 'Adresse',
                     emptyText: 'Adresse',
                     name: 'adresse'
-                }, /*{
-                    xtype: 'combobox',
-                    fieldLabel: 'State',
-                    name: 'state',
-                    store: Ext.create('Ext.data.ArrayStore', {
-                        fields: ['abbr', 'state'],
-                        data : Ext.example.states // from states.js
-                    }),
-                    valueField: 'abbr',
-                    displayField: 'state',
+                }, {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Pays',
+                    name: 'pays_id',
+                    lazyRender: true,
                     typeAhead: true,
-                    queryMode: 'local',
-                    emptyText: 'Select a state...'
-                }, */{
+                    minChars: 1,
+                    triggerAction: 'all',
+                    displayField: 'nom',
+                    valueField: 'id',
+                    allowBlank: false,
+                    store: new iafbm.store.Pays({})
+                }, {
                     fieldLabel: 'Télépone',
                     emptyText: 'Télépone',
                     name: 'tel'
