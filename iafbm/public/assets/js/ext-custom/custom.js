@@ -820,7 +820,12 @@ iafbm.columns.Candidat = [{
         icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
         text: 'Détails',
         tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {}
+        handler: function(grid, rowIndex, colIndex, item) {
+            var personne_id = grid.store.getAt(0).get('personne_id');
+            var l = window.location;
+            var url = [l.protocol, '//', l.host, '/personnes/', personne_id].join('');
+            window.location = url;
+        }
     }]
 }];
 
