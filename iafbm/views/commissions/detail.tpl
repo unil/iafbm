@@ -79,8 +79,8 @@ Ext.onReady(function() {
                     name: 'decision'
                 }, {
                     xtype:'ia-datefield',
-                    fieldLabel: 'Ordre du jour CDir',
-                    name: 'ordrejour'
+                    fieldLabel: 'Préavis CPA',
+                    name: 'preavis'
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Autorisation du CDir',

@@ -8,7 +8,7 @@ CREATE TABLE commissions_creations (
     actif BOOLEAN NOT NULL DEFAULT true,
     commission_id INT NOT NULL,
     date_decision DATE DEFAULT NULL,
-    date_ordrejour DATE DEFAULT NULL,
+    date_preavis DATE DEFAULT NULL,
     date_autorisation DATE DEFAULT NULL,
     date_annonce DATE DEFAULT NULL,
     date_composition DATE DEFAULT NULL,

@@ -8,7 +8,7 @@ class CommissionCreationModel extends xModelMysql {
         'id' => 'id',
         'commission_id' => 'commission_id',
         'decision' => 'date_decision',
-        'ordrejour' => 'date_ordrejour',
+        'preavis' => 'date_preavis',
         'autorisation' => 'date_autorisation',
         'annonce' => 'date_annonce',
         'composition' => 'date_composition',

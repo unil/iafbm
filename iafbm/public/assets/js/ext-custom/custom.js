@@ -601,7 +601,7 @@ Ext.define('iafbm.model.CommissionCreation', {
         {name: 'commission_id', type: 'int'},
         {name: 'actif', type: 'bool', defaultValue: true},
         {name: 'decision', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'ordrejour', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'preavis', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'authorisation', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'annonce', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'composition', type: 'date', dateFormat: 'Y-m-d'},
