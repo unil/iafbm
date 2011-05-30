@@ -28,8 +28,8 @@ Ext.onReady(function() {
             ]
         }, {
             xtype: 'textarea',
-            name: 'description',
-            fieldLabel: 'Description',
+            name: 'commentaire',
+            fieldLabel: 'Commentaire',
             allowBlank: false
         }, new Ext.ia.selectiongrid.Panel({
             title: 'Composition',

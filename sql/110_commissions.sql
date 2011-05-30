@@ -7,7 +7,7 @@ CREATE TABLE commissions (
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     nom VARCHAR(255) NOT NULL,
-    description TEXT,
+    commentaire TEXT,
     commission_type_id INT NOT NULL,
     commission_etat_id INT NOT NULL,
     section_id INT NOT NULL,

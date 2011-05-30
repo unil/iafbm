@@ -542,7 +542,7 @@ Ext.define('iafbm.model.Commission', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
-        {name: 'description', type: 'string'},
+        {name: 'commentaire', type: 'string'},
         {name: 'commission-type_id', type: 'int'},
         {name: 'commission-etat_id', type: 'int'},
         {name: 'section_id', type: 'int'},
