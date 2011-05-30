@@ -173,7 +173,9 @@ Ext.define('Ext.ia.form.field.ComboBox', {
     alias: 'widget.ia-combo',
     // Workaround for displayField issue (not yet working)
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+console.log('ia-combo: renderer');
         var store = Ext.data.StoreManager.lookup('editor-grid-store');
+console.log(store); a=store;
         return store.getById(value) ? store.getById(value).get('nom') : '...';
     }
 });
