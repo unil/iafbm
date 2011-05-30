@@ -15,5 +15,4 @@ INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('2', '1', CURR
 INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('3', '1', CURRENT_TIMESTAMP, 'Commission de promotion');
 INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('4', '1', CURRENT_TIMESTAMP, 'Commission d''appel');
 INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('5', '1', CURRENT_TIMESTAMP, 'Commission de titularisation');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('6', '1', CURRENT_TIMESTAMP, 'Commission d''appel');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('7', '1', CURRENT_TIMESTAMP, 'Commission d''évaluation');
+INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('6', '1', CURRENT_TIMESTAMP, 'Commission de stabilisation');
