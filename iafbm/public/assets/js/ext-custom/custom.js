@@ -83,7 +83,11 @@ Ext.define('Ext.ia.data.Store', {
     alias: 'store.ia-store',
     pageSize: null,
     autoLoad: false,
-    autoSync: false
+    autoSync: false,
+    loaded: false,
+    listeners: {
+        load: function() { this.loaded = true }
+    }
 });
 
 /**
@@ -187,6 +191,7 @@ Ext.define('Ext.ia.grid.ComboColumn', {
         var editor = this.editor || this.field
             store = editor.store;
         store.on('load', function() { me.up('gridpanel').getView().refresh() });
+        if (!store.loaded) store.load();
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var column = this.columns[colIndex],
@@ -812,7 +817,7 @@ iafbm.columns.Membre = [{
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.CommissionFonction({autoLoad:true})
+        store: new iafbm.store.CommissionFonction()
     }
 }];
 
@@ -898,7 +903,7 @@ iafbm.columns.Commission = [{
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.CommissionType({autoLoad:true})
+        store: new iafbm.store.CommissionType()
     }
 }, {
     header: "N°",
@@ -930,7 +935,7 @@ iafbm.columns.Commission = [{
         displayField: 'code',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.Section({autoLoad:true})
+        store: new iafbm.store.Section()
     }
 }, {
     header: "Président",
@@ -954,7 +959,7 @@ iafbm.columns.Commission = [{
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.CommissionEtat({autoLoad:true})
+        store: new iafbm.store.CommissionEtat()
     }
 }, {
     xtype: 'actioncolumn',
@@ -996,15 +1001,3 @@ iafbm.columns.CommissionType = [{
  */
 
 // TODO
-
-
-
-/******************************************************************************
- * Temporary local stores
- * FIXME: waiting for "remote combo within grid bug" workaround
- */
-Ext.ns('iafbm.localdata');
-iafbm.localdata.CommissionType;
-iafbm.localdata.CommissionEtat;
-iafbm.localdata.Pays=[];
-//new iafbm.store.Pays().load(function() { this.data.each(function(r) { iafbm.localdata.Pays.push(r.data) }) });
