@@ -10,5 +10,7 @@ class SectionModel extends xModelMysql {
         'nom' => 'nom'
     );
 
+    var $order_by = array('nom');
+
     var $primary = array('id');
 }

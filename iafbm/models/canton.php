@@ -11,4 +11,6 @@ class CantonModel extends xModelMysql {
     );
 
     var $primary = array('id');
+
+    var $order_by = array('nom');
 }

@@ -11,5 +11,7 @@ class PaysModel extends xModelMysql {
         'nom_en' => 'nom_en'
     );
 
+    var $order_by = array('nom');
+
     var $primary = array('id');
 }
