@@ -75,6 +75,9 @@ Ext.Date.defaultFormat = 'd m Y';
  * Ext classes customization
 **/
 
+/**
+ * Extends Ext.data.Store with project default config options
+ */
 Ext.define('Ext.ia.data.Store', {
     extend:'Ext.data.Store',
     alias: 'store.ia-store',
@@ -83,6 +86,9 @@ Ext.define('Ext.ia.data.Store', {
     autoSync: false
 });
 
+/**
+ * Extends Ext.data.proxy.Rest with project default config options
+ */
 Ext.define('Ext.ia.data.proxy.Rest', {
     extend:'Ext.data.proxy.Rest',
     alias: 'proxy.ia-rest',
@@ -168,16 +174,60 @@ Ext.define('Ext.ia.form.field.Date', {
 
 });
 
+Ext.define('Ext.ia.grid.ComboColumn', {
+    extend:'Ext.grid.Column',
+    alias: 'widget.ia-combocolumn',
+    config: {
+        gridId: null
+    },
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+        // Refreshes grid on store load in order to apply the renderer function
+        var editor = this.editor || this.field
+            store = editor.store;
+        store.on('load', function() { me.up('gridpanel').getView().refresh() });
+    },
+    renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+        var column = this.columns[colIndex],
+            editor = column.editor || column.field,
+            comboStore = editor.store,
+            displayField = editor.displayField;
+        return comboStore.getById(value) ? comboStore.getById(value).get(displayField) : ['(', value, ')'].join('');
+    }
+});
+
 Ext.define('Ext.ia.form.field.ComboBox', {
     extend:'Ext.form.field.ComboBox',
     alias: 'widget.ia-combo',
-    // Workaround for displayField issue (not yet working)
-    renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-console.log('ia-combo: renderer');
-        var store = Ext.data.StoreManager.lookup('editor-grid-store');
-console.log(store); a=store;
-        return store.getById(value) ? store.getById(value).get('nom') : '...';
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+// The commented code is not necessary if grid's combo columns
+// are defined with xtype: 'ia-combocolumn'
+/*
+        // Attaches renderer and refreshes grid on store loaded
+        me.store.on('load', function() {
+            // Aborts if ComboBox is not in a grid
+            if (!me.up() || !me.up().columns) return;
+            // Setups renderer on column object
+            var column = me.up().columns.map[me.getId()];
+            column.renderer = me._renderer;
+            // Refreshes the grid once the store is loaded
+            var grid = column.up('gridpanel');
+            grid.getView().refresh();
+        });
+*/
+    },
+/*
+    // Combo specific renderer to be applied to the container Ext.grid.column.Column
+    _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+        var column = this.getColumns()[colIndex],
+            comboStore = column.field.store,
+            displayField = column.field.displayField;
+        return comboStore.getById(value) ? comboStore.getById(value).get(displayField) : ['(', value, ')'].join('');
     }
+*/
 });
 
 Ext.define('Ext.ia.selectiongrid.Panel', {
@@ -225,7 +275,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             }
         }];
         var me = this; me.callParent();
-        //Ext.ia.selectiongrid.Panel.superclass.initComponent.call(this, arguments);
     },
     getCombo: function() {
         //return new Ext.ia.form.field.ComboBox({
@@ -498,7 +547,7 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'commission_id', type: 'int'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
-        {name: 'personne_display_nom', mapping: 0, convert: function(value, record) {
+        {name: 'personne_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('personne_prenom'),
                 record.get('personne_nom'),
@@ -661,13 +710,6 @@ Ext.define('iafbm.store.CommissionCreation', {
 
 // columns
 Ext.ns('iafbm.columns');
-var pays_store = Ext.create('Ext.data.Store', {
-    fields: ['nom', 'id'],
-    data: [
-        {nom: 'Oui', id: 2},
-        {nom: 'Non', id: 1},
-    ]
-});
 iafbm.columns.Personne = [{
     header: "Nom",
     dataIndex: 'nom',
@@ -704,6 +746,7 @@ iafbm.columns.Personne = [{
     header: "Pays",
     dataIndex: 'pays_id',
     flex: 1,
+    xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
         lazyRender: true,
@@ -713,7 +756,7 @@ iafbm.columns.Personne = [{
         displayField: 'nom',
         valueField: 'id',
         //allowBlank: false,
-        store: new iafbm.store.Pays({})
+        store: new iafbm.store.Pays()
     }
 }, {
     header: "Date de naissance",
@@ -747,9 +790,18 @@ iafbm.columns.Membre = [{
         editable: false
     }
 }, {
+    header: "Service",
+    dataIndex: 'undefined',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        editable: false
+    }
+}, {
     header: "Fonction",
     dataIndex: 'fonction_id',
     flex: 1,
+    xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
         lazyRender: true,
@@ -835,6 +887,7 @@ iafbm.columns.Commission = [{
     header: "Type",
     dataIndex: 'commission-type_id',
     width: 175,
+    xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
         lazyRender: true,
@@ -844,7 +897,7 @@ iafbm.columns.Commission = [{
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.CommissionType({})
+        store: new iafbm.store.CommissionType({autoLoad:true})
     }
 }, {
     header: "N°",
@@ -866,6 +919,7 @@ iafbm.columns.Commission = [{
     header: "Section",
     dataIndex: 'section_id',
     width: 75,
+    xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
         lazyRender: true,
@@ -875,7 +929,7 @@ iafbm.columns.Commission = [{
         displayField: 'code',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.Section({})
+        store: new iafbm.store.Section({autoLoad:true})
     }
 }, {
     header: "Président",
@@ -883,12 +937,13 @@ iafbm.columns.Commission = [{
     width: 150,
     field: {
         xtype: 'textfield',
-        allowBlank: false
+        //allowBlank: false
     }
 }, {
     header: "Etat",
     dataIndex: 'commission-etat_id',
     width: 100,
+    xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
         lazyRender: true,
@@ -898,7 +953,7 @@ iafbm.columns.Commission = [{
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.CommissionEtat({})
+        store: new iafbm.store.CommissionEtat({autoLoad:true})
     }
 }, {
     xtype: 'actioncolumn',

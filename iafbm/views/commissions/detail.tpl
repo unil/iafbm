@@ -10,6 +10,9 @@ Ext.onReady(function() {
 
     var store = null; // Until all forms have their store
 
+    // Shared Candidat store
+    var store_candidat = new iafbm.store.Candidat();
+
     var form_apercu = Ext.create('Ext.ia.form.Panel', {
         store: new iafbm.store.Commission(),
         loadParams: {id: <?php echo $d['id'] ?>},
@@ -122,7 +125,7 @@ Ext.onReady(function() {
                 store: new iafbm.store.Personne(),
             },
             grid: {
-                store: new iafbm.store.Candidat(),
+                store: store_candidat,
                 columns: iafbm.columns.Candidat
             },
             makeData: function(record) {
@@ -179,50 +182,24 @@ Ext.onReady(function() {
                     xtype: 'displayfield',
                     value: '<b>Choix des candidats</b>',
                     height: 25
-                },
-/*
-                new Ext.ia.selectiongrid.Panel({
-                    //title: 'Membres',
-                    frame: false,
-                    width: 427,
-                    height: 140,
-                    combo: {
-                        store: new iafbm.store.Candidat(),
-                    },
-                    grid: {
-                        // FIXME: wrong store (just for demo)
-                        //store: Ext.create('Ext.ia.data.Store', {model: 'Membre'}),
-                        store: new iafbm.store.Candidat(),
-                        columns: iafbm.columns.Candidat
-                    },
-                    makeData: function(record) {
-                        return {
-                            personne_id: record.get('id'),
-                            fonction_id: 1,
-                            commission_id: <?php echo $d['id'] ?>,
-                            actif: 1
-                        }
-                    }
-                })
-*/
-                {
+                }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Primo Loco',
-                    displayField: 'personne_display_nom',
+                    displayField: 'personne_display',
                     valueField: 'id',
-                    store: new iafbm.store.Candidat()
+                    store: store_candidat
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secondo Loco',
-                    displayField: 'personne_display_nom',
+                    displayField: 'personne_display',
                     valueField: 'id',
-                    store: new iafbm.store.Candidat()
+                    store: store_candidat
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio Loco',
-                    displayField: 'personne_display_nom',
+                    displayField: 'personne_display',
                     valueField: 'id',
-                    store: new iafbm.store.Candidat()
+                    store: store_candidat
                 }]
             }]
         },{

@@ -98,13 +98,15 @@ EOL;
     }
 
     function remoteComboGridAction() {
+$id = $this->params['id'];
 return <<<EOL
-<div id="target"></div>
+<div id="target-grid"></div>
+<div id="target-combo"></div>
 <script>
 Ext.onReady(function() {
 
 p = new Ext.ia.grid.EditPanel({
-    renderTo: 'target',
+    renderTo: 'target-grid',
     frame: false,
     width: 880,
     height: 330,
@@ -113,20 +115,49 @@ p = new Ext.ia.grid.EditPanel({
         header: "Pays",
         dataIndex: 'pays_id',
         flex: 1,
-        field: {
+        xtype: 'ia-combocolumn',
+        editor: {
             xtype: 'ia-combo',
-            lazyRender: true,
-            typeAhead: true,
-            minChars: 1,
-            triggerAction: 'all',
-            displayField: 'id',
-            valueField: 'nom',
+            displayField: 'nom',
+            valueField: 'id',
             //allowBlank: false,
-            store: new iafbm.store.Pays({})
+            store: new iafbm.store.Pays({autoLoad:true}),
         }
     }],
     pageSize: 10
 });
+
+form_apercu = Ext.create('Ext.ia.form.Panel', {
+    renderTo: 'target-combo',
+    id: 'test-grid',
+    loadParams: {id: {$id}},
+    defaults: {
+        flex: 1,
+        anchor: '100%'
+    },
+    items: [new Ext.ia.selectiongrid.Panel({
+        title: 'Composition',
+        width: 857,
+        height: 200,
+        plugins: [new Ext.grid.plugin.CellEditing({clicksToEdit:1})],
+        combo: {
+            store: new iafbm.store.Personne(),
+        },
+        grid: {
+            store: new iafbm.store.Membre(),
+            columns: iafbm.columns.Membre
+        },
+        makeData: function(record) {
+            return {
+                personne_id: record.get('id'),
+                fonction_id: 1,
+                commission_id: {$id},
+                actif: 1
+            }
+        }
+    })]
+});
+
 
 });
 </script>
