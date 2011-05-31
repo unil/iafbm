@@ -203,6 +203,7 @@ Ext.define('Ext.ia.form.field.ComboBox', {
     initComponent: function() {
         var me = this;
         me.callParent();
+// FIXME: remove this after enough widget.ia-combocolumn testing
 // The commented code is not necessary if grid's combo columns
 // are defined with xtype: 'ia-combocolumn'
 /*
