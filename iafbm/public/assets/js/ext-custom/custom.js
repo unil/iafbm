@@ -127,55 +127,18 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     }
 });
 
+Ext.define('Ext.ia.grid.column.Date', {
+    extend:'Ext.grid.column.Date',
+    alias: 'widget.ia-datecolumn',
+    format: 'd.m.Y'
+});
+
 Ext.define('Ext.ia.form.field.Date', {
     extend:'Ext.form.field.Date',
     alias: 'widget.ia-datefield',
     format: 'd.m.Y',
     altFormats: 'd.m.Y|d-m-Y|d m Y',
-    startDay: 1,
-    // TODO: see Ext.field.Combobox.rawToValue() !!!!!!!
-    valueToRaw: function(value) {
-        return this.formatDate(this.parseDate(value));
-    },
-    parseDate : function(value) {
-        if(!value || Ext.isDate(value)){
-//console.log('parseDate(1)', {
-//    value: value,
-//    return: value
-//});
-            return value;
-        }
-
-        var me = this,
-            val = me.safeParse(value, me.format),
-            altFormats = me.altFormats,
-            altFormatsArray = me.altFormatsArray,
-            i = 0,
-            len;
-
-        if (!val && altFormats) {
-            altFormatsArray = altFormatsArray || altFormats.split('|');
-            len = altFormatsArray.length;
-            for (; i < len && !val; ++i) {
-                val = me.safeParse(value, altFormatsArray[i]);
-            }
-        }
-//console.log('parseDate(2)', {
-//    value: value,
-//    return: val
-//});
-        return val;
-    },
-    formatDate : function(date){
-        var val = Ext.isDate(date) ? Ext.Date.dateFormat(date, this.format) : date;
-//console.log('formatDate', {
-//    value: date,
-//    return: val,
-//    format: this.format
-//});
-        return val;
-    }
-
+    startDay: 1
 });
 
 Ext.define('Ext.ia.grid.ComboColumn', {
@@ -338,9 +301,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
         height: 300,
         frame: true,
         store: null,
-        columns: null,
-        pageSize: 10
+        columns: null
     },
+    pageSize: 10,
     plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
     dockedItems: [{
         xtype: 'toolbar',
@@ -420,9 +383,7 @@ Ext.define('Ext.ia.form.Panel', {
                 var form = this.up('form').getForm();
                 var store = this.up('form').store;
                 if (form.isValid()) {
-                    var values = Ext.apply(form.getValues());
-                    store.getAt(0).set(values);
-//console.log(values.date, store.getAt(0).get('date'));
+                    form.updateRecord(store.getAt(0));
                     store.getAt(0).save();
                 }
             }
@@ -768,6 +729,7 @@ iafbm.columns.Personne = [{
     header: "Date de naissance",
     dataIndex: 'date_naissance',
     flex: 1,
+    xtype: 'ia-datecolumn',
     field: {
         xtype: 'ia-datefield'
     }
@@ -848,6 +810,7 @@ iafbm.columns.Candidat = [{
     header: "Date de naissance",
     dataIndex: 'date_naissance',
     flex: 1,
+    xtype: 'ia-datecolumn',
     field: {
         xtype: 'ia-datefield'
     }

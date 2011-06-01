@@ -60,37 +60,43 @@ EOL;
 
     function dateformatAction() {
 return <<<EOL
-<div id="target"></div>
+Ext.ia.form.Panel
+<div id="target-form"></div>
+
+Ext.ia.grid.Panel
+<div id="target-grid"></div>
+
 <script>
 Ext.onReady(function() {
 
-//form = Ext.create('Ext.ia.form.Panel', {
-form = Ext.create('Ext.form.Panel', {
-    renderTo: 'target',
-    store: Ext.create('Ext.data.ArrayStore', {
-        fields: [
-            {name: 'date', type: 'date', dateFormat: 'Y-m-d'},
-        ],
-        data: [['1979-11-10']]
-    }),
+form = Ext.create('Ext.ia.form.Panel', {
+    renderTo: 'target-form',
+    store: new iafbm.store.Personne(),
+    loadParams: {id:1},
     items: [{
         xtype:'ia-datefield',
         fieldLabel: 'Date',
-        name: 'date'
+        name: 'date_naissance'
+    }]
+});
+c = new Ext.ia.grid.EditPanel({
+    renderTo: 'target-grid',
+    frame: true,
+    title: 'Test',
+    width: 850,
+    height: 200,
+    store: new iafbm.store.Personne(),
+    columns: [{
+        header: "Date de naissance",
+        dataIndex: 'date_naissance',
+        flex: 1,
+        xtype: 'ia-datecolumn',
+        editor: {
+            xtype: 'ia-datefield'
+        }
     }]
 });
 
-console.log('form.loadRecord()');
-form.loadRecord(form.store.getAt(0));
-console.log('form.getValues()');
-values = form.getValues();
-console.log('values:', values);
-//console.log('record.set()');
-//form.store.getAt(0).set(values);
-console.log("record.set({date: 'what format?')");
-form.store.getAt(0).set({date: '2000-10-11'});
-console.log("record.get('date')", form.store.getAt(0).get('date'));
-console.log('----8<------------------');
 
 });
 </script>
@@ -98,7 +104,7 @@ EOL;
     }
 
     function remoteComboGridAction() {
-$id = $this->params['id'];
+$id = @$this->params['id'] ? $this->params['id'] : 1;
 return <<<EOL
 <div id="target-grid"></div>
 <div id="target-combo"></div>
