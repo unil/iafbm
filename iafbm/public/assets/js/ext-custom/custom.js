@@ -383,8 +383,12 @@ Ext.define('Ext.ia.form.Panel', {
                 var form = this.up('form').getForm();
                 var store = this.up('form').store;
                 if (form.isValid()) {
+                    // Saves record updated values and
+                    // resets form values with actual database values
                     form.updateRecord(store.getAt(0));
-                    store.getAt(0).save();
+                    store.getAt(0).save({callback: function(savedRecord) {
+                        form.loadRecord(savedRecord);
+                    }});
                 }
             }
         }];
@@ -620,7 +624,7 @@ Ext.define('iafbm.model.CommissionCreation', {
         {name: 'actif', type: 'bool', defaultValue: true},
         {name: 'decision', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'preavis', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'authorisation', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'autorisation', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'annonce', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'composition', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'composition_validation', type: 'date', dateFormat: 'Y-m-d'},
