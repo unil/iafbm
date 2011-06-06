@@ -673,7 +673,7 @@ iafbm.columns.Personne = [{
         xtype: 'textfield',
         allowBlank: false
     }
-},{
+}, {
     header: "Prénom",
     dataIndex: 'prenom',
     flex: 1,
@@ -681,7 +681,7 @@ iafbm.columns.Personne = [{
         xtype: 'textfield',
         allowBlank: false
     }
-},{
+}, {
     header: "Adresse",
     dataIndex: 'adresse',
     flex: 1,
@@ -689,7 +689,7 @@ iafbm.columns.Personne = [{
         xtype: 'textfield',
         allowBlank: false
     }
-},{
+}, {
     header: "Téléphone",
     dataIndex: 'tel',
     flex: 1,
@@ -716,6 +716,20 @@ iafbm.columns.Personne = [{
     field: {
         xtype: 'ia-datefield'
     }
+}, {
+    xtype: 'actioncolumn',
+    width: 25,
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(grid, rowIndex, colIndex, item) {
+            var id = grid.store.getAt(rowIndex).get('id');
+            var l = window.location;
+            var url = [l.protocol, '//', l.host, '/personnes/', id].join('');
+            window.location = url;
+        }
+    }]
 }];
 
 iafbm.columns.Membre = [{
@@ -815,7 +829,6 @@ iafbm.columns.Candidat = [{
         xtype: 'textfield'
     }
 }, {
-    header: "Détails",
     xtype: 'actioncolumn',
     width: 25,
     items: [{
@@ -823,10 +836,7 @@ iafbm.columns.Candidat = [{
         text: 'Détails',
         tooltip: 'Détails',
         handler: function(grid, rowIndex, colIndex, item) {
-            var personne_id = grid.store.getAt(0).get('personne_id');
-            var l = window.location;
-            var url = [l.protocol, '//', l.host, '/personnes/', personne_id].join('');
-            window.location = url;
+            // TODO
         }
     }]
 }];
