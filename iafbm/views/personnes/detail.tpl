@@ -7,24 +7,16 @@ Ext.onReady(function() {
 
     Ext.QuickTips.init();
 
-    var formPanel = Ext.create('Ext.form.Panel', {
+    var formPanel = Ext.create('Ext.ia.form.Panel', {
+        store: new iafbm.store.Personne(),
+        loadParams: {id: <?php echo $d['id'] ?>},
         renderTo: 'target',
-        frame: true,
         title:'Personne',
-        width: 340,
-        bodyPadding: 5,
-        waitMsgTarget: true,
+        frame: true,
         fieldDefaults: {
             labelAlign: 'right',
-            labelWidth: 85,
             msgTarget: 'side'
         },
-        url: '<?php echo u("api/personnes/{$d['id']}") ?>',
-        method: 'get',
-        reader: Ext.create('Ext.data.reader.Json', {
-            model: 'Personne',
-            root: 'items'
-        }),
         items: [{
             xtype: 'fieldset',
             title: 'Contact Information',
@@ -54,7 +46,6 @@ Ext.onReady(function() {
                     triggerAction: 'all',
                     displayField: 'nom',
                     valueField: 'id',
-                    allowBlank: false,
                     store: new iafbm.store.Pays({})
                 }, {
                     fieldLabel: 'Télépone',
@@ -64,35 +55,11 @@ Ext.onReady(function() {
                     xtype: 'ia-datefield',
                     fieldLabel: 'Date de naissance',
                     name: 'date_naissance',
-                    allowBlank: false
                 }, {
                     xtype: 'checkboxfield',
                     fieldLabel: 'Actif',
                     name: 'actif'
             }]
-        }],
-        listeners: {
-            afterrender: function() {
-                var id = <?php echo $d['id'] ?>;
-                iafbm.model.Personne.load(id, {
-                    success: function(record, operation) {
-                        formPanel.loadRecord(record);
-                    }
-                });
-            }
-        },
-        buttons: [{
-            text: 'Sauvegarder',
-            //disabled: true,
-            formBind: true,
-            handler: function() {
-                var form = this.up('form').getForm();
-                if (form.isValid()) {
-                    var values = Ext.apply(form.getRecord().data, form.getValues());
-                    var model = new iafbm.model.Personne(values);
-                    model.save();
-                }
-            }
         }]
     });
 

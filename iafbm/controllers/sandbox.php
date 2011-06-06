@@ -97,6 +97,40 @@ c = new Ext.ia.grid.EditPanel({
     }]
 });
 
+});
+</script>
+EOL;
+    }
+
+    function remoteComboFormAction() {
+return <<<EOL
+Ext.ia.form.Panel
+<div id="target-form"></div>
+
+<script>
+Ext.onReady(function() {
+
+form = Ext.create('Ext.ia.form.Panel', {
+    renderTo: 'target-form',
+    store: new iafbm.store.Personne(),
+    loadParams: {id:1},
+    minChars: 1,
+    typeAhead: true,
+    triggerAction: 'all',
+    lazyRender: true,
+    items: [{
+        xtype: 'textfield',
+        fieldLabel: 'Nom',
+        name: 'nom'
+    },{
+        xtype: 'ia-combo',
+        fieldLabel: 'Pays',
+        name: 'pays_id',
+        displayField: 'nom',
+        valueField: 'id',
+        store: new iafbm.store.Pays()
+    }]
+});
 
 });
 </script>
@@ -111,7 +145,7 @@ return <<<EOL
 <script>
 Ext.onReady(function() {
 
-p = new Ext.ia.grid.EditPanel({
+grid = new Ext.ia.grid.EditPanel({
     renderTo: 'target-grid',
     frame: false,
     width: 880,
@@ -127,13 +161,13 @@ p = new Ext.ia.grid.EditPanel({
             displayField: 'nom',
             valueField: 'id',
             //allowBlank: false,
-            store: new iafbm.store.Pays({autoLoad:true}),
+            store: new iafbm.store.Pays(),
         }
     }],
     pageSize: 10
 });
 
-form_apercu = Ext.create('Ext.ia.form.Panel', {
+form = Ext.create('Ext.ia.form.Panel', {
     renderTo: 'target-combo',
     id: 'test-grid',
     loadParams: {id: {$id}},

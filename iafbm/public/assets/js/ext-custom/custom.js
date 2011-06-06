@@ -154,7 +154,8 @@ Ext.define('Ext.ia.grid.ComboColumn', {
         var editor = this.editor || this.field
             store = editor.store;
         store.on('load', function() { me.up('gridpanel').getView().refresh() });
-        if (!store.loaded) store.load();
+        // Manages store autoloading
+        if (!store.autoLoad && !store.loaded) store.load();
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var column = this.columns[colIndex],
@@ -168,35 +169,18 @@ Ext.define('Ext.ia.grid.ComboColumn', {
 Ext.define('Ext.ia.form.field.ComboBox', {
     extend:'Ext.form.field.ComboBox',
     alias: 'widget.ia-combo',
+    minChars: 1,
+    typeAhead: true,
+    triggerAction: 'all',
+    lazyRender: true,
     initComponent: function() {
         var me = this;
         me.callParent();
-// FIXME: remove this after enough widget.ia-combocolumn testing
-// The commented code is not necessary if grid's combo columns
-// are defined with xtype: 'ia-combocolumn'
-/*
-        // Attaches renderer and refreshes grid on store loaded
-        me.store.on('load', function() {
-            // Aborts if ComboBox is not in a grid
-            if (!me.up() || !me.up().columns) return;
-            // Setups renderer on column object
-            var column = me.up().columns.map[me.getId()];
-            column.renderer = me._renderer;
-            // Refreshes the grid once the store is loaded
-            var grid = column.up('gridpanel');
-            grid.getView().refresh();
-        });
-*/
-    },
-/*
-    // Combo specific renderer to be applied to the container Ext.grid.column.Column
-    _renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-        var column = this.getColumns()[colIndex],
-            comboStore = column.field.store,
-            displayField = column.field.displayField;
-        return comboStore.getById(value) ? comboStore.getById(value).get(displayField) : ['(', value, ')'].join('');
+        // Store onload value refresh (bugfix) + Manages store autoloading
+        var store = this.store;
+        store.on('load', function() { me.setValue(me.getValue()) });
+        if (!store.autoLoad && !store.loaded) store.load();
     }
-*/
 });
 
 Ext.define('Ext.ia.selectiongrid.Panel', {
@@ -720,13 +704,8 @@ iafbm.columns.Personne = [{
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
-        lazyRender: true,
-        typeAhead: true,
-        minChars: 1,
-        triggerAction: 'all',
         displayField: 'nom',
         valueField: 'id',
-        //allowBlank: false,
         store: new iafbm.store.Pays()
     }
 }, {
@@ -776,10 +755,6 @@ iafbm.columns.Membre = [{
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
-        lazyRender: true,
-        typeAhead: true,
-        minChars: 1,
-        triggerAction: 'all',
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
@@ -863,10 +838,6 @@ iafbm.columns.Commission = [{
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
-        lazyRender: true,
-        typeAhead: true,
-        minChars: 1,
-        triggerAction: 'all',
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
@@ -895,10 +866,6 @@ iafbm.columns.Commission = [{
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
-        lazyRender: true,
-        typeAhead: true,
-        minChars: 1,
-        triggerAction: 'all',
         displayField: 'code',
         valueField: 'id',
         allowBlank: false,
@@ -919,10 +886,6 @@ iafbm.columns.Commission = [{
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
-        lazyRender: true,
-        typeAhead: true,
-        minChars: 1,
-        triggerAction: 'all',
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
