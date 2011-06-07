@@ -38,7 +38,7 @@ Ext.onReady(function() {
             title: 'Composition',
             width: 857,
             height: 200,
-            plugins: [new Ext.grid.plugin.CellEditing({clicksToEdit:1})],
+            plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:1})],
             combo: {
                 store: new iafbm.store.Personne(),
             },
@@ -122,6 +122,7 @@ Ext.onReady(function() {
             width: 858,
             height: 200,
             margin: '0 0 10 0',
+            plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:1})],
             combo: {
                 store: new iafbm.store.Personne(),
             },

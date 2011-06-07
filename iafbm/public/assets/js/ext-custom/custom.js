@@ -228,6 +228,8 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             }
         }];
         var me = this; me.callParent();
+        // Sets store to autoSync changes
+        this.store.autoSync = true;
     },
     getCombo: function() {
         //return new Ext.ia.form.field.ComboBox({
@@ -552,7 +554,8 @@ Ext.define('iafbm.model.Commission', {
         {name: 'commission-type_id', type: 'int'},
         {name: 'commission-etat_id', type: 'int'},
         {name: 'section_id', type: 'int'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'bool', defaultValue: true},
+        {name: '_president', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -773,32 +776,24 @@ iafbm.columns.Personne = [{
 iafbm.columns.CommissionMembre = [{
     header: "Titre",
     dataIndex: '',
-    flex: 1,
+    width: 100,
     field: {
         xtype: 'textfield'
     }
 }, {
     header: "Nom",
     dataIndex: 'personne_nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
+    width: 125,
 }, {
     header: "Prénom",
     dataIndex: 'personne_prenom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        editable: false
-    }
+    width: 125,
 }, {
     header: "Service",
     dataIndex: 'undefined',
     flex: 1,
     field: {
-        xtype: 'textfield',
-        editable: false
+        xtype: 'textfield'
     }
 }, {
     header: "Fonction",
@@ -894,11 +889,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "N°",
     dataIndex: 'id',
-    width: 75,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
+    width: 75
 }, {
     header: "Nom",
     dataIndex: 'nom',
@@ -921,12 +912,8 @@ iafbm.columns.Commission = [{
     }
 }, {
     header: "Président",
-    dataIndex: '',
+    dataIndex: '_president',
     width: 150,
-    field: {
-        xtype: 'textfield',
-        //allowBlank: false
-    }
 }, {
     header: "Etat",
     dataIndex: 'commission-etat_id',

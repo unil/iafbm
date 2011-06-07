@@ -27,6 +27,24 @@ class CommissionsController extends iaWebController {
         return xView::load('commissions/detail', $data, $this->meta)->render();
     }
 
+    function get() {
+        $commissions = parent::get();
+        // Adds 'president' ghost-field
+        foreach ($commissions['items'] as &$commission) {
+            $president = array_shift(xModel::load(
+                'commission-membre',
+                array(
+                    'commission_id' => $commission['id'],
+                    'commission-fonction_id' => 1
+                )
+            )->get());
+            $commission['_president'] = ($president) ?
+                "{$president['personne_prenom']} {$president['personne_nom']}" :
+                '-';
+        }
+        return $commissions;
+    }
+
     /**
      * Depending on the type of the commission,
      * different types of database entities have to be created.
