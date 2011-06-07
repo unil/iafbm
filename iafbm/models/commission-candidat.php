@@ -1,6 +1,6 @@
 <?php
 
-class CandidatModel extends xModelMysql {
+class CommissionCandidatModel extends xModelMysql {
 
     var $table = 'commissions_candidats';
 

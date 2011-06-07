@@ -476,7 +476,7 @@ Ext.define('iafbm.model.Personne', {
         url: x.context.baseuri+'/api/personnes',
     }
 });
-Ext.define('iafbm.model.Membre', {
+Ext.define('iafbm.model.CommissionMembre', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
@@ -491,10 +491,10 @@ Ext.define('iafbm.model.Membre', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/membres',
+        url: x.context.baseuri+'/api/commissions-membres',
     }
 });
-Ext.define('iafbm.model.Candidat', {
+Ext.define('iafbm.model.CommissionCandidat', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
@@ -513,7 +513,7 @@ Ext.define('iafbm.model.Candidat', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/candidats',
+        url: x.context.baseuri+'/api/commissions-candidats',
     }
 });
 Ext.define('iafbm.model.Pays', {
@@ -620,19 +620,45 @@ Ext.define('iafbm.model.CommissionCreation', {
         url: x.context.baseuri+'/api/commissions-creations',
     }
 });
+Ext.define('iafbm.model.CommissionCandidatCommentaire', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'bool', defaultValue: true},
+        {name: 'commission_id', type: 'int'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-candidats-commentaires',
+    }
+});
+Ext.define('iafbm.model.CommissionTravail', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'primo_loco', type: 'int'},
+        {name: 'secondo_loco', type: 'int'},
+        {name: 'tertio_loco', type: 'int'},
+        {name: 'commentaire', type: 'string'},
+        {name: 'actif', type: 'bool', defaultValue: true}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-travails',
+    }
+});
 
 // Store
 Ext.define('iafbm.store.Personne', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.Personne'
 });
-Ext.define('iafbm.store.Membre', {
+Ext.define('iafbm.store.CommissionMembre', {
     extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.Membre'
-});
-Ext.define('iafbm.store.Candidat', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.Candidat'
+    model: 'iafbm.model.CommissionMembre'
 });
 Ext.define('iafbm.store.Pays', {
     extend: 'Ext.ia.data.Store',
@@ -661,6 +687,18 @@ Ext.define('iafbm.store.CommissionFonction', {
 Ext.define('iafbm.store.CommissionCreation', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.CommissionCreation'
+});
+Ext.define('iafbm.store.CommissionCandidat', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionCandidat'
+});
+Ext.define('iafbm.store.CommissionCandidatCommentaire', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionCandidatCommentaire'
+});
+Ext.define('iafbm.store.CommissionTravail', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionTravail'
 });
 
 // columns
@@ -732,7 +770,7 @@ iafbm.columns.Personne = [{
     }]
 }];
 
-iafbm.columns.Membre = [{
+iafbm.columns.CommissionMembre = [{
     header: "Titre",
     dataIndex: '',
     flex: 1,
@@ -776,7 +814,7 @@ iafbm.columns.Membre = [{
     }
 }];
 
-iafbm.columns.Candidat = [{
+iafbm.columns.CommissionCandidat = [{
     header: "Titre",
     dataIndex: '',
     flex: 1,

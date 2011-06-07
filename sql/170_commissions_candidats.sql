@@ -12,4 +12,4 @@ CREATE TABLE commissions_candidats (
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

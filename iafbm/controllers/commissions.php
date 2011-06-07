@@ -32,6 +32,7 @@ class CommissionsController extends iaWebController {
      * different types of database entities have to be created.
      */
     function put() {
+        if (isset($this->params['id'])) return $this->post();
         $params = $this->params['items'];
         $t = new xTransaction();
         $t->start();
@@ -42,7 +43,8 @@ class CommissionsController extends iaWebController {
         switch (@$params['commission-type_id']) {
             case 1:
                 $items = array(
-                    xModel::load('commission-creation', array('commission_id'=>$insertid))
+                    xModel::load('commission-creation', array('commission_id'=>$insertid)),
+                    xModel::load('commission-candidat-commentaire', array('commission_id'=>$insertid))
                 );
                 break;
             default:
@@ -52,5 +54,18 @@ class CommissionsController extends iaWebController {
         $r = $t->end();
         $r['items'] = array_shift(xModel::load('commission', array('id' => $insertid))->get());
         return $r;
+    }
+
+    function delete() {
+        if (!in_array('delete', $this->allow)) throw new xException("Method not allowed", 403);
+        $t = new xTransaction();
+        $t->start();
+        $params = array('commission_id' => $this->params['id']);
+        $t->execute(xModel::load('commission-creation', $params), 'delete');
+        $t->execute(xModel::load('commission-membre', $params), 'delete');
+        $t->execute(xModel::load('commission-candidat-commentaire', $params), 'delete');
+        $t->execute(xModel::load('commission-candidat', $params), 'delete');
+        $t->execute(xModel::load('commission', $this->params), 'delete');
+        $r = $t->end();
     }
 }

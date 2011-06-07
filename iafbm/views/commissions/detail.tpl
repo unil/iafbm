@@ -11,7 +11,7 @@ Ext.onReady(function() {
     var store = null; // Until all forms have their store
 
     // Shared Candidat store
-    var store_candidat = new iafbm.store.Candidat();
+    var store_candidat = new iafbm.store.CommissionCandidat();
 
     var form_apercu = Ext.create('Ext.ia.form.Panel', {
         store: new iafbm.store.Commission(),
@@ -43,8 +43,8 @@ Ext.onReady(function() {
                 store: new iafbm.store.Personne(),
             },
             grid: {
-                store: new iafbm.store.Membre(),
-                columns: iafbm.columns.Membre
+                store: new iafbm.store.CommissionMembre(),
+                columns: iafbm.columns.CommissionMembre
             },
             makeData: function(record) {
                 return {
@@ -82,7 +82,7 @@ Ext.onReady(function() {
                     name: 'decision'
                 }, {
                     xtype:'ia-datefield',
-                    fieldLabel: 'Préavis CPA',
+                    fieldLabel: 'Préavis positif CPA',
                     name: 'preavis'
                 }, {
                     xtype:'ia-datefield',
@@ -113,7 +113,8 @@ Ext.onReady(function() {
     });
 
     var form_candidat = Ext.create('Ext.ia.form.Panel', {
-        store: store,
+        store: new iafbm.store.CommissionCandidatCommentaire(),
+        loadParams: {commission_id: <?php echo $d['id'] ?>},
         items: [{
             baseCls: 'title',
             html: 'Candidats'
@@ -126,7 +127,7 @@ Ext.onReady(function() {
             },
             grid: {
                 store: store_candidat,
-                columns: iafbm.columns.Candidat
+                columns: iafbm.columns.CommissionCandidat
             },
             makeData: function(record) {
                 return {
@@ -144,7 +145,8 @@ Ext.onReady(function() {
     });
 
     var form_travail = Ext.create('Ext.ia.form.Panel', {
-        store: store,
+        store: store, //new iafbm.store.CommissionTravail(),
+        loadParams: {commission_id: <?php echo $d['id'] ?>},
         items: [{
             baseCls: 'title',
             html: 'Validation de rapport'
@@ -167,15 +169,15 @@ Ext.onReady(function() {
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: "Séance d'évaluation",
-                    name: 'first'
+                    name: ''
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Journée de visite',
-                    name: 'company'
+                    name: ''
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Séance de délibération',
-                    name: 'company'
+                    name: ''
                 }]
             }, {
                 items: [{
@@ -224,6 +226,26 @@ Ext.onReady(function() {
         items: [{
             baseCls: 'title',
             html: 'Validation de rapport'
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: '&nbsp;',
+            labelSeparator: '',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelSeparator: ''
+            },
+            items: [{
+                xtype: 'displayfield',
+                fieldLabel: 'Date',
+                width: 156
+            }, {
+                xtype: 'displayfield',
+                fieldLabel: 'Décision</span>',
+                width: 156
+            }, {
+                xtype: 'displayfield',
+                fieldLabel: 'Commentaire</span>'
+            }]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Validation par le Décanat',

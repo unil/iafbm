@@ -203,4 +203,10 @@ form = Ext.create('Ext.ia.form.Panel', {
 </script>
 EOL;
     }
+
+    function deleteCommissionAction() {
+        $c = xController::load('commissions', array('id'=>1));
+        $r = $c->delete();
+        xUtil::pre($r);
+    }
 }

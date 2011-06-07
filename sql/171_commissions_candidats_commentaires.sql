@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS commissions_creations;
-CREATE TABLE commissions_creations (
+DROP TABLE IF EXISTS commissions_candidats_commentaires;
+CREATE TABLE commissions_candidats_commentaires (
     id INT NOT NULL AUTO_INCREMENT,
     created TIMESTAMP NULL DEFAULT NULL,
     modified TIMESTAMP NULL DEFAULT NULL,
@@ -7,12 +7,6 @@ CREATE TABLE commissions_creations (
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     commission_id INT NOT NULL,
-    date_decision DATE DEFAULT NULL,
-    date_preavis DATE DEFAULT NULL,
-    date_autorisation DATE DEFAULT NULL,
-    date_annonce DATE DEFAULT NULL,
-    date_composition DATE DEFAULT NULL,
-    date_composition_validation DATE DEFAULT NULL,
     commentaire TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id)

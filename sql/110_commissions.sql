@@ -15,4 +15,4 @@ CREATE TABLE commissions (
     FOREIGN KEY (commission_type_id) REFERENCES commissions_types(id),
     FOREIGN KEY (commission_etat_id) REFERENCES commissions_etats(id),
     FOREIGN KEY (section_id) REFERENCES sections(id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

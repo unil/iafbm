@@ -8,7 +8,7 @@ CREATE TABLE commissions_types (
     util_modif INT,
     nom VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('1', '1', CURRENT_TIMESTAMP, 'Commission de présentation');
 INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('2', '1', CURRENT_TIMESTAMP, 'Commission de promotion');

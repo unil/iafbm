@@ -3,7 +3,7 @@
  ******************************************************************************/
 
 -- personnes
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+INSERT INTO `personnes` (prenom, nom, adresse, tel, pays_id, date_naissance, actif, created)
 VALUES ('Damien', 'Rice', 'Villy 10', '0216101010', '36', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
 INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
 VALUES ('Maryline', 'Monroe', 'Anges 10', '0216101011', '32', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);

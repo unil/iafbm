@@ -9,7 +9,7 @@ CREATE TABLE commissions_fonctions (
     nom VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     PRIMARY KEY (id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `commissions_fonctions` (actif, created, nom, description) VALUES ('1', CURRENT_TIMESTAMP, 'Président', 'Président de la commission');
 INSERT INTO `commissions_fonctions` (actif, created, nom, description) VALUES ('1', CURRENT_TIMESTAMP, 'Représentant corps professoral SSF', 'Représentant du corps professoral SSF');
