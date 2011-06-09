@@ -9,7 +9,8 @@ class CommissionTypeModel extends xModelMysql {
         'actif' => 'actif',
         'created' => 'created',
         'modified' => 'modified',
-        'nom' => 'nom'
+        'nom' => 'nom',
+        'racine' => 'racine',
     );
 
     var $primary = array('id');
@@ -18,31 +19,12 @@ class CommissionTypeModel extends xModelMysql {
 
     var $validation = array(
         'nom' => array(
-            'mandatory'
-        ),
-/*
-        'end' => array(
             'mandatory',
-            'datetime'
+            'maxlength' => array('length'=>255)
         ),
-        'zip' => array(
+        'racine' => array(
             'mandatory',
-            'integer',
-            'minlength' => array('length'=>4),
-            'maxlength' => array('length'=>4)
-        ),
-        'location' => array(
-            'mandatory'
-        ),
-        'distance' => array(
-            'mandatory',
-            'integer',
-            'minvalue' => array('length'=>0)
-        ),
-        'profile' => array(
-            'mandatory',
-            'integer'
-        ),
-*/
+            'maxlength' => array('length'=>32)
+        )
     );
 }

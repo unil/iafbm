@@ -1,4 +1,4 @@
-<div class="title">N° <?php echo $d['id'] ?> - Commission de titularisation pour le Prof. Marc Robinson-Rechavi</div>
+<div class="title"><?php echo "N° {$d['id']} - {$d['nom']}" ?></div>
 
 <div id="target"></div>
 
@@ -24,26 +24,28 @@ Ext.onReady(function() {
             xtype: 'fieldcontainer',
             combineErrors: true,
             layout: 'hbox',
+            height: 35,
+            defaults: { labelStyle: 'font-weight:bold' },
             items: [
-                {xtype: 'displayfield', value: 'Titularisation', name: 'commission-type_nom', fieldLabel: 'Type', labelWidth: 33, width: 200},
-                {xtype: 'displayfield', name: 'actif', fieldLabel: 'Etat', labelWidth: 27, width: 100},
-                {xtype: 'displayfield', value: 'SSF', fieldLabel: 'Section', labelWidth: 47, width: 100},
+                {xtype: 'displayfield', name: 'commission-type_racine', fieldLabel: 'Type', labelWidth: 33, width: 350},
+                {xtype: 'displayfield', name: 'commission-etat_nom', fieldLabel: 'Etat', labelWidth: 27, width: 300},
+                {xtype: 'displayfield', name: 'section_code', fieldLabel: 'Section', labelWidth: 47, width: 100},
             ]
         }, {
             xtype: 'textarea',
             name: 'commentaire',
             fieldLabel: 'Commentaire',
-            allowBlank: false
         }, new Ext.ia.selectiongrid.Panel({
             title: 'Composition',
             width: 857,
-            height: 200,
-            plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:1})],
+            height: 350,
+            plugins: [new Ext.grid.plugin.RowEditing()],
             combo: {
                 store: new iafbm.store.Personne(),
             },
             grid: {
                 store: new iafbm.store.CommissionMembre(),
+                params: {commission_id:<?php echo $d['id'] ?>},
                 columns: iafbm.columns.CommissionMembre
             },
             makeData: function(record) {
@@ -120,7 +122,7 @@ Ext.onReady(function() {
             html: 'Candidats'
         }, new Ext.ia.selectiongrid.Panel({
             width: 858,
-            height: 200,
+            height: 350,
             margin: '0 0 10 0',
             plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:1})],
             combo: {
@@ -128,6 +130,7 @@ Ext.onReady(function() {
             },
             grid: {
                 store: store_candidat,
+                params: {commission_id: <?php echo $d['id'] ?>},
                 columns: iafbm.columns.CommissionCandidat
             },
             makeData: function(record) {
@@ -483,30 +486,45 @@ Ext.onReady(function() {
             autoScroll: true,
         },
         items: [{
+            id: 'apercu',
             title: 'Apercu général',
             items: form_apercu,
             iconCls: 'tab-icon-ok'
         }, {
+            id: 'creation',
             title: 'Phase de création',
             items: form_creation,
             iconCls: 'tab-icon-ok'
         }, {
+            id: 'candidat',
             title: 'Candidat',
             items: form_candidat,
             iconCls: 'tab-icon-ok'
         }, {
+            id: 'travail',
             title: 'Phase de travail',
             items: form_travail,
             iconCls: 'tab-icon-todo'
         }, {
+            id: 'validation',
             title: 'Validation de rapport',
             items: form_validation,
             iconCls: 'tab-icon-todo'
         }, {
+            id: 'finalisation',
             title: 'Finalisation',
             items: form_finalisation,
             iconCls: 'tab-icon-todo'
-        }]
+        }],
+        listeners: {
+            tabchange: function(tabPanel, newCard, oldCard, options) {
+                document.location.hash = tabPanel.getActiveTab().id;
+            },
+            beforerender: function() {
+                var tabId = document.location.hash.replace("#", "");
+                this.setActiveTab(tabId);
+            }
+        }
     });
 
 });

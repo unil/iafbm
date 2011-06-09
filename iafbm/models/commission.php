@@ -24,7 +24,7 @@ class CommissionModel extends xModelMysql {
         'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)'
     );
 
-    var $join = 'commission-type';
+    var $join = array('commission-type', 'commission-etat', 'section');
 
     var $validation = array(
         'nom' => array(

@@ -8,6 +8,7 @@ class LayoutLayoutView extends xView {
                 xUtil::url('a/js/view/context.js'),
                 //xUtil::url('a/js/xfreemwork/lib/core.js'),
                 xUtil::url('a/js/ext/bootstrap.js'),
+                xUtil::url('a/js/ext/locale/ext-lang-fr.js'),
                 xUtil::url('a/js/ext-ux/native/form/SearchField.js'),
                 xUtil::url('a/js/ext-custom/custom.js')
             ),

@@ -7,12 +7,13 @@ CREATE TABLE commissions_types (
     util_creat INT,
     util_modif INT,
     nom VARCHAR(255) NOT NULL,
+    racine VARCHAR(32) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('1', '1', CURRENT_TIMESTAMP, 'Commission de présentation');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('2', '1', CURRENT_TIMESTAMP, 'Commission de promotion');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('3', '1', CURRENT_TIMESTAMP, 'Commission d''appel');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('4', '1', CURRENT_TIMESTAMP, 'Commission de titularisation');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('5', '1', CURRENT_TIMESTAMP, 'Commission de stabilisation');
-INSERT INTO `commissions_types` (id, actif, created, nom) VALUES ('6', '1', CURRENT_TIMESTAMP, 'Groupe de réflexion');
+INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('1', '1', CURRENT_TIMESTAMP, 'Commission de présentation', 'Présentation');
+INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('2', '1', CURRENT_TIMESTAMP, 'Commission de promotion', 'Promotion');
+INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('3', '1', CURRENT_TIMESTAMP, 'Commission d''appel', 'Appel');
+INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('4', '1', CURRENT_TIMESTAMP, 'Commission de titularisation', 'Titularisation');
+INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('5', '1', CURRENT_TIMESTAMP, 'Commission de stabilisation', 'Stabilisation');
+INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('6', '1', CURRENT_TIMESTAMP, 'Groupe de réflexion', 'Réflexion');

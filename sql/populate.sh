@@ -9,7 +9,7 @@ cat *.sql > $MERGE_FILE
 
 # Imports the merged file
 echo Connecting to database using user \'$MYSQL_USER\'
-mysql -u $MYSQL_USER -p --default-character-set=utf8 < $MERGE_FILE
+mysql -v -u $MYSQL_USER -p --default-character-set=utf8 < $MERGE_FILE
 
 # Cleans the merged file
 #rm $MERGE_FILE

@@ -8,67 +8,17 @@ if (typeof(x)=='undefined'||typeof(x.context)=='undefined'||typeof(x.context.bas
 //</debug>
 
 
-
 /******************************************************************************
- * Date i18n
+ * Additional locales
 **/
-Ext.Date.dayNames = [
-    "Dimanche",
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi"
-];
-Ext.Date.monthNames = [
-    "janvier",
-    "février",
-    "mars",
-    "avril",
-    "mai",
-    "juin",
-    "juillet",
-    "août",
-    "septembre",
-    "octobre",
-    "novembre",
-    "décembre"
-];
-Ext.Date.monthNumbers = {
-    'jan':0,
-    'fév':1,
-    'mar':2,
-    'avr':3,
-    'mai':4,
-    'jui':5,
-    'juil':6,
-    'aou':7,
-    'sep':8,
-    'oct':9,
-    'nov':10,
-    'dec':11
-};
-// This is a custom array for overriden Date.getShortMonthName()
-Ext.Date.shortMonthNames = [
-    'jan',
-    'fév',
-    'mar',
-    'avr',
-    'mai',
-    'jui',
-    'juil',
-    'aou',
-    'sep',
-    'oct',
-    'nov',
-    'dec'
-];
-Ext.Date.getShortMonthName = function(month) {
-    return Ext.Date.shortMonthNames[month];
-};
-Ext.Date.defaultFormat = 'd m Y';
-
+if (Ext.grid.RowEditor) {
+    Ext.apply(Ext.grid.RowEditor.prototype, {
+        saveBtnText: 'Enregistrer',
+        cancelBtnText: 'Annuler',
+        errorsText: 'Erreurs',
+        dirtyText: 'Vous devez enregistrer ou annuler vos modifications'
+    });
+}
 
 
 /******************************************************************************
@@ -133,6 +83,47 @@ Ext.define('Ext.ia.grid.column.Date', {
     format: 'd.m.Y'
 });
 
+/* TODO:FIXME: default grid action columns
+Ext.define('Ext.ia.grid.column.Action', {
+    extend:'Ext.grid.column.Action',
+    alias: 'widget.ia-actioncolumn',
+    config: {
+        resource: null,
+    },
+    width: 25,
+    header: 'Détails',
+    initComponent: function() {
+        this.items = [{
+            // TODO: Use a URL in the icon config
+            icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
+            text: 'Détails',
+            tooltip: 'Détails',
+            handler: function(gridView, rowIndex, colIndex, item) {
+                var grid = this.up('gridpanel'),
+                    record = grid.store.getAt(rowIndex),
+                    id = record.get(record.idProperty);
+                if (record.phantom) {
+                    Ext.Msg.show({
+                        title: 'Erreur',
+                        msg: "Veuillez d'abord remplir tous les champs de cette commission",
+                        buttons: Ext.Msg.OK,
+                        icon: Ext.window.MessageBox.WARNING,
+                        fn: function() {
+                            var column = grid.getColumns()[0];
+                            grid.getPlugin('rowediting').startEdit(record, column);
+                        }
+                    });
+                    return;
+                }
+                location.href = x.context.baseuri+'/'+this.resource+'/'+id;
+            }
+        }];
+        var me = this;
+        me.callParent();
+    }
+});
+*/
+
 Ext.define('Ext.ia.form.field.Date', {
     extend:'Ext.form.field.Date',
     alias: 'widget.ia-datefield',
@@ -144,9 +135,6 @@ Ext.define('Ext.ia.form.field.Date', {
 Ext.define('Ext.ia.grid.ComboColumn', {
     extend:'Ext.grid.Column',
     alias: 'widget.ia-combocolumn',
-    config: {
-        gridId: null
-    },
     initComponent: function() {
         var me = this;
         me.callParent();
@@ -176,9 +164,10 @@ Ext.define('Ext.ia.form.field.ComboBox', {
     initComponent: function() {
         var me = this;
         me.callParent();
-        // Store onload value refresh (bugfix) + Manages store autoloading
+        // Store onload value refresh (bugfix)
         var store = this.store;
         store.on('load', function() { me.setValue(me.getValue()) });
+        // Manages store autoloading
         if (!store.autoLoad && !store.loaded) store.load();
     }
 });
@@ -196,7 +185,8 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             store: null,
         },
         grid: {
-             store: null
+             store: null,
+             params: {}
         },
         makeData: function(record) {
             // Returns a hashtable for feeding Ext.data.Model data, eg:
@@ -209,7 +199,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         }
     },
     initComponent: function() {
-        this.grid.store.load();
         // Component
         this.store = this.grid.store;
         this.columns = this.grid.columns;
@@ -224,12 +213,15 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                 var grid = this.up('gridpanel');
                 var selection = grid.getView().getSelectionModel().getSelection()[0];
                 if (selection) grid.store.remove(selection);
-                grid.store.sync();
             }
         }];
         var me = this; me.callParent();
         // Sets store to autoSync changes
         this.store.autoSync = true;
+        // Sets grid params to store baseParams
+        this.store.proxy.extraParams = this.grid.params;
+        // Manages store autoloading
+        if (!this.store.autoLoad && !this.store.loaded) this.store.load();
     },
     getCombo: function() {
         //return new Ext.ia.form.field.ComboBox({
@@ -269,7 +261,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                         records.push(new grid.store.model(grid.makeData(record)));
                     });
                     grid.store.insert(grid.store.getCount(), records);
-                    grid.store.sync();
                     this.clearValue();
                 },
                 blur: function() { this.clearValue() }
@@ -504,6 +495,7 @@ Ext.define('iafbm.model.CommissionCandidat', {
         {name: 'commission_id', type: 'int'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
+        {name: 'personne_date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'personne_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('personne_prenom'),
@@ -552,8 +544,12 @@ Ext.define('iafbm.model.Commission', {
         {name: 'nom', type: 'string'},
         {name: 'commentaire', type: 'string'},
         {name: 'commission-type_id', type: 'int'},
-        {name: 'commission-etat_id', type: 'int'},
+        {name: 'commission-type_nom', type: 'string'},
+        {name: 'commission-type_racine', type: 'string'},
+        {name: 'commission-etat_id', type: 'int', defaultValue: 1},
+        {name: 'commission-etat_nom', type: 'string'},
         {name: 'section_id', type: 'int'},
+        {name: 'section_code', type: 'string'},
         {name: 'actif', type: 'bool', defaultValue: true},
         {name: '_president', type: 'string'}
     ],
@@ -581,6 +577,7 @@ Ext.define('iafbm.model.CommissionType', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
+        {name: 'racine', type: 'string'},
         {name: 'actif', type: 'bool', defaultValue: true}
     ],
     validations: [],
@@ -707,6 +704,20 @@ Ext.define('iafbm.store.CommissionTravail', {
 // columns
 Ext.ns('iafbm.columns');
 iafbm.columns.Personne = [{
+    xtype: 'actioncolumn',
+    width: 25,
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(grid, rowIndex, colIndex, item) {
+            var id = grid.store.getAt(rowIndex).get('id');
+            var l = window.location;
+            var url = [l.protocol, '//', l.host, '/personnes/', id].join('');
+            window.location = url;
+        }
+    }]
+}, {
     header: "Nom",
     dataIndex: 'nom',
     flex: 1,
@@ -757,20 +768,6 @@ iafbm.columns.Personne = [{
     field: {
         xtype: 'ia-datefield'
     }
-}, {
-    xtype: 'actioncolumn',
-    width: 25,
-    items: [{
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {
-            var id = grid.store.getAt(rowIndex).get('id');
-            var l = window.location;
-            var url = [l.protocol, '//', l.host, '/personnes/', id].join('');
-            window.location = url;
-        }
-    }]
 }];
 
 iafbm.columns.CommissionMembre = [{
@@ -810,6 +807,17 @@ iafbm.columns.CommissionMembre = [{
 }];
 
 iafbm.columns.CommissionCandidat = [{
+    xtype: 'actioncolumn',
+    width: 25,
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(grid, rowIndex, colIndex, item) {
+            // TODO
+        }
+    }]
+}, {
     header: "Titre",
     dataIndex: '',
     flex: 1,
@@ -861,20 +869,38 @@ iafbm.columns.CommissionCandidat = [{
     field: {
         xtype: 'textfield'
     }
-}, {
-    xtype: 'actioncolumn',
-    width: 25,
-    items: [{
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {
-            // TODO
-        }
-    }]
 }];
 
 iafbm.columns.Commission = [{
+    xtype: 'actioncolumn',
+    width: 25,
+    header: 'Détails',
+    items: [{
+        // TODO: Use a URL in the icon config
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(gridView, rowIndex, colIndex, item) {
+            var grid = this.up('gridpanel'),
+                record = grid.store.getAt(rowIndex),
+                id = record.get(record.idProperty);
+            if (record.phantom) {
+                Ext.Msg.show({
+                    title: 'Erreur',
+                    msg: "Veuillez d'abord remplir tous les champs de cette commission",
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.window.MessageBox.WARNING,
+                    fn: function() {
+                        var column = grid.getColumns()[0];
+                        grid.getPlugin('rowediting').startEdit(record, column);
+                    }
+                });
+                return;
+            }
+            location.href = x.context.baseuri+'/commissions/'+id;
+        }
+    }]
+}, {
     header: "Type",
     dataIndex: 'commission-type_id',
     width: 175,
@@ -926,23 +952,19 @@ iafbm.columns.Commission = [{
         allowBlank: false,
         store: new iafbm.store.CommissionEtat()
     }
-}, {
-    xtype: 'actioncolumn',
-    width: 25,
-    items: [{
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {
-            var id = this.up('gridpanel').store.getAt(rowIndex).get('id');
-            location.href = x.context.baseuri+'/commissions/'+id;
-        }
-    }]
 }];
 
 iafbm.columns.CommissionType = [{
     header: "Nom",
     dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Racine",
+    dataIndex: 'racine',
     flex: 1,
     field: {
         xtype: 'textfield',

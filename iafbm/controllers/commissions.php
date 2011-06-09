@@ -14,22 +14,16 @@ class CommissionsController extends iaWebController {
     }
 
     function detailAction() {
-        $data = array(
-            'id' => $this->params['id'],
-/*
-            'title' => 'Commissions',
-            'id' => 'commissions',
-            'url' => xUtil::url('api/commissions'),
-            'fields' => xView::load('commissions/extjs4/fields')->render(),
-            'columns' => xView::load('commissions/extjs4/columns')->render()
-*/
-        );
-        return xView::load('commissions/detail', $data, $this->meta)->render();
+        $id = @$this->params['id'];
+        if (!$id) throw new xException("Le numéro de commission fourni n'est pas valide", 400);
+        $commission = xModel::load('commission', array('id'=>$id))->get(0);
+        if (!$commission) throw new xException("La commission demandée est introuvable", 404);
+        return xView::load('commissions/detail', $commission, $this->meta)->render();
     }
 
     function get() {
         $commissions = parent::get();
-        // Adds 'president' ghost-field
+        // Adds '_president' ghost-field
         foreach ($commissions['items'] as &$commission) {
             $president = array_shift(xModel::load(
                 'commission-membre',
