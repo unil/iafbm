@@ -124,13 +124,6 @@ Ext.define('Ext.ia.grid.column.Action', {
 });
 */
 
-Ext.define('Ext.ia.form.field.Date', {
-    extend:'Ext.form.field.Date',
-    alias: 'widget.ia-datefield',
-    format: 'd.m.Y',
-    altFormats: 'd.m.Y|d-m-Y|d m Y',
-    startDay: 1
-});
 
 Ext.define('Ext.ia.grid.ComboColumn', {
     extend:'Ext.grid.Column',
@@ -171,6 +164,92 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         if (!store.autoLoad && !store.loaded) store.load();
     }
 });
+
+Ext.define('Ext.ia.form.field.Date', {
+    extend:'Ext.form.field.Date',
+    alias: 'widget.ia-datefield',
+    format: 'd.m.Y',
+    altFormats: 'd.m.Y|d-m-Y|d m Y',
+    startDay: 1
+});
+
+Ext.define('Ext.ia.ux.form.field.MultiDate', {
+    extend: 'Ext.form.FieldContainer',
+    alias: 'widget.ia-multidatefield',
+    // Config
+    itemType: 'ia-datefield',
+    itemMin: 1,
+    itemMax: null,
+    //
+    initComponent: function() {
+        this.items = [{
+            xtype: 'fieldcontainer',
+            items: [this.createItem()]
+        },{
+            xtype: 'button',
+            id: 'ia-multifield-add-button',
+            text: '+',
+            handler: function() {
+                // Adds a new field
+                var container = this.up().down('fieldcontainer'),
+                    widget = this.up(),
+                    count = widget.getFieldsCount();
+                if (!this.itemMax || count < widget.itemMax) {
+                    container.add(widget.createItem());
+                }
+                widget.toggleControls();
+            }
+        }];
+        //
+        var me = this;
+        me.callParent();
+    },
+    createItem: function() {
+        return {
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+            width: 300, //FIXME: how to guess width? from container?
+            items: [{
+                xtype: this.itemType,
+                name: 'FIXME' //FIXME
+            },{
+                xtype: 'button',
+                text: '-',
+                handler: function() {
+                    var field = this.up(),
+                        widget = field.up().up(),
+                        count = widget.getFieldsCount();
+                    if (count > widget.itemMin) field.destroy();
+                    widget.toggleControls();
+                }
+            }]
+        };
+    },
+    getFieldsCount: function() {
+        return this.down('fieldcontainer').items.getCount();
+    },
+    toggleControls: function() {
+        var items = this.down('fieldcontainer').items,
+            count = this.getFieldsCount(),
+            add_button = Ext.getCmp('ia-multifield-add-button'),
+            del_buttons = [];
+        items.each(function(item) { del_buttons.push(item.down('button')) });
+        // Manages add button
+        if (!this.itemMax || count < this.itemMax) {
+            add_button.show();
+        } else {
+            add_button.hide();
+        }
+        // Manages del button
+        if (count > this.itemMin) {
+            Ext.each(del_buttons, function(button) { button.show() });
+        } else {
+            Ext.each(del_buttons, function(button) { button.hide() });
+        }
+    }
+});
+
+
 
 Ext.define('Ext.ia.selectiongrid.Panel', {
     extend: 'Ext.grid.Panel',
@@ -445,6 +524,8 @@ Ext.define('Ext.ia.ux.grid.History', {
         ]
     })
 });
+
+
 
 /******************************************************************************
  * Business objects
