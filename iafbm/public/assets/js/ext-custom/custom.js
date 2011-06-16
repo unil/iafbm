@@ -136,7 +136,9 @@ Ext.define('Ext.ia.grid.ComboColumn', {
             store = editor.store;
         store.on('load', function() { me.up('gridpanel').getView().refresh() });
         // Manages store autoloading
-        if (!store.autoLoad && !store.loaded) store.load();
+        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+            store.load();
+        }
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var column = this.columns[colIndex],
@@ -161,7 +163,9 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         var store = this.store;
         store.on('load', function() { me.setValue(me.getValue()) });
         // Manages store autoloading
-        if (!store.autoLoad && !store.loaded) store.load();
+        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+            store.load();
+        }
     }
 });
 
