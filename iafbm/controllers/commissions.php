@@ -56,7 +56,8 @@ class CommissionsController extends iaWebController {
             case 1:
                 $items = array(
                     xModel::load('commission-creation', array('commission_id'=>$insertid)),
-                    xModel::load('commission-candidat-commentaire', array('commission_id'=>$insertid))
+                    xModel::load('commission-candidat-commentaire', array('commission_id'=>$insertid)),
+                    xModel::load('commission-travail', array('commission_id'=>$insertid))
                 );
                 break;
             default:
@@ -73,11 +74,12 @@ class CommissionsController extends iaWebController {
         $t = new xTransaction();
         $t->start();
         $params = array('commission_id' => $this->params['id']);
+        $t->execute(xModel::load('commission-travail', $params), 'delete');
         $t->execute(xModel::load('commission-creation', $params), 'delete');
         $t->execute(xModel::load('commission-membre', $params), 'delete');
         $t->execute(xModel::load('commission-candidat-commentaire', $params), 'delete');
         $t->execute(xModel::load('commission-candidat', $params), 'delete');
         $t->execute(xModel::load('commission', $this->params), 'delete');
-        $r = $t->end();
+        return $t->end();
     }
 }

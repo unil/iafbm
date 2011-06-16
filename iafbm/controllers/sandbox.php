@@ -198,15 +198,39 @@ form = Ext.create('Ext.ia.form.Panel', {
     })]
 });
 
-
 });
 </script>
 EOL;
     }
 
     function deleteCommissionAction() {
+        throw new xException("This action is disabled", 403);
         $c = xController::load('commissions', array('id'=>1));
         $r = $c->delete();
         xUtil::pre($r);
+    }
+
+    function multiDateAction() {
+return <<<EOL
+<div id="target"></div>
+<script>
+Ext.onReady(function() {
+
+form = Ext.create('Ext.ia.form.Panel', {
+    renderTo: 'target',
+    width: 500,
+    items: [{
+        xtype: 'ia-multifield',
+        fieldLabel: 'Label',
+        itemMax: 3,
+        itemField: 'date',
+        store: new iafbm.store.CommissionTravailEvenement()
+    }]
+});
+form.items.items[0].store.load();
+
+});
+</script>
+EOL;
     }
 }

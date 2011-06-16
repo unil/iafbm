@@ -173,74 +173,109 @@ Ext.define('Ext.ia.form.field.Date', {
     startDay: 1
 });
 
-Ext.define('Ext.ia.ux.form.field.MultiDate', {
+/**
+ * Draft version of a multifield field
+ */
+Ext.define('Ext.ia.ux.form.field.Multi', {
     extend: 'Ext.form.FieldContainer',
-    alias: 'widget.ia-multidatefield',
+    alias: 'widget.ia-multifield',
     // Config
     itemType: 'ia-datefield',
     itemMin: 1,
     itemMax: null,
+    itemField: null,
+    store: null,
     //
     initComponent: function() {
         this.items = [{
             xtype: 'fieldcontainer',
-            items: [this.createItem()]
+            items: []
         },{
             xtype: 'button',
             id: 'ia-multifield-add-button',
             text: '+',
             handler: function() {
-                // Adds a new field
-                var container = this.up().down('fieldcontainer'),
-                    widget = this.up(),
-                    count = widget.getFieldsCount();
-                if (!this.itemMax || count < widget.itemMax) {
-                    container.add(widget.createItem());
-                }
-                widget.toggleControls();
+                this.up().addField();
             }
         }];
         //
         var me = this;
         me.callParent();
+        //
+        if (this.store) this.initStore();
+        else for (var i=this.getFieldsCount(); i<this.itemMin; i++) this.addField();
     },
-    createItem: function() {
+    initStore: function() {
+        if (!this.store) return;
+        var me = this;
+        this.store.on('load', function() {
+            this.each(function(record) {
+                me.addField(record);
+            });
+        });
+    },
+    createItem: function(record) {
+        var value = record ? record.get(this.itemField) : null;
         return {
-            xtype: 'fieldcontainer',
-            layout: 'hbox',
-            width: 300, //FIXME: how to guess width? from container?
-            items: [{
-                xtype: this.itemType,
-                name: 'FIXME' //FIXME
-            },{
-                xtype: 'button',
-                text: '-',
-                handler: function() {
-                    var field = this.up(),
-                        widget = field.up().up(),
-                        count = widget.getFieldsCount();
-                    if (count > widget.itemMin) field.destroy();
-                    widget.toggleControls();
-                }
-            }]
+            xtype: this.itemType,
+            name: 'FIXME', //FIXME
+            value: value,
+            _record: record
         };
+    },
+    // TODO: Attach an onChange event in order to store the changed record
+    addField: function(record) {
+        var me = this,
+            container = this.down('fieldcontainer'),
+            count = this.getFieldsCount();
+        // Manages store
+        // TODO: create a new dirty record and attach it to the field
+        //       as a _record property
+        // Adds field UI
+        if (!this.itemMax || count < this.itemMax) {
+            var item = {
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                width: 300, //FIXME: how to guess width? from container?
+                items: [this.createItem(record), {
+                    xtype: 'button',
+                    text: '-',
+                    handler: function(button) {
+                        me.removeField(button);
+                    }
+                }]
+            };
+            container.add(item);
+        }
+        this.toggleControls();
+    },
+    removeField: function(button) {
+        var field = button.up(),
+            widget = this,
+            count = widget.getFieldsCount();
+        // Manages store
+        // TODO: remove record from store
+        //var record = field.items.items[0]._record;
+        // Removes field UI
+        if (count > widget.itemMin) field.destroy();
+        widget.toggleControls();
     },
     getFieldsCount: function() {
         return this.down('fieldcontainer').items.getCount();
     },
     toggleControls: function() {
         var items = this.down('fieldcontainer').items,
-            count = this.getFieldsCount(),
-            add_button = Ext.getCmp('ia-multifield-add-button'),
-            del_buttons = [];
-        items.each(function(item) { del_buttons.push(item.down('button')) });
+            count = this.getFieldsCount();
         // Manages add button
+        var add_button = Ext.getCmp('ia-multifield-add-button');
         if (!this.itemMax || count < this.itemMax) {
             add_button.show();
         } else {
             add_button.hide();
         }
         // Manages del button
+        var del_buttons = [];
+        items.each(function(item) { del_buttons.push(item.down('button')) });
         if (count > this.itemMin) {
             Ext.each(del_buttons, function(button) { button.show() });
         } else {
@@ -248,8 +283,6 @@ Ext.define('Ext.ia.ux.form.field.MultiDate', {
         }
     }
 });
-
-
 
 Ext.define('Ext.ia.selectiongrid.Panel', {
     extend: 'Ext.grid.Panel',
@@ -731,8 +764,24 @@ Ext.define('iafbm.model.CommissionTravail', {
         url: x.context.baseuri+'/api/commissions-travails',
     }
 });
+Ext.define('iafbm.model.CommissionTravailEvenement', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'commission-travail_id', type: 'int'},
+        {name: 'commission-travail-evenement-type_id', type: 'int'},
+        {name: 'date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'proces_verbal', type: 'bool'},
+        {name: 'actif', type: 'bool', defaultValue: true}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-travails-evenements',
+    }
+});
 
-// Store
+// Stores
 Ext.define('iafbm.store.Personne', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.Personne'
@@ -781,8 +830,12 @@ Ext.define('iafbm.store.CommissionTravail', {
     extend: 'Ext.ia.data.Store',
     model: 'iafbm.model.CommissionTravail'
 });
+Ext.define('iafbm.store.CommissionTravailEvenement', {
+    extend: 'Ext.ia.data.Store',
+    model: 'iafbm.model.CommissionTravailEvenement'
+});
 
-// columns
+// Columns
 Ext.ns('iafbm.columns');
 iafbm.columns.Personne = [{
     xtype: 'actioncolumn',
