@@ -781,59 +781,13 @@ Ext.define('iafbm.model.CommissionTravailEvenement', {
     }
 });
 
-// Stores
-Ext.define('iafbm.store.Personne', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.Personne'
-});
-Ext.define('iafbm.store.CommissionMembre', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionMembre'
-});
-Ext.define('iafbm.store.Pays', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.Pays'
-});
-Ext.define('iafbm.store.Section', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.Section'
-});
-Ext.define('iafbm.store.Commission', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.Commission'
-});
-Ext.define('iafbm.store.CommissionEtat', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionEtat'
-});
-Ext.define('iafbm.store.CommissionType', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionType'
-});
-Ext.define('iafbm.store.CommissionFonction', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionFonction'
-});
-Ext.define('iafbm.store.CommissionCreation', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionCreation'
-});
-Ext.define('iafbm.store.CommissionCandidat', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionCandidat'
-});
-Ext.define('iafbm.store.CommissionCandidatCommentaire', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionCandidatCommentaire'
-});
-Ext.define('iafbm.store.CommissionTravail', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionTravail'
-});
-Ext.define('iafbm.store.CommissionTravailEvenement', {
-    extend: 'Ext.ia.data.Store',
-    model: 'iafbm.model.CommissionTravailEvenement'
-});
+// Stores: creates one store per existing model
+for (model in iafbm.model) {
+    Ext.define(['iafbm', 'store', model].join('.'), {
+        extend: 'Ext.ia.data.Store',
+        model: ['iafbm', 'model', model].join('.')
+    });
+}
 
 // Columns
 Ext.ns('iafbm.columns');
