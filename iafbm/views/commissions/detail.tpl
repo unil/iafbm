@@ -8,8 +8,6 @@ Ext.onReady(function() {
 
     Ext.QuickTips.init();
 
-    var store = null; // Until all forms have their store
-
     // Shared Candidat store
     var store_candidat = new iafbm.store.CommissionCandidat();
 
@@ -149,7 +147,7 @@ Ext.onReady(function() {
     });
 
     var form_travail = Ext.create('Ext.ia.form.Panel', {
-        store: store, //new iafbm.store.CommissionTravail(),
+        store: new iafbm.store.CommissionTravail(),
         loadParams: {commission_id: <?php echo $d['id'] ?>},
         items: [{
             baseCls: 'title',
@@ -216,8 +214,9 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
+    var store_validation_etat = new iafbm.store.CommissionValidationEtat();
     var form_validation = Ext.create('Ext.ia.form.Panel', {
-        store: store,
+        store: new iafbm.store.CommissionValidation(),
         defaults: {
             layout: 'hbox',
             combineErrors: true,
@@ -255,29 +254,16 @@ Ext.onReady(function() {
             fieldLabel: 'Validation par le Décanat',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date',
+                name: 'decanat_date',
             }, {
-                xtype: 'combo',
-                name: 'etat',
-                value: 'mrs',
-                mode: 'local',
-                triggerAction: 'all',
-                forceSelection: true,
-                editable: false,
-                displayField: 'name',
-                valueField: 'value',
-                queryMode: 'local',
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['name', 'value'],
-                    data: [
-                        {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1},
-                        {name: 'Pas de décision', value: 0}
-                    ]
-                })
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_validation_etat,
+                name: 'decanat_etat'
             }, {
                 xtype: 'textareafield',
-                name: 'commentaires',
+                name: 'decanat_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
@@ -288,28 +274,14 @@ Ext.onReady(function() {
             fieldLabel: 'Commentaire DG-CHUV',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date'
+                name: 'dg_date'
             }, {
                 xtype: 'combo',
-                name: 'etat',
-                value: 'mrs',
-                mode: 'local',
-                triggerAction: 'all',
-                forceSelection: true,
-                editable: false,
-                displayField: 'name',
-                valueField: 'value',
-                queryMode: 'local',
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['name', 'value'],
-                    data: [
-                        {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1}
-                    ]
-                })
+                disabled: 'true',
+                store: Ext.create('Ext.data.Store', {fields:[], data: []})
             }, {
                 xtype: 'textareafield',
-                name: 'commentaires',
+                name: 'dg_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
@@ -320,29 +292,16 @@ Ext.onReady(function() {
             fieldLabel: 'Validation par le CF',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date'
+                name: 'cf_date'
             }, {
-                xtype: 'combo',
-                name: 'etat',
-                value: 'mrs',
-                mode: 'local',
-                triggerAction: 'all',
-                forceSelection: true,
-                editable: false,
-                displayField: 'name',
-                valueField: 'value',
-                queryMode: 'local',
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['name', 'value'],
-                    data: [
-                        {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1},
-                        {name: 'Pas de décision', value: 0}
-                    ]
-                })
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_validation_etat,
+                name: 'cf_etat'
             }, {
                 xtype: 'textareafield',
-                name: 'commentaires',
+                name: 'cf_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
@@ -353,29 +312,16 @@ Ext.onReady(function() {
             fieldLabel: 'Validation par le CDir',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date'
+                name: 'cdir_date'
             }, {
-                xtype: 'combo',
-                name: 'etat',
-                value: 'mrs',
-                mode: 'local',
-                triggerAction: 'all',
-                forceSelection: true,
-                editable: false,
-                displayField: 'name',
-                valueField: 'value',
-                queryMode: 'local',
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['name', 'value'],
-                    data: [
-                        {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1},
-                        {name: 'Pas de décision', value: 0}
-                    ]
-                })
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_validation_etat,
+                name: 'cdir_etat'
             }, {
                 xtype: 'textareafield',
-                name: 'commentaires',
+                name: 'cdir_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
@@ -389,14 +335,14 @@ Ext.onReady(function() {
             fieldLabel: 'Réception du rapport',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date',
+                name: 'reception_rapport',
             }]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Proposition de nomination',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date',
+                name: 'envoi_proposition_nomination',
             }, {
                 xtype: 'button',
                 text: 'Formulaire',
@@ -408,14 +354,14 @@ Ext.onReady(function() {
         }, {
             xtype: 'textareafield',
             fieldLabel: 'Commentaire',
-            name: 'desc',
+            name: 'commentaire',
             labelWidth: 80,
             width: 858
         }, new Ext.ia.ux.grid.History()]
     });
 
     var form_finalisation = Ext.create('Ext.ia.form.Panel', {
-        store: store,
+        store: new iafbm.store.CommissionFinalisation,
         defaults: {
             layout: 'hbox',
             combineErrors: true,
@@ -433,7 +379,7 @@ Ext.onReady(function() {
             fieldLabel: 'Réception du contrat',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date',
+                name: 'reception_contrat_date',
             }, {
                 xtype: 'combo',
                 name: 'etat',
@@ -454,7 +400,7 @@ Ext.onReady(function() {
                 })
             }, {
                 xtype: 'textareafield',
-                name: 'commentaires',
+                name: 'reception_contrat_commentaire',
                 anchor: '100%',
                 width: 411,
                 growMin: 21,
@@ -465,13 +411,13 @@ Ext.onReady(function() {
             fieldLabel: "Début d'activité",
             items: [{
                 xtype: 'ia-datefield',
-                name: 'date'
+                name: 'debut_activite'
             }]
         }, {
             xtype: 'textareafield',
             fieldLabel: 'Commentaire',
             labelWidth: 80,
-            name: 'commentaires',
+            name: 'commentaire',
             anchor: '100%',
             width: 411
         }, new Ext.ia.ux.grid.History()]

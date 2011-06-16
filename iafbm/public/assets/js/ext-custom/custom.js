@@ -780,6 +780,60 @@ Ext.define('iafbm.model.CommissionTravailEvenement', {
         url: x.context.baseuri+'/api/commissions-travails-evenements',
     }
 });
+Ext.define('iafbm.model.CommissionValidation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'decanat_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'decanat_etat', type: 'int'},
+        {name: 'decanat_commentaire', type: 'string'},
+        {name: 'dg_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'dg_commentaire', type: 'string'},
+        {name: 'cf_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'cf_etat', type: 'int'},
+        {name: 'cf_commentaire', type: 'string'},
+        {name: 'cdir_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'cdir_etat', type: 'int'},
+        {name: 'cdir_commentaire', type: 'string'},
+        {name: 'reception_rapport', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'envoi_proposition_nomination', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-validations',
+    }
+});
+Ext.define('iafbm.model.CommissionValidationEtat', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-validations-etats',
+    }
+});
+Ext.define('iafbm.model.CommissionFinalisation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'reception_contrat_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'reception_contrat_commentaire', type: 'string'},
+        {name: 'debut_activite', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-finalisations',
+    }
+});
 
 // Stores: creates one store per existing model
 for (model in iafbm.model) {

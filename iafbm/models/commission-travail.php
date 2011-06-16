@@ -18,5 +18,6 @@ class CommissionTravailModel extends xModelMysql {
     var $primary = array('id');
 
     var $validation = array(
+        'commission_id' => 'mandatory'
     );
 }
