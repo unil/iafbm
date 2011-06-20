@@ -23,8 +23,7 @@ CREATE TABLE personnes (
     util_creat INT,
     util_modif INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (pays_id) REFERENCES pays(id)/*,
+    FOREIGN KEY (pays_id) REFERENCES pays(id),
     FOREIGN KEY (cantons_id) REFERENCES cantons(id),
     FOREIGN KEY (permis_id) REFERENCES permis(id)
-*/
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

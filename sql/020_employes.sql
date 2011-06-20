@@ -10,4 +10,4 @@ CREATE TABLE employes (
     util_modif INT,
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

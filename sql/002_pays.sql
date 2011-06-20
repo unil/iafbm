@@ -5,7 +5,7 @@ CREATE TABLE pays (
     nom VARCHAR(100) NOT NULL,
     nom_en VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO pays VALUES (1,'AF','Afghanistan','Afghanistan');
 INSERT INTO pays VALUES (2,'ZA','Afrique du Sud','South Africa');

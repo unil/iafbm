@@ -20,4 +20,4 @@ CREATE TABLE fonds_personnes (
     PRIMARY KEY (personne_id, fonds_id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (fonds_id) REFERENCES fonds(id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

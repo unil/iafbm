@@ -4,7 +4,7 @@ CREATE TABLE cantons (
     code VARCHAR(2) NOT NULL,
     nom VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
-) TYPE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO cantons VALUES (1, 'AG', 'Argovie');
 INSERT INTO cantons VALUES (2, 'AR', 'Appenzell Rhodes extérieures');
