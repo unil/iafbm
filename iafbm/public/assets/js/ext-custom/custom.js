@@ -34,10 +34,13 @@ Ext.define('Ext.ia.data.Store', {
     pageSize: null,
     autoLoad: false,
     autoSync: false,
+    params: {},
     loaded: false,
     listeners: {
+        beforeload: function() { this.proxy.extraParams = Ext.apply(this.proxy.extraParams, this.params) },
         load: function() { this.loaded = true }
-    }
+    },
+    // Params to be passed to the proxy
 });
 
 /**
@@ -579,7 +582,7 @@ Ext.define('iafbm.model.Personne', {
         {name: 'pays_id', type: 'int'},
         {name: 'tel', type: 'string'},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -597,7 +600,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
         {name: 'titre', type: 'string', defaultValue: 'Prof.'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -620,7 +623,7 @@ Ext.define('iafbm.model.CommissionCandidat', {
                 record.get('personne_nom'),
                 '[H]'].join(' ');
         }},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -668,7 +671,7 @@ Ext.define('iafbm.model.Commission', {
         {name: 'commission-etat_nom', type: 'string'},
         {name: 'section_id', type: 'int'},
         {name: 'section_code', type: 'string'},
-        {name: 'actif', type: 'bool', defaultValue: true},
+        {name: 'actif', type: 'boolean', defaultValue: true},
         {name: '_president', type: 'string'}
     ],
     validations: [],
@@ -696,7 +699,7 @@ Ext.define('iafbm.model.CommissionType', {
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
         {name: 'racine', type: 'string'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -710,7 +713,7 @@ Ext.define('iafbm.model.CommissionFonction', {
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
         {name: 'description', type: 'string'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -723,7 +726,7 @@ Ext.define('iafbm.model.CommissionCreation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
-        {name: 'actif', type: 'bool', defaultValue: true},
+        {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'decision', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'preavis', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'autorisation', type: 'date', dateFormat: 'Y-m-d'},
@@ -742,7 +745,7 @@ Ext.define('iafbm.model.CommissionCandidatCommentaire', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'actif', type: 'bool', defaultValue: true},
+        {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'commission_id', type: 'int'},
         {name: 'commentaire', type: 'string'}
     ],
@@ -760,7 +763,7 @@ Ext.define('iafbm.model.CommissionTravail', {
         {name: 'secondo_loco', type: 'int'},
         {name: 'tertio_loco', type: 'int'},
         {name: 'commentaire', type: 'string'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
@@ -772,16 +775,28 @@ Ext.define('iafbm.model.CommissionTravailEvenement', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'commission-travail_id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
         {name: 'commission-travail-evenement-type_id', type: 'int'},
         {name: 'date', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'proces_verbal', type: 'bool'},
-        {name: 'actif', type: 'bool', defaultValue: true}
+        {name: 'proces_verbal', type: 'boolean'},
+        {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/commissions-travails-evenements',
+    }
+});
+Ext.define('iafbm.model.CommissionTravailEvenementType', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions-travails-evenements-types',
     }
 });
 Ext.define('iafbm.model.CommissionValidation', {

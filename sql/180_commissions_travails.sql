@@ -37,11 +37,11 @@ CREATE TABLE commissions_travails_evenements (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
-    commission_travail_id INT NOT NULL,
+    commission_id INT NOT NULL,
     commission_travail_evenement_type_id INT NOT NULL,
     date DATE DEFAULT NULL,
     proces_verbal BOOLEAN DEFAULT false,
     PRIMARY KEY (id),
-    FOREIGN KEY (commission_travail_id) REFERENCES commissions_travails(id),
+    FOREIGN KEY (commission_id) REFERENCES commissions(id),
     FOREIGN KEY (commission_travail_evenement_type_id) REFERENCES commissions_travails_evenements_types(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

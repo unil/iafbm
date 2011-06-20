@@ -164,6 +164,7 @@ Ext.onReady(function() {
                 }
             },
             items: [{
+/* Draft using Ext.ia.ux.form.field.MultiField:
                 items: [{
                     xtype: 'displayfield',
                     value: '<b>Séances annoncées</b>',
@@ -180,6 +181,76 @@ Ext.onReady(function() {
                     xtype:'ia-datefield',
                     fieldLabel: 'Séance de délibération',
                     name: ''
+                }]
+*/
+                items: [{
+                    xtype: 'displayfield',
+                    value: '<b>Séances annoncées</b>',
+                    height: 25
+                }, {
+                    xtype:'ia-editgrid',
+                    frame: false,
+                    width: 400,
+                    height: 150,
+                    bbar: null,
+                    store: new iafbm.store.CommissionTravailEvenement({
+                        params: { commission_id: '<?php echo $d['id'] ?>' }
+                    }),
+                    plugins: [new Ext.grid.plugin.RowEditing({
+                        pluginId:'rowediting',
+                        listeners: {
+                            afteredit: function(e) {
+                                console.log('afteredit');
+                                console.log(e);
+                            },
+                            validateedit: function(editor, event) {
+                                console.log('validateedit');
+                                var record = event.record;
+                                console.log(record.data.commission_id);
+                                //record.set('commission_id', '<?php echo $d['id'] ?>');
+                                record.data.commission_id = '<?php echo $d['id'] ?>';
+                                console.log(record.data.commission_id);
+                                record.save();
+                                event.cancel = true;
+//event.cancel = true;
+                            }
+                        }
+                    })],
+                    columns: [{
+                        header: "Type",
+                        dataIndex: 'commission-travail-evenement-type_id',
+                        flex: 1,
+                        xtype: 'ia-combocolumn',
+                        field: {
+                            xtype: 'ia-combo',
+                            store: new iafbm.store.CommissionTravailEvenementType(),
+                            valueField: 'id',
+                            displayField: 'nom',
+                            allowBlank: false
+                        }
+                    },{
+                        header: "Date",
+                        dataIndex: 'date',
+                        flex: 1,
+                        xtype: 'ia-datecolumn',
+                        field: {
+                            xtype: 'ia-datefield'
+                        }
+                    },{
+                        header: "Procès verbal",
+                        dataIndex: 'proces_verbal',
+                        flex: 1,
+                        xtype: 'checkcolumn',
+                        field: {
+                            xtype: 'checkbox'
+                        }
+                    },{
+                        header: "Commission_id",
+                        dataIndex: 'commission_id',
+                        //hidden: true,
+                        xtype: 'numbercolumn',
+                        value: 999
+                    }]
                 }]
             }, {
                 items: [{
@@ -380,24 +451,6 @@ Ext.onReady(function() {
             items: [{
                 xtype: 'ia-datefield',
                 name: 'reception_contrat_date',
-            }, {
-                xtype: 'combo',
-                name: 'etat',
-                value: 'mrs',
-                mode: 'local',
-                triggerAction: 'all',
-                forceSelection: true,
-                editable: false,
-                displayField: 'name',
-                valueField: 'value',
-                queryMode: 'local',
-                store: Ext.create('Ext.data.Store', {
-                    fields: ['name', 'value'],
-                    data: [
-                        {name: 'Oui', value: 2},
-                        {name: 'Non', value: 1},
-                    ]
-                })
             }, {
                 xtype: 'textareafield',
                 name: 'reception_contrat_commentaire',
