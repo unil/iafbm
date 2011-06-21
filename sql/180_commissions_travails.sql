@@ -13,9 +13,9 @@ CREATE TABLE commissions_travails (
     commentaire TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
-    FOREIGN KEY (loco_primo) REFERENCES commissions_candidats(id),
-    FOREIGN KEY (loco_secondo) REFERENCES commissions_candidats(id),
-    FOREIGN KEY (loco_tertio) REFERENCES commissions_candidats(id)
+    FOREIGN KEY (loco_primo) REFERENCES candidats(id),
+    FOREIGN KEY (loco_secondo) REFERENCES candidats(id),
+    FOREIGN KEY (loco_tertio) REFERENCES candidats(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS commissions_travails_evenements_types;

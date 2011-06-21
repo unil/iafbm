@@ -9,7 +9,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
 
     // Shared Candidat store
-    var store_candidat = new iafbm.store.CommissionCandidat();
+    var store_candidat = new iafbm.store.Candidat();
 
     var form_apercu = Ext.create('Ext.ia.form.Panel', {
         store: new iafbm.store.Commission(),
@@ -118,18 +118,34 @@ Ext.onReady(function() {
         items: [{
             baseCls: 'title',
             html: 'Candidats'
-        }, new Ext.ia.selectiongrid.Panel({
+        }, {
+            xtype:'ia-editgrid',
+            width: 880,
+            height: 330,
+            store: new iafbm.store.Candidat(),
+            columns: iafbm.columns.Candidat,
+            pageSize: 10,
+            addItem: function() {
+                new Ext.ia.window.Popup({
+                    title: 'Créer un candidat',
+                    item: new iafbm.form.Candidat({
+                        createNew: true,
+                        frame: false
+                    })
+                });
+            },
+        }, /*new Ext.ia.selectiongrid.Panel({
             width: 858,
             height: 350,
             margin: '0 0 10 0',
-            plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:1})],
+            plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:2})],
             combo: {
-                store: new iafbm.store.Personne(),
+                store: new iafbm.store.Candidat(),
             },
             grid: {
                 store: store_candidat,
                 params: {commission_id: <?php echo $d['id'] ?>},
-                columns: iafbm.columns.CommissionCandidat
+                columns: iafbm.columns.Candidat
             },
             makeData: function(record) {
                 return {
@@ -138,7 +154,7 @@ Ext.onReady(function() {
                     actif: 1
                 }
             }
-        }), {
+        }), */{
             xtype: 'textareafield',
             name: 'commentaire',
             fieldLabel: 'Commentaire',

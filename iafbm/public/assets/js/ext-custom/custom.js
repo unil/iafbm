@@ -70,9 +70,16 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     },
     listeners: {
         exception: function(proxy, response, operation) {
+            var actions = {
+                create: "l\'ecriture",
+                read: "la lecture",
+                update: "l'écriture",
+                delete: "l'écriture"
+            };
+            var msg = ['Une erreur est survenue pendant', actions[operation.action], 'des données'].join(' ');
             Ext.Msg.show({
                 title: 'Erreur',
-                msg: "Une erreur est survenue pendant la lecture ou l'écriture des données",
+                msg: msg,
                 buttons: Ext.Msg.OK,
                 icon: Ext.window.MessageBox.QUESTION
             });
@@ -401,40 +408,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
     },
     pageSize: 10,
     plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
-    dockedItems: [{
-        xtype: 'toolbar',
-        items: [{
-            text: 'Ajouter',
-            iconCls: 'icon-add',
-            handler: function(){
-                // empty record
-                var grid = this.up('gridpanel');
-                grid.store.autoSync = false;
-                grid.store.insert(0, new grid.store.model());
-                grid.store.autoSync = true;
-                grid.getPlugin('rowediting').startEdit(0, 0);
-            }
-        }, '-', {
-            text: 'Supprimer',
-            iconCls: 'icon-delete',
-            handler: function(){
-                var grid = this.up('gridpanel');
-                var selection = grid.getView().getSelectionModel().getSelection()[0];
-                if (selection) {
-                    grid.store.remove(selection);
-                }
-            }
-        }, '->', '-', 'Rechercher',
-        new Ext.ux.form.SearchField({
-            store: null,
-            emptyText: 'Mots-clés',
-            listeners: {
-                // Wait for render time so that the grid store is created
-                // and ready to be bound to the search field
-                beforerender: function() { this.store = this.up('gridpanel').store }
-            }
-        })]
-    }],
+    dockedItems: [],
     bbar: new Ext.PagingToolbar({
         store: null,
         displayInfo: true,
@@ -449,11 +423,51 @@ Ext.define('Ext.ia.grid.EditPanel', {
         //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
     }),
     initComponent: function() {
+        this.dockedItems = this.makeDockedItems();
         var me = this;
         me.callParent();
         this.store.pageSize = this.pageSize;
         this.store.autoSync = true;
         this.store.load();
+    },
+    makeDockedItems: function() {
+        return [{
+            xtype: 'toolbar',
+            items: [{
+                text: 'Ajouter',
+                iconCls: 'icon-add',
+                handler: this.addItem
+            }, '-', {
+                text: 'Supprimer',
+                iconCls: 'icon-delete',
+                handler: this.removeItem
+            }, '->', '-', 'Rechercher',
+            new Ext.ux.form.SearchField({
+                store: null,
+                emptyText: 'Mots-clés',
+                listeners: {
+                    // Wait for render time so that the grid store is created
+                    // and ready to be bound to the search field
+                    beforerender: function() { this.store = this.up('gridpanel').store }
+                }
+            })]
+        }];
+    },
+    //TODO: put the Add button logic here, for it to be overridable
+    addItem: function() {
+        var grid = this.up('gridpanel');
+        grid.store.autoSync = false;
+        grid.store.insert(0, new grid.store.model());
+        grid.store.autoSync = true;
+        grid.getPlugin('rowediting').startEdit(0, 0);
+    },
+    //TODO: put the Remove button logic here, for it to be overridable
+    removeItem: function() {
+        var grid = this.up('gridpanel');
+        var selection = grid.getView().getSelectionModel().getSelection()[0];
+        if (selection) {
+            grid.store.remove(selection);
+        }
     }
 });
 
@@ -472,6 +486,7 @@ Ext.define('Ext.ia.form.Panel', {
     },
     store: null,
     loadParams: {},
+    createNew: false,
     initComponent: function() {
         if (this.store) this.buttons = [{
             text: 'Save',
@@ -483,7 +498,7 @@ Ext.define('Ext.ia.form.Panel', {
                     // resets form values with actual database values
                     form.updateRecord(store.getAt(0));
                     store.getAt(0).save({callback: function(savedRecord) {
-                        form.loadRecord(savedRecord);
+                        if (savedRecord) form.loadRecord(savedRecord);
                     }});
                 }
             }
@@ -494,10 +509,17 @@ Ext.define('Ext.ia.form.Panel', {
         beforerender: function() {
             // Store loading is optional
             if (!this.store) return;
+            // New record case
+            if (this.createNew) {
+                if (this.store.getCount() > 0)
+                    Ext.Error.raise("store should be empty");
+                this.store.add({});
+            }
             // Store autoloading logic
             var me = this;
             if (this.store.getCount() == 0) {
-                this.store.load({ params: this.loadParams,
+                this.store.load({
+                    params: this.loadParams,
                     callback: function(records, operation, success) {
                         var record = me.store.getAt(0);
                         if (record) {
@@ -513,7 +535,6 @@ Ext.define('Ext.ia.form.Panel', {
         }
     }
 });
-
 
 Ext.define('Ext.ia.ux.grid.History', {
     extend: 'Ext.grid.Panel',
@@ -565,13 +586,82 @@ Ext.define('Ext.ia.ux.grid.History', {
     })
 });
 
-
+Ext.define('Ext.ia.window.Popup', {
+    extend: 'Ext.window.Window',
+    alias: 'widget.ia-popup',
+    width: 850,
+    modal: true,
+    item: {},
+    initComponent: function() {
+        this.items = [Ext.apply(this.item, {
+            title: null,
+            frame: false
+        })];
+        var me = this;
+        me.callParent();
+        this.show();
+    }
+});
 
 /******************************************************************************
  * Business objects
 **/
 
 // Models
+Ext.define('iafbm.model.Etatcivil', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/etatscivils',
+    }
+});
+Ext.define('iafbm.model.Genre', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'genre', type: 'string'},
+        {name: 'genre_short', type: 'string'},
+        {name: 'intitule', type: 'string'},
+        {name: 'intitule_short', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/genres',
+    }
+});
+Ext.define('iafbm.model.Pays', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'code', type: 'string'},
+        {name: 'nom', type: 'string'},
+        {name: 'nom_en', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/pays',
+    }
+});
+Ext.define('iafbm.model.Section', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'code', type: 'string'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/sections',
+    }
+});
 Ext.define('iafbm.model.Personne', {
     extend: 'Ext.data.Model',
     fields: [
@@ -608,54 +698,43 @@ Ext.define('iafbm.model.CommissionMembre', {
         url: x.context.baseuri+'/api/commissions-membres',
     }
 });
-Ext.define('iafbm.model.CommissionCandidat', {
+Ext.define('iafbm.model.Candidat', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'personne_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
-        {name: 'personne_nom', type: 'string'},
-        {name: 'personne_prenom', type: 'string'},
-        {name: 'personne_date_naissance', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'personne_display', mapping: 0, convert: function(value, record) {
+        {name: 'nom', type: 'string'},
+        {name: 'prenom', type: 'string'},
+        {name: 'genre_id', type: 'int'},
+        {name: 'etatcivil_id', type: 'int'},
+        {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'no_avs', type: 'string'},
+        {name: 'email', type: 'sting'},
+        {name: 'adresse_pro', type: 'sting'},
+        {name: 'npa_pro', type: 'sting'},
+        {name: 'lieu_pro', type: 'sting'},
+        {name: 'pays_pro_id', type: 'int'},
+        {name: 'telephone_pro', type: 'sting'},
+        {name: 'adresse_pri', type: 'sting'},
+        {name: 'npa_pri', type: 'sting'},
+        {name: 'lieu_pri', type: 'sting'},
+        {name: 'pays_pri_id', type: 'int'},
+        {name: 'telephone_pri', type: 'sting'},
+        {name: 'nom_display', mapping: 0, convert: function(value, record) {
             return [
-                record.get('personne_prenom'),
-                record.get('personne_nom'),
-                '[H]'].join(' ');
+                record.get('prenom'),
+                record.get('nom'),
+                record.get('genre_nom_short')].join(' ');
         }},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
-    validations: [],
-    proxy: {
-        type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-candidats',
-    }
-});
-Ext.define('iafbm.model.Pays', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int'},
-        {name: 'code', type: 'string'},
-        {name: 'nom', type: 'string'},
-        {name: 'nom_en', type: 'string'}
+    validations: [
+        { field: 'nom', type: 'presence' },
+        { field: 'prenom', type: 'presence' },
     ],
-    validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/pays',
-    }
-});
-Ext.define('iafbm.model.Section', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int'},
-        {name: 'code', type: 'string'},
-        {name: 'nom', type: 'string'}
-    ],
-    validations: [],
-    proxy: {
-        type: 'ia-rest',
-        url: x.context.baseuri+'/api/sections',
+        url: x.context.baseuri+'/api/candidats',
     }
 });
 Ext.define('iafbm.model.Commission', {
@@ -967,7 +1046,7 @@ iafbm.columns.CommissionMembre = [{
     }
 }];
 
-iafbm.columns.CommissionCandidat = [{
+iafbm.columns.Candidat = [{
     xtype: 'actioncolumn',
     width: 25,
     items: [{
@@ -975,19 +1054,23 @@ iafbm.columns.CommissionCandidat = [{
         text: 'Détails',
         tooltip: 'Détails',
         handler: function(grid, rowIndex, colIndex, item) {
-            // TODO
+            new Ext.ia.window.Popup({
+                title: 'Fiche candidat',
+                item: new iafbm.form.Candidat({
+                    loadParams: { id: 1 },
+                    frame: false,
+                    listeners: { beforedestroy: function() { grid.store.load() } }
+                })
+            });
         }
     }]
 }, {
-    header: "Titre",
-    dataIndex: '',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
+    header: "Commission ID",
+    dataIndex: 'commission_id',
+    //hidden: true
 }, {
     header: "Nom",
-    dataIndex: 'personne_nom',
+    dataIndex: 'nom',
     flex: 1,
     field: {
         xtype: 'textfield',
@@ -995,7 +1078,7 @@ iafbm.columns.CommissionCandidat = [{
     }
 }, {
     header: "Prénom",
-    dataIndex: 'personne_prenom',
+    dataIndex: 'prenom',
     flex: 1,
     field: {
         xtype: 'textfield',
@@ -1010,13 +1093,18 @@ iafbm.columns.CommissionCandidat = [{
         xtype: 'ia-datefield'
     }
 }, {
-    header: "Sexe",
-    dataIndex: '',
+    header: "Genre",
+    dataIndex: 'genre_id',
     flex: 1,
-    field: {
-        xtype: 'textfield'
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'genre',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Genre()
     }
-}, {
+}/*, {
     header: "Formation supérieure",
     dataIndex: '',
     flex: 1,
@@ -1030,7 +1118,7 @@ iafbm.columns.CommissionCandidat = [{
     field: {
         xtype: 'textfield'
     }
-}];
+}*/];
 
 iafbm.columns.Commission = [{
     xtype: 'actioncolumn',
@@ -1133,7 +1221,168 @@ iafbm.columns.CommissionType = [{
     }
 }];
 
-//iafbm.Personne.fields: not used, defined in Model
+// Forms
+Ext.define('iafbm.form.Candidat', {
+    extend: 'Ext.ia.form.Panel',
+    store: Ext.create('iafbm.store.Candidat'),
+    loadParams: { id: null },
+    model: 'Candidat',
+    title: 'Candidat',
+    frame: true,
+    fieldDefaults: {
+        labelAlign: 'right',
+        msgTarget: 'side'
+    },
+    defaults: {
+        defaultType: 'textfield',
+    },
+    items: [{
+        xtype: 'fieldset',
+        title: 'Candidat',
+        items: [{
+            fieldLabel: 'Nom',
+            emptyText: 'Nom',
+            name: 'nom'
+        }, {
+            fieldLabel: 'Prénom',
+            emptyText: 'Prénom',
+            name: 'prenom'
+        }, {
+            xtype: 'ia-combo',
+            fieldLabel: 'Genre',
+            name: 'genre_id',
+            displayField: 'genre',
+            valueField: 'id',
+            store: new iafbm.store.Genre({})
+        }, {
+            xtype: 'ia-combo',
+            fieldLabel: 'Etat civil',
+            name: 'etatcivil_id',
+            displayField: 'nom',
+            valueField: 'id',
+            store: new iafbm.store.Etatcivil({})
+        }, {
+            xtype: 'numberfield',
+            fieldLabel: 'Nombre d\'enfants',
+            emptyText: 'Nombre d\'enfants',
+            name: 'nombre_enfants',
+            minValue: 0
+        }, {
+            fieldLabel: 'N° AVS',
+            emptyText: 'N° AVS',
+            name: 'no_avs'
+        }]
+    }, {
+        xtype: 'fieldcontainer',
+        layout: 'hbox',
+        defaults: {
+            flex: 1
+        },
+        items: [{
+            xtype: 'fieldset',
+            title: 'Formation supérieure',
+            items: [
+            ]
+        }, {
+            xtype: 'splitter',
+            flex: 0
+        }, {
+            xtype: 'fieldset',
+            title: 'Position actuelle',
+            items: [
+            ]
+        }]
+    }, {
+        xtype: 'fieldset',
+        title: 'Adresses',
+        items: [{
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+            defaults: {
+                fieldDefaults: {
+                    labelAlign: 'right',
+                    msgTarget: 'side'
+                },
+                border: false,
+                flex: 1,
+                defaultType: 'textfield'
+            },
+            items: [{
+                xtype: 'fieldcontainer',
+                items: [{
+                    xtype: 'displayfield',
+                    value: '<b>Professionnelle</b>',
+                    labelSeparator: null, fieldLabel: '&nbsp;'
+                }, {
+                    fieldLabel: 'Adresse',
+                    emptyText: 'Adresse',
+                    name: 'adresse_pro'
+                }, {
+                    fieldLabel: 'NPA',
+                    emptyText: 'NPA',
+                    name: 'npa_pro'
+                }, {
+                    fieldLabel: 'Lieu',
+                    emptyText: 'Lieu',
+                    name: 'lieu_pro'
+                }, {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Pays',
+                    name: 'pays_pro_id',
+                    displayField: 'nom',
+                    valueField: 'id',
+                    store: new iafbm.store.Pays({})
+                }, {
+                    fieldLabel: 'Télépone',
+                    emptyText: 'Télépone',
+                    name: 'telephone_pro'
+                }],
+            }, {
+                xtype: 'fieldcontainer',
+                items: [{
+                    xtype: 'displayfield',
+                    value: '<b>Privée</b>',
+                    labelSeparator: null, fieldLabel: '&nbsp;'
+                }, {
+                    fieldLabel: 'Adresse',
+                    emptyText: 'Adresse',
+                    name: 'adresse_pri'
+                }, {
+                    fieldLabel: 'NPA',
+                    emptyText: 'NPA',
+                    name: 'npa_pri'
+                }, {
+                    fieldLabel: 'Lieu',
+                    emptyText: 'Lieu',
+                    name: 'lieu_pri'
+                }, {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Pays',
+                    name: 'pays_pri_id',
+                    displayField: 'nom',
+                    valueField: 'id',
+                    store: new iafbm.store.Pays({})
+                }, {
+                    fieldLabel: 'Télépone',
+                    emptyText: 'Télépone',
+                    name: 'telephone_pri'
+                }]
+            }, {
+                xtype: 'fieldcontainer',
+                items: [{
+                    xtype: 'displayfield',
+                    value: '<b>Electronique</b>',
+                    labelSeparator: null, fieldLabel: '&nbsp;'
+                }, {
+                    fieldLabel: 'Email',
+                    emptyText: 'Email',
+                    name: 'email'
+                }]
+            }]
+        }]
+    }]
+
+});
 
 
 /******************************************************************************
