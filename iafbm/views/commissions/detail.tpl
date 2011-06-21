@@ -180,7 +180,7 @@ Ext.onReady(function() {
                 }
             },
             items: [{
-/* Draft using Ext.ia.ux.form.field.MultiField:
+/* Draft using Ext.ia.form.field.MultiField:
                 items: [{
                     xtype: 'displayfield',
                     value: '<b>Séances annoncées</b>',

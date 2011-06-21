@@ -190,7 +190,7 @@ Ext.define('Ext.ia.form.field.Date', {
 /**
  * Draft version of a multifield field
  */
-Ext.define('Ext.ia.ux.form.field.Multi', {
+Ext.define('Ext.ia.form.field.Multi', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.ia-multifield',
     // Config
@@ -488,17 +488,38 @@ Ext.define('Ext.ia.form.Panel', {
     loadParams: {},
     createNew: false,
     initComponent: function() {
+        this.addEvents(
+            /**
+            * @event aftersave
+            * Fires before the record is saved. Return false to cancel the sync.
+            * @param {Ext.ia.form.Panel} this
+            * @param {Ext.data.Model} record The {@link Ext.data.Model} to be saved
+            */
+            'beforesave',
+            /**
+            * @event aftersave
+            * Fires after the record has been saved.
+            * @param {Ext.ia.form.Panel} this
+            * @param {Ext.data.Model} savedRecord The saved {@link Ext.data.Model}
+            */
+            'aftersave'
+        );
+        var me = this;
         if (this.store) this.buttons = [{
             text: 'Save',
             handler: function() {
-                var form = this.up('form').getForm();
-                var store = this.up('form').store;
+                var form = me.getForm();
+                var store = me.store;
                 if (form.isValid()) {
                     // Saves record updated values and
                     // resets form values with actual database values
-                    form.updateRecord(store.getAt(0));
-                    store.getAt(0).save({callback: function(savedRecord) {
-                        if (savedRecord) form.loadRecord(savedRecord);
+                    var record = store.getAt(0);
+                    form.updateRecord(record);
+                    if (me.fireEvent('beforesave', me, record) === false) return;
+                    record.save({callback: function(savedRecord) {
+                        if (!savedRecord) return;
+                        form.loadRecord(savedRecord);
+                        me.fireEvent('aftersave', me, savedRecord);
                     }});
                 }
             }
@@ -1054,12 +1075,17 @@ iafbm.columns.Candidat = [{
         text: 'Détails',
         tooltip: 'Détails',
         handler: function(grid, rowIndex, colIndex, item) {
-            new Ext.ia.window.Popup({
+            var popup = new Ext.ia.window.Popup({
                 title: 'Fiche candidat',
                 item: new iafbm.form.Candidat({
                     loadParams: { id: 1 },
                     frame: false,
-                    listeners: { beforedestroy: function() { grid.store.load() } }
+                    listeners: {
+                        aftersave: function(form, record) {
+                            popup.close();
+                            grid.store.load();
+                        }
+                    }
                 })
             });
         }
