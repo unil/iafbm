@@ -12,7 +12,7 @@ class GenreModel extends xModelMysql {
         'intitule_short' => 'intitule_short'
     );
 
-    var $order_by = array('genre');
+    var $order_by = array('id');
 
     var $primary = array('id');
 }

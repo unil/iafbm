@@ -12,8 +12,11 @@ Ext.onReady(function() {
     var store_candidat = new iafbm.store.Candidat();
 
     var form_apercu = Ext.create('Ext.ia.form.Panel', {
-        store: new iafbm.store.Commission(),
-        loadParams: {id: <?php echo $d['id'] ?>},
+        store: Ext.create('iafbm.store.Commission'),
+        record: {
+            model: iafbm.model.Commission,
+            id: <?php echo $d['id'] ?>
+        },
         defaults: {
             flex: 1,
             anchor: '100%'
@@ -26,8 +29,31 @@ Ext.onReady(function() {
             defaults: { labelStyle: 'font-weight:bold' },
             items: [
                 {xtype: 'displayfield', name: 'commission-type_racine', fieldLabel: 'Type', labelWidth: 33, width: 350},
-                {xtype: 'displayfield', name: 'commission-etat_nom', fieldLabel: 'Etat', labelWidth: 27, width: 300},
-                {xtype: 'displayfield', name: 'section_code', fieldLabel: 'Section', labelWidth: 47, width: 100},
+                //{xtype: 'displayfield', name: 'commission-etat_nom', fieldLabel: 'Etat', labelWidth: 27, width: 300},
+                {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Etat',
+                    displayField: 'nom',
+                    valueField: 'id',
+                    store: Ext.create('iafbm.store.CommissionEtat'),
+                    name: 'commission-etat_id',
+                    allowBlank: false,
+                    labelWidth: 33,
+                    width: 180
+                },
+                //{xtype: 'displayfield', name: 'section_code', fieldLabel: 'Section', labelWidth: 47, width: 100},
+                {
+                    xtype: 'ia-combo',
+                    fieldLabel: 'Section',
+                    displayField: 'code',
+                    valueField: 'id',
+                    store: Ext.create('iafbm.store.Section'),
+                    name: 'section_id',
+                    allowBlank: false,
+                    labelWidth: 47,
+                    width: 120,
+                    margin: '0 0 0 100'
+                },
             ]
         }, {
             xtype: 'textarea',
@@ -59,8 +85,11 @@ Ext.onReady(function() {
 
 
     var form_creation = Ext.create('Ext.ia.form.Panel', {
-        store: new iafbm.store.CommissionCreation(),
-        loadParams: {commission_id: <?php echo $d['id'] ?>},
+        store: Ext.create('iafbm.store.CommissionCreation'),
+        record: {
+            model: iafbm.model.CommissionCreation,
+            params: { commission_id: <?php echo $d['id'] ?> }
+        },
         items: [{
             baseCls: 'title',
             html: 'Phase de création'
@@ -113,8 +142,11 @@ Ext.onReady(function() {
     });
 
     var form_candidat = Ext.create('Ext.ia.form.Panel', {
-        store: new iafbm.store.CommissionCandidatCommentaire(),
-        loadParams: {commission_id: <?php echo $d['id'] ?>},
+        store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
+        record: {
+            model: iafbm.model.CommissionCandidatCommentaire,
+            params: { commission_id: <?php echo $d['id'] ?> }
+        },
         items: [{
             baseCls: 'title',
             html: 'Candidats'
@@ -126,11 +158,21 @@ Ext.onReady(function() {
             columns: iafbm.columns.Candidat,
             pageSize: 10,
             addItem: function() {
-                new Ext.ia.window.Popup({
+                var me = this,
+                    popup = new Ext.ia.window.Popup({
                     title: 'Créer un candidat',
                     item: new iafbm.form.Candidat({
-                        createNew: true,
-                        frame: false
+                        frame: false,
+                        record: new iafbm.model.Candidat({
+                            commission_id: <?php echo $d['id'] ?>
+                        }),
+                        listeners: {
+                            aftersave: function(form, record) {
+                                me.up('gridpanel').store.load();
+                                popup.close();
+                            }
+                        }
+
                     })
                 });
             },
@@ -163,8 +205,11 @@ Ext.onReady(function() {
     });
 
     var form_travail = Ext.create('Ext.ia.form.Panel', {
-        store: new iafbm.store.CommissionTravail(),
-        loadParams: {commission_id: <?php echo $d['id'] ?>},
+        store: Ext.create('iafbm.store.CommissionTravail'),
+        record: {
+            model: iafbm.model.CommissionTravail,
+            params: { commission_id: <?php echo $d['id'] ?> }
+        },
         items: [{
             baseCls: 'title',
             html: 'Validation de rapport'
@@ -276,26 +321,29 @@ Ext.onReady(function() {
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Primo Loco',
-                    displayField: 'personne_display',
+                    displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat
+                    store: store_candidat,
+                    name: 'primo_loco'
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secondo Loco',
-                    displayField: 'personne_display',
+                    displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat
+                    store: store_candidat,
+                    name: 'secondo_loco'
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio Loco',
-                    displayField: 'personne_display',
+                    displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat
+                    store: store_candidat,
+                    name: 'tertio_loco'
                 }]
             }]
         },{
             xtype: 'textareafield',
-            name: 'desc',
+            name: 'commentaire',
             fieldLabel: 'Commentaire',
             width: 858
         }, new Ext.ia.ux.grid.History()]
@@ -303,7 +351,11 @@ Ext.onReady(function() {
 
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
     var form_validation = Ext.create('Ext.ia.form.Panel', {
-        store: new iafbm.store.CommissionValidation(),
+        store: Ext.create('iafbm.store.CommissionValidation'),
+        record: {
+            model: iafbm.model.CommissionValidation,
+            params: { commission_id: <?php echo $d['id'] ?> }
+        },
         defaults: {
             layout: 'hbox',
             combineErrors: true,
@@ -448,7 +500,11 @@ Ext.onReady(function() {
     });
 
     var form_finalisation = Ext.create('Ext.ia.form.Panel', {
-        store: new iafbm.store.CommissionFinalisation,
+        store: Ext.create('iafbm.store.CommissionFinalisation'),
+        record: {
+            model: iafbm.model.CommissionFinalisation,
+            params: { commission_id: <?php echo $d['id'] ?> }
+        },
         defaults: {
             layout: 'hbox',
             combineErrors: true,

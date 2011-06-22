@@ -453,15 +453,14 @@ Ext.define('Ext.ia.grid.EditPanel', {
             })]
         }];
     },
-    //TODO: put the Add button logic here, for it to be overridable
     addItem: function() {
-        var grid = this.up('gridpanel');
+        var grid = this.up('gridpanel'),
+            autoSync = grid.store.autoSync;
         grid.store.autoSync = false;
         grid.store.insert(0, new grid.store.model());
-        grid.store.autoSync = true;
+        grid.store.autoSync = autoSync;
         grid.getPlugin('rowediting').startEdit(0, 0);
     },
-    //TODO: put the Remove button logic here, for it to be overridable
     removeItem: function() {
         var grid = this.up('gridpanel');
         var selection = grid.getView().getSelectionModel().getSelection()[0];
@@ -484,9 +483,51 @@ Ext.define('Ext.ia.form.Panel', {
     fieldDefaults: {
         labelWidth: 80
     },
-    store: null,
-    loadParams: {},
-    createNew: false,
+    record: null,
+    makeRecord: function() {
+        // The record property can contain either a regular Ext.data.Model
+        // or a configuration object containing the model and the id to load
+        if (this.record && this.record.model && this.record.model.load) {
+            // Manages parameters
+            if (this.record.params) {
+                var proxy = this.record.model.proxy,
+                    proxyExtraParams = Ext.clone(proxy.extraParams);
+                proxy.extraParams = Ext.apply(proxy.extraParams, this.record.params);
+            }
+            // Creates the record
+            var me = this;
+            this.record.model.load(this.record.id, {
+                success: function(record) {
+                    me.record = record;
+                    me.getForm().loadRecord(me.record);
+                },
+                failure: function(record) {},
+                callback: function() {
+                    // Restores proxy extraParams
+                    if (!proxy) return;
+                    proxy.extraParams = proxyExtraParams;
+                }
+            });
+        }
+    },
+    saveRecord: function() {
+        var me = this,
+            record = this.getRecord();
+        if (this.fireEvent('beforesave', this, record) === false) return;
+        //FIXME: would it be clever to reuse the record validation be used here?
+        if (this.getForm().isValid()) {
+            // Updates record from form values
+            // FIXME: updateRecord() will trigger the save action
+            //        if the record belongs to Store with autoSync,
+            //        which will trigger the POST request twice :(
+            this.getForm().updateRecord(record);
+            record.save({ success: function(record, operation) {
+                if (!operation.success) return;
+                me.fireEvent('aftersave', me, record);
+                me.getForm().loadRecord(record);
+            }});
+        }
+    },
     initComponent: function() {
         this.addEvents(
             /**
@@ -505,54 +546,17 @@ Ext.define('Ext.ia.form.Panel', {
             'aftersave'
         );
         var me = this;
-        if (this.store) this.buttons = [{
+        if (this.record) this.buttons = [{
             text: 'Save',
-            handler: function() {
-                var form = me.getForm();
-                var store = me.store;
-                if (form.isValid()) {
-                    // Saves record updated values and
-                    // resets form values with actual database values
-                    var record = store.getAt(0);
-                    form.updateRecord(record);
-                    if (me.fireEvent('beforesave', me, record) === false) return;
-                    record.save({callback: function(savedRecord) {
-                        if (!savedRecord) return;
-                        form.loadRecord(savedRecord);
-                        me.fireEvent('aftersave', me, savedRecord);
-                    }});
-                }
-            }
+            handler: function() { me.saveRecord() }
         }];
-        var me = this; me.callParent();
+        me.callParent();
     },
     listeners: {
-        beforerender: function() {
-            // Store loading is optional
-            if (!this.store) return;
-            // New record case
-            if (this.createNew) {
-                if (this.store.getCount() > 0)
-                    Ext.Error.raise("store should be empty");
-                this.store.add({});
-            }
-            // Store autoloading logic
-            var me = this;
-            if (this.store.getCount() == 0) {
-                this.store.load({
-                    params: this.loadParams,
-                    callback: function(records, operation, success) {
-                        var record = me.store.getAt(0);
-                        if (record) {
-                            me.form.loadRecord(record);
-                        } else {
-                            Ext.Error.raise('Failed loading store');
-                        }
-                    }
-                });
-            } else {
-                this.form.loadRecord(this.store.getAt(0));
-            }
+        afterrender: function() {
+            // Manages record loading
+            this.makeRecord();
+            if (this.record) this.getForm().loadRecord(this.record);
         }
     }
 });
@@ -741,7 +745,7 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'lieu_pri', type: 'sting'},
         {name: 'pays_pri_id', type: 'int'},
         {name: 'telephone_pri', type: 'sting'},
-        {name: 'nom_display', mapping: 0, convert: function(value, record) {
+        {name: '_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('prenom'),
                 record.get('nom'),
@@ -1075,15 +1079,15 @@ iafbm.columns.Candidat = [{
         text: 'Détails',
         tooltip: 'Détails',
         handler: function(grid, rowIndex, colIndex, item) {
+            var record = grid.getStore().getAt(rowIndex);
             var popup = new Ext.ia.window.Popup({
                 title: 'Fiche candidat',
                 item: new iafbm.form.Candidat({
-                    loadParams: { id: 1 },
                     frame: false,
+                    record: record,
                     listeners: {
                         aftersave: function(form, record) {
                             popup.close();
-                            grid.store.load();
                         }
                     }
                 })
@@ -1250,9 +1254,7 @@ iafbm.columns.CommissionType = [{
 // Forms
 Ext.define('iafbm.form.Candidat', {
     extend: 'Ext.ia.form.Panel',
-    store: Ext.create('iafbm.store.Candidat'),
-    loadParams: { id: null },
-    model: 'Candidat',
+    store: Ext.create('iafbm.store.Candidat'), //fixme, this should not be necessary
     title: 'Candidat',
     frame: true,
     fieldDefaults: {
@@ -1408,6 +1410,57 @@ Ext.define('iafbm.form.Candidat', {
         }]
     }]
 
+});
+
+Ext.define('iafbm.form.Personne', {
+    extend: 'Ext.ia.form.Panel',
+    store: Ext.create('iafbm.store.Personne'), //fixme, this should not be necessary
+    title:'Personne',
+    frame: true,
+    fieldDefaults: {
+        labelAlign: 'right',
+        msgTarget: 'side'
+    },
+    items: [{
+        xtype: 'fieldset',
+        title: 'Contact Information',
+        defaultType: 'textfield',
+        defaults: {
+            width: 280
+        },
+        items: [{
+            fieldLabel: 'Nom',
+            emptyText: 'Nom',
+            name: 'nom'
+        }, {
+            fieldLabel: 'Prénom',
+            emptyText: 'Prénom',
+            name: 'prenom'
+        }, {
+            fieldLabel: 'Adresse',
+            emptyText: 'Adresse',
+            name: 'adresse'
+        }, {
+            xtype: 'ia-combo',
+            fieldLabel: 'Pays',
+            name: 'pays_id',
+            lazyRender: true,
+            typeAhead: true,
+            minChars: 1,
+            triggerAction: 'all',
+            displayField: 'nom',
+            valueField: 'id',
+            store: Ext.create('iafbm.store.Pays')
+        }, {
+            fieldLabel: 'Télépone',
+            emptyText: 'Télépone',
+            name: 'tel'
+        }, {
+            xtype: 'ia-datefield',
+            fieldLabel: 'Date de naissance',
+            name: 'date_naissance',
+        }]
+    }]
 });
 
 

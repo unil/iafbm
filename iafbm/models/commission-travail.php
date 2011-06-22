@@ -10,9 +10,10 @@ class CommissionTravailModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
-        'loco_primo' => 'loco_primo',
-        'loco_secondo' => 'loco_secondo',
-        'loco_tertio' => 'loco_tertio'
+        'primo_loco' => 'loco_primo',
+        'secondo_loco' => 'loco_secondo',
+        'tertio_loco' => 'loco_tertio',
+        'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');
