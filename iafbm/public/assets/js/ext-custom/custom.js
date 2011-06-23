@@ -93,46 +93,39 @@ Ext.define('Ext.ia.grid.column.Date', {
     format: 'd.m.Y'
 });
 
-/* TODO:FIXME: default grid action columns
 Ext.define('Ext.ia.grid.column.Action', {
     extend:'Ext.grid.column.Action',
-    alias: 'widget.ia-actioncolumn',
-    config: {
-        resource: null,
-    },
-    width: 25,
-    header: 'Détails',
-    initComponent: function() {
-        this.items = [{
-            // TODO: Use a URL in the icon config
-            icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
-            text: 'Détails',
-            tooltip: 'Détails',
-            handler: function(gridView, rowIndex, colIndex, item) {
-                var grid = this.up('gridpanel'),
-                    record = grid.store.getAt(rowIndex),
-                    id = record.get(record.idProperty);
-                if (record.phantom) {
-                    Ext.Msg.show({
-                        title: 'Erreur',
-                        msg: "Veuillez d'abord remplir tous les champs de cette commission",
-                        buttons: Ext.Msg.OK,
-                        icon: Ext.window.MessageBox.WARNING,
-                        fn: function() {
-                            var column = grid.getColumns()[0];
-                            grid.getPlugin('rowediting').startEdit(record, column);
-                        }
-                    });
-                    return;
+    alias: 'widget.ia-actioncolumn-detailform',
+    icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
+    text: 'Détails',
+    tooltip: 'Détails',
+    form: null,
+    handler: function(gridView, rowIndex, colIndex, item) {
+        var me = this,
+            record = gridView.getStore().getAt(rowIndex),
+            popup = new Ext.ia.window.Popup({
+            title: 'Détails',
+            item: new me.form({
+                frame: false,
+                record: record,
+                listeners: {
+                    aftersave: function(form, record) {
+                        popup.close();
+                    }
                 }
-                location.href = x.context.baseuri+'/'+this.resource+'/'+id;
-            }
-        }];
+            })
+        });
+    },
+    initComponent: function() {
+        this.flex = 0;
+        this.width = 20;
+        this.sortable = false;
+        this.menuDisabled = true;
+        this.fixed = true;
         var me = this;
         me.callParent();
     }
 });
-*/
 
 
 Ext.define('Ext.ia.grid.ComboColumn', {
@@ -863,9 +856,9 @@ Ext.define('iafbm.model.CommissionTravail', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'primo_loco', type: 'int'},
-        {name: 'secondo_loco', type: 'int'},
-        {name: 'tertio_loco', type: 'int'},
+        {name: 'primo_loco', type: 'int', useNull: true},
+        {name: 'secondo_loco', type: 'int', useNull: true},
+        {name: 'tertio_loco', type: 'int', useNull: true},
         {name: 'commentaire', type: 'string'},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
@@ -965,291 +958,6 @@ for (model in iafbm.model) {
         model: ['iafbm', 'model', model].join('.')
     });
 }
-
-// Columns
-Ext.ns('iafbm.columns');
-iafbm.columns.Personne = [{
-    xtype: 'actioncolumn',
-    width: 25,
-    items: [{
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {
-            var id = grid.store.getAt(rowIndex).get('id');
-            var l = window.location;
-            var url = [l.protocol, '//', l.host, '/personnes/', id].join('');
-            window.location = url;
-        }
-    }]
-}, {
-    header: "Nom",
-    dataIndex: 'nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Prénom",
-    dataIndex: 'prenom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Adresse",
-    dataIndex: 'adresse',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Téléphone",
-    dataIndex: 'tel',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Pays",
-    dataIndex: 'pays_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    field: {
-        xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        store: new iafbm.store.Pays()
-    }
-}, {
-    header: "Date de naissance",
-    dataIndex: 'date_naissance',
-    flex: 1,
-    xtype: 'ia-datecolumn',
-    field: {
-        xtype: 'ia-datefield'
-    }
-}];
-
-iafbm.columns.CommissionMembre = [{
-    header: "Titre",
-    dataIndex: '',
-    width: 100,
-    field: {
-        xtype: 'textfield'
-    }
-}, {
-    header: "Nom",
-    dataIndex: 'personne_nom',
-    width: 125,
-}, {
-    header: "Prénom",
-    dataIndex: 'personne_prenom',
-    width: 125,
-}, {
-    header: "Service",
-    dataIndex: 'undefined',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
-}, {
-    header: "Fonction",
-    dataIndex: 'fonction_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.CommissionFonction()
-    }
-}];
-
-iafbm.columns.Candidat = [{
-    xtype: 'actioncolumn',
-    width: 25,
-    items: [{
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {
-            var record = grid.getStore().getAt(rowIndex);
-            var popup = new Ext.ia.window.Popup({
-                title: 'Fiche candidat',
-                item: new iafbm.form.Candidat({
-                    frame: false,
-                    record: record,
-                    listeners: {
-                        aftersave: function(form, record) {
-                            popup.close();
-                        }
-                    }
-                })
-            });
-        }
-    }]
-}, {
-    header: "Commission ID",
-    dataIndex: 'commission_id',
-    //hidden: true
-}, {
-    header: "Nom",
-    dataIndex: 'nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Prénom",
-    dataIndex: 'prenom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Date de naissance",
-    dataIndex: 'date_naissance',
-    flex: 1,
-    xtype: 'ia-datecolumn',
-    field: {
-        xtype: 'ia-datefield'
-    }
-}, {
-    header: "Genre",
-    dataIndex: 'genre_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        displayField: 'genre',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.Genre()
-    }
-}/*, {
-    header: "Formation supérieure",
-    dataIndex: '',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
-}, {
-    header: "Position actuelle",
-    dataIndex: '',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
-}*/];
-
-iafbm.columns.Commission = [{
-    xtype: 'actioncolumn',
-    width: 25,
-    header: 'Détails',
-    items: [{
-        // TODO: Use a URL in the icon config
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(gridView, rowIndex, colIndex, item) {
-            var grid = this.up('gridpanel'),
-                record = grid.store.getAt(rowIndex),
-                id = record.get(record.idProperty);
-            if (record.phantom) {
-                Ext.Msg.show({
-                    title: 'Erreur',
-                    msg: "Veuillez d'abord remplir tous les champs de cette commission",
-                    buttons: Ext.Msg.OK,
-                    icon: Ext.window.MessageBox.WARNING,
-                    fn: function() {
-                        var column = grid.getColumns()[0];
-                        grid.getPlugin('rowediting').startEdit(record, column);
-                    }
-                });
-                return;
-            }
-            location.href = x.context.baseuri+'/commissions/'+id;
-        }
-    }]
-}, {
-    header: "Type",
-    dataIndex: 'commission-type_id',
-    width: 175,
-    xtype: 'ia-combocolumn',
-    field: {
-        xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.CommissionType()
-    }
-}, {
-    header: "N°",
-    dataIndex: 'id',
-    width: 75
-}, {
-    header: "Nom",
-    dataIndex: 'nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Section",
-    dataIndex: 'section_id',
-    width: 75,
-    xtype: 'ia-combocolumn',
-    field: {
-        xtype: 'ia-combo',
-        displayField: 'code',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.Section()
-    }
-}, {
-    header: "Président",
-    dataIndex: '_president',
-    width: 150,
-}, {
-    header: "Etat",
-    dataIndex: 'commission-etat_id',
-    width: 100,
-    xtype: 'ia-combocolumn',
-    field: {
-        xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.CommissionEtat()
-    }
-}];
-
-iafbm.columns.CommissionType = [{
-    header: "Nom",
-    dataIndex: 'nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Racine",
-    dataIndex: 'racine',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}];
 
 // Forms
 Ext.define('iafbm.form.Candidat', {
@@ -1462,6 +1170,283 @@ Ext.define('iafbm.form.Personne', {
         }]
     }]
 });
+
+// Columns
+Ext.ns('iafbm.columns');
+iafbm.columns.Personne = [{
+    xtype: 'actioncolumn',
+    width: 25,
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(grid, rowIndex, colIndex, item) {
+            var id = grid.store.getAt(rowIndex).get('id');
+            var l = window.location;
+            var url = [l.protocol, '//', l.host, '/personnes/', id].join('');
+            window.location = url;
+        }
+    }]
+}, {
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Adresse",
+    dataIndex: 'adresse',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Téléphone",
+    dataIndex: 'tel',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Pays",
+    dataIndex: 'pays_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    field: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        store: new iafbm.store.Pays()
+    }
+}, {
+    header: "Date de naissance",
+    dataIndex: 'date_naissance',
+    flex: 1,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
+}];
+
+iafbm.columns.CommissionMembre = [{
+    xtype: 'ia-actioncolumn-detailform',
+    //form: iafbm.form.CommissionMembre
+}, {
+    header: "Titre",
+    dataIndex: '',
+    width: 100,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    width: 125,
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    width: 125,
+}, {
+    header: "Service",
+    dataIndex: 'undefined',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Fonction",
+    dataIndex: 'fonction_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionFonction()
+    }
+}];
+
+iafbm.columns.Candidat = [{
+    xtype: 'ia-actioncolumn-detailform',
+    form: iafbm.form.Candidat
+}, {
+    header: "Commission",
+    dataIndex: 'commission_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Commission()
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Date de naissance",
+    dataIndex: 'date_naissance',
+    flex: 1,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
+}, {
+    header: "Genre",
+    dataIndex: 'genre_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'genre',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Genre()
+    }
+}/*, {
+    header: "Formation supérieure",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Position actuelle",
+    dataIndex: '',
+    flex: 1,
+    field: {
+        xtype: 'textfield'
+    }
+}*/];
+
+iafbm.columns.Commission = [{
+    xtype: 'actioncolumn',
+    width: 25,
+    header: 'Détails',
+    items: [{
+        // TODO: Use a URL in the icon config
+        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
+        text: 'Détails',
+        tooltip: 'Détails',
+        handler: function(gridView, rowIndex, colIndex, item) {
+            var grid = this.up('gridpanel'),
+                record = grid.store.getAt(rowIndex),
+                id = record.get(record.idProperty);
+            if (record.phantom) {
+                Ext.Msg.show({
+                    title: 'Erreur',
+                    msg: "Veuillez d'abord remplir tous les champs de cette commission",
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.window.MessageBox.WARNING,
+                    fn: function() {
+                        var column = grid.getColumns()[0];
+                        grid.getPlugin('rowediting').startEdit(record, column);
+                    }
+                });
+                return;
+            }
+            location.href = x.context.baseuri+'/commissions/'+id;
+        }
+    }]
+}, {
+    header: "Type",
+    dataIndex: 'commission-type_id',
+    width: 175,
+    xtype: 'ia-combocolumn',
+    field: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionType()
+    }
+}, {
+    header: "N°",
+    dataIndex: 'id',
+    width: 75
+}, {
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Section",
+    dataIndex: 'section_id',
+    width: 75,
+    xtype: 'ia-combocolumn',
+    field: {
+        xtype: 'ia-combo',
+        displayField: 'code',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Section()
+    }
+}, {
+    header: "Président",
+    dataIndex: '_president',
+    width: 150,
+}, {
+    header: "Etat",
+    dataIndex: 'commission-etat_id',
+    width: 100,
+    xtype: 'ia-combocolumn',
+    field: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionEtat()
+    }
+}];
+
+iafbm.columns.CommissionType = [{
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Racine",
+    dataIndex: 'racine',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}];
+
 
 
 /******************************************************************************

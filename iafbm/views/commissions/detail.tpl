@@ -324,7 +324,7 @@ Ext.onReady(function() {
                     displayField: '_display',
                     valueField: 'id',
                     store: store_candidat,
-                    name: 'primo_loco'
+                    name: 'primo_loco',
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secondo Loco',
