@@ -397,7 +397,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
         height: 300,
         frame: true,
         store: null,
-        columns: null
+        columns: null,
+        newRecordValues: {}
     },
     pageSize: 10,
     plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
@@ -450,7 +451,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         var grid = this.up('gridpanel'),
             autoSync = grid.store.autoSync;
         grid.store.autoSync = false;
-        grid.store.insert(0, new grid.store.model());
+        grid.store.insert(0, grid.createRecord());
         grid.store.autoSync = autoSync;
         grid.getPlugin('rowediting').startEdit(0, 0);
     },
@@ -460,6 +461,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
         if (selection) {
             grid.store.remove(selection);
         }
+    },
+    createRecord: function() {
+        return new this.store.model(this.newRecordValues);
     }
 });
 

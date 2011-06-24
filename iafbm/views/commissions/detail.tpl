@@ -257,26 +257,7 @@ Ext.onReady(function() {
                     store: new iafbm.store.CommissionTravailEvenement({
                         params: { commission_id: '<?php echo $d['id'] ?>' }
                     }),
-                    plugins: [new Ext.grid.plugin.RowEditing({
-                        pluginId:'rowediting',
-                        listeners: {
-                            afteredit: function(e) {
-                                console.log('afteredit');
-                                console.log(e);
-                            },
-                            validateedit: function(editor, event) {
-                                console.log('validateedit');
-                                var record = event.record;
-                                console.log(record.data.commission_id);
-                                //record.set('commission_id', '<?php echo $d['id'] ?>');
-                                record.data.commission_id = '<?php echo $d['id'] ?>';
-                                console.log(record.data.commission_id);
-                                record.save();
-                                event.cancel = true;
-//event.cancel = true;
-                            }
-                        }
-                    })],
+                    newRecordValues: { commission_id: '<?php echo $d['id'] ?>' },
                     columns: [{
                         header: "Type",
                         dataIndex: 'commission-travail-evenement-type_id',
@@ -295,7 +276,8 @@ Ext.onReady(function() {
                         flex: 1,
                         xtype: 'ia-datecolumn',
                         field: {
-                            xtype: 'ia-datefield'
+                            xtype: 'ia-datefield',
+                            allowBlank: false
                         }
                     },{
                         header: "Procès verbal",
@@ -305,12 +287,6 @@ Ext.onReady(function() {
                         field: {
                             xtype: 'checkbox'
                         }
-                    },{
-                        header: "Commission_id",
-                        dataIndex: 'commission_id',
-                        //hidden: true,
-                        xtype: 'numbercolumn',
-                        value: 999
                     }]
                 }]
             }, {
