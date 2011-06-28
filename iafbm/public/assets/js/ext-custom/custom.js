@@ -1105,7 +1105,6 @@ Ext.define('iafbm.form.Candidat', {
     },
     _createFormation: function() {
         var candidat_id = this.fetch.id || this.record.get('id');
-//console.log(candidat_id);
         return {
             xtype: 'fieldset',
             title: 'Formation supérieure',
