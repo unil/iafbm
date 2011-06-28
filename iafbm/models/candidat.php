@@ -27,7 +27,9 @@ class CandidatModel extends xModelMysql {
         'npa_pri' => 'npa_pri',
         'lieu_pri' => 'lieu_pri',
         'pays_pri_id' => 'pays_pri_id',
-        'telephone_pri' => 'telephone_pri'
+        'telephone_pri' => 'telephone_pri',
+        'position_actuelle_fonction' => 'position_actuelle_fonction',
+        'position_actuelle_lieu' => 'position_actuelle_lieu'
     );
 
     var $primary = array('id');

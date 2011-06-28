@@ -20,6 +20,18 @@ VALUES ('Stefan', 'Bern', 'Cadre 16', '0216101016', '14', '2011-04-01T00:00:00',
 INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
 VALUES ('Matthieu', 'Kassovic', 'Smart 7', '0216101017', '16', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
 
+-- candidats
+/*
+INSERT INTO candidats (created,modified,actif,commission_id,nom,prenom,genre_id,etatcivil_id,date_naissance,nombre_enfants,no_avs,email,adresse_pro,npa_pro,lieu_pro,pays_pro_id,telephone_pro,adresse_pri,npa_pri,lieu_pri,pays_pri_id,telephone_pri)
+VALUES (
+    CURRENT_TIMESTAMP, null, 1, 1,
+    'Damien', 'Corpataux', 1, 1, '1979-11-10', 0, 123.456.789.10,
+    'd@mien.ch',
+    'Av. de la profession 1', '1000', 'Lausanne', 32, null,
+    'Av. du privé', '1009', 'Pully', 32, '0793213201'
+);
+*/
+
 /*******************************************************************************
  * COMMISSIONS
  ******************************************************************************/

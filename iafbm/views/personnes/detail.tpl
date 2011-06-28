@@ -8,7 +8,7 @@ Ext.onReady(function() {
     Ext.QuickTips.init();
 
     var formPanel = Ext.create('iafbm.form.Personne', {
-        record: {
+        fetch: {
             model: iafbm.model.Personne,
             id: <?php echo $d['id'] ?>
         },

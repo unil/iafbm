@@ -182,7 +182,6 @@ Ext.define('Ext.ia.form.field.Date', {
 
 /**
  * Draft version of a multifield field
- */
 Ext.define('Ext.ia.form.field.Multi', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.ia-multifield',
@@ -290,6 +289,7 @@ Ext.define('Ext.ia.form.field.Multi', {
         }
     }
 });
+ */
 
 Ext.define('Ext.ia.selectiongrid.Panel', {
     extend: 'Ext.grid.Panel',
@@ -417,12 +417,25 @@ Ext.define('Ext.ia.grid.EditPanel', {
         //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
     }),
     initComponent: function() {
+        this.addEvents(
+            /**
+            * @event beforeload
+            * Fires before the record is loaded. Return false to cancel.
+            * @param {Ext.ia.grid.EditPanel} this
+            */
+            'beforeload'
+        );
         this.dockedItems = this.makeDockedItems();
         var me = this;
         me.callParent();
-        this.store.pageSize = this.pageSize;
-        this.store.autoSync = true;
-        this.store.load();
+        // Adds listeners
+        //this.addListener('afterlayout', function() {
+            // Manages store loading
+            this.fireEvent('grid.EditPanel loading', this);
+            this.store.pageSize = this.pageSize;
+            this.store.autoSync = true;
+            this.store.load();
+        //});
     },
     makeDockedItems: function() {
         return [{
@@ -481,20 +494,32 @@ Ext.define('Ext.ia.form.Panel', {
         labelWidth: 80
     },
     record: null,
+    fetch: {
+        model: null,
+        id: null
+    },
     makeRecord: function() {
-        // The record property can contain either a regular Ext.data.Model
+        // The fetch property can contain either a regular Ext.data.Model
         // or a configuration object containing the model and the id to load
-        if (this.record && this.record.model && this.record.model.load) {
+        if (this.record) {
+            this.getForm().loadRecord(this.record);
+        } else if (this.fetch && this.fetch.model && this.fetch.model.load) {
+            var proxy = this.fetch.model.proxy;
             // Manages parameters
-            if (this.record.params) {
-                var proxy = this.record.model.proxy,
-                    proxyExtraParams = Ext.clone(proxy.extraParams);
-                proxy.extraParams = Ext.apply(proxy.extraParams, this.record.params);
+            if (this.fetch.params) {
+                var proxyExtraParams = Ext.clone(proxy.extraParams);
+                proxy.extraParams = Ext.apply(proxy.extraParams, this.fetch.params);
             }
             // Creates the record
             var me = this;
-            this.record.model.load(this.record.id, {
+            this.fetch.model.load(this.fetch.id, {
                 success: function(record) {
+                    // Checks record before applying
+                    if (!record) {
+                        proxy.fireEvent('exception', proxy, {}, {action:'read'});
+                        return;
+                    }
+                    // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
                 },
@@ -507,11 +532,13 @@ Ext.define('Ext.ia.form.Panel', {
             });
         }
     },
+    applyRecord: function(record) {
+    },
     saveRecord: function() {
         var me = this,
             record = this.getRecord();
         if (this.fireEvent('beforesave', this, record) === false) return;
-        //FIXME: would it be clever to reuse the record validation be used here?
+        //TODO: would it be clever to reuse the record validation be used here?
         if (this.getForm().isValid()) {
             // Updates record from form values
             // FIXME: updateRecord() will trigger the save action
@@ -528,6 +555,12 @@ Ext.define('Ext.ia.form.Panel', {
     initComponent: function() {
         this.addEvents(
             /**
+            * @event beforeload
+            * Fires before the record is loaded.
+            * @param {Ext.ia.form.Panel} this
+            */
+            'beforeload',
+            /**
             * @event aftersave
             * Fires before the record is saved. Return false to cancel the sync.
             * @param {Ext.ia.form.Panel} this
@@ -542,19 +575,18 @@ Ext.define('Ext.ia.form.Panel', {
             */
             'aftersave'
         );
-        var me = this;
-        if (this.record) this.buttons = [{
+        if (this.record || this.fetch.model) this.buttons = [{
             text: 'Save',
             handler: function() { me.saveRecord() }
         }];
+        var me = this;
         me.callParent();
-    },
-    listeners: {
-        afterrender: function() {
+        // Adds listeners
+        this.addListener('afterrender', function() {
             // Manages record loading
+            this.fireEvent('beforeload', this);
             this.makeRecord();
-            if (this.record) this.getForm().loadRecord(this.record);
-        }
+        });
     }
 });
 
@@ -728,20 +760,23 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'genre_id', type: 'int'},
-        {name: 'etatcivil_id', type: 'int'},
+        {name: 'etatcivil_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'nombre_enfants', type: 'int', useNull: true},
         {name: 'no_avs', type: 'string'},
         {name: 'email', type: 'sting'},
         {name: 'adresse_pro', type: 'sting'},
         {name: 'npa_pro', type: 'sting'},
         {name: 'lieu_pro', type: 'sting'},
-        {name: 'pays_pro_id', type: 'int'},
+        {name: 'pays_pro_id', type: 'int', useNull: true},
         {name: 'telephone_pro', type: 'sting'},
         {name: 'adresse_pri', type: 'sting'},
         {name: 'npa_pri', type: 'sting'},
         {name: 'lieu_pri', type: 'sting'},
-        {name: 'pays_pri_id', type: 'int'},
+        {name: 'pays_pri_id', type: 'int', useNull: true},
         {name: 'telephone_pri', type: 'sting'},
+        {name: 'position_actuelle_fonction', type: 'string'},
+        {name: 'position_actuelle_lieu', type: 'string'},
         {name: '_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('prenom'),
@@ -757,6 +792,33 @@ Ext.define('iafbm.model.Candidat', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/candidats',
+    }
+});
+Ext.define('iafbm.model.CandidatFormation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'candidat_id', type: 'int'},
+        {name: 'candidat-formation-type_id', type: 'int'},
+        {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'lieu_these', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/candidats-formations',
+    }
+});
+Ext.define('iafbm.model.CandidatFormationType', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/candidats-formations-types',
     }
 });
 Ext.define('iafbm.model.Commission', {
@@ -976,152 +1038,231 @@ Ext.define('iafbm.form.Candidat', {
     defaults: {
         defaultType: 'textfield',
     },
-    items: [{
-        xtype: 'fieldset',
-        title: 'Candidat',
-        items: [{
-            fieldLabel: 'Nom',
-            emptyText: 'Nom',
-            name: 'nom'
-        }, {
-            fieldLabel: 'Prénom',
-            emptyText: 'Prénom',
-            name: 'prenom'
-        }, {
-            xtype: 'ia-combo',
-            fieldLabel: 'Genre',
-            name: 'genre_id',
-            displayField: 'genre',
-            valueField: 'id',
-            store: new iafbm.store.Genre({})
-        }, {
-            xtype: 'ia-combo',
-            fieldLabel: 'Etat civil',
-            name: 'etatcivil_id',
-            displayField: 'nom',
-            valueField: 'id',
-            store: new iafbm.store.Etatcivil({})
-        }, {
-            xtype: 'numberfield',
-            fieldLabel: 'Nombre d\'enfants',
-            emptyText: 'Nombre d\'enfants',
-            name: 'nombre_enfants',
-            minValue: 0
-        }, {
-            fieldLabel: 'N° AVS',
-            emptyText: 'N° AVS',
-            name: 'no_avs'
-        }]
-    }, {
-        xtype: 'fieldcontainer',
-        layout: 'hbox',
-        defaults: {
-            flex: 1
-        },
-        items: [{
-            xtype: 'fieldset',
-            title: 'Formation supérieure',
-            items: [
-            ]
-        }, {
-            xtype: 'splitter',
-            flex: 0
-        }, {
-            xtype: 'fieldset',
-            title: 'Position actuelle',
-            items: [
-            ]
-        }]
-    }, {
-        xtype: 'fieldset',
-        title: 'Adresses',
-        items: [{
+    initComponent: function() {
+        this.items = [
+            this._createCandidat(),
+        {
             xtype: 'fieldcontainer',
             layout: 'hbox',
             defaults: {
-                fieldDefaults: {
-                    labelAlign: 'right',
-                    msgTarget: 'side'
-                },
-                border: false,
-                flex: 1,
-                defaultType: 'textfield'
+                flex: 1
             },
+            items: [
+                this._createFormation(),
+            {
+                xtype: 'splitter',
+                flex: 0
+            },
+                this._createPosition()
+            ]
+        }, this._createAdresses()];
+        //
+        var me = this; me.callParent();
+    },
+    _createCandidat: function() {
+        return {
+            xtype: 'fieldset',
+            title: 'Candidat',
             items: [{
-                xtype: 'fieldcontainer',
-                items: [{
-                    xtype: 'displayfield',
-                    value: '<b>Professionnelle</b>',
-                    labelSeparator: null, fieldLabel: '&nbsp;'
-                }, {
-                    fieldLabel: 'Adresse',
-                    emptyText: 'Adresse',
-                    name: 'adresse_pro'
-                }, {
-                    fieldLabel: 'NPA',
-                    emptyText: 'NPA',
-                    name: 'npa_pro'
-                }, {
-                    fieldLabel: 'Lieu',
-                    emptyText: 'Lieu',
-                    name: 'lieu_pro'
-                }, {
-                    xtype: 'ia-combo',
-                    fieldLabel: 'Pays',
-                    name: 'pays_pro_id',
-                    displayField: 'nom',
-                    valueField: 'id',
-                    store: new iafbm.store.Pays({})
-                }, {
-                    fieldLabel: 'Télépone',
-                    emptyText: 'Télépone',
-                    name: 'telephone_pro'
-                }],
+                fieldLabel: 'Nom',
+                emptyText: 'Nom',
+                name: 'nom'
             }, {
-                xtype: 'fieldcontainer',
-                items: [{
-                    xtype: 'displayfield',
-                    value: '<b>Privée</b>',
-                    labelSeparator: null, fieldLabel: '&nbsp;'
-                }, {
-                    fieldLabel: 'Adresse',
-                    emptyText: 'Adresse',
-                    name: 'adresse_pri'
-                }, {
-                    fieldLabel: 'NPA',
-                    emptyText: 'NPA',
-                    name: 'npa_pri'
-                }, {
-                    fieldLabel: 'Lieu',
-                    emptyText: 'Lieu',
-                    name: 'lieu_pri'
-                }, {
-                    xtype: 'ia-combo',
-                    fieldLabel: 'Pays',
-                    name: 'pays_pri_id',
-                    displayField: 'nom',
-                    valueField: 'id',
-                    store: new iafbm.store.Pays({})
-                }, {
-                    fieldLabel: 'Télépone',
-                    emptyText: 'Télépone',
-                    name: 'telephone_pri'
-                }]
+                fieldLabel: 'Prénom',
+                emptyText: 'Prénom',
+                name: 'prenom'
             }, {
-                xtype: 'fieldcontainer',
-                items: [{
-                    xtype: 'displayfield',
-                    value: '<b>Electronique</b>',
-                    labelSeparator: null, fieldLabel: '&nbsp;'
-                }, {
-                    fieldLabel: 'Email',
-                    emptyText: 'Email',
-                    name: 'email'
+                xtype: 'ia-combo',
+                fieldLabel: 'Genre',
+                name: 'genre_id',
+                displayField: 'genre',
+                valueField: 'id',
+                store: new iafbm.store.Genre({})
+            }, {
+                xtype: 'ia-datefield',
+                fieldLabel: 'Date de naissance',
+                emptyText: 'Date de naissance',
+                name: 'date_naissance'
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Etat civil',
+                name: 'etatcivil_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: new iafbm.store.Etatcivil({})
+            }, {
+                xtype: 'numberfield',
+                fieldLabel: 'Nombre d\'enfants',
+                emptyText: 'Nombre d\'enfants',
+                name: 'nombre_enfants',
+                minValue: 0
+            }, {
+                fieldLabel: 'N° AVS',
+                emptyText: 'N° AVS',
+                name: 'no_avs'
+            }]
+        }
+    },
+    _createFormation: function() {
+        var candidat_id = this.fetch.id || this.record.get('id');
+//console.log(candidat_id);
+        return {
+            xtype: 'fieldset',
+            title: 'Formation supérieure',
+            items: [{
+                xtype: 'ia-editgrid',
+                height: 150,
+                bbar: null,
+                newRecordValues: { candidat_id: candidat_id },
+                store: new iafbm.store.CandidatFormation({
+                    params: { candidat_id: candidat_id }
+                }),
+                columns: [{
+                    header: "Formation",
+                    dataIndex: 'candidat-formation-type_id',
+                    width: 100,
+                    xtype: 'ia-combocolumn',
+                    field: {
+                        xtype: 'ia-combo',
+                        store: new iafbm.store.CandidatFormationType(),
+                        valueField: 'id',
+                        displayField: 'nom',
+                        allowBlank: false
+                    }
+                },{
+                    header: "Lieu",
+                    dataIndex: 'lieu_these',
+                    flex: 1,
+                    editor: {
+                        xtype: 'textfield',
+                        allowBlank: false
+                    }
+                },{
+                    header: "Date",
+                    dataIndex: 'date_these',
+                    flex: 1,
+                    xtype: 'ia-datecolumn',
+                    field: {
+                        xtype: 'ia-datefield',
+                        allowBlank: false
+                    }
                 }]
             }]
-        }]
-    }]
-
+        }
+    },
+    _createPosition: function() {
+        return {
+            xtype: 'fieldset',
+            title: 'Position actuelle',
+            defaults: {
+                border: false,
+                flex: 1,
+                msgTarget: 'side',
+                labelAlign: 'right',
+                labelWidth: 60,
+                width: 300
+            },
+            defaultType: 'textfield',
+            items: [{
+                fieldLabel: 'Fonction',
+                name: 'position_actuelle_fonction',
+            },{
+                fieldLabel: 'Lieu',
+                name: 'position_actuelle_lieu'
+            }]
+        }
+    },
+    _createAdresses: function() {
+        return {
+            xtype: 'fieldset',
+            title: 'Adresses',
+            items: [{
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                defaults: {
+                    fieldDefaults: {
+                        labelAlign: 'right',
+                        msgTarget: 'side'
+                    },
+                    border: false,
+                    flex: 1,
+                    defaultType: 'textfield'
+                },
+                items: [{
+                    xtype: 'fieldcontainer',
+                    items: [{
+                        xtype: 'displayfield',
+                        value: '<b>Professionnelle</b>',
+                        labelSeparator: null, fieldLabel: '&nbsp;'
+                    }, {
+                        fieldLabel: 'Adresse',
+                        emptyText: 'Adresse',
+                        name: 'adresse_pro'
+                    }, {
+                        fieldLabel: 'NPA',
+                        emptyText: 'NPA',
+                        name: 'npa_pro'
+                    }, {
+                        fieldLabel: 'Lieu',
+                        emptyText: 'Lieu',
+                        name: 'lieu_pro'
+                    }, {
+                        xtype: 'ia-combo',
+                        fieldLabel: 'Pays',
+                        name: 'pays_pro_id',
+                        displayField: 'nom',
+                        valueField: 'id',
+                        store: new iafbm.store.Pays({})
+                    }, {
+                        fieldLabel: 'Télépone',
+                        emptyText: 'Télépone',
+                        name: 'telephone_pro'
+                    }],
+                }, {
+                    xtype: 'fieldcontainer',
+                    items: [{
+                        xtype: 'displayfield',
+                        value: '<b>Privée</b>',
+                        labelSeparator: null, fieldLabel: '&nbsp;'
+                    }, {
+                        fieldLabel: 'Adresse',
+                        emptyText: 'Adresse',
+                        name: 'adresse_pri'
+                    }, {
+                        fieldLabel: 'NPA',
+                        emptyText: 'NPA',
+                        name: 'npa_pri'
+                    }, {
+                        fieldLabel: 'Lieu',
+                        emptyText: 'Lieu',
+                        name: 'lieu_pri'
+                    }, {
+                        xtype: 'ia-combo',
+                        fieldLabel: 'Pays',
+                        name: 'pays_pri_id',
+                        displayField: 'nom',
+                        valueField: 'id',
+                        store: new iafbm.store.Pays({})
+                    }, {
+                        fieldLabel: 'Télépone',
+                        emptyText: 'Télépone',
+                        name: 'telephone_pri'
+                    }]
+                }, {
+                    xtype: 'fieldcontainer',
+                    items: [{
+                        xtype: 'displayfield',
+                        value: '<b>Electronique</b>',
+                        labelSeparator: null, fieldLabel: '&nbsp;'
+                    }, {
+                        fieldLabel: 'Email',
+                        emptyText: 'Email',
+                        name: 'email'
+                    }]
+                }]
+            }]
+        }
+    }
 });
 
 Ext.define('iafbm.form.Personne', {
@@ -1287,18 +1428,6 @@ iafbm.columns.Candidat = [{
     xtype: 'ia-actioncolumn-detailform',
     form: iafbm.form.Candidat
 }, {
-    header: "Commission",
-    dataIndex: 'commission_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.Commission()
-    }
-}, {
     header: "Nom",
     dataIndex: 'nom',
     flex: 1,
@@ -1333,6 +1462,18 @@ iafbm.columns.Candidat = [{
         valueField: 'id',
         allowBlank: false,
         store: new iafbm.store.Genre()
+    }
+}, {
+    header: "Commission",
+    dataIndex: 'commission_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Commission()
     }
 }/*, {
     header: "Formation supérieure",

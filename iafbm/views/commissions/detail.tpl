@@ -13,7 +13,7 @@ Ext.onReady(function() {
 
     var form_apercu = Ext.create('Ext.ia.form.Panel', {
         store: Ext.create('iafbm.store.Commission'),
-        record: {
+        fetch: {
             model: iafbm.model.Commission,
             id: <?php echo $d['id'] ?>
         },
@@ -176,27 +176,7 @@ Ext.onReady(function() {
                     })
                 });
             },
-        }, /*new Ext.ia.selectiongrid.Panel({
-            width: 858,
-            height: 350,
-            margin: '0 0 10 0',
-            plugins: [new Ext.grid.plugin.RowEditing({clicksToEdit:2})],
-            combo: {
-                store: new iafbm.store.Candidat(),
-            },
-            grid: {
-                store: store_candidat,
-                params: {commission_id: <?php echo $d['id'] ?>},
-                columns: iafbm.columns.Candidat
-            },
-            makeData: function(record) {
-                return {
-                    personne_id: record.get('id'),
-                    commission_id: <?php echo $d['id'] ?>,
-                    actif: 1
-                }
-            }
-        }), */{
+        }, {
             xtype: 'textareafield',
             name: 'commentaire',
             fieldLabel: 'Commentaire',
