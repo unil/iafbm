@@ -1,8 +1,8 @@
 <?php
 
-class CandidatFormationTypeModel extends xModelMysql {
+class FormationTitreModel extends xModelMysql {
 
-    var $table = 'candidats_formations_types';
+    var $table = 'formations_titres';
 
     var $mapping = array(
         'id' => 'id',

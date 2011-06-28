@@ -1,15 +1,15 @@
 <?php
 
-class CandidatFormationModel extends xModelMysql {
+class PersonneFormationModel extends xModelMysql {
 
-    var $table = 'candidats_formations';
+    var $table = 'personnes_formations';
 
     var $mapping = array(
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
         'actif' => 'actif',
-        'candidat_id' => 'candidat_id',
+        'personne_id' => 'personne_id',
         'formation-titre_id' => 'formation_titre_id',
         'date_these' => 'date_these',
         'lieu_these' => 'lieu_these'
@@ -18,7 +18,7 @@ class CandidatFormationModel extends xModelMysql {
     var $primary = array('id');
 
     var $validation = array(
-        'candidat_id' => 'mandatory',
+        'personne_id' => 'mandatory',
         'formation-titre_id' => 'mandatory'
     );
 }

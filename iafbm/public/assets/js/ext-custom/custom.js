@@ -689,6 +689,32 @@ Ext.define('iafbm.model.Genre', {
         url: x.context.baseuri+'/api/genres',
     }
 });
+Ext.define('iafbm.model.Permis', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'code', type: 'string'},
+        {name: 'nom', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/permis',
+    }
+});
+Ext.define('iafbm.model.Canton', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'code', type: 'string'},
+        {name: 'nom', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/cantons',
+    }
+});
 Ext.define('iafbm.model.Pays', {
     extend: 'Ext.data.Model',
     fields: [
@@ -716,6 +742,18 @@ Ext.define('iafbm.model.Section', {
         url: x.context.baseuri+'/api/sections',
     }
 });
+Ext.define('iafbm.model.FormationTitre', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/formations-titres',
+    }
+});
 Ext.define('iafbm.model.Personne', {
     extend: 'Ext.data.Model',
     fields: [
@@ -723,15 +761,33 @@ Ext.define('iafbm.model.Personne', {
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'adresse', type: 'string'},
-        {name: 'pays_id', type: 'int'},
-        {name: 'tel', type: 'string'},
+        {name: 'genre_id', type: 'int'},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'no_avs', type: 'string'},
+        {name: 'canton_id', type: 'int'},
+        {name: 'pays_id', type: 'int'},
+        {name: 'permis_id', type: 'int'},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/personnes',
+    }
+});
+Ext.define('iafbm.model.PersonneFormation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'personne_id', type: 'int'},
+        {name: 'formation-titre_id', type: 'int'},
+        {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'lieu_these', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes-formations',
     }
 });
 Ext.define('iafbm.model.CommissionMembre', {
@@ -799,7 +855,7 @@ Ext.define('iafbm.model.CandidatFormation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'candidat_id', type: 'int'},
-        {name: 'candidat-formation-type_id', type: 'int'},
+        {name: 'formation-titre_id', type: 'int'},
         {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'lieu_these', type: 'string'}
     ],
@@ -807,18 +863,6 @@ Ext.define('iafbm.model.CandidatFormation', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/candidats-formations',
-    }
-});
-Ext.define('iafbm.model.CandidatFormationType', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int'},
-        {name: 'nom', type: 'string'}
-    ],
-    validations: [],
-    proxy: {
-        type: 'ia-rest',
-        url: x.context.baseuri+'/api/candidats-formations-types',
     }
 });
 Ext.define('iafbm.model.Commission', {
@@ -1026,6 +1070,58 @@ for (model in iafbm.model) {
 }
 
 // Forms
+Ext.ns('iafbm.form.common');
+iafbm.form.common.Formation = function(options) {
+    var config = {
+        store: null,
+        params: {}
+    };
+    var options = Ext.apply(config, options);
+    return {
+        xtype: 'fieldset',
+        title: 'Formation supérieure',
+        items: [{
+            xtype: 'ia-editgrid',
+            height: 150,
+            bbar: null,
+            newRecordValues: options.params,
+            store: new options.store({
+                params: options.params
+            }),
+            columns: [{
+                header: "Formation",
+                dataIndex: 'formation-titre_id',
+                width: 100,
+                xtype: 'ia-combocolumn',
+                field: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.FormationTitre(),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            },{
+                header: "Lieu",
+                dataIndex: 'lieu_these',
+                flex: 1,
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false
+                }
+            },{
+                header: "Date",
+                dataIndex: 'date_these',
+                flex: 1,
+                xtype: 'ia-datecolumn',
+                field: {
+                    xtype: 'ia-datefield',
+                    allowBlank: false
+                }
+            }]
+        }]
+    }
+}
+
 Ext.define('iafbm.form.Candidat', {
     extend: 'Ext.ia.form.Panel',
     store: Ext.create('iafbm.store.Candidat'), //fixme, this should not be necessary
@@ -1062,7 +1158,7 @@ Ext.define('iafbm.form.Candidat', {
     _createCandidat: function() {
         return {
             xtype: 'fieldset',
-            title: 'Candidat',
+            title: 'Coordonnées',
             items: [{
                 fieldLabel: 'Nom',
                 emptyText: 'Nom',
@@ -1104,50 +1200,12 @@ Ext.define('iafbm.form.Candidat', {
         }
     },
     _createFormation: function() {
-        var candidat_id = this.fetch.id || this.record.get('id');
-        return {
-            xtype: 'fieldset',
-            title: 'Formation supérieure',
-            items: [{
-                xtype: 'ia-editgrid',
-                height: 150,
-                bbar: null,
-                newRecordValues: { candidat_id: candidat_id },
-                store: new iafbm.store.CandidatFormation({
-                    params: { candidat_id: candidat_id }
-                }),
-                columns: [{
-                    header: "Formation",
-                    dataIndex: 'candidat-formation-type_id',
-                    width: 100,
-                    xtype: 'ia-combocolumn',
-                    field: {
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.CandidatFormationType(),
-                        valueField: 'id',
-                        displayField: 'nom',
-                        allowBlank: false
-                    }
-                },{
-                    header: "Lieu",
-                    dataIndex: 'lieu_these',
-                    flex: 1,
-                    editor: {
-                        xtype: 'textfield',
-                        allowBlank: false
-                    }
-                },{
-                    header: "Date",
-                    dataIndex: 'date_these',
-                    flex: 1,
-                    xtype: 'ia-datecolumn',
-                    field: {
-                        xtype: 'ia-datefield',
-                        allowBlank: false
-                    }
-                }]
-            }]
-        }
+        return iafbm.form.common.Formation({
+            store: iafbm.store.CandidatFormation,
+            params: {
+                candidat_id: this.fetch.id || this.record.get('id')
+            }
+        });
     },
     _createPosition: function() {
         return {
@@ -1273,46 +1331,73 @@ Ext.define('iafbm.form.Personne', {
         labelAlign: 'right',
         msgTarget: 'side'
     },
-    items: [{
-        xtype: 'fieldset',
-        title: 'Contact Information',
-        defaultType: 'textfield',
-        defaults: {
-            width: 280
-        },
-        items: [{
-            fieldLabel: 'Nom',
-            emptyText: 'Nom',
-            name: 'nom'
-        }, {
-            fieldLabel: 'Prénom',
-            emptyText: 'Prénom',
-            name: 'prenom'
-        }, {
-            fieldLabel: 'Adresse',
-            emptyText: 'Adresse',
-            name: 'adresse'
-        }, {
-            xtype: 'ia-combo',
-            fieldLabel: 'Pays',
-            name: 'pays_id',
-            lazyRender: true,
-            typeAhead: true,
-            minChars: 1,
-            triggerAction: 'all',
-            displayField: 'nom',
-            valueField: 'id',
-            store: Ext.create('iafbm.store.Pays')
-        }, {
-            fieldLabel: 'Télépone',
-            emptyText: 'Télépone',
-            name: 'tel'
-        }, {
-            xtype: 'ia-datefield',
-            fieldLabel: 'Date de naissance',
-            name: 'date_naissance',
-        }]
-    }]
+    initComponent: function() {
+        this.items = [{
+            xtype: 'fieldset',
+            title: 'Coordonnées',
+            defaultType: 'textfield',
+            defaults: {
+                labelWidth: 110
+            },
+            items: [{
+                fieldLabel: 'Nom',
+                emptyText: 'Nom',
+                name: 'nom'
+            }, {
+                fieldLabel: 'Prénom',
+                emptyText: 'Prénom',
+                name: 'prenom'
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Genre',
+                name: 'genre_id',
+                displayField: 'genre',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Genre')
+            }, {
+                xtype: 'ia-datefield',
+                fieldLabel: 'Date de naissance',
+                name: 'date_naissance'
+            }, {
+                fieldLabel: 'N° AVS',
+                emptyText: 'N° AVS',
+                name: 'no_avs'
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Canton d\'origine',
+                name: 'canton_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Canton')
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Pays',
+                name: 'pays_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Pays')
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Permis de séjour',
+                name: 'permis_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Permis')
+            }]
+        }, this._createFormation()];
+        //
+        var me = this;
+        me.callParent();
+    },
+    _createFormation: function() {
+        return iafbm.form.common.Formation({
+            store: iafbm.store.PersonneFormation,
+            params: {
+                personne_id: this.fetch.id || this.record.get('id')
+            }
+        });
+    },
+
 });
 
 // Columns
@@ -1474,21 +1559,7 @@ iafbm.columns.Candidat = [{
         allowBlank: false,
         store: new iafbm.store.Commission()
     }
-}/*, {
-    header: "Formation supérieure",
-    dataIndex: '',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
-}, {
-    header: "Position actuelle",
-    dataIndex: '',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
-    }
-}*/];
+}];
 
 iafbm.columns.Commission = [{
     xtype: 'actioncolumn',

@@ -9,22 +9,27 @@ class PersonneModel extends xModelMysql {
         'id_unil' => 'id_unil',
         'id_chuv' => 'id_chuv',
         'id_adifac' => 'id_adifac',
-        'nom' => 'nom',
-        'prenom' => 'prenom',
-        'adresse' => 'adresse',
-        'tel' => 'tel',
-        'email' => 'email',
-        'date_naissance' => 'date_naissance',
-        'etat_civil' => 'etat_civil',
-        'sexe' => 'sexe',
-        'pays_id' => 'pays_id',
-        'canton_id' => 'canton_id',
-        'permis_id' => 'permis_id',
-        'titre_lecon_inaug' => 'titre_lecon_inaug',
-        'date_lecon_inaug' => 'date_lecon_inaug',
+
         'actif' => 'actif',
         'created' => 'created',
-        'modified' => 'modified'
+        'modified' => 'modified',
+
+        'nom' => 'nom',
+        'prenom' => 'prenom',
+        'genre_id' => 'genre_id',
+        'date_naissance' => 'date_naissance',
+        'no_avs' => 'no_avs',
+        'canton_id' => 'canton_id',
+        'pays_id' => 'pays_id',
+        'permis_id' => 'permis_id',
+
+        'personne-fonction_id' => 'personne_fonction_id',
+
+        //'adresse' => 'adresse',
+        'tel' => 'tel',
+        'email' => 'email',
+        'titre_lecon_inaug' => 'titre_lecon_inaug',
+        'date_lecon_inaug' => 'date_lecon_inaug',
     );
 
     var $primary = array('id');
