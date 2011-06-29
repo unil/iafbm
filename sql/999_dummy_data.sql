@@ -3,22 +3,22 @@
  ******************************************************************************/
 
 -- personnes
-INSERT INTO `personnes` (prenom, nom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Damien', 'Rice', 'Villy 10', '0216101010', '36', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Maryline', 'Monroe', 'Anges 10', '0216101011', '32', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Catherine', 'Deneuve', 'Bien-être 12', '0216101012', '31', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Isabelle', 'Alésiebleu', 'Chats 3', '0216101013', '26', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Cannelle', 'Vanille', 'Grâce 9', '0216101014', '21', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Marie', 'Jesus', 'Intelligence 14', '0216101015', '22', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Stefan', 'Bern', 'Cadre 16', '0216101016', '14', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
-INSERT INTO `personnes` (nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
-VALUES ('Matthieu', 'Kassovic', 'Smart 7', '0216101017', '16', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, prenom, nom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (2, 'Damien', 'Rice', 'Villy 10', '0216101010', '36', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (1, 'Maryline', 'Monroe', 'Anges 10', '0216101011', '32', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (3, 'Catherine', 'Deneuve', 'Bien-être 12', '0216101012', '31', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (2, 'Isabelle', 'Alésiebleu', 'Chats 3', '0216101013', '26', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (3, 'Cannelle', 'Vanille', 'Grâce 9', '0216101014', '21', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (1, 'Marie', 'Jesus', 'Intelligence 14', '0216101015', '22', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (1, 'Stefan', 'Bern', 'Cadre 16', '0216101016', '14', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
+INSERT INTO `personnes` (personne_type_id, nom, prenom, adresse, tel, pays_id, date_naissance, actif, created)
+VALUES (1, 'Matthieu', 'Kassovic', 'Smart 7', '0216101017', '16', '2011-04-01T00:00:00', '1', CURRENT_TIMESTAMP);
 
 -- candidats
 /*

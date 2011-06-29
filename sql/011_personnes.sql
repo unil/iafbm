@@ -11,6 +11,8 @@ CREATE TABLE personnes (
     util_creat INT,
     util_modif INT,
 
+    personne_type_id INT,
+
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     genre_id INT,
@@ -20,7 +22,7 @@ CREATE TABLE personnes (
     pays_id INT,
     permis_id INT,
 
-    personne_fonction_id INT,
+    titre_id INT,
 
     adresse VARCHAR(100),
     tel VARCHAR(15),
@@ -28,9 +30,10 @@ CREATE TABLE personnes (
     titre_lecon_inaug VARCHAR(100),
     date_lecon_inaug DATE,
     PRIMARY KEY (id),
+    FOREIGN KEY (personne_type_id) REFERENCES personnes_types(id),
     FOREIGN KEY (genre_id) REFERENCES genres(id),
     FOREIGN KEY (pays_id) REFERENCES pays(id),
     FOREIGN KEY (canton_id) REFERENCES cantons(id),
     FOREIGN KEY (permis_id) REFERENCES permis(id),
-    FOREIGN KEY (personne_fonction_id) REFERENCES personnes_fonctions(id)
+    FOREIGN KEY (titre_id) REFERENCES titres(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

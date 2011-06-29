@@ -742,6 +742,19 @@ Ext.define('iafbm.model.Section', {
         url: x.context.baseuri+'/api/sections',
     }
 });
+Ext.define('iafbm.model.Titre', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'abreviation', type: 'string'},
+        {name: 'nom', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/titres',
+    }
+});
 Ext.define('iafbm.model.FormationTitre', {
     extend: 'Ext.data.Model',
     fields: [
@@ -758,21 +771,34 @@ Ext.define('iafbm.model.Personne', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
+        {name: 'personne-type_id', type: 'int', useNull: true},
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'adresse', type: 'string'},
-        {name: 'genre_id', type: 'int'},
+        {name: 'genre_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'no_avs', type: 'string'},
-        {name: 'canton_id', type: 'int'},
-        {name: 'pays_id', type: 'int'},
-        {name: 'permis_id', type: 'int'},
+        {name: 'canton_id', type: 'int', useNull: true},
+        {name: 'pays_id', type: 'int', useNull: true},
+        {name: 'permis_id', type: 'int', useNull: true},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/personnes',
+    }
+});
+Ext.define('iafbm.model.PersonneType', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes-types',
     }
 });
 Ext.define('iafbm.model.PersonneFormation', {
@@ -1333,6 +1359,15 @@ Ext.define('iafbm.form.Personne', {
     },
     initComponent: function() {
         this.items = [{
+            xtype: 'ia-combo',
+            fieldLabel: 'Type',
+            labelAlign: 'left',
+            labelWidth: 40,
+            name: 'personne-type_id',
+            displayField: 'nom',
+            valueField: 'id',
+            store: Ext.create('iafbm.store.PersonneType')
+        }, {
             xtype: 'fieldset',
             title: 'Coordonnées',
             defaultType: 'textfield',
@@ -1437,16 +1472,14 @@ iafbm.columns.Personne = [{
     dataIndex: 'adresse',
     flex: 1,
     field: {
-        xtype: 'textfield',
-        allowBlank: false
+        xtype: 'textfield'
     }
 }, {
     header: "Téléphone",
     dataIndex: 'tel',
     flex: 1,
     field: {
-        xtype: 'textfield',
-        allowBlank: false
+        xtype: 'textfield'
     }
 }, {
     header: "Pays",

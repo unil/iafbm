@@ -14,6 +14,8 @@ class PersonneModel extends xModelMysql {
         'created' => 'created',
         'modified' => 'modified',
 
+        'personne-type_id' => 'personne_type_id',
+
         'nom' => 'nom',
         'prenom' => 'prenom',
         'genre_id' => 'genre_id',
