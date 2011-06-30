@@ -25,11 +25,12 @@ class PersonneModel extends xModelMysql {
         'pays_id' => 'pays_id',
         'permis_id' => 'permis_id',
 
+        //FIXME
         //'adresse' => 'adresse',
-        'tel' => 'tel',
-        'email' => 'email',
-        'titre_lecon_inaug' => 'titre_lecon_inaug',
-        'date_lecon_inaug' => 'date_lecon_inaug',
+        //'tel' => 'tel',
+        //'email' => 'email',
+        //'titre_lecon_inaug' => 'titre_lecon_inaug',
+        //'date_lecon_inaug' => 'date_lecon_inaug',
     );
 
     var $primary = array('id');
