@@ -12,8 +12,10 @@ CREATE TABLE commissions_types (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('1', '1', CURRENT_TIMESTAMP, 'Commission de présentation', 'Présentation');
+/*
 INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('2', '1', CURRENT_TIMESTAMP, 'Commission de promotion', 'Promotion');
 INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('3', '1', CURRENT_TIMESTAMP, 'Commission d''appel', 'Appel');
 INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('4', '1', CURRENT_TIMESTAMP, 'Commission de titularisation', 'Titularisation');
 INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('5', '1', CURRENT_TIMESTAMP, 'Commission de stabilisation', 'Stabilisation');
 INSERT INTO `commissions_types` (id, actif, created, nom, racine) VALUES ('6', '1', CURRENT_TIMESTAMP, 'Groupe de réflexion', 'Réflexion');
+*/

@@ -742,7 +742,19 @@ Ext.define('iafbm.model.Section', {
         url: x.context.baseuri+'/api/sections',
     }
 });
-Ext.define('iafbm.model.Titre', {
+Ext.define('iafbm.model.Formation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'abreviation', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/formations',
+    }
+});
+Ext.define('iafbm.model.TitreAcademique', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
@@ -752,19 +764,7 @@ Ext.define('iafbm.model.Titre', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/titres',
-    }
-});
-Ext.define('iafbm.model.FormationTitre', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int'},
-        {name: 'nom', type: 'string'}
-    ],
-    validations: [],
-    proxy: {
-        type: 'ia-rest',
-        url: x.context.baseuri+'/api/formations-titres',
+        url: x.context.baseuri+'/api/titres-academiques',
     }
 });
 Ext.define('iafbm.model.Personne', {
@@ -806,7 +806,7 @@ Ext.define('iafbm.model.PersonneFormation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int'},
-        {name: 'formation-titre_id', type: 'int'},
+        {name: 'formation_id', type: 'int'},
         {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'lieu_these', type: 'string'}
     ],
@@ -881,7 +881,7 @@ Ext.define('iafbm.model.CandidatFormation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'candidat_id', type: 'int'},
-        {name: 'formation-titre_id', type: 'int'},
+        {name: 'formation_id', type: 'int'},
         {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'lieu_these', type: 'string'}
     ],
@@ -1116,14 +1116,14 @@ iafbm.form.common.Formation = function(options) {
             }),
             columns: [{
                 header: "Formation",
-                dataIndex: 'formation-titre_id',
+                dataIndex: 'formation_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
                 field: {
                     xtype: 'ia-combo',
-                    store: new iafbm.store.FormationTitre(),
+                    store: new iafbm.store.Formation(),
                     valueField: 'id',
-                    displayField: 'nom',
+                    displayField: 'abreviation',
                     allowBlank: false
                 }
             },{
@@ -1420,6 +1420,7 @@ Ext.define('iafbm.form.Personne', {
                 store: Ext.create('iafbm.store.Permis')
             }]
         }, this._createFormation()];
+//TODO: add fonction unil (table,model,controller,form)
         //
         var me = this;
         me.callParent();

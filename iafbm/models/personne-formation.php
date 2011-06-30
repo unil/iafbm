@@ -10,7 +10,7 @@ class PersonneFormationModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'personne_id' => 'personne_id',
-        'formation-titre_id' => 'formation_titre_id',
+        'formation_id' => 'formation_id',
         'date_these' => 'date_these',
         'lieu_these' => 'lieu_these'
     );
@@ -19,6 +19,6 @@ class PersonneFormationModel extends xModelMysql {
 
     var $validation = array(
         'personne_id' => 'mandatory',
-        'formation-titre_id' => 'mandatory'
+        'formation_id' => 'mandatory'
     );
 }

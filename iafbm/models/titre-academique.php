@@ -1,8 +1,8 @@
 <?php
 
-class TitreModel extends xModelMysql {
+class TitreAcademiqueModel extends xModelMysql {
 
-    var $table = 'titres';
+    var $table = 'titres_academiques';
 
     var $mapping = array(
         'id' => 'id',

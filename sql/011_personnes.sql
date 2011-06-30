@@ -22,8 +22,6 @@ CREATE TABLE personnes (
     pays_id INT,
     permis_id INT,
 
-    titre_id INT,
-
     adresse VARCHAR(100),
     tel VARCHAR(15),
     email VARCHAR(50),
@@ -34,6 +32,5 @@ CREATE TABLE personnes (
     FOREIGN KEY (genre_id) REFERENCES genres(id),
     FOREIGN KEY (pays_id) REFERENCES pays(id),
     FOREIGN KEY (canton_id) REFERENCES cantons(id),
-    FOREIGN KEY (permis_id) REFERENCES permis(id),
-    FOREIGN KEY (titre_id) REFERENCES titres(id)
+    FOREIGN KEY (permis_id) REFERENCES permis(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

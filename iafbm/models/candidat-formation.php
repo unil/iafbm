@@ -10,7 +10,7 @@ class CandidatFormationModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'candidat_id' => 'candidat_id',
-        'formation-titre_id' => 'formation_titre_id',
+        'formation_id' => 'formation_id',
         'date_these' => 'date_these',
         'lieu_these' => 'lieu_these'
     );

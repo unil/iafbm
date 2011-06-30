@@ -7,10 +7,10 @@ CREATE TABLE personnes_formations (
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     personne_id INT,
-    formation_titre_id INT,
+    formation_id INT,
     date_these DATE,
     lieu_these VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
-    FOREIGN KEY (formation_titre_id) REFERENCES formations_titres(id)
+    FOREIGN KEY (formation_id) REFERENCES formations(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
