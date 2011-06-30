@@ -25,8 +25,6 @@ class PersonneModel extends xModelMysql {
         'pays_id' => 'pays_id',
         'permis_id' => 'permis_id',
 
-        'personne-fonction_id' => 'personne_fonction_id',
-
         //'adresse' => 'adresse',
         'tel' => 'tel',
         'email' => 'email',
