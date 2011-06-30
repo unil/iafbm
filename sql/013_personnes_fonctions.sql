@@ -6,8 +6,8 @@ CREATE TABLE personnes_fonctions (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
-    personne_id INT,
 
+    personne_id INT,
     section_id INT,
     titre_academique_id INT,
     taux_activite TINYINT,

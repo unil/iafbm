@@ -2,7 +2,7 @@
 
 class DepartementModel extends xModelMysql {
 
-    var $table = 'departement';
+    var $table = 'departements';
 
     var $mapping = array(
         'id' => 'id',

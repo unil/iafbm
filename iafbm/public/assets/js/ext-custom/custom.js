@@ -401,7 +401,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
         newRecordValues: {}
     },
     pageSize: 10,
-    plugins: [new Ext.grid.plugin.RowEditing({pluginId:'rowediting'})],
+    editingPluginId: null,
+    plugins: [],
     dockedItems: [],
     bbar: new Ext.PagingToolbar({
         store: null,
@@ -425,7 +426,14 @@ Ext.define('Ext.ia.grid.EditPanel', {
             */
             'beforeload'
         );
+        // Creates docked items (toolbar)
         this.dockedItems = this.makeDockedItems();
+        // Creates Editing plugin
+        this.editingPluginId = Ext.id();
+        this.plugins = [new Ext.grid.plugin.RowEditing({
+            pluginId: this.editingPluginId
+        })];
+        // Initializes Component
         var me = this;
         me.callParent();
         // Adds listeners
@@ -436,6 +444,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
             this.store.autoSync = true;
             this.store.load();
         //});
+    },
+    getEditingPlugin: function() {
+        return this.getPlugin(this.editingPluginId);
     },
     makeDockedItems: function() {
         return [{
@@ -466,7 +477,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         grid.store.autoSync = false;
         grid.store.insert(0, grid.createRecord());
         grid.store.autoSync = autoSync;
-        grid.getPlugin('rowediting').startEdit(0, 0);
+        grid.getEditingPlugin().startEdit(0, 0);
     },
     removeItem: function() {
         var grid = this.up('gridpanel');
@@ -666,7 +677,7 @@ Ext.define('iafbm.model.Etatcivil', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'nom', type: 'string'},
+        {name: 'nom', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -681,7 +692,7 @@ Ext.define('iafbm.model.Genre', {
         {name: 'genre', type: 'string'},
         {name: 'genre_short', type: 'string'},
         {name: 'intitule', type: 'string'},
-        {name: 'intitule_short', type: 'string'},
+        {name: 'intitule_short', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -694,7 +705,7 @@ Ext.define('iafbm.model.Permis', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'code', type: 'string'},
-        {name: 'nom', type: 'string'},
+        {name: 'nom', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -707,7 +718,7 @@ Ext.define('iafbm.model.Canton', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'code', type: 'string'},
-        {name: 'nom', type: 'string'},
+        {name: 'nom', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -759,12 +770,36 @@ Ext.define('iafbm.model.TitreAcademique', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'abreviation', type: 'string'},
-        {name: 'nom', type: 'string'},
+        {name: 'nom', type: 'string'}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/titres-academiques',
+    }
+});
+Ext.define('iafbm.model.FonctionHospitaliere', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/fonctions-hospitalieres',
+    }
+});
+Ext.define('iafbm.model.Departement', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/departements',
     }
 });
 Ext.define('iafbm.model.Personne', {
@@ -814,6 +849,25 @@ Ext.define('iafbm.model.PersonneFormation', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/personnes-formations',
+    }
+});
+Ext.define('iafbm.model.PersonneFonction', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'personne_id', type: 'int', useNull: true},
+        {name: 'section_id', type: 'int', useNull: true},
+        {name: 'titre-academique_id', type: 'int', useNull: true},
+        {name: 'taux_activite', type: 'int', useNull: true},
+        {name: 'date_contrat', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'debut_mandat', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'fonction-hospitaliere_id', type: 'int', useNull: true},
+        {name: 'departement_id', type: 'int', useNull: true}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes-fonctions',
     }
 });
 Ext.define('iafbm.model.CommissionMembre', {
@@ -1145,7 +1199,7 @@ iafbm.form.common.Formation = function(options) {
                 }
             }]
         }]
-    }
+    };
 }
 
 Ext.define('iafbm.form.Candidat', {
@@ -1419,8 +1473,7 @@ Ext.define('iafbm.form.Personne', {
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Permis')
             }]
-        }, this._createFormation()];
-//TODO: add fonction unil (table,model,controller,form)
+        }, this._createFormation(), this._createFonction()];
         //
         var me = this;
         me.callParent();
@@ -1433,7 +1486,100 @@ Ext.define('iafbm.form.Personne', {
             }
         });
     },
-
+    _createFonction: function() {
+        var personne_id = this.fetch.id || this.record.get('id');
+        return {
+            xtype: 'fieldset',
+            title: 'Fonction académique',
+            items: [{
+                xtype: 'ia-editgrid',
+                height: 150,
+                bbar: null,
+                newRecordValues: {
+                    personne_id: personne_id
+                },
+                store: new iafbm.store.PersonneFonction({
+                    params: { personne_id: personne_id }
+                }),
+                columns: [{
+                    header: "Section",
+                    dataIndex: 'section_id',
+                    width: 100,
+                    xtype: 'ia-combocolumn',
+                    field: {
+                        xtype: 'ia-combo',
+                        store: new iafbm.store.Section(),
+                        valueField: 'id',
+                        displayField: 'code',
+                        allowBlank: false
+                    }
+                },{
+                    header: "Fonction",
+                    dataIndex: 'titre-academique_id',
+                    width: 100,
+                    xtype: 'ia-combocolumn',
+                    field: {
+                        xtype: 'ia-combo',
+                        store: new iafbm.store.TitreAcademique(),
+                        valueField: 'id',
+                        displayField: 'abreviation',
+                        allowBlank: false
+                    }
+                },{
+                    header: "Taux d'activité",
+                    dataIndex: 'taux_activite',
+                    width: 100,
+                    xtype: 'numbercolumn',
+                    format:'000',
+                    field: {
+                        xtype: 'numberfield',
+                        maxValue: 100,
+                        minValue: 0
+                    }
+                },{
+                    header: "Date contrat",
+                    dataIndex: 'date_contrat',
+                    flex: 1,
+                    xtype: 'ia-datecolumn',
+                    field: {
+                        xtype: 'ia-datefield'
+                    }
+                },{
+                    header: "Début mandat",
+                    dataIndex: 'debut_mandat',
+                    flex: 1,
+                    xtype: 'ia-datecolumn',
+                    field: {
+                        xtype: 'ia-datefield'
+                    }
+                },{
+                    header: "Fonction hospitalière",
+                    dataIndex: 'fonction-hospitaliere_id',
+                    width: 100,
+                    xtype: 'ia-combocolumn',
+                    field: {
+                        xtype: 'ia-combo',
+                        store: new iafbm.store.FonctionHospitaliere(),
+                        valueField: 'id',
+                        displayField: 'nom',
+                        allowBlank: false
+                    }
+                },{
+                    header: "Rattachement",
+                    dataIndex: 'departement_id',
+                    width: 100,
+                    xtype: 'ia-combocolumn',
+                    field: {
+                        xtype: 'ia-combo',
+                        store: new iafbm.store.Departement(),
+                        valueField: 'id',
+                        displayField: 'nom',
+                        allowBlank: false
+                    }
+                }]
+            }]
+        };
+    }
 });
 
 // Columns
@@ -1616,7 +1762,7 @@ iafbm.columns.Commission = [{
                     icon: Ext.window.MessageBox.WARNING,
                     fn: function() {
                         var column = grid.getColumns()[0];
-                        grid.getPlugin('rowediting').startEdit(record, column);
+                        grid.getEditingPlugin().startEdit(record, column);
                     }
                 });
                 return;
