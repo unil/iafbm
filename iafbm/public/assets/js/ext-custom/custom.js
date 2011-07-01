@@ -392,7 +392,6 @@ Ext.define('Ext.ia.grid.EditPanel', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.ia-editgrid',
     config: {
-        loadMask: true,
         width: 880,
         height: 300,
         frame: true,
@@ -424,7 +423,12 @@ Ext.define('Ext.ia.grid.EditPanel', {
             * Fires before the record is loaded. Return false to cancel.
             * @param {Ext.ia.grid.EditPanel} this
             */
-            'beforeload'
+            'beforeload',
+            /**
+            * @event beforeload
+            * Fires after the record is loaded.
+            */
+            'load'
         );
         // Creates docked items (toolbar)
         this.dockedItems = this.makeDockedItems();
@@ -436,14 +440,23 @@ Ext.define('Ext.ia.grid.EditPanel', {
         // Initializes Component
         var me = this;
         me.callParent();
-        // Adds listeners
-        //this.addListener('afterlayout', function() {
-            // Manages store loading
-            this.fireEvent('grid.EditPanel loading', this);
+        // Manages store loading
+        // (on 'afterrender' event so that loading mask can be set on 'beforeload' event)
+        this.on({afterrender: function() {
+            this.fireEvent('beforeload', this);
             this.store.pageSize = this.pageSize;
             this.store.autoSync = true;
-            this.store.load();
-        //});
+            this.store.load({
+                callback: function(records, operation) {
+                    me.fireEvent('load');
+                }
+            });
+        }});
+        // Manages loading message
+        this.on({
+            beforeload: function() { this.setLoading() },
+            load: function() { this.setLoading(false)}
+        });
     },
     getEditingPlugin: function() {
         return this.getPlugin(this.editingPluginId);
@@ -539,9 +552,7 @@ Ext.define('Ext.ia.form.Panel', {
                 },
                 failure: function(record) {},
                 callback: function() {
-                    // Restores proxy extraParams
-                    if (!proxy) return;
-                    proxy.extraParams = proxyExtraParams;
+                    if (proxy) proxy.extraParams = proxyExtraParams;
                 }
             });
         }
@@ -549,9 +560,9 @@ Ext.define('Ext.ia.form.Panel', {
     applyRecord: function(record) {
     },
     saveRecord: function() {
+        if (this.fireEvent('beforesave', this, record) === false) return;
         var me = this,
             record = this.getRecord();
-        if (this.fireEvent('beforesave', this, record) === false) return;
         //TODO: would it be clever to reuse the record validation be used here?
         if (this.getForm().isValid()) {
             // Updates record from form values
@@ -595,9 +606,8 @@ Ext.define('Ext.ia.form.Panel', {
         }];
         var me = this;
         me.callParent();
-        // Adds listeners
+        // Manages record loading
         this.addListener('afterrender', function() {
-            // Manages record loading
             this.fireEvent('beforeload', this);
             this.makeRecord();
         });
@@ -1296,7 +1306,8 @@ iafbm.form.common.Adresses = function(options) {
                 width: 75,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: false
+                    allowBlank: false,
+                    maskRe: /[0-9]/
                 }
             },{
                 header: "Lieu",
@@ -1324,7 +1335,8 @@ iafbm.form.common.Adresses = function(options) {
                 width: 150,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: false
+                    allowBlank: false,
+                    maskRe: /[0-9]/
                 }
             }]
         }]
