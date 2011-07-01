@@ -8,7 +8,7 @@ CREATE TABLE adresses (
     actif BOOLEAN NOT NULL DEFAULT true,
 
     adresse_type_id INT,
-    adresse TEXT,
+    rue TEXT,
     npa VARCHAR(255),
     lieu VARCHAR(255),
     pays_id INT,

@@ -509,6 +509,9 @@ Ext.define('Ext.ia.form.Panel', {
         model: null,
         id: null
     },
+    getRecordId: function() {
+        return this.fetch.id || this.record.get('id');
+    },
     makeRecord: function() {
         // The fetch property can contain either a regular Ext.data.Model
         // or a configuration object containing the model and the id to load
@@ -802,6 +805,35 @@ Ext.define('iafbm.model.Departement', {
         url: x.context.baseuri+'/api/departements',
     }
 });
+Ext.define('iafbm.model.Adresse', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'adresse-type_id', type: 'string'},
+        {name: 'rue', type: 'string'},
+        {name: 'npa', type: 'string'},
+        {name: 'lieu', type: 'string'},
+        {name: 'pays_id', type: 'int'},
+        {name: 'telephone', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/adresses',
+    }
+});
+Ext.define('iafbm.model.AdresseType', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/adresses-types',
+    }
+});
 Ext.define('iafbm.model.Personne', {
     extend: 'Ext.data.Model',
     fields: [
@@ -868,6 +900,26 @@ Ext.define('iafbm.model.PersonneFonction', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/personnes-fonctions',
+    }
+});
+Ext.define('iafbm.model.PersonneAdresse', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'personne_id', type: 'int'},
+        {name: 'adresse_id', type: 'int'},
+        // Foreign 'Adresse' fields
+        {name: 'adresse_adresse-type_id', type: 'int'},
+        {name: 'adresse_rue', type: 'string'},
+        {name: 'adresse_npa', type: 'string'},
+        {name: 'adresse_lieu', type: 'string'},
+        {name: 'adresse_pays_id', type: 'int'},
+        {name: 'adresse_telephone', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes-adresses',
     }
 });
 Ext.define('iafbm.model.CommissionMembre', {
@@ -1151,7 +1203,7 @@ for (model in iafbm.model) {
 
 // Forms
 Ext.ns('iafbm.form.common');
-iafbm.form.common.Formation = function(options) {
+iafbm.form.common.Formations = function(options) {
     var config = {
         store: null,
         params: {}
@@ -1201,6 +1253,83 @@ iafbm.form.common.Formation = function(options) {
         }]
     };
 }
+iafbm.form.common.Adresses = function(options) {
+    var config = {
+        store: null,
+        params: {}
+    };
+    var options = Ext.apply(config, options);
+    return {
+        xtype: 'fieldset',
+        title: 'Adresses',
+        items: [{
+            xtype: 'ia-editgrid',
+            height: 150,
+            bbar: null,
+            newRecordValues: options.params,
+            store: new options.store({
+                params: options.params
+            }),
+            columns: [{
+                header: "Type",
+                dataIndex: 'adresse_adresse-type_id',
+                width: 100,
+                xtype: 'ia-combocolumn',
+                field: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.AdresseType(),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            },{
+                header: "Adresse",
+                dataIndex: 'adresse_rue',
+                flex: 1,
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false
+                }
+            },{
+                header: "NPA",
+                dataIndex: 'adresse_npa',
+                width: 75,
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false
+                }
+            },{
+                header: "Lieu",
+                dataIndex: 'adresse_lieu',
+                flex: 1,
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false
+                }
+            },{
+                header: "Pays",
+                dataIndex: 'adresse_pays_id',
+                width: 120,
+                xtype: 'ia-combocolumn',
+                field: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.Pays(),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            }, {
+                header: "Téléphone",
+                dataIndex: 'adresse_telephone',
+                width: 150,
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false
+                }
+            }]
+        }]
+    };
+}
 
 Ext.define('iafbm.form.Candidat', {
     extend: 'Ext.ia.form.Panel',
@@ -1216,7 +1345,7 @@ Ext.define('iafbm.form.Candidat', {
     },
     initComponent: function() {
         this.items = [
-            this._createCandidat(),
+            this._createCandidats(),
         {
             xtype: 'fieldcontainer',
             layout: 'hbox',
@@ -1224,18 +1353,18 @@ Ext.define('iafbm.form.Candidat', {
                 flex: 1
             },
             items: [
-                this._createFormation(),
+                this._createFormations(),
             {
                 xtype: 'splitter',
                 flex: 0
             },
-                this._createPosition()
+                this._createPositions()
             ]
         }, this._createAdresses()];
         //
         var me = this; me.callParent();
     },
-    _createCandidat: function() {
+    _createCandidats: function() {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
@@ -1279,15 +1408,15 @@ Ext.define('iafbm.form.Candidat', {
             }]
         }
     },
-    _createFormation: function() {
-        return iafbm.form.common.Formation({
+    _createFormations: function() {
+        return iafbm.form.common.Formations({
             store: iafbm.store.CandidatFormation,
             params: {
-                candidat_id: this.fetch.id || this.record.get('id')
+                candidat_id: this.getRecordId()
             }
         });
     },
-    _createPosition: function() {
+    _createPositions: function() {
         return {
             xtype: 'fieldset',
             title: 'Position actuelle',
@@ -1473,21 +1602,25 @@ Ext.define('iafbm.form.Personne', {
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Permis')
             }]
-        }, this._createFormation(), this._createFonction()];
+        },
+            this._createFormations(),
+            this._createFonctions(),
+            this._createAdresses()
+        ];
         //
         var me = this;
         me.callParent();
     },
-    _createFormation: function() {
-        return iafbm.form.common.Formation({
+    _createFormations: function() {
+        return iafbm.form.common.Formations({
             store: iafbm.store.PersonneFormation,
             params: {
-                personne_id: this.fetch.id || this.record.get('id')
+                personne_id: this.getRecordId()
             }
         });
     },
-    _createFonction: function() {
-        var personne_id = this.fetch.id || this.record.get('id');
+    _createFonctions: function() {
+        var personne_id = this.getRecordId();
         return {
             xtype: 'fieldset',
             title: 'Fonction académique',
@@ -1504,7 +1637,7 @@ Ext.define('iafbm.form.Personne', {
                 columns: [{
                     header: "Section",
                     dataIndex: 'section_id',
-                    width: 100,
+                    width: 60,
                     xtype: 'ia-combocolumn',
                     field: {
                         xtype: 'ia-combo',
@@ -1514,9 +1647,9 @@ Ext.define('iafbm.form.Personne', {
                         allowBlank: false
                     }
                 },{
-                    header: "Fonction",
+                    header: "Titre académique",
                     dataIndex: 'titre-academique_id',
-                    width: 100,
+                    flex: 1,
                     xtype: 'ia-combocolumn',
                     field: {
                         xtype: 'ia-combo',
@@ -1528,7 +1661,7 @@ Ext.define('iafbm.form.Personne', {
                 },{
                     header: "Taux d'activité",
                     dataIndex: 'taux_activite',
-                    width: 100,
+                    width: 50,
                     xtype: 'numbercolumn',
                     format:'000',
                     field: {
@@ -1539,7 +1672,7 @@ Ext.define('iafbm.form.Personne', {
                 },{
                     header: "Date contrat",
                     dataIndex: 'date_contrat',
-                    flex: 1,
+                    width: 100,
                     xtype: 'ia-datecolumn',
                     field: {
                         xtype: 'ia-datefield'
@@ -1547,7 +1680,7 @@ Ext.define('iafbm.form.Personne', {
                 },{
                     header: "Début mandat",
                     dataIndex: 'debut_mandat',
-                    flex: 1,
+                    width: 100,
                     xtype: 'ia-datecolumn',
                     field: {
                         xtype: 'ia-datefield'
@@ -1555,7 +1688,7 @@ Ext.define('iafbm.form.Personne', {
                 },{
                     header: "Fonction hospitalière",
                     dataIndex: 'fonction-hospitaliere_id',
-                    width: 100,
+                    flex: 1,
                     xtype: 'ia-combocolumn',
                     field: {
                         xtype: 'ia-combo',
@@ -1567,7 +1700,7 @@ Ext.define('iafbm.form.Personne', {
                 },{
                     header: "Rattachement",
                     dataIndex: 'departement_id',
-                    width: 100,
+                    flex: 1,
                     xtype: 'ia-combocolumn',
                     field: {
                         xtype: 'ia-combo',
@@ -1579,6 +1712,14 @@ Ext.define('iafbm.form.Personne', {
                 }]
             }]
         };
+    },
+    _createAdresses: function() {
+        return iafbm.form.common.Adresses({
+            store: iafbm.store.PersonneAdresse,
+            params: {
+                personne_id: this.getRecordId()
+            }
+        });
     }
 });
 
@@ -1613,13 +1754,6 @@ iafbm.columns.Personne = [{
     field: {
         xtype: 'textfield',
         allowBlank: false
-    }
-}, {
-    header: "Adresse",
-    dataIndex: 'adresse',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
     }
 }, {
     header: "Téléphone",

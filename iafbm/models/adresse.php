@@ -10,7 +10,7 @@ class AdresseModel extends xModelMysql {
         'created' => 'created',
         'modified' => 'modified',
         'adresse-type_id' => 'adresse_type_id',
-        'adresse' => 'adresse',
+        'rue' => 'rue',
         'npa' => 'npa',
         'lieu' => 'lieu',
         'pays_id' => 'pays_id',
@@ -23,7 +23,5 @@ class AdresseModel extends xModelMysql {
         'pays' => 'LEFT JOIN pays ON (personnes.pays_id = pays.id)'
     );
 
-    var $validation = array(
-        'adresse' => 'mandatory'
-    );
+    var $validation = array();
 }

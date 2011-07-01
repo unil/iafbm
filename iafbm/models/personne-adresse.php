@@ -19,4 +19,11 @@ class PersonneAdresseModel extends xModelMysql {
         'adresse_id' => 'mandatory',
         'personne_id' => 'mandatory'
     );
+
+    var $joins = array(
+        'adresse' => 'LEFT JOIN adresses ON (personnes_adresses.adresse_id = adresses.id)',
+        'personne' => 'LEFT JOIN personnes ON (personnes_adresses.personne_id = personnes.id)'
+    );
+
+    var $join = 'adresse';
 }
