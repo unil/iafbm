@@ -6,6 +6,7 @@ CREATE TABLE commissions_travails (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
+    termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,
     loco_primo INT DEFAULT NULL,
     loco_secondo INT DEFAULT NULL,

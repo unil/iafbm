@@ -9,6 +9,7 @@ class CommissionModel extends xModelMysql {
         'commission-type_id' => 'commission_type_id',
         'commission-etat_id' => 'commission_etat_id',
         'section_id' => 'section_id',
+        'termine' => 'termine',
         'nom' => 'nom',
         'commentaire' => 'commentaire',
         'actif' => 'actif',

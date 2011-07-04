@@ -7,6 +7,7 @@ class CommissionCreationModel extends xModelMysql {
     var $mapping = array(
         'id' => 'id',
         'commission_id' => 'commission_id',
+        'termine' => 'termine',
         'decision' => 'date_decision',
         'preavis' => 'date_preavis',
         'autorisation' => 'date_autorisation',

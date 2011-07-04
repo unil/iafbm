@@ -549,6 +549,8 @@ Ext.define('Ext.ia.form.Panel', {
                     // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
+                    // Fires a quite useful event
+                    me.fireEvent('load');
                 },
                 failure: function(record) {},
                 callback: function() {
@@ -611,6 +613,58 @@ Ext.define('Ext.ia.form.Panel', {
             this.fireEvent('beforeload', this);
             this.makeRecord();
         });
+    }
+});
+
+Ext.define('Ext.ia.form.CommissionPanel', {
+    extend: 'Ext.ia.form.Panel',
+    alias: 'widget.ia-form-commission',
+    dockedItems: [],
+    phases: {
+        pending: {
+            color: '00ff00',
+            icon: 'tab-icon-pending'
+        },
+        finished: {
+            color: 'ff0000',
+            icon: 'tab-icon-done'
+        }
+    },
+    onCheckboxClick: function(checkbox) {
+        // Updates dans saves record
+        this.record.set('termine', checkbox.checked);
+        this.record.save();
+        // Updates display
+        this.updatePhaseDisplay();
+    },
+    updatePhaseDisplay: function() {
+        var finished = this.record.get('termine');
+        // Sets checkbox state
+        var checkbox = this.getDockedComponent(0).items.items[1];
+        checkbox.setValue(finished);
+        // Sets tabpanel tab style
+        var state = finished ? 'finished' : 'pending';
+        var tab = this.up('tabpanel').getActiveTab();
+        tab.setIconCls(this.phases[state]['icon']);
+    },
+    makeTopToolbar: function() {
+        return [{
+            xtype: 'toolbar',
+            items: ['->', {
+                xtype: 'checkbox',
+                itemId: 'checkboxtermine',
+                boxLabel: 'Phase terminée',
+                handler: function(checkbox) { this.up('form').onCheckboxClick(checkbox) }
+            }]
+        }];
+    },
+    initComponent: function() {
+        this.dockedItems = this.makeTopToolbar();
+        //
+        var me = this;
+        me.callParent();
+        //
+        this.on({load: this.updatePhaseDisplay});
     }
 });
 
@@ -1011,6 +1065,7 @@ Ext.define('iafbm.model.Commission', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
+        {name: 'termine', type: 'boolean'},
         {name: 'nom', type: 'string'},
         {name: 'commentaire', type: 'string'},
         {name: 'commission-type_id', type: 'int'},
@@ -1075,6 +1130,7 @@ Ext.define('iafbm.model.CommissionCreation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
+        {name: 'termine', type: 'boolean'},
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'decision', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'preavis', type: 'date', dateFormat: 'Y-m-d'},
@@ -1096,6 +1152,7 @@ Ext.define('iafbm.model.CommissionCandidatCommentaire', {
         {name: 'id', type: 'int'},
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'commission_id', type: 'int'},
+        {name: 'termine', type: 'boolean'},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],
@@ -1108,6 +1165,7 @@ Ext.define('iafbm.model.CommissionTravail', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
+        {name: 'termine', type: 'boolean'},
         {name: 'primo_loco', type: 'int', useNull: true},
         {name: 'secondo_loco', type: 'int', useNull: true},
         {name: 'tertio_loco', type: 'int', useNull: true},
@@ -1153,6 +1211,7 @@ Ext.define('iafbm.model.CommissionValidation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
+        {name: 'termine', type: 'boolean'},
         {name: 'decanat_date', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'decanat_etat', type: 'int'},
         {name: 'decanat_commentaire', type: 'string'},
@@ -1191,6 +1250,7 @@ Ext.define('iafbm.model.CommissionFinalisation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
+        {name: 'termine', type: 'boolean'},
         {name: 'reception_contrat_date', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'reception_contrat_commentaire', type: 'string'},
         {name: 'debut_activite', type: 'date', dateFormat: 'Y-m-d'},

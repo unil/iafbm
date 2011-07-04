@@ -17,10 +17,10 @@
     background-image: url(../img/ext/bullet_green.png) !important;
 }
 
-.tab-icon-todo {
+.tab-icon-warning,
+.tab-icon-pending {
     background-image: url(../img/ext/bullet_orange.png) !important;
 }
-
 
 
 /**********************************************************

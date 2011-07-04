@@ -6,6 +6,7 @@ CREATE TABLE commissions_finalisations (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
+    termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,
     reception_contrat_date DATE DEFAULT NULL,
     reception_contrat_etat BOOLEAN DEFAULT false,

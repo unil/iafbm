@@ -11,6 +11,7 @@ class CommissionCandidatCommentaireModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
+        'termine' => 'termine',
         'commentaire' => 'commentaire'
     );
 

@@ -10,6 +10,7 @@ class CommissionFinalisationModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
+        'termine' => 'termine',
         'reception_contrat_date' => 'reception_contrat_date',
         'reception_contrat_etat' => 'reception_contrat_etat',
         'reception_contrat_commentaire' => 'reception_contrat_commentaire',

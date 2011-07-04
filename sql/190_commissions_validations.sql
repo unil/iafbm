@@ -17,6 +17,7 @@ CREATE TABLE commissions_validations (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
+    termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,
     decanat_date DATE DEFAULT NULL,
     decanat_etat INT DEFAULT 1,

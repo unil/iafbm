@@ -6,6 +6,7 @@ CREATE TABLE commissions_candidats_commentaires (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
+    termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,
     commentaire TEXT,
     PRIMARY KEY (id),

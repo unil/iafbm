@@ -11,7 +11,7 @@ Ext.onReady(function() {
     // Shared Candidat store
     var store_candidat = new iafbm.store.Candidat();
 
-    var form_apercu = Ext.create('Ext.ia.form.Panel', {
+    var form_apercu = Ext.create('Ext.ia.form.CommissionPanel', {
         store: Ext.create('iafbm.store.Commission'),
         fetch: {
             model: iafbm.model.Commission,
@@ -516,32 +516,32 @@ Ext.onReady(function() {
             id: 'apercu',
             title: 'Apercu général',
             items: form_apercu,
-            iconCls: 'tab-icon-ok'
+            iconCls: 'tab-icon-done'
         }, {
             id: 'creation',
             title: 'Phase de création',
             items: form_creation,
-            iconCls: 'tab-icon-ok'
+            iconCls: 'tab-icon-done'
         }, {
             id: 'candidat',
             title: 'Candidat',
             items: form_candidat,
-            iconCls: 'tab-icon-ok'
+            iconCls: 'tab-icon-done'
         }, {
             id: 'travail',
             title: 'Phase de travail',
             items: form_travail,
-            iconCls: 'tab-icon-todo'
+            iconCls: 'tab-icon-pending'
         }, {
             id: 'validation',
             title: 'Validation de rapport',
             items: form_validation,
-            iconCls: 'tab-icon-todo'
+            iconCls: 'tab-icon-pending'
         }, {
             id: 'finalisation',
             title: 'Finalisation',
             items: form_finalisation,
-            iconCls: 'tab-icon-todo'
+            iconCls: 'tab-icon-pending'
         }],
         listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {

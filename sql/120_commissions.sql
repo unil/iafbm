@@ -6,6 +6,7 @@ CREATE TABLE commissions (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
+    termine BOOLEAN NOT NULL DEFAULT false,
     nom VARCHAR(255) NOT NULL,
     commentaire TEXT,
     commission_type_id INT NOT NULL,

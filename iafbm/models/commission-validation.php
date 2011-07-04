@@ -10,6 +10,7 @@ class CommissionValidationModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
+        'termine' => 'termine',
         'decanat_date' => 'decanat_date',
         'decanat_etat' => 'decanat_etat',
         'decanat_commentaire' => 'decanat_commentaire',

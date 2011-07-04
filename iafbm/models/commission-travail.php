@@ -10,6 +10,7 @@ class CommissionTravailModel extends xModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
+        'termine' => 'termine',
         'primo_loco' => 'loco_primo',
         'secondo_loco' => 'loco_secondo',
         'tertio_loco' => 'loco_tertio',
