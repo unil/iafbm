@@ -86,7 +86,7 @@ Ext.onReady(function() {
 
     var form_creation = Ext.create('Ext.ia.form.Panel', {
         store: Ext.create('iafbm.store.CommissionCreation'),
-        record: {
+        fetch: {
             model: iafbm.model.CommissionCreation,
             params: { commission_id: <?php echo $d['id'] ?> }
         },
@@ -143,7 +143,7 @@ Ext.onReady(function() {
 
     var form_candidat = Ext.create('Ext.ia.form.Panel', {
         store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
-        record: {
+        fetch: {
             model: iafbm.model.CommissionCandidatCommentaire,
             params: { commission_id: <?php echo $d['id'] ?> }
         },
@@ -186,7 +186,7 @@ Ext.onReady(function() {
 
     var form_travail = Ext.create('Ext.ia.form.Panel', {
         store: Ext.create('iafbm.store.CommissionTravail'),
-        record: {
+        fetch: {
             model: iafbm.model.CommissionTravail,
             params: { commission_id: <?php echo $d['id'] ?> }
         },
@@ -308,7 +308,7 @@ Ext.onReady(function() {
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
     var form_validation = Ext.create('Ext.ia.form.Panel', {
         store: Ext.create('iafbm.store.CommissionValidation'),
-        record: {
+        fetch: {
             model: iafbm.model.CommissionValidation,
             params: { commission_id: <?php echo $d['id'] ?> }
         },
@@ -457,7 +457,7 @@ Ext.onReady(function() {
 
     var form_finalisation = Ext.create('Ext.ia.form.Panel', {
         store: Ext.create('iafbm.store.CommissionFinalisation'),
-        record: {
+        fetch: {
             model: iafbm.model.CommissionFinalisation,
             params: { commission_id: <?php echo $d['id'] ?> }
         },
