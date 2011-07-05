@@ -24,7 +24,5 @@ class CommissionMembreModel extends xModelMysql {
 
     var $join = array('personne', 'commission-fonction', 'commission');
 
-    var $validation = array(
-        'nom' => 'mandatory'
-    );
+    var $validation = array();
 }

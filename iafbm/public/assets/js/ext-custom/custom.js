@@ -102,12 +102,12 @@ Ext.define('Ext.ia.grid.column.Action', {
     form: null,
     handler: function(gridView, rowIndex, colIndex, item) {
         var me = this,
-            record = gridView.getStore().getAt(rowIndex),
             popup = new Ext.ia.window.Popup({
             title: 'Détails',
             item: new me.form({
                 frame: false,
-                record: record,
+                record: me.getRecord(gridView, rowIndex, colIndex, item),
+                fetch: me.getFetch(gridView, rowIndex, colIndex, item),
                 listeners: {
                     aftersave: function(form, record) {
                         popup.close();
@@ -115,6 +115,12 @@ Ext.define('Ext.ia.grid.column.Action', {
                 }
             })
         });
+    },
+    getRecord: function(gridView, rowIndex, colIndex, item) {
+        return gridView.getStore().getAt(rowIndex);
+    },
+    getFetch: function(gridView, rowIndex, colIndex, item) {
+        return {};
     },
     initComponent: function() {
         this.flex = 0;
@@ -609,10 +615,10 @@ Ext.define('Ext.ia.form.Panel', {
         var me = this;
         me.callParent();
         // Manages record loading
-        this.addListener('afterrender', function() {
+        //this.addListener('afterrender', function() {
             this.fireEvent('beforeload', this);
             this.makeRecord();
-        });
+        //});
     }
 });
 
@@ -1015,7 +1021,7 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'commission_id', type: 'int'},
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
-        {name: 'genre_id', type: 'int'},
+        {name: 'genre_id', type: 'int', useNull: true},
         {name: 'etatcivil_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'nombre_enfants', type: 'int', useNull: true},
@@ -1069,7 +1075,7 @@ Ext.define('iafbm.model.Commission', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'termine', type: 'boolean'},
+        {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'nom', type: 'string'},
         {name: 'commentaire', type: 'string'},
         {name: 'commission-type_id', type: 'int'},
@@ -1802,19 +1808,8 @@ Ext.define('iafbm.form.Personne', {
 // Columns
 Ext.ns('iafbm.columns');
 iafbm.columns.Personne = [{
-    xtype: 'actioncolumn',
-    width: 25,
-    items: [{
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',  // Use a URL in the icon config
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(grid, rowIndex, colIndex, item) {
-            var id = grid.store.getAt(rowIndex).get('id');
-            var l = window.location;
-            var url = [l.protocol, '//', l.host, '/personnes/', id].join('');
-            window.location = url;
-        }
-    }]
+    xtype: 'ia-actioncolumn-detailform',
+    form: iafbm.form.Personne
 }, {
     header: "Nom",
     dataIndex: 'nom',
@@ -1861,7 +1856,17 @@ iafbm.columns.Personne = [{
 
 iafbm.columns.CommissionMembre = [{
     xtype: 'ia-actioncolumn-detailform',
-    //form: iafbm.form.CommissionMembre
+    form: iafbm.form.Personne,
+    getRecord: function(gridView, rowIndex, colIndex, item) {
+        return null;
+    },
+    getFetch: function(gridView, rowIndex, colIndex, item) {
+        var commission_membre = gridView.getStore().getAt(rowIndex);
+        return {
+            model: iafbm.model.Personne,
+            id: commission_membre.get('personne_id')
+        };
+    }
 }, {
     header: "Titre",
     dataIndex: '',

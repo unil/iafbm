@@ -82,7 +82,7 @@ class CommissionsController extends iaWebController {
         $t->execute(xModel::load('commission-creation', $params), 'delete');
         $t->execute(xModel::load('commission-membre', $params), 'delete');
         $t->execute(xModel::load('commission-candidat-commentaire', $params), 'delete');
-        $t->execute(xModel::load('commission-candidat', $params), 'delete');
+        $t->execute(xModel::load('candidat', $params), 'delete');
         $t->execute(xModel::load('commission', $this->params), 'delete');
         return $t->end();
     }

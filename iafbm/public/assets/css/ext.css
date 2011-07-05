@@ -22,16 +22,21 @@
     background-image: url(../img/ext/bullet_orange.png) !important;
 }
 
+.tab-icon-neutral,
+.tab-icon-unknown {
+    background-image: url(../img/ext/bullet_gray.png) !important;
+}
+
 .x-ia-toolbar-done {
     background-color: #9CD099;
-    _background-image: -moz-linear-gradient(center top , #DFE9F5, #D3E1F1);
     background-image: none;
+    /*background-image: -moz-linear-gradient(center top , #DFE9F5, #D3E1F1);*/
 }
 
 .x-ia-toolbar-pending {
     background-color: #FFC487;
-    _background-image: -moz-linear-gradient(center top , #DFE9F5, #DF7D2A);
     background-image: none;
+    /*background-image: -moz-linear-gradient(center top , #DFE9F5, #DF7D2A);*/
 }
 
 
