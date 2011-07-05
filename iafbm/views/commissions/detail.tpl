@@ -84,7 +84,7 @@ Ext.onReady(function() {
     });
 
 
-    var form_creation = Ext.create('Ext.ia.form.Panel', {
+    var form_creation = Ext.create('Ext.ia.form.CommissionPanel', {
         store: Ext.create('iafbm.store.CommissionCreation'),
         fetch: {
             model: iafbm.model.CommissionCreation,
@@ -141,7 +141,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var form_candidat = Ext.create('Ext.ia.form.Panel', {
+    var form_candidat = Ext.create('Ext.ia.form.CommissionPanel', {
         store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
         fetch: {
             model: iafbm.model.CommissionCandidatCommentaire,
@@ -184,7 +184,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var form_travail = Ext.create('Ext.ia.form.Panel', {
+    var form_travail = Ext.create('Ext.ia.form.CommissionPanel', {
         store: Ext.create('iafbm.store.CommissionTravail'),
         fetch: {
             model: iafbm.model.CommissionTravail,
@@ -306,7 +306,7 @@ Ext.onReady(function() {
     });
 
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
-    var form_validation = Ext.create('Ext.ia.form.Panel', {
+    var form_validation = Ext.create('Ext.ia.form.CommissionPanel', {
         store: Ext.create('iafbm.store.CommissionValidation'),
         fetch: {
             model: iafbm.model.CommissionValidation,
@@ -455,7 +455,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var form_finalisation = Ext.create('Ext.ia.form.Panel', {
+    var form_finalisation = Ext.create('Ext.ia.form.CommissionPanel', {
         store: Ext.create('iafbm.store.CommissionFinalisation'),
         fetch: {
             model: iafbm.model.CommissionFinalisation,

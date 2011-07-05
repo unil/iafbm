@@ -622,11 +622,11 @@ Ext.define('Ext.ia.form.CommissionPanel', {
     dockedItems: [],
     phases: {
         pending: {
-            color: '00ff00',
+            cls: 'x-ia-toolbar-pending',
             icon: 'tab-icon-pending'
         },
         finished: {
-            color: 'ff0000',
+            cls: 'x-ia-toolbar-done',
             icon: 'tab-icon-done'
         }
     },
@@ -643,16 +643,20 @@ Ext.define('Ext.ia.form.CommissionPanel', {
         var checkbox = this.getDockedComponent(0).items.items[1];
         checkbox.setValue(finished);
         // Sets tabpanel tab style
-        var state = finished ? 'finished' : 'pending';
+        var state = finished ? 'finished' : 'pending',
+            phase = this.phases[state];
         var tab = this.up('tabpanel').getActiveTab();
-        tab.setIconCls(this.phases[state]['icon']);
+        tab.setIconCls(phase.icon);
+        // Sets top toolbar style
+        var toolbar = this.getDockedComponent(0);
+        for (var i in this.phases) toolbar.removeCls(this.phases[i].cls);
+        toolbar.addCls(phase.cls);
     },
     makeTopToolbar: function() {
         return [{
             xtype: 'toolbar',
             items: ['->', {
                 xtype: 'checkbox',
-                itemId: 'checkboxtermine',
                 boxLabel: 'Phase terminée',
                 handler: function(checkbox) { this.up('form').onCheckboxClick(checkbox) }
             }]
