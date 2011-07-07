@@ -11,7 +11,7 @@ Ext.onReady(function() {
     // Shared Candidat store
     var store_candidat = new iafbm.store.Candidat();
 
-    var form_apercu = Ext.create('Ext.ia.form.CommissionPanel', {
+    var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Commission'),
         fetch: {
             model: iafbm.model.Commission,
@@ -84,7 +84,7 @@ Ext.onReady(function() {
     });
 
 
-    var form_creation = Ext.create('Ext.ia.form.CommissionPanel', {
+    var form_creation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.CommissionCreation'),
         fetch: {
             model: iafbm.model.CommissionCreation,
@@ -141,7 +141,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var form_candidat = Ext.create('Ext.ia.form.CommissionPanel', {
+    var form_candidat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
         fetch: {
             model: iafbm.model.CommissionCandidatCommentaire,
@@ -184,7 +184,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var form_travail = Ext.create('Ext.ia.form.CommissionPanel', {
+    var form_travail = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.CommissionTravail'),
         fetch: {
             model: iafbm.model.CommissionTravail,
@@ -306,7 +306,7 @@ Ext.onReady(function() {
     });
 
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
-    var form_validation = Ext.create('Ext.ia.form.CommissionPanel', {
+    var form_validation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.CommissionValidation'),
         fetch: {
             model: iafbm.model.CommissionValidation,
@@ -455,7 +455,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var form_finalisation = Ext.create('Ext.ia.form.CommissionPanel', {
+    var form_finalisation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.CommissionFinalisation'),
         fetch: {
             model: iafbm.model.CommissionFinalisation,
@@ -504,7 +504,7 @@ Ext.onReady(function() {
         }, new Ext.ia.ux.grid.History()]
     });
 
-    var tabPanel = Ext.createWidget('tabpanel', {
+    var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
         renderTo: 'target',
         activeTab: 0,
         width: 880,

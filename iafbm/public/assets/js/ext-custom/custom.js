@@ -535,8 +535,10 @@ Ext.define('Ext.ia.form.Panel', {
         // The fetch property can contain either a regular Ext.data.Model
         // or a configuration object containing the model and the id to load
         if (this.record) {
+            this.fireEvent('beforeload', this);
             this.getForm().loadRecord(this.record);
         } else if (this.fetch && this.fetch.model && this.fetch.model.load) {
+            this.fireEvent('beforeload', this);
             var proxy = this.fetch.model.proxy;
             // Manages parameters
             if (this.fetch.params) {
@@ -564,8 +566,6 @@ Ext.define('Ext.ia.form.Panel', {
                 }
             });
         }
-    },
-    applyRecord: function(record) {
     },
     saveRecord: function() {
         if (this.fireEvent('beforesave', this, record) === false) return;
@@ -615,56 +615,94 @@ Ext.define('Ext.ia.form.Panel', {
         var me = this;
         me.callParent();
         // Manages record loading
-        //this.addListener('afterrender', function() {
-            this.fireEvent('beforeload', this);
+        this.addListener('afterrender', function() {
             this.makeRecord();
-        //});
+        });
     }
 });
 
-Ext.define('Ext.ia.form.CommissionPanel', {
+/* This tabpanel is used for the Commission details:
+ * it manages:
+ * - styling its tabs according its contained form record 'termine' field value
+ * - firing the loading of its contained forms records
+ */
+Ext.define('Ext.ia.tab.CommissionPanel', {
+    extend: 'Ext.tab.Panel',
+    alias: 'widget.ia-tabpanel-commission',
+    updateTabState: function(tab) {
+        var tab = tab || this.getActiveTab(),
+            finished = tab.down('ia-form-commission').record.get('termine');
+        // Determines tab CSS class
+        var cls = finished ? 'tab-icon-done' : 'tab-icon-pending';
+        tab.setIconCls(cls);
+    },
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+        // For each tab, update its visual state on the form load event
+        this.items.each(function(tab) {
+            var form = tab.down('ia-form-commission');
+            form.on({load: function() {
+                me.updateTabState(tab);
+            }});
+            form.makeRecord();
+        });
+    }
+});
+
+/* This form is used for the Commission details:
+ * it manages:
+ * - creating a checkbox for 'termine' field value
+ * - styling the checkbox panel according the 'termine' field value
+ * - updating its tabpanel container according the 'termine' field value
+ */
+Ext.define('Ext.ia.form.CommissionPhasePanel', {
     extend: 'Ext.ia.form.Panel',
     alias: 'widget.ia-form-commission',
+    bodyCls: 'x-ia-panel-commission',
     dockedItems: [],
     phases: {
-        pending: {
-            cls: 'x-ia-toolbar-pending',
-            icon: 'tab-icon-pending'
-        },
-        finished: {
-            cls: 'x-ia-toolbar-done',
-            icon: 'tab-icon-done'
-        }
+        pending: 'x-ia-toolbar-pending',
+        finished: 'x-ia-toolbar-done'
     },
     onCheckboxClick: function(checkbox) {
         // Updates dans saves record
         this.record.set('termine', checkbox.checked);
         this.record.save();
-        // Updates display
-        this.updatePhaseDisplay();
+        // Updates form state display
+        this.updateFormState();
+        // Updates related tab state display
+        var tabpanel = this.up('ia-tabpanel-commission');
+        tabpanel.updateTabState();
     },
-    updatePhaseDisplay: function() {
+    updateCheckboxState: function() {
         var finished = this.record.get('termine');
-        // Sets checkbox state
-        var checkbox = this.getDockedComponent(0).items.items[1];
+        // Sets checkbox value
+        var checkbox = this.getDockedComponent(0).getComponent('checkbox-finished');
         checkbox.setValue(finished);
-        // Sets tabpanel tab style
-        var state = finished ? 'finished' : 'pending',
-            phase = this.phases[state];
-        var tab = this.up('tabpanel').getActiveTab();
-        tab.setIconCls(phase.icon);
         // Sets top toolbar style
+        var state = finished ? 'finished' : 'pending',
+            cls = this.phases[state];
         var toolbar = this.getDockedComponent(0);
-        for (var i in this.phases) toolbar.removeCls(this.phases[i].cls);
-        toolbar.addCls(phase.cls);
+        for (var i in this.phases) toolbar.removeCls(this.phases[i]);
+        toolbar.addCls(cls);
     },
     makeTopToolbar: function() {
         return [{
             xtype: 'toolbar',
             items: ['->', {
                 xtype: 'checkbox',
+                itemId: 'checkbox-finished',
                 boxLabel: 'Phase terminée',
-                handler: function(checkbox) { this.up('form').onCheckboxClick(checkbox) }
+                handler: function(checkbox, checked) {
+                    // Aborts if checkbox state is the same as the record state
+                    // This prevents POSTing the record
+                    // when ExtJS sets the checkbox initial value
+                    var finished = this.up('ia-form-commission').record.get('termine');
+                    if (finished != checked) return;
+                    // Fires checkbox change logic
+                    this.up('form').onCheckboxClick(checkbox);
+                }
             }]
         }];
     },
@@ -673,8 +711,8 @@ Ext.define('Ext.ia.form.CommissionPanel', {
         //
         var me = this;
         me.callParent();
-        //
-        this.on({load: this.updatePhaseDisplay});
+        // Updates form state on record load
+        this.on({load: this.updateCheckboxState});
     }
 });
 
