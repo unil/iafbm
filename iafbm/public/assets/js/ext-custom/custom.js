@@ -640,13 +640,15 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         var me = this;
         me.callParent();
         // For each tab, update its visual state on the form load event
-        this.items.each(function(tab) {
-            var form = tab.down('ia-form-commission');
-            form.on({load: function() {
-                me.updateTabState(tab);
-            }});
-            form.makeRecord();
-        });
+        this.on({afterrender: function() {
+            this.items.each(function(tab) {
+                var form = tab.down('ia-form-commission');
+                form.on({load: function() {
+                    me.updateTabState(tab);
+                }});
+                form.makeRecord();
+            });
+        }});
     }
 });
 
@@ -670,7 +672,7 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         this.record.set('termine', checkbox.checked);
         this.record.save();
         // Updates form state display
-        this.updateFormState();
+        this.updateCheckboxState();
         // Updates related tab state display
         var tabpanel = this.up('ia-tabpanel-commission');
         tabpanel.updateTabState();
@@ -699,7 +701,7 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
                     // This prevents POSTing the record
                     // when ExtJS sets the checkbox initial value
                     var finished = this.up('ia-form-commission').record.get('termine');
-                    if (finished != checked) return;
+                    if (finished == checked) return;
                     // Fires checkbox change logic
                     this.up('form').onCheckboxClick(checkbox);
                 }
