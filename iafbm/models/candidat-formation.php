@@ -19,6 +19,6 @@ class CandidatFormationModel extends xModelMysql {
 
     var $validation = array(
         'candidat_id' => 'mandatory',
-        'formation-titre_id' => 'mandatory'
+        'formation_id' => 'mandatory'
     );
 }
