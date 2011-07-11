@@ -1994,18 +1994,6 @@ iafbm.columns.Candidat = [{
         allowBlank: false,
         store: new iafbm.store.Genre()
     }
-}, {
-    header: "Commission",
-    dataIndex: 'commission_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.Commission()
-    }
 }];
 
 iafbm.columns.Commission = [{

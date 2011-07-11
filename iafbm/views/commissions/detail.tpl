@@ -154,7 +154,9 @@ Ext.onReady(function() {
             xtype:'ia-editgrid',
             width: 880,
             height: 330,
-            store: new iafbm.store.Candidat(),
+            store: new iafbm.store.Candidat({
+                params: {commission_id: <?php echo $d['id'] ?>}
+            }),
             columns: iafbm.columns.Candidat,
             pageSize: 10,
             addItem: function() {
