@@ -205,25 +205,6 @@ Ext.onReady(function() {
                 }
             },
             items: [{
-/* Draft using Ext.ia.form.field.MultiField:
-                items: [{
-                    xtype: 'displayfield',
-                    value: '<b>Séances annoncées</b>',
-                    height: 25
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: "Séance d'évaluation",
-                    name: ''
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Journée de visite',
-                    name: ''
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Séance de délibération',
-                    name: ''
-                }]
-*/
                 items: [{
                     xtype: 'displayfield',
                     value: '<b>Séances annoncées</b>',
@@ -235,7 +216,8 @@ Ext.onReady(function() {
                     height: 150,
                     bbar: null,
                     store: new iafbm.store.CommissionTravailEvenement({
-                        params: { commission_id: '<?php echo $d['id'] ?>' }
+                        params: { commission_id: '<?php echo $d['id'] ?>' },
+                        sorters: [{property: 'date', direction: 'DESC'}]
                     }),
                     newRecordValues: { commission_id: '<?php echo $d['id'] ?>' },
                     columns: [{
@@ -260,7 +242,7 @@ Ext.onReady(function() {
                             allowBlank: false
                         }
                     },{
-                        header: "Procès verbal",
+                        header: "PV Reçu",
                         dataIndex: 'proces_verbal',
                         flex: 1,
                         xtype: 'checkcolumn',

@@ -1066,17 +1066,18 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'nombre_enfants', type: 'int', useNull: true},
         {name: 'no_avs', type: 'string'},
-        {name: 'email', type: 'sting'},
         {name: 'adresse_pro', type: 'sting'},
         {name: 'npa_pro', type: 'sting'},
         {name: 'lieu_pro', type: 'sting'},
         {name: 'pays_pro_id', type: 'int', useNull: true},
         {name: 'telephone_pro', type: 'sting'},
+        {name: 'email_pro', type: 'sting'},
         {name: 'adresse_pri', type: 'sting'},
         {name: 'npa_pri', type: 'sting'},
         {name: 'lieu_pri', type: 'sting'},
         {name: 'pays_pri_id', type: 'int', useNull: true},
         {name: 'telephone_pri', type: 'sting'},
+        {name: 'email_pri', type: 'sting'},
         {name: 'position_actuelle_fonction', type: 'string'},
         {name: 'position_actuelle_lieu', type: 'string'},
         {name: '_display', mapping: 0, convert: function(value, record) {
@@ -1605,6 +1606,10 @@ Ext.define('iafbm.form.Candidat', {
                         fieldLabel: 'Télépone',
                         emptyText: 'Télépone',
                         name: 'telephone_pro'
+                    }, {
+                        fieldLabel: 'Email',
+                        emptyText: 'Email',
+                        name: 'email_pro'
                     }],
                 }, {
                     xtype: 'fieldcontainer',
@@ -1635,17 +1640,10 @@ Ext.define('iafbm.form.Candidat', {
                         fieldLabel: 'Télépone',
                         emptyText: 'Télépone',
                         name: 'telephone_pri'
-                    }]
-                }, {
-                    xtype: 'fieldcontainer',
-                    items: [{
-                        xtype: 'displayfield',
-                        value: '<b>Electronique</b>',
-                        labelSeparator: null, fieldLabel: '&nbsp;'
                     }, {
                         fieldLabel: 'Email',
                         emptyText: 'Email',
-                        name: 'email'
+                        name: 'email_pri'
                     }]
                 }]
             }]
