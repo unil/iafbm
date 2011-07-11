@@ -16,5 +16,13 @@ class PersonneFonctionModel extends xModelMysql {
         'departement_id' => 'departement_id'
     );
 
+    var $joins = array(
+        'personne' => 'LEFT JOIN personnes ON (personnes_fonctions.personne_id = personnes.id)',
+        'titre-academique' => 'LEFT JOIN titres_academiques ON (personnes_fonctions.titre_academique_id = titres_academiques.id)',
+        'departement' => 'LEFT JOIN departements ON (personnes_fonctions.departement_id = departements.id)'
+    );
+
+    var $join = array('personne', 'titre-academique', 'departement');
+
     var $primary = array('id');
 }

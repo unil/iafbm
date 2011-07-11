@@ -1004,11 +1004,13 @@ Ext.define('iafbm.model.PersonneFonction', {
         {name: 'personne_id', type: 'int', useNull: true},
         {name: 'section_id', type: 'int', useNull: true},
         {name: 'titre-academique_id', type: 'int', useNull: true},
+        {name: 'titre-academique_abreviation', type: 'string'},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'date_contrat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'debut_mandat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'fonction-hospitaliere_id', type: 'int', useNull: true},
-        {name: 'departement_id', type: 'int', useNull: true}
+        {name: 'departement_id', type: 'int', useNull: true},
+        {name: 'departement_nom', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -1041,8 +1043,10 @@ Ext.define('iafbm.model.CommissionMembre', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int'},
-        {name: 'fonction_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
+        {name: 'fonction_id', type: 'int'},
+        {name: 'titre-academique_id', type: 'int', useNull: true},
+        {name: 'departement_id', type: 'int', useNull: true},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
         {name: 'titre', type: 'string', defaultValue: 'Prof.'},
@@ -1907,10 +1911,15 @@ iafbm.columns.CommissionMembre = [{
     }
 }, {
     header: "Titre",
-    dataIndex: '',
-    width: 100,
-    field: {
-        xtype: 'textfield'
+    dataIndex: 'titre-academique_id',
+    width: 150,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'abreviation',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.TitreAcademique()
     }
 }, {
     header: "Nom",
@@ -1921,11 +1930,16 @@ iafbm.columns.CommissionMembre = [{
     dataIndex: 'personne_prenom',
     width: 125,
 }, {
-    header: "Service",
-    dataIndex: 'undefined',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
+    header: "Dépt / Service",
+    dataIndex: 'departement_id',
+    width: 150,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Departement()
     }
 }, {
     header: "Fonction",
