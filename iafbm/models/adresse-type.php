@@ -1,6 +1,6 @@
 <?php
 
-class AdresseTypeModel extends xModelMysql {
+class AdresseTypeModel extends iaModelMysql {
 
     var $table = 'adresses_types';
 

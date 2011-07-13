@@ -1,6 +1,6 @@
 <?php
 
-class AdresseModel extends xModelMysql {
+class AdresseModel extends iaModelMysql {
 
     var $table = 'adresses';
 

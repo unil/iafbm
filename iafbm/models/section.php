@@ -1,6 +1,6 @@
 <?php
 
-class SectionModel extends xModelMysql {
+class SectionModel extends iaModelMysql {
 
     var $table = 'sections';
 

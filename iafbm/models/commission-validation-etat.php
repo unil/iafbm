@@ -1,6 +1,6 @@
 <?php
 
-class CommissionValidationEtatModel extends xModelMysql {
+class CommissionValidationEtatModel extends iaModelMysql {
 
     var $table = 'commissions_validations_etats';
 

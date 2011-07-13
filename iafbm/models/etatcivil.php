@@ -1,6 +1,6 @@
 <?php
 
-class EtatCivilModel extends xModelMysql {
+class EtatCivilModel extends iaModelMysql {
 
     var $table = 'etatscivils';
 

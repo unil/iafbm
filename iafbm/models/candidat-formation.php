@@ -1,6 +1,6 @@
 <?php
 
-class CandidatFormationModel extends xModelMysql {
+class CandidatFormationModel extends iaModelMysql {
 
     var $table = 'candidats_formations';
 

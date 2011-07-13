@@ -718,56 +718,6 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
     }
 });
 
-Ext.define('Ext.ia.ux.grid.History', {
-    extend: 'Ext.grid.Panel',
-    alias: 'widget.ia-history',
-    title: 'Historique',
-    columns: [{
-        header: 'Champs',
-        dataIndex: 'field',
-        width: 100,
-        field: {
-            xtype: 'textfield'
-        }
-    }, {
-        header: 'Valeur',
-        dataIndex: 'value',
-        flex: 1,
-        field: {
-            xtype: 'textfield'
-        }
-    }, {
-        header: 'Date',
-        dataIndex: 'date',
-        width: 100,
-        field: {
-            xtype: 'textfield'
-            //xtype: 'ia-datefield'
-        }
-    }, {
-        header: 'Utilisateur',
-        dataIndex: 'user',
-        width: 100,
-        field: {
-            xtype: 'textfield'
-        }
-    }],
-    // Dummy store with dummy data
-    store: new Ext.data.ArrayStore({
-        autoDestroy: true,
-        fields: [
-            {name: 'field'},
-            {name: 'value'},
-            {name: 'date'},//, type: 'date', dateFormat: 'd.m.Y'},
-            {name: 'user'}
-        ],
-        data: [
-            ['Descrption', 'Promenade cowpoke dumb rustle plumb, highway, redblooded, ails tobaccee, has, tonic buy.', '03.05.2011', 'smeier06@unil.ch'],
-            ['Commentaire', 'Plug-nickel caboodle hoosegow caught hobo grandpa aunt.', '01.06.2011', 'dcorpata@unil.ch'],
-        ]
-    })
-});
-
 Ext.define('Ext.ia.window.Popup', {
     extend: 'Ext.window.Window',
     alias: 'widget.ia-popup',
@@ -1315,6 +1265,48 @@ Ext.define('iafbm.model.CommissionFinalisation', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/commissions-finalisations',
+    }
+});
+Ext.define('iafbm.model.Version', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'table_name', type: 'string'},
+        {name: 'id_field_name', type: 'string'},
+        {name: 'id_field_value', type: 'string'},
+        {name: 'field_name', type: 'string'},
+        {name: 'old_value', type: 'string'},
+        {name: 'new_value', type: 'string'},
+        {name: 'model_name', type: 'string'},
+        {name: 'operation', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/versions',
+    }
+});
+Ext.define('iafbm.model.VersionData', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'version_id', type: 'int'},
+        {name: 'field_name', type: 'string'},
+        {name: 'old_value', type: 'string'},
+        {name: 'new_value', type: 'string'},
+        // Foreign 'Version' fields
+        {name: 'version_created', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'version_modified', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'version_table_name', type: 'string'},
+        {name: 'version_id_field_name', type: 'string'},
+        {name: 'version_id_field_value', type: 'string'},
+        {name: 'version_model_name', type: 'string'},
+        {name: 'version_operation', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/versions-data',
     }
 });
 
@@ -2096,6 +2088,60 @@ iafbm.columns.CommissionType = [{
         allowBlank: false
     }
 }];
+
+
+
+/******************************************************************************
+ * History
+ */
+Ext.define('Ext.ia.ux.grid.History', {
+    extend: 'Ext.grid.Panel',
+    alias: 'widget.ia-history',
+    store: new iafbm.store.VersionData({
+        //FIXME: dynamic commission_id
+        params: { commission_id: 2 },
+        autoLoad: true,
+        sorters: ['version_id'],
+        groupField: 'version_id'
+    }),
+    features: [
+        Ext.create('Ext.grid.feature.Grouping', {
+            groupHeaderTpl: 'Version {name} ({rows.length})',
+            //startCollapsed: true
+        })
+    ],
+    title: 'Historique',
+    columns: [{
+        header: 'Modèle',
+        dataIndex: 'version_model_name',
+        width: 125
+    }, {
+        header: 'Version',
+        dataIndex: 'version_id',
+        width: 30
+    }, {
+        header: 'Date',
+        dataIndex: 'version_created',
+        //xtype: 'ia-datecolumn',
+        width: 110
+    }, {
+        header: 'Utilisateur',
+        dataIndex: 'user',
+        width: 100
+    }, {
+        header: 'Champs',
+        dataIndex: 'field_name',
+        width: 100
+    }, {
+        header: 'Ancienne valeur',
+        dataIndex: 'old_value',
+        flex: 1
+    }, {
+        header: 'Nouvelle valeur',
+        dataIndex: 'new_value',
+        flex: 1
+    }]
+});
 
 
 

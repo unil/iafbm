@@ -1,6 +1,6 @@
 <?php
 
-class CommissionCreationModel extends xModelMysql {
+class CommissionCreationModel extends iaModelMysql {
 
     var $table = 'commissions_creations';
 

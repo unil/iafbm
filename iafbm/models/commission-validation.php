@@ -1,6 +1,6 @@
 <?php
 
-class CommissionValidationModel extends xModelMysql {
+class CommissionValidationModel extends iaModelMysql {
 
     var $table = 'commissions_validations';
 

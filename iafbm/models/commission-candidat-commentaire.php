@@ -1,7 +1,7 @@
 <?php
 
 // This model name feels ugly
-class CommissionCandidatCommentaireModel extends xModelMysql {
+class CommissionCandidatCommentaireModel extends iaModelMysql {
 
     var $table = 'commissions_candidats_commentaires';
 

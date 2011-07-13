@@ -8,6 +8,7 @@ class Bootstrap extends xBootstrap {
 
     function setup_includes_externals() {
         parent::setup_includes_externals();
+        require_once(xContext::$basepath.'/lib/iafbm/xfreemwork/Model.php');
         require_once(xContext::$basepath.'/lib/iafbm/xfreemwork/WebController.php');
     }
 

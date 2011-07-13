@@ -1,6 +1,6 @@
 <?php
 
-class CantonModel extends xModelMysql {
+class CantonModel extends iaModelMysql {
 
     var $table = 'cantons';
 
