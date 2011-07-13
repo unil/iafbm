@@ -2098,11 +2098,13 @@ Ext.define('Ext.ia.ux.grid.History', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.ia-history',
     store: new iafbm.store.VersionData({
-        //FIXME: dynamic commission_id
-        params: { commission_id: 2 },
-        autoLoad: true,
-        sorters: ['version_id'],
-        groupField: 'version_id'
+        //FIXME:
+        // + dynamic commission_id
+        // + let history make clever queries (eg. add commission_id = ?)
+        //params: { commission_id: 2 },
+        sorters: [{property: 'version_id', direction: 'DESC'}],
+        groupField: 'version_id',
+        autoLoad: true
     }),
     features: [
         Ext.create('Ext.grid.feature.Grouping', {
