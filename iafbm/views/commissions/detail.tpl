@@ -18,7 +18,6 @@ Ext.onReady(function() {
             id: <?php echo $d['id'] ?>
         },
         defaults: {
-            flex: 1,
             anchor: '100%'
         },
         items: [{
@@ -56,9 +55,13 @@ Ext.onReady(function() {
                 },
             ]
         }, {
+            baseCls: 'title',
+            html: 'Commentaire'
+        }, {
             xtype: 'textarea',
             name: 'commentaire',
-            fieldLabel: 'Commentaire',
+            growMin: 21,
+            grow: true
         }, new Ext.ia.selectiongrid.Panel({
             title: 'Composition',
             width: 857,
@@ -89,6 +92,9 @@ Ext.onReady(function() {
         fetch: {
             model: iafbm.model.CommissionCreation,
             params: { commission_id: <?php echo $d['id'] ?> }
+        },
+        defaults: {
+            anchor: '100%'
         },
         items: [{
             baseCls: 'title',
@@ -134,10 +140,13 @@ Ext.onReady(function() {
                 }]
             }]
         }, {
-            xtype: 'textareafield',
+            baseCls: 'title',
+            html: 'Commentaire'
+        }, {
+            xtype: 'textarea',
             name: 'commentaire',
-            fieldLabel: 'Commentaire',
-            width: 858
+            growMin: 21,
+            grow: true
         }, new Ext.ia.ux.grid.History()]
     });
 
@@ -147,12 +156,15 @@ Ext.onReady(function() {
             model: iafbm.model.CommissionCandidatCommentaire,
             params: { commission_id: <?php echo $d['id'] ?> }
         },
+        defaults: {
+            anchor: '100%'
+        },
         items: [{
             baseCls: 'title',
             html: 'Candidats'
         }, {
             xtype:'ia-editgrid',
-            width: 880,
+            width: 858,
             height: 330,
             store: new iafbm.store.Candidat({
                 params: {commission_id: <?php echo $d['id'] ?>}
@@ -179,10 +191,13 @@ Ext.onReady(function() {
                 });
             },
         }, {
-            xtype: 'textareafield',
+            baseCls: 'title',
+            html: 'Commentaire'
+        }, {
+            xtype: 'textarea',
             name: 'commentaire',
-            fieldLabel: 'Commentaire',
-            width: 858
+            growMin: 21,
+            grow: true
         }, new Ext.ia.ux.grid.History()]
     });
 
@@ -191,6 +206,9 @@ Ext.onReady(function() {
         fetch: {
             model: iafbm.model.CommissionTravail,
             params: { commission_id: <?php echo $d['id'] ?> }
+        },
+        defaults: {
+            anchor: '100%'
         },
         items: [{
             baseCls: 'title',
@@ -281,11 +299,14 @@ Ext.onReady(function() {
                     name: 'tertio_loco'
                 }]
             }]
-        },{
-            xtype: 'textareafield',
+        }, {
+            baseCls: 'title',
+            html: 'Commentaire'
+        }, {
+            xtype: 'textarea',
             name: 'commentaire',
-            fieldLabel: 'Commentaire',
-            width: 858
+            growMin: 21,
+            grow: true
         }, new Ext.ia.ux.grid.History()]
     });
 
@@ -297,6 +318,7 @@ Ext.onReady(function() {
             params: { commission_id: <?php echo $d['id'] ?> }
         },
         defaults: {
+            anchor: '100%',
             layout: 'hbox',
             combineErrors: true,
             msgTarget: 'under',
@@ -431,11 +453,13 @@ Ext.onReady(function() {
                 }
             }]
         }, {
-            xtype: 'textareafield',
-            fieldLabel: 'Commentaire',
+            baseCls: 'title',
+            html: 'Commentaire'
+        }, {
+            xtype: 'textarea',
             name: 'commentaire',
-            labelWidth: 80,
-            width: 858
+            growMin: 21,
+            grow: true
         }, new Ext.ia.ux.grid.History()]
     });
 
@@ -446,6 +470,7 @@ Ext.onReady(function() {
             params: { commission_id: <?php echo $d['id'] ?> }
         },
         defaults: {
+            anchor: '100%',
             layout: 'hbox',
             combineErrors: true,
             msgTarget: 'under',
@@ -479,12 +504,13 @@ Ext.onReady(function() {
                 name: 'debut_activite'
             }]
         }, {
-            xtype: 'textareafield',
-            fieldLabel: 'Commentaire',
-            labelWidth: 80,
+            baseCls: 'title',
+            html: 'Commentaire'
+        }, {
+            xtype: 'textarea',
             name: 'commentaire',
-            anchor: '100%',
-            width: 411
+            growMin: 21,
+            grow: true
         }, new Ext.ia.ux.grid.History()]
     });
 
@@ -493,7 +519,7 @@ Ext.onReady(function() {
         activeTab: 0,
         width: 880,
         plain: true,
-        defaults :{
+        defaults: {
             autoScroll: true,
         },
         items: [{
