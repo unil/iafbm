@@ -24,6 +24,7 @@ class LayoutLayoutView extends xView {
                 xUtil::url('a/js/ext-ux/native/css/CheckHeader.css'),
                 xUtil::url('a/css/ext.css'),
                 xUtil::url('a/css/main.css'),
+                xUtil::url('a/css/layout.css')
             )
         ));
     }

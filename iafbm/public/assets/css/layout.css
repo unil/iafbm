@@ -1,0 +1,79 @@
+/**
+ * @author      Stefan Meier
+ *  @version    20110713
+ *
+ *  UNIL-FBM template CSS
+ */
+
+html, body {
+    vertical-align: top;
+    margin: 0px;
+    font-family: verdana, arial, helvetica;
+    font-size: 11px;
+}
+
+#page {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #000000;
+    width: 1202px;
+    background: #f5e3c6;
+}
+
+#header {
+    background: #ffffff url('https://wwwfbm.unil.ch/html/img/head_fbm.gif') no-repeat 0px 10px;
+    padding-top: 60px;
+}
+
+#header p, #footer {
+    color: #FFFFFF;
+    font-weight: bold;
+    background: #e88c13;
+    padding: 6px;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+#footer {
+    text-align: right;
+    height: 40px;
+    margin-top: 10px;
+    border-bottom: none;
+    background: #e88c13 url('https://wwwfbm.unil.ch/html/img/foot_fbm.gif') no-repeat left center;
+}
+
+#content {
+    padding: 10px;
+}
+
+#main {
+    float: left;
+    width: 950px;
+    margin-left: 10px;
+}
+
+#sidebar {
+    float: left;
+    width: 220px;
+    margin-top: 55px;
+}
+
+.box {
+    background: #ffffff;
+    border: 1px #A1A5A9 solid;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.box h1 {
+    background-image: url(../img/layout/side_bg.gif);
+    font-weight: bold;
+    padding: 3px;
+    padding-left: 6px;
+    height: 16px;
+}
+
+.box p {
+    padding: 6px;
+    text-align: justify;
+}
