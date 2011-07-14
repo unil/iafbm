@@ -16,7 +16,10 @@ Ext.onReady(function(){
         height: <?php echo $d['height'] ?>,
         store: new iafbm.store.<?php echo $d['model'] ?>(),
         columns: iafbm.columns.<?php echo $d['model'] ?>,
-        pageSize: <?php echo $d['pageSize'] ?>
+        pageSize: <?php echo $d['pageSize'] ?>,
+        <?php if (isset($d['buttons'])): ?>
+        buttons: <?php echo json_encode($d['buttons']) ?>
+        <?php endif ?>
     });
 });
 

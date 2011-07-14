@@ -405,6 +405,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         columns: null,
         newRecordValues: {}
     },
+    buttons: ['add', 'delete'],
     pageSize: 10,
     editingPluginId: null,
     plugins: [],
@@ -468,26 +469,34 @@ Ext.define('Ext.ia.grid.EditPanel', {
         return this.getPlugin(this.editingPluginId);
     },
     makeDockedItems: function() {
+        var add = {
+            text: 'Ajouter',
+            iconCls: 'icon-add',
+            handler: this.addItem
+        };
+        var del = {
+            text: 'Supprimer',
+            iconCls: 'icon-delete',
+            handler: this.removeItem
+        };
+        var search = new Ext.ux.form.SearchField({
+            store: null,
+            emptyText: 'Mots-clés',
+            listeners: {
+                // Wait for render time so that the grid store is created
+                // and ready to be bound to the search field
+                beforerender: function() { this.store = this.up('gridpanel').store }
+            }
+        });
+        // Adds items conditionally
+        var items = [];
+        if (Ext.Array.contains(this.buttons, 'add')) items.push(add);
+        if (Ext.Array.contains(this.buttons, 'delete')) items.push('-', del);
+        items.push('->', '-', 'Rechercher', search);
+        // Creates and returns the toolbar with its items
         return [{
             xtype: 'toolbar',
-            items: [{
-                text: 'Ajouter',
-                iconCls: 'icon-add',
-                handler: this.addItem
-            }, '-', {
-                text: 'Supprimer',
-                iconCls: 'icon-delete',
-                handler: this.removeItem
-            }, '->', '-', 'Rechercher',
-            new Ext.ux.form.SearchField({
-                store: null,
-                emptyText: 'Mots-clés',
-                listeners: {
-                    // Wait for render time so that the grid store is created
-                    // and ready to be bound to the search field
-                    beforerender: function() { this.store = this.up('gridpanel').store }
-                }
-            })]
+            items: items
         }];
     },
     addItem: function() {

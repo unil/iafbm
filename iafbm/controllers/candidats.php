@@ -8,7 +8,8 @@ class CandidatsController extends iaWebController {
         $data = array(
             'title' => 'Candidats',
             'id' => 'candidats',
-            'model' => 'Candidat'
+            'model' => 'Candidat',
+            'buttons' => array()
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
