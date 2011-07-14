@@ -1,4 +1,4 @@
-<div class="title"><?php echo "N° {$d['id']} - {$d['nom']}" ?></div>
+<div class="title"><?php echo "Commission n° {$d['id']} - {$d['nom']}" ?></div>
 
 <div id="target"></div>
 
