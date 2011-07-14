@@ -13,7 +13,7 @@ Ext.onReady(function(){
         renderTo: 'editor-grid',
         frame: false,
         width: 880,
-        height: 330,
+        height: <?php echo $d['height'] ?>,
         store: new iafbm.store.<?php echo $d['model'] ?>(),
         columns: iafbm.columns.<?php echo $d['model'] ?>,
         pageSize: <?php echo $d['pageSize'] ?>
