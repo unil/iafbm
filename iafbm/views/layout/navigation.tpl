@@ -32,7 +32,7 @@ $navigation = array(
         ),
         'departements' => array(
             'url' => u('departements'),
-            'label' => 'Gérer les titres départements'
+            'label' => 'Gérer les départements'
         ),
     )
 );
