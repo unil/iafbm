@@ -26,9 +26,18 @@ LAYOUT
 }
 #navigation li {
   line-height: 20px;
-  padding-left: 7px;
 }
 #navigation .selected {
+  background-color: #edc;
+}
+#navigation a {
+  display: block;
+  padding-left: 7px;
+}
+#navigation a:hover {
+  background-color: #efefef;
+}
+#navigation .selected a:hover {
   background-color: #edc;
 }
 #navigation .selected a {
