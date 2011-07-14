@@ -20,6 +20,20 @@ $navigation = array(
             'url' => u('commissions-types'),
             'label' => 'Gérer des types commissions'
         ),
+    ),
+    'Autres' => array(
+        'titres-academiques' => array(
+            'url' => u('titres-academiques'),
+            'label' => 'Gérer les titres academiques'
+        ),
+        'fonctions-hospitalieres' => array(
+            'url' => u('fonctions-hospitalieres'),
+            'label' => 'Gérer les fonctions hospitalières'
+        ),
+        'departements' => array(
+            'url' => u('departements'),
+            'label' => 'Gérer les titres départements'
+        ),
     )
 );
 

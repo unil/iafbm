@@ -2089,6 +2089,44 @@ iafbm.columns.CommissionType = [{
     }
 }];
 
+iafbm.columns.TitreAcademique = [{
+    header: "Abréviation",
+    dataIndex: 'abreviation',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}];
+
+iafbm.columns.FonctionHospitaliere = [{
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}];
+
+iafbm.columns.Departement = [{
+    header: "Nom",
+    dataIndex: 'nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}];
+
 
 
 /******************************************************************************
