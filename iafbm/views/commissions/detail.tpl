@@ -83,9 +83,10 @@ Ext.onReady(function() {
                     actif: 1
                 }
             }
-        }), new Ext.ia.ux.grid.History()]
+        }), {
+            xtype: 'ia-history'
+        }]
     });
-
 
     var form_creation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.CommissionCreation'),
@@ -147,7 +148,9 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }, new Ext.ia.ux.grid.History()]
+        }, {
+            xtype: 'ia-history'
+        }]
     });
 
     var form_candidat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -198,7 +201,9 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }, new Ext.ia.ux.grid.History()]
+        }, {
+            xtype: 'ia-history'
+        }]
     });
 
     var form_travail = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -307,7 +312,9 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }, new Ext.ia.ux.grid.History()]
+        }, {
+            xtype: 'ia-history'
+        }]
     });
 
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
@@ -460,7 +467,9 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }, new Ext.ia.ux.grid.History()]
+        }, {
+            xtype: 'ia-history'
+        }]
     });
 
     var form_finalisation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -511,7 +520,9 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }, new Ext.ia.ux.grid.History()]
+        }, {
+            xtype: 'ia-history'
+        }]
     });
 
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
