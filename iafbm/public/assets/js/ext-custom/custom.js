@@ -26,7 +26,9 @@ if (Ext.grid.RowEditor) {
 **/
 
 /**
- * Extends Ext.data.Store with project default config options
+ * Extends Ext.data.Store with
+ * - with project default config options
+ * - adds a 'params' property that applies to proxy.extraParams
  */
 Ext.define('Ext.ia.data.Store', {
     extend:'Ext.data.Store',
@@ -40,11 +42,14 @@ Ext.define('Ext.ia.data.Store', {
         beforeload: function() { this.proxy.extraParams = Ext.apply(this.proxy.extraParams, this.params) },
         load: function() { this.loaded = true }
     },
-    // Params to be passed to the proxy
 });
 
 /**
- * Extends Ext.data.proxy.Rest with project default config options
+ * Extends Ext.data.proxy.Rest with
+ * - default start, limit and page parameters
+ * - reader and writer configuration
+ * - actionMethods configuration
+ * - exception handling
  */
 Ext.define('Ext.ia.data.proxy.Rest', {
     extend:'Ext.data.proxy.Rest',
@@ -87,12 +92,19 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     }
 });
 
+/**
+ * Extends Ext.grid.column.Date with default date format
+ */
 Ext.define('Ext.ia.grid.column.Date', {
     extend:'Ext.grid.column.Date',
     alias: 'widget.ia-datecolumn',
     format: 'd.m.Y'
 });
 
+/**
+ * Extends Ext.grid.column.Action with
+ * - loading form in a popup window
+ */
 Ext.define('Ext.ia.grid.column.Action', {
     extend:'Ext.grid.column.Action',
     alias: 'widget.ia-actioncolumn-detailform',
@@ -133,7 +145,10 @@ Ext.define('Ext.ia.grid.column.Action', {
     }
 });
 
-
+/**
+ * Extends Ext.grid.Column with
+ * - remote store display workaround
+ */
 Ext.define('Ext.ia.grid.ComboColumn', {
     extend:'Ext.grid.Column',
     alias: 'widget.ia-combocolumn',
@@ -158,6 +173,10 @@ Ext.define('Ext.ia.grid.ComboColumn', {
     }
 });
 
+/**
+ * Extends Ext.form.field.ComboBox with
+ * - remote store display workaround
+ */
 Ext.define('Ext.ia.form.field.ComboBox', {
     extend:'Ext.form.field.ComboBox',
     alias: 'widget.ia-combo',
@@ -178,6 +197,11 @@ Ext.define('Ext.ia.form.field.ComboBox', {
     }
 });
 
+/**
+ * Extends Ext.form.field.Date with
+ * - default date format
+ * - default startDay
+ */
 Ext.define('Ext.ia.form.field.Date', {
     extend:'Ext.form.field.Date',
     alias: 'widget.ia-datefield',
@@ -297,6 +321,14 @@ Ext.define('Ext.ia.form.field.Multi', {
 });
  */
 
+/**
+ * Selection grid enables the user to add items from one store into another
+ * by searching the source store using an autocomplete list
+ * and adding items to the destination store.
+ * The developer can write the makeData() conversion function,
+ * in order to translate source store record into destination store record.
+ * -
+ */
 Ext.define('Ext.ia.selectiongrid.Panel', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.ia-selectiongrid',
@@ -394,6 +426,13 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
     }
 });
 
+/**
+ * Extends Ext.grid.Panel with
+ * - Ext.grid.plugin.RowEditing plugin
+ * - Add / Delete buttons
+ * - Search field
+ * - Paging
+ */
 Ext.define('Ext.ia.grid.EditPanel', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.ia-editgrid',
@@ -519,6 +558,11 @@ Ext.define('Ext.ia.grid.EditPanel', {
     }
 });
 
+/**
+ * Extends Ext.form.Panel with
+ * - record loading/saving capabilities
+ * - TODO: dirty fields management
+ */
 Ext.define('Ext.ia.form.Panel', {
     extend: 'Ext.form.Panel',
     alias: 'widget.ia-form',
@@ -727,6 +771,11 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
     }
 });
 
+/**
+ * Extends Ext.window.Window with
+ * - default options: size, modal
+ * - TODO: dirty fields management
+ */
 Ext.define('Ext.ia.window.Popup', {
     extend: 'Ext.window.Window',
     alias: 'widget.ia-popup',
