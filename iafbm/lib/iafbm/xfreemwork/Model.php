@@ -78,11 +78,13 @@ class iaModelMysql extends xModelMysql {
         }
         // Writes version
         $id_field_name = implode(', ', xUtil::arrize($this->primary));
-        $id_field_value = (strtolower($operation) == 'post') ? $this->params[$id_field_name] : null;
+        $id_field_value = (strtolower($operation) == 'post') ?
+            $this->params[$id_field_name] :
+            $result['insertid'];
         $version_result = xModel::load('version', array(
             'table_name' => $this->maintable,
             'id_field_name' => $id_field_name,
-            'id_field_value' => $this->params[$this->primary[0]],
+            'id_field_value' => $id_field_value,
             'model_name' => $this->name,
             'operation' => $operation
         ))->put();
