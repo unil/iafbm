@@ -1,8 +1,4 @@
-/******************************************************************************
- * Checks
- */
 //<debug>
-
 if (typeof(x)=='undefined'||typeof(x.context)=='undefined'||typeof(x.context.baseuri)=='undefined')
     Ext.Error.raise("x.context.baseuri must be defined");
 //</debug>
@@ -76,7 +72,7 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     listeners: {
         exception: function(proxy, response, operation) {
             var actions = {
-                create: "l\'ecriture",
+                create: "l'ecriture",
                 read: "la lecture",
                 update: "l'écriture",
                 delete: "l'écriture"
@@ -169,7 +165,7 @@ Ext.define('Ext.ia.grid.ComboColumn', {
             editor = column.editor || column.field,
             comboStore = editor.store,
             displayField = editor.displayField;
-        return comboStore.getById(value) ? comboStore.getById(value).get(displayField) : ['(', value, ')'].join('');
+        return comboStore.getById(value) ? comboStore.getById(value).get(displayField) : '';
     }
 });
 
@@ -557,6 +553,74 @@ Ext.define('Ext.ia.grid.EditPanel', {
         return new this.store.model(this.newRecordValues);
     }
 });
+
+/*
+// BEGIN Form Dirty Management //
+var ext_field_override = {
+    _dirtyCls: 'x-grid-dirty-cell',
+    trackResetOnLoad: true,
+    initEvents: function() {
+t=this;
+        // parent logic application
+        //this.callOverridden();
+console.log(this.$className, 'Ext.form.Field.initEvents()', this.el, this);
+        // Events
+        this.el.on(Ext.isIE ? "keydown" : "keypress", this.fireKey, this);
+        this.el.on("focus", this.onFocus, this);
+        this.el.on("blur", this.onBlur, this);
+        this.on("blur", this.markDirty, this);
+        // reference to original value for reset
+        //this.originalValue = this.getValue();
+    },
+    markDirty: function() {
+console.log('Ext.form.Field.markDirty()', '|', this, '|', this.originalValue, '|', this.lastValue, '|', this.getValue());
+        if (this.isDirty() && this.originalValue != this.getValue()) {
+            if (!this.dirtyIcon) {
+                var elp = this.el;
+                this.dirtyIcon = elp.createChild({
+                    cls: 'x-grid-dirty-cell'
+                });
+                // IE Hack...
+                if (Ext.isIE) this.dirtyIcon.position("absolute", 0, -5, 0);
+                else this.dirtyIcon.position("absolute", 0, 0, 0);
+                // ...is ugly but acceptable
+                this.dirtyIcon.setSize(10, 10);
+            }
+            this.alignDirtyIcon();
+            this.dirtyIcon.show();
+            this.on('resize', this.alignDirtyIcon, this);
+        } else {
+            if (this.dirtyIcon) {
+                this.dirtyIcon.hide();
+            }
+        }
+    },
+    alignDirtyIcon: function() {
+        this.dirtyIcon.alignTo(this.el, 'tl', [0, 0]);
+    }
+};
+Ext.override(Ext.form.field.Base, ext_field_override);
+Ext.override(Ext.form.field.Field, {
+    resetOriginalValue: function() {
+        this.callOverridden();
+        console.log(this.originalValue);
+    }
+});
+
+Ext.override(Ext.form.BasicForm, {
+    clearDirty: function () {
+        var i, it = this.items.items,
+            l = it.length,
+            c;
+        for (i = 0; i < l; i++) {
+            c = it[i];
+            c.markDirty();
+            c.originalValue = String(c.getValue());
+        }
+    }
+});
+// END Form Dirty Management //
+*/
 
 /**
  * Extends Ext.form.Panel with
@@ -1988,7 +2052,6 @@ iafbm.columns.CommissionMembre = [{
         xtype: 'ia-combo',
         displayField: 'nom',
         valueField: 'id',
-        allowBlank: false,
         store: new iafbm.store.Departement()
     }
 }, {
