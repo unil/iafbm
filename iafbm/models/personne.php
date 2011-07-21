@@ -24,13 +24,6 @@ class PersonneModel extends iaModelMysql {
         'canton_id' => 'canton_id',
         'pays_id' => 'pays_id',
         'permis_id' => 'permis_id',
-
-        //FIXME
-        //'adresse' => 'adresse',
-        //'tel' => 'tel',
-        //'email' => 'email',
-        //'titre_lecon_inaug' => 'titre_lecon_inaug',
-        //'date_lecon_inaug' => 'date_lecon_inaug',
     );
 
     var $primary = array('id');
@@ -42,32 +35,7 @@ class PersonneModel extends iaModelMysql {
     var $join = 'pays';
 
     var $validation = array(
-        'nom' => array(
-            'mandatory'
-        ),
-/*
-        'end' => array(
-            'mandatory',
-            'datetime'
-        ),
-        'zip' => array(
-            'mandatory',
-            'integer',
-            'minlength' => array('length'=>4),
-            'maxlength' => array('length'=>4)
-        ),
-        'location' => array(
-            'mandatory'
-        ),
-        'distance' => array(
-            'mandatory',
-            'integer',
-            'minvalue' => array('length'=>0)
-        ),
-        'profile' => array(
-            'mandatory',
-            'integer'
-        ),
-*/
+        'nom' => 'mandatory',
+        'prenom' => 'mandatory'
     );
 }

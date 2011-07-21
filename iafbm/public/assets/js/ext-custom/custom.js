@@ -22,6 +22,16 @@ if (Ext.grid.RowEditor) {
 **/
 
 /**
+ * Additional validation types (vtypes)
+ */
+Ext.apply(Ext.form.field.VTypes, {
+    avs: function(v) {
+        return /^[\d]{3}\.[\d]{4}\.[\d]{4}\.[\d]{2}$/.test(v);
+    },
+    avsText: 'Ce champs doit être au format xxx.xxxx.xxxx.xx'
+});
+
+/**
  * Extends Ext.data.Store with
  * - with project default config options
  * - adds a 'params' property that applies to proxy.extraParams
@@ -1614,11 +1624,13 @@ Ext.define('iafbm.form.Candidat', {
             items: [{
                 fieldLabel: 'Nom',
                 emptyText: 'Nom',
-                name: 'nom'
+                name: 'nom',
+                allowBlank: false,
             }, {
                 fieldLabel: 'Prénom',
                 emptyText: 'Prénom',
-                name: 'prenom'
+                name: 'prenom',
+                allowBlank: false,
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Genre',
@@ -1647,7 +1659,8 @@ Ext.define('iafbm.form.Candidat', {
             }, {
                 fieldLabel: 'N° AVS',
                 emptyText: 'N° AVS',
-                name: 'no_avs'
+                name: 'no_avs',
+                vtype: 'avs'
             }]
         }
     },
@@ -1800,11 +1813,13 @@ Ext.define('iafbm.form.Personne', {
             items: [{
                 fieldLabel: 'Nom',
                 emptyText: 'Nom',
-                name: 'nom'
+                name: 'nom',
+                allowBlank: false
             }, {
                 fieldLabel: 'Prénom',
                 emptyText: 'Prénom',
-                name: 'prenom'
+                name: 'prenom',
+                allowBlank: false
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Genre',
@@ -2106,7 +2121,6 @@ iafbm.columns.Candidat = [{
         xtype: 'ia-combo',
         displayField: 'genre',
         valueField: 'id',
-        allowBlank: false,
         store: new iafbm.store.Genre()
     }
 }];
