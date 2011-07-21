@@ -806,27 +806,27 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         for (var i in this.phases) toolbar.removeCls(this.phases[i]);
         toolbar.addCls(cls);
     },
-    makeTopToolbar: function() {
-        return [{
-            xtype: 'toolbar',
-            items: ['->', {
-                xtype: 'checkbox',
-                itemId: 'checkbox-finished',
-                boxLabel: 'Phase terminée',
-                handler: function(checkbox, checked) {
-                    // Aborts if checkbox state is the same as the record state
-                    // This prevents POSTing the record
-                    // when ExtJS sets the checkbox initial value
-                    var finished = this.up('ia-form-commission').record.get('termine');
-                    if (finished == checked) return;
-                    // Fires checkbox change logic
-                    this.up('form').onCheckboxClick(checkbox);
-                }
-            }]
+    makeDockedItems: function() {
+        return ['->', {
+            xtype: 'checkbox',
+            itemId: 'checkbox-finished',
+            boxLabel: 'Phase terminée',
+            handler: function(checkbox, checked) {
+                // Aborts if checkbox state is the same as the record state
+                // This prevents POSTing the record
+                // when ExtJS sets the checkbox initial value
+                var finished = this.up('ia-form-commission').record.get('termine');
+                if (finished == checked) return;
+                // Fires checkbox change logic
+                this.up('form').onCheckboxClick(checkbox);
+            }
         }];
     },
     initComponent: function() {
-        this.dockedItems = this.makeTopToolbar();
+        this.dockedItems = [{
+            xtype: 'toolbar',
+            items: this.makeDockedItems()
+        }];
         //
         var me = this;
         me.callParent();
@@ -844,6 +844,8 @@ Ext.define('Ext.ia.window.Popup', {
     extend: 'Ext.window.Window',
     alias: 'widget.ia-popup',
     width: 850,
+    y: 90,
+    autoScroll: true,
     modal: true,
     item: {},
     initComponent: function() {
