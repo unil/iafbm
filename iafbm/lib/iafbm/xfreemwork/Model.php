@@ -51,12 +51,6 @@ class iaModelMysql extends xModelMysql {
     }
 
     protected function version($operation=null, $old_record=array(), $result=array()) {
-        // FIXME: TODO:
-        // - Receive the old record as function arg
-        // - Compare fields => keep changed fields only
-        // - IF no old record || no id => use received function arg 'result' and use insertid
-        ////////////////////////////////
-        ////////////////////////////////
         // Aborts if versioning is disabled
         if (!$this->versioning) return;
         // Determines changes applied to the record
