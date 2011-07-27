@@ -10,12 +10,17 @@ class iaWebController extends xWebController {
     /**
      * Allowed CRUD operations.
      * Possible values: 'get', 'post', 'put', 'delete'
+     * @see iaWebController::get()
+     * @see iaWebController::post()
+     * @see iaWebController::put()
+     * @see iaWebController::delete()
      * @var array
      */
     var $allow = array('get', 'post', 'put', 'delete');
 
     /**
      * Excluded fields for model parameters creation on query.
+     * Eg. when the query parameter is provided with a GET method.
      * @see iaWebController::get()
      */
     var $query_exclude_fields = array();
@@ -28,6 +33,7 @@ class iaWebController extends xWebController {
      * - authenticated role
      */
     function is_allowed() {
+        throw new xException('Not implemented', 501);
         /* TODO
         if (!in_array($this->http['method'], $this->allow))
             throw new xException('Method not allowed', 403);
@@ -36,6 +42,10 @@ class iaWebController extends xWebController {
         */
     }
 
+    /**
+     * Manages action redirection
+     * according the received params and the available controller actions.
+     */
     function defaultAction() {
         if (!isset($this->params['id'])) {
             if (method_exists($this, 'indexAction')) return $this->indexAction();
@@ -45,6 +55,11 @@ class iaWebController extends xWebController {
         throw new xException('Not found', 404);
     }
 
+    /**
+     * API Method.
+     * Generic get method for API calls.
+     * @return array An ExtJS compatible resultset structure.
+     */
     function get() {
         if (!in_array('get', $this->allow)) throw new xException("Method not allowed", 403);
         // Creates parameter for model instance
@@ -68,26 +83,53 @@ class iaWebController extends xWebController {
         );
     }
 
+    /**
+     * API Method.
+     * Generic post method for API calls.
+     * @return array An ExtJS compatible resultset structure.
+     */
     function post() {
+        // Redirects to the put method if no id is provided
         if (!isset($this->params['id'])) return $this->put();
+        // Checks if method is allowed
         if (!in_array('post', $this->allow)) throw new xException("Method not allowed", 403);
+        // Checks provided parameters
         if (!isset($this->params['items'])) throw new xException('No items provided', 400);
+        // Database action
         $r = xModel::load($this->model, $this->params['items'])->post();
+        // Result
         $r['items'] = array_shift(xModel::load($this->model, array('id'=>$this->params['items']['id']))->get());
         return $r;
     }
 
+    /**
+     * API Method.
+     * Generic put method for API calls.
+     * @return array An ExtJS compatible resultset structure.
+     */
     function put() {
+        // Redirects to the post method if no id is provided
         if (isset($this->params['id'])) return $this->post();
+        // Checks if method is allowed
         if (!in_array('put', $this->allow)) throw new xException("Method not allowed", 403);
+        // Checks provided parameters
         if (!isset($this->params['items'])) throw new xException('No items provided', 400);
+        // Database action
         $r = xModel::load($this->model, $this->params['items'])->put();
+        // Result
         $r['items'] = array_shift(xModel::load($this->model, array('id'=>$r['xinsertid']))->get());
         return $r;
     }
 
+    /**
+     * API Method.
+     * Generic delete method for API calls.
+     * @return array An ExtJS compatible resultset structure.
+     */
     function delete() {
+        // Checks if method is allowed
         if (!in_array('delete', $this->allow)) throw new xException("Method not allowed", 403);
+        // Database action + result
         return xModel::load($this->model, array('id'=>$this->params['id']))->delete();
     }
 }

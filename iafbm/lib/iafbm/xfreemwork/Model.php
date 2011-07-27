@@ -12,25 +12,37 @@ class iaModelMysql extends xModelMysql {
 
     /**
      * @param array Specifies which fields have to be versioned.
-     *              Versions all fields if empty array is set.
+     *              Versions all fields if array is empty.
      */
     var $version_fields = array();
 
+    /**
+     * Enhanced get method.
+     * Manages versioning.
+     */
     function get($rownum=null) {
         // FIXME: TODO:
         // Add 'actif'=true in where clause (only if actif field exists in fields mapping array)
         return parent::get($rownum);
     }
 
+    /**
+     * Enhanced post method.
+     * Manages versioning.
+     */
     function post() {
         if (!$this->versioning) return parent::post();
-        // Manages versioning
+        // Manages versioning:
         $old_record = xModel::load($this->name, array('id'=>$this->params['id'], 'xjoin'=>array()))->get(0);
         $result = parent::post();
         $this->version('post', $old_record, $result);
         return $result;
     }
 
+    /**
+     * Enhanced put method.
+     * Manages versioning.
+     */
     function put() {
         if (!$this->versioning) return parent::put();
         // Manages versioning
@@ -39,6 +51,10 @@ class iaModelMysql extends xModelMysql {
         return $result;
     }
 
+    /**
+     * Enhanced delete method.
+     * Manages versioning.
+     */
     function delete() {
         // FIXME: TODO:
         // 1) Set 'actif' field to false
@@ -46,16 +62,28 @@ class iaModelMysql extends xModelMysql {
         return parent::delete();
     }
 
+    /**
+     * Returns true if the specified field is versionnable.
+     * @param string Field name to be tested.
+     * @return boolean True if the given field is versionable, false otherwise.
+     */
     protected function is_versionable($field) {
         return $this->versioning && !$this->version_fields || xUtil::filter_keys($this->version_fields, $field);
     }
 
+    /**
+     * Creates a version of a record.
+     * Compares fields from old and new records provided
+     * and saves the modified fields as a version.
+     * @param string Name of the performed operation (get, put, post, delete)
+     * @param array Old version of the record.
+     * @param array New version of the record.
+     */
     protected function version($operation=null, $old_record=array(), $result=array()) {
         // Aborts if versioning is disabled
         if (!$this->versioning) return;
         // Determines changes applied to the record
         $record_id = (strtolower($operation) == 'post') ? $this->params['id'] : $result['insertid'];
-        $old_record = $old_record;
         $new_record = xModel::load($this->name, array('id'=>$record_id))->get(0);
         $fields = xUtil::array_merge(array_keys($old_record), array_keys($new_record));
         $changes = array();
@@ -83,7 +111,7 @@ class iaModelMysql extends xModelMysql {
             'operation' => $operation
         ))->put();
         $version_id = $version_result['insertid'];
-        if(!$version_id) throw new xException('Error while creation version');
+        if(!$version_id) throw new xException('Error while creating version');
         // Writes version data
         foreach ($changes as $field => $value) {
             xModel::load('version-data', array(
