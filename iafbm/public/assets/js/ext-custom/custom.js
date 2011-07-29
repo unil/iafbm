@@ -99,7 +99,8 @@ Ext.define('Ext.ia.data.proxy.Rest', {
 });
 
 /**
- * Extends Ext.grid.column.Date with default date format
+ * Extends Ext.grid.column.Date with
+ * - default date format
  */
 Ext.define('Ext.ia.grid.column.Date', {
     extend:'Ext.grid.column.Date',
@@ -1039,7 +1040,6 @@ Ext.define('iafbm.model.Personne', {
         {name: 'personne-type_id', type: 'int', useNull: true},
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
-        {name: 'adresse', type: 'string'},
         {name: 'genre_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'no_avs', type: 'string'},
@@ -1998,13 +1998,6 @@ iafbm.columns.Personne = [{
     field: {
         xtype: 'textfield',
         allowBlank: false
-    }
-}, {
-    header: "Téléphone",
-    dataIndex: 'tel',
-    flex: 1,
-    field: {
-        xtype: 'textfield'
     }
 }, {
     header: "Pays",
