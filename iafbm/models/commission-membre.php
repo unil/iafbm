@@ -22,7 +22,7 @@ class CommissionMembreModel extends iaModelMysql {
         'personne' => 'LEFT JOIN personnes ON (commissions_membres.personne_id = personnes.id)',
         'commission' => 'LEFT JOIN commissions ON (commissions_membres.commission_id = commissions.id)',
         'commission-fonction' => 'LEFT JOIN commissions_fonctions ON (commissions_membres.commission_fonction_id = commissions_fonctions.id)',
-        'titre-academique' => 'LEFT JOIN titres_academiques ON (commissions_membres.commission_fonction_id = titres_academiques.id)',
+        'titre-academique' => 'LEFT JOIN titres_academiques ON (commissions_membres.titre_academique_id = titres_academiques.id)',
         'departement' => 'LEFT JOIN departements ON (commissions_membres.departement_id = departements.id)'
     );
 
