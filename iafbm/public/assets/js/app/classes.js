@@ -464,6 +464,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
             */
             'load'
         );
+        // Dynamic parameters
+        if (!this.bbar) this.pageSize = null;
         // Creates docked items (toolbar)
         this.dockedItems = this.makeDockedItems();
         // Creates Editing plugin
