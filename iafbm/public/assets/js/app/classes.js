@@ -432,6 +432,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         columns: null,
         newRecordValues: {}
     },
+    editable: true,
     toolbarButtons: ['add', 'delete'],
     pageSize: 10,
     editingPluginId: null,
@@ -469,10 +470,12 @@ Ext.define('Ext.ia.grid.EditPanel', {
         // Creates docked items (toolbar)
         this.dockedItems = this.makeDockedItems();
         // Creates Editing plugin
-        this.editingPluginId = Ext.id();
-        this.plugins = [new Ext.grid.plugin.RowEditing({
-            pluginId: this.editingPluginId
-        })];
+        if (this.editable) {
+            this.editingPluginId = Ext.id();
+            this.plugins = [new Ext.grid.plugin.RowEditing({
+                pluginId: this.editingPluginId
+            })];
+        }
         // Initializes Component
         var me = this;
         me.callParent();
