@@ -50,6 +50,8 @@ class CandidatModel extends iaModelMysql {
 
     var $validation = array(
         'nom' => 'mandatory',
-        'prenom' => 'mandatory'
+        'prenom' => 'mandatory',
+        'email_pro' => 'email',
+        'email_pri' => 'email'
     );
 }
