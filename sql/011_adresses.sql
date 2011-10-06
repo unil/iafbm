@@ -7,7 +7,7 @@ CREATE TABLE adresses (
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
 
-    adresse_type_id INT,
+    adresse_type_id INT NOT NULL,
     rue TEXT,
     npa VARCHAR(255),
     lieu VARCHAR(255),
