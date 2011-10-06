@@ -1953,7 +1953,7 @@ Ext.define('iafbm.form.Personne', {
                         allowBlank: false
                     }
                 },{
-                    header: "Rattachement",
+                    header: "Dépt (SSF) / Service (SSC)",
                     dataIndex: 'departement_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
