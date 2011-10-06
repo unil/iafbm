@@ -22,7 +22,8 @@ class CommissionModel extends iaModelMysql {
     var $joins = array(
         'commission-type' => 'LEFT JOIN commissions_types ON (commissions.commission_type_id = commissions_types.id)',
         'commission-etat' => 'LEFT JOIN commissions_etats ON (commissions.commission_etat_id = commissions_etats.id)',
-        'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)'
+        'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)',
+        'commission-membre' => 'LEFT JOIN commissions_membres ON (commissions.id = commissions_membres.commission_id)'
     );
 
     var $join = array('commission-type', 'commission-etat', 'section');

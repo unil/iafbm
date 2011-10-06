@@ -451,7 +451,8 @@ Ext.define('iafbm.form.Personne', {
             this._createFormations(),
             this._createFonctions(),
             this._createAdresses(),
-            this._createEmails()
+            this._createEmails(),
+            this._createCommissionsCurrent()
         ];
         //
         var me = this;
@@ -574,5 +575,26 @@ Ext.define('iafbm.form.Personne', {
                 personne_id: this.getRecordId()
             }
         });
+    },
+    _createCommissionsCurrent: function() {
+        // TODO: FIXME
+        var personne_id = this.getRecordId();
+        return {
+            xtype: 'fieldset',
+            title: 'Commissions courantes',
+            items: [{
+                xtype: 'ia-editgrid',
+                toolbarButtons: [],
+                height: 150,
+                bbar: null,
+                store: new iafbm.store.Commission({
+                    params: {
+                        xjoin: 'commission-membre',
+                        'commission-membre_personne_id': personne_id
+                    }
+                }),
+                columns: iafbm.columns.Commission
+            }]
+        }
     }
 });
