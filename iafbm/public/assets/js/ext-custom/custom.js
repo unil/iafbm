@@ -1122,6 +1122,20 @@ Ext.define('iafbm.model.PersonneAdresse', {
         url: x.context.baseuri+'/api/personnes-adresses',
     }
 });
+Ext.define('iafbm.model.PersonneEmail', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'personne_id', type: 'int'},
+        {name: 'adresse-type_id', type: 'int'},
+        {name: 'email', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes-emails',
+    }
+});
 Ext.define('iafbm.model.CommissionMembre', {
     extend: 'Ext.data.Model',
     fields: [
@@ -1583,6 +1597,48 @@ iafbm.form.common.Adresses = function(options) {
         }]
     };
 }
+iafbm.form.common.Emails = function(options) {
+    var config = {
+        store: null,
+        params: {}
+    };
+    var options = Ext.apply(config, options);
+    return {
+        xtype: 'fieldset',
+        title: 'Emails',
+        items: [{
+            xtype: 'ia-editgrid',
+            height: 150,
+            bbar: null,
+            newRecordValues: options.params,
+            store: new options.store({
+                params: options.params
+            }),
+            columns: [{
+                header: "Type",
+                dataIndex: 'adresse-type_id',
+                width: 100,
+                xtype: 'ia-combocolumn',
+                field: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.AdresseType(),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            },{
+                header: "Email",
+                dataIndex: 'email',
+                flex: 1,
+                editor: {
+                    xtype: 'textfield',
+                    allowBlank: false,
+                    vtype: 'email'
+                }
+            }]
+        }]
+    };
+}
 
 Ext.define('iafbm.form.Candidat', {
     extend: 'Ext.ia.form.Panel',
@@ -1742,7 +1798,8 @@ Ext.define('iafbm.form.Candidat', {
                     }, {
                         fieldLabel: 'Email',
                         emptyText: 'Email',
-                        name: 'email_pro'
+                        name: 'email_pro',
+                        vtype: 'email'
                     }],
                 }, {
                     xtype: 'fieldcontainer',
@@ -1776,7 +1833,8 @@ Ext.define('iafbm.form.Candidat', {
                     }, {
                         fieldLabel: 'Email',
                         emptyText: 'Email',
-                        name: 'email_pri'
+                        name: 'email_pri',
+                        vtype: 'email'
                     }]
                 }]
             }]
@@ -1860,7 +1918,8 @@ Ext.define('iafbm.form.Personne', {
         },
             this._createFormations(),
             this._createFonctions(),
-            this._createAdresses()
+            this._createAdresses(),
+            this._createEmails()
         ];
         //
         var me = this;
@@ -1971,6 +2030,14 @@ Ext.define('iafbm.form.Personne', {
     _createAdresses: function() {
         return iafbm.form.common.Adresses({
             store: iafbm.store.PersonneAdresse,
+            params: {
+                personne_id: this.getRecordId()
+            }
+        });
+    },
+    _createEmails: function() {
+        return iafbm.form.common.Emails({
+            store: iafbm.store.PersonneEmail,
             params: {
                 personne_id: this.getRecordId()
             }
