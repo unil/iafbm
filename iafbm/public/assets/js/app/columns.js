@@ -182,7 +182,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "N°",
     dataIndex: 'id',
-    width: 75
+    width: 50
 }, {
     header: "Nom",
     dataIndex: 'nom',
@@ -194,7 +194,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "Section",
     dataIndex: 'section_id',
-    width: 75,
+    width: 30,
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
