@@ -1844,7 +1844,7 @@ Ext.define('iafbm.form.Personne', {
                 store: Ext.create('iafbm.store.Canton')
             }, {
                 xtype: 'ia-combo',
-                fieldLabel: 'Pays',
+                fieldLabel: 'Pays d\'origine',
                 name: 'pays_id',
                 displayField: 'nom',
                 valueField: 'id',
@@ -2000,7 +2000,7 @@ iafbm.columns.Personne = [{
         allowBlank: false
     }
 }, {
-    header: "Pays",
+    header: "Pays d'origine",
     dataIndex: 'pays_id',
     flex: 1,
     xtype: 'ia-combocolumn',
