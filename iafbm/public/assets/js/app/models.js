@@ -533,6 +533,7 @@ Ext.define('iafbm.model.CommissionFinalisation', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
+        {name: 'candidat_id', type: 'int', useNull: true},
         {name: 'termine', type: 'boolean'},
         {name: 'reception_contrat_date', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'reception_contrat_commentaire', type: 'string'},

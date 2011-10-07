@@ -493,6 +493,17 @@ Ext.onReady(function() {
             html: 'Finalisation'
         }, {
             xtype: 'fieldcontainer',
+            fieldLabel: 'Candidat retenu',
+            items: [{
+                xtype: 'ia-combo',
+                width: 567,
+                name: 'candidat_id',
+                displayField: '_display',
+                valueField: 'id',
+                store: new iafbm.store.Candidat({})
+            }]
+        }, {
+            xtype: 'fieldcontainer',
             fieldLabel: 'Réception du contrat',
             items: [{
                 xtype: 'ia-datefield',
