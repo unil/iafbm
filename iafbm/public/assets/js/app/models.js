@@ -354,6 +354,7 @@ Ext.define('iafbm.model.Commission', {
         {name: 'commission-type_racine', type: 'string'},
         {name: 'commission-etat_id', type: 'int', defaultValue: 1},
         {name: 'commission-etat_nom', type: 'string'},
+        {name: 'commission-fonction_nom', type: 'string'},
         {name: 'section_id', type: 'int'},
         {name: 'section_code', type: 'string'},
         {name: 'actif', type: 'boolean', defaultValue: true},

@@ -186,7 +186,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "Nom",
     dataIndex: 'nom',
-    flex: 1,
+    width: 200,
     field: {
         xtype: 'textfield',
         allowBlank: false

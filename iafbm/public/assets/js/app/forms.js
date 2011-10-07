@@ -580,19 +580,19 @@ Ext.define('iafbm.form.Personne', {
     _createCommissionsCurrent: function() {
         // TODO: FIXME
         var personne_id = this.getRecordId();
+        // Adds specific column
+        var store = new iafbm.store.Commission({
+            params: {
+                xjoin: 'commission-membre, commission-fonction',
+                'commission-membre_personne_id': personne_id
+            }
+        });
         var columns = Ext.Array.clone(iafbm.columns.Commission);
         columns.splice(1, 0, {
             header: "Fonction",
-            dataIndex: 'commission-membre_fonction_id',
-            width: 30,
-            xtype: 'ia-combocolumn',
-            field: {
-                xtype: 'ia-combo',
-                displayField: 'nom',
-                valueField: 'id',
-                allowBlank: false,
-                store: new iafbm.store.CommissionFonction()
-        }});
+            dataIndex: 'commission-fonction_nom',
+            width: 200
+        });
         return {
             xtype: 'fieldset',
             title: 'Commissions courantes',
@@ -602,23 +602,18 @@ Ext.define('iafbm.form.Personne', {
                 toolbarButtons: [],
                 height: 150,
                 bbar: null,
-                store: new iafbm.store.Commission({
-                    params: {
-                        xjoin: 'commission-membre',
-                        'commission-membre_personne_id': personne_id
-                    }
-                }),
+                store: store,
                 columns: columns
             }]
         }
     },
     _createCommissionsClosed: function() {
-        // TODO: FIXME
+        // TODO
         return {
             xtype: 'fieldset',
             title: 'Commissions archivées',
             items: [{
-                text: 'Cette fonctionnalité est en cours de développement',
+                html: 'Cette fonctionnalité est en cours de développement',
             }]
         }
     }
