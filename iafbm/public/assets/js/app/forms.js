@@ -179,7 +179,8 @@ Ext.define('iafbm.form.Candidat', {
     frame: true,
     fieldDefaults: {
         labelAlign: 'right',
-        msgTarget: 'side'
+        msgTarget: 'side',
+        labelWidth: 110
     },
     defaults: {
         defaultType: 'textfield',
@@ -226,6 +227,13 @@ Ext.define('iafbm.form.Candidat', {
                 displayField: 'genre',
                 valueField: 'id',
                 store: new iafbm.store.Genre({})
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Pays d\'origine',
+                name: 'pays_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: new iafbm.store.Pays({})
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance',

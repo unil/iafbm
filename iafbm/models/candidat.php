@@ -14,6 +14,7 @@ class CandidatModel extends iaModelMysql {
         'prenom' => 'prenom',
         'genre_id' => 'genre_id',
         'etatcivil_id' => 'etatcivil_id',
+        'pays_id' => 'pays_id',
         'date_naissance' => 'date_naissance',
         'nombre_enfants' => 'nombre_enfants',
         'no_avs' => 'no_avs',

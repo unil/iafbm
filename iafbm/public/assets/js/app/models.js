@@ -293,6 +293,7 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'prenom', type: 'string'},
         {name: 'genre_id', type: 'int', useNull: true},
         {name: 'etatcivil_id', type: 'int', useNull: true},
+        {name: 'pays_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'nombre_enfants', type: 'int', useNull: true},
         {name: 'no_avs', type: 'string'},
