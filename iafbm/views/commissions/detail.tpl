@@ -248,7 +248,7 @@ Ext.onReady(function() {
                     columns: [{
                         header: "Type",
                         dataIndex: 'commission-travail-evenement-type_id',
-                        flex: 1,
+                        width: 200,
                         xtype: 'ia-combocolumn',
                         field: {
                             xtype: 'ia-combo',
