@@ -28,7 +28,6 @@ Ext.onReady(function() {
             defaults: { labelStyle: 'font-weight:bold' },
             items: [
                 {xtype: 'displayfield', name: 'commission-type_racine', fieldLabel: 'Type', labelWidth: 33, width: 350},
-                //{xtype: 'displayfield', name: 'commission-etat_nom', fieldLabel: 'Etat', labelWidth: 27, width: 300},
                 {
                     xtype: 'ia-combo',
                     fieldLabel: 'Etat',
@@ -39,9 +38,7 @@ Ext.onReady(function() {
                     allowBlank: false,
                     labelWidth: 33,
                     width: 180
-                },
-                //{xtype: 'displayfield', name: 'section_code', fieldLabel: 'Section', labelWidth: 47, width: 100},
-                {
+                },{
                     xtype: 'ia-combo',
                     fieldLabel: 'Section',
                     displayField: 'code',
@@ -52,7 +49,7 @@ Ext.onReady(function() {
                     labelWidth: 47,
                     width: 120,
                     margin: '0 0 0 100'
-                },
+                }
             ]
         }, {
             baseCls: 'title',
