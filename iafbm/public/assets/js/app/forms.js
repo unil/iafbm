@@ -85,7 +85,6 @@ iafbm.form.common.Adresses = function(options) {
                 flex: 1,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: false
                 }
             },{
                 header: "NPA",
@@ -93,7 +92,6 @@ iafbm.form.common.Adresses = function(options) {
                 width: 75,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: false,
                     maskRe: /[0-9]/
                 }
             },{
@@ -102,7 +100,6 @@ iafbm.form.common.Adresses = function(options) {
                 flex: 1,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: false
                 }
             },{
                 header: "Pays",
@@ -114,16 +111,32 @@ iafbm.form.common.Adresses = function(options) {
                     store: new iafbm.store.Pays(),
                     valueField: 'id',
                     displayField: 'nom',
-                    allowBlank: false
                 }
-            }, {
+            },{
+                header: "Indicatif pays",
+                dataIndex: 'adresse_telephone_countrycode',
+                width: 30,
+                editor: {
+                    xtype: 'textfield',
+                    maskRe: /[0-9]/,
+                    validator: function(value) {
+                        var telephone = this.nextSibling();
+                        return (telephone.getValue().length && !this.getValue().length) ?
+                            'Entrez l\'indicatif pays (p.ex. 41 pour la suisse)' : true;
+                    }
+                }
+            },{
                 header: "Téléphone",
                 dataIndex: 'adresse_telephone',
                 width: 150,
                 editor: {
                     xtype: 'textfield',
-                    allowBlank: false,
-                    maskRe: /[0-9]/
+                    maskRe: /[0-9]/,
+                    validator: function(value) {
+                        var indicatif = this.previousSibling();
+                        return (indicatif.getValue().length && !this.getValue().length) ?
+                            'Entrez un numéro de téléphone après l\'indicatif pays' : true;
+                    }
                 }
             }]
         }]
@@ -187,7 +200,7 @@ Ext.define('iafbm.form.Candidat', {
     },
     initComponent: function() {
         this.items = [
-            this._createCandidats(),
+            this._createCandidat(),
         {
             xtype: 'fieldcontainer',
             layout: 'hbox',
@@ -206,7 +219,7 @@ Ext.define('iafbm.form.Candidat', {
         //
         var me = this; me.callParent();
     },
-    _createCandidats: function() {
+    _createCandidat: function() {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
@@ -291,6 +304,42 @@ Ext.define('iafbm.form.Candidat', {
         }
     },
     _createAdresses: function() {
+        var _createTelephone = function(prefix) {
+            return {
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                width: 255,
+                fieldLabel: 'Télépone',
+                defaultType: 'textfield',
+                fieldDefaults: {
+                    msgTarget: 'side'
+                },
+                items: [{
+                    name: ['telephone', prefix, 'countrycode'].join('_'),
+                    width: 30,
+                    margins: '0 5 0 0',
+                    maxLength: 3,
+                    enforceMaxLength: true,
+                    maskRe: /[0-9]/,
+                    validator: function(value) {
+                        var telephone = this.nextSibling();
+                        return (telephone.getValue().length && !this.getValue().length) ?
+                            'Entrez l\'indicatif pays (p.ex 41 pour la suisse)' : true;
+                    }
+                }, {
+                    name: ['telephone', prefix].join('_'),
+                    emptyText: 'Télépone',
+                    flex: 1,
+                    maskRe: /[0-9]/,
+                    validator: function(value) {
+                        var indicatif = this.previousSibling();
+                        return (indicatif.getValue().length && !this.getValue().length) ?
+                            'Entrez un numéro de téléphone après l\'indicatif pays' : true;
+                    }
+                }]
+            }
+        }
+        // TODO: Create a default ext fieldcontainer for telephone, (only names will be overriden)
         return {
             xtype: 'fieldset',
             title: 'Adresses',
@@ -331,11 +380,9 @@ Ext.define('iafbm.form.Candidat', {
                         displayField: 'nom',
                         valueField: 'id',
                         store: new iafbm.store.Pays({})
-                    }, {
-                        fieldLabel: 'Télépone',
-                        emptyText: 'Télépone',
-                        name: 'telephone_pro'
-                    }, {
+                    },
+                        _createTelephone('pro'),
+                    {
                         fieldLabel: 'Email',
                         emptyText: 'Email',
                         name: 'email_pro',
@@ -366,11 +413,9 @@ Ext.define('iafbm.form.Candidat', {
                         displayField: 'nom',
                         valueField: 'id',
                         store: new iafbm.store.Pays({})
-                    }, {
-                        fieldLabel: 'Télépone',
-                        emptyText: 'Télépone',
-                        name: 'telephone_pri'
-                    }, {
+                    },
+                        _createTelephone('pri'),
+                    {
                         fieldLabel: 'Email',
                         emptyText: 'Email',
                         name: 'email_pri',
@@ -586,12 +631,11 @@ Ext.define('iafbm.form.Personne', {
         });
     },
     _createCommissionsCurrent: function() {
-        // TODO: FIXME
         var personne_id = this.getRecordId();
         // Adds specific column
         var store = new iafbm.store.Commission({
             params: {
-                xjoin: 'commission-membre, commission-fonction',
+                xjoin: 'commission-membre,commission-fonction',
                 'commission-membre_personne_id': personne_id
             }
         });

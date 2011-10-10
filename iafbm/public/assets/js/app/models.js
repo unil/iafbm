@@ -141,6 +141,7 @@ Ext.define('iafbm.model.Adresse', {
         {name: 'npa', type: 'string'},
         {name: 'lieu', type: 'string'},
         {name: 'pays_id', type: 'int'},
+        {name: 'telephone_countrycode', type: 'string'},
         {name: 'telephone', type: 'string'}
     ],
     validations: [],
@@ -242,7 +243,8 @@ Ext.define('iafbm.model.PersonneAdresse', {
         {name: 'adresse_npa', type: 'string'},
         {name: 'adresse_lieu', type: 'string'},
         {name: 'adresse_pays_id', type: 'int'},
-        {name: 'adresse_telephone', type: 'string'}
+        {name: 'adresse_telephone', type: 'string'},
+        {name: 'adresse_telephone_countrycode', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -301,12 +303,14 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'npa_pro', type: 'sting'},
         {name: 'lieu_pro', type: 'sting'},
         {name: 'pays_pro_id', type: 'int', useNull: true},
+        {name: 'telephone_pro_countrycode', type: 'sting'},
         {name: 'telephone_pro', type: 'sting'},
         {name: 'email_pro', type: 'sting'},
         {name: 'adresse_pri', type: 'sting'},
         {name: 'npa_pri', type: 'sting'},
         {name: 'lieu_pri', type: 'sting'},
         {name: 'pays_pri_id', type: 'int', useNull: true},
+        {name: 'telephone_pri_countrycode', type: 'sting'},
         {name: 'telephone_pri', type: 'sting'},
         {name: 'email_pri', type: 'sting'},
         {name: 'position_actuelle_fonction', type: 'string'},

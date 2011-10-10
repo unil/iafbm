@@ -12,6 +12,7 @@ CREATE TABLE adresses (
     npa VARCHAR(255),
     lieu VARCHAR(255),
     pays_id INT,
+    telephone_countrycode VARCHAR(4),
     telephone VARCHAR(255),
 
     PRIMARY KEY (id),

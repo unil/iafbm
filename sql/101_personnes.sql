@@ -22,9 +22,6 @@ CREATE TABLE personnes (
     pays_id INT,
     permis_id INT,
 
-    adresse VARCHAR(100),
-    tel VARCHAR(15),
-    email VARCHAR(50),
     titre_lecon_inaug VARCHAR(100),
     date_lecon_inaug DATE,
     PRIMARY KEY (id),
