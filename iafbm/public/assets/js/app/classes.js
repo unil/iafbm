@@ -139,7 +139,7 @@ Ext.define('Ext.ia.grid.column.Action', {
 
 /**
  * Displays a list of this.displayField values contained in this.store,
- * filtered by this.filterField on this.dataIndex field,
+ * filtered by this.filterField using this.dataIndex field vaulue,
  * separated by this.separator.
  */
 Ext.define('Ext.ia.grid.ListColumn', {
