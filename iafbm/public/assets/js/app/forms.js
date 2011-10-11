@@ -138,6 +138,15 @@ iafbm.form.common.Adresses = function(options) {
                             'Entrez un numéro de téléphone après l\'indicatif pays' : true;
                     }
                 }
+            },{
+                header: "Par défaut",
+                dataIndex: 'adresse_defaut',
+                width: 30,
+                xtype: 'ia-radiocolumn',
+                editor: {
+                    xtype: 'checkboxfield',
+                    disabled: true
+                }
             }]
         }]
     };
@@ -179,6 +188,15 @@ iafbm.form.common.Emails = function(options) {
                     xtype: 'textfield',
                     allowBlank: false,
                     vtype: 'email'
+                }
+            },{
+                header: "Par défaut",
+                dataIndex: 'defaut',
+                width: 30,
+                xtype: 'ia-radiocolumn',
+                editor: {
+                    xtype: 'checkbox',
+                    disabled: true
                 }
             }]
         }]
@@ -304,6 +322,8 @@ Ext.define('iafbm.form.Candidat', {
         }
     },
     _createAdresses: function() {
+        // Common telephone fieldcontainer for both
+        // professional and private telephone numbers
         var _createTelephone = function(prefix) {
             return {
                 xtype: 'fieldcontainer',
@@ -339,7 +359,7 @@ Ext.define('iafbm.form.Candidat', {
                 }]
             }
         }
-        // TODO: Create a default ext fieldcontainer for telephone, (only names will be overriden)
+        // Actual fieldset config for adresses
         return {
             xtype: 'fieldset',
             title: 'Adresses',

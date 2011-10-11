@@ -10,6 +10,7 @@ CREATE TABLE personnes_emails (
     personne_id INT,
     adresse_type_id INT NOT NULL,
     email VARCHAR(200) NOT NULL,
+    defaut BOOLEAN NULL DEFAULT false,
 
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),

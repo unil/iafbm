@@ -11,7 +11,8 @@ class PersonneEmailModel extends iaModelMysql {
         'modified' => 'modified',
         'personne_id' => 'personne_id',
         'adresse-type_id' => 'adresse_type_id',
-        'email' => 'email'
+        'email' => 'email',
+        'defaut' => 'defaut'
     );
 
     var $primary = array('id');
