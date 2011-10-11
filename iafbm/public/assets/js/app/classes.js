@@ -111,6 +111,10 @@ Ext.define('Ext.ia.grid.column.Action', {
                 listeners: {
                     aftersave: function(form, record) {
                         popup.close();
+                        // Reloads store for refreshing gridview
+                        // external values (such as listcolumns)
+                        // TODO: also du this on popup close
+                        gridView.refresh();
                     }
                 }
             })
@@ -134,6 +138,44 @@ Ext.define('Ext.ia.grid.column.Action', {
 });
 
 /**
+ * Displays a list of this.displayField values contained in this.store,
+ * filtered by this.filterField on this.dataIndex field,
+ * separated by this.separator.
+ */
+Ext.define('Ext.ia.grid.ListColumn', {
+    extend:'Ext.grid.Column',
+    alias: 'widget.ia-listcolumn',
+    // Config
+    store: null,
+    filterField: null,
+    displayField: null,
+    separator: ', ',
+    initComponent: function() {
+        var me = this,
+            store = this.store;
+        me.callParent();
+        // TODO: is this necessary on store load?
+        store.on('load', function() { me.up('gridpanel').getView().refresh() });
+        // TODO: on this.up('gridpanel').getView() refresh event, also refresh this field!
+        // Manages store autoloading
+        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+            store.load();
+        }
+    },
+    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+        var me = this.columns[colIndex],
+            store = me.store,
+            values = [];
+        if (me.filterField) store.filter(me.filterField, value);
+        Ext.each(store.getRange(), function(record) {
+            values.push(record.get(me.displayField))
+        });
+        if (me.filterField) store.clearFilter();
+        return values.join(me.separator);
+    }
+});
+
+/**
  * Extends Ext.grid.Column with
  * - remote store display workaround
  */
@@ -152,6 +194,8 @@ Ext.define('Ext.ia.grid.ComboColumn', {
             store.load();
         }
     },
+    // Fixes a "bug" on combo columns: when stores loads too late,
+    // the valueField value is shown instead of displayField value.
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var column = this.columns[colIndex],
             editor = column.editor || column.field,
