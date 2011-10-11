@@ -176,6 +176,34 @@ Ext.define('Ext.ia.grid.ListColumn', {
 });
 
 /**
+ * Radio column for Ext.grid.Panel
+ * WARNING (!): will not work properly on paged grids since it
+ *              only unchecks items *loaded* in store
+ * TODO: Render the widget as a radio style button
+ */
+Ext.define('Ext.ia.grid.RadioColumn', {
+    extend:'Ext.ux.CheckColumn',
+    alias: 'widget.ia-radiocolumn',
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+        this.on('checkchange', this.uncheckOthers);
+    },
+    // Unchecks all others checkbox with the same dataIndex within the grid
+    uncheckOthers: function(checkcolumn, recordIndex, checked) {
+        var dataIndex = this.dataIndex,
+            store = this.up('gridpanel').getStore();
+        store.each(function(record) {
+            // Skips the click radio row
+            if (record == store.getAt(recordIndex)) return;
+            // Update not needed if value is already false
+            if (!record.get(dataIndex)) return;
+            record.set(dataIndex, false);
+        });
+    }
+});
+
+/**
  * Extends Ext.grid.Column with
  * - remote store display workaround
  */
