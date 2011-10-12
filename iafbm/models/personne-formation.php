@@ -12,7 +12,8 @@ class PersonneFormationModel extends iaModelMysql {
         'personne_id' => 'personne_id',
         'formation_id' => 'formation_id',
         'date_these' => 'date_these',
-        'lieu_these' => 'lieu_these'
+        'lieu_these' => 'lieu_these',
+        'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');

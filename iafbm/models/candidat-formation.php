@@ -11,8 +11,9 @@ class CandidatFormationModel extends iaModelMysql {
         'actif' => 'actif',
         'candidat_id' => 'candidat_id',
         'formation_id' => 'formation_id',
+        'lieu_these' => 'lieu_these',
         'date_these' => 'date_these',
-        'lieu_these' => 'lieu_these'
+        'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');

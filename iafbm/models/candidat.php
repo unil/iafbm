@@ -39,7 +39,7 @@ class CandidatModel extends iaModelMysql {
     var $primary = array('id');
 
 //FIXME: pays model is referenced by two different columns, but can only be specified once as a key indice in $joins array :(
-//       Solution: in this file, add:
+//       Solution: in this file (that is, locally), add:
 //                 create a PaysProModel + PaysPriModel extends PaysModel {}
     var $joins = array(
         'genre' => 'LEFT JOIN genres ON (candidats.genre_id = commissions.id)',

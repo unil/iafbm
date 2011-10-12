@@ -34,8 +34,7 @@ iafbm.form.common.Formations = function(options) {
                 dataIndex: 'lieu_these',
                 flex: 1,
                 editor: {
-                    xtype: 'textfield',
-                    allowBlank: false
+                    xtype: 'textfield'
                 }
             },{
                 header: "Date",
@@ -43,8 +42,14 @@ iafbm.form.common.Formations = function(options) {
                 flex: 1,
                 xtype: 'ia-datecolumn',
                 field: {
-                    xtype: 'ia-datefield',
-                    allowBlank: false
+                    xtype: 'ia-datefield'
+                }
+            },{
+                header: "Commentaire",
+                dataIndex: 'commentaire',
+                flex: 1,
+                editor: {
+                    xtype: 'textfield'
                 }
             }]
         }]

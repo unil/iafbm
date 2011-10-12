@@ -8,8 +8,9 @@ CREATE TABLE candidats_formations (
     actif BOOLEAN NOT NULL DEFAULT true,
     candidat_id INT,
     formation_id INT,
-    date_these DATE,
     lieu_these VARCHAR(255),
+    date_these DATE DEFAULT NULL,
+    commentaire VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (candidat_id) REFERENCES candidats(id),
     FOREIGN KEY (formation_id) REFERENCES formations(id)
