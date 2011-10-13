@@ -223,6 +223,7 @@ Ext.define('iafbm.model.PersonneFonction', {
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'date_contrat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'debut_mandat', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'fin_mandat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'fonction-hospitaliere_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'departement_nom', type: 'string'}

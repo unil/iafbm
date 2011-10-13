@@ -612,6 +612,14 @@ Ext.define('iafbm.form.Personne', {
                         xtype: 'ia-datefield'
                     }
                 },{
+                    header: "Fin mandat",
+                    dataIndex: 'fin_mandat',
+                    width: 100,
+                    xtype: 'ia-datecolumn',
+                    field: {
+                        xtype: 'ia-datefield'
+                    }
+                },{
                     header: "Fonction hospitalière",
                     dataIndex: 'fonction-hospitaliere_id',
                     flex: 1,

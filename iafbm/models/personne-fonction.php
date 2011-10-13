@@ -12,6 +12,7 @@ class PersonneFonctionModel extends iaModelMysql {
         'taux_activite' => 'taux_activite',
         'date_contrat' => 'date_contrat',
         'debut_mandat' => 'debut_mandat',
+        'fin_mandat' => 'fin_mandat',
         'fonction-hospitaliere_id' => 'fonction_hospitaliere_id',
         'departement_id' => 'departement_id'
     );

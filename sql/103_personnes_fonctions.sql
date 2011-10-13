@@ -11,8 +11,9 @@ CREATE TABLE personnes_fonctions (
     section_id INT,
     titre_academique_id INT,
     taux_activite TINYINT,
-    date_contrat DATE,
-    debut_mandat DATE,
+    date_contrat DATE DEFAULT NULL,
+    debut_mandat DATE DEFAULT NULL,
+    fin_mandat DATE DEFAULT NULL,
     fonction_hospitaliere_id INT,
     departement_id INT,
 
