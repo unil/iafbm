@@ -5,6 +5,7 @@ CREATE TABLE fonctions_hospitalieres (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO fonctions_hospitalieres (id, nom) VALUES (1, 'A');
-INSERT INTO fonctions_hospitalieres (id, nom) VALUES (2, 'B');
-INSERT INTO fonctions_hospitalieres (id, nom) VALUES (3, 'C');
+INSERT INTO fonctions_hospitalieres (id, nom) VALUES (1, 'Aucune');
+INSERT INTO fonctions_hospitalieres (id, nom) VALUES (2, 'A');
+INSERT INTO fonctions_hospitalieres (id, nom) VALUES (3, 'B');
+INSERT INTO fonctions_hospitalieres (id, nom) VALUES (4, 'C');
