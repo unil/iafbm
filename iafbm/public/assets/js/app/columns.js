@@ -149,7 +149,7 @@ iafbm.columns.Candidat = [{
 iafbm.columns.Commission = [{
     xtype: 'actioncolumn',
     width: 25,
-    header: 'Détails',
+    header: '',
     items: [{
         // TODO: Use a URL in the icon config
         icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
@@ -178,11 +178,11 @@ iafbm.columns.Commission = [{
 }, {
     header: "Type",
     dataIndex: 'commission-type_id',
-    width: 175,
+    width: 100,
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
-        displayField: 'nom',
+        displayField: 'racine',
         valueField: 'id',
         allowBlank: false,
         store: new iafbm.store.CommissionType()
@@ -194,7 +194,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "Nom",
     dataIndex: 'nom',
-    width: 200,
+    flex: 1,
     field: {
         xtype: 'textfield',
         allowBlank: false
@@ -202,7 +202,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "Section",
     dataIndex: 'section_id',
-    width: 30,
+    width: 60,
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
