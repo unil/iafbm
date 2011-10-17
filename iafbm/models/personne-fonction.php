@@ -26,4 +26,7 @@ class PersonneFonctionModel extends iaModelMysql {
     var $join = array('personne', 'titre-academique', 'departement');
 
     var $primary = array('id');
+
+    var $order_by = 'fin_mandat';
+    var $order = 'ASC';
 }
