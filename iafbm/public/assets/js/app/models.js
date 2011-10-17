@@ -142,8 +142,7 @@ Ext.define('iafbm.model.Adresse', {
         {name: 'lieu', type: 'string'},
         {name: 'pays_id', type: 'int'},
         {name: 'telephone_countrycode', type: 'string'},
-        {name: 'telephone', type: 'string'},
-        {name: 'defaut', type: 'boolean'}
+        {name: 'telephone', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -248,7 +247,7 @@ Ext.define('iafbm.model.PersonneAdresse', {
         {name: 'adresse_pays_id', type: 'int'},
         {name: 'adresse_telephone', type: 'string'},
         {name: 'adresse_telephone_countrycode', type: 'string'},
-        {name: 'adresse_defaut', type: 'boolean'}
+        {name: 'defaut', type: 'boolean'}
     ],
     validations: [],
     proxy: {

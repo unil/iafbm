@@ -15,8 +15,6 @@ CREATE TABLE adresses (
     telephone_countrycode VARCHAR(4),
     telephone VARCHAR(255),
 
-    defaut BOOLEAN NULL DEFAULT false,
-
     PRIMARY KEY (id),
     FOREIGN KEY (adresse_type_id) REFERENCES adresses_types(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

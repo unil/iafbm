@@ -31,7 +31,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `adresses` WRITE;
 /*!40000 ALTER TABLE `adresses` DISABLE KEYS */;
-INSERT INTO `adresses` VALUES (1,'2011-10-17 13:33:44','2011-10-17 13:34:19',NULL,NULL,1,1,'Rue du Bugnon 25','1000','Lausanne',208,NULL,NULL,NULL),(2,'2011-10-17 13:36:20',NULL,NULL,NULL,1,2,'Villy 10','1009','Pully',208,'41','795550000',0);
+INSERT INTO `adresses` VALUES (1,'2011-10-17 13:33:44','2011-10-17 16:02:01',NULL,NULL,1,1,'Rue du Bugnon 25','1000','Lausanne',208,NULL,NULL),(2,'2011-10-17 13:36:20','2011-10-17 16:02:01',NULL,NULL,1,2,'Villy 10','1009','Pully',208,'41','795550000');
 /*!40000 ALTER TABLE `adresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -41,7 +41,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `personnes_adresses` WRITE;
 /*!40000 ALTER TABLE `personnes_adresses` DISABLE KEYS */;
-INSERT INTO `personnes_adresses` VALUES (1,'2011-10-17 13:33:44','2011-10-17 13:34:19',NULL,NULL,1,1,1),(2,'2011-10-17 13:36:20',NULL,NULL,NULL,1,1,2);
+INSERT INTO `personnes_adresses` VALUES (1,'2011-10-17 13:33:44','2011-10-17 16:02:01',NULL,NULL,1,1,1,1),(2,'2011-10-17 13:36:20','2011-10-17 16:02:01',NULL,NULL,1,1,2,NULL);
 /*!40000 ALTER TABLE `personnes_adresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +81,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions` WRITE;
 /*!40000 ALTER TABLE `commissions` DISABLE KEYS */;
-INSERT INTO `commissions` VALUES (1,'2011-10-17 12:50:50','2011-10-17 12:53:40',NULL,NULL,1,1,'Commission de titularisation pour le Professeur X','Commentaire concernant l\'aperçu général',1,1,2),(2,'2011-10-17 13:09:04','2011-10-17 13:26:13',NULL,NULL,1,NULL,'Commission de titularisation pour le Docteur Y','Cette commission est en suspens en raison de X, Y et Z.',1,3,1);
+INSERT INTO `commissions` VALUES (1,'2011-10-17 12:50:50','2011-10-17 12:53:40',NULL,NULL,1,1,'Commission de titularisation pour le Professeur X','Commentaire concernant l\'aperçu général',1,1,2),(2,'2011-10-17 13:09:04','2011-10-17 13:26:13',NULL,NULL,1,NULL,'Commission de titularisation pour le Docteur Y','Cette commission est en suspens en raison de X, Y et Z.',1,3,1),(3,'2011-10-17 14:23:05','2011-10-17 14:23:18',NULL,NULL,1,NULL,'Commission vide pour tests',NULL,1,1,1);
 /*!40000 ALTER TABLE `commissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +111,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions_candidats_commentaires` WRITE;
 /*!40000 ALTER TABLE `commissions_candidats_commentaires` DISABLE KEYS */;
-INSERT INTO `commissions_candidats_commentaires` VALUES (1,'2011-10-17 12:50:50','2011-10-17 12:59:32',NULL,NULL,1,1,1,'Commentaire concernant la phase candidat'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL);
+INSERT INTO `commissions_candidats_commentaires` VALUES (1,'2011-10-17 12:50:50','2011-10-17 12:59:32',NULL,NULL,1,1,1,'Commentaire concernant la phase candidat'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL),(3,'2011-10-17 14:23:05',NULL,NULL,NULL,1,0,3,NULL);
 /*!40000 ALTER TABLE `commissions_candidats_commentaires` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +121,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions_creations` WRITE;
 /*!40000 ALTER TABLE `commissions_creations` DISABLE KEYS */;
-INSERT INTO `commissions_creations` VALUES (1,'2011-10-17 12:50:50','2011-10-17 12:54:57',NULL,NULL,1,1,1,'2011-10-05','2011-10-06','2011-10-07','2011-10-05','2011-10-05','2011-10-10','Commentaire concernant la phase de création'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `commissions_creations` VALUES (1,'2011-10-17 12:50:50','2011-10-17 12:54:57',NULL,NULL,1,1,1,'2011-10-05','2011-10-06','2011-10-07','2011-10-05','2011-10-05','2011-10-10','Commentaire concernant la phase de création'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'2011-10-17 14:23:05',NULL,NULL,NULL,1,0,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `commissions_creations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +131,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions_finalisations` WRITE;
 /*!40000 ALTER TABLE `commissions_finalisations` DISABLE KEYS */;
-INSERT INTO `commissions_finalisations` VALUES (1,'2011-10-17 12:50:50','2011-10-17 13:03:19',NULL,NULL,1,1,1,2,'2011-12-01',0,'Commentaire concernant la réception du contrat','2012-01-01','Commentaire concernant la phase de finalisation'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,NULL,0,NULL,NULL,NULL);
+INSERT INTO `commissions_finalisations` VALUES (1,'2011-10-17 12:50:50','2011-10-17 13:03:19',NULL,NULL,1,1,1,2,'2011-12-01',0,'Commentaire concernant la réception du contrat','2012-01-01','Commentaire concernant la phase de finalisation'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,NULL,0,NULL,NULL,NULL),(3,'2011-10-17 14:23:05',NULL,NULL,NULL,1,0,3,NULL,NULL,0,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `commissions_finalisations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +141,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions_membres` WRITE;
 /*!40000 ALTER TABLE `commissions_membres` DISABLE KEYS */;
-INSERT INTO `commissions_membres` VALUES (1,'2011-10-17 12:52:07','2011-10-17 12:52:50',NULL,NULL,1,100,1,1,2,3,1),(2,'2011-10-17 12:52:14','2011-10-17 12:53:01',NULL,NULL,1,100,4,1,1,6,2),(3,'2011-10-17 12:52:19','2011-10-17 12:53:13',NULL,NULL,1,100,6,1,2,1,3),(4,'2011-10-17 12:52:23','2011-10-17 12:54:09',NULL,NULL,1,100,7,1,2,2,1),(5,'2011-10-17 12:52:29','2011-10-17 12:53:28',NULL,NULL,1,100,8,1,2,13,2),(6,'2011-10-17 13:09:44','2011-10-17 13:10:21',NULL,NULL,1,100,2,2,1,5,2),(7,'2011-10-17 13:26:36',NULL,NULL,NULL,1,100,1,2,1,NULL,NULL);
+INSERT INTO `commissions_membres` VALUES (1,'2011-10-17 12:52:07','2011-10-17 12:52:50',NULL,NULL,1,100,1,1,2,3,1),(2,'2011-10-17 12:52:14','2011-10-17 12:53:01',NULL,NULL,1,100,4,1,1,6,2),(3,'2011-10-17 12:52:19','2011-10-17 12:53:13',NULL,NULL,1,100,6,1,2,1,3),(4,'2011-10-17 12:52:23','2011-10-17 12:54:09',NULL,NULL,1,100,7,1,2,2,1),(5,'2011-10-17 12:52:29','2011-10-17 12:53:28',NULL,NULL,1,100,8,1,2,13,2),(6,'2011-10-17 13:09:44','2011-10-17 13:10:21',NULL,NULL,1,100,2,2,1,5,2),(7,'2011-10-17 13:26:36','2011-10-17 14:24:23',NULL,NULL,1,100,1,2,2,9,NULL);
 /*!40000 ALTER TABLE `commissions_membres` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +151,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions_travails` WRITE;
 /*!40000 ALTER TABLE `commissions_travails` DISABLE KEYS */;
-INSERT INTO `commissions_travails` VALUES (1,'2011-10-17 12:50:50','2011-10-17 13:04:53',NULL,NULL,1,1,1,1,2,3,'Commentaire concernant la phase de travail'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,NULL,NULL,NULL);
+INSERT INTO `commissions_travails` VALUES (1,'2011-10-17 12:50:50','2011-10-17 13:04:53',NULL,NULL,1,1,1,1,2,3,'Commentaire concernant la phase de travail'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,NULL,NULL,NULL),(3,'2011-10-17 14:23:05',NULL,NULL,NULL,1,0,3,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `commissions_travails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,7 +171,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `commissions_validations` WRITE;
 /*!40000 ALTER TABLE `commissions_validations` DISABLE KEYS */;
-INSERT INTO `commissions_validations` VALUES (1,'2011-10-17 12:50:50','2011-10-17 13:04:00',NULL,NULL,1,1,1,'2011-11-01',2,'Commentaire de validation par le Décanant\n\nNotez que les commentaires peuvent être rédigés sur plusieurs lignes, le champs y relatif s\'agrandit en conséquence','2011-11-02','Commentaire relatif au commentaire DG-CHUV','2011-11-03',2,'Commentaire concernant la validation par le CF','2011-11-04',4,'Commentaire concernant la validation par le CDir','2011-11-07','2011-11-06','Commentaire relatif à la phase de validation de rapport'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,1,NULL,NULL,NULL,NULL,1,NULL,NULL,1,NULL,NULL,NULL,NULL);
+INSERT INTO `commissions_validations` VALUES (1,'2011-10-17 12:50:50','2011-10-17 13:04:00',NULL,NULL,1,1,1,'2011-11-01',2,'Commentaire de validation par le Décanant\n\nNotez que les commentaires peuvent être rédigés sur plusieurs lignes, le champs y relatif s\'agrandit en conséquence','2011-11-02','Commentaire relatif au commentaire DG-CHUV','2011-11-03',2,'Commentaire concernant la validation par le CF','2011-11-04',4,'Commentaire concernant la validation par le CDir','2011-11-07','2011-11-06','Commentaire relatif à la phase de validation de rapport'),(2,'2011-10-17 13:09:04',NULL,NULL,NULL,1,0,2,NULL,1,NULL,NULL,NULL,NULL,1,NULL,NULL,1,NULL,NULL,NULL,NULL),(3,'2011-10-17 14:23:05',NULL,NULL,NULL,1,0,3,NULL,1,NULL,NULL,NULL,NULL,1,NULL,NULL,1,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `commissions_validations` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -184,4 +184,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-10-17 15:36:59
+-- Dump completed on 2011-10-17 18:02:41

@@ -10,6 +10,8 @@ CREATE TABLE personnes_adresses (
     personne_id INT,
     adresse_id INT,
 
+    defaut BOOLEAN NULL DEFAULT false,
+
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (adresse_id) REFERENCES adresses(id)

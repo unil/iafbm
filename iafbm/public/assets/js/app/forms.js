@@ -145,7 +145,7 @@ iafbm.form.common.Adresses = function(options) {
                 }
             },{
                 header: "Par défaut",
-                dataIndex: 'adresse_defaut',
+                dataIndex: 'defaut',
                 width: 30,
                 xtype: 'ia-radiocolumn',
                 editor: {

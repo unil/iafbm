@@ -10,7 +10,8 @@ class PersonneAdresseModel extends iaModelMysql {
         'created' => 'created',
         'modified' => 'modified',
         'personne_id' => 'personne_id',
-        'adresse_id' => 'adresse_id'
+        'adresse_id' => 'adresse_id',
+        'defaut' => 'defaut'
     );
 
     var $primary = array('id');
