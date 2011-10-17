@@ -26,7 +26,14 @@ Ext.define('Ext.ia.data.Store', {
     params: {},
     loaded: false,
     listeners: {
-        beforeload: function() { this.proxy.extraParams = Ext.apply(this.proxy.extraParams, this.params) },
+        beforeload: function() {
+            // Fix: this.proxy.extraParams is sometimes set to undefined,
+            // which prevents to Ext.apply() this.params to the proxy extraParams.
+            // It is therefore needed to ensure that extraParams is an object.
+            if (!this.proxy.extraParams) this.proxy.extraParams = {};
+            // Ext 3 emulation: applies this.params to this.proxy.extraParams
+            this.proxy.extraParams = Ext.apply(this.proxy.extraParams, this.params);
+        },
         load: function() { this.loaded = true }
     },
 });
