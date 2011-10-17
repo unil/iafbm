@@ -10,4 +10,3 @@ CREATE TABLE genres (
 
 INSERT INTO genres (id, genre, genre_short, intitule, intitule_short) VALUES (1, 'Masculin', 'H', 'Monsieur', 'M.');
 INSERT INTO genres (id, genre, genre_short, intitule, intitule_short) VALUES (2, 'Féminin', 'F', 'Madame', 'Mme.');
-INSERT INTO genres (id, genre, genre_short, intitule, intitule_short) VALUES (3, 'Inconnu', '?', '-', '-');
