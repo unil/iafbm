@@ -267,7 +267,8 @@ Ext.onReady(function() {
                         flex: 1,
                         xtype: 'checkcolumn',
                         field: {
-                            xtype: 'checkbox'
+                            xtype: 'checkbox',
+                            disabled: true
                         }
                     }]
                 }]
