@@ -5,8 +5,6 @@
 
 Ext.onReady(function() {
 
-    Ext.QuickTips.init();
-
     var formPanel = Ext.create('iafbm.form.Personne', {
         fetch: {
             model: iafbm.model.Personne,

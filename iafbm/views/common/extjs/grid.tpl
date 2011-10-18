@@ -6,8 +6,6 @@
 
 Ext.onReady(function(){
 
-    Ext.QuickTips.init();
-
     new Ext.ia.grid.EditPanel({
         id: '<?php echo $d['id'] ?>',
         renderTo: 'editor-grid',

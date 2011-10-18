@@ -6,8 +6,6 @@
 
 Ext.onReady(function() {
 
-    Ext.QuickTips.init();
-
     // Shared Candidat store
     var store_candidat = new iafbm.store.Candidat();
 
