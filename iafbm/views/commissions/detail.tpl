@@ -541,32 +541,26 @@ Ext.onReady(function() {
             autoScroll: true,
         },
         items: [{
-            id: 'apercu',
             title: 'Apercu général',
             items: form_apercu,
             iconCls: 'tab-icon-unknown'
         }, {
-            id: 'creation',
             title: 'Phase de création',
             items: form_creation,
             iconCls: 'tab-icon-unknown'
         }, {
-            id: 'candidat',
             title: 'Candidat',
             items: form_candidat,
             iconCls: 'tab-icon-unknown'
         }, {
-            id: 'travail',
             title: 'Phase de travail',
             items: form_travail,
             iconCls: 'tab-icon-unknown'
         }, {
-            id: 'validation',
             title: 'Validation de rapport',
             items: form_validation,
             iconCls: 'tab-icon-unknown'
         }, {
-            id: 'finalisation',
             title: 'Finalisation',
             items: form_finalisation,
             iconCls: 'tab-icon-unknown'
