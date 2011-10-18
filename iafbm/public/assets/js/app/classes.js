@@ -549,7 +549,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
         if (this.editable) {
             this.editingPluginId = Ext.id();
             this.plugins = [new Ext.grid.plugin.RowEditing({
-                pluginId: this.editingPluginId
+                pluginId: this.editingPluginId,
+                // FIXME: Ext 4 bug: errorSummary is not properly managed
+                //errorSummary: false
             })];
         }
         // Initializes Component
