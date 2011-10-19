@@ -832,15 +832,26 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         var me = this;
         me.callParent();
         // For each tab, update its visual state on the form load event
-        this.on({afterrender: function() {
-            this.items.each(function(tab) {
-                var form = tab.down('ia-form-commission');
-                form.on({load: function() {
-                    me.updateTabState(tab);
-                }});
-                form.makeRecord();
-            });
-        }});
+        this.on({
+            afterrender: function() {
+                this.items.each(function(tab) {
+                    var form = tab.down('ia-form-commission');
+                    form.on({load: function() {
+                        me.updateTabState(tab);
+                    }});
+                    form.makeRecord();
+                });
+            },
+            tabchange: function(tabPanel, newCard, oldCard, eOpts) {
+                // TODO: Fix the height of textareafields contained in a fieldcontainer
+                //       when tab is shown. A bug? in ExtJS makes textareafields height
+                //       to small, hiding text information contained.
+                // Following tries were made without success
+                //console.log(nc=newCard);
+                //newCard.doLayout(); // Not working...
+                //nc.cascade(function(el){if (el.doLayout) el.doLayout()}); // Not working...
+            }
+        });
     }
 });
 
