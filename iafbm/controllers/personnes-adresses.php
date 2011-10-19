@@ -50,8 +50,8 @@ class PersonnesAdressesController extends iaWebController {
      */
     protected function _unique_defaut($params, $transaction=null) {
         // Parameters check
-        if (@!$params['defaut']) return; // If default is not set to true, no need to set continue
-        if (@!$params['id']) return;
+        if (@!$params['defaut']) return; // If default is not set to true, no need to continue
+        if (@!$params['id']) throw new xException('id parameter missing');
         // Retrieves personne_id from row id
         $r = xModel::load($this->model, array(
             'id'=>$params['id']

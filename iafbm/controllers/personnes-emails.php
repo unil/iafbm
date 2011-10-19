@@ -44,8 +44,8 @@ class PersonnesEmailsController extends iaWebController {
      */
     protected function _unique_defaut($params, $transaction=null) {
         // Parameters check
-        if (@!$params['defaut']) return; // If default is not set to true, no need to set continue
-        if (@!$params['id']) return;
+        if (@!$params['defaut']) return; // If default is not set to true, no need to continue
+        if (@!$params['id']) throw new xException('id parameter missing');
         // Retrieves personne_id from row id
         $r = xModel::load($this->model, array(
             'id'=>$params['id']
@@ -53,7 +53,7 @@ class PersonnesEmailsController extends iaWebController {
         $personne_id = $r['personne_id'];
         if (@!$personne_id) throw new xException('Error retrieving personne_id');
         // Retrieves rows with 'default' to be set to null
-        $rows = xModel::load('personne-adresse', array(
+        $rows = xModel::load('personne-email', array(
             'personne_id' => $personne_id,
             'id' => $params['id'],
             'id_comparator' => '!='
