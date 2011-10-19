@@ -94,7 +94,7 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "NPA",
                 dataIndex: 'adresse_npa',
-                width: 75,
+                width: 60,
                 editor: {
                     xtype: 'textfield',
                     maskRe: /[0-9]/
@@ -102,7 +102,7 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "Lieu",
                 dataIndex: 'adresse_lieu',
-                flex: 1,
+                width: 150,
                 editor: {
                     xtype: 'textfield',
                 }
@@ -133,7 +133,7 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "Téléphone",
                 dataIndex: 'adresse_telephone',
-                width: 150,
+                width: 85,
                 editor: {
                     xtype: 'textfield',
                     maskRe: /[0-9]/,
@@ -146,7 +146,7 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "Par défaut",
                 dataIndex: 'defaut',
-                width: 30,
+                width: 65,
                 xtype: 'ia-radiocolumn',
                 editor: {
                     xtype: 'checkboxfield',
@@ -197,7 +197,7 @@ iafbm.form.common.Emails = function(options) {
             },{
                 header: "Par défaut",
                 dataIndex: 'defaut',
-                width: 30,
+                width: 65,
                 xtype: 'ia-radiocolumn',
                 editor: {
                     xtype: 'checkbox',
