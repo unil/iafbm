@@ -806,9 +806,18 @@ Ext.define('Ext.ia.form.Panel', {
             */
             'aftersave'
         );
-        if (this.record || this.fetch.model) this.buttons = [{
-            text: 'Save',
-            handler: function() { me.saveRecord() }
+        // If applicable, create a save button for the form
+        if (this.record || this.fetch.model) this.dockedItems = [{
+            xtype: 'toolbar',
+            dock: 'top',
+            ui: 'footer',
+            //defaults: {minWidth: minButtonWidth},
+            items: [{
+                xtype: 'button',
+                text: 'Enregistrer',
+                scale: 'medium',
+                handler: function() { me.saveRecord() }
+            }]
         }];
         var me = this;
         me.callParent();
