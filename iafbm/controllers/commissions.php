@@ -4,6 +4,8 @@ class CommissionsController extends iaWebController {
 
     var $model = 'commission';
 
+    var $query_fields = array('nom');
+
     function indexAction() {
         $data = array(
             'title' => 'Gestion des commissions',
