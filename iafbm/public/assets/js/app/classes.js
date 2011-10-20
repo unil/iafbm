@@ -936,7 +936,7 @@ Ext.define('Ext.ia.window.Popup', {
     extend: 'Ext.window.Window',
     alias: 'widget.ia-popup',
     width: 850,
-    y: 90,
+    y: 10,
     autoScroll: true,
     modal: true,
     item: {},
