@@ -23,7 +23,7 @@ class iaWebController extends xWebController {
      * Eg. when the query parameter is provided with a GET method.
      * @see iaWebController::get()
      */
-    var $query_exclude_fields = array();
+    var $query_fields = array();
 
     /**
      * @todo
@@ -64,13 +64,23 @@ class iaWebController extends xWebController {
         if (!in_array('get', $this->allow)) throw new xException("Method not allowed", 403);
         // Creates parameter for model instance
         $params = $this->params;
-        if (strlen(@$this->params['query']) > 0) {
+        if (strlen(@$params['query']) > 0) {
             $fields = array_merge(
                 array_keys(xModel::load($this->model)->mapping),
                 array_keys(xModel::load($this->model)->foreign_mapping())
             );
+            // TODO:
+            // - group existing fields in $this->params as AND group,
+            // - group query fields as AND group with OR elements
+            // Eg: AND name1=1 AND name2=2 AND (query1=abc OR query2=abc)
+            //
+            // Requirement: add grouping capability in xModel
+            //
+            // Adds (specified if applicable) model fields
             foreach ($fields as $field) {
-                if (in_array($field, $this->query_exclude_fields)) continue;
+                // Skips model field if $this->query_field exists but $field not in list
+                if ($this->query_fields && !in_array($field, $this->query_fields)) continue;
+                // Adds model field
                 $params[$field] = "%{$this->params['query']}%";
                 $params["{$field}_comparator"] = 'LIKE';
                 $params["{$field}_operator"] = 'OR';
