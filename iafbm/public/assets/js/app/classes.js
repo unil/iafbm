@@ -199,11 +199,9 @@ Ext.define('Ext.ia.grid.RadioColumn', {
     // Unchecks all others checkbox with the same dataIndex within the grid
     refresh: function(checkcolumn, recordIndex, checked) {
         var store = this.up('gridpanel').getStore();
-        // Ensures the store load request is fired *after*
-        // the store sync request
-        Ext.defer(function() {
-            store.load();
-        }, 100, this);
+        // Refreshes the grid by reloading the store
+        // in order to show the actual unique selected row
+        store.load();
     }
 });
 
@@ -552,6 +550,14 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 pluginId: this.editingPluginId,
                 // FIXME: Ext 4 bug: errorSummary is not properly managed
                 //errorSummary: false
+                listeners: {
+                    edit: function(e) {
+                        // We need to reset the store.params because surprisingly,
+                        // they get changed when a row is added to the grid through
+                        // the RowEditor plugin
+                        e.store.params = e.store.proxy.extraParams;
+                    }
+                }
             })];
         }
         // Initializes Component
