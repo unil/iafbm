@@ -20,10 +20,11 @@ class PersonneFonctionModel extends iaModelMysql {
     var $joins = array(
         'personne' => 'LEFT JOIN personnes ON (personnes_fonctions.personne_id = personnes.id)',
         'titre-academique' => 'LEFT JOIN titres_academiques ON (personnes_fonctions.titre_academique_id = titres_academiques.id)',
+        'fonction-hospitaliere' => 'LEFT JOIN fonctions_hospitalieres ON (personnes_fonctions.fonction_hospitaliere_id = fonctions_hospitalieres.id)',
         'departement' => 'LEFT JOIN departements ON (personnes_fonctions.departement_id = departements.id)'
     );
 
-    var $join = array('personne', 'titre-academique', 'departement');
+    var $join = array('personne', 'titre-academique', 'fonction-hospitaliere', 'departement');
 
     var $primary = array('id');
 

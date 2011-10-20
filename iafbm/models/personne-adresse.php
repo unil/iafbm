@@ -26,5 +26,5 @@ class PersonneAdresseModel extends iaModelMysql {
         'personne' => 'LEFT JOIN personnes ON (personnes_adresses.personne_id = personnes.id)'
     );
 
-    var $join = 'adresse';
+    var $join = array('adresse');
 }

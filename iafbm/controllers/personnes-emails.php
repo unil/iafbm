@@ -1,7 +1,10 @@
 <?php
 
 class PersonnesEmailsController extends iaWebController {
+
     var $model = 'personne-email';
+
+    var $query_fields = array('email');
 
     function post() {
         $params = $this->params['items'];

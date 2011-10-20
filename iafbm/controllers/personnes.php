@@ -4,7 +4,7 @@ class PersonnesController extends iaWebController {
 
     var $model = 'personne';
 
-    var $query_exclude_fields = array('pays_nom_en');
+    var $query_fields = array('nom', 'prenom', 'pays_nom', 'pays_code');
 
     function indexAction() {
         $data = array(

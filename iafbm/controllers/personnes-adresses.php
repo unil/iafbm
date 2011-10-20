@@ -4,6 +4,8 @@ class PersonnesAdressesController extends iaWebController {
 
     var $model = 'personne-adresse';
 
+    var $query_fields = array('rue', 'npa', 'lieu');
+
     function post() {
         $params = $this->params['items'];
         $personne_adresse = xModel::load($this->model, $params);
