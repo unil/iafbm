@@ -726,6 +726,7 @@ Ext.define('Ext.ia.form.Panel', {
         model: null,
         id: null
     },
+    dockedItems: [],
     getRecordId: function() {
         return this.fetch.id || this.record.get('id');
     },
@@ -807,7 +808,7 @@ Ext.define('Ext.ia.form.Panel', {
             'aftersave'
         );
         // If applicable, create a save button for the form
-        if (this.record || this.fetch.model) this.dockedItems = [{
+        if (this.record || this.fetch.model) this.dockedItems.push({
             xtype: 'toolbar',
             dock: 'top',
             ui: 'footer',
@@ -818,7 +819,7 @@ Ext.define('Ext.ia.form.Panel', {
                 scale: 'medium',
                 handler: function() { me.saveRecord() }
             }]
-        }];
+        });
         var me = this;
         me.callParent();
         // Manages record loading
