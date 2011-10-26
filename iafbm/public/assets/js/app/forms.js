@@ -594,11 +594,14 @@ Ext.define('iafbm.form.Personne', {
                         allowBlank: false
                     }
                 },{
-                    header: "Taux d'activité",
+                    header: "% Taux d'activité",
                     dataIndex: 'taux_activite',
-                    width: 50,
+                    width: 48,
+                    align: 'right',
                     xtype: 'numbercolumn',
-                    format:'000',
+                    format: '000',
+                    xtype: 'templatecolumn',
+                    tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>',
                     field: {
                         xtype: 'numberfield',
                         maxValue: 100,
