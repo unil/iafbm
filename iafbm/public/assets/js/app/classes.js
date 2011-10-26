@@ -6,10 +6,18 @@
  * Additional validation types (vtypes)
  */
 Ext.apply(Ext.form.field.VTypes, {
+    // Swiss AVS number
     avs: function(v) {
         return /^[\d]{3}\.[\d]{4}\.[\d]{4}\.[\d]{2}$/.test(v);
     },
-    avsText: 'Ce champs doit être au format xxx.xxxx.xxxx.xx'
+    avsText: 'Ce champs doit être au format xxx.xxxx.xxxx.xx',
+    // Telephone country code
+    telcc: function(v) {
+        // Country codes cannot start with 0 and must not be longer than 3 numbers
+        return /^[1-9]{1}[0-9]{0,2}$/.test(v);
+    },
+    telccText: 'Ce champs doit contenir l\'indicatif international (p.ex. 41, 33, 49, ...)'
+
 });
 
 /**

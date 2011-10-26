@@ -123,7 +123,10 @@ iafbm.form.common.Adresses = function(options) {
                 width: 30,
                 editor: {
                     xtype: 'textfield',
+                    maxLength: 3,
+                    enforceMaxLength: true,
                     maskRe: /[0-9]/,
+                    vtype: 'telcc',
                     validator: function(value) {
                         var telephone = this.nextSibling();
                         return (telephone.getValue().length && !this.getValue().length) ?
@@ -340,12 +343,16 @@ Ext.define('iafbm.form.Candidat', {
                     msgTarget: 'side'
                 },
                 items: [{
+                    xtype: 'displayfield',
+                    value: '+',
+                }, {
                     name: ['telephone', prefix, 'countrycode'].join('_'),
-                    width: 30,
+                    width: 40,
                     margins: '0 5 0 0',
                     maxLength: 3,
                     enforceMaxLength: true,
                     maskRe: /[0-9]/,
+                    vtype: 'telcc',
                     validator: function(value) {
                         var telephone = this.nextSibling();
                         return (telephone.getValue().length && !this.getValue().length) ?
