@@ -621,7 +621,18 @@ Ext.define('iafbm.form.Personne', {
                     width: 100,
                     xtype: 'ia-datecolumn',
                     field: {
-                        xtype: 'ia-datefield'
+                        xtype: 'ia-datefield',
+                        validator: function(value) {
+                            var debut = this.getValue(),
+                                fin = this.nextSibling().getValue();
+                            if (debut && !fin)
+                                return true;
+                            if (!debut && fin)
+                                return 'Si le mandat a une fin, la date de début doit être spécifiée';
+                            if (debut>fin)
+                                return 'La date de début de mandat doit être antérieure à la date de fin';
+                            return true;
+                        }
                     }
                 },{
                     header: "Fin mandat",
@@ -629,7 +640,16 @@ Ext.define('iafbm.form.Personne', {
                     width: 100,
                     xtype: 'ia-datecolumn',
                     field: {
-                        xtype: 'ia-datefield'
+                        xtype: 'ia-datefield',
+                        validator: function(value) {
+                            var debut = this.previousSibling().getValue(),
+                                fin = this.getValue();
+                            if (debut && !fin)
+                                return true;
+                            if (debut>fin)
+                                return 'La fin de mandat doit être utlérieure au début de mandat';
+                            return true;
+                        }
                     }
                 },{
                     header: "Fonction hospitalière",
