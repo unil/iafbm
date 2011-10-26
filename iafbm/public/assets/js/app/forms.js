@@ -120,6 +120,8 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "Indicatif pays",
                 dataIndex: 'adresse_telephone_countrycode',
+                xtype: 'templatecolumn',
+                tpl: '<tpl if="adresse_telephone_countrycode.length &gt; 0">+</tpl>{adresse_telephone_countrycode}',
                 width: 30,
                 editor: {
                     xtype: 'textfield',
