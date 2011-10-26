@@ -238,7 +238,7 @@ iafbm.columns.CommissionType = [{
         allowBlank: false
     }
 }, {
-    header: "Racine",
+    header: "Abréviation",
     dataIndex: 'racine',
     flex: 1,
     field: {
