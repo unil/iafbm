@@ -40,7 +40,7 @@ class iafbmUpdateScript extends iafbmScript {
         exec("cat {$file_pristine} | sed s/{db-name}/{$database}/ > $file", $output, $status);
         if ($status) throw new xException('Error creating SQL dump file', $output);
         // Executes SQL dump
-        $cmd = "mysql --default-character-set=utf8 -u{$user} -p{$password} {$database} < {$file}";
+        $cmd = "mysql --default-character-set=utf8 -u{$user} -p\"{$password}\" {$database} < {$file}";
         exec($cmd, $output, $status);
         if ($status) throw new xException('Error updating database', $output);
         // Cleans SQL temporary file
