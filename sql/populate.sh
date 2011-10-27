@@ -1,15 +1,13 @@
 #!/bin/sh
 
-MERGE_FILE=merged.sql
 MYSQL_USER=root
 
 # Merges all sql files into one single file
-rm -f $MERGE_FILE 
-cat *.sql > $MERGE_FILE
+./merge.sh
 
 # Imports the merged file
 echo Connecting to database using user \'$MYSQL_USER\'
-mysql -v -u $MYSQL_USER -p --default-character-set=utf8 < $MERGE_FILE
+mysql -v -u $MYSQL_USER -p --default-character-set=utf8 < merged.sql
 
 # Cleans the merged file
 #rm $MERGE_FILE
