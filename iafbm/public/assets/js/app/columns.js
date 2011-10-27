@@ -147,34 +147,13 @@ iafbm.columns.Candidat = [{
 }];
 
 iafbm.columns.Commission = [{
-    xtype: 'actioncolumn',
+    xtype: 'ia-actioncolumn-redirect',
     width: 25,
-    header: '',
-    items: [{
-        // TODO: Use a URL in the icon config
-        icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
-        text: 'Détails',
-        tooltip: 'Détails',
-        handler: function(gridView, rowIndex, colIndex, item) {
-            var grid = this.up('gridpanel'),
-                record = grid.store.getAt(rowIndex),
-                id = record.get(record.idProperty);
-            if (record.phantom) {
-                Ext.Msg.show({
-                    title: 'Erreur',
-                    msg: "Veuillez d'abord remplir tous les champs de cette commission",
-                    buttons: Ext.Msg.OK,
-                    icon: Ext.window.MessageBox.WARNING,
-                    fn: function() {
-                        var column = grid.getColumns()[0];
-                        grid.getEditingPlugin().startEdit(record, column);
-                    }
-                });
-                return;
-            }
-            location.href = x.context.baseuri+'/commissions/'+id;
-        }
-    }]
+    text: 'Détails commission',
+    tooltip: 'Détails commission',
+    getLocation: function(grid, record, id) {
+        return x.context.baseuri+'/commissions/'+id;
+    }
 }, {
     header: "Type",
     dataIndex: 'commission-type_id',

@@ -4,7 +4,7 @@ class CommonExtjsBaseView extends xView {
 
     function defaults($items) {
         foreach ($items as $name => $default) {
-            $this->data[$name] = @$this->data[$name] ? $this->data[$name] : $default;
+            $this->data[$name] = isset($this->data[$name]) ? $this->data[$name] : $default;
         }
     }
 

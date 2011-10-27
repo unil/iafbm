@@ -319,6 +319,7 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'email_pri', type: 'sting'},
         {name: 'position_actuelle_fonction', type: 'string'},
         {name: 'position_actuelle_lieu', type: 'string'},
+        {name: 'commission_nom', type: 'string'},
         {name: '_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('prenom'),

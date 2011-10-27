@@ -12,9 +12,12 @@ Ext.onReady(function(){
         frame: false,
         width: 880,
         height: <?php echo $d['height'] ?>,
-        store: new iafbm.store.<?php echo $d['model'] ?>(),
-        columns: iafbm.columns.<?php echo $d['model'] ?>,
+        store: new iafbm.store.<?php echo $d['model'] ?>({
+            params: <?php echo json_encode($d['store-params']) ?>
+        }),
+        columns: <?php echo $d['columns'] ?>,
         pageSize: <?php echo $d['pageSize'] ?>,
+        editable: <?php echo json_encode($d['editable']) ?>,
         <?php if (isset($d['toolbarButtons'])): ?>
         toolbarButtons: <?php echo json_encode($d['toolbarButtons']) ?>
         <?php endif ?>

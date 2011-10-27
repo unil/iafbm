@@ -106,12 +106,48 @@ Ext.define('Ext.ia.grid.column.Date', {
 
 /**
  * Extends Ext.grid.column.Action with
+ * - redirecting to URL
+ */
+Ext.define('Ext.ia.grid.column.ActionRedirect', {
+    extend:'Ext.grid.column.Action',
+    alias: 'widget.ia-actioncolumn-redirect',
+    // TODO: Use a URL in the icon config
+    icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
+    width: 25,
+    text: 'Détails',
+    tooltip: 'Détails',
+    getLocation: function(record) {return null},
+    handler: function(gridView, rowIndex, colIndex, item) {
+        var grid = this.up('gridpanel'),
+            record = grid.store.getAt(rowIndex),
+            id = record.get(record.idProperty);
+        if (record.phantom) {
+            Ext.Msg.show({
+                title: 'Erreur',
+                msg: "Veuillez d'abord remplir tous les champs",
+                buttons: Ext.Msg.OK,
+                icon: Ext.window.MessageBox.WARNING,
+                fn: function() {
+                    var column = grid.getColumns()[0];
+                    grid.getEditingPlugin().startEdit(record, column);
+                }
+            });
+            return;
+        }
+        location.href = this.getLocation(grid, record, id);
+    }
+});
+
+/**
+ * Extends Ext.grid.column.Action with
  * - loading form in a popup window
  */
-Ext.define('Ext.ia.grid.column.Action', {
+Ext.define('Ext.ia.grid.column.ActionForm', {
     extend:'Ext.grid.column.Action',
     alias: 'widget.ia-actioncolumn-detailform',
+    // TODO: Use a URL in the icon config
     icon: x.context.baseuri+'/a/img/ext/page_white_magnify.png',
+    width: 25,
     text: 'Détails',
     tooltip: 'Détails',
     form: null,
