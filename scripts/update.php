@@ -29,7 +29,6 @@ class iafbmUpdateScript extends iafbmScript {
 
     protected function update_database() {
         $this->log('Updating database...');
-        $this->log('Skipped', 1); return;
         // Updates database
         exec("cd ../sql; ./merge.sh; cd -;", $output, $status);
         $user = xContext::$config->db->user;
@@ -38,6 +37,7 @@ class iafbmUpdateScript extends iafbmScript {
         $file = dirname(__file__).'/../sql/merged.sql';
         exec("mysql --default-character-set=utf8 -u{$user} -p{$password} {$database} < {$file}", $output, $status);
         if ($status) throw new xException('Error updating database', $output);
+        $this->log('OK', 1);
     }
 
 }
