@@ -34,9 +34,18 @@ class iafbmUpdateScript extends iafbmScript {
         $user = xContext::$config->db->user;
         $password = xContext::$config->db->password;
         $database = xContext::$config->db->database;
-        $file = dirname(__file__).'/../sql/merged.sql';
-        exec("mysql --default-character-set=utf8 -u{$user} -p{$password} {$database} < {$file}", $output, $status);
+        $file_pristine = dirname(__file__).'/../sql/merged.sql';
+        $file = 'merged.sql';
+        // Substitues {db-name} with actual profile db name
+        exec("cat {$file_pristine} | sed s/{db-name}/{$database}/ > $file", $output, $status);
+        if ($status) throw new xException('Error creating SQL dump file', $output);
+        // Executes SQL dump
+        $cmd = "mysql --default-character-set=utf8 -u{$user} -p{$password} {$database} < {$file}";
+        exec($cmd, $output, $status);
         if ($status) throw new xException('Error updating database', $output);
+        // Cleans SQL temporary file
+        exec("rm -f {$file}", $output, $status);
+        if ($status) throw new xException('Error cleaning SQL dump file', $output);
         $this->log('OK', 1);
     }
 
