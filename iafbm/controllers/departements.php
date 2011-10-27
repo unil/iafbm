@@ -3,7 +3,6 @@
 class DepartementsController extends iaWebController {
 
     var $model = 'departement';
-    var $allow = array('get');
 
     function indexAction() {
         $data = array(
