@@ -592,9 +592,13 @@ Ext.define('Ext.ia.grid.EditPanel', {
             this.editingPluginId = Ext.id();
             this.plugins = [new Ext.grid.plugin.RowEditing({
                 pluginId: this.editingPluginId,
-                // FIXME: Ext 4 bug: errorSummary is not properly managed
-                //errorSummary: false
+                errorSummary: false,
                 listeners: {
+                    beforeedit: function() {
+                        // Workaround for preventing errorSummary tooltips to show up.
+                        // Currse errorSummary is not properly managed
+                        this.editor.showToolTip = function() { console.log('st') }
+                    },
                     edit: function(e) {
                         // We need to reset the store.params because surprisingly,
                         // they get changed when a row is added to the grid through
