@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS departements;
 CREATE TABLE departements (
     id INT NOT NULL AUTO_INCREMENT,
-    nom VARCHAR(32),
+    nom VARCHAR(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

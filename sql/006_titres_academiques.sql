@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS titres_academiques;
 CREATE TABLE titres_academiques (
     id INT NOT NULL AUTO_INCREMENT,
-    abreviation VARCHAR(50) NOT NULL,
+    abreviation VARCHAR(255) NOT NULL,
     nom VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
