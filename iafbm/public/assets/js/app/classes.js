@@ -160,15 +160,18 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
                 record: me.getRecord(gridView, rowIndex, colIndex, item),
                 fetch: me.getFetch(gridView, rowIndex, colIndex, item),
                 listeners: {
+                    // Closes popup on form save
                     aftersave: function(form, record) {
                         popup.close();
-                        // Reloads store for refreshing gridview
-                        // external values (such as listcolumns)
-                        // TODO: also du this on popup close
-                        gridView.refresh();
                     }
                 }
-            })
+            }),
+            // Also refreshes grid on popup close
+            listeners: {
+                beforeclose: function() {
+                    gridView.refresh();
+                }
+            }
         });
     },
     getRecord: function(gridView, rowIndex, colIndex, item) {
@@ -597,7 +600,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
                     beforeedit: function() {
                         // Workaround for preventing errorSummary tooltips to show up.
                         // Currse errorSummary is not properly managed
-                        this.editor.showToolTip = function() { console.log('st') }
+                        this.editor.showToolTip = function() {}
                     },
                     edit: function(e) {
                         // We need to reset the store.params because surprisingly,
