@@ -212,7 +212,7 @@ Ext.onReady(function() {
         },
         items: [{
             baseCls: 'title',
-            html: 'Validation de rapport'
+            html: 'Phase de travail'
         }, {
             xtype: 'fieldcontainer',
             combineErrors: true,
@@ -227,8 +227,7 @@ Ext.onReady(function() {
             items: [{
                 items: [{
                     xtype: 'displayfield',
-                    value: '<b>Séances annoncées</b>',
-                    height: 25
+                    value: '<b>Séances</b>'
                 }, {
                     xtype:'ia-editgrid',
                     frame: false,
