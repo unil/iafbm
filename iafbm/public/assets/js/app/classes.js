@@ -789,8 +789,10 @@ Ext.define('Ext.ia.form.Panel', {
             this.getForm().loadRecord(this.record);
         } else if (this.fetch && this.fetch.model && this.fetch.model.load) {
             this.fireEvent('beforeload', this);
+            // Manages parameters: saves pristing proxy parameters
+            // before applying specific fetch parameters
+            // (pristine parameters are restored in response callback)
             var proxy = this.fetch.model.proxy;
-            // Manages parameters
             if (this.fetch.params) {
                 var proxyExtraParams = Ext.clone(proxy.extraParams);
                 proxy.extraParams = Ext.apply(proxy.extraParams, this.fetch.params);
@@ -859,18 +861,15 @@ Ext.define('Ext.ia.form.Panel', {
             'aftersave'
         );
         // If applicable, create a save button for the form
-        if (this.record || this.fetch.model) this.dockedItems.push({
-            xtype: 'toolbar',
-            dock: 'top',
-            ui: 'footer',
-            //defaults: {minWidth: minButtonWidth},
-            items: [{
+        if (this.record || this.fetch.model) {
+            if (!this.tbar) this.tbar = [];
+            this.tbar.push({
                 xtype: 'button',
                 text: 'Enregistrer',
                 scale: 'medium',
                 handler: function() { me.saveRecord() }
-            }]
-        });
+            });
+        }
         var me = this;
         me.callParent();
         // Manages record loading
@@ -933,7 +932,7 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
     alias: 'widget.ia-form-commission',
     bodyCls: 'x-ia-panel-commission',
     dockedItems: [],
-    phases: {
+    phasesCls: {
         pending: 'x-ia-toolbar-pending',
         finished: 'x-ia-toolbar-done'
     },
@@ -954,9 +953,9 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         checkbox.setValue(finished);
         // Sets top toolbar style
         var state = finished ? 'finished' : 'pending',
-            cls = this.phases[state];
+            cls = this.phasesCls[state];
         var toolbar = this.getDockedComponent(0);
-        for (var i in this.phases) toolbar.removeCls(this.phases[i]);
+        for (var i in this.phasesCls) toolbar.removeCls(this.phasesCls[i]);
         toolbar.addCls(cls);
     },
     makeDockedItems: function() {
@@ -996,8 +995,9 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
 Ext.define('Ext.ia.window.Popup', {
     extend: 'Ext.window.Window',
     alias: 'widget.ia-popup',
-    width: 850,
+    width: 1000,
     y: 10,
+    autoShow: true,
     autoScroll: true,
     modal: true,
     item: {},
@@ -1008,7 +1008,6 @@ Ext.define('Ext.ia.window.Popup', {
         })];
         var me = this;
         me.callParent();
-        this.show();
     }
 });
 
