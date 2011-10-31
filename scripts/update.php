@@ -5,9 +5,15 @@ require_once(dirname(__file__).'/Script.php');
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
-        $this->update_project();
-        $this->update_libs();
-        $this->update_database();
+        try {
+            $this->update_project();
+            $this->update_libs();
+            $this->update_database();
+        } catch(Exception $e) {
+            $message = $e->getMessage();
+            $this->log("ERROR: {$message}");
+            throw $e;
+        }
     }
 
     protected function update_project() {
