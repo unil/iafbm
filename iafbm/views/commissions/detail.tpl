@@ -53,7 +53,7 @@ Ext.onReady(function() {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
-            xtype: 'textarea',
+            xtype: 'ia-textarea',
             name: 'commentaire',
             growMin: 21,
             grow: true
@@ -139,7 +139,7 @@ Ext.onReady(function() {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
-            xtype: 'textarea',
+            xtype: 'ia-textarea',
             name: 'commentaire',
             growMin: 21,
             grow: true
@@ -192,7 +192,7 @@ Ext.onReady(function() {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
-            xtype: 'textarea',
+            xtype: 'ia-textarea',
             name: 'commentaire',
             growMin: 21,
             grow: true
@@ -303,7 +303,7 @@ Ext.onReady(function() {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
-            xtype: 'textarea',
+            xtype: 'ia-textarea',
             name: 'commentaire',
             growMin: 21,
             grow: true
@@ -365,7 +365,7 @@ Ext.onReady(function() {
                 store: store_validation_etat,
                 name: 'decanat_etat'
             }, {
-                xtype: 'textareafield',
+                xtype: 'ia-textarea',
                 name: 'decanat_commentaire',
                 anchor: '100%',
                 width: 381,
@@ -383,7 +383,7 @@ Ext.onReady(function() {
                 disabled: 'true',
                 store: Ext.create('Ext.data.Store', {fields:[], data: []})
             }, {
-                xtype: 'textareafield',
+                xtype: 'ia-textarea',
                 name: 'dg_commentaire',
                 anchor: '100%',
                 width: 381,
@@ -403,7 +403,7 @@ Ext.onReady(function() {
                 store: store_validation_etat,
                 name: 'cf_etat'
             }, {
-                xtype: 'textareafield',
+                xtype: 'ia-textarea',
                 name: 'cf_commentaire',
                 anchor: '100%',
                 width: 381,
@@ -423,7 +423,7 @@ Ext.onReady(function() {
                 store: store_validation_etat,
                 name: 'cdir_etat'
             }, {
-                xtype: 'textareafield',
+                xtype: 'ia-textarea',
                 name: 'cdir_commentaire',
                 anchor: '100%',
                 width: 381,
@@ -458,7 +458,7 @@ Ext.onReady(function() {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
-            xtype: 'textarea',
+            xtype: 'ia-textarea',
             name: 'commentaire',
             growMin: 21,
             grow: true
@@ -504,7 +504,7 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 name: 'reception_contrat_date',
             }, {
-                xtype: 'textareafield',
+                xtype: 'ia-textarea',
                 name: 'reception_contrat_commentaire',
                 anchor: '100%',
                 width: 411,
@@ -522,7 +522,7 @@ Ext.onReady(function() {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
-            xtype: 'textarea',
+            xtype: 'ia-textarea',
             name: 'commentaire',
             growMin: 21,
             grow: true

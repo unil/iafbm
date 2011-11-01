@@ -216,7 +216,6 @@ Ext.define('Ext.ia.grid.ListColumn', {
             store.load();
         }
         // TODO: On gridview refresh, updates column contents
-        // FIXME: should this be done on store update? (to avoid 2 unnecessary calls at render time)
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
         var me = this.columns[colIndex],
@@ -306,6 +305,31 @@ Ext.define('Ext.ia.form.field.ComboBox', {
             store.load();
         }
     }
+});
+
+/**
+ * Extends Ext.form.field.TextArea with
+ * - height fix on render
+ */
+Ext.define('Ext.ia.form.field.TextArea', {
+    extend:'Ext.form.field.TextArea',
+    alias: ['widget.ia-textareafield', 'widget.ia-textarea'],
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+        // Workaround: fixes textarea height
+        // when field value was set/changed before rendering
+        // github issue #10
+        if (!this.grow) return;
+        var setupInitialHeightFix = function() {
+            this.on('afterrender', function() {
+                this.setHeight(this.growMax);
+                this.setHeight(this.inputEl.getHeight());
+            });
+            this.un('change', setupInitialHeightFix);
+        };
+        this.on('change', setupInitialHeightFix);
+    },
 });
 
 /**
@@ -940,15 +964,6 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                     }});
                     form.makeRecord();
                 });
-            },
-            tabchange: function(tabPanel, newCard, oldCard, eOpts) {
-                // TODO: Fix the height of textareafields contained in a fieldcontainer
-                //       when tab is shown. A bug? in ExtJS makes textareafields height
-                //       to small, hiding text information contained.
-                // Following tries were made without success
-                //console.log(nc=newCard);
-                //newCard.doLayout(); // Not working...
-                //nc.cascade(function(el){if (el.doLayout) el.doLayout()}); // Not working...
             }
         });
     }
