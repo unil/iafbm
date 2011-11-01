@@ -121,6 +121,7 @@ Ext.define('Ext.ia.grid.column.ActionRedirect', {
         var grid = this.up('gridpanel'),
             record = grid.store.getAt(rowIndex),
             id = record.get(record.idProperty);
+        // Forces the user to fill fields and save phantom (uncreated) record
         if (record.phantom) {
             Ext.Msg.show({
                 title: 'Erreur',
@@ -210,11 +211,12 @@ Ext.define('Ext.ia.grid.ListColumn', {
         me.callParent();
         // TODO: is this necessary on store load?
         store.on('load', function() { me.up('gridpanel').getView().refresh() });
-        // TODO: on this.up('gridpanel').getView() refresh event, also refresh this field!
         // Manages store autoloading
         if (!store.autoLoad && !store.loaded && !store.isLoading()) {
             store.load();
         }
+        // TODO: On gridview refresh, updates column contents
+        // FIXME: should this be done on store update? (to avoid 2 unnecessary calls at render time)
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
         var me = this.columns[colIndex],
@@ -537,6 +539,50 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
 
 /**
  * Extends Ext.grid.Panel with
+ */
+Ext.define('Ext.ia.grid.plugin.RowEditing', {
+    extend: 'Ext.grid.plugin.RowEditing',
+    alias: 'plugin.ia-rowediting',
+
+    // On edit cancel, remove phantom row or reject existing row modifications
+    // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
+    cancelEdit: function() {
+        if (this.context) {
+            var record = this.context.record;
+            if (record.phantom) {
+                // This _deleting flas based conditional return prevents an infinite loop
+                // for store.remove(record) probably indirectly calls
+                // this cancelEdit method...
+                if (record._deleting) return;
+                record._deleting = true;
+                this.context.store.remove(record);
+            } else {
+                record.reject();
+            }
+        }
+        var me = this;
+        me.callParent();
+    },
+
+    constructor: function() {
+        var me = this;
+        me.callParent(arguments);
+        // Workaround: we need to reset the store.params because surprisingly,
+        // they get changed when a row is added to the grid through
+        // the RowEditor plugin
+        this.on('edit', function(context) {
+            context.store.params = context.store.proxy.extraParams;
+        });
+        // Workaround for preventing validation errors tooltips to show up.
+        // Currse errorSummary is not properly managed
+        this.on('beforeedit', function() {
+            if (!me.errorSummary) this.editor.showToolTip = function() {};
+        });
+    }
+});
+
+/**
+ * Extends Ext.grid.Panel with
  * - Ext.grid.plugin.RowEditing plugin
  * - Add / Delete buttons
  * - Search field
@@ -593,22 +639,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
         // Creates Editing plugin
         if (this.editable) {
             this.editingPluginId = Ext.id();
-            this.plugins = [new Ext.grid.plugin.RowEditing({
+            this.plugins = [new Ext.ia.grid.plugin.RowEditing({
                 pluginId: this.editingPluginId,
                 errorSummary: false,
-                listeners: {
-                    beforeedit: function() {
-                        // Workaround for preventing errorSummary tooltips to show up.
-                        // Currse errorSummary is not properly managed
-                        this.editor.showToolTip = function() {}
-                    },
-                    edit: function(e) {
-                        // We need to reset the store.params because surprisingly,
-                        // they get changed when a row is added to the grid through
-                        // the RowEditor plugin
-                        e.store.params = e.store.proxy.extraParams;
-                    }
-                }
             })];
         }
         // Initializes Component
@@ -631,9 +664,6 @@ Ext.define('Ext.ia.grid.EditPanel', {
             beforeload: function() { this.setLoading() },
             load: function() { this.setLoading(false)}
         });
-    },
-    getEditingPlugin: function() {
-        return this.getPlugin(this.editingPluginId);
     },
     makeDockedItems: function() {
         var add = {
@@ -665,6 +695,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
             xtype: 'toolbar',
             items: items
         }];
+    },
+    getEditingPlugin: function() {
+        return this.getPlugin(this.editingPluginId);
     },
     addItem: function() {
         var grid = this.up('gridpanel'),
