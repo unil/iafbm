@@ -216,6 +216,14 @@ Ext.define('Ext.ia.grid.ListColumn', {
             store.load();
         }
         // TODO: On gridview refresh, updates column contents
+        // FIXME: should this be done on store update? (to avoid 2 unnecessary calls at render time)
+        this.on({afterrender: function() {
+            var gridview = this.up('gridpanel').getView();
+            gridview.on({ refresh: function() {
+                //me.render(); // This has no effect
+                //me.store.load(); // This is buggy
+            }});
+        }});
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
         var me = this.columns[colIndex],
