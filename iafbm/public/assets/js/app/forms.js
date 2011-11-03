@@ -219,8 +219,6 @@ Ext.define('iafbm.form.Candidat', {
     title: 'Candidat',
     frame: true,
     fieldDefaults: {
-        labelAlign: 'right',
-        msgTarget: 'side',
         labelWidth: 110
     },
     defaults: {
@@ -466,10 +464,6 @@ Ext.define('iafbm.form.Personne', {
     store: Ext.create('iafbm.store.Personne'), //fixme, this should not be necessary
     title:'Personne',
     frame: true,
-    fieldDefaults: {
-        labelAlign: 'right',
-        msgTarget: 'side'
-    },
     initComponent: function() {
         this.items = [{
             xtype: 'ia-combo',

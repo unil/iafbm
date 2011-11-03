@@ -827,7 +827,9 @@ Ext.define('Ext.ia.form.Panel', {
         msgTarget: 'side'
     },
     fieldDefaults: {
-        labelWidth: 80
+        labelWidth: 80,
+        labelAlign: 'right',
+        msgTarget: 'side'
     },
     record: null,
     fetch: {
