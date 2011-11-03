@@ -22,7 +22,7 @@ iafbm.form.common.Formations = function(options) {
                 dataIndex: 'formation_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
-                field: {
+                editor: {
                     xtype: 'ia-combo',
                     store: new iafbm.store.Formation(),
                     valueField: 'id',
@@ -41,7 +41,7 @@ iafbm.form.common.Formations = function(options) {
                 dataIndex: 'date_these',
                 flex: 1,
                 xtype: 'ia-datecolumn',
-                field: {
+                editor: {
                     xtype: 'ia-datefield'
                 }
             },{
@@ -77,7 +77,7 @@ iafbm.form.common.Adresses = function(options) {
                 dataIndex: 'adresse_adresse-type_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
-                field: {
+                editor: {
                     xtype: 'ia-combo',
                     store: new iafbm.store.AdresseType(),
                     valueField: 'id',
@@ -88,8 +88,32 @@ iafbm.form.common.Adresses = function(options) {
                 header: "Adresse",
                 dataIndex: 'adresse_rue',
                 flex: 1,
+                renderer: function(value) {
+                    // Converts NL|CR into <br/> for field display
+                    var breakTag = '<br/>';
+                    value = (value + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+                    return ['<div style="white-space:normal">', value, '</div>'].join('');
+                },
                 editor: {
-                    xtype: 'textfield',
+                    //xtype: 'textfield',
+                    xtype: 'ia-textarea',
+                    grow: true,
+                    growMin: 22,
+                    growMax: 22,
+                    fixEditorHeight: function() {
+                        // FIXME: Not used, should be deleted after feature validation
+                        // Sets RowEditor panel height according textarea height
+                        var editorHeight = this.el.down('textarea').getHeight();
+                        this.up('panel').setHeight(editorHeight+20);
+                    },
+                    fireKey: function(event) {
+                        // Accepts ENTER as regular key
+                        if (event.getKey() == event.ENTER) event.stopPropagation();
+                        //this.fixEditorHeight();
+                    },
+                    //listeners: {focus: function() {
+                    //    this.fixEditorHeight();
+                    //}}
                 }
             },{
                 header: "NPA",
@@ -111,7 +135,7 @@ iafbm.form.common.Adresses = function(options) {
                 dataIndex: 'adresse_pays_id',
                 width: 120,
                 xtype: 'ia-combocolumn',
-                field: {
+                editor: {
                     xtype: 'ia-combo',
                     store: new iafbm.store.Pays(),
                     valueField: 'id',
@@ -183,7 +207,7 @@ iafbm.form.common.Emails = function(options) {
                 dataIndex: 'adresse-type_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
-                field: {
+                editor: {
                     xtype: 'ia-combo',
                     store: new iafbm.store.AdresseType(),
                     valueField: 'id',
@@ -574,7 +598,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'section_id',
                     width: 60,
                     xtype: 'ia-combocolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-combo',
                         store: new iafbm.store.Section(),
                         valueField: 'id',
@@ -586,7 +610,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'titre-academique_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-combo',
                         store: new iafbm.store.TitreAcademique(),
                         valueField: 'id',
@@ -602,7 +626,7 @@ Ext.define('iafbm.form.Personne', {
                     format: '000',
                     xtype: 'templatecolumn',
                     tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>',
-                    field: {
+                    editor: {
                         xtype: 'numberfield',
                         maxValue: 100,
                         minValue: 0
@@ -612,7 +636,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'date_contrat',
                     width: 100,
                     xtype: 'ia-datecolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-datefield'
                     }
                 },{
@@ -620,7 +644,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'debut_mandat',
                     width: 100,
                     xtype: 'ia-datecolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-datefield',
                         validator: function(value) {
                             var debut = this.getValue(),
@@ -639,7 +663,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'fin_mandat',
                     width: 100,
                     xtype: 'ia-datecolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-datefield',
                         validator: function(value) {
                             var debut = this.previousSibling().getValue(),
@@ -656,7 +680,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'fonction-hospitaliere_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-combo',
                         store: new iafbm.store.FonctionHospitaliere(),
                         valueField: 'id',
@@ -668,7 +692,7 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'departement_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
-                    field: {
+                    editor: {
                         xtype: 'ia-combo',
                         store: new iafbm.store.Departement(),
                         valueField: 'id',
