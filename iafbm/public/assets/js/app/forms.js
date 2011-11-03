@@ -394,6 +394,9 @@ Ext.define('iafbm.form.Candidat', {
                         value: '<b>Professionnelle</b>',
                         labelSeparator: null, fieldLabel: '&nbsp;'
                     }, {
+                        xtype: 'ia-textarea',
+                        grow: true,
+                        growMin: 0,
                         fieldLabel: 'Adresse',
                         emptyText: 'Adresse',
                         name: 'adresse_pro'
@@ -427,6 +430,9 @@ Ext.define('iafbm.form.Candidat', {
                         value: '<b>Privée</b>',
                         labelSeparator: null, fieldLabel: '&nbsp;'
                     }, {
+                        xtype: 'ia-textarea',
+                        grow: true,
+                        growMin: 0,
                         fieldLabel: 'Adresse',
                         emptyText: 'Adresse',
                         name: 'adresse_pri'
