@@ -61,7 +61,7 @@ Ext.onReady(function() {
             title: 'Composition',
             width: 857,
             height: 350,
-            plugins: [new Ext.grid.plugin.RowEditing()],
+            plugins: [new Ext.ia.grid.plugin.RowEditing()],
             combo: {
                 store: new iafbm.store.Personne(),
             },

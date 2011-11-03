@@ -575,7 +575,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
 Ext.define('Ext.ia.grid.plugin.RowEditing', {
     extend: 'Ext.grid.plugin.RowEditing',
     alias: 'plugin.ia-rowediting',
-
+    errorSummary: false,
     // On edit cancel, remove phantom row or reject existing row modifications
     // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
     cancelEdit: function() {
@@ -595,7 +595,6 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
         var me = this;
         me.callParent();
     },
-
     constructor: function() {
         var me = this;
         me.callParent(arguments);
