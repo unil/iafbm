@@ -233,4 +233,45 @@ form.items.items[0].store.load();
 </script>
 EOL;
     }
+
+    function windowAction() {
+return <<<EOL
+<a href="javascript:create()">Create window</a>
+
+<script>
+function create() {
+    w = new Ext.ia.window.Popup({
+        title: 'Test popup',
+        html: 'Blabla',
+        dockedItems: [],
+        initComponent: function() {
+            this.dockedItems.push({
+                xtype: 'toolbar',
+                dock: 'top',
+                ui: 'footer',
+                items: [{
+                    xtype: 'button',
+                    text: 'Enregistrer',
+                    scale: 'medium',
+                    handler: function() { }
+                }]
+            });
+tt=this;
+            var me = this;
+            me.callParent();
+        }
+    });
+}
+</script>
+EOL;
+    }
+
+    function modelWhereAction() {
+        $controller = xController::load('personnes-adresses', array(
+            'personne_id' => 1,
+            'query' => '25',
+            'xwhere' => 'query'
+        ));
+        xUtil::pre($controller->get());
+    }
 }

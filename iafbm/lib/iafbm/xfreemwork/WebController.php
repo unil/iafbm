@@ -86,6 +86,8 @@ class iaWebController extends xWebController {
                 $params["{$field}_operator"] = 'OR';
             }
         }
+        // Removes query param
+        unset($params['query']);
         // Creates extjs compatible result
         return array(
             'xcount' => xModel::load($this->model, xUtil::filter_keys($params, array('xoffset', 'xlimit'), true))->count(),

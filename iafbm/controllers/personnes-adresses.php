@@ -4,7 +4,7 @@ class PersonnesAdressesController extends iaWebController {
 
     var $model = 'personne-adresse';
 
-    var $query_fields = array('rue', 'npa', 'lieu');
+    var $query_fields = array('adresse_rue', 'adresse_npa', 'adresse_lieu');
 
     function post() {
         $params = $this->params['items'];
