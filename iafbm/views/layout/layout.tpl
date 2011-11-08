@@ -22,7 +22,7 @@
     </div>
     <div id="page">
       <div id="header">
-        <p>FBM, Intranet Administratif</p>
+        <p>FBM Intranet Administratif</p>
       </div>
       <div id="content">
         <div id="sidebar">
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div style="clear:both"></div>
-      <div id="footer">Footer</div>
+      <?php echo xView::load('layout/footer')->render() ?>
     </div>
   </body>
 </html>
