@@ -613,6 +613,48 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
 });
 
 /**
+ * Extends Ext.ux.form.SearchField with
+ * - events firing: beforesearch, aftersearch and resetsearch
+ */
+Ext.define('Ext.ia.form.SearchField', {
+    extend: 'Ext.ux.form.SearchField',
+    alias: 'widget.ia-searchfield',
+    initComponent: function() {
+        this.addEvents(
+            /**
+            * @event beforesearch
+            * Fires after the search is loaded.
+            */
+            'beforesearch',
+            /**
+            * @event aftersearch
+            * Fires after the search is displayed.
+            */
+            'aftersearch',
+            /**
+            * @event resetsearch
+            * Fires after the search is reset.
+            */
+            'resetsearch'
+        );
+        //
+        var me = this;
+        me.callParent(arguments);
+    },
+    onTrigger1Click : function() {
+        this.fireEvent('resetsearch', this);
+        var me = this;
+        me.callParent(arguments);
+    },
+    onTrigger2Click : function() {
+        this.fireEvent('beforesearch', this);
+        var me = this;
+        me.callParent(arguments);
+        this.fireEvent('aftersearch', this);
+    }
+});
+
+/**
  * Extends Ext.grid.Panel with
  * - Ext.grid.plugin.RowEditing plugin
  * - Add / Delete buttons
@@ -628,7 +670,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
         frame: true,
         store: null,
         columns: null,
-        newRecordValues: {}
+        newRecordValues: {},
+    searchParams: {},
     },
     editable: true,
     toolbarButtons: ['add', 'delete'],
@@ -707,13 +750,28 @@ Ext.define('Ext.ia.grid.EditPanel', {
             iconCls: 'icon-delete',
             handler: this.removeItem
         };
-        var search = new Ext.ux.form.SearchField({
+        var search = new Ext.ia.form.SearchField({
             store: null,
             emptyText: 'Mots-clés',
             listeners: {
                 // Wait for render time so that the grid store is created
                 // and ready to be bound to the search field
-                beforerender: function() { this.store = this.up('gridpanel').store }
+                beforerender: function() { this.store = this.up('gridpanel').store },
+                beforesearch: function() { this.onBeforeSearch() },
+                aftersearch: function() { this.onResetSearch() },
+                resetsearch: function() { this.onResetSearch() },
+            },
+            onBeforeSearch: function() {
+                // Saves current proxy params
+                this._extraParams = Ext.clone(this.store.proxy.extraParams);
+                // Applies searchParams to store proxy
+                this.store.proxy.extraParams = Ext.apply(
+                    this.store.proxy.extraParams,
+                    this.up('gridpanel').searchParams
+                );
+            },
+            onResetSearch: function() {
+                this.store.proxy.extraParams = this._extraParams;
             }
         });
         // Adds items conditionally
@@ -831,7 +889,8 @@ Ext.define('Ext.ia.form.Panel', {
     border: 0,
     defaults: {
         //anchor: '100%',
-        msgTarget: 'side'
+        msgTarget: 'side',
+        defaultType: 'textfield'
     },
     fieldDefaults: {
         labelWidth: 80,

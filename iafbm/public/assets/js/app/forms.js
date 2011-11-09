@@ -17,6 +17,7 @@ iafbm.form.common.Formations = function(options) {
             store: new options.store({
                 params: options.params
             }),
+            searchParams: { xwhere: 'query' },
             columns: [{
                 header: "Formation",
                 dataIndex: 'formation_id',
@@ -72,6 +73,9 @@ iafbm.form.common.Adresses = function(options) {
             store: new options.store({
                 params: options.params
             }),
+            searchParams: {
+                xwhere: 'query'
+            },
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_adresse-type_id',
@@ -202,6 +206,7 @@ iafbm.form.common.Emails = function(options) {
             store: new options.store({
                 params: options.params
             }),
+            searchParams: { xwhere: 'query' },
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse-type_id',
@@ -593,6 +598,7 @@ Ext.define('iafbm.form.Personne', {
                 store: new iafbm.store.PersonneFonction({
                     params: { personne_id: personne_id }
                 }),
+                searchParams: { xwhere: 'query' },
                 columns: [{
                     header: "Section",
                     dataIndex: 'section_id',
@@ -744,6 +750,7 @@ Ext.define('iafbm.form.Personne', {
                 height: 150,
                 bbar: null,
                 store: store,
+                searchParams: { xwhere: 'query' },
                 columns: columns
             }]
         }
@@ -757,5 +764,33 @@ Ext.define('iafbm.form.Personne', {
                 html: 'Cette fonctionnalité est en cours de développement',
             }]
         }
+    }
+});
+
+Ext.define('iafbm.form.PropositionNomination', {
+    extend: 'Ext.ia.form.Panel',
+    //store: Ext.create('iafbm.store.Candidat'), //fixme, this should not be necessary
+    title: 'Proposition de nomination',
+    frame: true,
+    initComponent: function() {
+        this.items = [{
+            xtype: 'fieldset',
+            title: 'Proposition de nomination',
+            items: []
+        }, {
+            xtype: 'fieldset',
+            title: 'Coordonnées',
+            items: []
+        }, {
+            xtype: 'fieldset',
+            title: 'Annexes',
+            items: []
+        }, {
+            xtype: 'fieldset',
+            title: 'Imputation',
+            items: []
+        }]
+        var me = this;
+        me.callParent();
     }
 });
