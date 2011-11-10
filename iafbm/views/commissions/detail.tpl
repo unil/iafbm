@@ -451,7 +451,21 @@ Ext.onReady(function() {
                 text: 'Formulaire',
                 iconCls: 'icon-details',
                 handler: function() {
-                    Ext.Msg.alert('Non disponible', "Cette fonctionnalité n'est pas encore disponible");
+                    var me = this,
+                        popup = new Ext.ia.window.Popup({
+                        title: 'Détails',
+                        item: new iafbm.form.PropositionNomination({
+                            frame: false,
+                            //record: me.getRecord(gridView, rowIndex, colIndex, item),
+                            //fetch: me.getFetch(gridView, rowIndex, colIndex, item),
+                            listeners: {
+                                // Closes popup on form save
+                                aftersave: function(form, record) {
+                                    popup.close();
+                                }
+                            }
+                        })
+                    });
                 }
             }]
         }, {
