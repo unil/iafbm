@@ -17,6 +17,11 @@ class PersonneFonctionModel extends iaModelMysql {
         'departement_id' => 'departement_id'
     );
 
+    var $primary = array('id');
+
+    var $order_by = 'fin_mandat';
+    var $order = 'ASC';
+
     var $joins = array(
         'personne' => 'LEFT JOIN personnes ON (personnes_fonctions.personne_id = personnes.id)',
         'titre-academique' => 'LEFT JOIN titres_academiques ON (personnes_fonctions.titre_academique_id = titres_academiques.id)',
@@ -26,8 +31,7 @@ class PersonneFonctionModel extends iaModelMysql {
 
     var $join = array('personne', 'titre-academique', 'fonction-hospitaliere', 'departement');
 
-    var $primary = array('id');
-
-    var $order_by = 'fin_mandat';
-    var $order = 'ASC';
+    var $wheres = array(
+        'query' => "{{personne_id}} = {personne_id} AND (1=0 [OR {{*}} LIKE {*}])"
+    );
 }

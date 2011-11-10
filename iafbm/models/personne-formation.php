@@ -18,14 +18,18 @@ class PersonneFormationModel extends iaModelMysql {
 
     var $primary = array('id');
 
+    var $validation = array(
+        'personne_id' => 'mandatory',
+        'formation_id' => 'mandatory'
+    );
+
     var $joins = array(
         'formation' => 'LEFT JOIN formations ON (personnes_formations.formation_id = formations.id)'
     );
 
     var $join = 'formation';
 
-    var $validation = array(
-        'personne_id' => 'mandatory',
-        'formation_id' => 'mandatory'
+    var $wheres = array(
+        'query' => "{{personne_id}} = {personne_id} AND (1=0 [OR {{*}} LIKE {*}])"
     );
 }

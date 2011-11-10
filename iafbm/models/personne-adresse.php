@@ -27,4 +27,8 @@ class PersonneAdresseModel extends iaModelMysql {
     );
 
     var $join = array('adresse');
+
+    var $wheres = array(
+        'query' => "{{personne_id}} = {personne_id} AND (1=0 [OR {{*}} LIKE {*}])"
+    );
 }
