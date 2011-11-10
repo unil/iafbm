@@ -3,7 +3,8 @@ Ext.ns('iafbm.form.common');
 iafbm.form.common.Formations = function(options) {
     var config = {
         store: null,
-        params: {}
+        params: {},
+        searchParams: {}
     };
     var options = Ext.apply(config, options);
     return {
@@ -17,7 +18,7 @@ iafbm.form.common.Formations = function(options) {
             store: new options.store({
                 params: options.params
             }),
-            searchParams: { xwhere: 'query' },
+            searchParams: options.searchParams,
             columns: [{
                 header: "Formation",
                 dataIndex: 'formation_id',
@@ -59,7 +60,8 @@ iafbm.form.common.Formations = function(options) {
 iafbm.form.common.Adresses = function(options) {
     var config = {
         store: null,
-        params: {}
+        params: {},
+        searchParams: {}
     };
     var options = Ext.apply(config, options);
     return {
@@ -73,9 +75,7 @@ iafbm.form.common.Adresses = function(options) {
             store: new options.store({
                 params: options.params
             }),
-            searchParams: {
-                xwhere: 'query'
-            },
+            searchParams: options.searchParams,
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_adresse-type_id',
@@ -192,7 +192,8 @@ iafbm.form.common.Adresses = function(options) {
 iafbm.form.common.Emails = function(options) {
     var config = {
         store: null,
-        params: {}
+        params: {},
+        searchParams: {}
     };
     var options = Ext.apply(config, options);
     return {
@@ -206,7 +207,7 @@ iafbm.form.common.Emails = function(options) {
             store: new options.store({
                 params: options.params
             }),
-            searchParams: { xwhere: 'query' },
+            searchParams: options.searchParams,
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse-type_id',
@@ -578,9 +579,8 @@ Ext.define('iafbm.form.Personne', {
     _createFormations: function() {
         return iafbm.form.common.Formations({
             store: iafbm.store.PersonneFormation,
-            params: {
-                personne_id: this.getRecordId()
-            }
+            params: { personne_id: this.getRecordId() },
+            searchParams: { xwhere: 'query' }
         });
     },
     _createFonctions: function() {
@@ -712,17 +712,15 @@ Ext.define('iafbm.form.Personne', {
     _createAdresses: function() {
         return iafbm.form.common.Adresses({
             store: iafbm.store.PersonneAdresse,
-            params: {
-                personne_id: this.getRecordId()
-            }
+            params: { personne_id: this.getRecordId() },
+            searchParams: { xwhere: 'query' }
         });
     },
     _createEmails: function() {
         return iafbm.form.common.Emails({
             store: iafbm.store.PersonneEmail,
-            params: {
-                personne_id: this.getRecordId()
-            }
+            params: { personne_id: this.getRecordId() },
+            searchParams: { xwhere: 'query' }
         });
     },
     _createCommissionsCurrent: function() {

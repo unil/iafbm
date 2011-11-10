@@ -671,7 +671,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         store: null,
         columns: null,
         newRecordValues: {},
-    searchParams: {},
+        searchParams: {}
     },
     editable: true,
     toolbarButtons: ['add', 'delete'],
