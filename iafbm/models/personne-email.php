@@ -21,8 +21,4 @@ class PersonneEmailModel extends iaModelMysql {
         'personne_id' => 'mandatory',
         'email' => 'email'
     );
-
-    var $wheres = array(
-        'query' => "{{personne_id}} = {personne_id} AND (1=0 [OR {{*}} LIKE {*}])"
-    );
 }

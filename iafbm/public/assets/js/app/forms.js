@@ -579,8 +579,7 @@ Ext.define('iafbm.form.Personne', {
     _createFormations: function() {
         return iafbm.form.common.Formations({
             store: iafbm.store.PersonneFormation,
-            params: { personne_id: this.getRecordId() },
-            searchParams: { xwhere: 'query' }
+            params: { personne_id: this.getRecordId() }
         });
     },
     _createFonctions: function() {
@@ -598,7 +597,6 @@ Ext.define('iafbm.form.Personne', {
                 store: new iafbm.store.PersonneFonction({
                     params: { personne_id: personne_id }
                 }),
-                searchParams: { xwhere: 'query' },
                 columns: [{
                     header: "Section",
                     dataIndex: 'section_id',
@@ -712,15 +710,13 @@ Ext.define('iafbm.form.Personne', {
     _createAdresses: function() {
         return iafbm.form.common.Adresses({
             store: iafbm.store.PersonneAdresse,
-            params: { personne_id: this.getRecordId() },
-            searchParams: { xwhere: 'query' }
+            params: { personne_id: this.getRecordId() }
         });
     },
     _createEmails: function() {
         return iafbm.form.common.Emails({
             store: iafbm.store.PersonneEmail,
-            params: { personne_id: this.getRecordId() },
-            searchParams: { xwhere: 'query' }
+            params: { personne_id: this.getRecordId() }
         });
     },
     _createCommissionsCurrent: function() {
@@ -744,7 +740,7 @@ Ext.define('iafbm.form.Personne', {
             items: [{
                 xtype: 'ia-editgrid',
                 editable: false,
-                toolbarButtons: [],
+                toolbarButtons: ['search'],
                 height: 150,
                 bbar: null,
                 store: store,

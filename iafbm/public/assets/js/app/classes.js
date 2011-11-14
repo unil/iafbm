@@ -776,9 +776,12 @@ Ext.define('Ext.ia.grid.EditPanel', {
         });
         // Adds items conditionally
         var items = [];
-        if (Ext.Array.contains(this.toolbarButtons, 'add')) items.push(add);
-        if (Ext.Array.contains(this.toolbarButtons, 'delete')) items.push('-', del);
-        items.push('->', '-', 'Rechercher', search);
+        if (Ext.Array.contains(this.toolbarButtons, 'add'))
+            items.push(add);
+        if (Ext.Array.contains(this.toolbarButtons, 'delete'))
+            items.push('-', del);
+        if (Ext.Array.contains(this.toolbarButtons, 'search'))
+            items.push('->', '-', 'Rechercher', search);
         // Creates and returns the toolbar with its items
         return [{
             xtype: 'toolbar',

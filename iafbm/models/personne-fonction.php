@@ -30,8 +30,4 @@ class PersonneFonctionModel extends iaModelMysql {
     );
 
     var $join = array('personne', 'titre-academique', 'fonction-hospitaliere', 'departement');
-
-    var $wheres = array(
-        'query' => "{{personne_id}} = {personne_id} AND (1=0 [OR {{*}} LIKE {*}])"
-    );
 }
