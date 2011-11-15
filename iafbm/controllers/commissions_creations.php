@@ -2,6 +2,6 @@
 
 class CommissionsCreationsController extends iaWebController {
 
-    var $model = 'commission-creation';
+    var $model = 'commission_creation';
 
 }

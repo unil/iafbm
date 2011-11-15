@@ -2,7 +2,7 @@
 
 class TitresAcademiquesController extends iaWebController {
 
-    var $model = 'titre-academique';
+    var $model = 'titre_academique';
 
     function indexAction() {
         $data = array(

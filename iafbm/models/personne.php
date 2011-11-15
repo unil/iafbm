@@ -14,7 +14,7 @@ class PersonneModel extends iaModelMysql {
         'created' => 'created',
         'modified' => 'modified',
 
-        'personne-type_id' => 'personne_type_id',
+        'personne_type_id' => 'personne_type_id',
 
         'nom' => 'nom',
         'prenom' => 'prenom',

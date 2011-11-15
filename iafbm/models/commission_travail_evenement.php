@@ -10,7 +10,7 @@ class CommissionTravailEvenementModel extends iaModelMysql {
         'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
-        'commission-travail-evenement-type_id' => 'commission_travail_evenement_type_id',
+        'commission_travail_evenement_type_id' => 'commission_travail_evenement_type_id',
         'date' => 'date',
         'proces_verbal' => 'proces_verbal'
     );

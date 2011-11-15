@@ -28,10 +28,10 @@ class CommissionsController extends iaWebController {
         // Adds '_president' ghost-field
         foreach ($commissions['items'] as &$commission) {
             $president = array_shift(xModel::load(
-                'commission-membre',
+                'commission_membre',
                 array(
                     'commission_id' => $commission['id'],
-                    'commission-fonction_id' => 1
+                    'commission_fonction_id' => 1
                 )
             )->get());
             $commission['_president'] = ($president) ?
@@ -54,14 +54,14 @@ class CommissionsController extends iaWebController {
         $t->execute(xModel::load('commission', $params), 'put');
         $insertid = $t->insertid();
         // Inserts related items
-        switch (@$params['commission-type_id']) {
+        switch (@$params['commission_type_id']) {
             case 1:
                 $items = array(
-                    xModel::load('commission-creation', array('commission_id'=>$insertid)),
-                    xModel::load('commission-candidat-commentaire', array('commission_id'=>$insertid)),
-                    xModel::load('commission-travail', array('commission_id'=>$insertid)),
-                    xModel::load('commission-validation', array('commission_id'=>$insertid)),
-                    xModel::load('commission-finalisation', array('commission_id'=>$insertid))
+                    xModel::load('commission_creation', array('commission_id'=>$insertid)),
+                    xModel::load('commission_candidat_commentaire', array('commission_id'=>$insertid)),
+                    xModel::load('commission_travail', array('commission_id'=>$insertid)),
+                    xModel::load('commission_validation', array('commission_id'=>$insertid)),
+                    xModel::load('commission_finalisation', array('commission_id'=>$insertid))
                 );
                 break;
             default:
@@ -78,12 +78,12 @@ class CommissionsController extends iaWebController {
         $t = new xTransaction();
         $t->start();
         $params = array('commission_id' => $this->params['id']);
-        $t->execute(xModel::load('commission-finalisation', $params), 'delete');
-        $t->execute(xModel::load('commission-validation', $params), 'delete');
-        $t->execute(xModel::load('commission-travail', $params), 'delete');
-        $t->execute(xModel::load('commission-creation', $params), 'delete');
-        $t->execute(xModel::load('commission-membre', $params), 'delete');
-        $t->execute(xModel::load('commission-candidat-commentaire', $params), 'delete');
+        $t->execute(xModel::load('commission_finalisation', $params), 'delete');
+        $t->execute(xModel::load('commission_validation', $params), 'delete');
+        $t->execute(xModel::load('commission_travail', $params), 'delete');
+        $t->execute(xModel::load('commission_creation', $params), 'delete');
+        $t->execute(xModel::load('commission_membre', $params), 'delete');
+        $t->execute(xModel::load('commission_candidat_commentaire', $params), 'delete');
         $t->execute(xModel::load('candidat', $params), 'delete');
         $t->execute(xModel::load('commission', $this->params), 'delete');
         return $t->end();

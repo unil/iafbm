@@ -2,7 +2,7 @@
 
 class CommissionsTypesController extends iaWebController {
 
-    var $model = 'commission-type';
+    var $model = 'commission_type';
     var $allow = array('get');
 
     function indexAction() {

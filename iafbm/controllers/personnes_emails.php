@@ -2,7 +2,7 @@
 
 class PersonnesEmailsController extends iaWebController {
 
-    var $model = 'personne-email';
+    var $model = 'personne_email';
 
     var $query_fields = array('email');
 

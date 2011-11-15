@@ -105,7 +105,7 @@ Ext.define('iafbm.model.TitreAcademique', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/titres-academiques',
+        url: x.context.baseuri+'/api/titres_academiques',
     }
 });
 Ext.define('iafbm.model.FonctionHospitaliere', {
@@ -117,7 +117,7 @@ Ext.define('iafbm.model.FonctionHospitaliere', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/fonctions-hospitalieres',
+        url: x.context.baseuri+'/api/fonctions_hospitalieres',
     }
 });
 Ext.define('iafbm.model.Departement', {
@@ -136,7 +136,7 @@ Ext.define('iafbm.model.Adresse', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'adresse-type_id', type: 'string'},
+        {name: 'adresse_type_id', type: 'string'},
         {name: 'rue', type: 'string'},
         {name: 'npa', type: 'string'},
         {name: 'lieu', type: 'string'},
@@ -159,14 +159,14 @@ Ext.define('iafbm.model.AdresseType', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/adresses-types',
+        url: x.context.baseuri+'/api/adresses_types',
     }
 });
 Ext.define('iafbm.model.Personne', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'personne-type_id', type: 'int', useNull: true},
+        {name: 'personne_type_id', type: 'int', useNull: true},
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'genre_id', type: 'int', useNull: true},
@@ -192,7 +192,7 @@ Ext.define('iafbm.model.PersonneType', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/personnes-types',
+        url: x.context.baseuri+'/api/personnes_types',
     }
 });
 Ext.define('iafbm.model.PersonneFormation', {
@@ -208,7 +208,7 @@ Ext.define('iafbm.model.PersonneFormation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/personnes-formations',
+        url: x.context.baseuri+'/api/personnes_formations',
     }
 });
 Ext.define('iafbm.model.PersonneFonction', {
@@ -217,20 +217,20 @@ Ext.define('iafbm.model.PersonneFonction', {
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int', useNull: true},
         {name: 'section_id', type: 'int', useNull: true},
-        {name: 'titre-academique_id', type: 'int', useNull: true},
-        {name: 'titre-academique_abreviation', type: 'string'},
+        {name: 'titre_academique_id', type: 'int', useNull: true},
+        {name: 'titre_academique_abreviation', type: 'string'},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'date_contrat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'debut_mandat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'fin_mandat', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'fonction-hospitaliere_id', type: 'int', useNull: true},
+        {name: 'fonction_hospitaliere_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'departement_nom', type: 'string'}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/personnes-fonctions',
+        url: x.context.baseuri+'/api/personnes_fonctions',
     }
 });
 Ext.define('iafbm.model.PersonneAdresse', {
@@ -240,7 +240,7 @@ Ext.define('iafbm.model.PersonneAdresse', {
         {name: 'personne_id', type: 'int'},
         {name: 'adresse_id', type: 'int'},
         // Foreign 'Adresse' fields
-        {name: 'adresse_adresse-type_id', type: 'int'},
+        {name: 'adresse_adresse_type_id', type: 'int'},
         {name: 'adresse_rue', type: 'string'},
         {name: 'adresse_npa', type: 'string'},
         {name: 'adresse_lieu', type: 'string'},
@@ -252,7 +252,7 @@ Ext.define('iafbm.model.PersonneAdresse', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/personnes-adresses',
+        url: x.context.baseuri+'/api/personnes_adresses',
     }
 });
 Ext.define('iafbm.model.PersonneEmail', {
@@ -260,14 +260,14 @@ Ext.define('iafbm.model.PersonneEmail', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int'},
-        {name: 'adresse-type_id', type: 'int'},
+        {name: 'adresse_type_id', type: 'int'},
         {name: 'email', type: 'string'},
         {name: 'defaut', type: 'boolean'}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/personnes-emails',
+        url: x.context.baseuri+'/api/personnes_emails',
     }
 });
 Ext.define('iafbm.model.CommissionMembre', {
@@ -277,7 +277,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'personne_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
         {name: 'fonction_id', type: 'int'},
-        {name: 'titre-academique_id', type: 'int', useNull: true},
+        {name: 'titre_academique_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
@@ -287,7 +287,7 @@ Ext.define('iafbm.model.CommissionMembre', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-membres',
+        url: x.context.baseuri+'/api/commissions_membres',
     }
 });
 Ext.define('iafbm.model.Candidat', {
@@ -350,7 +350,7 @@ Ext.define('iafbm.model.CandidatFormation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/candidats-formations',
+        url: x.context.baseuri+'/api/candidats_formations',
     }
 });
 Ext.define('iafbm.model.Commission', {
@@ -360,12 +360,12 @@ Ext.define('iafbm.model.Commission', {
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'nom', type: 'string'},
         {name: 'commentaire', type: 'string'},
-        {name: 'commission-type_id', type: 'int'},
-        {name: 'commission-type_nom', type: 'string'},
-        {name: 'commission-type_racine', type: 'string'},
-        {name: 'commission-etat_id', type: 'int', defaultValue: 1},
-        {name: 'commission-etat_nom', type: 'string'},
-        {name: 'commission-fonction_nom', type: 'string'},
+        {name: 'commission_type_id', type: 'int'},
+        {name: 'commission_type_nom', type: 'string'},
+        {name: 'commission_type_racine', type: 'string'},
+        {name: 'commission_etat_id', type: 'int', defaultValue: 1},
+        {name: 'commission_etat_nom', type: 'string'},
+        {name: 'commission_fonction_nom', type: 'string'},
         {name: 'section_id', type: 'int'},
         {name: 'section_code', type: 'string'},
         {name: 'actif', type: 'boolean', defaultValue: true},
@@ -387,7 +387,7 @@ Ext.define('iafbm.model.CommissionEtat', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-etats',
+        url: x.context.baseuri+'/api/commissions_etats',
     }
 });
 Ext.define('iafbm.model.CommissionType', {
@@ -401,7 +401,7 @@ Ext.define('iafbm.model.CommissionType', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-types',
+        url: x.context.baseuri+'/api/commissions_types',
     }
 });
 Ext.define('iafbm.model.CommissionFonction', {
@@ -415,7 +415,7 @@ Ext.define('iafbm.model.CommissionFonction', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-fonctions',
+        url: x.context.baseuri+'/api/commissions_fonctions',
     }
 });
 Ext.define('iafbm.model.CommissionCreation', {
@@ -436,7 +436,7 @@ Ext.define('iafbm.model.CommissionCreation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-creations',
+        url: x.context.baseuri+'/api/commissions_creations',
     }
 });
 Ext.define('iafbm.model.CommissionCandidatCommentaire', {
@@ -451,7 +451,7 @@ Ext.define('iafbm.model.CommissionCandidatCommentaire', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-candidats-commentaires',
+        url: x.context.baseuri+'/api/commissions_candidats_commentaires',
     }
 });
 Ext.define('iafbm.model.CommissionTravail', {
@@ -468,7 +468,7 @@ Ext.define('iafbm.model.CommissionTravail', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-travails',
+        url: x.context.baseuri+'/api/commissions_travails',
     }
 });
 Ext.define('iafbm.model.CommissionTravailEvenement', {
@@ -476,7 +476,7 @@ Ext.define('iafbm.model.CommissionTravailEvenement', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
-        {name: 'commission-travail-evenement-type_id', type: 'int'},
+        {name: 'commission_travail_evenement_type_id', type: 'int'},
         {name: 'date', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'proces_verbal', type: 'boolean'},
         {name: 'actif', type: 'boolean', defaultValue: true}
@@ -484,7 +484,7 @@ Ext.define('iafbm.model.CommissionTravailEvenement', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-travails-evenements',
+        url: x.context.baseuri+'/api/commissions_travails_evenements',
     }
 });
 Ext.define('iafbm.model.CommissionTravailEvenementType', {
@@ -496,7 +496,7 @@ Ext.define('iafbm.model.CommissionTravailEvenementType', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-travails-evenements-types',
+        url: x.context.baseuri+'/api/commissions_travails_evenements_types',
     }
 });
 Ext.define('iafbm.model.CommissionValidation', {
@@ -523,7 +523,7 @@ Ext.define('iafbm.model.CommissionValidation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-validations',
+        url: x.context.baseuri+'/api/commissions_validations',
     }
 });
 Ext.define('iafbm.model.CommissionValidationEtat', {
@@ -535,7 +535,7 @@ Ext.define('iafbm.model.CommissionValidationEtat', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-validations-etats',
+        url: x.context.baseuri+'/api/commissions_validations_etats',
     }
 });
 Ext.define('iafbm.model.CommissionFinalisation', {
@@ -553,7 +553,7 @@ Ext.define('iafbm.model.CommissionFinalisation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/commissions-finalisations',
+        url: x.context.baseuri+'/api/commissions_finalisations',
     }
 });
 Ext.define('iafbm.model.Version', {
@@ -595,7 +595,7 @@ Ext.define('iafbm.model.VersionData', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/versions-data',
+        url: x.context.baseuri+'/api/versions_data',
     }
 });
 

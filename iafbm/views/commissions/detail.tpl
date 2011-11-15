@@ -25,14 +25,14 @@ Ext.onReady(function() {
             height: 35,
             defaults: { labelStyle: 'font-weight:bold' },
             items: [
-                {xtype: 'displayfield', name: 'commission-type_racine', fieldLabel: 'Type', labelWidth: 33, width: 350},
+                {xtype: 'displayfield', name: 'commission_type_racine', fieldLabel: 'Type', labelWidth: 33, width: 350},
                 {
                     xtype: 'ia-combo',
                     fieldLabel: 'Etat',
                     displayField: 'nom',
                     valueField: 'id',
                     store: Ext.create('iafbm.store.CommissionEtat'),
-                    name: 'commission-etat_id',
+                    name: 'commission_etat_id',
                     allowBlank: false,
                     labelWidth: 33,
                     width: 180

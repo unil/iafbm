@@ -9,7 +9,7 @@ class AdresseModel extends iaModelMysql {
         'actif' => 'actif',
         'created' => 'created',
         'modified' => 'modified',
-        'adresse-type_id' => 'adresse_type_id',
+        'adresse_type_id' => 'adresse_type_id',
         'rue' => 'rue',
         'npa' => 'npa',
         'lieu' => 'lieu',

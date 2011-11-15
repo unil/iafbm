@@ -1,6 +1,6 @@
 <?php
 
 class PersonnesTypesController extends iaWebController {
-    var $model = 'personne-type';
+    var $model = 'personne_type';
     var $allow = array('get');
 }

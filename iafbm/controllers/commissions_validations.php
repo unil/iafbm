@@ -1,5 +1,5 @@
 <?php
 
 class CommissionsValidationsController extends iaWebController {
-    var $model = 'commission-validation';
+    var $model = 'commission_validation';
 }

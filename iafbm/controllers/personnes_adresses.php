@@ -2,7 +2,7 @@
 
 class PersonnesAdressesController extends iaWebController {
 
-    var $model = 'personne-adresse';
+    var $model = 'personne_adresse';
 
     var $query_fields = array('adresse_rue', 'adresse_npa', 'adresse_lieu');
 

@@ -209,21 +209,11 @@ Ext.define('Ext.ia.grid.ListColumn', {
         var me = this,
             store = this.store;
         me.callParent();
-        // TODO: is this necessary on store load?
         store.on('load', function() { me.up('gridpanel').getView().refresh() });
         // Manages store autoloading
         if (!store.autoLoad && !store.loaded && !store.isLoading()) {
             store.load();
         }
-        // TODO: On gridview refresh, updates column contents
-        // FIXME: should this be done on store update? (to avoid 2 unnecessary calls at render time)
-        this.on({afterrender: function() {
-            var gridview = this.up('gridpanel').getView();
-            gridview.on({ refresh: function() {
-                //me.render(); // This has no effect
-                //me.store.load(); // This is buggy
-            }});
-        }});
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
         var me = this.columns[colIndex],
@@ -286,8 +276,13 @@ Ext.define('Ext.ia.grid.ComboColumn', {
         var column = this.columns[colIndex],
             editor = column.editor || column.field,
             comboStore = editor.store,
-            displayField = editor.displayField;
-        return comboStore.getById(value) ? comboStore.getById(value).get(displayField) : '';
+            displayField = editor.displayField,
+            valueField = editor.valueField,
+            record = ('id'==valueField) ?
+                comboStore.getById(value) :
+                comboStore.findRecord(valueField, value, 0, false, true, true);
+        if (!record) return '';
+        return record.get(displayField);
     }
 });
 

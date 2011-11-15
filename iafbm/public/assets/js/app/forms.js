@@ -78,7 +78,7 @@ iafbm.form.common.Adresses = function(options) {
             searchParams: options.searchParams,
             columns: [{
                 header: "Type",
-                dataIndex: 'adresse_adresse-type_id',
+                dataIndex: 'adresse_adresse_type_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
                 editor: {
@@ -210,7 +210,7 @@ iafbm.form.common.Emails = function(options) {
             searchParams: options.searchParams,
             columns: [{
                 header: "Type",
-                dataIndex: 'adresse-type_id',
+                dataIndex: 'adresse_type_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
                 editor: {
@@ -506,7 +506,7 @@ Ext.define('iafbm.form.Personne', {
             fieldLabel: 'Type',
             labelAlign: 'left',
             labelWidth: 40,
-            name: 'personne-type_id',
+            name: 'personne_type_id',
             displayField: 'nom',
             valueField: 'id',
             store: Ext.create('iafbm.store.PersonneType')
@@ -611,7 +611,7 @@ Ext.define('iafbm.form.Personne', {
                     }
                 },{
                     header: "Titre académique",
-                    dataIndex: 'titre-academique_id',
+                    dataIndex: 'titre_academique_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
                     editor: {
@@ -681,7 +681,7 @@ Ext.define('iafbm.form.Personne', {
                     }
                 },{
                     header: "Fonction hospitalière",
-                    dataIndex: 'fonction-hospitaliere_id',
+                    dataIndex: 'fonction_hospitaliere_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
                     editor: {
@@ -724,14 +724,14 @@ Ext.define('iafbm.form.Personne', {
         // Adds specific column
         var store = new iafbm.store.Commission({
             params: {
-                xjoin: 'commission-membre,commission-fonction',
-                'commission-membre_personne_id': personne_id
+                xjoin: 'commission_membre,commission_fonction',
+                'commission_membre_personne_id': personne_id
             }
         });
         var columns = Ext.Array.clone(iafbm.columns.Commission);
         columns.splice(1, 0, {
             header: "Fonction",
-            dataIndex: 'commission-fonction_nom',
+            dataIndex: 'commission_fonction_nom',
             width: 200
         });
         return {

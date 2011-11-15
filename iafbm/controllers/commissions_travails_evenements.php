@@ -1,5 +1,5 @@
 <?php
 
 class CommissionsTravailsEvenementsController extends iaWebController {
-    var $model = 'commission-travail-evenement';
+    var $model = 'commission_travail_evenement';
 }

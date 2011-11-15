@@ -1,6 +1,6 @@
 <?php
 
 class VersionsDataController extends iaWebController {
-    var $model = 'version-data';
+    var $model = 'version_data';
     var $allow = array('get');
 }

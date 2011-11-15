@@ -10,7 +10,7 @@ class PersonneEmailModel extends iaModelMysql {
         'created' => 'created',
         'modified' => 'modified',
         'personne_id' => 'personne_id',
-        'adresse-type_id' => 'adresse_type_id',
+        'adresse_type_id' => 'adresse_type_id',
         'email' => 'email',
         'defaut' => 'defaut'
     );

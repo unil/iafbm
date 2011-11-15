@@ -1,6 +1,6 @@
 <?php
 
 class CommissionsEtatsController extends iaWebController {
-    var $model = 'commission-etat';
+    var $model = 'commission_etat';
     var $allow = array('get');
 }

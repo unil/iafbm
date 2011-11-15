@@ -114,7 +114,7 @@ class iaModelMysql extends xModelMysql {
         if(!$version_id) throw new xException('Error while creating version');
         // Writes version data
         foreach ($changes as $field => $value) {
-            xModel::load('version-data', array(
+            xModel::load('version_data', array(
                 'version_id' => $version_id,
                 'field_name' => $field,
                 'old_value' => $value['old'],

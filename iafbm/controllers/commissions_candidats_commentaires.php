@@ -2,6 +2,6 @@
 
 class CommissionsCandidatsCommentairesController extends iaWebController {
 
-    var $model = 'commission-candidat-commentaire';
+    var $model = 'commission_candidat_commentaire';
 
 }

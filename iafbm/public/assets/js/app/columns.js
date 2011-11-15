@@ -37,7 +37,7 @@ iafbm.columns.Personne = [{
     dataIndex: 'id',
     store: new iafbm.store.PersonneFonction(),
     filterField: 'personne_id',
-    displayField: 'titre-academique_abreviation'
+    displayField: 'titre_academique_abreviation'
 }, {
     header: "Date de naissance",
     dataIndex: 'date_naissance',
@@ -63,15 +63,32 @@ iafbm.columns.CommissionMembre = [{
     }
 }, {
     header: "Titre",
-    dataIndex: 'titre-academique_id',
+    dataIndex: 'titre_academique_id',
     width: 150,
     xtype: 'ia-combocolumn',
     editor: {
-        xtype: 'ia-combo',
-        displayField: 'abreviation',
-        valueField: 'id',
+        xtype: 'combo',
+        editable: false,
+        typeAhead: false,
         allowBlank: false,
-        store: new iafbm.store.TitreAcademique()
+        store: new iafbm.store.PersonneFonction(),
+        valueField: 'titre_academique_id',
+        displayField: 'titre_academique_abreviation',
+        // Manages list filtering: only shows titres-academiques related to the member
+        queryMode: 'local',
+        listeners: {
+            beforequery: function(queryEvent, eventOpts) {
+                // Filters store record, keeping only the titles related to this person
+                var personne_id = this.up('form').getRecord().get('personne_id');
+                this.store.clearFilter();
+                this.store.filter('personne_id', personne_id);
+                queryEvent.cancel = true;
+                this.expand();
+            },
+            collapse: function(combo, record, index) {
+                this.store.clearFilter();
+            }
+        }
     }
 }, {
     header: "Nom",
@@ -156,7 +173,7 @@ iafbm.columns.Commission = [{
     }
 }, {
     header: "Type",
-    dataIndex: 'commission-type_id',
+    dataIndex: 'commission_type_id',
     width: 100,
     xtype: 'ia-combocolumn',
     field: {
@@ -196,7 +213,7 @@ iafbm.columns.Commission = [{
     width: 150,
 }, {
     header: "Etat",
-    dataIndex: 'commission-etat_id',
+    dataIndex: 'commission_etat_id',
     width: 100,
     xtype: 'ia-combocolumn',
     field: {

@@ -2,7 +2,7 @@
 
 class FonctionsHospitalieresController extends iaWebController {
 
-    var $model = 'fonction-hospitaliere';
+    var $model = 'fonction_hospitaliere';
 
     function indexAction() {
         $data = array(
