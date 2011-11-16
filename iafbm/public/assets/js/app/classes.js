@@ -171,6 +171,9 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
             listeners: {
                 beforeclose: function() {
                     gridView.refresh();
+                    // FIX: Fire store datachanged event
+                    // for ia-listcolumn widgets to refresh
+                    gridView.store.fireEvent('datachanged');
                 }
             }
         });
@@ -214,6 +217,15 @@ Ext.define('Ext.ia.grid.ListColumn', {
         if (!store.autoLoad && !store.loaded && !store.isLoading()) {
             store.load();
         }
+        this.on({afterrender: function() {
+            var gridview = this.up('gridpanel').getView();
+            gridview.store.on({datachanged: function() {
+                // BUGFIX: After instanciating another me.store.$className
+                // with extraParams, this store inherits from the latter extraParams :(
+                me.store.proxy.extraParams = {};
+                me.store.load();
+            }});
+        }});
     },
     renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
         var me = this.columns[colIndex],
