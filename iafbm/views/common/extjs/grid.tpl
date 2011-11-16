@@ -6,7 +6,7 @@
 
 Ext.onReady(function(){
 
-    new Ext.ia.grid.EditPanel({
+    ep = new Ext.ia.grid.EditPanel({
         id: '<?php echo $d['id'] ?>',
         renderTo: 'editor-grid',
         frame: false,
