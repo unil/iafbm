@@ -17,17 +17,17 @@ $navigation = array(
             'label' => 'Gérer des commissions'
         ),
         'commissions-types' => array(
-            'url' => u('commissions-types'),
+            'url' => u('commissions_types'),
             'label' => 'Gérer des types commissions'
         ),
     ),
     'Autres' => array(
         'titres-academiques' => array(
-            'url' => u('titres-academiques'),
+            'url' => u('titres_academiques'),
             'label' => 'Gérer les titres academiques'
         ),
         'fonctions-hospitalieres' => array(
-            'url' => u('fonctions-hospitalieres'),
+            'url' => u('fonctions_hospitalieres'),
             'label' => 'Gérer les fonctions hospitalières'
         ),
         'departements' => array(
