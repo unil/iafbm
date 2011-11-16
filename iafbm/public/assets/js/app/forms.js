@@ -13,6 +13,7 @@ iafbm.form.common.Formations = function(options) {
         items: [{
             xtype: 'ia-editgrid',
             height: 150,
+            toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
             store: new options.store({
@@ -70,6 +71,7 @@ iafbm.form.common.Adresses = function(options) {
         items: [{
             xtype: 'ia-editgrid',
             height: 150,
+            toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
             store: new options.store({
@@ -202,6 +204,7 @@ iafbm.form.common.Emails = function(options) {
         items: [{
             xtype: 'ia-editgrid',
             height: 150,
+            toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
             store: new options.store({
@@ -590,6 +593,7 @@ Ext.define('iafbm.form.Personne', {
             items: [{
                 xtype: 'ia-editgrid',
                 height: 150,
+                toolbarButtons: ['add', 'delete'],
                 bbar: null,
                 newRecordValues: {
                     personne_id: personne_id

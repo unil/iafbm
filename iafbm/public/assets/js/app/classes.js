@@ -274,7 +274,7 @@ Ext.define('Ext.ia.grid.ComboColumn', {
         var me = this;
         me.callParent();
         // Refreshes grid on store load in order to apply the renderer function
-        var editor = this.editor || this.field
+        var editor = this.editor || this.field,
             store = editor.store;
         store.on('load', function() { me.up('gridpanel').getView().refresh() });
         // Manages store autoloading
@@ -681,7 +681,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         searchParams: {}
     },
     editable: true,
-    toolbarButtons: ['add', 'delete'],
+    toolbarButtons: ['add', 'delete', 'search'],
     pageSize: 10,
     editingPluginId: null,
     plugins: [],
@@ -722,7 +722,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
             this.editingPluginId = Ext.id();
             this.plugins = [new Ext.ia.grid.plugin.RowEditing({
                 pluginId: this.editingPluginId,
-                errorSummary: false,
+                errorSummary: false
             })];
         }
         // Initializes Component
