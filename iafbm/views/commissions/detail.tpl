@@ -241,7 +241,7 @@ Ext.onReady(function() {
                     newRecordValues: { commission_id: '<?php echo $d['id'] ?>' },
                     columns: [{
                         header: "Type",
-                        dataIndex: 'commission-travail-evenement-type_id',
+                        dataIndex: 'commission_travail_evenement_type_id',
                         width: 200,
                         xtype: 'ia-combocolumn',
                         field: {
@@ -254,7 +254,7 @@ Ext.onReady(function() {
                     },{
                         header: "Date",
                         dataIndex: 'date',
-                        flex: 1,
+                        width: 75,
                         xtype: 'ia-datecolumn',
                         field: {
                             xtype: 'ia-datefield',
@@ -268,6 +268,19 @@ Ext.onReady(function() {
                         field: {
                             xtype: 'checkbox',
                             disabled: true
+                        }
+                    },{
+                        header: "Durée",
+                        dataIndex: 'duree',
+                        width: 71,
+                        xtype: 'templatecolumn',
+                        tpl: '{duree}<tpl if="duree!=null"> minutes</tpl>',
+                        field: {
+                            xtype: 'numberfield',
+                            minValue: 0,
+                            step: 15,
+                            allowDecimals: false,
+                            editable: false
                         }
                     }]
                 }]

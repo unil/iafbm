@@ -479,6 +479,7 @@ Ext.define('iafbm.model.CommissionTravailEvenement', {
         {name: 'commission_travail_evenement_type_id', type: 'int'},
         {name: 'date', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'proces_verbal', type: 'boolean'},
+        {name: 'duree', type: 'int', useNull: true},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],

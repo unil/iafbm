@@ -42,6 +42,7 @@ CREATE TABLE commissions_travails_evenements (
     commission_travail_evenement_type_id INT NOT NULL,
     date DATE DEFAULT NULL,
     proces_verbal BOOLEAN DEFAULT false,
+    duree SMALLINT DEFAULT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
     FOREIGN KEY (commission_travail_evenement_type_id) REFERENCES commissions_travails_evenements_types(id)

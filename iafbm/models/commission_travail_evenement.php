@@ -12,7 +12,8 @@ class CommissionTravailEvenementModel extends iaModelMysql {
         'commission_id' => 'commission_id',
         'commission_travail_evenement_type_id' => 'commission_travail_evenement_type_id',
         'date' => 'date',
-        'proces_verbal' => 'proces_verbal'
+        'proces_verbal' => 'proces_verbal',
+        'duree' => 'duree'
     );
 
     var $primary = array('id');
