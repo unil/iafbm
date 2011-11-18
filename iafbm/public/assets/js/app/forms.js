@@ -4,7 +4,8 @@ iafbm.form.common.Formations = function(options) {
     var config = {
         store: null,
         params: {},
-        searchParams: {}
+        searchParams: {},
+        listeners: {}
     };
     var options = Ext.apply(config, options);
     return {
@@ -20,6 +21,7 @@ iafbm.form.common.Formations = function(options) {
                 params: options.params
             }),
             searchParams: options.searchParams,
+            listeners: options.listeners,
             columns: [{
                 header: "Formation",
                 dataIndex: 'formation_id',
@@ -337,7 +339,20 @@ Ext.define('iafbm.form.Candidat', {
             store: iafbm.store.CandidatFormation,
             params: {
                 candidat_id: this.getRecordId()
-            }
+            },
+            listeners: {afterrender: function() {
+                // Disables grid if record is phantom
+                // (e.g does not exist in database yet)
+                var record = this.up('form').record,
+                    id = record.get('id'),
+                    phantom = !Boolean(id);
+                if (phantom) this.disable();
+                // Enables grid after record is saved
+                var me = this;
+                this.up('form').on('aftersave', function() {
+                    me.enable();
+                });
+            }}
         });
     },
     _createPositions: function() {

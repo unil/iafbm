@@ -163,7 +163,7 @@ Ext.onReady(function() {
         }, {
             xtype:'ia-editgrid',
             width: 858,
-            height: 330,
+            height: 289,
             store: new iafbm.store.Candidat({
                 params: {commission_id: <?php echo $d['id'] ?>}
             }),
@@ -177,14 +177,7 @@ Ext.onReady(function() {
                         frame: false,
                         record: new iafbm.model.Candidat({
                             commission_id: <?php echo $d['id'] ?>
-                        }),
-                        listeners: {
-                            aftersave: function(form, record) {
-                                me.up('gridpanel').store.load();
-                                popup.close();
-                            }
-                        }
-
+                        })
                     })
                 });
             },

@@ -152,27 +152,25 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
     text: 'Détails',
     tooltip: 'Détails',
     form: null,
+    closeOnSave: true,
     handler: function(gridView, rowIndex, colIndex, item) {
         var me = this,
             popup = new Ext.ia.window.Popup({
             title: 'Détails',
-            item: new me.form({
+            item: new this.form({
                 frame: false,
                 record: me.getRecord(gridView, rowIndex, colIndex, item),
                 fetch: me.getFetch(gridView, rowIndex, colIndex, item),
                 listeners: {
                     // Closes popup on form save
                     aftersave: function(form, record) {
-                        popup.close();
+                        if (me.closeOnSave) popup.close();
                     }
                 }
             }),
-            // Also refreshes grid on popup close
+            // FIX: Fire store datachanged event for ia-listcolumn widgets to refresh
             listeners: {
                 beforeclose: function() {
-                    gridView.refresh();
-                    // FIX: Fire store datachanged event
-                    // for ia-listcolumn widgets to refresh
                     gridView.store.fireEvent('datachanged');
                 }
             }
@@ -811,6 +809,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
         var selection = grid.getView().getSelectionModel().getSelection()[0];
         if (selection) {
             grid.store.remove(selection);
+            // Paging fix: Reloading grid store refreshes paging state
+            grid.store.load();
         }
     },
     createRecord: function() {
@@ -924,7 +924,7 @@ Ext.define('Ext.ia.form.Panel', {
             this.getForm().loadRecord(this.record);
         } else if (this.fetch && this.fetch.model && this.fetch.model.load) {
             this.fireEvent('beforeload', this);
-            // Manages parameters: saves pristing proxy parameters
+            // Manages parameters: saves pristine proxy parameters
             // before applying specific fetch parameters
             // (pristine parameters are restored in response callback)
             var proxy = this.fetch.model.proxy;
@@ -944,8 +944,6 @@ Ext.define('Ext.ia.form.Panel', {
                     // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
-                    // Fires a quite useful event
-                    me.fireEvent('load');
                 },
                 failure: function(record) {},
                 callback: function() {
