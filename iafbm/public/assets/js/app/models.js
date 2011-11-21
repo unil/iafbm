@@ -140,9 +140,7 @@ Ext.define('iafbm.model.Adresse', {
         {name: 'rue', type: 'string'},
         {name: 'npa', type: 'string'},
         {name: 'lieu', type: 'string'},
-        {name: 'pays_id', type: 'int'},
-        {name: 'telephone_countrycode', type: 'string'},
-        {name: 'telephone', type: 'string'}
+        {name: 'pays_id', type: 'int'}
     ],
     validations: [],
     proxy: {
@@ -268,6 +266,22 @@ Ext.define('iafbm.model.PersonneEmail', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/personnes_emails',
+    }
+});
+Ext.define('iafbm.model.PersonneTelephone', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'personne_id', type: 'int'},
+        {name: 'adresse_type_id', type: 'int'},
+        {name: 'countrycode', type: 'string'},
+        {name: 'telephone', type: 'string'},
+        {name: 'defaut', type: 'boolean'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes_telephones',
     }
 });
 Ext.define('iafbm.model.CommissionMembre', {

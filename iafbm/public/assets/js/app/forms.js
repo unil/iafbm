@@ -4,13 +4,12 @@ iafbm.form.common.Formations = function(options) {
     var config = {
         store: null,
         params: {},
-        searchParams: {},
         listeners: {}
     };
     var options = Ext.apply(config, options);
     return {
         xtype: 'fieldset',
-        title: 'Formation supérieure',
+        title: 'Diplômes obtenus',
         items: [{
             xtype: 'ia-editgrid',
             height: 150,
@@ -20,7 +19,6 @@ iafbm.form.common.Formations = function(options) {
             store: new options.store({
                 params: options.params
             }),
-            searchParams: options.searchParams,
             listeners: options.listeners,
             columns: [{
                 header: "Formation",
@@ -63,8 +61,7 @@ iafbm.form.common.Formations = function(options) {
 iafbm.form.common.Adresses = function(options) {
     var config = {
         store: null,
-        params: {},
-        searchParams: {}
+        params: {}
     };
     var options = Ext.apply(config, options);
     return {
@@ -72,18 +69,17 @@ iafbm.form.common.Adresses = function(options) {
         title: 'Adresses',
         items: [{
             xtype: 'ia-editgrid',
-            height: 150,
+            height: 100,
             toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
             store: new options.store({
                 params: options.params
             }),
-            searchParams: options.searchParams,
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_adresse_type_id',
-                width: 100,
+                width: 80,
                 xtype: 'ia-combocolumn',
                 editor: {
                     xtype: 'ia-combo',
@@ -126,7 +122,7 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "NPA",
                 dataIndex: 'adresse_npa',
-                width: 60,
+                width: 40,
                 editor: {
                     xtype: 'textfield',
                     maskRe: /[0-9]/
@@ -134,51 +130,20 @@ iafbm.form.common.Adresses = function(options) {
             },{
                 header: "Lieu",
                 dataIndex: 'adresse_lieu',
-                width: 150,
+                width: 100,
                 editor: {
                     xtype: 'textfield',
                 }
             },{
                 header: "Pays",
                 dataIndex: 'adresse_pays_id',
-                width: 120,
+                width: 100,
                 xtype: 'ia-combocolumn',
                 editor: {
                     xtype: 'ia-combo',
                     store: new iafbm.store.Pays(),
                     valueField: 'id',
                     displayField: 'nom',
-                }
-            },{
-                header: "Indicatif pays",
-                dataIndex: 'adresse_telephone_countrycode',
-                xtype: 'templatecolumn',
-                tpl: '<tpl if="adresse_telephone_countrycode.length &gt; 0">+</tpl>{adresse_telephone_countrycode}',
-                width: 30,
-                editor: {
-                    xtype: 'textfield',
-                    maxLength: 3,
-                    enforceMaxLength: true,
-                    maskRe: /[0-9]/,
-                    vtype: 'telcc',
-                    validator: function(value) {
-                        var telephone = this.nextSibling();
-                        return (telephone.getValue().length && !this.getValue().length) ?
-                            'Entrez l\'indicatif pays (p.ex. 41 pour la suisse)' : true;
-                    }
-                }
-            },{
-                header: "Téléphone",
-                dataIndex: 'adresse_telephone',
-                width: 85,
-                editor: {
-                    xtype: 'textfield',
-                    maskRe: /[0-9]/,
-                    validator: function(value) {
-                        var indicatif = this.previousSibling();
-                        return (indicatif.getValue().length && !this.getValue().length) ?
-                            'Entrez un numéro de téléphone après l\'indicatif pays' : true;
-                    }
                 }
             },{
                 header: "Par défaut",
@@ -196,8 +161,7 @@ iafbm.form.common.Adresses = function(options) {
 iafbm.form.common.Emails = function(options) {
     var config = {
         store: null,
-        params: {},
-        searchParams: {}
+        params: {}
     };
     var options = Ext.apply(config, options);
     return {
@@ -205,14 +169,13 @@ iafbm.form.common.Emails = function(options) {
         title: 'Emails',
         items: [{
             xtype: 'ia-editgrid',
-            height: 150,
+            height: 110,
             toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
             store: new options.store({
                 params: options.params
             }),
-            searchParams: options.searchParams,
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_type_id',
@@ -241,6 +204,73 @@ iafbm.form.common.Emails = function(options) {
                 xtype: 'ia-radiocolumn',
                 editor: {
                     xtype: 'checkbox',
+                    disabled: true
+                }
+            }]
+        }]
+    };
+}
+
+iafbm.form.common.Telephones = function(options) {
+    var config = {
+        store: null,
+        params: {}
+    };
+    var options = Ext.apply(config, options);
+    return {
+        xtype: 'fieldset',
+        title: 'Téléphones',
+        items: [{
+            xtype: 'ia-editgrid',
+            height: 110,
+            toolbarButtons: ['add', 'delete'],
+            bbar: null,
+            newRecordValues: options.params,
+            store: new options.store({
+                params: options.params
+            }),
+            columns: [{
+                header: "Type",
+                dataIndex: 'adresse_type_id',
+                width: 100,
+                xtype: 'ia-combocolumn',
+                editor: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.AdresseType(),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            },{
+                header: "Indicatif pays",
+                dataIndex: 'countrycode',
+                xtype: 'templatecolumn',
+                tpl: '<tpl if="countrycode.length &gt; 0">+</tpl>{countrycode}',
+                width: 30,
+                editor: {
+                    xtype: 'textfield',
+                    maxLength: 3,
+                    enforceMaxLength: true,
+                    maskRe: /[0-9]/,
+                    vtype: 'telcc',
+                    allowBlank: false
+                }
+            },{
+                header: "Téléphone",
+                dataIndex: 'telephone',
+                flex: 1,
+                editor: {
+                    xtype: 'textfield',
+                    maskRe: /[0-9]/,
+                    allowBlank: false
+                }
+            },{
+                header: "Par défaut",
+                dataIndex: 'defaut',
+                width: 65,
+                xtype: 'ia-radiocolumn',
+                editor: {
+                    xtype: 'checkboxfield',
                     disabled: true
                 }
             }]
@@ -529,11 +559,42 @@ Ext.define('iafbm.form.Personne', {
             valueField: 'id',
             store: Ext.create('iafbm.store.PersonneType')
         }, {
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+            items: [
+                this._createCoordonnees(),
+            {
+                xtype: 'splitter',
+                flex: 0
+            }, {
+                xtype: 'fieldcontainer',
+                flex: 1,
+                items: [
+                    this._createAdresses(),
+                    this._createTelephones(),
+                    this._createEmails()
+                ]
+            }]
+        },
+            this._createFormations(),
+            this._createFonctions(),
+            this._createCommissionsCurrent(),
+            this._createCommissionsClosed()
+        ];
+        //
+        var me = this;
+        me.callParent();
+    },
+    _createCoordonnees: function() {
+        return {
             xtype: 'fieldset',
             title: 'Coordonnées',
+            width: 325,
+            height: 451,
             defaultType: 'textfield',
             defaults: {
-                labelWidth: 110
+                labelWidth: 110,
+                padding: '10 0',
             },
             items: [{
                 fieldLabel: 'Nom',
@@ -582,17 +643,25 @@ Ext.define('iafbm.form.Personne', {
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Permis')
             }]
-        },
-            this._createFormations(),
-            this._createFonctions(),
-            this._createAdresses(),
-            this._createEmails(),
-            this._createCommissionsCurrent(),
-            this._createCommissionsClosed()
-        ];
-        //
-        var me = this;
-        me.callParent();
+        };
+    },
+    _createAdresses: function() {
+        return iafbm.form.common.Adresses({
+            store: iafbm.store.PersonneAdresse,
+            params: { personne_id: this.getRecordId() }
+        });
+    },
+    _createTelephones: function() {
+        return iafbm.form.common.Telephones({
+            store: iafbm.store.PersonneTelephone,
+            params: { personne_id: this.getRecordId() }
+        });
+    },
+    _createEmails: function() {
+        return iafbm.form.common.Emails({
+            store: iafbm.store.PersonneEmail,
+            params: { personne_id: this.getRecordId() }
+        });
     },
     _createFormations: function() {
         return iafbm.form.common.Formations({
@@ -604,7 +673,7 @@ Ext.define('iafbm.form.Personne', {
         var personne_id = this.getRecordId();
         return {
             xtype: 'fieldset',
-            title: 'Fonction académique',
+            title: 'Carrière professionnelle',
             items: [{
                 xtype: 'ia-editgrid',
                 height: 150,
@@ -725,18 +794,6 @@ Ext.define('iafbm.form.Personne', {
                 }]
             }]
         };
-    },
-    _createAdresses: function() {
-        return iafbm.form.common.Adresses({
-            store: iafbm.store.PersonneAdresse,
-            params: { personne_id: this.getRecordId() }
-        });
-    },
-    _createEmails: function() {
-        return iafbm.form.common.Emails({
-            store: iafbm.store.PersonneEmail,
-            params: { personne_id: this.getRecordId() }
-        });
     },
     _createCommissionsCurrent: function() {
         var personne_id = this.getRecordId();

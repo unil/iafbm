@@ -13,9 +13,7 @@ class AdresseModel extends iaModelMysql {
         'rue' => 'rue',
         'npa' => 'npa',
         'lieu' => 'lieu',
-        'pays_id' => 'pays_id',
-        'telephone_countrycode' => 'telephone_countrycode',
-        'telephone' => 'telephone'
+        'pays_id' => 'pays_id'
     );
 
     var $primary = array('id');
