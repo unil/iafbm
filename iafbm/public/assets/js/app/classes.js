@@ -676,10 +676,15 @@ Ext.define('Ext.ia.grid.EditPanel', {
         store: null,
         columns: null,
         newRecordValues: {},
-        searchParams: {}
+        searchParams: {},
     },
     editable: true,
     toolbarButtons: ['add', 'delete', 'search'],
+    toolbarLabels: {
+        add: 'Ajouter',
+        delete: 'Supprimer',
+        search: 'Rechercher'
+    },
     pageSize: 10,
     editingPluginId: null,
     plugins: [],
@@ -746,12 +751,12 @@ Ext.define('Ext.ia.grid.EditPanel', {
     },
     makeDockedItems: function() {
         var add = {
-            text: 'Ajouter',
+            text: this.toolbarLabels.add,
             iconCls: 'icon-add',
             handler: this.addItem
         };
         var del = {
-            text: 'Supprimer',
+            text: this.toolbarLabels.delete,
             iconCls: 'icon-delete',
             handler: this.removeItem
         };
@@ -786,7 +791,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         if (Ext.Array.contains(this.toolbarButtons, 'delete'))
             items.push('-', del);
         if (Ext.Array.contains(this.toolbarButtons, 'search'))
-            items.push('->', '-', 'Rechercher', search);
+            items.push('->', '-', this.toolbarLabels.search, search);
         // Creates and returns the toolbar with its items
         return [{
             xtype: 'toolbar',

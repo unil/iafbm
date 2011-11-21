@@ -678,6 +678,10 @@ Ext.define('iafbm.form.Personne', {
                 xtype: 'ia-editgrid',
                 height: 150,
                 toolbarButtons: ['add', 'delete'],
+                toolbarLabels: {
+                    add: 'Ajouter un contrat',
+                    delete: 'Supprimer le contrat'
+                },
                 bbar: null,
                 newRecordValues: {
                     personne_id: personne_id
