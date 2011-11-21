@@ -32,7 +32,7 @@ $data = array(
     'model' => 'Candidat',
     'columns' => 'columns',
     'store-params' => array('xjoin' => 'commission'),
-    'toolbarButtons' => array(),
+    'toolbarButtons' => array('search'),
     'editable' => false
 );
 echo xView::load('common/extjs/grid', $data, $this->meta)->render();
