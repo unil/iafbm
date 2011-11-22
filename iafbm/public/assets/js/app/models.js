@@ -331,9 +331,12 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'telephone_pri_countrycode', type: 'sting'},
         {name: 'telephone_pri', type: 'sting'},
         {name: 'email_pri', type: 'sting'},
+        {name: 'adresse_defaut', type: 'sting'},
         {name: 'position_actuelle_fonction', type: 'string'},
         {name: 'position_actuelle_lieu', type: 'string'},
+        // Foreign fields
         {name: 'commission_nom', type: 'string'},
+        // Ghost fields
         {name: '_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('prenom'),

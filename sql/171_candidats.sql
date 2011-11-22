@@ -29,6 +29,7 @@ CREATE TABLE candidats (
     telephone_pri_countrycode VARCHAR(3),
     telephone_pri VARCHAR(255),
     email_pri VARCHAR(255),
+    adresse_defaut VARCHAR(3) DEFAULT NULL,
     position_actuelle_fonction TEXT,
     position_actuelle_lieu VARCHAR(255),
     PRIMARY KEY (id),

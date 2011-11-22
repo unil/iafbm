@@ -32,6 +32,7 @@ class CandidatModel extends iaModelMysql {
         'telephone_pri_countrycode' => 'telephone_pri_countrycode',
         'telephone_pri' => 'telephone_pri',
         'email_pri' => 'email_pri',
+        'adresse_defaut' => 'adresse_defaut',
         'position_actuelle_fonction' => 'position_actuelle_fonction',
         'position_actuelle_lieu' => 'position_actuelle_lieu'
     );

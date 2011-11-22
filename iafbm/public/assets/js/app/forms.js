@@ -500,6 +500,11 @@ Ext.define('iafbm.form.Candidat', {
                         emptyText: 'Email',
                         name: 'email_pro',
                         vtype: 'email'
+                    }, {
+                        xtype: 'radio',
+                        fieldLabel: 'Par défaut',
+                        name: 'adresse_defaut',
+                        inputValue: 'pro'
                     }],
                 }, {
                     xtype: 'fieldcontainer',
@@ -536,6 +541,11 @@ Ext.define('iafbm.form.Candidat', {
                         emptyText: 'Email',
                         name: 'email_pri',
                         vtype: 'email'
+                    }, {
+                        xtype: 'radio',
+                        fieldLabel: 'Par défaut',
+                        name: 'adresse_defaut',
+                        inputValue: 'pri'
                     }]
                 }]
             }]
