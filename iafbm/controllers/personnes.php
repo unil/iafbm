@@ -28,4 +28,23 @@ class PersonnesController extends iaWebController {
         );
         return xView::load('personnes/detail', $data, $this->meta)->render();
     }
+
+    function get() {
+        $personnes = parent::get();
+        foreach ($personnes['items'] as &$personne) {
+            // Fetches 'Fonction' for the current 'Personne'
+            $fonctions = xModel::load('personne_fonction', array(
+                'personne_id' => $personne['id'],
+                'xjoin' => 'titre_academique'
+            ))->get();
+            // Creates a CSV list of 'Fonction'
+            $f = array();
+            foreach($fonctions as $function) {
+                $f[] = $function['titre_academique_abreviation'];
+            }
+            // Adds it to the resultset
+            $personne['_fonctions'] = implode(', ', $f);
+        }
+        return $personnes;
+    }
 }

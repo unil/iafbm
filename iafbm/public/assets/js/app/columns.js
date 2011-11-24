@@ -33,11 +33,7 @@ iafbm.columns.Personne = [{
 }, {
     header: "Titres académiques",
     flex: 1,
-    xtype: 'ia-listcolumn',
-    dataIndex: 'id',
-    store: new iafbm.store.PersonneFonction(),
-    filterField: 'personne_id',
-    displayField: 'titre_academique_abreviation'
+    dataIndex: '_fonctions'
 }, {
     header: "Date de naissance",
     dataIndex: 'date_naissance',

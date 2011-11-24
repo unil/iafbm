@@ -173,7 +173,8 @@ Ext.define('iafbm.model.Personne', {
         {name: 'canton_id', type: 'int', useNull: true},
         {name: 'pays_id', type: 'int', useNull: true},
         {name: 'permis_id', type: 'int', useNull: true},
-        {name: 'actif', type: 'boolean', defaultValue: true}
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: '_fonctions', type: 'string'}
     ],
     validations: [],
     proxy: {

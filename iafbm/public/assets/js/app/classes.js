@@ -168,10 +168,11 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
                     }
                 }
             }),
-            // FIX: Fire store datachanged event for ia-listcolumn widgets to refresh
+            // Reloads grid store for updating off-record information
+            // eg. related tables' fields
             listeners: {
                 beforeclose: function() {
-                    gridView.store.fireEvent('datachanged');
+                    gridView.store.load();
                 }
             }
         });
@@ -190,51 +191,6 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
         this.fixed = true;
         var me = this;
         me.callParent();
-    }
-});
-
-/**
- * Displays a list of this.displayField values contained in this.store,
- * filtered by this.filterField using this.dataIndex field vaulue,
- * separated by this.separator.
- */
-Ext.define('Ext.ia.grid.ListColumn', {
-    extend:'Ext.grid.Column',
-    alias: 'widget.ia-listcolumn',
-    // Config
-    store: null,
-    filterField: null,
-    displayField: null,
-    separator: ', ',
-    initComponent: function() {
-        var me = this,
-            store = this.store;
-        me.callParent();
-        store.on('load', function() { me.up('gridpanel').getView().refresh() });
-        // Manages store autoloading
-        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
-            store.load();
-        }
-        this.on({afterrender: function() {
-            var gridview = this.up('gridpanel').getView();
-            gridview.store.on({datachanged: function() {
-                // BUGFIX: After instanciating another me.store.$className
-                // with extraParams, this store inherits from the latter extraParams :(
-                me.store.proxy.extraParams = {};
-                me.store.load();
-            }});
-        }});
-    },
-    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-        var me = this.columns[colIndex],
-            store = me.store,
-            values = [];
-        if (me.filterField) store.filter(me.filterField, value);
-        Ext.each(store.getRange(), function(record) {
-            values.push(record.get(me.displayField))
-        });
-        if (me.filterField) store.clearFilter();
-        return values.join(me.separator);
     }
 });
 
@@ -575,49 +531,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
 });
 
 /**
- * Extends Ext.grid.Panel with
- */
-Ext.define('Ext.ia.grid.plugin.RowEditing', {
-    extend: 'Ext.grid.plugin.RowEditing',
-    alias: 'plugin.ia-rowediting',
-    errorSummary: false,
-    // On edit cancel, remove phantom row or reject existing row modifications
-    // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
-    cancelEdit: function() {
-        if (this.context) {
-            var record = this.context.record;
-            if (record.phantom) {
-                // This _deleting flas based conditional return prevents an infinite loop
-                // for store.remove(record) probably indirectly calls
-                // this cancelEdit method...
-                if (record._deleting) return;
-                record._deleting = true;
-                this.context.store.remove(record);
-            } else {
-                record.reject();
-            }
-        }
-        var me = this;
-        me.callParent();
-    },
-    constructor: function() {
-        var me = this;
-        me.callParent(arguments);
-        // Workaround: we need to reset the store.params because surprisingly,
-        // they get changed when a row is added to the grid through
-        // the RowEditor plugin
-        this.on('edit', function(context) {
-            context.store.params = context.store.proxy.extraParams;
-        });
-        // Workaround for preventing validation errors tooltips to show up.
-        // Currse errorSummary is not properly managed
-        this.on('beforeedit', function() {
-            if (!me.errorSummary) this.editor.showToolTip = function() {};
-        });
-    }
-});
-
-/**
  * Extends Ext.ux.form.SearchField with
  * - events firing: beforesearch, aftersearch and resetsearch
  */
@@ -820,6 +733,49 @@ Ext.define('Ext.ia.grid.EditPanel', {
     },
     createRecord: function() {
         return new this.store.model(this.newRecordValues);
+    }
+});
+
+/**
+ * Extends Ext.grid.Panel with
+ */
+Ext.define('Ext.ia.grid.plugin.RowEditing', {
+    extend: 'Ext.grid.plugin.RowEditing',
+    alias: 'plugin.ia-rowediting',
+    errorSummary: false,
+    // On edit cancel, remove phantom row or reject existing row modifications
+    // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
+    cancelEdit: function() {
+        if (this.context) {
+            var record = this.context.record;
+            if (record.phantom) {
+                // This _deleting flas based conditional return prevents an infinite loop
+                // for store.remove(record) probably indirectly calls
+                // this cancelEdit method...
+                if (record._deleting) return;
+                record._deleting = true;
+                this.context.store.remove(record);
+            } else {
+                record.reject();
+            }
+        }
+        var me = this;
+        me.callParent();
+    },
+    constructor: function() {
+        var me = this;
+        me.callParent(arguments);
+        // Workaround: we need to reset the store.params because surprisingly,
+        // they get changed when a row is added to the grid through
+        // the RowEditor plugin
+        this.on('edit', function(context) {
+            context.store.params = context.store.proxy.extraParams;
+        });
+        // Workaround for preventing validation errors tooltips to show up.
+        // Currse errorSummary is not properly managed
+        this.on('beforeedit', function() {
+            if (!me.errorSummary) this.editor.showToolTip = function() {};
+        });
     }
 });
 
