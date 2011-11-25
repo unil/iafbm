@@ -559,16 +559,9 @@ Ext.define('iafbm.form.Personne', {
     title:'Personne',
     frame: true,
     initComponent: function() {
-        this.items = [{
-            xtype: 'ia-combo',
-            fieldLabel: 'Type',
-            labelAlign: 'left',
-            labelWidth: 40,
-            name: 'personne_type_id',
-            displayField: 'nom',
-            valueField: 'id',
-            store: Ext.create('iafbm.store.PersonneType')
-        }, {
+        this.items = [
+            this._createType(),
+        {
             xtype: 'fieldcontainer',
             layout: 'hbox',
             items: [
@@ -594,6 +587,30 @@ Ext.define('iafbm.form.Personne', {
         //
         var me = this;
         me.callParent();
+    },
+    switchType: function() {
+        var type = this.getValue();
+        if (type==null) return;
+        this.up('panel').cascade(function(c) {
+            if (c.iaDisableFor && Ext.Array.contains(c.iaDisableFor, type)) c.disable();
+            else c.enable();
+        });
+    },
+    _createType: function() {
+        return {
+            xtype: 'ia-combo',
+            fieldLabel: 'Type',
+            labelAlign: 'left',
+            labelWidth: 40,
+            name: 'personne_type_id',
+            displayField: 'nom',
+            valueField: 'id',
+            store: Ext.create('iafbm.store.PersonneType'),
+            allowBlank: false,
+            listeners: {
+                change: this.switchType
+            }
+        };
     },
     _createCoordonnees: function() {
         return {
@@ -630,7 +647,9 @@ Ext.define('iafbm.form.Personne', {
             }, {
                 fieldLabel: 'N° AVS',
                 emptyText: 'N° AVS',
-                name: 'no_avs'
+                name: 'no_avs',
+                vtype: 'avs',
+                iaDisableFor: [2,3]
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Canton d\'origine',
@@ -684,6 +703,7 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Carrière professionnelle',
+            iaDisableFor: [2,3],
             items: [{
                 xtype: 'ia-editgrid',
                 height: 150,
