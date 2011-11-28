@@ -23,7 +23,45 @@ class iaModelMysql extends xModelMysql {
     function get($rownum=null) {
         // FIXME: TODO:
         // Add 'actif'=true in where clause (only if actif field exists in fields mapping array)
-        return parent::get($rownum);
+        if (!@$this->params['xversion']) return parent::get($rownum);
+        else return $this->get_version($rownum);
+    }
+
+    protected function get_version($rownum=null) {
+        $results = parent::get();
+        $primary = array_shift(xUtil::arrize($this->primary));
+        foreach ($results as &$result) {
+            if (@$this->params['xversion']) {
+                $modifications = xModel::load('version_data', array(
+                    'version_table_name' => $this->maintable,
+                    'version_id_field_value' => $result[$primary],
+                    'version_id' => $this->params['xversion'],
+                    'version_id_comparator' => '>=',
+                    'xorder_by' => 'version_created',
+                    'xorder' => 'DESC'
+                ))->get();
+                // Applies versions modifications
+                foreach ($modifications as $modification) {
+                    $modelfield = $this->modelfield($modification['field_name']);
+                    $result[$modelfield] = $modification['old_value'];
+                }
+                // Applies joined models modifications
+                foreach ($this->joins() as $model => $sql) {
+                    $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
+                    $join_results = xModel::load($model, array(
+                        'id' => $result["{$model}_{$join_primary}"],
+                        'xversion' => $this->params['xversion'],
+                        'xjoin' => array()
+                    ))->get(0);
+                    foreach ($join_results as $modelfield => $value) {
+                        $result["{$model}_{$modelfield}"] = $value;
+                    }
+                }
+            }
+        }
+        // Manages $rownum
+        if (!is_null($rownum)) return @$results[$rownum] ? $results[$rownum] : array();
+        else return $results;
     }
 
     /**
