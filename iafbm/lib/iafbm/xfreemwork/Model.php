@@ -23,20 +23,30 @@ class iaModelMysql extends xModelMysql {
     function get($rownum=null) {
         // FIXME: TODO:
         // Add 'actif'=true in where clause (only if actif field exists in fields mapping array)
-        if (!@$this->params['xversion']) return parent::get($rownum);
-        else return $this->get_version($rownum);
+        if (!@$this->params['xversion']) {
+            if (!isset($this->params['actif'])) $this->params['actif'] = 1;
+            return parent::get($rownum);
+        } else {
+            return $this->get_version($rownum);
+        }
     }
 
     protected function get_version($rownum=null) {
         $results = parent::get();
         $primary = array_shift(xUtil::arrize($this->primary));
-        foreach ($results as &$result) {
-            if (@$this->params['xversion']) {
+        $version = @$this->params['xversion'];
+        // Checks if version exists
+        if (!xModel::load('version', array('id'=>$version))->get()) {
+            throw new xException("Version {$version} does not exist", 404);
+        }
+        // Creates versionned results
+        foreach ($results as $position => &$result) {
+            if ($version) {
                 $modifications = xModel::load('version_data', array(
                     'version_table_name' => $this->maintable,
                     'version_id_field_value' => $result[$primary],
-                    'version_id' => $this->params['xversion'],
-                    'version_id_comparator' => '>=',
+                    'version_id' => $version,
+                    'version_id_comparator' => '>',
                     'xorder_by' => 'version_created',
                     'xorder' => 'DESC'
                 ))->get();
@@ -48,14 +58,23 @@ class iaModelMysql extends xModelMysql {
                 // Applies joined models modifications
                 foreach ($this->joins() as $model => $sql) {
                     $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
+                    // Recursive call here (because the xversion parameter is present)
                     $join_results = xModel::load($model, array(
                         'id' => $result["{$model}_{$join_primary}"],
-                        'xversion' => $this->params['xversion'],
+                        'xversion' => $version,
                         'xjoin' => array()
                     ))->get(0);
                     foreach ($join_results as $modelfield => $value) {
                         $result["{$model}_{$modelfield}"] = $value;
                     }
+                }
+                // Removes row if it was
+                // - not yet existing at the given revision
+                // - deleted at the given revision
+                // FIXME: This results in a wrong 'count' property in JSON result
+                //        issued by the controller
+                if (!$result[$primary] || (isset($result['actif']) && !$result['actif'])) {
+                    unset($results[$position]);
                 }
             }
         }
@@ -98,6 +117,7 @@ class iaModelMysql extends xModelMysql {
         // 1) Set 'actif' field to false
         // 2) abord deletion (do not acually delete row)
         return parent::delete();
+
     }
 
     /**
@@ -123,7 +143,6 @@ class iaModelMysql extends xModelMysql {
         // Determines changes applied to the record
         $record_id = (strtolower($operation) == 'post') ? $this->params['id'] : $result['insertid'];
         $new_record = xModel::load($this->name, array('id'=>$record_id))->get(0);
-        $fields = xUtil::array_merge(array_keys($old_record), array_keys($new_record));
         $changes = array();
         foreach ($this->fields_values() as $field => $value) {
             // Prevents versioning undesired fields
@@ -136,8 +155,10 @@ class iaModelMysql extends xModelMysql {
                 );
             }
         }
+        // Do not create a version if the record was not modified
+        if (!$changes) return;
         // Writes version
-        $id_field_name = implode(', ', xUtil::arrize($this->primary));
+        $id_field_name = implode(',', xUtil::arrize($this->primary));
         $id_field_value = (strtolower($operation) == 'post') ?
             $this->params[$id_field_name] :
             $result['insertid'];

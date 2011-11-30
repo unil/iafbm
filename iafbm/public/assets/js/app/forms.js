@@ -559,7 +559,13 @@ Ext.define('iafbm.form.Personne', {
     title:'Personne',
     frame: true,
     initComponent: function() {
-        this.items = [
+        this.items = [{
+            xtype: 'fieldcontainer',
+            items: [{
+                xtype: 'ia-combo-version',
+                tables: ['personnes', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_fonctions', 'commissions_membres']
+            }]
+        },
             this._createType(),
         {
             xtype: 'fieldcontainer',
@@ -832,17 +838,11 @@ Ext.define('iafbm.form.Personne', {
     _createCommissionsCurrent: function() {
         var personne_id = this.getRecordId();
         // Adds specific column
-        var store = new iafbm.store.Commission({
+        var store = new iafbm.store.CommissionMembre({
             params: {
-                xjoin: 'commission_membre,commission_fonction',
-                'commission_membre_personne_id': personne_id
+                xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
+                personne_id: personne_id
             }
-        });
-        var columns = Ext.Array.clone(iafbm.columns.Commission);
-        columns.splice(1, 0, {
-            header: "Fonction",
-            dataIndex: 'commission_fonction_nom',
-            width: 200
         });
         return {
             xtype: 'fieldset',
@@ -855,7 +855,31 @@ Ext.define('iafbm.form.Personne', {
                 bbar: null,
                 store: store,
                 searchParams: { xwhere: 'query' },
-                columns: columns
+                columns: [{
+                    header: "Fonction occupée",
+                    dataIndex: 'commission_fonction_nom',
+                    width: 210
+                },{
+                    header: "Type",
+                    dataIndex: 'commission_type_racine',
+                    width: 100
+                },{
+                    header: "N°",
+                    dataIndex: 'commission_id',
+                    width: 35
+                },{
+                    header: "Nom",
+                    dataIndex: 'commission_nom',
+                    flex: 1
+                },{
+                    header: "Section",
+                    dataIndex: 'section_code',
+                    width: 50
+                },{
+                    header: "Etat",
+                    dataIndex: 'commission_etat_nom',
+                    width: 75
+                }]
             }]
         }
     },

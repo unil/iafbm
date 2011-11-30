@@ -294,10 +294,16 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'fonction_id', type: 'int'},
         {name: 'titre_academique_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
+        {name: 'titre', type: 'string', defaultValue: 'Prof.'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        // Foreign fields
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
-        {name: 'titre', type: 'string', defaultValue: 'Prof.'},
-        {name: 'actif', type: 'boolean', defaultValue: true}
+        {name: 'commission_nom', type: 'string'},
+        {name: 'commission_type_racine', type: 'string'},
+        {name: 'commission_etat_nom', type: 'string'},
+        {name: 'commission_fonction_nom', type: 'string'},
+        {name: 'section_code', type: 'string'}
     ],
     validations: [],
     proxy: {

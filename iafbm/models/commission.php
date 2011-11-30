@@ -29,11 +29,6 @@ class CommissionModel extends iaModelMysql {
 
     var $join = array('commission_type');
 
-
-    var $wheres = array(
-        'query' => "{{personne_id}} = {personne_id} AND (1=0 [OR {{*}} LIKE {*}])"
-    );
-
     var $validation = array(
         'nom' => array(
             'mandatory'

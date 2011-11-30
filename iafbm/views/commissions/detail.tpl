@@ -67,7 +67,9 @@ Ext.onReady(function() {
             },
             grid: {
                 store: new iafbm.store.CommissionMembre(),
-                params: {commission_id:<?php echo $d['id'] ?>},
+                params: {
+                    commission_id:<?php echo $d['id'] ?>
+                },
                 columns: iafbm.columns.CommissionMembre
             },
             makeData: function(record) {
@@ -552,9 +554,7 @@ Ext.onReady(function() {
     });
 
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
-        renderTo: 'target',
         activeTab: 0,
-        width: 880,
         plain: true,
         defaults: {
             autoScroll: true,
@@ -599,6 +599,21 @@ Ext.onReady(function() {
                 this.setActiveTab(tabId);
             }
         }
+    });
+
+    var panel = Ext.createWidget('panel', {
+        renderTo: 'target',
+        border: false,
+        bodyStyle: 'background-color: transparent',
+        items: [{
+            xtype: 'ia-combo-version',
+            tables: ['commissions', 'commissions_membres'],
+            getTopLevelComponent: function() {
+                return this.up('panel');
+            }
+        },
+            tabPanel
+        ]
     });
 
 });

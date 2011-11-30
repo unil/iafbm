@@ -848,6 +848,94 @@ Ext.override(Ext.form.BasicForm, {
 */
 
 /**
+ * Extends combobox for version selection:
+ * this is to be used within a form.
+ * Does:
+ * - sets xversion parameter to the form' store
+ * - sets xversion parameter to the form' grids' stores
+ */
+Ext.define('Ext.ia.form.field.VersionComboBox', {
+    extend:'Ext.form.field.ComboBox',
+    alias: 'widget.ia-combo-version',
+    typeAhead: false,
+    editable: false,
+    listConfig: {
+        getInnerTpl: function() {
+            return [
+                '<tpl if="id==0">Version actuelle</tpl>',
+                '<tpl if="id!=0">Version {id}</tpl>'
+            ].join('');
+        }
+    },
+    valueField: 'id',
+    displayField: 'id',
+    store: null,
+    tables: [],
+    getTopLevelComponent: function() {
+        return this.up('form');
+    },
+    getComponents: function() {
+        var components = [],
+            topLevelComponent = this.getTopLevelComponent();
+        // Adds top level component (it is often a form)
+        components.push(topLevelComponent);
+        // Adds forms
+        topLevelComponent.cascade(function(c) {
+            if (c.isXType('form')) components.push(c);
+        });
+        // Adds grids
+        topLevelComponent.cascade(function(c) {
+            if (c.isXType('gridpanel')) components.push(c);
+        });
+        return components;
+    },
+    changeVersion: function(version) {
+        var components = this.getComponents();
+        Ext.each(components, function(c) {
+            // Applies version to the forms record
+            if (c.isXType('form')) {
+                c.loadRecord({xversion:version})
+            }
+            // Applies version to the form grids
+            if (c.isXType('gridpanel')) {
+                c.store.params['xversion'] = version;
+                c.store.load();
+            }
+
+        });
+    },
+    initComponent: function() {
+        this.store = new iafbm.store.Version({
+            params: Ext.apply({
+                'table_name[]': this.tables
+            }, {
+                xorder_by: 'id',
+                xorder: 'DESC'
+            })
+        });
+        // Adds a record for current version
+        this.store.on({load: function() {
+            this.insert(0, {id: 0});
+        }});
+        //
+        var me = this;
+        me.callParent();
+        //
+        this.on({
+            select: function(combo, records) {
+                var record = records.shift(),
+                    version = record.get('id');
+                this.changeVersion(version);
+            },
+            afterrender: function() {
+                // TODO:
+                // Automatic 'Current version' select on render?
+            }
+        });
+    }
+});
+
+/**
  * Extends Ext.form.Panel with
  * - record loading/saving capabilities
  * - TODO: dirty fields management
@@ -871,7 +959,8 @@ Ext.define('Ext.ia.form.Panel', {
     record: null,
     fetch: {
         model: null,
-        id: null
+        id: null,
+        params: {}
     },
     dockedItems: [],
     getRecordId: function() {
@@ -883,16 +972,20 @@ Ext.define('Ext.ia.form.Panel', {
         if (this.record) {
             this.fireEvent('beforeload', this);
             this.getForm().loadRecord(this.record);
-        } else if (this.fetch && this.fetch.model && this.fetch.model.load) {
+        } else {
+            this.loadRecord();
+        }
+    },
+    loadRecord: function(params) {
+        var params = params || {};
+        if (this.fetch && this.fetch.model && this.fetch.model.load) {
             this.fireEvent('beforeload', this);
             // Manages parameters: saves pristine proxy parameters
             // before applying specific fetch parameters
             // (pristine parameters are restored in response callback)
             var proxy = this.fetch.model.proxy;
-            if (this.fetch.params) {
-                var proxyExtraParams = Ext.clone(proxy.extraParams);
-                proxy.extraParams = Ext.apply(proxy.extraParams, this.fetch.params);
-            }
+            var proxyExtraParams = Ext.clone(proxy.extraParams);
+            proxy.extraParams = Ext.apply(proxy.extraParams, this.fetch.params, params);
             // Creates the record
             var me = this;
             this.fetch.model.load(this.fetch.id, {
