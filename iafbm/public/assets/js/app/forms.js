@@ -613,6 +613,8 @@ Ext.define('iafbm.form.Personne', {
             valueField: 'id',
             store: Ext.create('iafbm.store.PersonneType'),
             allowBlank: false,
+            typeAhead: false,
+            editable: false,
             listeners: {
                 change: this.switchType
             }

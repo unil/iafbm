@@ -607,7 +607,18 @@ Ext.onReady(function() {
         bodyStyle: 'background-color: transparent',
         items: [{
             xtype: 'ia-combo-version',
-            tables: ['commissions', 'commissions_membres'],
+            tables: [
+                'commissions',
+                'commissions_membres',
+                'commissions_creations',
+                'candidats',
+                'commissions_candidats',
+                'commissions_candidats_commentaires',
+                'commissions_travails',
+                'commissions_travails_evenements',
+                'commissions_validations',
+                'commissions_finalisations'
+            ],
             getTopLevelComponent: function() {
                 return this.up('panel');
             }

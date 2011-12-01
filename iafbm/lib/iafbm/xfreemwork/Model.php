@@ -32,6 +32,7 @@ class iaModelMysql extends xModelMysql {
     }
 
     protected function get_version($rownum=null) {
+        unset($this->params['actif']); // Also retrive 'deleted' rows
         $results = parent::get();
         $primary = array_shift(xUtil::arrize($this->primary));
         $version = @$this->params['xversion'];
@@ -69,8 +70,8 @@ class iaModelMysql extends xModelMysql {
                     }
                 }
                 // Removes row if it was
-                // - not yet existing at the given revision
-                // - deleted at the given revision
+                // - not yet existing at the given revision (id=null)
+                // - deleted at the given revision (actif=0)
                 // FIXME: This results in a wrong 'count' property in JSON result
                 //        issued by the controller
                 if (!$result[$primary] || (isset($result['actif']) && !$result['actif'])) {
@@ -78,6 +79,9 @@ class iaModelMysql extends xModelMysql {
                 }
             }
         }
+        // Reindexes results array:
+        // previous unset() may have resulted in non-contiguous array indices)
+        $results = array_values($results);
         // Manages $rownum
         if (!is_null($rownum)) return @$results[$rownum] ? $results[$rownum] : array();
         else return $results;
@@ -88,6 +92,10 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function post() {
+        // Ensures primary key(s) parameters are present
+        if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
+            throw new xException('Missing primary keys parameter(s) for post action', 400);
+        // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::post();
         // Manages versioning:
         $old_record = xModel::load($this->name, array('id'=>$this->params['id'], 'xjoin'=>array()))->get(0);
@@ -101,6 +109,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function put() {
+        // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::put();
         // Manages versioning
         $result = parent::put();
@@ -113,11 +122,12 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function delete() {
-        // FIXME: TODO:
-        // 1) Set 'actif' field to false
-        // 2) abord deletion (do not acually delete row)
-        return parent::delete();
-
+        // Ensures primary key(s) parameters are present
+        if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
+            throw new xException('Missing primary keys parameter(s) for delete action', 400);
+        // Sets record as deleted (actif=0)
+        $this->params['actif'] = '0';
+        return $this->post();
     }
 
     /**
@@ -141,8 +151,11 @@ class iaModelMysql extends xModelMysql {
         // Aborts if versioning is disabled
         if (!$this->versioning) return;
         // Determines changes applied to the record
-        $record_id = (strtolower($operation) == 'post') ? $this->params['id'] : $result['insertid'];
-        $new_record = xModel::load($this->name, array('id'=>$record_id))->get(0);
+        $record_id = (strtolower($operation) == 'put') ? $result['insertid'] : $this->params['id'];
+        $new_record = xModel::load($this->name, array(
+            'id' => $record_id,
+            'actif' => array(0,1)
+        ))->get(0);
         $changes = array();
         foreach ($this->fields_values() as $field => $value) {
             // Prevents versioning undesired fields

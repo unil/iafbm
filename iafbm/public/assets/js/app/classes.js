@@ -915,6 +915,9 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         });
         // Adds a record for current version
         this.store.on({load: function() {
+            // Removes last version (which is the current version)
+            this.removeAt(0);
+            // Adds a 'Current version' item with (xversion=0)
             this.insert(0, {id: 0});
         }});
         //

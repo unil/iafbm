@@ -142,6 +142,6 @@ class iaWebController extends xWebController {
         // Checks if method is allowed
         if (!in_array('delete', $this->allow)) throw new xException("Method not allowed", 403);
         // Database action + result
-        return xModel::load($this->model, array('id'=>$this->params['id']))->delete();
+        return xModel::load($this->model, array('id'=>@$this->params['id']))->delete();
     }
 }
