@@ -976,6 +976,7 @@ Ext.define('Ext.ia.form.Panel', {
         if (this.record) {
             this.fireEvent('beforeload', this);
             this.getForm().loadRecord(this.record);
+            this.fireEvent('load', this, this.record);
         } else {
             this.loadRecord();
         }
@@ -1002,6 +1003,7 @@ Ext.define('Ext.ia.form.Panel', {
                     // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
+                    me.fireEvent('load', me, me.record);
                 },
                 callback: function() {
                     if (proxy) proxy.extraParams = proxyExtraParams;
@@ -1035,6 +1037,13 @@ Ext.define('Ext.ia.form.Panel', {
             * @param {Ext.ia.form.Panel} this
             */
             'beforeload',
+            /**
+            * @event load
+            * Fires after a record is loaded.
+            * @param {Ext.ia.form.Panel} this
+            * @param {Ext.data.Model} record The {@link Ext.data.Model} to be saved
+            */
+            'load',
             /**
             * @event aftersave
             * Fires before the record is saved. Return false to cancel the sync.
