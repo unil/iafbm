@@ -178,10 +178,14 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
         });
     },
     getRecord: function(gridView, rowIndex, colIndex, item) {
-        return gridView.getStore().getAt(rowIndex);
+        return null;
     },
     getFetch: function(gridView, rowIndex, colIndex, item) {
-        return {};
+        var record = gridView.getStore().getAt(rowIndex);
+        return {
+            model: record.store.model,
+            id: record.get('id')
+        };
     },
     initComponent: function() {
         this.flex = 0;
@@ -878,13 +882,10 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         var components = [],
             topLevelComponent = this.getTopLevelComponent();
         // Adds top level component (it is often a form)
-        components.push(topLevelComponent);
-        // Adds forms
         topLevelComponent.cascade(function(c) {
+            // Adds forms
             if (c.isXType('form')) components.push(c);
-        });
-        // Adds grids
-        topLevelComponent.cascade(function(c) {
+            // Adds grids
             if (c.isXType('gridpanel')) components.push(c);
         });
         return components;
@@ -1002,7 +1003,6 @@ Ext.define('Ext.ia.form.Panel', {
                     me.record = record;
                     me.getForm().loadRecord(me.record);
                 },
-                failure: function(record) {},
                 callback: function() {
                     if (proxy) proxy.extraParams = proxyExtraParams;
                 }

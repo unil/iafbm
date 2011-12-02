@@ -555,7 +555,7 @@ Ext.define('iafbm.form.Candidat', {
 
 Ext.define('iafbm.form.Personne', {
     extend: 'Ext.ia.form.Panel',
-    store: Ext.create('iafbm.store.Personne'), //fixme, this should not be necessary
+    store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
     title:'Personne',
     frame: true,
     initComponent: function() {
