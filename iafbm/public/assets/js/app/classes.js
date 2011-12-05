@@ -670,12 +670,14 @@ Ext.define('Ext.ia.grid.EditPanel', {
         var add = {
             text: this.toolbarLabels.add,
             iconCls: 'icon-add',
-            handler: this.addItem
+            handler: this.addItem,
+            scope: this
         };
         var del = {
             text: this.toolbarLabels.delete,
             iconCls: 'icon-delete',
-            handler: this.removeItem
+            handler: this.removeItem,
+            scope: this
         };
         var search = new Ext.ia.form.SearchField({
             store: null,
@@ -719,15 +721,17 @@ Ext.define('Ext.ia.grid.EditPanel', {
         return this.getPlugin(this.editingPluginId);
     },
     addItem: function() {
-        var grid = this.up('gridpanel'),
+        var grid = this,
             autoSync = grid.store.autoSync;
+        // Disables autoSync before inserting line
         grid.store.autoSync = false;
         grid.store.insert(0, grid.createRecord());
+        // Re-enables autoSync after inserting line (if applicable)
         grid.store.autoSync = autoSync;
         grid.getEditingPlugin().startEdit(0, 0);
     },
     removeItem: function() {
-        var grid = this.up('gridpanel');
+        var grid = this;
         var selection = grid.getView().getSelectionModel().getSelection()[0];
         if (selection) {
             grid.store.remove(selection);
