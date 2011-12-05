@@ -40,7 +40,7 @@ Ext.define('Ext.ia.data.Store', {
             // It is therefore needed to ensure that extraParams is an object.
             if (!this.proxy.extraParams) this.proxy.extraParams = {};
             // Ext 3 emulation: applies this.params to this.proxy.extraParams
-            this.proxy.extraParams = Ext.apply(this.proxy.extraParams, this.params);
+            this.proxy.extraParams = Ext.apply({}, this.params);
         },
         load: function() { this.loaded = true }
     },
@@ -484,7 +484,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         // Sets store to autoSync changes
         this.store.autoSync = true;
         // Sets grid params to store baseParams
-        this.store.proxy.extraParams = this.grid.params;
+        this.store.params = this.grid.params;
         // Manages store autoloading
         if (!this.store.autoLoad && !this.store.loaded) this.store.load();
     },
@@ -692,15 +692,15 @@ Ext.define('Ext.ia.grid.EditPanel', {
             },
             onBeforeSearch: function() {
                 // Saves current proxy params
-                this._extraParams = Ext.clone(this.store.proxy.extraParams);
+                this._storeParams = Ext.clone(this.store.params);
                 // Applies searchParams to store proxy
-                this.store.proxy.extraParams = Ext.apply(
-                    this.store.proxy.extraParams,
+                this.store.params = Ext.apply(
+                    this.store.params,
                     this.up('gridpanel').searchParams
                 );
             },
             onResetSearch: function() {
-                this.store.proxy.extraParams = this._extraParams;
+                this.store.params = this._storeParams;
             }
         });
         // Adds items conditionally
@@ -910,6 +910,16 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         });
     },
     initComponent: function() {
+        this.addEvents([
+            /**
+            * @event changeversion
+            * Fires after a version has been selected
+            * @param {Ext.ia.form.field.VersionComboBox} this
+            * @param {int} version number
+            */
+            'changeversion'
+        ]);
+        //
         this.store = new iafbm.store.Version({
             params: Ext.apply({
                 'table_name[]': this.tables
@@ -934,6 +944,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 var record = records.shift(),
                     version = record.get('id');
                 this.changeVersion(version);
+                this.fireEvent('changeversion', me, version);
             },
             afterrender: function() {
                 // TODO:
@@ -989,12 +1000,14 @@ Ext.define('Ext.ia.form.Panel', {
         var params = params || {};
         if (this.fetch && this.fetch.model && this.fetch.model.load) {
             this.fireEvent('beforeload', this);
-            // Manages parameters: saves pristine proxy parameters
+            // Manages proxy parameters
+            // because we have a model but no store to deal with:
+            // Saves pristine proxy parameters
             // before applying specific fetch parameters
             // (pristine parameters are restored in response callback)
             var proxy = this.fetch.model.proxy;
             var proxyExtraParams = Ext.clone(proxy.extraParams);
-            proxy.extraParams = Ext.apply(proxy.extraParams, this.fetch.params, params);
+            proxy.extraParams = Ext.apply({}, this.fetch.params, params);
             // Creates the record
             var me = this;
             this.fetch.model.load(this.fetch.id, {
@@ -1070,7 +1083,26 @@ Ext.define('Ext.ia.form.Panel', {
                 xtype: 'button',
                 text: 'Enregistrer',
                 scale: 'medium',
-                handler: function() { me.saveRecord() }
+                handler: function() { me.saveRecord() },
+                initComponent: function() {
+                    var me = this;
+                    me.callParent();
+                    // Disables button if a version is selected
+                },
+                listeners: {afterrender: function() {
+                    var me = this,
+                        // FIXME: This is dirty because the 'save' button should not
+                        //        be aware of the ia-combo-version
+                        version =
+                            // Finds the ia-combo-version contained in plain forms
+                            this.up('form').down('ia-combo-version') ||
+                            // Finds the ia-combo-version contained in 'commission' forms
+                            this.up('tabpanel').up('panel').down('ia-combo-version');
+                    if (!version) return;
+                    version.on({changeversion: function(combo, version) {
+                        me.setDisabled(version);
+                    }});
+                }}
             });
         }
         var me = this;

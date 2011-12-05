@@ -121,7 +121,17 @@ iafbm.columns.CommissionMembre = [{
 
 iafbm.columns.Candidat = [{
     xtype: 'ia-actioncolumn-detailform',
-    form: iafbm.form.Candidat
+    form: iafbm.form.Candidat,
+    getRecord: function(gridView, rowIndex, colIndex, item) {
+        return null
+    },
+    getFetch: function(gridView, rowIndex, colIndex, item) {
+        var candidat = gridView.getStore().getAt(rowIndex);
+        return {
+            model: iafbm.model.Candidat,
+            id: candidat.get('id')
+        };
+    }
 }, {
     header: "Nom",
     dataIndex: 'nom',

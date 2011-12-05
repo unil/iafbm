@@ -290,7 +290,10 @@ Ext.define('iafbm.form.Candidat', {
         defaultType: 'textfield',
     },
     initComponent: function() {
-        this.items = [
+        this.items = [{
+            xtype: 'ia-combo-version',
+            tables: ['candidats', 'candidats_formations']
+        },
             this._createCandidat(),
         {
             xtype: 'fieldcontainer',
