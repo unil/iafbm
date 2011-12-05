@@ -291,7 +291,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
-        {name: 'fonction_id', type: 'int'},
+        {name: 'commission_fonction_id', type: 'int'},
         {name: 'titre_academique_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'titre', type: 'string', defaultValue: 'Prof.'},

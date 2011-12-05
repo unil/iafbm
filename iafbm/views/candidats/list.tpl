@@ -16,6 +16,7 @@ columns.splice(0, 0, {
     text: 'Détails commission',
     tooltip: 'Détails commission',
     getLocation: function(grid, record, id) {
+        var id = record.get('commission_id');
         return x.context.baseuri+'/commissions/'+id+'#candidat'
     }
 });

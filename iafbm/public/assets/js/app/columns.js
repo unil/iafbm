@@ -107,7 +107,7 @@ iafbm.columns.CommissionMembre = [{
     }
 }, {
     header: "Fonction",
-    dataIndex: 'fonction_id',
+    dataIndex: 'commission_fonction_id',
     flex: 1,
     xtype: 'ia-combocolumn',
     editor: {

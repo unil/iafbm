@@ -373,8 +373,9 @@ Ext.define('iafbm.form.Candidat', {
             listeners: {afterrender: function() {
                 // Disables grid if record is phantom
                 // (e.g does not exist in database yet)
-                var record = this.up('form').record,
-                    id = record.get('id'),
+                var record = this.up('form').record;
+                if (!record) return;
+                var id = record.get('id'),
                     phantom = !Boolean(id);
                 if (phantom) this.disable();
                 // Enables grid after record is saved

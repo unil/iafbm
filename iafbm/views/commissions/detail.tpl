@@ -75,7 +75,7 @@ Ext.onReady(function() {
             makeData: function(record) {
                 return {
                     personne_id: record.get('id'),
-                    fonction_id: 1,
+                    commission_fonction_id: 1,
                     commission_id: <?php echo $d['id'] ?>,
                     actif: 1
                 }
@@ -172,15 +172,18 @@ Ext.onReady(function() {
             columns: iafbm.columns.Candidat,
             pageSize: 10,
             addItem: function() {
-                var me = this,
-                    popup = new Ext.ia.window.Popup({
+                var me = this;
+                var popup = new Ext.ia.window.Popup({
                     title: 'Créer un candidat',
                     item: new iafbm.form.Candidat({
                         frame: false,
                         record: new iafbm.model.Candidat({
                             commission_id: <?php echo $d['id'] ?>
                         })
-                    })
+                    }),
+                    listeners: { beforeclose: function() {
+                        me.store.load();
+                    }}
                 });
             },
         }, {
