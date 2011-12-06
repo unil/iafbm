@@ -564,14 +564,41 @@ Ext.define('Ext.ia.form.SearchField', {
         me.callParent(arguments);
     },
     onTrigger1Click : function() {
+        // Extra event
         this.fireEvent('resetsearch', this);
-        var me = this;
-        me.callParent(arguments);
+        // Modified code for store.params manipulation
+        // instead of store.proxy.extraParams
+        var me = this,
+            store = me.store,
+            val;
+        if (me.hasSearch) {
+            me.setValue('');
+            delete store.params[me.paramName];
+            store.load();
+            me.hasSearch = false;
+            me.triggerEl.item(0).setDisplayed('none');
+            me.doComponentLayout();
+        }
     },
     onTrigger2Click : function() {
+        // Extra event
         this.fireEvent('beforesearch', this);
-        var me = this;
-        me.callParent(arguments);
+        // Modified code for store.params manipulation
+        // instead of store.proxy.extraParams
+        var me = this,
+            store = me.store,
+            value = me.getValue();
+
+        if (value.length < 1) {
+            me.onTrigger1Click();
+            return;
+        }
+        store.params[me.paramName] = value;
+        store.load();
+        me.hasSearch = true;
+        me.triggerEl.item(0).setDisplayed('block');
+        me.doComponentLayout();
+        // Extra event
         this.fireEvent('aftersearch', this);
     }
 });
@@ -691,7 +718,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 resetsearch: function() { this.onResetSearch() },
             },
             onBeforeSearch: function() {
-                // Saves current proxy params
+                // Saves current store params
                 this._storeParams = Ext.clone(this.store.params);
                 // Applies searchParams to store proxy
                 this.store.params = Ext.apply(
