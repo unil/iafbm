@@ -157,7 +157,8 @@ class iaModelMysql extends xModelMysql {
             'actif' => array(0,1)
         ))->get(0);
         $changes = array();
-        foreach ($this->fields_values() as $field => $value) {
+        foreach ($this->fields_values() as $dbfield => $value) {
+            $field = $this->modelfield($dbfield);
             // Prevents versioning undesired fields
             if (!$this->is_versionable($field)) continue;
             // Compares record field values, keeping only modified fields
