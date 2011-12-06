@@ -212,7 +212,6 @@ Ext.define('Ext.ia.grid.RadioColumn', {
         me.callParent();
         this.on('checkchange', this.refresh);
     },
-    // Unchecks all others checkbox with the same dataIndex within the grid
     refresh: function(checkcolumn, recordIndex, checked) {
         var store = this.up('gridpanel').getStore();
         // Refreshes the grid by reloading the store
@@ -662,19 +661,20 @@ Ext.define('Ext.ia.grid.EditPanel', {
         );
         // Dynamic parameters
         if (!this.bbar) this.pageSize = null;
+        // Creates Editing plugin
+        this.plugins = [new Ext.ia.grid.plugin.RowEditing({
+            pluginId: this.editingPluginId = Ext.id(),
+            errorSummary: false
+        })];
         // Creates docked items (toolbar)
         this.dockedItems = this.makeDockedItems();
-        // Creates Editing plugin
-        if (this.editable) {
-            this.editingPluginId = Ext.id();
-            this.plugins = [new Ext.ia.grid.plugin.RowEditing({
-                pluginId: this.editingPluginId,
-                errorSummary: false
-            })];
-        }
         // Initializes Component
         var me = this;
         me.callParent();
+        // Manage this.editable state
+        this.getEditingPlugin().on('beforeedit', function() {
+            return Boolean(me.editable);
+        });
         // Manages store loading
         // (on 'afterrender' event so that loading mask can be set on 'beforeload' event)
         this.on({afterrender: function() {
@@ -692,6 +692,41 @@ Ext.define('Ext.ia.grid.EditPanel', {
             beforeload: function() { this.setLoading() },
             load: function() { this.setLoading(false)}
         });
+        // Manages controls disablement when version is set
+        this.on({afterrender: function() {
+            // FIXME: This is dirty because the grid should not
+            //        be aware of the ia-combo-version
+            var me = this,
+                // Finds the ia-combo-version contained in plain forms
+                form = this.up('form'),
+                form_combo = form ? form.down('ia-combo-version') : null,
+                // Finds the ia-combo-version contained in 'commission' forms
+                tabpanel = this.up('tabpanel'),
+                panel = tabpanel ? tabpanel.up('panel') : null,
+                panel_combo = panel ? panel.down('ia-combo-version') : null,
+                //
+                combo = form_combo || panel_combo;
+            if (!combo) return;
+            // Manages versioned/unversioned grid controls
+            combo.on({changeversion: function(combo, version) {
+                // Toggles grid toolbar buttons disablement
+                me.down('toolbar').items.each(function(c) {
+                    c.setDisabled(version)
+                });
+                // Toggles grid rows editability
+                // (restoring initial value afterwards)
+                if (typeof(me._editableInit)=='undefined') me._editableInit = me.editable;
+                me.editable = version ? false : me._editableInit;
+                // Toggles grid columns editability (eg. checkboxes)
+                // (restoring initial value afterwards)
+                // TODO
+                Ext.each(me.columns, function(c) {
+                    //if (c.isXType('ia-radiocolumn')) {}
+                    //if (typeof(editor._readOnlyInit)=='undefined') editor._readOnlyInit = editor.readOnly;
+                    //editor.setReadOnly(version ? true : editor._readOnlyInit);
+                });
+            }});
+        }});
     },
     makeDockedItems: function() {
         var add = {
@@ -784,7 +819,7 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
         if (this.context) {
             var record = this.context.record;
             if (record.phantom) {
-                // This _deleting flas based conditional return prevents an infinite loop
+                // This _deleting flag based conditional return prevents an infinite loop
                 // for store.remove(record) probably indirectly calls
                 // this cancelEdit method...
                 if (record._deleting) return;
@@ -800,6 +835,7 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
     constructor: function() {
         var me = this;
         me.callParent(arguments);
+        // FIXME: Is it still necessary?
         // Workaround: we need to reset the store.params because surprisingly,
         // they get changed when a row is added to the grid through
         // the RowEditor plugin
@@ -807,7 +843,7 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
             context.store.params = context.store.proxy.extraParams;
         });
         // Workaround for preventing validation errors tooltips to show up.
-        // Currse errorSummary is not properly managed
+        // Curse errorSummary is not properly managed
         this.on('beforeedit', function() {
             if (!me.errorSummary) this.editor.showToolTip = function() {};
         });
@@ -914,16 +950,13 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
             topLevelComponent = this.getTopLevelComponent();
         // Adds top level component (it is often a form)
         topLevelComponent.cascade(function(c) {
-            // Adds forms
-            if (c.isXType('form')) components.push(c);
-            // Adds grids
-            if (c.isXType('gridpanel')) components.push(c);
+            // Adds forms and grids
+            if (c.isXType('form') || c.isXType('gridpanel')) components.push(c);
         });
         return components;
     },
     changeVersion: function(version) {
-        var components = this.getComponents();
-        Ext.each(components, function(c) {
+        Ext.each(this.getComponents(), function(c) {
             // Applies version to the forms record
             if (c.isXType('form')) {
                 c.loadRecord({xversion:version})
@@ -974,6 +1007,12 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 this.fireEvent('changeversion', me, version);
             },
             afterrender: function() {
+                // Refreshes version combo list on forms/grids save
+                var f = function() { me.store.load() };
+                Ext.each(this.getComponents(), function(c) {
+                    if (c.isXType('form')) c.on('aftersave', f);
+                    if (c.isXType('gridpanel')) c.store.on('write', f);
+                });
                 // TODO:
                 // Automatic 'Current version' select on render?
             }
@@ -1115,21 +1154,31 @@ Ext.define('Ext.ia.form.Panel', {
                     var me = this;
                     me.callParent();
                     // Disables button if a version is selected
-                },
-                listeners: {afterrender: function() {
-                    var me = this,
-                        // FIXME: This is dirty because the 'save' button should not
+                    this.on({afterrender: function() {
+                        // FIXME: This is dirty because the grid should not
                         //        be aware of the ia-combo-version
-                        version =
+                        var me = this,
                             // Finds the ia-combo-version contained in plain forms
-                            this.up('form').down('ia-combo-version') ||
+                            form = this.up('form'),
+                            form_combo = form ? form.down('ia-combo-version') : null,
                             // Finds the ia-combo-version contained in 'commission' forms
-                            this.up('tabpanel').up('panel').down('ia-combo-version');
-                    if (!version) return;
-                    version.on({changeversion: function(combo, version) {
-                        me.setDisabled(version);
+                            tabpanel = this.up('tabpanel'),
+                            panel = tabpanel ? tabpanel.up('panel') : null,
+                            panel_combo = panel ? panel.down('ia-combo-version') : null,
+                            //
+                            combo = form_combo || panel_combo;
+                        if (!combo) return;
+                        combo.on({changeversion: function(combo, version) {
+                            me.setDisabled(version);
+                            // Toggles form fields to 'readonly' mode
+                            // TODO: Move this logic into actual form
+                            me.up('form').cascade(function(c) {
+                                if (c.isXType('field') && !c.isXType('ia-combo-version'))
+                                    c.setReadOnly(version);
+                            });
+                        }});
                     }});
-                }}
+                },
             });
         }
         var me = this;
