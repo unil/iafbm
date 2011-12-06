@@ -169,6 +169,7 @@ Ext.onReady(function() {
             store: new iafbm.store.Candidat({
                 params: {commission_id: <?php echo $d['id'] ?>}
             }),
+            searchParams: { xwhere: 'query' },
             columns: iafbm.columns.Candidat,
             pageSize: 10,
             addItem: function() {

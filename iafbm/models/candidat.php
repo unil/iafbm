@@ -39,9 +39,9 @@ class CandidatModel extends iaModelMysql {
 
     var $primary = array('id');
 
-//FIXME: pays model is referenced by two different columns, but can only be specified once as a key indice in $joins array :(
-//       Solution: in this file (that is, locally), add:
-//                 create a PaysProModel + PaysPriModel extends PaysModel {}
+    //FIXME: pays model is referenced by two different columns, but can only be specified once as a key indice in $joins array :(
+    //       Solution: in this file (that is, locally), add:
+    //                 create a PaysProModel + PaysPriModel extends PaysModel {}
     var $joins = array(
         'genre' => 'LEFT JOIN genres ON (candidats.genre_id = commissions.id)',
         'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
@@ -50,7 +50,9 @@ class CandidatModel extends iaModelMysql {
         'commission' => 'LEFT JOIN commissions ON (candidats.commission_id = commissions.id)'
     );
 
-    //var $join = array('commission');
+    var $wheres = array(
+        'query' => "{{commission_id}} = {commission_id} AND {{actif}} = 1 AND (1=0 [OR {{*}} LIKE {*}])"
+    );
 
     var $validation = array(
         'nom' => 'mandatory',
