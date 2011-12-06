@@ -591,8 +591,7 @@ Ext.define('iafbm.form.Personne', {
         },
             this._createFormations(),
             this._createFonctions(),
-            this._createCommissionsCurrent(),
-            this._createCommissionsClosed()
+            this._createCommissionsCurrent()
         ];
         //
         var me = this;
@@ -846,8 +845,10 @@ Ext.define('iafbm.form.Personne', {
         // Adds specific column
         var store = new iafbm.store.CommissionMembre({
             params: {
+                personne_id: personne_id,
                 xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
-                personne_id: personne_id
+                xorder_by: 'commission_etat_id',
+                xorder: 'ASC'
             }
         });
         return {
@@ -862,6 +863,18 @@ Ext.define('iafbm.form.Personne', {
                 store: store,
                 searchParams: { xwhere: 'query' },
                 columns: [{
+                    xtype: 'ia-actioncolumn-redirect',
+                    width: 25,
+                    text: 'Détails commission',
+                    tooltip: 'Détails commission',
+                    getLocation: function(grid, record, id) {
+                        return [
+                            x.context.baseuri,
+                            'commissions',
+                            record.get('commission_id')
+                        ].join('/');
+                    }
+                },{
                     header: "Fonction occupée",
                     dataIndex: 'commission_fonction_nom',
                     width: 210
@@ -886,16 +899,6 @@ Ext.define('iafbm.form.Personne', {
                     dataIndex: 'commission_etat_nom',
                     width: 75
                 }]
-            }]
-        }
-    },
-    _createCommissionsClosed: function() {
-        // TODO
-        return {
-            xtype: 'fieldset',
-            title: 'Commissions archivées',
-            items: [{
-                html: 'Cette fonctionnalité est en cours de développement',
             }]
         }
     }
