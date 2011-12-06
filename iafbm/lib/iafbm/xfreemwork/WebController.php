@@ -64,22 +64,19 @@ class iaWebController extends xWebController {
         if (!in_array('get', $this->allow)) throw new xException("Method not allowed", 403);
         // Creates parameter for model instance
         $params = $this->params;
+        // Manages query case
         if (strlen(@$params['query']) > 0) {
             $fields = array_merge(
                 array_keys(xModel::load($this->model)->mapping),
                 array_keys(xModel::load($this->model)->foreign_mapping())
             );
-            // TODO:
-            // - group existing fields in $this->params as AND group,
-            // - group query fields as AND group with OR elements
-            // Eg: AND name1=1 AND name2=2 AND (query1=abc OR query2=abc)
-            //
-            // Requirement: add grouping capability in xModel
-            //
             // Adds (specified if applicable) model fields
             foreach ($fields as $field) {
                 // Skips model field if $this->query_field exists but $field not in list
                 if ($this->query_fields && !in_array($field, $this->query_fields)) continue;
+                // Skips fields existing in params:
+                // these are to be used as constraint
+                if (in_array($field, array_keys($this->params), true)) continue;
                 // Adds model field
                 $params[$field] = "%{$this->params['query']}%";
                 $params["{$field}_comparator"] = 'LIKE';
