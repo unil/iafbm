@@ -9,7 +9,8 @@ class CommissionsTypesController extends iaWebController {
         $data = array(
             'title' => 'Types de commissions',
             'id' => 'commissions-types',
-            'model' => 'CommissionType'
+            'model' => 'CommissionType',
+            'toolbarButtons' => array('search')
         );
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
