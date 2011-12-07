@@ -1027,6 +1027,11 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                     version = record.get('id');
                 this.changeVersion(version);
                 this.fireEvent('changeversion', me, version);
+                // Sets templated text in combo
+                var display = version ?
+                    Ext.String.format("Version {0}", version) :
+                    "Version actuelle";
+                this.setRawValue(display);
             },
             afterrender: function() {
                 // Refreshes version combo list on forms/grids save
