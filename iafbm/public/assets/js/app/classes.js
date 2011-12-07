@@ -207,16 +207,39 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
 Ext.define('Ext.ia.grid.RadioColumn', {
     extend:'Ext.ux.CheckColumn',
     alias: 'widget.ia-radiocolumn',
+    editable: true,
     initComponent: function() {
+        this.addEvents(
+            /**
+             * @event checkchange
+             * Fires when the checked state of a row changes
+             * @param {Ext.ux.CheckColumn} this
+             * @param {Number} rowIndex The row index
+             * @param {Boolean} checked True if the box is checked
+             */
+            'click'
+        );
+        //
         var me = this;
         me.callParent();
         this.on('checkchange', this.refresh);
+        this.on('click', function() { return Boolean(this.editable) });
     },
     refresh: function(checkcolumn, recordIndex, checked) {
         var store = this.up('gridpanel').getStore();
         // Refreshes the grid by reloading the store
         // in order to show the actual unique selected row
         store.load();
+    },
+    processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
+        if (Ext.Array.contains(['mousedown', 'keyup'], type) || Ext.Array.contains([e.ENTER, e.SPACE], e.getKey())) {
+            // Fire an extra 'click' event
+            var r = this.fireEvent('click', this, type, view, cell, recordIndex, cellIndex, e);
+            // Abort if click handler returns false
+            if (r === false) return;
+        }
+        // Process click
+        this.callParent(arguments);
     }
 });
 
@@ -719,11 +742,10 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 me.editable = version ? false : me._editableInit;
                 // Toggles grid columns editability (eg. checkboxes)
                 // (restoring initial value afterwards)
-                // TODO
                 Ext.each(me.columns, function(c) {
-                    //if (c.isXType('ia-radiocolumn')) {}
-                    //if (typeof(editor._readOnlyInit)=='undefined') editor._readOnlyInit = editor.readOnly;
-                    //editor.setReadOnly(version ? true : editor._readOnlyInit);
+                    if (!c.isXType('ia-radiocolumn')) return;
+                    if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
+                    c.editable = version ? false : c._editableInit;
                 });
             }});
         }});
