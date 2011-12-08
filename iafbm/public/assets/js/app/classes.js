@@ -1033,15 +1033,8 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                     "Version actuelle";
                 this.setRawValue(display);
             },
-            afterrender: function() {
-                // Refreshes version combo list on forms/grids save
-                var f = function() { me.store.load() };
-                Ext.each(this.getComponents(), function(c) {
-                    if (c.isXType('form')) c.on('aftersave', f);
-                    if (c.isXType('gridpanel')) c.store.on('write', f);
-                });
-                // TODO:
-                // Automatic 'Current version' select on render?
+            expand: function() {
+                this.store.load();
             }
         });
     }
