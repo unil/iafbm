@@ -705,7 +705,6 @@ Ext.define('Ext.ia.grid.EditPanel', {
             this.fireEvent('beforeload', this);
             this.store.pageSize = this.pageSize;
             this.store.autoSync = me.autoSync;
-console.log(me.store.$className, me.autoSync);
             this.store.load({
                 callback: function(records, operation) {
                     me.fireEvent('load');
