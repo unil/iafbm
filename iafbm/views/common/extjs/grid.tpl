@@ -18,6 +18,7 @@ Ext.onReady(function(){
         columns: <?php echo $d['columns'] ?>,
         pageSize: <?php echo $d['pageSize'] ?>,
         editable: <?php echo json_encode($d['editable']) ?>,
+        autoSync: <?php echo json_encode($d['autoSync']) ?>,
         <?php if (isset($d['toolbarButtons'])): ?>
         toolbarButtons: <?php echo json_encode($d['toolbarButtons']) ?>
         <?php endif ?>

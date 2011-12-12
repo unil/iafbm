@@ -152,7 +152,7 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
     text: 'Détails',
     tooltip: 'Détails',
     form: null,
-    closeOnSave: true,
+    closeOnSave: false,
     handler: function(gridView, rowIndex, colIndex, item) {
         var me = this,
             popup = new Ext.ia.window.Popup({
@@ -644,6 +644,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         newRecordValues: {},
         searchParams: {},
     },
+    autoSync: false,
     editable: true,
     toolbarButtons: ['add', 'delete', 'search'],
     toolbarLabels: {
@@ -703,7 +704,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
         this.on({afterrender: function() {
             this.fireEvent('beforeload', this);
             this.store.pageSize = this.pageSize;
-            this.store.autoSync = true;
+            this.store.autoSync = me.autoSync;
+console.log(me.store.$className, me.autoSync);
             this.store.load({
                 callback: function(records, operation) {
                     me.fireEvent('load');
@@ -819,8 +821,6 @@ Ext.define('Ext.ia.grid.EditPanel', {
         var selection = grid.getView().getSelectionModel().getSelection()[0];
         if (selection) {
             grid.store.remove(selection);
-            // Paging fix: Reloading grid store refreshes paging state
-            grid.store.load();
         }
     },
     createRecord: function() {
@@ -1119,18 +1119,21 @@ Ext.define('Ext.ia.form.Panel', {
         var me = this,
             record = this.getRecord();
         //TODO: would it be clever to reuse the record validation be used here?
-        if (this.getForm().isValid()) {
-            // Updates record from form values
-            // FIXME: updateRecord() will trigger the save action
-            //        if the record belongs to Store with autoSync,
-            //        which will trigger the POST request twice :(
-            this.getForm().updateRecord(record);
-            record.save({ success: function(record, operation) {
-                if (!operation.success) return;
-                me.fireEvent('aftersave', me, record);
-                me.getForm().loadRecord(record);
-            }});
-        }
+        if (!this.getForm().isValid()) return;
+        // Updates record from form values
+        // FIXME: updateRecord() will trigger the save action
+        //        if the record belongs to Store with autoSync,
+        //        which will trigger the POST request twice :(
+        this.getForm().updateRecord(record);
+        record.save({ success: function(record, operation) {
+            if (!operation.success) return;
+            me.fireEvent('aftersave', me, record);
+            me.getForm().loadRecord(record);
+        }});
+        // Syncs stores of contained grids
+        this.cascade(function (c) {
+            if (c.isXType('gridpanel')) c.store.sync();
+        })
     },
     initComponent: function() {
         this.addEvents(
