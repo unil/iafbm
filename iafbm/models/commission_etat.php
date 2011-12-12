@@ -4,6 +4,8 @@ class CommissionEtatModel extends iaModelMysql {
 
     var $table = 'commissions_etats';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
         'nom' => 'nom',

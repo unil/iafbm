@@ -4,6 +4,8 @@ class PaysModel extends iaModelMysql {
 
     var $table = 'pays';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
         'code' => 'code',

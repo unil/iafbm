@@ -4,6 +4,8 @@ class SectionModel extends iaModelMysql {
 
     var $table = 'sections';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
         'code' => 'code',

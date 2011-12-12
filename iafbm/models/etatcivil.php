@@ -4,6 +4,8 @@ class EtatCivilModel extends iaModelMysql {
 
     var $table = 'etatscivils';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
         'nom' => 'nom'

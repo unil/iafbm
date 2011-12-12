@@ -4,11 +4,10 @@ class CommissionTypeModel extends iaModelMysql {
 
     var $table = 'commissions_types';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
-        'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'nom' => 'nom',
         'racine' => 'racine',
     );

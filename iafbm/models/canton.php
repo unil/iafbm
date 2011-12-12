@@ -4,6 +4,8 @@ class CantonModel extends iaModelMysql {
 
     var $table = 'cantons';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
         'code' => 'code',

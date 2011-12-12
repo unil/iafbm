@@ -4,6 +4,8 @@ class PermisModel extends iaModelMysql {
 
     var $table = 'permis';
 
+    var $versioning = false;
+
     var $mapping = array(
         'id' => 'id',
         'nom' => 'nom',
