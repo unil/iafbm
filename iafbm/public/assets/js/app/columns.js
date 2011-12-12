@@ -33,7 +33,7 @@ iafbm.columns.Personne = [{
 }, {
     header: "Titres académiques",
     flex: 1,
-    dataIndex: '_fonctions'
+    dataIndex: '_activites'
 }, {
     header: "Date de naissance",
     dataIndex: 'date_naissance',
@@ -58,8 +58,8 @@ iafbm.columns.CommissionMembre = [{
         };
     }
 }, {
-    header: "Titre",
-    dataIndex: 'titre_academique_id',
+    header: "Activité",
+    dataIndex: 'activite_id',
     width: 150,
     xtype: 'ia-combocolumn',
     editor: {
@@ -67,9 +67,9 @@ iafbm.columns.CommissionMembre = [{
         editable: false,
         typeAhead: false,
         allowBlank: false,
-        store: new iafbm.store.PersonneFonction(),
-        valueField: 'titre_academique_id',
-        displayField: 'titre_academique_abreviation',
+        store: new iafbm.store.PersonneActivite(),
+        valueField: 'activite_id',
+        displayField: 'activite_abreviation',
         // Manages list filtering: only shows titres-academiques related to the member
         queryMode: 'local',
         listeners: {
@@ -249,7 +249,7 @@ iafbm.columns.CommissionType = [{
     }
 }];
 
-iafbm.columns.TitreAcademique = [{
+iafbm.columns.Activite = [{
     header: "Abréviation",
     dataIndex: 'abreviation',
     flex: 1,
@@ -265,15 +265,29 @@ iafbm.columns.TitreAcademique = [{
         xtype: 'textfield',
         allowBlank: false
     }
-}];
-
-iafbm.columns.FonctionHospitaliere = [{
-    header: "Nom",
-    dataIndex: 'nom',
+}, {
+    header: "Type",
+    dataIndex: 'activite_type_id',
     flex: 1,
+    xtype: 'ia-combocolumn',
     field: {
-        xtype: 'textfield',
-        allowBlank: false
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.ActiviteType()
+    }
+}, {
+    header: "Section",
+    dataIndex: 'section_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    field: {
+        xtype: 'ia-combo',
+        displayField: 'code',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.Section()
     }
 }];
 

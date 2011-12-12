@@ -95,29 +95,31 @@ Ext.define('iafbm.model.Formation', {
         url: x.context.baseuri+'/api/formations',
     }
 });
-Ext.define('iafbm.model.TitreAcademique', {
+Ext.define('iafbm.model.ActiviteType', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/activites_types',
+    }
+});
+Ext.define('iafbm.model.Activite', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'activite_type_id', type: 'int', useNull: true},
+        {name: 'section_id', type: 'int', useNull: true},
         {name: 'abreviation', type: 'string'},
         {name: 'nom', type: 'string'}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/titres_academiques',
-    }
-});
-Ext.define('iafbm.model.FonctionHospitaliere', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int'},
-        {name: 'nom', type: 'string'}
-    ],
-    validations: [],
-    proxy: {
-        type: 'ia-rest',
-        url: x.context.baseuri+'/api/fonctions_hospitalieres',
+        url: x.context.baseuri+'/api/activites',
     }
 });
 Ext.define('iafbm.model.Departement', {
@@ -136,7 +138,7 @@ Ext.define('iafbm.model.Adresse', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'adresse_type_id', type: 'string'},
+        {name: 'adresse_type_id', type: 'int', useNull: true},
         {name: 'rue', type: 'string'},
         {name: 'npa', type: 'string'},
         {name: 'lieu', type: 'string'},
@@ -210,26 +212,25 @@ Ext.define('iafbm.model.PersonneFormation', {
         url: x.context.baseuri+'/api/personnes_formations',
     }
 });
-Ext.define('iafbm.model.PersonneFonction', {
+Ext.define('iafbm.model.PersonneActivite', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int', useNull: true},
         {name: 'section_id', type: 'int', useNull: true},
-        {name: 'titre_academique_id', type: 'int', useNull: true},
-        {name: 'titre_academique_abreviation', type: 'string'},
+        {name: 'activite_id', type: 'int', useNull: true},
+        {name: 'activite_abreviation', type: 'string'},
+        {name: 'departement_id', type: 'int', useNull: true},
+        {name: 'departement_nom', type: 'string'},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'date_contrat', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'debut_mandat', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'fin_mandat', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'fonction_hospitaliere_id', type: 'int', useNull: true},
-        {name: 'departement_id', type: 'int', useNull: true},
-        {name: 'departement_nom', type: 'string'}
+        {name: 'fin_mandat', type: 'date', dateFormat: 'Y-m-d'}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/personnes_fonctions',
+        url: x.context.baseuri+'/api/personnes_activites',
     }
 });
 Ext.define('iafbm.model.PersonneAdresse', {

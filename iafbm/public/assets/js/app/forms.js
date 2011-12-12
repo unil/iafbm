@@ -567,7 +567,7 @@ Ext.define('iafbm.form.Personne', {
             xtype: 'fieldcontainer',
             items: [{
                 xtype: 'ia-combo-version',
-                tables: ['personnes', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_fonctions', 'commissions_membres']
+                tables: ['personnes', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_formations', 'personnes_activites', 'commissions_membres']
             }]
         },
             this._createType(),
@@ -590,7 +590,7 @@ Ext.define('iafbm.form.Personne', {
             }]
         },
             this._createFormations(),
-            this._createFonctions(),
+            this._createActivites(),
             this._createCommissionsCurrent()
         ];
         //
@@ -709,7 +709,7 @@ Ext.define('iafbm.form.Personne', {
             params: { personne_id: this.getRecordId() }
         });
     },
-    _createFonctions: function() {
+    _createActivites: function() {
         var personne_id = this.getRecordId();
         return {
             xtype: 'fieldset',
@@ -727,29 +727,32 @@ Ext.define('iafbm.form.Personne', {
                 newRecordValues: {
                     personne_id: personne_id
                 },
-                store: new iafbm.store.PersonneFonction({
-                    params: { personne_id: personne_id }
+                store: new iafbm.store.PersonneActivite({
+                    params: {
+                        personne_id: personne_id,
+                        //section_id: 1 // 1 for SSC grid, 2 for SSF grid
+                    }
                 }),
                 columns: [{
-                    header: "Section",
-                    dataIndex: 'section_id',
+                    header: "Type",
+                    dataIndex: 'activite_activite_type_id',
                     width: 60,
                     xtype: 'ia-combocolumn',
                     editor: {
                         xtype: 'ia-combo',
-                        store: new iafbm.store.Section(),
+                        store: new iafbm.store.ActiviteType(),
                         valueField: 'id',
-                        displayField: 'code',
+                        displayField: 'nom',
                         allowBlank: false
                     }
                 },{
-                    header: "Titre académique",
-                    dataIndex: 'titre_academique_id',
+                    header: "Activité",
+                    dataIndex: 'activite_id',
                     flex: 1,
                     xtype: 'ia-combocolumn',
                     editor: {
                         xtype: 'ia-combo',
-                        store: new iafbm.store.TitreAcademique(),
+                        store: new iafbm.store.Activite(),
                         valueField: 'id',
                         displayField: 'abreviation',
                         allowBlank: false
@@ -811,30 +814,6 @@ Ext.define('iafbm.form.Personne', {
                                 return 'La fin de mandat doit être utlérieure au début de mandat';
                             return true;
                         }
-                    }
-                },{
-                    header: "Fonction hospitalière",
-                    dataIndex: 'fonction_hospitaliere_id',
-                    flex: 1,
-                    xtype: 'ia-combocolumn',
-                    editor: {
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.FonctionHospitaliere(),
-                        valueField: 'id',
-                        displayField: 'nom',
-                        allowBlank: false
-                    }
-                },{
-                    header: "Dépt (SSF) / Service (SSC)",
-                    dataIndex: 'departement_id',
-                    flex: 1,
-                    xtype: 'ia-combocolumn',
-                    editor: {
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.Departement(),
-                        valueField: 'id',
-                        displayField: 'nom',
-                        allowBlank: false
                     }
                 }]
             }]

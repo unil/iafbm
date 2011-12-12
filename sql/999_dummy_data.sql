@@ -56,16 +56,6 @@ INSERT INTO `personnes_emails` VALUES (1,'2011-10-17 13:28:45',NULL,NULL,NULL,1,
 UNLOCK TABLES;
 
 --
--- Dumping data for table `personnes_fonctions`
---
-
-LOCK TABLES `personnes_fonctions` WRITE;
-/*!40000 ALTER TABLE `personnes_fonctions` DISABLE KEYS */;
-INSERT INTO `personnes_fonctions` VALUES (1,NULL,NULL,NULL,NULL,1,1,2,12,NULL,NULL,NULL,NULL,1,1),(2,NULL,NULL,NULL,NULL,1,1,1,1,NULL,NULL,NULL,'2011-10-01',1,2);
-/*!40000 ALTER TABLE `personnes_fonctions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `personnes_formations`
 --
 

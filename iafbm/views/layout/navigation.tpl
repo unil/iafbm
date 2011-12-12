@@ -16,24 +16,16 @@ $navigation = array(
             'url' => u('commissions'),
             'label' => 'Gérer des commissions'
         ),
-        'commissions-types' => array(
+        'commissions_types' => array(
             'url' => u('commissions_types'),
-            'label' => 'Gérer des types commissions'
+            'label' => 'Afficher des types commissions'
         ),
     ),
     'Autres' => array(
-        'titres-academiques' => array(
-            'url' => u('titres_academiques'),
-            'label' => 'Gérer les titres academiques'
-        ),
-        'fonctions-hospitalieres' => array(
-            'url' => u('fonctions_hospitalieres'),
-            'label' => 'Gérer les fonctions hospitalières'
-        ),
-        'departements' => array(
-            'url' => u('departements'),
-            'label' => 'Gérer les départements'
-        ),
+        'activites' => array(
+            'url' => u('activites'),
+            'label' => 'Afficher les fonctions collaborateurs'
+        )
     )
 );
 

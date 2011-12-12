@@ -10,13 +10,13 @@ CREATE TABLE commissions_membres (
     personne_id INT NOT NULL,
     commission_id INT NOT NULL,
     commission_fonction_id INT NOT NULL,
-    titre_academique_id INT,
+    activite_id INT,
     departement_id INT,
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
     FOREIGN KEY (commission_fonction_id) REFERENCES commissions_fonctions(id),
-    FOREIGN KEY (titre_academique_id) REFERENCES titres_academiques(id),
+    FOREIGN KEY (activite_id) REFERENCES activites(id),
     FOREIGN KEY (departement_id) REFERENCES departements(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

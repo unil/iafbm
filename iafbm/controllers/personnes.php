@@ -33,17 +33,17 @@ class PersonnesController extends iaWebController {
         $personnes = parent::get();
         foreach ($personnes['items'] as &$personne) {
             // Fetches 'Fonction' for the current 'Personne'
-            $fonctions = xModel::load('personne_fonction', array(
+            $fonctions = xModel::load('personne_activite', array(
                 'personne_id' => $personne['id'],
-                'xjoin' => 'titre_academique'
+                'xjoin' => 'activite'
             ))->get();
             // Creates a CSV list of 'Fonction'
             $f = array();
             foreach($fonctions as $function) {
-                $f[] = $function['titre_academique_abreviation'];
+                $f[] = $function['activite_abreviation'];
             }
             // Adds it to the resultset
-            $personne['_fonctions'] = implode(', ', $f);
+            $personne['_activites'] = implode(', ', $f);
         }
         return $personnes;
     }
