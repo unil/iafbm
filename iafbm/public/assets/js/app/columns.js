@@ -31,7 +31,7 @@ iafbm.columns.Personne = [{
         store: new iafbm.store.Pays()
     }
 }, {
-    header: "Titres académiques",
+    header: "Carrière professionnelle",
     flex: 1,
     dataIndex: '_activites'
 }, {
@@ -70,7 +70,7 @@ iafbm.columns.CommissionMembre = [{
         store: new iafbm.store.PersonneActivite(),
         valueField: 'activite_id',
         displayField: 'activite_abreviation',
-        // Manages list filtering: only shows titres-academiques related to the member
+        // Manages list filtering: only shows 'acitivtes' related to the 'personne'
         queryMode: 'local',
         listeners: {
             beforequery: function(queryEvent, eventOpts) {
@@ -101,9 +101,27 @@ iafbm.columns.CommissionMembre = [{
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
-        displayField: 'nom',
-        valueField: 'id',
-        store: new iafbm.store.Departement()
+        displayField: 'departement_nom',
+        valueField: 'departement_id',
+        store: new iafbm.store.PersonneActivite({
+            // FIXME: this is not working (because it's a foreign key)
+            params: { order_by: 'departement_nom' }
+        }),
+        // Manages list filtering: only shows 'departements' related to the 'personne'
+        queryMode: 'local',
+        listeners: {
+            beforequery: function(queryEvent, eventOpts) {
+                // Filters store record, keeping only the titles related to this person
+                var personne_id = this.up('form').getRecord().get('personne_id');
+                this.store.clearFilter();
+                this.store.filter('personne_id', personne_id);
+                queryEvent.cancel = true;
+                this.expand();
+            },
+            collapse: function(combo, record, index) {
+                this.store.clearFilter();
+            }
+        }
     }
 }, {
     header: "Fonction",

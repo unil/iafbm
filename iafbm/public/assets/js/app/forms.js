@@ -590,7 +590,17 @@ Ext.define('iafbm.form.Personne', {
             }]
         },
             this._createFormations(),
-            this._createActivites(),
+        {
+            xtype: 'fieldset',
+            title: 'Carrière professionnelle',
+            iaDisableFor: [2,3],
+            items: [
+                { html: 'SSF' },
+                this._createActivites(2),
+                { html: 'SSC', padding: '20 0 0 0' },
+                this._createActivites(1)
+            ]
+        },
             this._createCommissionsCurrent()
         ];
         //
@@ -709,113 +719,144 @@ Ext.define('iafbm.form.Personne', {
             params: { personne_id: this.getRecordId() }
         });
     },
-    _createActivites: function() {
+    _createActivites: function(section_id) {
+        if (typeof section_id == 'undefined') throw "Missing section_id parameter";
         var personne_id = this.getRecordId();
         return {
-            xtype: 'fieldset',
-            title: 'Carrière professionnelle',
-            iaDisableFor: [2,3],
-            items: [{
-                xtype: 'ia-editgrid',
-                height: 150,
-                toolbarButtons: ['add', 'delete'],
-                toolbarLabels: {
-                    add: 'Ajouter un contrat',
-                    delete: 'Supprimer le contrat'
-                },
-                bbar: null,
-                newRecordValues: {
-                    personne_id: personne_id
-                },
-                store: new iafbm.store.PersonneActivite({
-                    params: {
-                        personne_id: personne_id,
-                        //section_id: 1 // 1 for SSC grid, 2 for SSF grid
-                    }
-                }),
-                columns: [{
-                    header: "Type",
-                    dataIndex: 'activite_activite_type_id',
-                    width: 60,
-                    xtype: 'ia-combocolumn',
-                    editor: {
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.ActiviteType(),
-                        valueField: 'id',
-                        displayField: 'nom',
-                        allowBlank: false
-                    }
-                },{
-                    header: "Activité",
-                    dataIndex: 'activite_id',
-                    flex: 1,
-                    xtype: 'ia-combocolumn',
-                    editor: {
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.Activite(),
-                        valueField: 'id',
-                        displayField: 'abreviation',
-                        allowBlank: false
-                    }
-                },{
-                    header: "% Taux d'activité",
-                    dataIndex: 'taux_activite',
-                    width: 48,
-                    align: 'right',
-                    xtype: 'numbercolumn',
-                    format: '000',
-                    xtype: 'templatecolumn',
-                    tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>',
-                    editor: {
-                        xtype: 'numberfield',
-                        maxValue: 100,
-                        minValue: 0
-                    }
-                },{
-                    header: "Date contrat",
-                    dataIndex: 'date_contrat',
-                    width: 100,
-                    xtype: 'ia-datecolumn',
-                    editor: {
-                        xtype: 'ia-datefield'
-                    }
-                },{
-                    header: "Début mandat",
-                    dataIndex: 'debut_mandat',
-                    width: 100,
-                    xtype: 'ia-datecolumn',
-                    editor: {
-                        xtype: 'ia-datefield',
-                        validator: function(value) {
-                            var debut = this.getValue(),
-                                fin = this.nextSibling().getValue();
-                            if (debut && !fin)
-                                return true;
-                            if (!debut && fin)
-                                return 'Si le mandat a une fin, la date de début doit être spécifiée';
-                            if (debut>fin)
-                                return 'La date de début de mandat doit être antérieure à la date de fin';
-                            return true;
+            xtype: 'ia-editgrid',
+            height: 150,
+            toolbarButtons: ['add', 'delete'],
+            toolbarLabels: {
+                add: 'Ajouter un contrat',
+                delete: 'Supprimer le contrat'
+            },
+            bbar: null,
+            newRecordValues: {
+                personne_id: personne_id
+            },
+            store: new iafbm.store.PersonneActivite({
+                params: {
+                    personne_id: personne_id,
+                    activite_section_id: section_id
+                }
+            }),
+            columns: [{
+                // This column is used as a filter for 'Activite' field
+                header: "Type",
+                dataIndex: 'activite_activite_type_id',
+                width: 100,
+                xtype: 'ia-combocolumn',
+                editor: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.ActiviteType(),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            },{
+                header: "Activité",
+                dataIndex: 'activite_id',
+                flex: 1,
+                xtype: 'ia-combocolumn',
+                editor: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.Activite({
+                        params: { section_id: section_id }
+                    }),
+                    valueField: 'id',
+                    displayField: 'abreviation',
+                    allowBlank: false,
+                    // Manages list filtering: only shows titres-academiques related to the member
+                    queryMode: 'local',
+                    listeners: {
+                        afterrender: function() {
+                            this.prev().on('select', this.clearValue, this);
+                        },
+                        beforequery: function(queryEvent, eventOpts) {
+                            // Filters store records, keeping only the titles related the 'activite type'
+                            var activite_type_id = this.prev().getValue();
+                            this.store.clearFilter();
+                            this.store.filter('activite_type_id', activite_type_id);
+                            queryEvent.cancel = true;
+                            this.expand();
+                        },
+                        collapse: function(combo, record, index) {
+                            this.store.clearFilter();
                         }
                     }
-                },{
-                    header: "Fin mandat",
-                    dataIndex: 'fin_mandat',
-                    width: 100,
-                    xtype: 'ia-datecolumn',
-                    editor: {
-                        xtype: 'ia-datefield',
-                        validator: function(value) {
-                            var debut = this.previousSibling().getValue(),
-                                fin = this.getValue();
-                            if (debut && !fin)
-                                return true;
-                            if (debut>fin)
-                                return 'La fin de mandat doit être utlérieure au début de mandat';
+                }
+            },{
+                header: "Département",
+                dataIndex: 'departement_id',
+                flex: 1,
+                xtype: 'ia-combocolumn',
+                editor: {
+                    xtype: 'ia-combo',
+                    store: new iafbm.store.Departement({
+                        params: { section_id: section_id }
+                    }),
+                    valueField: 'id',
+                    displayField: 'nom',
+                    allowBlank: false
+                }
+            },{
+                header: "% Taux d'activité",
+                dataIndex: 'taux_activite',
+                width: 47,
+                align: 'right',
+                xtype: 'numbercolumn',
+                format: '000',
+                xtype: 'templatecolumn',
+                tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>',
+                editor: {
+                    xtype: 'numberfield',
+                    maxValue: 100,
+                    minValue: 0
+                }
+            },{
+                header: "Date contrat",
+                dataIndex: 'date_contrat',
+                width: 100,
+                xtype: 'ia-datecolumn',
+                editor: {
+                    xtype: 'ia-datefield'
+                }
+            },{
+                header: "Début mandat",
+                dataIndex: 'debut_mandat',
+                width: 100,
+                xtype: 'ia-datecolumn',
+                editor: {
+                    xtype: 'ia-datefield',
+                    validator: function(value) {
+                        var debut = this.getValue(),
+                            fin = this.nextSibling().getValue();
+                        if (debut && !fin)
                             return true;
-                        }
+                        if (!debut && fin)
+                            return 'Si le mandat a une fin, la date de début doit être spécifiée';
+                        if (debut>fin)
+                            return 'La date de début de mandat doit être antérieure à la date de fin';
+                        return true;
                     }
-                }]
+                }
+            },{
+                header: "Fin mandat",
+                dataIndex: 'fin_mandat',
+                width: 100,
+                xtype: 'ia-datecolumn',
+                editor: {
+                    xtype: 'ia-datefield',
+                    validator: function(value) {
+                        var debut = this.previousSibling().getValue(),
+                            fin = this.getValue();
+                        if (debut && !fin)
+                            return true;
+                        if (debut>fin)
+                            return 'La fin de mandat doit être utlérieure au début de mandat';
+                        return true;
+                    }
+                }
             }]
         };
     },

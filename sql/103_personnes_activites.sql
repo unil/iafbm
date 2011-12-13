@@ -8,7 +8,6 @@ CREATE TABLE personnes_activites (
     actif BOOLEAN NOT NULL DEFAULT true,
 
     personne_id INT,
-    section_id INT,
     activite_id INT,
     departement_id INT,
     date_contrat DATE NULL DEFAULT NULL,
@@ -18,7 +17,6 @@ CREATE TABLE personnes_activites (
 
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
-    FOREIGN KEY (section_id) REFERENCES sections(id),
     FOREIGN KEY (activite_id) REFERENCES activites(id),
     FOREIGN KEY (departement_id) REFERENCES departements(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

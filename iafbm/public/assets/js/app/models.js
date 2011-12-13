@@ -176,7 +176,7 @@ Ext.define('iafbm.model.Personne', {
         {name: 'pays_id', type: 'int', useNull: true},
         {name: 'permis_id', type: 'int', useNull: true},
         {name: 'actif', type: 'boolean', defaultValue: true},
-        {name: '_fonctions', type: 'string'}
+        {name: '_activites', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -217,9 +217,9 @@ Ext.define('iafbm.model.PersonneActivite', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int', useNull: true},
-        {name: 'section_id', type: 'int', useNull: true},
         {name: 'activite_id', type: 'int', useNull: true},
         {name: 'activite_abreviation', type: 'string'},
+        {name: 'activite_activite_type_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'departement_nom', type: 'string'},
         {name: 'taux_activite', type: 'int', useNull: true},
@@ -293,7 +293,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'personne_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
         {name: 'commission_fonction_id', type: 'int'},
-        {name: 'titre_academique_id', type: 'int', useNull: true},
+        {name: 'activite_id', type: 'int', useNull: true},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'titre', type: 'string', defaultValue: 'Prof.'},
         {name: 'actif', type: 'boolean', defaultValue: true},
@@ -303,8 +303,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'commission_nom', type: 'string'},
         {name: 'commission_type_racine', type: 'string'},
         {name: 'commission_etat_nom', type: 'string'},
-        {name: 'commission_fonction_nom', type: 'string'},
-        {name: 'section_code', type: 'string'}
+        {name: 'commission_fonction_nom', type: 'string'}
     ],
     validations: [],
     proxy: {

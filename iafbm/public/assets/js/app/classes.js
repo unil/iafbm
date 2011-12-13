@@ -472,8 +472,9 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             store: null,
         },
         grid: {
-             store: null,
-             params: {}
+            store: null,
+            autoSync: false,
+            params: {}
         },
         makeData: function(record) {
             // Returns a hashtable for feeding Ext.data.Model data, eg:
@@ -504,7 +505,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         }];
         var me = this; me.callParent();
         // Sets store to autoSync changes
-        this.store.autoSync = true;
+        this.store.autoSync = this.grid.autoSync;
         // Sets grid params to store baseParams
         this.store.params = this.grid.params;
         // Manages store autoloading
