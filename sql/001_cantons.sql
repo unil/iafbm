@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS cantons;
 CREATE TABLE cantons (
-    id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     code VARCHAR(2) NOT NULL,
     nom VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)

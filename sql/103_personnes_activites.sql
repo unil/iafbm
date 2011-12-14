@@ -5,7 +5,7 @@ CREATE TABLE personnes_activites (
     modified TIMESTAMP NULL DEFAULT NULL,
     util_creat INT,
     util_modif INT,
-    actif BOOLEAN NOT NULL DEFAULT true,
+    actif BOOLEAN NOT NULL DEFAULT TRUE,
 
     personne_id INT,
     activite_id INT,

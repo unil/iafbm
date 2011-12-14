@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS sections;
 CREATE TABLE sections (
-    id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     code VARCHAR(8) NOT NULL,
     nom VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)

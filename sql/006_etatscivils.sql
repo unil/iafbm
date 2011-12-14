@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS etatscivils;
 CREATE TABLE etatscivils (
-    id INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
     nom VARCHAR(16) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
