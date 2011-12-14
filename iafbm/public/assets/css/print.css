@@ -1,0 +1,62 @@
+html, body {
+    vertical-align: top;
+    margin: 0pt;
+    font-family: helvetica, "sans-serif";
+    font-size: 11pt;
+}
+body {
+    margin: 25pt 35pt;
+}
+
+#header {
+    margin-bottom: 45pt;
+}
+#header img {
+    width: 151pt;
+}
+#header .tagline {
+    margin-left: 35pt;
+    font-size: 11pt;
+    color: #008EC3;
+}
+
+hr {
+    border-bottom: 0px;
+    height: 1pt;
+    margin: 10pt 0;
+}
+
+h1 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.table-header {
+    text-align: center;
+}
+
+table, th, td {
+    border: 1pt solid black;
+    border-collapse: collapse;
+}
+table {
+    width: 100%;
+}
+th, td {
+    padding: 5pt;
+}
+th {
+    text-align: left;
+}
+
+table.noborder,
+table.noborder th,
+table.noborder td {
+    border: none;
+}
+
+/* DOMPDF 0.5.2 Fixes */
+th, td {
+    padding-bottom: 0.8em;
+}

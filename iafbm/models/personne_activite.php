@@ -6,13 +6,16 @@ class PersonneActiviteModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
+        'actif' => 'actif',
+        'created' => 'created',
+        'modified' => 'modified',
         'personne_id' => 'personne_id',
         'departement_id' => 'departement_id',
         'activite_id' => 'activite_id',
         'taux_activite' => 'taux_activite',
         'date_contrat' => 'date_contrat',
         'debut_mandat' => 'debut_mandat',
-        'fin_mandat' => 'fin_mandat',
+        'fin_mandat' => 'fin_mandat'
     );
 
     var $primary = array('id');

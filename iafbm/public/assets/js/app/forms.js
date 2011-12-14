@@ -79,7 +79,7 @@ iafbm.form.common.Adresses = function(options) {
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_adresse_type_id',
-                width: 80,
+                width: 85,
                 xtype: 'ia-combocolumn',
                 editor: {
                     xtype: 'ia-combo',
