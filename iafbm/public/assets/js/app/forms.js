@@ -12,7 +12,7 @@ iafbm.form.common.Formations = function(options) {
         title: 'Diplômes obtenus',
         items: [{
             xtype: 'ia-editgrid',
-            height: 150,
+            height: 120,
             toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
@@ -69,7 +69,7 @@ iafbm.form.common.Adresses = function(options) {
         title: 'Adresses',
         items: [{
             xtype: 'ia-editgrid',
-            height: 100,
+            height: 120,
             toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
@@ -169,7 +169,7 @@ iafbm.form.common.Emails = function(options) {
         title: 'Emails',
         items: [{
             xtype: 'ia-editgrid',
-            height: 110,
+            height: 120,
             toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
@@ -222,7 +222,7 @@ iafbm.form.common.Telephones = function(options) {
         title: 'Téléphones',
         items: [{
             xtype: 'ia-editgrid',
-            height: 110,
+            height: 120,
             toolbarButtons: ['add', 'delete'],
             bbar: null,
             newRecordValues: options.params,
@@ -567,16 +567,19 @@ Ext.define('iafbm.form.Personne', {
             xtype: 'fieldcontainer',
             items: [{
                 xtype: 'ia-combo-version',
-                tables: ['personnes', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_formations', 'personnes_activites', 'commissions_membres']
+                tables: ['personnes', 'adresses', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_formations', 'personnes_activites', 'commissions_membres']
             }]
-        },
-            this._createType(),
-        {
+        }, {
             xtype: 'fieldcontainer',
             layout: 'hbox',
-            items: [
-                this._createCoordonnees(),
-            {
+            items: [{
+                xtype: 'fieldcontainer',
+                width: 330,
+                items: [
+                    this._createType(),
+                    this._createCoordonnees(),
+                ],
+            }, {
                 xtype: 'splitter',
                 flex: 0
             }, {
@@ -617,31 +620,35 @@ Ext.define('iafbm.form.Personne', {
     },
     _createType: function() {
         return {
-            xtype: 'ia-combo',
-            fieldLabel: 'Type',
-            labelAlign: 'left',
-            labelWidth: 40,
-            name: 'personne_type_id',
-            displayField: 'nom',
-            valueField: 'id',
-            store: Ext.create('iafbm.store.PersonneType'),
-            allowBlank: false,
-            typeAhead: false,
-            editable: false,
-            listeners: {
-                change: this.switchType
-            }
+            xtype: 'fieldset',
+            title: 'Type de personne',
+            items: [{
+                xtype: 'ia-combo',
+                fieldLabel: 'Type',
+                labelAlign: 'left',
+                labelWidth: 40,
+                name: 'personne_type_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.PersonneType'),
+                allowBlank: false,
+                typeAhead: false,
+                editable: false,
+                listeners: {
+                    change: this.switchType
+                }
+            }]
         };
     },
     _createCoordonnees: function() {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
-            width: 325,
-            height: 451,
+            height: 417,
             defaultType: 'textfield',
             defaults: {
                 labelWidth: 110,
+                width: 300,
                 padding: '10 0',
             },
             items: [{

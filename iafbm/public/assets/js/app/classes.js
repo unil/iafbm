@@ -960,6 +960,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
             ].join('');
         }
     },
+    emptyText: 'Version actuelle',
     valueField: 'id',
     displayField: 'id',
     store: null,
@@ -1207,7 +1208,7 @@ Ext.define('Ext.ia.form.Panel', {
         var me = this;
         me.callParent();
         // Manages record loading
-        this.addListener('afterrender', function() {
+        this.on('afterrender', function() {
             this.makeRecord();
         });
     }
