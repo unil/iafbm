@@ -12,13 +12,13 @@ class PersonnesAdressesController extends iaWebController {
         $adresse = xModel::load('adresse', $personne_adresse->foreign_fields_values('adresse'));
         $t = new xTransaction();
         $t->start();
-        $t->execute($personne_adresse, 'post');
-        $t->execute($adresse, 'post');
         // Make defaut unique
         $this->_unique_defaut(array(
             'id' => $params['id'],
             'defaut' => $params['defaut']
         ), $t);
+        $t->execute($personne_adresse, 'post');
+        $t->execute($adresse, 'post');
         // Finishes transaction
         $r = $t->end();
         $r['items'] = array_shift(xModel::load($this->model, array('id' => $params['id']))->get());

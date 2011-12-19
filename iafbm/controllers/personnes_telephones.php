@@ -11,12 +11,12 @@ class PersonnesTelephonesController extends iaWebController {
         $t = new xTransaction();
         $model = xModel::load($this->model, $params);
         $t->start();
-        $t->execute($model, 'post');
         // Make defaut unique
         $this->_unique_defaut(array(
             'id' => $params['id'],
             'defaut' => $params['defaut']
         ), $t);
+        $t->execute($model, 'post');
         // Finishes transaction
         $r = $t->end();
         $r['items'] = array_shift(xModel::load($this->model, array('id' => $params['id']))->get());
