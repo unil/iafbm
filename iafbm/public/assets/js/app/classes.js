@@ -736,7 +736,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
             combo.on({changeversion: function(combo, version) {
                 // Toggles grid toolbar buttons disablement
                 me.down('toolbar').items.each(function(c) {
-                    c.setDisabled(version)
+                    c.setDisabled(Boolean(version))
                 });
                 // Toggles grid rows editability
                 // (restoring initial value afterwards)

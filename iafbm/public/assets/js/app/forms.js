@@ -10,6 +10,7 @@ iafbm.form.common.Formations = function(options) {
     return {
         xtype: 'fieldset',
         title: 'Diplômes obtenus',
+        iaDisableFor: [],
         items: [{
             xtype: 'ia-editgrid',
             height: 120,
@@ -589,20 +590,21 @@ Ext.define('iafbm.form.Personne', {
                     this._createAdresses(),
                     this._createTelephones(),
                     this._createEmails()
-                ]
+                ],
+                iaDisableFor: []
             }]
         },
             this._createFormations(),
         {
             xtype: 'fieldset',
             title: 'Carrière professionnelle',
-            iaDisableFor: [2,3],
             items: [
                 { html: 'SSF' },
                 this._createActivites(2),
                 { html: 'SSC', padding: '20 0 0 0' },
                 this._createActivites(1)
-            ]
+            ],
+            iaDisableFor: [2,3]
         },
             this._createCommissionsCurrent()
         ];
@@ -612,10 +614,10 @@ Ext.define('iafbm.form.Personne', {
     },
     switchType: function() {
         var type = this.getValue();
-        if (type==null) return;
         this.up('panel').cascade(function(c) {
-            if (c.iaDisableFor && Ext.Array.contains(c.iaDisableFor, type)) c.disable();
-            else c.enable();
+            if (!c.iaDisableFor) return;
+            var disabled = type==null || Ext.Array.contains(c.iaDisableFor, type);
+            c.setDisabled(disabled);
         });
     },
     _createType: function() {
@@ -667,38 +669,43 @@ Ext.define('iafbm.form.Personne', {
                 name: 'genre_id',
                 displayField: 'genre',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Genre')
+                store: Ext.create('iafbm.store.Genre'),
+                iaDisableFor: []
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance',
-                name: 'date_naissance'
+                name: 'date_naissance',
+                iaDisableFor: []
             }, {
                 fieldLabel: 'N° AVS',
                 emptyText: 'N° AVS',
                 name: 'no_avs',
                 vtype: 'avs',
-                iaDisableFor: [2,3]
+                iaDisableFor: []
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Canton d\'origine',
                 name: 'canton_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Canton')
+                store: Ext.create('iafbm.store.Canton'),
+                iaDisableFor: []
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Pays d\'origine',
                 name: 'pays_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Pays')
+                store: Ext.create('iafbm.store.Pays'),
+                iaDisableFor: []
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Permis de séjour',
                 name: 'permis_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Permis')
+                store: Ext.create('iafbm.store.Permis'),
+                iaDisableFor: [2,3]
             }]
         };
     },
@@ -881,6 +888,7 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Commissions courantes',
+            iaDisableFor: [],
             items: [{
                 xtype: 'ia-editgrid',
                 editable: false,
