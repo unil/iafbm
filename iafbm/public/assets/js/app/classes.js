@@ -1136,6 +1136,38 @@ Ext.define('Ext.ia.form.Panel', {
             if (c.isXType('gridpanel')) c.store.sync();
         })
     },
+    isDirtyWhole: function() {
+        // Manages not synced stores
+        // when user quits the form (popup close or page change)
+        // displays a dialog.
+        var changes = 0;
+        // Checks form changes
+        var record = this.record;
+        if (!record) return false;
+        this.form.getFields().each(function(f) {
+            // Skips ia-combo-version fields
+            if (f.isXType('ia-combo-version')) return;
+            // Skips fields that do not exist in record
+            if (!Ext.Array.contains(record.fields.keys, f.name)) return;
+            // Skips not-modified fields
+            if (record.get(f.name) == f.getValue()) return;
+            if (record.get(f.name).toString() == f.getValue().toString()) return;
+            // Adds one more change
+            changes += 1;
+        });
+        // Checks contained grids changes
+        this.cascade(function(c) {
+            // Skips if not a gridpanel
+            if (!c.isXType('gridpanel')) return;
+            // Adds changes
+            changes += Ext.Array.merge(
+                c.store.getNewRecords(),
+                c.store.getUpdatedRecords(),
+                c.store.getRemovedRecords()
+            ).length;
+        });
+        return changes;
+    },
     initComponent: function() {
         this.addEvents(
             /**
@@ -1233,14 +1265,45 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         var me = this;
         me.callParent();
         // For each tab, update its visual state on the form load event
-        this.on({
-            afterrender: function() {
-                this.items.each(function(tab) {
-                    var form = tab.down('ia-form-commission');
-                    form.on({load: function() {
-                        me.updateTabState(tab);
-                    }});
-                    form.makeRecord();
+        this.on('afterrender', function() {
+            this.items.each(function(tab) {
+                var form = tab.down('ia-form-commission');
+                form.on({load: function() {
+                    me.updateTabState(tab);
+                }});
+                form.makeRecord();
+            });
+        });
+        // Displays a changes-not-saved message
+        this.on('tabchange', function(tabPanel, newCard, oldCard) {
+            if (oldCard.down('form').isDirtyWhole()) {
+                var me = this,
+                    title = "Modifications non enregistrées",
+                    message = "L'onglet contient des modifications non enregistrées. \
+                        Enregistrer ces modifications? \
+                        <br/><br/> \
+                        <b>Oui:</b> Enregistrer les modifications <br/> \
+                        <b>Non:</b> Abondonner les modifications <br/> \
+                        <b>Annuler:</b> Rester sur cet onglet";
+                Ext.Msg.show({
+                    title: title,
+                    msg: message,
+                    buttons: Ext.Msg.YESNOCANCEL,
+                    icon: Ext.Msg.QUESTION,
+                    fn: function(is) {
+                        switch (is) {
+                            case 'yes':
+                                oldCard.down('ia-form').saveRecord();
+                                break;
+                            case 'no':
+                                oldCard.down('ia-form').loadRecord();
+                                break;
+                            case 'cancel':
+                            default:
+                                me.setActiveTab(oldCard);
+                                break;
+                        }
+                    }
                 });
             }
         });
@@ -1332,12 +1395,61 @@ Ext.define('Ext.ia.window.Popup', {
             title: null,
             frame: false
         })];
+        //
         var me = this;
         me.callParent();
+        // Displays a changes-not-saved message
+        this.on('beforeclose', function() {
+            // Determines unsaved changes
+            var dirty = false;
+            this.cascade(function(c) {
+                if (!c.isXType('ia-form')) return;
+                if (c.isDirtyWhole()) dirty = true;
+            });
+            if (!dirty) return;
+            var title = "Modifications non enregistrées",
+                message = "La fenêtre contient des modifications non enregistrées. \
+                    Enregistrer ces modifications? \
+                    <br/><br/> \
+                    <b>Oui:</b> Enregistrer les modifications <br/> \
+                    <b>Non:</b> Abondonner les modifications <br/> \
+                    <b>Annuler:</b> Rester sur cette fenêtre";
+            Ext.Msg.show({
+                title: title,
+                msg: message,
+                buttons: Ext.Msg.YESNOCANCEL,
+                icon: Ext.Msg.QUESTION,
+                fn: function(is) {
+                    switch (is) {
+                        case 'yes':
+                            me.down('ia-form').saveRecord();
+                            me.close();
+                            break;
+                        case 'no':
+                            me.suspendEvents();
+                            me.close();
+                            me.resumeEvents();
+                            break;
+                        case 'cancel':
+                        default:
+                            break;
+                    }
+                }
+            });
+            return false;
+        });
     }
 });
 
-
+Ext.define('Ext.window.MessageBox', {
+    extend: 'Ext.window.Window',
+    buttonText: {
+        ok: 'OK',
+        yes: 'Oui',
+        no: 'Non',
+        cancel: 'Annuler'
+    }
+});
 
 /******************************************************************************
  * History
