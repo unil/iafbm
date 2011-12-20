@@ -10,7 +10,6 @@ iafbm.form.common.Formations = function(options) {
     return {
         xtype: 'fieldset',
         title: 'Diplômes obtenus',
-        iaDisableFor: [],
         items: [{
             xtype: 'ia-editgrid',
             height: 120,
@@ -21,6 +20,7 @@ iafbm.form.common.Formations = function(options) {
                 params: options.params
             }),
             listeners: options.listeners,
+            iaDisableFor: [2,3],
             columns: [{
                 header: "Formation",
                 dataIndex: 'formation_id',
@@ -77,6 +77,7 @@ iafbm.form.common.Adresses = function(options) {
             store: new options.store({
                 params: options.params
             }),
+            iaDisableFor: [],
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_adresse_type_id',
@@ -177,6 +178,7 @@ iafbm.form.common.Emails = function(options) {
             store: new options.store({
                 params: options.params
             }),
+            iaDisableFor: [],
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_type_id',
@@ -230,6 +232,7 @@ iafbm.form.common.Telephones = function(options) {
             store: new options.store({
                 params: options.params
             }),
+            iaDisableFor: [],
             columns: [{
                 header: "Type",
                 dataIndex: 'adresse_type_id',
@@ -590,8 +593,7 @@ Ext.define('iafbm.form.Personne', {
                     this._createAdresses(),
                     this._createTelephones(),
                     this._createEmails()
-                ],
-                iaDisableFor: []
+                ]
             }]
         },
             this._createFormations(),
@@ -603,8 +605,7 @@ Ext.define('iafbm.form.Personne', {
                 this._createActivites(2),
                 { html: 'SSC', padding: '20 0 0 0' },
                 this._createActivites(1)
-            ],
-            iaDisableFor: [2,3]
+            ]
         },
             this._createCommissionsCurrent()
         ];
@@ -705,7 +706,7 @@ Ext.define('iafbm.form.Personne', {
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Permis'),
-                iaDisableFor: [2,3]
+                iaDisableFor: []
             }]
         };
     },
@@ -754,6 +755,7 @@ Ext.define('iafbm.form.Personne', {
                     activite_section_id: section_id
                 }
             }),
+            iaDisableFor: [2,3],
             columns: [{
                 // This column is used as a filter for 'Activite' field
                 header: "Type",
@@ -888,7 +890,6 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Commissions courantes',
-            iaDisableFor: [],
             items: [{
                 xtype: 'ia-editgrid',
                 editable: false,
@@ -897,6 +898,7 @@ Ext.define('iafbm.form.Personne', {
                 bbar: null,
                 store: store,
                 searchParams: { xwhere: 'query' },
+                iaDisableFor: [],
                 columns: [{
                     xtype: 'ia-actioncolumn-redirect',
                     width: 25,
