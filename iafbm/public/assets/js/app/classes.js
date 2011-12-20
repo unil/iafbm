@@ -3,6 +3,14 @@
 **/
 
 /**
+ * i18n
+ */
+Ext.window.MessageBox.prototype.buttonText.yes = 'Oui';
+Ext.window.MessageBox.prototype.buttonText.no = 'Non';
+Ext.window.MessageBox.prototype.buttonText.ok = 'OK';
+Ext.window.MessageBox.prototype.buttonText.cancel = 'Annuler';
+
+/**
  * Additional validation types (vtypes)
  */
 Ext.apply(Ext.form.field.VTypes, {
@@ -33,15 +41,18 @@ Ext.define('Ext.ia.data.Store', {
     autoSync: false,
     params: {},
     loaded: false,
+    applyParamsToProxy: function() {
+        // Fix: this.proxy.extraParams is sometimes set to undefined,
+        // which prevents to Ext.apply() this.params to the proxy extraParams.
+        // It is therefore needed to ensure that extraParams is an object.
+        if (!this.proxy.extraParams) this.proxy.extraParams = {};
+        // Ext 3 emulation: applies this.params to this.proxy.extraParams
+        this.proxy.extraParams = Ext.apply({}, this.params);
+    },
     listeners: {
-        beforeload: function() {
-            // Fix: this.proxy.extraParams is sometimes set to undefined,
-            // which prevents to Ext.apply() this.params to the proxy extraParams.
-            // It is therefore needed to ensure that extraParams is an object.
-            if (!this.proxy.extraParams) this.proxy.extraParams = {};
-            // Ext 3 emulation: applies this.params to this.proxy.extraParams
-            this.proxy.extraParams = Ext.apply({}, this.params);
-        },
+        beforeload: function() { this.applyParamsToProxy() },
+        beforesync: function() { this.applyParamsToProxy() },
+        beforeprefetch: function() { this.applyParamsToProxy() },
         load: function() { this.loaded = true }
     },
 });
@@ -256,7 +267,10 @@ Ext.define('Ext.ia.grid.ComboColumn', {
         // Refreshes grid on store load in order to apply the renderer function
         var editor = this.editor || this.field,
             store = editor.store;
-        store.on('load', function() { me.up('gridpanel').getView().refresh() });
+        store.on('load', function() {
+            var grid = me.up('gridpanel');
+            if (grid) grid.getView().refresh();
+        });
         // Manages store autoloading
         if (!store.autoLoad && !store.loaded && !store.isLoading()) {
             store.load();
@@ -881,7 +895,7 @@ var ext_field_override = {
 t=this;
         // parent logic application
         //this.callOverridden();
-console.log(this.$className, 'Ext.form.Field.initEvents()', this.el, this);
+console.debug(this.$className, 'Ext.form.Field.initEvents()', this.el, this);
         // Events
         this.el.on(Ext.isIE ? "keydown" : "keypress", this.fireKey, this);
         this.el.on("focus", this.onFocus, this);
@@ -891,7 +905,7 @@ console.log(this.$className, 'Ext.form.Field.initEvents()', this.el, this);
         //this.originalValue = this.getValue();
     },
     markDirty: function() {
-console.log('Ext.form.Field.markDirty()', '|', this, '|', this.originalValue, '|', this.lastValue, '|', this.getValue());
+console.debug('Ext.form.Field.markDirty()', '|', this, '|', this.originalValue, '|', this.lastValue, '|', this.getValue());
         if (this.isDirty() && this.originalValue != this.getValue()) {
             if (!this.dirtyIcon) {
                 var elp = this.el;
@@ -921,7 +935,7 @@ Ext.override(Ext.form.field.Base, ext_field_override);
 Ext.override(Ext.form.field.Field, {
     resetOriginalValue: function() {
         this.callOverridden();
-        console.log(this.originalValue);
+        console.debug(this.originalValue);
     }
 });
 
@@ -1151,7 +1165,8 @@ Ext.define('Ext.ia.form.Panel', {
             if (!Ext.Array.contains(record.fields.keys, f.name)) return;
             // Skips not-modified fields
             if (record.get(f.name) == f.getValue()) return;
-            if (record.get(f.name).toString() == f.getValue().toString()) return;
+            if (record.get(f.name)==null && f.getValue()=='') return; // record.get(...) sometimes returns null
+            if (/*record.get(f.name) &&*/ record.get(f.name).toString() == f.getValue().toString()) return;
             // Adds one more change
             changes += 1;
         });
@@ -1441,15 +1456,6 @@ Ext.define('Ext.ia.window.Popup', {
     }
 });
 
-Ext.define('Ext.window.MessageBox', {
-    extend: 'Ext.window.Window',
-    buttonText: {
-        ok: 'OK',
-        yes: 'Oui',
-        no: 'Non',
-        cancel: 'Annuler'
-    }
-});
 
 /******************************************************************************
  * History
