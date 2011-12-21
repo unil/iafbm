@@ -14,7 +14,8 @@ class CommissionEtatModel extends iaModelMysql {
 
     var $primary = array('id');
 
-    var $order_by = array('nom');
+    var $order_by = array('id');
+    var $order = 'ASC';
 
     var $validation = array(
         'nom' => array(

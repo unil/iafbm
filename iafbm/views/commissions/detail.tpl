@@ -19,14 +19,41 @@ Ext.onReady(function() {
             anchor: '100%'
         },
         items: [{
+            html: '<h1>Cette commission est clôturée</h1>',
+            border: false,
+            style: {
+                'border': '1px solid #500',
+                'margin': '0 0 20px 0'
+            },
+            bodyStyle: {
+                'padding': '10px',
+                'color': '#300',
+                'background-color': '#fdd'
+            },
+            // Display logic
+            hidden: true,
+            listeners: {added: function() {
+                var me = this,
+                    form = this.up('form');
+                form.on('load', function() {
+                    if (this.getRecord().get('commission_etat_id') == 3) {
+                        me.show();
+                    }
+                });
+            }}
+        },{
             xtype: 'fieldcontainer',
             combineErrors: true,
             layout: 'hbox',
             height: 35,
             defaults: { labelStyle: 'font-weight:bold' },
-            items: [
-                {xtype: 'displayfield', name: 'commission_type_racine', fieldLabel: 'Type', labelWidth: 33, width: 350},
-                {
+            items: [{
+                    xtype: 'displayfield',
+                    name: 'commission_type_racine',
+                    fieldLabel: 'Type',
+                    labelWidth: 33,
+                    width: 350
+                },{
                     xtype: 'ia-combo',
                     fieldLabel: 'Etat',
                     displayField: 'nom',
@@ -35,7 +62,20 @@ Ext.onReady(function() {
                     name: 'commission_etat_id',
                     allowBlank: false,
                     labelWidth: 33,
-                    width: 180
+                    width: 180,
+                    // Prevents from displaying 'closed' state in combo options
+                    queryMode: 'local',
+                    listeners: {
+                        beforequery: function(queryEvent, eventOpts) {
+                            this.store.clearFilter();
+                            this.store.filter('id', /[^3]/);
+                            queryEvent.cancel = true;
+                            this.expand();
+                        },
+                        collapse: function() {
+                            this.store.clearFilter();
+                        }
+                    },
                 },{
                     xtype: 'ia-combo',
                     fieldLabel: 'Section',
@@ -552,6 +592,50 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
+        }, {
+            baseCls: 'title',
+            html: 'Archivage'
+        }, {
+            xtype: 'button',
+            text: '<span style="font-weight:bold;font-size:18px">Clôturer</span>',
+            height: 50,
+            // Disables button if commission is already 'closed'
+            // FIXME: buggy
+            listeners: {
+                afterrender: function() {
+                    var me = this,
+                        form = Ext.getCmp('apercu').down('form');
+                    if (form.record) {
+                        me.disableIf(form.getRecord());
+                    }
+                    form.on('load', function() {
+                        me.disableIf(this.getRecord());
+                    });
+                }
+            },
+            disableIf: function(record) {
+                this.setDisabled(record.get('commission_etat_id') == 3);
+            },
+            // Click logic
+            handler: function() {
+                var me = this;
+                Ext.Msg.confirm(
+                    'Clôturer la commission',
+                    'Une fois clôturée, la commission ne peut plus être modifiée. \
+                    Cette action est irreversible. <br/><br/> \
+                    Voulez-vous clôturer la commission ?',
+                    function(is) {
+                        if (is=='yes') me.archiveCommission()
+                    }
+                );
+            },
+            archiveCommission: function() {
+                var form = Ext.getCmp('apercu').down('form'),
+                    record = form.getRecord();
+                record.set('commission_etat_id', 3);
+                record.save();
+                form.loadRecord();
+            }
         }/*, {
             xtype: 'ia-history'
         }*/]
@@ -596,9 +680,11 @@ Ext.onReady(function() {
         }],
         listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {
+                // Automatic url hash (#) update on tab selection
                 document.location.hash = tabPanel.getActiveTab().id;
             },
             beforerender: function() {
+                // Automatic tab selection according url hash (#)
                 var tabId = document.location.hash.replace("#", "");
                 this.setActiveTab(tabId);
             }
