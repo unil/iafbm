@@ -765,6 +765,11 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 });
             }});
         }});
+        // Fixes incorrect grid layout that occurs
+        // occasionaly when grid is too narrow (FIXME)
+        this.on({load: function() {
+            this.doComponentLayout();
+        }});
     },
     makeDockedItems: function() {
         var add = {
