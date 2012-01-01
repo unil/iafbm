@@ -1,4 +1,4 @@
-<div class="title"><?php echo $d['title'] ?></div>
+<h1><?php echo $d['title'] ?></h1>
 
 <div id="editor-grid"></div>
 
@@ -10,7 +10,7 @@ Ext.onReady(function(){
         id: '<?php echo $d['id'] ?>',
         renderTo: 'editor-grid',
         frame: false,
-        width: 880,
+        width: 936,
         height: <?php echo $d['height'] ?>,
         store: new iafbm.store.<?php echo $d['model'] ?>({
             params: <?php echo json_encode($d['store-params']) ?>

@@ -4,27 +4,27 @@ $navigation = array(
     'Personnes' => array(
         'personnes' => array(
             'url' => u('personnes'),
-            'label' => 'Gérer des personnes'
+            'label' => 'Gestion des personnes'
         ),
         'candidats' => array(
             'url' => u('candidats'),
-            'label' => 'Gérer des candidats'
+            'label' => 'Gestion des candidats'
         ),
     ),
     'Commissions' => array(
         'commissions' => array(
             'url' => u('commissions'),
-            'label' => 'Gérer des commissions'
+            'label' => 'Gestion des commissions'
         ),
         'commissions_types' => array(
             'url' => u('commissions_types'),
-            'label' => 'Afficher des types commissions'
+            'label' => 'Type de commissions'
         ),
     ),
     'Autres' => array(
         'activites' => array(
             'url' => u('activites'),
-            'label' => 'Afficher les fonctions collaborateurs'
+            'label' => 'Catalogue des fonctions'
         )
     )
 );
@@ -35,7 +35,9 @@ $controller = @xContext::$router->params['xcontroller'];
 
 <div id="navigation">
 <?php foreach ($navigation as $section => $items): ?>
+<div class="box">
   <h1><?php echo $section ?></h1>
+  <div>
   <ul>
 <?php foreach ($items as $id => $item): ?>
     <li<?php if ($controller==$id) echo ' class="selected"' ?>>
@@ -45,5 +47,7 @@ $controller = @xContext::$router->params['xcontroller'];
     </li>
 <?php endforeach ?>
   </ul>
+  </div>
+  </div>
 <?php endforeach ?>
 </div>

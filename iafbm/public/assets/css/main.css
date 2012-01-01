@@ -28,17 +28,17 @@ LAYOUT
   line-height: 20px;
 }
 #navigation .selected {
-  background-color: #edc;
+  font-weight: bold;
 }
 #navigation a {
   display: block;
   padding-left: 7px;
 }
 #navigation a:hover {
-  background-color: #efefef;
+  text-decoration: none;
 }
 #navigation .selected a:hover {
-  background-color: #edc;
+  text-decoration: none;
 }
 #navigation .selected a {
   color: black;
@@ -49,13 +49,12 @@ CLASSES
 **/
 
 .title {
-  border-bottom: 2px solid black;
-  font-size: 14px;
+  border-bottom: 1px solid black;
+  font-size: 12px;
   font-weight: bold;
   margin-bottom: 10px;
   padding-bottom: 5px;
 }
-
 
 /**
 MESSAGE BOXES
