@@ -176,6 +176,10 @@ Ext.define('iafbm.model.Personne', {
         {name: 'pays_id', type: 'int', useNull: true},
         {name: 'permis_id', type: 'int', useNull: true},
         {name: 'actif', type: 'boolean', defaultValue: true},
+        // Foreign fields
+        {name: 'pays_nom', type: 'string'},
+        {name: 'pays_code', type: 'string'},
+        // Ghost fields
         {name: '_activites', type: 'string'}
     ],
     validations: [],

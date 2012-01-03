@@ -545,11 +545,10 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                     var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
                     return [
                         '<div>',
-                        '<img src="'+img+'" style="float:left;margin-right:5px"/>',
-                        '<h3>{prenom} {nom}</h3>',
-                        '<div>{adresse}, {pays_nom}</div>',
-                        '<div>{pays_id}, {pays_nom}, {pays_nom_en}, {pays_code}</div>',
-                        '<div>{[Ext.Date.format(values.date_naissance, "j M Y")]}</div>',
+                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                        '  <h3>{prenom} {nom}</h3>',
+                        '  <div>{pays_nom}, {pays_code}</div>',
+                        '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
                         '</div>'
                     ].join('');
                 }
@@ -1172,6 +1171,8 @@ Ext.define('Ext.ia.form.Panel', {
             if (record.get(f.name) == f.getValue()) return;
             if (record.get(f.name)==null && f.getValue()=='') return; // record.get(...) sometimes returns null
             if (/*record.get(f.name) &&*/ record.get(f.name).toString() == f.getValue().toString()) return;
+console.log('form changes', changes, record.get(f.name).toString(), f.getValue().toString());
+rr=record;
             // Adds one more change
             changes += 1;
         });
