@@ -17,6 +17,12 @@ class iaModelMysql extends xModelMysql {
     var $version_fields = array();
 
     /**
+     * @param array Specifies which foreign models information will be stored with a version.
+     *              The stored information consists of the table-name/id-value of the rows that relates to this record.
+     */
+    var $version_foreign_models = array();
+
+    /**
      * Enhanced get method.
      * Manages versioning.
      */
@@ -97,10 +103,13 @@ class iaModelMysql extends xModelMysql {
             throw new xException('Missing primary keys parameter(s) for post action', 400);
         // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::post();
-        // Manages versioning:
+        // Manages versioning
+        $t = new xTransaction();
+        $t->start();
         $old_record = xModel::load($this->name, array('id'=>$this->params['id'], 'xjoin'=>array()))->get(0);
         $result = parent::post();
         $this->version('post', $old_record, $result);
+        $t->end();
         return $result;
     }
 
@@ -112,8 +121,11 @@ class iaModelMysql extends xModelMysql {
         // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::put();
         // Manages versioning
+        $t = new xTransaction();
+        $t->start();
         $result = parent::put();
         $this->version('put', array(), $result);
+        $t->end();
         return $result;
     }
 
@@ -122,9 +134,24 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function delete() {
+        // TODO:
+        // Prevent deletion if foreign row exist
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);
+        // Checks for constraints violations
+        // by virtually deleting the row withing a never ENDing transaction
+        $t = new xTransaction();
+        $t->start();
+        $t->execute($this, '_delete_hard');
+        if ($t->exceptions) throw array_shift($t->exceptions);
+        // Deletes row softly if all contraints satisfied
+        else return $this->_delete_soft();
+    }
+    function _delete_hard() {
+        return parent::delete();
+    }
+    function _delete_soft() {
         // Sets record as deleted (actif=0)
         $this->params['actif'] = '0';
         return $this->post();
@@ -193,6 +220,24 @@ class iaModelMysql extends xModelMysql {
                 'old_value' => $value['old'],
                 'new_value' => $value['new']
             ))->put();
+        }
+        // Writes foreign tables data
+        // FIXME: This is a test implementation, not fully working
+        return;
+        foreach ($this->version_foreign_models as $foreign_model) {
+            $model = xModel::load($foreign_model, array(
+                'commission_id' => $id_field_value,
+            ));
+            $foreign_records = $model->get();
+            $foreign_id_field = implode(',', xUtil::arrize($model->primary));
+            foreach($foreign_records as $foreign_record) {
+                xModel::load('version_relation', array(
+                    'version_id' => $version_id,
+                    'foreign_table_name' => $model->maintable,
+                    'foreign_id_field' => $foreign_id_field,
+                    'foreign_id_value' => $foreign_record[$foreign_id_field]
+                ))->put();
+            }
         }
     }
 }
