@@ -19,5 +19,3 @@ CREATE TABLE commissions_membres (
     FOREIGN KEY (activite_id) REFERENCES activites(id),
     FOREIGN KEY (departement_id) REFERENCES departements(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-CREATE UNIQUE INDEX unique_commission_membre ON commissions_membres (personne_id, commission_id);

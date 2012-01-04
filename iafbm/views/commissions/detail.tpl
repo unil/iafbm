@@ -117,7 +117,9 @@ Ext.onReady(function() {
                     personne_id: record.get('id'),
                     commission_fonction_id: 1,
                     commission_id: <?php echo $d['id'] ?>,
-                    actif: 1
+                    actif: 1,
+                    personne_nom: record.get('nom'),
+                    personne_prenom: record.get('prenom')
                 }
             }
         })/*, {
