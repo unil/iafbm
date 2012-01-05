@@ -6,7 +6,6 @@ CREATE TABLE commissions_membres (
     util_creat INT,
     util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
-    taux SMALLINT NOT NULL DEFAULT 100,
     personne_id INT NOT NULL,
     commission_id INT NOT NULL,
     commission_fonction_id INT NOT NULL,
