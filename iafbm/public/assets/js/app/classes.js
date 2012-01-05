@@ -55,6 +55,7 @@ Ext.define('Ext.ia.data.Store', {
         beforeprefetch: function() { this.applyParamsToProxy() },
         load: function() { this.loaded = true }
     },
+initComponent: function() { var me = this; me.callParent(); sss=this }
 });
 
 /**
@@ -561,7 +562,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                     Ext.each(selection, function(record) {
                         records.push(new grid.store.model(grid.makeData(record)));
                     });
-console.log(records);
                     grid.store.insert(grid.store.getCount(), records);
                     Ext.defer(this.clearValue, 250, this);
                 },
