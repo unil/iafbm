@@ -8,7 +8,7 @@ personnes \
 adresses \
 personnes_adresses \
 personnes_emails \
-personnes_fonctions \
+personnes_activites \
 personnes_formations \
 commissions \
 candidats \
