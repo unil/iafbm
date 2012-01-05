@@ -1171,9 +1171,7 @@ Ext.define('Ext.ia.form.Panel', {
             // Skips not-modified fields
             if (record.get(f.name) == f.getValue()) return;
             if (record.get(f.name)==null && f.getValue()=='') return; // record.get(...) sometimes returns null
-            if (/*record.get(f.name) &&*/ record.get(f.name).toString() == f.getValue().toString()) return;
-console.log('form changes', changes, record.get(f.name).toString(), f.getValue().toString());
-rr=record;
+            if (record.get(f.name).toString() == f.getValue().toString()) return;
             // Adds one more change
             changes += 1;
         });
