@@ -54,8 +54,7 @@ Ext.define('Ext.ia.data.Store', {
         beforesync: function() { this.applyParamsToProxy() },
         beforeprefetch: function() { this.applyParamsToProxy() },
         load: function() { this.loaded = true }
-    },
-initComponent: function() { var me = this; me.callParent(); sss=this }
+    }
 });
 
 /**
@@ -89,11 +88,12 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     },
     listeners: {
         exception: function(proxy, response, operation) {
+            // User message
             var actions = {
                 create: "l'ecriture",
                 read: "la lecture",
                 update: "l'écriture",
-                delete: "l'écriture"
+                destroy: "la suppression"
             };
             var msg = ['Une erreur est survenue pendant', actions[operation.action], 'des données'].join(' ');
             Ext.Msg.show({
@@ -726,6 +726,20 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 }
             });
         }});
+        // Manages proxy exceptions:
+        // Reverts store data on proxy exception
+        this.on({afterrender: function() {
+            var me = this;
+            this.store.getProxy().on({
+                exception: function(proxy, response, operation) {
+                    if (operation.action == 'destroy') {
+                        me.store.removeAll();
+                        me.store.removed = [];
+                        me.store.load();
+                    }
+                }
+            });
+        }});
         // Manages loading message
         this.on({
             beforeload: function() { this.setLoading() },
@@ -838,9 +852,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
     removeItem: function() {
         var grid = this;
         var selection = grid.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
-            grid.store.remove(selection);
-        }
+        if (selection) grid.store.remove(selection);
     },
     createRecord: function() {
         return new this.store.model(this.newRecordValues);
