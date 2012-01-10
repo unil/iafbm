@@ -30,32 +30,19 @@ class CommissionModel extends iaModelMysql {
     var $join = array('commission_type');
 
     var $validation = array(
-        'nom' => array(
-            'mandatory'
-        ),
-/*
-        'end' => array(
-            'mandatory',
-            'datetime'
-        ),
-        'zip' => array(
-            'mandatory',
-            'integer',
-            'minlength' => array('length'=>4),
-            'maxlength' => array('length'=>4)
-        ),
-        'location' => array(
-            'mandatory'
-        ),
-        'distance' => array(
-            'mandatory',
-            'integer',
-            'minvalue' => array('length'=>0)
-        ),
-        'profile' => array(
-            'mandatory',
-            'integer'
-        ),
-*/
+        'nom' => array('mandatory')
+    );
+
+    var $archivable = true;
+
+    var $archive_foreign_models = array(
+        'commission_creation' => 'commission_id',
+        'commission_membre' => 'commission_id',
+        'commission_candidat_commentaire' => 'commission_id',
+        'candidat' => 'commission_id',
+        'commission_travail' => 'commission_id',
+        'commission_travail_evenement' => 'commission_id',
+        'commission_validation' => 'commission_id',
+        'commission_finalisation' => 'commission_id'
     );
 }

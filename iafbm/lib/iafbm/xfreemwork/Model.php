@@ -23,6 +23,25 @@ class iaModelMysql extends xModelMysql {
     var $version_foreign_models = array();
 
     /**
+     * @param bool True to allow archive.
+     */
+    var $archivable = false;
+
+    /**
+     * @param array Specifies the joins to enable for archive.
+     *              The joins must be defined in xModel::$joins.
+     *              Ignores joins if array is empty.
+     * @see xModel::$joins
+     */
+    var $archive_join = array();
+
+    /**
+     * @param array Specifies the foreign models to include in archive.
+     *              Ignores foreign models if array is empty.
+     */
+    var $archive_foreign_models = array();
+
+    /**
      * Enhanced get method.
      * Manages versioning.
      */
@@ -173,6 +192,9 @@ class iaModelMysql extends xModelMysql {
      * @param string Name of the performed operation (get, put, post, delete)
      * @param array Old version of the record.
      * @param array New version of the record.
+     * @see iaModelMysql::$versioning
+     * @see iaModelMysql::$version_fields
+     * @see iaModelMysql::$version_foreign_models
      */
     protected function version($operation=null, $old_record=array(), $result=array()) {
         // Aborts if versioning is disabled
@@ -239,5 +261,69 @@ class iaModelMysql extends xModelMysql {
                 ))->put();
             }
         }
+    }
+
+    /**
+     * Creates an archive of a record.
+     * Also archives foreign fields specified in {@see iaModelMysql::$archive_join}.
+     * Also archives foreign records specified in {@see iaModelMysql::$archive_foreign_models}.
+     * @see iaModelMysql::$archivable
+     * @see iaModelMysql::$archive_join
+     * @see iaModelMysql::$archive_foreign_models
+     */
+    function archive() {
+        if (!$this->archivable)
+            throw new xException("Model '{$this->name}' is not archivable", 403);
+        if (@$this->params['xversion'])
+            throw new xException('Cannot archive an item when xversion parameter is specified', 500);
+        // Retrieves model primary key and its specified value
+        $primary = $this->primary[0];
+        $id = @$this->params[$primary];
+        if (!$id) throw new xException("Missing id parameter");
+        // Creates the models set to be archived and retrieves data
+        $data = array();
+        $data[$this->name] = xModel::load($this->name, array(
+            $primary => $id,
+            'xjoin' => $this->archive_join,
+        ))->get();
+        foreach ($this->archive_foreign_models as $model_name => $foreign_field_name) {
+            $data[$model_name] = xModel::load($model_name, array(
+                $foreign_field_name => $id,
+                'xjoin' => xModel::load($model_name)->archive_join
+            ))->get();
+        }
+        // Creates archive item
+        $t = new xTransaction();
+        $t->start();
+        $t->execute(
+            xModel::load('archive', array(
+                'table_name' => $this->maintable,
+                'id_field_name' => $primary,
+                'id_field_value' => $id,
+                'model_name' => $this->name
+            )),
+            'put'
+        );
+        $archive_id = $t->insertid();
+        // Creates archive data for actual model
+        foreach ($data as $model_name => $rows) {
+            $model_instance = xModel::load($model_name);
+            foreach ($rows as $row) {
+                foreach ($row as $modelfield => $value) {
+                    $t->execute(
+                        xModel::load('archive_data', array(
+                            'archive_id' => $archive_id,
+                            'model_name' => $model_instance->name,
+                            'table_name' => $model_instance->maintable,
+                            'table_field_name' => $model_instance->dbfield($modelfield),
+                            'model_field_name' => $modelfield,
+                            'value' => $value
+                        )),
+                        'put'
+                    );
+                }
+            }
+        }
+        $t->end();
     }
 }
