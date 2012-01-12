@@ -332,21 +332,21 @@ Ext.onReady(function() {
                     height: 25
                 }, {
                     xtype: 'ia-combo',
-                    fieldLabel: 'Primo Loco',
+                    fieldLabel: 'Primo loco',
                     displayField: '_display',
                     valueField: 'id',
                     store: store_candidat,
                     name: 'primo_loco',
                 }, {
                     xtype: 'ia-combo',
-                    fieldLabel: 'Secondo Loco',
+                    fieldLabel: 'Secundo loco',
                     displayField: '_display',
                     valueField: 'id',
                     store: store_candidat,
                     name: 'secondo_loco'
                 }, {
                     xtype: 'ia-combo',
-                    fieldLabel: 'Tertio Loco',
+                    fieldLabel: 'Tertio loco',
                     displayField: '_display',
                     valueField: 'id',
                     store: store_candidat,

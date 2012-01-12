@@ -330,7 +330,7 @@ Ext.define('iafbm.form.Personne', {
             this._createFormations(),
         {
             xtype: 'fieldset',
-            title: 'Carrière professionnelle',
+            title: 'Carrière professionnelle UNIL-CHUV',
             items: [
                 { html: 'SSF' },
                 this._createActivites(2),
@@ -657,7 +657,7 @@ Ext.define('iafbm.form.Personne', {
         });
         return {
             xtype: 'fieldset',
-            title: 'Commissions courantes',
+            title: 'Participation aux commissions',
             items: [{
                 xtype: 'ia-editgrid',
                 editable: false,
