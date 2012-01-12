@@ -122,7 +122,7 @@ Ext.define('iafbm.grid.common.Adresses', {
             valueField: 'id',
             displayField: 'nom',
         }
-    },{
+    }/*,{
         header: "Par défaut",
         dataIndex: 'defaut',
         width: 65,
@@ -131,7 +131,7 @@ Ext.define('iafbm.grid.common.Adresses', {
             xtype: 'checkboxfield',
             disabled: true
         }
-    }]
+    }*/]
 });
 
 Ext.define('iafbm.grid.common.Telephones', {
@@ -176,7 +176,7 @@ Ext.define('iafbm.grid.common.Telephones', {
             maskRe: /[0-9]/,
             allowBlank: false
         }
-    },{
+    }/*,{
         header: "Par défaut",
         dataIndex: 'defaut',
         width: 65,
@@ -185,7 +185,7 @@ Ext.define('iafbm.grid.common.Telephones', {
             xtype: 'checkboxfield',
             disabled: true
         }
-    }]
+    }*/]
 });
 
 Ext.define('iafbm.grid.common.Emails', {
@@ -217,7 +217,7 @@ Ext.define('iafbm.grid.common.Emails', {
             allowBlank: false,
             vtype: 'email'
         }
-    },{
+    }/*,{
         header: "Par défaut",
         dataIndex: 'defaut',
         width: 65,
@@ -226,5 +226,5 @@ Ext.define('iafbm.grid.common.Emails', {
             xtype: 'checkbox',
             disabled: true
         }
-    }]
+    }*/]
 });
