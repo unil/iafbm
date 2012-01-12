@@ -219,12 +219,13 @@ class iaModelMysql extends xModelMysql {
             }
         }
         // Do not create a version if the record was not modified
-        if (!$changes) return;
+        // But create a version if the operation is tag
+        if (!$changes && $operation != 'tag') return;
         // Writes version
         $id_field_name = implode(',', xUtil::arrize($this->primary));
-        $id_field_value = (strtolower($operation) == 'post') ?
-            $this->params[$id_field_name] :
-            $result['insertid'];
+        $id_field_value = (strtolower($operation) == 'put') ?
+            $result['insertid'] :
+            $this->params[$id_field_name];
         $version_result = xModel::load('version', array(
             'table_name' => $this->maintable,
             'id_field_name' => $id_field_name,
@@ -233,6 +234,8 @@ class iaModelMysql extends xModelMysql {
             'operation' => $operation
         ))->put();
         $version_id = $version_result['insertid'];
+        // Do not write version data if no change has been made
+        if (!$changes) return $version_result;
         if(!$version_id) throw new xException('Error while creating version');
         // Writes version data
         foreach ($changes as $field => $value) {
@@ -243,6 +246,7 @@ class iaModelMysql extends xModelMysql {
                 'new_value' => $value['new']
             ))->put();
         }
+        return $version_result;
         // Writes foreign tables data
         // FIXME: This is a test implementation, not fully working
         return;
@@ -261,6 +265,16 @@ class iaModelMysql extends xModelMysql {
                 ))->put();
             }
         }
+    }
+
+    /**
+     * Creates a tag.
+     */
+    function tag() {
+        $id = @$this->params['id'];
+        if (!$id) throw new xException('id parameter missing', 403);
+        $record = xModel::load($this->name, array('id' => $id))->get(0);
+        return $this->version('tag', $record);
     }
 
     /**
@@ -295,7 +309,7 @@ class iaModelMysql extends xModelMysql {
         // Creates archive item
         $t = new xTransaction();
         $t->start();
-        $t->execute(
+        $archive_result = $t->execute(
             xModel::load('archive', array(
                 'table_name' => $this->maintable,
                 'id_field_name' => $primary,
@@ -325,5 +339,6 @@ class iaModelMysql extends xModelMysql {
             }
         }
         $t->end();
+        return $archive_result;
     }
 }
