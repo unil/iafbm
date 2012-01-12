@@ -45,13 +45,23 @@ class CommissionsController extends iaWebController {
      * Prevents from modifying a 'closed' commission
      */
     function post() {
+        // Prevents modifications if commission status is 'closed'
         $commission = xModel::load('commission', array(
             'id' => $this->params['id']
         ))->get(0);
         if ($commission['commission_etat_id'] == 3) {
             throw new xException('Cannot modify a closed commission', 403);
         }
-        return parent::post();
+        // Actual commission modification
+        $result = parent::post();
+        // Archives commission if state becomes 'closed'
+        if (@$this->params['items']['commission_etat_id'] == 3) {
+            xModel::load('commission', array(
+                'id' => $this->params['id']
+            ))->archive();
+        }
+        // Returns operation result
+        return $result;
     }
 
     /**
