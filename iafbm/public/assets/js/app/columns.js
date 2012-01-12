@@ -66,7 +66,6 @@ iafbm.columns.CommissionMembre = [{
         xtype: 'combo',
         editable: false,
         typeAhead: false,
-        allowBlank: false,
         store: new iafbm.store.PersonneActivite(),
         valueField: 'activite_id',
         displayField: 'activite_abreviation',
