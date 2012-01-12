@@ -47,4 +47,24 @@ class PersonnesController extends iaWebController {
         }
         return $personnes;
     }
+
+    function post() {
+        $this->transform_params();
+        return parent::post();
+    }
+    function put() {
+        $this->transform_params();
+        return parent::post();
+    }
+
+    protected function transform_params() {
+        foreach (array('nom', 'prenom') as $p) {
+            $param = &$this->params['items'][$p];
+            if (isset($param))
+                $param = $this->ucnames($param);
+        }
+    }
+    protected function ucnames($str) {
+        return str_replace('- ','-',ucwords(str_replace('-','- ',$str)));
+    }
 }
