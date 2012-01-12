@@ -563,7 +563,9 @@ Ext.onReady(function() {
                 name: 'candidat_id',
                 displayField: '_display',
                 valueField: 'id',
-                store: new iafbm.store.Candidat({})
+                store: new iafbm.store.Candidat({
+                    params: { commission_id: <?php echo $d['id'] ?> }
+                })
             }]
         }, {
             xtype: 'fieldcontainer',
