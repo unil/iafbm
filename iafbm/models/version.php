@@ -15,7 +15,8 @@ class VersionModel extends xModelMysql {
         'id_field_name' => 'id_field_name',
         'id_field_value' => 'id_field_value',
         'model_name' => 'model_name',
-        'operation' => 'operation'
+        'operation' => 'operation',
+        'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');

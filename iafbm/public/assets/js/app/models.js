@@ -596,7 +596,8 @@ Ext.define('iafbm.model.Version', {
         {name: 'old_value', type: 'string'},
         {name: 'new_value', type: 'string'},
         {name: 'model_name', type: 'string'},
-        {name: 'operation', type: 'string'}
+        {name: 'operation', type: 'string'},
+        {name: 'commentaire', type: 'string'}
     ],
     validations: [],
     proxy: {

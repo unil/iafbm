@@ -196,7 +196,7 @@ class iaModelMysql extends xModelMysql {
      * @see iaModelMysql::$version_fields
      * @see iaModelMysql::$version_foreign_models
      */
-    protected function version($operation=null, $old_record=array(), $result=array()) {
+    protected function version($operation=null, $old_record=array(), $result=array(), $commentaire=null) {
         // Aborts if versioning is disabled
         if (!$this->versioning) return;
         // Determines changes applied to the record
@@ -231,7 +231,8 @@ class iaModelMysql extends xModelMysql {
             'id_field_name' => $id_field_name,
             'id_field_value' => $id_field_value,
             'model_name' => $this->name,
-            'operation' => $operation
+            'operation' => $operation,
+            'commentaire' => $commentaire
         ))->put();
         $version_id = $version_result['insertid'];
         // Do not write version data if no change has been made
@@ -274,7 +275,7 @@ class iaModelMysql extends xModelMysql {
         $id = @$this->params['id'];
         if (!$id) throw new xException('id parameter missing', 403);
         $record = xModel::load($this->name, array('id' => $id))->get(0);
-        return $this->version('tag', $record);
+        return $this->version('tag', $record, array(), $this->params['commentaire']);
     }
 
     /**

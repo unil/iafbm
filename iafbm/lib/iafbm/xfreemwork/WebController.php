@@ -145,6 +145,9 @@ class iaWebController extends xWebController {
      * @return array An ExtJS compatible resultset structure.
      */
     function tag() {
-        return xModel::load($this->model, array('id'=>@$this->params['id']))->tag();
+        return xModel::load($this->model, array(
+            'id' => @$this->params['id'],
+            'commentaire' => @$this->params['commentaire']
+        ))->tag();
     }
 }

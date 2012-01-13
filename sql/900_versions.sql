@@ -11,6 +11,7 @@ CREATE TABLE versions (
     id_field_value varchar(255) NOT NULL,
     model_name varchar(255) NOT NULL,
     operation varchar(8) NOT NULL,
+    commentaire varchar(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

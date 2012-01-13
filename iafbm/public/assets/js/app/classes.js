@@ -972,6 +972,61 @@ Ext.override(Ext.form.BasicForm, {
 */
 
 /**
+ * FIXME: Test "create version" button
+ */
+Ext.define('Ext.ia.button.CreateVersion', {
+    extend:'Ext.Button',
+    alias: 'widget.ia-create-version',
+    text:'Créer une version',
+    model: null, // model constructor
+    createVersion: function() {
+        var me = this,
+            comment = this.menu.down('textfield').getValue(),
+            record = this.up('form').record,
+            id = record.get('id'),
+            url = record.proxy.url;
+        // Call model url + id + tag xmethod
+        Ext.Ajax.request({
+            url: url,
+            params: {
+                id: id,
+                xmethod: 'tag',
+                commentaire: comment
+            },
+            method: 'GET',
+            success: function(xhr) {
+                me.hideMenu();
+            }
+        });
+    },
+    initComponent: function() {
+        var me = this;
+        // Creates button menu
+        this.menu = {
+            items: [{
+                xtype: 'form',
+                layout: 'hbox',
+                border: false,
+                width: 330,
+                items: [{
+                    xtype: 'textfield',
+                    fieldLabel: 'Commentaire',
+                    labelWidth: 75,
+                    width: 250
+                }, {
+                    xtype: 'button',
+                    text: 'Créer',
+                    flex: 1,
+                    handler: function() { me.createVersion() }
+                }]
+            }],
+        },
+        // Inits component
+        me.callParent();
+    },
+});
+
+/**
  * Extends combobox for version selection:
  * this is to be used within a form.
  * Does:
@@ -987,7 +1042,8 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         getInnerTpl: function() {
             return [
                 '<tpl if="id==0">Version actuelle</tpl>',
-                '<tpl if="id!=0">Version {id}</tpl>'
+                '<tpl if="id!=0">{id}</tpl>',
+                '<tpl if="commentaire"> - {commentaire}</tpl>',
             ].join('');
         }
     },
@@ -1035,19 +1091,18 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         ]);
         //
         this.store = new iafbm.store.Version({
-            params: Ext.apply({
-                'table_name[]': this.tables
-            }, {
+            params: {
+                'table_name[]': this.tables,
+                operation: 'tag',
                 xorder_by: 'id',
                 xorder: 'DESC'
-            })
+            }
         });
         // Adds a record for current version
         this.store.on({load: function() {
-            // Removes last version (which is the current version)
-            this.removeAt(0);
-            // Adds a 'Current version' item with (xversion=0)
-            this.insert(0, {id: 0});
+            // Label last version as 'actual version'
+            var record = this.getAt(0);
+            record.set({id: 0});
         }});
         //
         var me = this;

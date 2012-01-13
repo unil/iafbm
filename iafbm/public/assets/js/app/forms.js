@@ -300,9 +300,12 @@ Ext.define('iafbm.form.Personne', {
     initComponent: function() {
         this.items = [{
             xtype: 'fieldcontainer',
+            layout: 'hbox',
             items: [{
                 xtype: 'ia-combo-version',
                 tables: ['personnes', 'adresses', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_formations', 'personnes_activites', 'commissions_membres']
+            }, {
+                xtype: 'ia-create-version'
             }]
         }, {
             xtype: 'fieldcontainer',
