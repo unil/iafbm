@@ -273,9 +273,11 @@ class iaModelMysql extends xModelMysql {
      */
     function tag() {
         $id = @$this->params['id'];
+        $commentaire = @$this->params['commentaire'];
         if (!$id) throw new xException('id parameter missing', 403);
+        if (!strlen($commentaire)) throw new xException('Commentaire is mandatory', 403);
         $record = xModel::load($this->name, array('id' => $id))->get(0);
-        return $this->version('tag', $record, array(), $this->params['commentaire']);
+        return $this->version('tag', $record, array(), $commentaire);
     }
 
     /**

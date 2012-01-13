@@ -981,11 +981,13 @@ Ext.define('Ext.ia.button.CreateVersion', {
     model: null, // model constructor
     createVersion: function() {
         var me = this,
-            comment = this.menu.down('textfield').getValue(),
+            field = this.menu.down('textfield'),
+            comment = field.getValue(),
             record = this.up('form').record,
             id = record.get('id'),
             url = record.proxy.url;
         // Call model url + id + tag xmethod
+        if (!field.isValid()) return;
         Ext.Ajax.request({
             url: url,
             params: {
@@ -996,6 +998,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
             method: 'GET',
             success: function(xhr) {
                 me.hideMenu();
+                field.reset();
             }
         });
     },
@@ -1010,6 +1013,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
                 width: 330,
                 items: [{
                     xtype: 'textfield',
+                    allowBlank: false,
                     fieldLabel: 'Commentaire',
                     labelWidth: 75,
                     width: 250
@@ -1020,7 +1024,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
                     handler: function() { me.createVersion() }
                 }]
             }],
-        },
+        };
         // Inits component
         me.callParent();
     },
