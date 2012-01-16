@@ -54,7 +54,7 @@ class PersonnesController extends iaWebController {
     }
     function put() {
         $this->transform_params();
-        return parent::post();
+        return parent::put();
     }
 
     protected function transform_params() {
