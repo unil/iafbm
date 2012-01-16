@@ -1013,7 +1013,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
                 width: 330,
                 items: [{
                     xtype: 'textfield',
-                    allowBlank: false,
+                    //allowBlank: false, // FIXME: Messes with form validation
                     fieldLabel: 'Commentaire',
                     labelWidth: 75,
                     width: 250
