@@ -301,7 +301,7 @@ class iaModelMysql extends xModelMysql {
         $data = array();
         $data[$this->name] = xModel::load($this->name, array(
             $primary => $id,
-            'xjoin' => $this->archive_join,
+            'xjoin' => $this->archive_join
         ))->get();
         foreach ($this->archive_foreign_models as $model_name => $foreign_field_name) {
             $data[$model_name] = xModel::load($model_name, array(
