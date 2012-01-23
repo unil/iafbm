@@ -15,7 +15,7 @@ class PersonnesAdressesController extends iaWebController {
         // Make defaut unique
         $this->_unique_defaut(array(
             'id' => $params['id'],
-            'defaut' => $params['defaut']
+            'defaut' => @$params['defaut']
         ), $t);
         $t->execute($personne_adresse, 'post');
         $t->execute($adresse, 'post');
@@ -37,7 +37,7 @@ class PersonnesAdressesController extends iaWebController {
         // Make defaut unique
         $this->_unique_defaut(array(
             'id' => $t->insertid(),
-            'defaut' => $params['defaut']
+            'defaut' => @$params['defaut']
         ), $t);
         // Finishes transaction
         $r = $t->end();
