@@ -14,6 +14,8 @@ class ArchiveDataModel extends xModelMysql {
         'model_name' => 'model_name',
         'table_field_name' => 'table_field_name',
         'model_field_name' => 'model_field_name',
+        'id_field_name' => 'id_field_name',
+        'id_field_value' => 'id_field_value',
         'value' => 'value'
     );
 
