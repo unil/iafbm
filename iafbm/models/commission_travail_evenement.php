@@ -18,6 +18,10 @@ class CommissionTravailEvenementModel extends iaModelMysql {
 
     var $primary = array('id');
 
+    var $joins = array(
+        'commission_travail_evenement_type' => 'LEFT JOIN commissions_travails_evenements_types ON (commissions_travails_evenements.commission_travail_evenement_type_id = commissions_travails_evenements_types.id)',
+    );
+
     var $validation = array(
     );
 }
