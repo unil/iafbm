@@ -53,6 +53,8 @@ class CommissionsController extends iaWebController {
             throw new xException('Cannot modify a closed commission', 403);
         }
         // Actual commission modification
+        $t = new xTransaction();
+        $t->start();
         $result = parent::post();
         // Archives commission if state becomes 'closed'
         if (@$this->params['items']['commission_etat_id'] == 3) {
@@ -60,6 +62,7 @@ class CommissionsController extends iaWebController {
                 'id' => $this->params['id']
             ))->archive();
         }
+        $t->end();
         // Returns operation result
         return $result;
     }
