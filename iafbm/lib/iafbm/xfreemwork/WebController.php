@@ -43,6 +43,14 @@ class iaWebController extends xWebController {
     }
 
     /**
+     * Returns controller name
+     * @return string Controller name
+     */
+    protected function get_name() {
+        return strtolower(substr(get_class($this), 0, -strlen('Controller')));
+    }
+
+    /**
      * Manages action redirection
      * according the received params and the available controller actions.
      */
@@ -105,7 +113,8 @@ class iaWebController extends xWebController {
         // Database action
         $r = xModel::load($this->model, $this->params['items'])->post();
         // Result
-        $r['items'] = array_shift(xModel::load($this->model, array('id'=>$this->params['items']['id']))->get());
+        $i = xController::load($this->get_name(), array('id'=>$this->params['items']['id']))->get();
+        $r['items'] = array_shift($i['items']);
         return $r;
     }
 
@@ -122,7 +131,8 @@ class iaWebController extends xWebController {
         // Database action
         $r = xModel::load($this->model, $this->params['items'])->put();
         // Result
-        $r['items'] = array_shift(xModel::load($this->model, array('id'=>$r['xinsertid']))->get());
+        $i = xController::load($this->get_name(), array('id'=>$r['xinsertid']))->get();
+        $r['items'] = array_shift($i['items']);
         return $r;
     }
 
