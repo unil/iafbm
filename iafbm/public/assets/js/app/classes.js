@@ -1097,7 +1097,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         this.store = new iafbm.store.Version({
             params: {
                 'table_name[]': this.tables,
-                operation: 'tag',
+                //operation: 'tag',
                 xorder_by: 'id',
                 xorder: 'DESC'
             }
@@ -1106,7 +1106,8 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         this.store.on({load: function() {
             // Label last version as 'actual version'
             var record = this.getAt(0);
-            record.set({id: 0});
+            if (record) record.set({id: 0});
+            else this.add({id: 0});
         }});
         //
         var me = this;
