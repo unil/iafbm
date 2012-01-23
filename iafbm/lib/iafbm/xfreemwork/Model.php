@@ -73,7 +73,7 @@ class iaModelMysql extends xModelMysql {
                     'version_id_field_value' => $result[$primary],
                     'version_id' => $version,
                     'version_id_comparator' => '>',
-                    'xorder_by' => 'version_created',
+                    'xorder_by' => 'id',
                     'xorder' => 'DESC'
                 ))->get();
                 // Applies versions modifications
@@ -165,7 +165,8 @@ class iaModelMysql extends xModelMysql {
         $t->execute($this, '_delete_hard');
         if ($t->exceptions) throw array_shift($t->exceptions);
         // Deletes row softly if all contraints satisfied
-        else return $this->_delete_soft();
+        $t->rollback();
+        return $this->_delete_soft();
     }
     function _delete_hard() {
         return parent::delete();
@@ -202,12 +203,10 @@ class iaModelMysql extends xModelMysql {
         // Determines changes applied to the record
         $record_id = (strtolower($operation) == 'put') ? $result['insertid'] : $this->params['id'];
         $new_record = xModel::load($this->name, array(
-            'id' => $record_id,
-            'actif' => array(0,1)
+            'id' => $record_id
         ))->get(0);
         $changes = array();
-        foreach ($this->fields_values() as $dbfield => $value) {
-            $field = $this->modelfield($dbfield);
+        foreach ($this->mapping as $field) {
             // Prevents versioning undesired fields
             if (!$this->is_versionable($field)) continue;
             // Compares record field values, keeping only modified fields
@@ -327,6 +326,10 @@ class iaModelMysql extends xModelMysql {
             $model_instance = xModel::load($model_name);
             foreach ($rows as $row) {
                 foreach ($row as $modelfield => $value) {
+                    $row_id_field = $model_instance->primary[0];
+                    $row_id_value = $row[$model_instance->primary[0]];
+                    if (!$row_id_field || !$row_id_value)
+                        throw new xException('Archive failed: undefined row id field or value', 500);
                     $t->execute(
                         xModel::load('archive_data', array(
                             'archive_id' => $archive_id,
@@ -334,6 +337,8 @@ class iaModelMysql extends xModelMysql {
                             'table_name' => $model_instance->maintable,
                             'table_field_name' => $model_instance->dbfield($modelfield),
                             'model_field_name' => $modelfield,
+                            'id_field_name' => $row_id_field,
+                            'id_field_value' => $row_id_value,
                             'value' => $value
                         )),
                         'put'

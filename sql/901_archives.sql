@@ -8,7 +8,7 @@ CREATE TABLE archives (
     table_name varchar(255) NOT NULL,
     model_name varchar(255) NOT NULL,
     id_field_name varchar(255) NOT NULL,
-    id_field_value varchar(255) NOT NULL,
+    id_field_value INT NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -20,6 +20,8 @@ CREATE TABLE archives_data (
     model_name varchar(255) NOT NULL,
     table_field_name varchar(255) NOT NULL,
     model_field_name varchar(255) NOT NULL,
+    id_field_name varchar(255) NOT NULL,
+    id_field_value INT NOT NULL,
     value TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (archive_id) REFERENCES archives(id)
