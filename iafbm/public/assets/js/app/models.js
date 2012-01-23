@@ -247,7 +247,7 @@ Ext.define('iafbm.model.PersonneAdresse', {
         {name: 'adresse_adresse_type_id', type: 'int'},
         {name: 'adresse_rue', type: 'string'},
         {name: 'adresse_npa', type: 'string'},
-        {name: 'adresse_lieu', type: 'string'},
+        {name: 'adresse_lieu', type: 'string', useNull: true},
         {name: 'adresse_pays_id', type: 'int'},
         {name: 'adresse_telephone', type: 'string'},
         {name: 'adresse_telephone_countrycode', type: 'string'},
