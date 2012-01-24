@@ -1,13 +1,19 @@
 <?php
 
 /**
- * Tests versioning feature through xModels (bypasses xControllers complexity)
+ * Tests xTransaction.
+ *
+ * FIXME: TODO:
+ * - Create atomic actions helper methods, such as
+ *   - createEntity, createEntityFaulty, readEntity, updateEntity, deleteEntity, getEntity
  */
 class xTransactionTest extends iaPHPUnit_Framework_TestCase {
 
     function test_atomic_pass() {
         $f = __FUNCTION__;
         $t = new xTransaction();
+        ## Transactions count = 0
+        $this->assertEquals($t::$started_transactions_count, 0);
         $initial_commit_state = $t->autocommit();
         $t->start();
         ## Autocommit is set to 0
@@ -35,40 +41,58 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         $this->assertCount(1, $r);
     }
 
-    /**
-     * @expectedException xException
-     * @expectedExceptionMessage 1 operation(s) failed during the transaction
-     */
     function test_atomic_fail_select() {
         $t = new xTransaction();
+        ## Transactions count = 0
+        $this->assertEquals($t::$started_transactions_count, 0);
         $t->start();
         $r = $t->execute_sql('SELECT * FROM unknown_table');
         # Returns an exception
         $this->assertTrue($r instanceof xException);
-        $t->end();
+        try {
+            $t->end();
+        } catch (Exception $e) {
+            $this->assertTrue($e instanceof xException);
+            $this->assertEquals($e->status, 500);
+            $this->assertEquals($e->getMessage(), '1 operation(s) failed during the transaction');
+        }
     }
 
     /**
      * @expectedException xException
      * @expectedExceptionMessage 1 operation(s) failed during the transaction
      */
-    function test_atomic_fail_insert() {
+    function _test_atomic_fail_insert() {
         $f = __FUNCTION__;
         $t = new xTransaction();
+        ## Transactions count = 0
+        $this->assertEquals($t::$started_transactions_count, 0);
         $t->start();
+        ## Transactions count is increased (1)
+        $this->assertEquals($t::$started_transactions_count, 1);
         $r = $t->execute(xModel::load('personne', array(
             'nom' => "",
             'prenom' => "Un prénom ($f)"
         )), 'put');
         # Returns an exception
         $this->assertTrue($r instanceof xException);
-        $r = $t->end();
+        try {
+            $t->end();
+        } catch (Exception $e) {
+            $this->assertTrue($e instanceof xException);
+            $this->assertEquals($e->status, 500);
+            $this->assertEquals($e->getMessage(), '1 operation(s) failed during the transaction');
+        }
     }
 
     function test_atomic_rollback_pass() {
         $t = new xTransaction();
+        ## Transactions count = 0
+        $this->assertEquals($t::$started_transactions_count, 0);
         $initial_commit_state = $t->autocommit();
         $t->start();
+        ## Transactions count is increased (1)
+        $this->assertEquals($t::$started_transactions_count, 1);
         ## Autocommit is set to 0
         $this->assertEquals($t->autocommit(), 0);
         $r = $t->execute(xModel::load('personne', array(
@@ -83,26 +107,27 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         ## Row is accessible within the transaction (not committed yet)
         $this->assertCount(1, $r);
         $r = $t->rollback();
+        ## Transactions count is reset (0)
+        $this->assertEquals($t::$started_transactions_count, 0);
         ## Autocommit is reset to initial autocommit state
         $this->assertEquals($t->autocommit(), $initial_commit_state);
         $r = xModel::load('personne', array('id'=>$id))->get();
         ## Row is not inserted after rollback
         $this->assertCount(0, $r);
         $r = $t->end();
+        ## Transactions count is reset (0)
+        $this->assertEquals($t::$started_transactions_count, 0);
         ## For now, rollback returns successes
         $this->assertTrue($r['xsuccess']);
         $this->assertEquals($r['xaffectedrows'], 1);
         $this->assertCount(1, $r['xresults']);
     }
 
-    function test_atomic_rollback_fail() {
-    }
-
     function test_nested_pass() {
         $t1 = new xTransaction();
-        $initial_commit_state = $t1->autocommit();
         ## Transactions count = 0
         $this->assertEquals($t1::$started_transactions_count, 0);
+        $initial_commit_state = $t1->autocommit();
         // Top level transaction (1)
         $t1->start();
         ## Autocommit is set to 0
@@ -141,7 +166,7 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($t1->autocommit(), $initial_commit_state);
     }
 
-    function test_nested_fail_1() {
+    function test_nested_fail_1st() {
         $t1 = new xTransaction();
         $initial_commit_state = $t1->autocommit();
         ## Transactions count = 0
@@ -179,6 +204,7 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
             ## $t1 exception contains only its errors (1)
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->getMessage(), '1 operation(s) failed during the transaction');
+            $this->assertEquals($e->status, 500);
             $this->assertEquals(count($e->data['exceptions']), 1);
         }
         ## Transactions count is reset
@@ -187,7 +213,7 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($t1->autocommit(), $initial_commit_state);
     }
 
-    function test_nested_fail_2() {
+    function test_nested_fail_2nd() {
         $t1 = new xTransaction();
         $initial_commit_state = $t1->autocommit();
         ## Transactions count = 0
@@ -220,11 +246,33 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
             ## $t2 exception contains only its errors (2)
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->getMessage(), '2 operation(s) failed during the transaction');
+            $this->assertEquals($e->status, 500);
             $this->assertEquals(count($e->data['exceptions']), 2);
         }
         ## Transactions count is reset
         $this->assertEquals($t1::$started_transactions_count, 0);
         ## Autocommit is reset to initial autocommit state
         $this->assertEquals($t1->autocommit(), $initial_commit_state);
+    }
+
+    function test_outer_transactions_prevention() {
+        $t = new xTransaction();
+        $t->start();
+        $t->execute_sql('SELECT * FROM personnes');
+        $t->execute(xModel::load('personne', array('xlimit'=>1)), 'get');
+        $r = $t->end();
+        try {
+            $t->execute_sql('SELECT * FROM personnes');
+        } catch (Exception $e) {
+            $this->assertTrue($e instanceof xException);
+            $this->assertEquals($e->getMessage(), 'Cannot execute a statement if no transaction in progress');
+            $this->assertEquals($e->status, 500);
+        }
+        $this->assertEquals($r, $t->summary());
+        $t->start();
+        $this->assertEquals($t::$started_transactions_count, 1);
+        $this->assertEquals($t::$autocommit_state_backup, 1);
+        $this->assertCount(0, $t->results);
+        $this->assertCount(0, $t->exceptions);
     }
 }
