@@ -55,6 +55,28 @@ class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     }
     function tearDown() {
     }
+
+    function create($controller_name, $data) {
+        return xController::load($controller_name, array(
+            'items' => $data
+        ));
+    }
+    function get($controller_name, $data) {
+        $data = is_array($data) ? $data : array('id'=>$data);
+        return xController::load($controller_name, $data)->get();
+    }
+    function get_last_version() {
+        $r = xController::load('versions', array(
+            'xorder_by' => 'id',
+            'xorder' => 'DESC',
+            'xlimit' => 1
+        ), false)->get();
+        return $r['items'][0]['id'];
+    }
+
+    function dump() {
+        foreach(func_get_args() as $arg) var_dump($arg);
+    }
 }
 
 // PHPUnit autorun
