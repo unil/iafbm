@@ -96,8 +96,8 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         ## Autocommit is set to 0
         $this->assertEquals($t->autocommit(), 0);
         $r = $t->execute(xModel::load('personne', array(
-            'nom' => 'Un nom',
-            'prenom' => 'Un prénom'
+            'nom' => 'Un nom (should not be inserted)',
+            'prenom' => 'Un prénom (should not be inserted)'
         )), 'put');
         ## Operation result is well-formed
         $this->assertEquals($r['xaffectedrows'], 1);
