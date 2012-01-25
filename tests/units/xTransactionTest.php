@@ -2,10 +2,6 @@
 
 /**
  * Tests xTransaction.
- *
- * FIXME: TODO:
- * - Create atomic actions helper methods, such as
- *   - createEntity, createEntityFaulty, readEntity, updateEntity, deleteEntity, getEntity
  */
 class xTransactionTest extends iaPHPUnit_Framework_TestCase {
 
@@ -257,10 +253,12 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
 
     function test_outer_transactions_prevention() {
         $t = new xTransaction();
+        $initial_commit_state = $t->autocommit();
         $t->start();
         $t->execute_sql('SELECT * FROM personnes');
         $t->execute(xModel::load('personne', array('xlimit'=>1)), 'get');
         $r = $t->end();
+        # Outer call to execute_sql throws an exception
         try {
             $t->execute_sql('SELECT * FROM personnes');
         } catch (Exception $e) {
@@ -268,8 +266,21 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
             $this->assertEquals($e->getMessage(), 'Cannot execute a statement if no transaction in progress');
             $this->assertEquals($e->status, 500);
         }
+        # Outer call to execute_model throws an exception
+        try {
+            $t->execute('personne', array('xlimit'=>1), 'get');
+        } catch (Exception $e) {
+            $this->assertTrue($e instanceof xException);
+            $this->assertEquals($e->getMessage(), 'Cannot execute a statement if no transaction in progress');
+            $this->assertEquals($e->status, 500);
+        }
+        # Summary is not changes by outer requests
         $this->assertEquals($r, $t->summary());
+        ## Autocommit is reset to initial autocommit state
+        $this->assertEquals($t->autocommit(), $initial_commit_state);
         $t->start();
+        ## Autocommit = 0
+        $this->assertEquals($t->autocommit(), 0);
         $this->assertEquals($t::$started_transactions_count, 1);
         $this->assertEquals($t::$autocommit_state_backup, 1);
         $this->assertCount(0, $t->results);
