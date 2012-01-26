@@ -50,7 +50,7 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertEquals($e->getMessage(), '1 operation(s) failed during the transaction');
+            $this->assertEquals('1 operation(s) failed during the transaction', $e->getMessage());
         }
     }
 
