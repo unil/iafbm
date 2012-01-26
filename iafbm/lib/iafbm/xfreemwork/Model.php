@@ -84,6 +84,10 @@ class iaModelMysql extends xModelMysql {
                 // Applies joined models modifications
                 foreach ($this->joins() as $model => $sql) {
                     $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
+                    $join_id = $result["{$model}_{$join_primary}"];
+                    // Skips if modified $result foreign key is empty
+                    if (!$join_id) continue;
+                    // Fetches versioned foreign model
                     // Recursive call here (because the xversion parameter is present)
                     $join_results = xModel::load($model, array(
                         'id' => $result["{$model}_{$join_primary}"],
@@ -127,7 +131,9 @@ class iaModelMysql extends xModelMysql {
         $t->start();
         $old_record = xModel::load($this->name, array('id'=>$this->params['id'], 'xjoin'=>array()))->get(0);
         $result = parent::post();
-        $this->version('post', $old_record, $result);
+        // In case of soft-deletion, sets $operation to 'delete' instead of 'post'
+        $operation = (isset($this->params['actif']) && @$old_record['actif'] && !$this->params['actif']) ? 'delete' : 'post';
+        $this->version($operation, $old_record, $result);
         $t->end();
         return $result;
     }
@@ -159,7 +165,7 @@ class iaModelMysql extends xModelMysql {
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);
         // Checks for constraints violations
-        // by virtually deleting the row withing a never ENDing transaction
+        // by virtually deleting the row within an always ROLLBACK'ed transaction
         $t = new xTransaction();
         $t->start();
         $t->execute($this, '_delete_hard');
