@@ -65,17 +65,13 @@ class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
         $data = is_array($data) ? $data : array('id'=>$data);
         return xController::load($controller_name, $data)->get();
     }
-    function get_last_version() {
-        $r = xController::load('versions', array(
-            'xorder_by' => 'id',
-            'xorder' => 'DESC',
-            'xlimit' => 1
-        ), false)->get();
-        return $r['items'][0]['id'];
-    }
 
     function dump() {
-        foreach(func_get_args() as $arg) var_dump($arg);
+        print "\n";
+        foreach(func_get_args() as $arg) {
+            var_dump($arg);
+            print "\n";
+        }
     }
 }
 
