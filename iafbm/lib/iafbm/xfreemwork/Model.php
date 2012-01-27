@@ -86,11 +86,12 @@ class iaModelMysql extends xModelMysql {
                     $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
                     $join_id = $result["{$model}_{$join_primary}"];
                     // Skips if modified $result foreign key is empty
+                    // (this is dirty because if $join_id is empty, therefore $join_results is empty)
                     if (!$join_id) continue;
                     // Fetches versioned foreign model
                     // Recursive call here (because the xversion parameter is present)
                     $join_results = xModel::load($model, array(
-                        'id' => $result["{$model}_{$join_primary}"],
+                        'id' => $join_id,
                         'xversion' => $version,
                         'xjoin' => array()
                     ))->get(0);
@@ -130,7 +131,12 @@ class iaModelMysql extends xModelMysql {
         $t = new xTransaction();
         $t->start();
         $old_record = xModel::load($this->name, array('id'=>$this->params['id'], 'xjoin'=>array()))->get(0);
-        $result = parent::post();
+        try {
+            $result = parent::post();
+        } catch (Exception $e) {
+            $r->rollback();
+            throw $e;
+        }
         // In case of soft-deletion, sets $operation to 'delete' instead of 'post'
         $operation = (isset($this->params['actif']) && @$old_record['actif'] && !$this->params['actif']) ? 'delete' : 'post';
         $this->version($operation, $old_record, $result);
@@ -148,7 +154,12 @@ class iaModelMysql extends xModelMysql {
         // Manages versioning
         $t = new xTransaction();
         $t->start();
-        $result = parent::put();
+        try {
+            $result = parent::put();
+        } catch (Exception $e) {
+            $t->rollback();
+            throw $e;
+        }
         $this->version('put', array(), $result);
         $t->end();
         return $result;
