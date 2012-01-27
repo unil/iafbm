@@ -20,15 +20,15 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
 # test_entity_create
 # test_entity_modify
 # test_entity_delete
+
+# test_relation_n1_create
+# test_relation_n1_modify
+# test_relation_n1_delete
+# *_fail
 #
 # test_relation_1n_create
 # test_relation_1n_modify
 # test_relation_1n_delete
-# *_fail
-#
-# test_relation_n1_create
-# test_relation_n1_modify
-# test_relation_n1_delete
 # *_fail
 #
 # test_relation_nn_create
@@ -188,14 +188,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         return $id;
     }
 
-    function ______test_entity_delete_fail($id) {
-
-    }
-
     /**
      * @depends test_entity_create
      */
-    function _test_entity_delete($id) {
+    function test_entity_delete($id) {
         # Record correctly exists from tests depended upon
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
@@ -232,21 +228,79 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'id' => $id,
             'xversion' => $this->get_last_version(1)
         ))->get();
-        $this->assertSame($item_old, $r['items'][0]);
+        $this->assertEquals($item_old, $r['items'][0]);
         # Pre-deletion version xcount value is correct (1)
         $this->assertCount(1, $r['items']);
         // Returns modified entity id
         return $id;
     }
 
+    function test_relation_n1_create() {
+        // Test personne---pays here:
+        // ==========================
+        // - create a personne
+        // - modify personne.pays_id
+        // - test personne pre-modification version
+        // - modify pays_id
+        // - test pays pre-modification version through personne
+        //
+        // TODO first: version catalogs
+    }
+
     /**
      */
-    function _test_relation_1n_create() {
-        $id = $this->test_entity_create();
-var_dump($id);
+    function test_relation_1n_create() {
+        $personne_id = $this->test_entity_create();
+        // Creates a foreign record
+        $r = xController::load('personnes_emails', array('items'=>array(
+            'personne_id' => $personne_id,
+            'adresse_type_id' => 1,
+            'email' => 'name@example.com'
+        )))->put();
+        $id = $r['items']['id'];
+        $item = $r['items'];
+        # Record is correctly inserted
+        $r = xController::load('personnes_emails', array('id'=>$id))->get();
+        $this->assertSame($item, @$r['items'][0]);
+        # Version is correctly written
+        $v = $this->get_last_version();
+        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $this->assertEquals('personne_email', $r['model_name']);
+        $this->assertEquals('personnes_emails', $r['table_name']);
+        $this->assertEquals('put', $r['operation']);
+        $this->assertEquals('id', $r['id_field_name']);
+        $this->assertEquals($id, $r['id_field_value']);
+        # Version data is correctly written
+        $changes = array(
+            'id' => array(null => $id),
+            'actif' => array(null => 1),
+            'created' => array(null => $item['created']),
+            'personne_id' => array(null => $item['personne_id']),
+            'adresse_type_id' => array(null => $item['adresse_type_id']),
+            'email' => array(null => $item['email']),
+            'defaut' => array(null => $item['defaut'])
+        );
+        $this->assertVersionChanges($v, $changes);
+        # Pre-insertion version is correctly inexistant
+        $r = xController::load('personnes_emails', array(
+            'id' => $id,
+            'xversion' => $this->get_last_version(1)
+        ))->get();
+        $this->assertCount(0, $r['items']);
+        # Pre-insertion version xcount value is correct (0)
+        // FIXME: xcount is not correct for now (BUG)
+        //$this->assertEquals(0, $r['xcount']);
+        // Returns created entity id
+        return $id;
     }
-    function _test_relation_1n_modify() {
+
+    /**
+     * @depends test_relation_1n_create
+     */
+    function test_relation_1n_modify($id) {
+
     }
+
     /**
      * FIXME: as of the actual mecanisms, personne can never be deleted even
      * Tests entity deletion when foreign key constraint fails.
