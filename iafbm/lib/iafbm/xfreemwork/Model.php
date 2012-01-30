@@ -42,18 +42,50 @@ class iaModelMysql extends xModelMysql {
     var $archive_foreign_models = array();
 
     /**
+     * TODO:
+     * Enhanced invalids method:
+     * if xmethod=='post', first load the existing record,
+     * then apply modification ($this->params),
+     * then validate
+     * => this will enable the web service calls that contain only the field-to-be-changed as parameters
+     */
+    function invalids($fields = array()) {
+        return parent::invalids($fields);
+    }
+
+    /**
      * Enhanced get method.
      * Manages versioning.
      */
     function get($rownum=null) {
         // FIXME: TODO:
-        // Add 'actif'=true in where clause (only if actif field exists in fields mapping array)
         if (!@$this->params['xversion']) {
-            if (!isset($this->params['actif'])) $this->params['actif'] = 1;
+            // Unless specified otherwise through 'actif' parameter,
+            // adds 'actif'=true in where clause
+            // because we do not want to return the soft-deleted records
+            if (array_key_exists('actif', $this->mapping) && !isset($this->params['actif'])) {
+                $this->params['actif'] = 1;
+            }
             return parent::get($rownum);
         } else {
             return $this->get_version($rownum);
         }
+    }
+
+    /**
+     * Enhanced count method.
+     * Counts only active records.
+     */
+    function count() {
+        if (!@$this->params['xversion']) {
+            // Unless specified otherwise through 'actif' parameter,
+            // adds 'actif'=true in where clause
+            // because we do not want to return the soft-deleted records
+            if (array_key_exists('actif', $this->mapping) && !isset($this->params['actif'])) {
+                $this->params['actif'] = 1;
+            }
+        }
+        return parent::count();
     }
 
     protected function get_version($rownum=null) {
@@ -85,16 +117,20 @@ class iaModelMysql extends xModelMysql {
                 foreach ($this->joins() as $model => $sql) {
                     $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
                     $join_id = $result["{$model}_{$join_primary}"];
-                    // Skips if modified $result foreign key is empty
-                    // (this is dirty because if $join_id is empty, therefore $join_results is empty)
-                    if (!$join_id) continue;
-                    // Fetches versioned foreign model
-                    // Recursive call here (because the xversion parameter is present)
-                    $join_results = xModel::load($model, array(
-                        'id' => $join_id,
-                        'xversion' => $version,
-                        'xjoin' => array()
-                    ))->get(0);
+                    if (!$join_id) {
+                        // If modified $result foreign key is empty,
+                        // Creates an empty foreign model that will set foreign fields values to null
+                        $join_results = array_fill_keys(array_keys(xModel::load($model)->mapping), null);
+                    } else {
+                        // Fetches versioned foreign model
+                        // Recursive call here (because the xversion parameter is present)
+                        $join_results = xModel::load($model, array(
+                            'id' => $join_id,
+                            'xversion' => $version,
+                            'xjoin' => array()
+                        ))->get(0);
+                    }
+                    // Applies foreign model values
                     foreach ($join_results as $modelfield => $value) {
                         $result["{$model}_{$modelfield}"] = $value;
                     }
@@ -180,9 +216,9 @@ class iaModelMysql extends xModelMysql {
         $t = new xTransaction();
         $t->start();
         $t->execute($this, '_delete_hard');
+        $t->rollback();
         if ($t->exceptions) throw array_shift($t->exceptions);
         // Deletes row softly if all contraints satisfied
-        $t->rollback();
         return $this->_delete_soft();
     }
     function _delete_hard() {

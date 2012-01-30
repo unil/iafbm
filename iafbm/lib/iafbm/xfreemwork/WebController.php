@@ -95,8 +95,9 @@ class iaWebController extends xWebController {
             unset($params['query']);
         }
         // Creates extjs compatible result
+        $count_params = xUtil::filter_keys($params, array('xoffset', 'xlimit'), true);
         return array(
-            'xcount' => xModel::load($this->model, xUtil::filter_keys($params, array('xoffset', 'xlimit'), true))->count(),
+            'xcount' => xModel::load($this->model, $count_params)->count(),
             'items' => xModel::load($this->model, $params)->get()
         );
     }
