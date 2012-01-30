@@ -134,7 +134,7 @@ class iaModelMysql extends xModelMysql {
         try {
             $result = parent::post();
         } catch (Exception $e) {
-            $r->rollback();
+            $t->rollback();
             throw $e;
         }
         // In case of soft-deletion, sets $operation to 'delete' instead of 'post'
