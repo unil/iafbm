@@ -35,6 +35,9 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
 # test_relation_nn_modify
 # test_relation_nn_delete
 # *_fail
+#
+# + Test many modifications at once, then versions reliability
+#
 
     /**
      * Returns the $n'th last version id
@@ -106,6 +109,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $id = $r['xinsertid'];
         # Record is correctly inserted
         $r = xController::load('personnes', array('id'=>$id))->get();
+        $this->assertCount(1, $r['items']);
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
@@ -160,6 +164,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $item = $r['items'];
         # Record is correctly modified
         $r = xController::load('personnes', array('id'=>$id))->get();
+        $this->assertCount(1, $r['items']);
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
@@ -181,9 +186,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'id' => $id,
             'xversion' => $this->get_last_version(1)
         ))->get();
+        $this->assertCount(1, $r['items']);
         $this->assertEquals($item_old, $r['items'][0]);
         # Pre-modification version xcount value is correct (1)
-        $this->assertCount(1, $r['items']);
+        $this->assertEquals(1, $r['xcount']);
         // Returns modified entity id
         return $id;
     }
@@ -196,8 +202,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
         $item_old = $r['items'][0];
-        $r = $this->delete_personne($id);
         # Record is correctly deleted
+        $r = $this->delete_personne($id);
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(0, $r['items']);
         # xcount value is correct (0)
@@ -228,9 +234,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'id' => $id,
             'xversion' => $this->get_last_version(1)
         ))->get();
+        $this->assertCount(1, $r['items']);
         $this->assertEquals($item_old, $r['items'][0]);
         # Pre-deletion version xcount value is correct (1)
-        $this->assertCount(1, $r['items']);
+        $this->assertEquals(1, $r['xcount']);
         // Returns modified entity id
         return $id;
     }
@@ -261,6 +268,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $item = $r['items'];
         # Record is correctly inserted
         $r = xController::load('personnes_emails', array('id'=>$id))->get();
+        $this->assertCount(1, $r['items']);
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
@@ -298,60 +306,96 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
      * @depends test_relation_1n_create
      */
     function test_relation_1n_modify($id) {
+        $r = xController::load('personnes_emails', array('id'=>$id))->get();
+        $item_old = $r['items'][0];
+        // Modifies the foreign record
+        $r = xController::load('personnes_emails', array('items'=>array(
+            'id' => $id,
+            'adresse_type_id' => 2,
+            'email' => 'modified_name@example.com'
+        )))->post();
+        $id = $r['items']['id'];
+        $item = $r['items'];
+        # Record is correctly inserted
+        $r = xController::load('personnes_emails', array('id'=>$id))->get();
+        $this->assertSame($item, @$r['items'][0]);
+        # Version is correctly written
+        $v = $this->get_last_version();
+        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $this->assertEquals('personne_email', $r['model_name']);
+        $this->assertEquals('personnes_emails', $r['table_name']);
+        $this->assertEquals('post', $r['operation']);
+        $this->assertEquals('id', $r['id_field_name']);
+        $this->assertEquals($id, $r['id_field_value']);
+        # Version data is correctly written
+        $changes = array(
+            'modified' => array($item_old['modified'] => $item['modified']),
+            'adresse_type_id' => array($item_old['adresse_type_id'] => $item['adresse_type_id']),
+            'email' => array($item_old['email'] => $item['email'])
+        );
+        $this->assertVersionChanges($v, $changes);
+        # Pre-modification version is correctly accessible
+        $r = xController::load('personnes_emails', array(
+            'id' => $id,
+            'xversion' => $this->get_last_version(1)
+        ))->get();
+        $this->assertCount(1, $r['items']);
+        $this->assertEquals($item_old, $r['items'][0]);
+        # Pre-modification version xcount value is correct (1)
+        $this->assertEquals(1, $r['xcount']);
+        // Returns modified entity id
+        return $id;
 
     }
 
     /**
      * FIXME: as of the actual mecanisms, personne can never be deleted even
      * Tests entity deletion when foreign key constraint fails.
-     * @depends test_relation_1n_create
+     * @depends test_relation_1n_modify
      */
-    function _test_relation_1n_delete() {
-        $r = xController::load('personnes', array('id'=>$id))->get();
-        $personne = $r['items'][0];
-        # Record to delete exists
+    function test_relation_1n_delete($id) {
+        # Record correctly exists from tests depended upon
+        $r = xController::load('personnes_emails', array('id'=>$id))->get();
+        $item_old = $r['items'][0];
         $this->assertCount(1, $r['items']);
-        // Creates a foreign reference to entity
-        $r = xController::load('personnes_emails', array('items'=>array(
-            'personne_id' => $id,
-            'adresse_type_id' => 1,
-            'email' => 'name@example.com'
-        )))->put();
-        $adresse_id = $r['items']['id'];
-        $adresse = $r['items'];
-        # Record deletion correctly fails
-        try {
-            $r = xController::load('personnes', array('id'=>$id))->delete();
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof xException);
-            $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query/', $e->getMessage());
-            $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
-        }
-        # Record is not deleted
-        $r = xController::load('personnes', array('id'=>$id))->get();
-        $this->assertCount(1, $r['items']);
-        $this->assertSame($personne, $r['items'][0]);
-        // Deletes referenced record personne_adresse
-        $r = xController::load('personnes_emails', array('id'=>$adresse_id))->delete();
-        # Record personne_adresse is soft deleted
-        $r = xController::load('personnes_emails', array('id'=>$adresse_id))->get();
+        # Record is correctly deleted
+        $r = xController::load('personnes_emails', array('id'=>$id))->delete();
+        $r = xController::load('personnes_emails', array('id'=>$id))->get();
         $this->assertCount(0, $r['items']);
-        $r = xController::load('personnes_emails', array(
-            'id' => $adresse_id,
-            'actif' => 0
-        ))->get();
-        $this->assertCount(1, $r['items']);
-        $this->assertEquals(1, $r['xcount']);
-        $this->assertEquals(
-            $adresse,
-            // Fixes changed fields during soft-delete operation
-            array_merge($r['items'][0], array(
-                'actif' => '1',
-                'modified' => null
-            ))
+        # xcount value is correct (0)
+        // FIXME: xcount is not correct for now (BUG)
+        //$this->assertEquals(0, $r['xcount']);
+        # Version is correctly written
+        $v = $this->get_last_version();
+        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $this->assertEquals('personne_email', $r['model_name']);
+        $this->assertEquals('personnes_emails', $r['table_name']);
+        $this->assertEquals('delete', $r['operation']);
+        $this->assertEquals('id', $r['id_field_name']);
+        $this->assertEquals($id, $r['id_field_value']);
+        # Version data is correctly written
+        // FIXME: shall all not-null fields be logged in version_data?
+        //        better log only changed fields: 'modified' and 'actif'
+        $changes = array(
+            'id' => array($id => null),
+            'actif' => array($item_old['actif'] => null),
+            'created' => array($item_old['created'] => null),
+            'modified' => array($item_old['modified'] => null),
+            'personne_id' => array($item_old['personne_id'] => null),
+            'adresse_type_id' => array($item_old['adresse_type_id'] => null),
+            'email' => array($item_old['email'] => null),
+            'defaut' => array($item_old['defaut'] => null)
         );
-        // Returns not-modified record id
+        $this->assertVersionChanges($v, $changes);
+        # Pre-deletion version is correctly accessible
+        $r = xController::load('personnes_emails', array(
+            'id' => $id,
+            'xversion' => $this->get_last_version(1)
+        ))->get();
+        $this->assertEquals($item_old, $r['items'][0]);
+        # Pre-deletion version xcount value is correct (1)
+        $this->assertEquals(1, $r['xcount']);
+        // Returns modified entity id
         return $id;
     }
 
