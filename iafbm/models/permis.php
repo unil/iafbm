@@ -4,11 +4,12 @@ class PermisModel extends iaModelMysql {
 
     var $table = 'permis';
 
-    var $versioning = false;
-
     var $mapping = array(
         'id' => 'id',
-        'nom' => 'nom',
+        'actif' => 'actif',
+        'created' => 'created',
+        'modified' => 'modified',
+        'nom' => 'nom'
     );
 
     var $order_by = array('nom');

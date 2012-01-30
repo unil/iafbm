@@ -22,12 +22,17 @@ CREATE TABLE commissions_travails (
 DROP TABLE IF EXISTS commissions_travails_evenements_types;
 CREATE TABLE commissions_travails_evenements_types (
     id INT NOT NULL AUTO_INCREMENT,
+    created TIMESTAMP NULL DEFAULT NULL,
+    modified TIMESTAMP NULL DEFAULT NULL,
+    util_creat INT,
+    util_modif INT,
+    actif BOOLEAN NOT NULL DEFAULT true,
     nom VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO commissions_travails_evenements_types (id, nom) VALUES (1, 'Séance: 1ère sélection sur dossier');
-INSERT INTO commissions_travails_evenements_types (id, nom) VALUES (2, 'Journée: leçons, séminaires et visites');
-INSERT INTO commissions_travails_evenements_types (id, nom) VALUES (3, 'Séance de délibération');
+INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, 'Séance: 1ère sélection sur dossier');
+INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (2, '1', CURRENT_TIMESTAMP, 'Journée: leçons, séminaires et visites');
+INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (3, '1', CURRENT_TIMESTAMP, 'Séance de délibération');
 
 DROP TABLE IF EXISTS commissions_travails_evenements;
 CREATE TABLE commissions_travails_evenements (

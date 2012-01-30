@@ -5,11 +5,10 @@ CREATE TABLE versions (
     modified TIMESTAMP NULL DEFAULT NULL,
     util_creat INT,
     util_modif INT,
-    version INT NOT NULL,
     table_name varchar(255) NOT NULL,
-    id_field_name varchar(255) NOT NULL,
-    id_field_value varchar(255) NOT NULL,
     model_name varchar(255) NOT NULL,
+    id_field_name varchar(255) NOT NULL,
+    id_field_value INT NOT NULL,
     operation varchar(8) NOT NULL,
     commentaire varchar(255),
     PRIMARY KEY (id)
@@ -25,3 +24,6 @@ CREATE TABLE versions_data (
     PRIMARY KEY (id),
     FOREIGN KEY (version_id) REFERENCES versions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Creates an empty initial version
+INSERT INTO versions (table_name, model_name, id_field_name, id_field_value, operation, commentaire) VALUES ('*', '*', '*', 0, 'tag', 'Initial version (empty storage)');

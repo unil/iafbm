@@ -6,6 +6,9 @@ class DepartementModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
+        'actif' => 'actif',
+        'created' => 'created',
+        'modified' => 'modified',
         'section_id' => 'section_id',
         'nom' => 'nom'
     );

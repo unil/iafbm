@@ -4,11 +4,12 @@ class CommissionValidationEtatModel extends iaModelMysql {
 
     var $table = 'commissions_validations_etats';
 
-    var $versioning = false;
-
     var $mapping = array(
         'id' => 'id',
-        'nom' => 'nom',
+        'actif' => 'actif',
+        'created' => 'created',
+        'modified' => 'modified',
+        'nom' => 'nom'
     );
 
     var $primary = array('id');

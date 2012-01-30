@@ -3,7 +3,9 @@
  * This model stores tables write activity
  * @note This Model does not extends iaModelMysql because wo do not want to version history
  */
-class VersionModel extends xModelMysql {
+class VersionModel extends iaModelMysql {
+
+    var $versioning = false;
 
     var $table = 'versions';
 

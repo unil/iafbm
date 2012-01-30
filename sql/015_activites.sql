@@ -1,12 +1,17 @@
 DROP TABLE IF EXISTS activites_types;
 CREATE TABLE activites_types (
     id INT NOT NULL AUTO_INCREMENT,
+    created TIMESTAMP NULL DEFAULT NULL,
+    modified TIMESTAMP NULL DEFAULT NULL,
+    actif BOOLEAN NOT NULL DEFAULT true,
+    util_creat INT,
+    util_modif INT,
     nom VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO activites_types VALUES (1, 'Fonction');
-INSERT INTO activites_types VALUES (2, 'Titre academique');
-INSERT INTO activites_types VALUES (3, 'Mandat');
+INSERT INTO activites_types (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, 'Fonction');
+INSERT INTO activites_types (id, actif, created, nom) VALUES (2, '1', CURRENT_TIMESTAMP, 'Titre academique');
+INSERT INTO activites_types (id, actif, created, nom) VALUES (3, '1', CURRENT_TIMESTAMP, 'Mandat');
 
 
 
