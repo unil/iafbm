@@ -17,8 +17,8 @@ class PersonnesAdressesController extends iaWebController {
             'id' => $params['id'],
             'defaut' => @$params['defaut']
         ), $t);
-        $t->execute($personne_adresse, 'post');
-        $t->execute($adresse, 'post');
+        if ($personne_adresse->params) $t->execute($personne_adresse, 'post');
+        if ($adresse->params) $t->execute($adresse, 'post');
         // Finishes transaction
         $r = $t->end();
         $r['items'] = array_shift(xModel::load($this->model, array('id' => $params['id']))->get());
