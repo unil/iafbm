@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Tests xTransaction.
+ * Tests xTransaction class.
+ * Test are made at xModel level.
  */
 class xTransactionTest extends iaPHPUnit_Framework_TestCase {
 
@@ -249,6 +250,10 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals(0, $t1::$started_transactions_count);
         ## Autocommit is reset to initial autocommit state
         $this->assertEquals($initial_commit_state, $t1->autocommit());
+    }
+
+    function test_nested_with_rollback_within_nested() {
+        // TODO
     }
 
     function test_outer_transactions_prevention() {
