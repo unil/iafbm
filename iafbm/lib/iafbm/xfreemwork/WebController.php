@@ -47,7 +47,8 @@ class iaWebController extends xWebController {
      * @return string Controller name
      */
     protected function get_name() {
-        return strtolower(substr(get_class($this), 0, -strlen('Controller')));
+        $reflector = new ReflectionClass(get_class($this));
+        return substr(basename($reflector->getFileName()), 0, -strlen('.php'));
     }
 
     /**
@@ -117,7 +118,7 @@ class iaWebController extends xWebController {
             throw new xException('No items provided', 400);
         // Checks for params.id and params.items.id consistency
         // (this test is only for precaution: params.id is not used in anyway)
-        if ($this->params['id'] != $this->params['items']['id'])
+        if (@$this->params['id'] != @$this->params['items']['id'])
             throw new xException("Parameters id and items.id do not match", 400);
         // Database action
         $r = xModel::load($this->model, $this->params['items'])->post();
@@ -138,6 +139,10 @@ class iaWebController extends xWebController {
         if (!in_array('put', $this->allow)) throw new xException("Method not allowed", 403);
         // Checks provided parameters
         if (!isset($this->params['items'])) throw new xException('No items provided', 400);
+        // Checks for params.id and params.items.id consistency
+        // (this test is only for precaution: params.id is not used in anyway)
+        if (@$this->params['id'] != @$this->params['items']['id'])
+            throw new xException("Parameters id and items.id do not match", 400);
         // Database action
         $r = xModel::load($this->model, $this->params['items'])->put();
         // Result
@@ -149,6 +154,8 @@ class iaWebController extends xWebController {
     /**
      * API Method.
      * Generic delete method for API calls.
+     * @note This method is to be used as default. For nn relationship tables,
+     *       one should refine the method in specific controller classes.
      * @param integer id: the id parameter of the record to delete
      * @return array An ExtJS compatible resultset structure.
      */

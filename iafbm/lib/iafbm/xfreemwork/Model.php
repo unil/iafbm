@@ -212,17 +212,32 @@ class iaModelMysql extends xModelMysql {
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);
         // Checks for constraints violations
-        // by virtually deleting the row within an always ROLLBACK'ed transaction
-        $t = new xTransaction();
-        $t->start();
-        $t->execute($this, '_delete_hard');
-        $t->rollback();
-        if ($t->exceptions) throw array_shift($t->exceptions);
-        // Deletes row softly if all contraints satisfied
-        return $this->_delete_soft();
+        // by virtually deleting the row within an always ROLLBACK'ed transaction.
+        // Note: This transaction uses a separate db connection
+        // in order to unconditionally rollback the delete
+        // without interfering with any pending transaction.
+        if ($this->_is_deletable()) return $this->_delete_soft();
     }
-    function _delete_hard() {
-        return parent::delete();
+
+    /**
+     * Performs a unconditionally ROLLBACKed DELETE statements to test contraints.
+     * @return bool True if the row deletion passes contraints.
+     *              Otherwise, an exception is thrown.
+     * @throw xException
+     */
+    function _is_deletable() {
+        // Delete hard uses a separate db connection
+        // in order to unconditionally rollback the delete
+        // without interfering with any pending transaction.
+        $db = xContext::$bootstrap->create_db();
+        // BEGIN a separate transaction
+        xModel::q('SET AUTOCOMMIT=0');
+        // Executes query
+        $r = xModel::q("DELETE FROM {$this->maintable} WHERE id = {$this->params['id']}");
+        // ROLLBACK the separate transaction
+        xModel::q('ROLLBACK');
+        //
+        return (bool)$r;
     }
     function _delete_soft() {
         // Sets record as deleted (actif=0)
@@ -256,7 +271,8 @@ class iaModelMysql extends xModelMysql {
         // Determines changes applied to the record
         $record_id = (strtolower($operation) == 'put') ? $result['insertid'] : $this->params['id'];
         $new_record = xModel::load($this->name, array(
-            'id' => $record_id
+            'id' => $record_id,
+            'actif' => ($operation=='delete') ? 0 : 1
         ))->get(0);
         $changes = array();
         foreach ($this->mapping as $field) {
