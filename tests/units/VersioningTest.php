@@ -204,6 +204,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertCount(1, $r['items']);
         $item_old = $r['items'][0];
         # Record is correctly deleted
+        sleep(1); // Sleeps to make sure 'modified' differs from record last creation/modification
         $r = $this->delete_personne($id);
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(0, $r['items']);
@@ -222,12 +223,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         // FIXME: shall all not-null fields be logged in version_data?
         //        better log only changed fields: 'modified' and 'actif'
         $changes = array(
-            'id' => array($id => null),
-            'actif' => array($item_old['actif'] => null),
-            'created' => array($item_old['created'] => null),
-            'modified' => array($item_old['modified'] => null),
-            'nom' => array($item_old['nom'] => null),
-            'prenom' => array($item_old['prenom'] => null)
+            'actif' => array($item_old['actif'] => 0),
+            'modified' => array($item_old['modified'] => date('Y-m-d H:i:s'))
         );
         $this->assertVersionChanges($v, $changes);
         # Pre-deletion version is correctly accessible
@@ -550,6 +547,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $item_old = $r['items'][0];
         $this->assertCount(1, $r['items']);
         # Record is correctly deleted
+        sleep(1); // Sleeps to make sure 'modified' differs from record last creation/modification
         $r = xController::load('personnes_emails', array('id'=>$id))->delete();
         $r = xController::load('personnes_emails', array('id'=>$id))->get();
         $this->assertCount(0, $r['items']);
@@ -568,14 +566,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         // FIXME: shall all not-null fields be logged in version_data?
         //        better log only changed fields: 'modified' and 'actif'
         $changes = array(
-            'id' => array($id => null),
-            'actif' => array($item_old['actif'] => null),
-            'created' => array($item_old['created'] => null),
-            'modified' => array($item_old['modified'] => null),
-            'personne_id' => array($item_old['personne_id'] => null),
-            'adresse_type_id' => array($item_old['adresse_type_id'] => null),
-            'email' => array($item_old['email'] => null),
-            'defaut' => array($item_old['defaut'] => null)
+            'actif' => array($item_old['actif'] => 0),
+            'modified' => array($item_old['modified'] => date('Y-m-d H:i:s'))
         );
         $this->assertVersionChanges($v, $changes);
         # Pre-deletion version is correctly accessible
@@ -726,7 +718,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     /**
     * @depends test_relation_nn_modify
     */
-    function test_relation_nn_delete_1($id) {
+    function test_relation_nn_delete($id) {
         # Record correctly exists from tests depended upon
         $r = xController::load('personnes_adresses', array(
             'id' => $id,
@@ -819,41 +811,28 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     /**
     * @depends test_relations_nn_create_more_adresses
     */
-    function _test_relations_nn_delete_more_adresses($personne_id) {
+    function test_relations_nn_delete_more_adresses($personne_id) {
         # Records correctly exist from tests depended upon
         $r = xController::load('personnes_adresses', array(
             'personne_id' => $personne_id
         ))->get();
         $this->assertNotEmpty($r['items']);
+        $this->assertCount(10, $r['items']);
         $items = $r['items'];
         // Deletes Addresses one-by-one for the given Personne
         foreach ($items as $item) {
+            // For each version, store the result item
+            $v = $this->get_last_version();
+            $r = xController::load('personnes_adresses', array(
+                'id' => $item['id']
+            ))->get();
+            $items_by_id[$v] = $r['items'];
+            // Actual item deletion
             $r = xController::load('personnes_adresses', array(
                 'id' => $item['id']
             ))->delete();
-// PersonneAdresseModel::delete() fails because:
-// 1. 1st transaction starts
-// 2. AdresseModel::delete() is called (through xTransaction::execute())
-//    a. a 2nd transaction starts
-//    b. DELETE FROM .... to test if constraints pass
-//    c. Unconditional ROLLBACK => transactions ends
-//       [AND HERE IS THE PROBLEM: IT ENDS THE 2 TRANSACTIONS!]
-//    d. (AdresseModel::_delete_soft() is called (which calls put()))
-//    e. 1st transaction starts
-//    f. record 'actif' field is modified
-//    g. version is written
-//    h. transaction ends (no more pending transaction) [PROBLEM]
-// 3. PersonneAdresseModel::delete() is called (through xTransaction::execute())
-//    (with transaction started at 1. aborted because of the rollback at c.)
-//    a. xTransaction::execute() throws exception because no active transaction
-//
-// SOLUTION:
-// - Execute the _delete_hard within a SEPARATE db connection
-//   (using xBootstrap::setup_db())
-//   so that _soft_delete() ROLLBACK does not affect the current transaction!
-return;
-            $v = $this->get_last_version();
             // For each version, store the result list
+            $v = $this->get_last_version();
             $r = xController::load('personnes_adresses', array(
                 'personne_id' => $personne_id
             ))->get();
@@ -865,16 +844,16 @@ return;
                 'personne_id' => $personne_id,
                 'xversion' => $v
             ))->get();
+            $this->assertEquals(count($items), count($r['items']));
             $this->assertEquals($items, $r['items']);
         }
-return;
-        # Previous version of each list correctly contains 1 item less
+        # Previous version of each list correctly contains 1 item more
         foreach ($items_by_personne_id as $v => $items) {
             $r = xController::load('personnes_adresses', array(
                 'personne_id' => $personne_id,
-                'xversion' => $v-1
+                'xversion' => $v-2
             ))->get();
-            $this->assertCount(count($items)-1, $r['items']);
+            $this->assertCount(count($items)+1, $r['items']);
         }
         # Versions are correctly accessible by id
         foreach ($items_by_id as $v => $items) {
@@ -884,145 +863,14 @@ return;
             ))->get();
             $this->assertEquals($items, $r['items']);
         }
-        # Previous version of each record does correctly NOT exist
+        # Post-delete version of each record does correctly NOT exist
         foreach ($items_by_id as $v => $items) {
             $r = xController::load('personnes_adresses', array(
                 'id' => $items[0]['id'],
-                'xversion' => $v-1
+                'xversion' => $v+2
             ))->get();
             $this->assertEquals(array(), $r['items']);
         }
         return $personne_id;
-    }
-
-
-// OLD AND MESSY //////////////////////////////////////////////////////////////
-
-    function _test_entity() {
-        // Creates a new personne
-        $personne_v1 = array(
-            'nom' => 'Nom',
-            'prenom' => 'Prénom'
-        );
-        $r = $this->create('personnes', $personne_v1)->put();
-        $personne_v1 = $r['items'];
-        $personne_v1_id = $r['insertid'];
-        // Modifies personne
-        $personne_v2 = array_merge($personne_v1, array(
-            'id' => $personne_v1_id,
-            'nom' => 'Nouveau'
-        ));
-        $r = $this->create('personnes', $personne_v2)->post();
-        $personne_v2 = $r['items'];
-        // Gets latest version
-        $last_version = $this->get_last_version();
-        // Fetches personne versions
-        $r = xController::load('personnes', array(
-            'id'=>$personne_v1_id,
-            'xversion' => $last_version-1
-        ), false)->get();
-        $personne_v1_get = $r['items'][0];
-        $r = xController::load('personnes', array(
-            'id' => $personne_v1_id
-        ), false)->get();
-        $personne_v2_get = $r['items'][0];
-        // Asserts versions
-        $this->assertEquals($personne_v1, $personne_v1_get);
-        $this->assertEquals($personne_v2, $personne_v2_get);
-    }
-
-    // Personne relations (adresse)
-    function _test_1n_relations_modifications() {
-        // Creates a new personne
-        $personne = array(
-            'nom' => 'Nom',
-            'prenom' => 'Prénom'
-        );
-        $r = $this->create('personnes', $personne)->put();
-        $personne = $r['items'];
-        $personne_id = $r['insertid'];
-        // Creates an adresse
-        $adresse_1 = array(
-            'personne_id' => $personne_id,
-            'adresse_rue' => 'Rue 123',
-            'adresse_npa' => '1000',
-            'adresse_lieu' => 'Lieu',
-            'adresse_pays_id' => 1,
-            'adresse_adresse_type_id' => 1
-        );
-        $r = $this->create('personnes_adresses', $adresse_1)->put();
-        $adresse_1 = $r['items'];
-        $adresse_1_id = $r['items']['adresse_id'];
-        $personne_adresse_1_id = $r['items']['id'];
-        // Creates another adresse
-        $adresse_2 = array(
-            'personne_id' => $personne_id,
-            'adresse_rue' => 'Rue 999',
-            'adresse_npa' => '9999',
-            'adresse_lieu' => 'Lieu autre',
-            'adresse_pays_id' => 2,
-            'adresse_adresse_type_id' => 1
-        );
-        $r = $this->create('personnes_adresses', $adresse_2)->put();
-        $adresse_2 = $r['items'];
-        $adresse_2_id = $r['items']['adresse_id'];
-        $personne_adresse_2_id = $r['items']['id'];
-        // Checks data insertion
-        $r = $this->get('personnes_adresses', array(
-            'personne_id' => $personne_id,
-            'order_by' => 'id',
-            'order' => 'ASC'
-        ));
-        $this->assertEquals(
-            $r['items'],
-            array($adresse_1, $adresse_2)
-        );
-        // Modifies adresse 1
-        $r = $this->create('personnes_adresses', array(
-            'id' => $personne_adresse_1_id,
-            'adresse_id' => $adresse_1_id,
-            'adresse_rue' => 'Rue 321 (modifiée)'
-        ))->post();
-        $adresse_1_v2 = $r['items'];
-        // Fetches personne_adresse versions
-        $last_version = $this->get_last_version();
-        $r = $this->get('personnes_adresses', array(
-            'id' => $personne_adresse_1_id,
-            'xversion' => $last_version-2
-        ));
-        $adresse_1_get = $r['items'][0];
-        $r = $this->get('personnes_adresses', array(
-            'id' => $personne_adresse_2_id
-        ));
-        $adresse_2_get = $r['items'][0];
-        $r = $this->get('personnes_adresses', array(
-            'id' => $personne_adresse_1_id,
-            //'xversion' => $last_version
-        ));
-        $adresse_1_v2_get = $r['items'][0];
-        // Asserts foreign models versions
-        //$this->dump($last_version, $adresse_1, $adresse_1_get);
-        $this->assertEquals($adresse_1, $adresse_1_get);
-        $this->assertEquals($adresse_1_v2, $adresse_1_v2_get);
-        $this->assertEquals($adresse_2, $adresse_2_get);
-        // Deletes foreign entity
-try{
-        xController::load('personnes_adresses', array(
-            'id' => $personne_adresse_1_id
-        ))->delete();
-}catch(Exception $e){ var_dump($e->data['exceptions']);die(); }
-return;
-        $last_version = $this->get_last_version();
-        $r = $this->get('personnes_adresses', array(
-            'personne_id' => $personne_id,
-            'xversion' => $last_version-1
-        ));
-        $adresses = $r['items'];
-var_dump($r);
-        //$this->asserEquals();
-
-    }
-    // Commission_membre
-    function _test_nn_relations() {
     }
 }
