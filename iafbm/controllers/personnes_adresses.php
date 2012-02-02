@@ -79,11 +79,11 @@ class PersonnesAdressesController extends iaWebController {
     function delete() {
         $params = $this->params;
         $personne_adresse = array_shift(xModel::load($this->model, array('id'=>$params['id']))->get());
+        $adresse_id = $personne_adresse['adresse_id'];
         $t = new xTransaction();
         $t->start();
-        $t->execute(xModel::load($this->model, $params), 'delete');
-        $adresse_id = $personne_adresse['adresse_id'];
-        $t->execute(xModel::load('adresse', array('id'=>$adresse_id)), 'delete');
+        $t->execute(xModel::load($this->model, $params), '_delete_soft');
+        $t->execute(xModel::load('adresse', array('id'=>$adresse_id)), '_delete_soft');
         $r = $t->end();
         $r['items']['id'] = $params['id'];
         return $r;
