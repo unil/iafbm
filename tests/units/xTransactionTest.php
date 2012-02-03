@@ -258,8 +258,12 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
 
     function test_outer_transactions_prevention() {
         $t = new xTransaction();
+        # Initial commit state = 1
         $initial_commit_state = $t->autocommit();
+        $this->assertEquals(1, $initial_commit_state);
         $t->start();
+        # Backuped autocommit state = 1
+        $this->assertEquals(1, $t::$autocommit_state_backup);
         $t->execute_sql('SELECT * FROM personnes');
         $t->execute(xModel::load('personne', array('xlimit'=>1)), 'get');
         $r = $t->end();
@@ -279,7 +283,7 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
             $this->assertEquals('Cannot execute a statement if no transaction in progress', $e->getMessage());
             $this->assertEquals(500, $e->status);
         }
-        # Summary is not changes by outer requests
+        # Summary is not changed by failed outer requests
         $this->assertEquals($r, $t->summary());
         ## Autocommit is reset to initial autocommit state
         $this->assertEquals($initial_commit_state, $t->autocommit());

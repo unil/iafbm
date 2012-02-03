@@ -9,14 +9,17 @@ class ModelsTest extends iaPHPUnit_Framework_TestCase {
 #
 # TODO:
 # - do the same with controllers
-# - reuse this in VersioningTest?
+# - reuse this in VersioningTest?   !!!
 
-    public function create() {
+    function create() {
     }
 
-    public function modify() {
+    function modify() {
     }
 
-    public function delete() {
+    function delete() {
+    }
+
+    function test_dummy() {
     }
 }

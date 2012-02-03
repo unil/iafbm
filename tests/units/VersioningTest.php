@@ -50,7 +50,9 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'xorder' => 'DESC',
             'xlimit' => $n+1
         ), false)->get();
-        return @$r['items'][$n]['id'];
+        $v = @$r['items'][$n]['id'];
+        $this->assertNotEmpty($v);
+        return $v;
     }
 
     /**
@@ -78,8 +80,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     protected function create_personne($data=array()) {
         $personne = array_merge(
             array(
-                'nom' => 'Nom',
-                'prenom' => 'Prénom'
+                'nom' => "Nom",
+                'prenom' => "Prénom"
             ),
             $data
         );
@@ -495,7 +497,9 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
      * @depends test_relation_1n_create
      */
     function test_relation_1n_modify($id) {
+        # Record correctly exists from tests depended upon
         $r = xController::load('personnes_emails', array('id'=>$id))->get();
+        $this->assertCount(1, $r['items']);
         $item_old = $r['items'][0];
         // Modifies the foreign record
         $r = xController::load('personnes_emails', array('items'=>array(
@@ -544,8 +548,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     function test_relation_1n_delete($id) {
         # Record correctly exists from tests depended upon
         $r = xController::load('personnes_emails', array('id'=>$id))->get();
-        $item_old = $r['items'][0];
         $this->assertCount(1, $r['items']);
+        $item_old = $r['items'][0];
         # Record is correctly deleted
         sleep(1); // Sleeps to make sure 'modified' differs from record last creation/modification
         $r = xController::load('personnes_emails', array('id'=>$id))->delete();
@@ -605,7 +609,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         # Record is correctly inserted
         $r = xController::load('personnes_adresses', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
-        $this->assertSame($item, @$r['items'][0]);
+        $this->assertSame($item, $r['items'][0]);
         # 'Adresse' version is correctly written
         $v = $this->get_last_version(1);
         $r = xModel::load('version', array('id'=>$v))->get(0);
@@ -658,8 +662,49 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     }
 
     /**
-    * @depends test_relation_nn_create_adresse
-    */
+     * @depends test_relation_nn_create_adresse
+     *
+     *
+     * WARNING: This test sometimes fails:
+     *
+     * 1) VersioningTest::test_relation_nn_modify
+     * Failed asserting that two arrays are equal.
+     * --- Expected
+     * +++ Actual
+     * @@ @@
+     * Array (
+     *      'id' => '153'
+     *      'actif' => '1'
+     *      'created' => '2012-02-03 10:16:32'
+     * -    'modified' => null
+     * -    'personne_id' => '98'
+     * +    'modified' => '2012-02-03 10:16:32'
+     * +    'personne_id' => '1'
+     * @@ @@
+     *     'personne_actif' => '1'
+     * -    'personne_created' => '2012-02-03 10:16:32'
+     * -    'personne_modified' => null
+     * -    'personne_personne_type_id' => null
+     * -    'personne_nom' => 'Nom'
+     * -    'personne_prenom' => 'Prénom'
+     * +    'personne_created' => '2011-10-17 14:47:42'
+     * +    'personne_modified' => '2012-02-02 17:21:41'
+     * +    'personne_personne_type_id' => '1'
+     * +    'personne_nom' => 'RiceS XXX'
+     * +    'personne_prenom' => 'Damien'
+     *      'personne_genre_id' => null
+     * -    'personne_date_naissance' => null
+     * +    'personne_date_naissance' => '2011-04-01'
+     *      'personne_no_avs' => null
+     *      'personne_canton_id' => null
+     * -    'personne_pays_id' => null
+     * +    'personne_pays_id' => '36'
+     *      'personne_permis_id' => null
+     * )
+     * /var/www/iafbm/tests/units/VersioningTest.php:711
+     *
+     *
+     */
     function test_relation_nn_modify($id) {
         # Record correctly exists from tests depended upon
         $r = xController::load('personnes_adresses', array(
@@ -680,7 +725,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $personne_id = $item_old['personne_id'];
         $r = xController::load('personnes_adresses', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
-        $this->assertSame($item, @$r['items'][0]);
+        $this->assertSame($item, $r['items'][0]);
         # Pre-modification version is correctly accessible
         $r = xController::load('personnes_adresses', array(
             'id' => $id,
@@ -700,12 +745,12 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $personne_id = $r['items']['personne_id'];
         $r = xController::load('personnes_adresses', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
-        $this->assertSame($item, @$r['items'][0]);
+        $this->assertSame($item, $r['items'][0]);
         # Pre-modification version is correctly accessible
         $r = xController::load('personnes_adresses', array(
             'id' => $id,
             'xjoin' => 'personne,adresse',
-            'xversion' => $this->get_last_version(1)
+            'xversion' => $this->get_last_version(1) //was (1)
         ))->get();
         $this->assertCount(1, $r['items']);
         $this->assertEquals($item_old, $r['items'][0]);
