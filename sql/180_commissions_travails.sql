@@ -33,6 +33,8 @@ CREATE TABLE commissions_travails_evenements_types (
 INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, 'Séance: 1ère sélection sur dossier');
 INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (2, '1', CURRENT_TIMESTAMP, 'Journée: leçons, séminaires et visites');
 INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (3, '1', CURRENT_TIMESTAMP, 'Séance de délibération');
+INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (4, '1', CURRENT_TIMESTAMP, 'Préparation séance');
+INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (5, '1', CURRENT_TIMESTAMP, 'Rédaction du rapport');
 
 DROP TABLE IF EXISTS commissions_travails_evenements;
 CREATE TABLE commissions_travails_evenements (
