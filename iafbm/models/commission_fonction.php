@@ -10,7 +10,9 @@ class CommissionFonctionModel extends iaModelMysql {
         'created' => 'created',
         'modified' => 'modified',
         'nom' => 'nom',
-        'description' => 'description'
+        'description' => 'description',
+        'position' => 'position'
+
     );
 
     var $primary = array('id');
