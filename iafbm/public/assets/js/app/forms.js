@@ -660,7 +660,7 @@ Ext.define('iafbm.form.Personne', {
         });
         return {
             xtype: 'fieldset',
-            title: 'Participation aux commissions',
+            title: 'Participation à des commissions',
             items: [{
                 xtype: 'ia-editgrid',
                 editable: false,
