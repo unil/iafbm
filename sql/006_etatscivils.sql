@@ -13,4 +13,4 @@ CREATE TABLE etatscivils (
 INSERT INTO etatscivils (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, 'Célibataire');
 INSERT INTO etatscivils (id, actif, created, nom) VALUES (2, '1', CURRENT_TIMESTAMP, 'Marié');
 INSERT INTO etatscivils (id, actif, created, nom) VALUES (3, '1', CURRENT_TIMESTAMP, 'Divorcé');
-INSERT INTO etatscivils (id, actif, created, nom) VALUES (4, '1', CURRENT_TIMESTAMP, 'Voeuf');
+INSERT INTO etatscivils (id, actif, created, nom) VALUES (4, '1', CURRENT_TIMESTAMP, 'Veuf');
