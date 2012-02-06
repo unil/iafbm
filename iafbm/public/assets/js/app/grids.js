@@ -22,7 +22,7 @@ Ext.define('iafbm.grid.common.Formations', {
             allowBlank: false
         }
     },{
-        header: "Lieu",
+        header: "Lieu (Ville / Pays)",
         dataIndex: 'lieu_these',
         flex: 1,
         editor: {
