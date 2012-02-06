@@ -19,7 +19,7 @@ Ext.onReady(function() {
             anchor: '100%'
         },
         items: [{
-            html: '<h1>Cette commission est clôturée</h1>',
+            html: '<b>Cette commission est clôturée</b>',
             border: false,
             style: {
                 'border': '1px solid #500',
