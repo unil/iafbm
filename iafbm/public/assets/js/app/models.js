@@ -633,6 +633,6 @@ Ext.define('iafbm.model.VersionData', {
 for (model in iafbm.model) {
     Ext.define(['iafbm', 'store', model].join('.'), {
         extend: 'Ext.ia.data.Store',
-        model: ['iafbm', 'model', model].join('.')
+        model: ['iafbm', 'model', model].join('.'),
     });
 }
