@@ -30,7 +30,7 @@ CREATE TABLE commissions_travails_evenements_types (
     nom VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, 'Séance: 1ère sélection sur dossier');
+INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, 'Séance: 1ère sélection sur dossiers');
 INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (2, '1', CURRENT_TIMESTAMP, 'Journée: leçons, séminaires et visites');
 INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (3, '1', CURRENT_TIMESTAMP, 'Séance de délibération');
 INSERT INTO commissions_travails_evenements_types (id, actif, created, nom) VALUES (4, '1', CURRENT_TIMESTAMP, 'Préparation séance');
