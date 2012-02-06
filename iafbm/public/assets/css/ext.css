@@ -4,6 +4,9 @@
 .icon-delete {
     background-image: url(../img/ext/delete.png) !important;
 }
+.icon-save {
+    background-image: url(../img/ext/disk.png) !important;
+}
 .icon-get {
     background-image: url(../img/ext/page_white_get.png) !important;
 }
