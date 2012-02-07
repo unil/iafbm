@@ -158,7 +158,7 @@ Ext.define('iafbm.grid.common.Telephones', {
         dataIndex: 'countrycode',
         xtype: 'templatecolumn',
         tpl: '<tpl if="countrycode.length &gt; 0">+</tpl>{countrycode}',
-        width: 30,
+        width: 38,
         editor: {
             xtype: 'textfield',
             maxLength: 3,
