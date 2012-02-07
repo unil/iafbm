@@ -274,6 +274,7 @@ Ext.onReady(function() {
                     frame: false,
                     width: 400,
                     height: 150,
+                    toolbarButtons: ['add', 'delete'],
                     bbar: null,
                     store: new iafbm.store.CommissionTravailEvenement({
                         params: { commission_id: '<?php echo $d['id'] ?>' },
@@ -329,7 +330,6 @@ Ext.onReady(function() {
                 items: [{
                     xtype: 'displayfield',
                     value: '<b>Choix des candidats</b>',
-                    height: 25
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Primo loco',
