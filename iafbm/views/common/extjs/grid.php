@@ -15,7 +15,7 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
             'height' => 605,
             'columns' => @$this->data['columns'] ? $this->data['columns'] : "iafbm.columns.{$this->data['model']}",
             'editable' => true,
-            'autoSync' => true
+            'autoSync' => false
         ));
     }
 }

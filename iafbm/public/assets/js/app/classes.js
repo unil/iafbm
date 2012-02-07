@@ -49,6 +49,13 @@ Ext.define('Ext.ia.data.Store', {
         // Ext 3 emulation: applies this.params to this.proxy.extraParams
         this.proxy.extraParams = Ext.apply({}, this.params);
     },
+    getNonPristineRecords: function() {
+        return Ext.Array.merge(
+            this.getNewRecords(),
+            this.getUpdatedRecords(),
+            this.getRemovedRecords()
+        );
+    },
     listeners: {
         beforeload: function() { this.applyParamsToProxy() },
         beforesync: function() { this.applyParamsToProxy() },
@@ -642,7 +649,7 @@ Ext.define('Ext.ia.form.SearchField', {
 
 /**
  * Extends Ext.grid.Panel with
- * - Ext.grid.plugin.RowEditing plugin
+ * - Ext.ia.grid.plugin.RowEditing plugin
  * - Add / Delete buttons
  * - Search field
  * - Paging
@@ -661,10 +668,11 @@ Ext.define('Ext.ia.grid.EditPanel', {
     },
     autoSync: false,
     editable: true,
-    toolbarButtons: ['add', 'delete', 'search'],
+    toolbarButtons: ['add', 'delete', 'save', 'search'],
     toolbarLabels: {
         add: 'Ajouter',
         delete: 'Supprimer',
+        save: 'Enregistrer les modifications',
         search: 'Rechercher'
     },
     pageSize: 10,
@@ -700,10 +708,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
         );
         // Dynamic parameters
         if (!this.bbar) this.pageSize = null;
-        // Creates Editing plugin
+        // Creates Editing plugin (storing its id as grid property)
         this.plugins = [new Ext.ia.grid.plugin.RowEditing({
-            pluginId: this.editingPluginId = Ext.id(),
-            errorSummary: false
+            pluginId: this.editingPluginId = Ext.id()
         })];
         // Creates docked items (toolbar)
         this.dockedItems = this.makeDockedItems();
@@ -796,7 +803,34 @@ Ext.define('Ext.ia.grid.EditPanel', {
             text: this.toolbarLabels.delete,
             iconCls: 'icon-delete',
             handler: this.removeItem,
-            scope: this
+            scope: this,
+            // Manages button disable state
+            disabled: true,
+            listeners: {afterrender: function() {
+                var me = this,
+                    grid = this.up('grid');
+                grid.on('selectionchange', function(view, records) {
+                    me.setDisabled(!records.length);
+                });
+            }}
+        };
+        var save = {
+            text: this.toolbarLabels.save,
+            iconCls: 'icon-save',
+            handler: this.syncItems,
+            scope: this,
+            // Manages button disable state
+            disabled: true,
+            listeners: {afterrender: function() {
+                var me = this,
+                    store = this.up('grid').getStore();
+                var callback = function() {
+                    me.setDisabled(!store.getNonPristineRecords().length);
+                }
+                store.on('add', callback);
+                store.on('update', callback);
+                store.on('remove', callback);
+            }}
         };
         var search = new Ext.ia.form.SearchField({
             store: null,
@@ -828,6 +862,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
             items.push(add);
         if (Ext.Array.contains(this.toolbarButtons, 'delete'))
             items.push('-', del);
+        if (Ext.Array.contains(this.toolbarButtons, 'save'))
+            items.push('-', save);
         if (Ext.Array.contains(this.toolbarButtons, 'search'))
             items.push('->', '-', this.toolbarLabels.search, search);
         // Creates and returns the toolbar with its items
@@ -838,6 +874,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
     },
     getEditingPlugin: function() {
         return this.getPlugin(this.editingPluginId);
+    },
+    createRecord: function() {
+        return new this.store.model(this.newRecordValues);
     },
     addItem: function() {
         var grid = this,
@@ -850,25 +889,48 @@ Ext.define('Ext.ia.grid.EditPanel', {
         grid.getEditingPlugin().startEdit(0, 0);
     },
     removeItem: function() {
-        var grid = this;
-        var selection = grid.getView().getSelectionModel().getSelection()[0];
+        var grid = this,
+            selection = grid.getView().getSelectionModel().getSelection()[0];
         if (selection) grid.store.remove(selection);
     },
-    createRecord: function() {
-        return new this.store.model(this.newRecordValues);
+    syncItems: function() {
+        this.store.sync();
     }
 });
 
 /**
- * Extends Ext.grid.Panel with
+ * Extends Ext.grid.plugin.RowEditing with
+ * - project-specific config
+ * - autoCancel logic (disabled for now)
  */
 Ext.define('Ext.ia.grid.plugin.RowEditing', {
     extend: 'Ext.grid.plugin.RowEditing',
     alias: 'plugin.ia-rowediting',
+    clicksToEdit: 2,
+    clicksToMoveEditor: 1,
+    autoCancel: false,
     errorSummary: false,
+    constructor: function() {
+        var me = this;
+        me.callParent(arguments);
+        // FIXME: Is it still necessary?
+        // Workaround: we need to reset the store.params because surprisingly,
+        // they get changed when a row is added to the grid through
+        // the RowEditor plugin
+        //this.on('edit', function(context) {
+        //    context.store.params = context.store.proxy.extraParams;
+        //});
+        //
+        // Workaround for preventing validation errors tooltips to show up.
+        // Curse errorSummary is not properly managed
+        this.on('beforeedit', function() {
+            if (!me.errorSummary) this.editor.showToolTip = function() {};
+        });
+    },
     // On edit cancel, remove phantom row or reject existing row modifications
     // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
-    cancelEdit: function() {
+    // NOTE: Managed better in ExtJS 4.0.7
+    _cancelEdit: function() {
         if (this.context) {
             var record = this.context.record;
             if (record.phantom) {
@@ -884,22 +946,6 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
         }
         var me = this;
         me.callParent();
-    },
-    constructor: function() {
-        var me = this;
-        me.callParent(arguments);
-        // FIXME: Is it still necessary?
-        // Workaround: we need to reset the store.params because surprisingly,
-        // they get changed when a row is added to the grid through
-        // the RowEditor plugin
-        this.on('edit', function(context) {
-            context.store.params = context.store.proxy.extraParams;
-        });
-        // Workaround for preventing validation errors tooltips to show up.
-        // Curse errorSummary is not properly managed
-        this.on('beforeedit', function() {
-            if (!me.errorSummary) this.editor.showToolTip = function() {};
-        });
     }
 });
 
@@ -1080,7 +1126,6 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 c.store.params['xversion'] = version;
                 c.store.load();
             }
-
         });
     },
     initComponent: function() {
@@ -1296,6 +1341,7 @@ Ext.define('Ext.ia.form.Panel', {
             this.tbar.push({
                 xtype: 'button',
                 text: 'Enregistrer',
+                iconCls: 'icon-save',
                 scale: 'medium',
                 handler: function() { me.saveRecord() },
                 initComponent: function() {
