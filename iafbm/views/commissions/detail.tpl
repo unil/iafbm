@@ -208,6 +208,7 @@ Ext.onReady(function() {
             xtype:'ia-editgrid',
             width: 858,
             height: 289,
+            toolbarButtons: ['add', 'delete', 'search'],
             store: new iafbm.store.Candidat({
                 params: {commission_id: <?php echo $d['id'] ?>}
             }),
