@@ -323,9 +323,6 @@ Ext.define('iafbm.form.Personne', {
             }, {
                 xtype: 'fieldcontainer',
                 flex: 1,
-                defaults: {
-                    padding: '4 10 10 10'
-                },
                 items: [
                     this._createAdresses(),
                     this._createTelephones(),
@@ -385,7 +382,7 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
-            height: 419,
+            height: 397,
             defaultType: 'textfield',
             defaults: {
                 labelWidth: 110,
@@ -466,7 +463,7 @@ Ext.define('iafbm.form.Personne', {
     _createTelephones: function() {
         return {
             xtype: 'fieldset',
-            title: 'Telephones',
+            title: 'Téléphones',
             items: [
                 new iafbm.grid.common.Telephones({
                     store: new iafbm.store.PersonneTelephone({

@@ -48,10 +48,20 @@
 
 
 /**********************************************************
- * Fixes Ext.form.field.Display vertical alignment
+ * ExtJS fixes
 **/
+
+/* Fixes Ext.form.field.Display vertical alignment */
 .x-form-display-field {
     padding-top: 3px !important;
+}
+
+/* Fixes Ext.form.fieldset bottom padding */
+.x-fieldset {
+    padding: 5px 10px 10px 10px;
+}
+.x-fieldset-header-text {
+    font-weight: bold;
 }
 
 
