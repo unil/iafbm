@@ -10,9 +10,8 @@ CREATE TABLE personnes_activites (
     personne_id INT,
     activite_id INT,
     departement_id INT,
-    date_contrat DATE NULL DEFAULT NULL,
-    debut_mandat DATE NULL DEFAULT NULL,
-    fin_mandat DATE DEFAULT NULL,
+    debut DATE NULL DEFAULT NULL,
+    fin DATE DEFAULT NULL,
     taux_activite TINYINT,
 
     PRIMARY KEY (id),

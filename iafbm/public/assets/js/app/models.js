@@ -227,9 +227,8 @@ Ext.define('iafbm.model.PersonneActivite', {
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'departement_nom', type: 'string'},
         {name: 'taux_activite', type: 'int', useNull: true},
-        {name: 'date_contrat', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'debut_mandat', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'fin_mandat', type: 'date', dateFormat: 'Y-m-d'}
+        {name: 'debut', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'fin', type: 'date', dateFormat: 'Y-m-d'}
     ],
     validations: [],
     proxy: {

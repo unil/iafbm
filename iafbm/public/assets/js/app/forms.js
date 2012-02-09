@@ -604,16 +604,8 @@ Ext.define('iafbm.form.Personne', {
                     minValue: 0
                 }
             },{
-                header: "Date contrat",
-                dataIndex: 'date_contrat',
-                width: 100,
-                xtype: 'ia-datecolumn',
-                editor: {
-                    xtype: 'ia-datefield'
-                }
-            },{
-                header: "Début mandat",
-                dataIndex: 'debut_mandat',
+                header: "Début",
+                dataIndex: 'debut',
                 width: 100,
                 xtype: 'ia-datecolumn',
                 editor: {
@@ -631,8 +623,8 @@ Ext.define('iafbm.form.Personne', {
                     }
                 }
             },{
-                header: "Fin mandat",
-                dataIndex: 'fin_mandat',
+                header: "Fin",
+                dataIndex: 'fin',
                 width: 100,
                 xtype: 'ia-datecolumn',
                 editor: {

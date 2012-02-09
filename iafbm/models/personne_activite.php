@@ -13,14 +13,13 @@ class PersonneActiviteModel extends iaModelMysql {
         'departement_id' => 'departement_id',
         'activite_id' => 'activite_id',
         'taux_activite' => 'taux_activite',
-        'date_contrat' => 'date_contrat',
-        'debut_mandat' => 'debut_mandat',
-        'fin_mandat' => 'fin_mandat'
+        'debut' => 'debut',
+        'fin' => 'fin'
     );
 
     var $primary = array('id');
 
-    var $order_by = 'fin_mandat';
+    var $order_by = 'fin';
     var $order = 'ASC';
 
     var $joins = array(
