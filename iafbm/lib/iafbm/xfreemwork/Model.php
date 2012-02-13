@@ -6,38 +6,59 @@
 class iaModelMysql extends xModelMysql {
 
     /**
-     * @param bool True to enable versioning on this model.
+     * True to enable versioning on this model.
+     * @var bool
      */
     var $versioning = true;
 
     /**
-     * @param array Specifies which fields have to be versioned.
-     *              Versions all fields if array is empty.
+     * Specifies which fields have to be versioned.
+     * Versions all fields if array is empty.
+     * @var array
      */
     var $version_fields = array();
 
     /**
-     * @param array Specifies which foreign models information will be stored with a version.
-     *              The stored information consists of the table-name/id-value of the rows that relates to this record.
+     * Specifies which foreign models information will be stored with a version.
+     * The stored information consists of the table-name/id-value of the rows that relates to this record.
+     * @var array
      */
     var $version_foreign_models = array();
 
     /**
-     * @param bool True to allow archive.
+     * True to allow archive.
+     * @var bool
      */
     var $archivable = false;
 
     /**
-     * @param array Specifies the joins to enable for archive.
-     *              The joins must be defined in xModel::$joins.
-     *              Ignores joins if array is empty.
+     * Specifies the joins to enable for archive.
+     * The joins must be defined in xModel::$joins.
+     * Ignores joins if array is empty.
+     * @var array
      * @see xModel::$joins
      */
     var $archive_join = array();
 
     /**
-     * @param array Specifies the foreign models to include in archive.
-     *              Ignores foreign models if array is empty.
+     * Specifies the foreign models to include in archive.
+     * Ignores foreign models if array is empty.
+     * The array form is:
+     * <code>
+     * array(
+     *     'foreign_model_name' => 'foreign_model_field_value_to_match_with_this_model_primary_key'
+     *     'foreign_model_name' => 'this_model_foreign_field_name'
+     * )
+     * </code>
+     * or
+     * <code>
+     * array(
+     *     'foreign_model_name' => array(
+     *         'local_model_field_name_to_match_value_with' => 'foreign_model_field_name'
+     *     )
+     * )
+     * </code>
+     * @var array
      */
     var $archive_foreign_models = array();
 
@@ -91,7 +112,7 @@ class iaModelMysql extends xModelMysql {
     protected function get_version($rownum=null) {
         unset($this->params['actif']); // Also retrive 'deleted' rows
         $results = parent::get();
-        $primary = array_shift(xUtil::arrize($this->primary));
+        $primary = $this->primary();
         $version = @$this->params['xversion'];
         // Checks if version exists
         if (!xModel::load('version', array('id'=>$version))->get()) {
@@ -349,6 +370,70 @@ class iaModelMysql extends xModelMysql {
     }
 
     /**
+     * Returns an array of data for the model (including its specified archive_foreign_models)
+     * Returned array form:
+     * <code>
+     * array(
+     *     'model_name_1' => array(
+     *         array(row_1),
+     *         array(row_2),
+     *         ...
+     *     ),
+     *     'model_name_2' => array(
+     *         array(row_1),
+     *         array(row_2),
+     *         ...
+     *     ),
+     *     ...
+     * )
+     * </code>
+     * @param array An array of data (for recursion)
+     * @return array An array of data to archive.
+     */
+    protected function archive_data($data=array()) {
+        // Fetches model data
+        $items = xModel::load($this->name, array_merge(
+            $this->params,
+            array('xjoin' => $this->archive_join)
+        ))->get();
+        // Fetches foreign models data (recursion)
+        foreach ($this->archive_foreign_models as $model_name => $foreign_field_info) {
+            // Determines foreign fields names and values
+            // according the $this->archive_foreign_model definition flavour
+            if (is_array($foreign_field_info)) {
+                $local_field_name = array_shift(array_keys($foreign_field_info));
+                $foreign_field_name = array_shift(array_values($foreign_field_info));
+            } else {
+                // The given foreign field equals the local primary key (id) value
+                $local_field_name = $this->primary();
+                $foreign_field_name = $foreign_field_info;
+            }
+            if (!$local_field_name || !$foreign_field_name)
+                throw new xException('Could not determine local and/or foreign field name for archive');
+            // Fetches foreign model items for each local item
+            foreach($items as $item) {
+                $foreign_model = xModel::load($model_name, array(
+                    $foreign_field_name => $item[$local_field_name],
+                    'xjoin' => xModel::load($model_name)->archive_join
+                ));
+                // Adds foreign model data to actual data (for recursion)
+                // if item not already existing in actual data
+                $duplicate=false;
+                foreach (@$data[$foreign_model->name] ? $data[$foreign_model->name] : array() as $d) {
+                    if ($d[$foreign_field_name] == $item[$local_field_name]) {
+                        $duplicate=true;
+                        continue;
+                    }
+                }
+                if (!$duplicate) $data = $foreign_model->archive_data($data);
+            }
+        }
+        // Adds local model data to actual data
+        $data[$this->name] = xUtil::array_merge(@$data[$this->name], $items);
+        return $data;
+    }
+
+    /**
      * Creates an archive of a record.
      * Also archives foreign fields specified in {@see iaModelMysql::$archive_join}.
      * Also archives foreign records specified in {@see iaModelMysql::$archive_foreign_models}.
@@ -362,21 +447,12 @@ class iaModelMysql extends xModelMysql {
         if (@$this->params['xversion'])
             throw new xException('Cannot archive an item when xversion parameter is specified', 500);
         // Retrieves model primary key and its specified value
-        $primary = $this->primary[0];
+        $primary = $this->primary();
         $id = @$this->params[$primary];
         if (!$id) throw new xException("Missing id parameter");
         // Creates the models set to be archived and retrieves data
-        $data = array();
-        $data[$this->name] = xModel::load($this->name, array(
-            $primary => $id,
-            'xjoin' => $this->archive_join
-        ))->get();
-        foreach ($this->archive_foreign_models as $model_name => $foreign_field_name) {
-            $data[$model_name] = xModel::load($model_name, array(
-                $foreign_field_name => $id,
-                'xjoin' => xModel::load($model_name)->archive_join
-            ))->get();
-        }
+        $data = $this->archive_data();
+        $data = array_reverse($data);
         // Creates archive item
         $t = new xTransaction();
         $t->start();
@@ -395,8 +471,8 @@ class iaModelMysql extends xModelMysql {
             $model_instance = xModel::load($model_name);
             foreach ($rows as $row) {
                 foreach ($row as $modelfield => $value) {
-                    $row_id_field = $model_instance->primary[0];
-                    $row_id_value = $row[$model_instance->primary[0]];
+                    $row_id_field = $model_instance->primary();
+                    $row_id_value = $row[$model_instance->primary()];
                     if (!$row_id_field || !$row_id_value)
                         throw new xException('Archive failed: undefined row id field or value', 500);
                     $t->execute(
