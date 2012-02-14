@@ -32,15 +32,6 @@ class iaModelMysql extends xModelMysql {
     var $archivable = false;
 
     /**
-     * Specifies the joins to enable for archive.
-     * The joins must be defined in xModel::$joins.
-     * Ignores joins if array is empty.
-     * @var array
-     * @see xModel::$joins
-     */
-    var $archive_join = array();
-
-    /**
      * Specifies the foreign models to include in archive.
      * Ignores foreign models if array is empty.
      * The array form is:
@@ -182,6 +173,8 @@ class iaModelMysql extends xModelMysql {
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for post action', 400);
+        // Sets user id as modifier
+        $this->params['util_modif'] = xContext::$auth->username();
         // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::post();
         // Manages versioning
@@ -206,6 +199,8 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function put() {
+        // Sets user id as creator
+        $this->params['util_creat'] = xContext::$auth->username();
         // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::put();
         // Manages versioning
@@ -394,7 +389,7 @@ class iaModelMysql extends xModelMysql {
         // Fetches model data
         $items = xModel::load($this->name, array_merge(
             $this->params,
-            array('xjoin' => $this->archive_join)
+            array('xjoin' => array())
         ))->get();
         // Fetches foreign models data (recursion)
         foreach ($this->archive_foreign_models as $model_name => $foreign_field_info) {
@@ -412,9 +407,12 @@ class iaModelMysql extends xModelMysql {
                 throw new xException('Could not determine local and/or foreign field name for archive');
             // Fetches foreign model items for each local item
             foreach($items as $item) {
+                // Ensures that local field name exists in item data
+                if (!in_array($local_field_name, array_keys($item)))
+                    throw new xException("Local field ({$this->name}.{$local_field_name}) does not exist", 500, $item);
                 $foreign_model = xModel::load($model_name, array(
                     $foreign_field_name => $item[$local_field_name],
-                    'xjoin' => xModel::load($model_name)->archive_join
+                    'xjoin' => array()
                 ));
                 // Adds foreign model data to actual data (for recursion)
                 // if item not already existing in actual data
@@ -429,13 +427,12 @@ class iaModelMysql extends xModelMysql {
             }
         }
         // Adds local model data to actual data
-        $data[$this->name] = xUtil::array_merge(@$data[$this->name], $items);
+        if ($items) $data[$this->name] = xUtil::array_merge(@$data[$this->name], $items);
         return $data;
     }
 
     /**
      * Creates an archive of a record.
-     * Also archives foreign fields specified in {@see iaModelMysql::$archive_join}.
      * Also archives foreign records specified in {@see iaModelMysql::$archive_foreign_models}.
      * @see iaModelMysql::$archivable
      * @see iaModelMysql::$archive_join

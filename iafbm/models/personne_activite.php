@@ -29,4 +29,9 @@ class PersonneActiviteModel extends iaModelMysql {
     );
 
     var $join = array('personne', 'activite', 'departement');
+
+    var $archive_foreign_models = array(
+        'departement' => array('departement_id' => 'id'),
+        'activite' => array('activite_id' => 'id'),
+    );
 }

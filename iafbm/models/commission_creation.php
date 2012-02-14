@@ -28,6 +28,5 @@ class CommissionCreationModel extends iaModelMysql {
 
     var $join = 'commission';
 
-    var $validation = array(
-    );
+    var $validation = array();
 }

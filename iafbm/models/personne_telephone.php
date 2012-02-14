@@ -22,4 +22,8 @@ class PersonneTelephoneModel extends iaModelMysql {
         'personne_id' => 'mandatory',
         'email' => 'email'
     );
+
+    var $archive_foreign_models = array(
+        'adresse_type' => array('adresse_type_id' => 'id')
+    );
 }

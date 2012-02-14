@@ -23,4 +23,8 @@ class AdresseModel extends iaModelMysql {
     );
 
     var $validation = array();
+
+    var $archive_foreign_models = array(
+        'adresse_type' => array('adresse_type_id' => 'id')
+    );
 }

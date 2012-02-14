@@ -27,4 +27,8 @@ class PersonneAdresseModel extends iaModelMysql {
     );
 
     var $join = array('adresse');
+
+    var $archive_foreign_models = array(
+        'adresse' => array('adresse_id' => 'id')
+    );
 }

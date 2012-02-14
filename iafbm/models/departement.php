@@ -24,4 +24,8 @@ class DepartementModel extends iaModelMysql {
     var $validation = array(
         'nom' => 'mandatory'
     );
+
+    var $archive_foreign_models = array(
+        'section' => array('section_id' => 'id')
+    );
 }

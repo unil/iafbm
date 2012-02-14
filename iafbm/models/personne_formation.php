@@ -28,4 +28,8 @@ class PersonneFormationModel extends iaModelMysql {
     );
 
     var $join = 'formation';
+
+    var $archive_foreign_models = array(
+        'formation' => array('formation_id' => 'id')
+    );
 }

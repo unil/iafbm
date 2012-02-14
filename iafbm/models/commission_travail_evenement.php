@@ -24,4 +24,8 @@ class CommissionTravailEvenementModel extends iaModelMysql {
 
     var $validation = array(
     );
+
+    var $archive_foreign_models = array(
+        'commission_travail_evenement_type' => array('commission_travail_evenement_type_id' => 'id')
+    );
 }

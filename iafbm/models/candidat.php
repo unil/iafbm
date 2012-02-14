@@ -46,6 +46,7 @@ class CandidatModel extends iaModelMysql {
         'genre' => 'LEFT JOIN genres ON (candidats.genre_id = commissions.id)',
         'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
         'pays' => 'LEFT JOIN pays ON (candidats.pays_pro_id = pays.id)',
+        'pays' => 'LEFT JOIN pays ON (candidats.pays_pri_id = pays.id)',
         'pays' => 'LEFT JOIN pays ON (candidats._id = pays_pri_id.id)',
         'commission' => 'LEFT JOIN commissions ON (candidats.commission_id = commissions.id)'
     );
@@ -59,5 +60,14 @@ class CandidatModel extends iaModelMysql {
         'prenom' => 'mandatory',
         'email_pro' => 'email',
         'email_pri' => 'email'
+    );
+
+    var $archive_foreign_models = array(
+        'genre' => array('genre_id' => 'id'),
+        'etatcivil' => array('etatcivil_id' => 'id'),
+        'pays' => array('pays_id' => 'id'),
+        // FIXME: 'pays' => array('pays_pro_id' => 'id'),
+        // FIXME: 'pays' => array('pays_pri_id' => 'id'),
+        'candidat_formation' => 'candidat_id'
     );
 }

@@ -11,8 +11,8 @@ class CandidatFormationModel extends iaModelMysql {
         'actif' => 'actif',
         'candidat_id' => 'candidat_id',
         'formation_id' => 'formation_id',
-        'lieu_these' => 'lieu_these',
         'date_these' => 'date_these',
+        'lieu_these' => 'lieu_these',
         'commentaire' => 'commentaire'
     );
 
@@ -21,5 +21,13 @@ class CandidatFormationModel extends iaModelMysql {
     var $validation = array(
         'candidat_id' => 'mandatory',
         'formation_id' => 'mandatory'
+    );
+
+    var $joins = array(
+        'formation' => 'LEFT JOIN formations ON (candidats_formations.formation_id = formations.id)'
+    );
+
+    var $archive_foreign_models = array(
+        'formation' => array('formation_id' => 'id')
     );
 }

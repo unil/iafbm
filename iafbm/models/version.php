@@ -13,6 +13,7 @@ class VersionModel extends iaModelMysql {
         'id' => 'id',
         'created' => 'created',
         'modified' => 'modified',
+        'util_creat' => 'util_creat',
         'table_name' => 'table_name',
         'id_field_name' => 'id_field_name',
         'id_field_value' => 'id_field_value',

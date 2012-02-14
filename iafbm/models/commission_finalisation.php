@@ -24,4 +24,8 @@ class CommissionFinalisationModel extends iaModelMysql {
     var $validation = array(
         'commission_id' => 'mandatory'
     );
+
+    var $archive_foreign_models = array(
+        'candidat' => array('candidat_id' => 'id')
+    );
 }

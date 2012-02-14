@@ -25,4 +25,9 @@ class ActiviteModel extends iaModelMysql {
         'abreviation' => 'mandatory',
         'nom' => 'mandatory'
     );
+
+    var $archive_foreign_models = array(
+        'activite_type' => array('activite_type_id' => 'id'),
+        'section' => array('section_id' => 'id')
+    );
 }
