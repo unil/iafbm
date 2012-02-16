@@ -6,7 +6,7 @@ CREATE TABLE activites_types (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 INSERT INTO activites_types (id, actif, nom) VALUES (1, '1', 'Fonction');
-INSERT INTO activites_types (id, actif, nom) VALUES (2, '1', 'Titre academique');
+INSERT INTO activites_types (id, actif, nom) VALUES (2, '1', 'Titre académique');
 INSERT INTO activites_types (id, actif, nom) VALUES (3, '1', 'Mandat');
 
 
