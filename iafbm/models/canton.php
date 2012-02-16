@@ -8,7 +8,7 @@ class CantonModel extends iaModelMysql {
         'id' => 'id',
         'actif' => 'actif',
         'code' => 'code',
-        'nom' => 'nom',
+        'nom' => 'nom'
     );
 
     var $primary = array('id');

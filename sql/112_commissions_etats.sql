@@ -6,7 +6,3 @@ CREATE TABLE commissions_etats (
     description TEXT NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO `commissions_etats` (id, actif, nom, description) VALUES (1, '1', 'En cours', 'Commission en cours');
-INSERT INTO `commissions_etats` (id, actif, nom, description) VALUES (2, '1', 'En suspens', 'Commission en suspens');
-INSERT INTO `commissions_etats` (id, actif, nom, description) VALUES (3, '1', 'Clôturé', 'Commission clôturée');

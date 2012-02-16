@@ -5,10 +5,8 @@ CREATE TABLE commissions_validations_etats (
     nom VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (1, '1', '-');
-INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (2, '1', 'Oui');
-INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (3, '1', 'Non');
-INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (4, '1', 'Pas de décision');
+
+
 
 DROP TABLE IF EXISTS commissions_validations;
 CREATE TABLE commissions_validations (

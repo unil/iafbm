@@ -5,7 +5,3 @@ CREATE TABLE personnes_types (
     nom VARCHAR(50) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO personnes_types (id, actif, nom) VALUES (1, '1', 'Enseignant');
-INSERT INTO personnes_types (id, actif, nom) VALUES (2, '1', 'Externe');
-INSERT INTO personnes_types (id, actif, nom) VALUES (3, '1', 'Etudiant');

@@ -8,7 +8,7 @@ class CommissionTypeModel extends iaModelMysql {
         'id' => 'id',
         'actif' => 'actif',
         'nom' => 'nom',
-        'racine' => 'racine',
+        'racine' => 'racine'
     );
 
     var $primary = array('id');

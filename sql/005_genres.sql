@@ -8,6 +8,3 @@ CREATE TABLE genres (
     intitule_short VARCHAR(8) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO genres (id, actif, genre, genre_short, intitule, intitule_short) VALUES (1, '1', 'Masculin', 'H', 'Monsieur', 'M.');
-INSERT INTO genres (id, actif, genre, genre_short, intitule, intitule_short) VALUES (2, '1', 'Féminin', 'F', 'Madame', 'Mme.');

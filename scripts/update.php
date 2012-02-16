@@ -2,18 +2,26 @@
 
 require_once(dirname(__file__).'/Script.php');
 
+// TODO:
+// - rename 'database_update' to 'database_reset'
+// - create the update logic
+// - use cli args for skipping project/libs/db
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
         try {
             $this->update_project();
             $this->update_libs();
-            $this->update_database();
+            $this->create_database_structure();
+            $this->create_database_catalogs();
         } catch(Exception $e) {
             $message = $e->getMessage();
             $this->log("ERROR: {$message}");
             throw $e;
         }
+        // Displays run time
+        $this->log();
+        $this->log('Runtime: '.$this->timer_lapse().' seconds');
     }
 
     protected function update_project() {
@@ -33,8 +41,9 @@ class iafbmUpdateScript extends iafbmScript {
         $this->log('OK', 1);
     }
 
-    protected function update_database() {
-        $this->log('Updating database...');
+    protected function create_database_structure() {
+        $this->log('Creating database...');
+        $this->confirm('This action will destroy and create the database from scratch. Are you sure?');
         // Updates database
         exec("cd ../sql; ./merge.sh; cd -;", $output, $status);
         $user = xContext::$config->db->user;
@@ -55,6 +64,18 @@ class iafbmUpdateScript extends iafbmScript {
         $this->log('OK', 1);
     }
 
+    protected function create_database_catalogs() {
+        $this->log('Creating database catalogs...');
+        // Create catalogue entrie
+        require_once('../sql/999_catalogue_data.php');
+        foreach($catalogue_data as $model_name => $items) {
+            $this->log("Creating '{$model_name}'", 1);
+            foreach($items as $item) {
+                xModel::load($model_name, $item)->put();
+            }
+        }
+        $this->log('OK', 1);
+    }
 }
 
 new iafbmUpdateScript();

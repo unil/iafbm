@@ -6,6 +6,7 @@ class FormationModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
+        'actif' => 'actif',
         'abreviation' => 'abreviation'
     );
 

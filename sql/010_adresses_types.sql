@@ -5,7 +5,3 @@ CREATE TABLE adresses_types (
     nom VARCHAR(16) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO adresses_types (id, actif, nom) VALUES (1, '1', 'Professionnelle');
-INSERT INTO adresses_types (id, actif, nom) VALUES (2, '1', 'Privée');
-INSERT INTO adresses_types (id, actif, nom) VALUES (3, '1', 'Autre');
