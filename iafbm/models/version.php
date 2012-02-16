@@ -12,8 +12,7 @@ class VersionModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'created' => 'created',
-        'modified' => 'modified',
-        'util_creat' => 'util_creat',
+        'creator' => 'creator',
         'table_name' => 'table_name',
         'id_field_name' => 'id_field_name',
         'id_field_value' => 'id_field_value',

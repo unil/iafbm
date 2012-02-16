@@ -7,8 +7,6 @@ class CommissionFonctionModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'nom' => 'nom',
         'description' => 'description',
         'position' => 'position'

@@ -173,8 +173,6 @@ class iaModelMysql extends xModelMysql {
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for post action', 400);
-        // Sets user id as modifier
-        $this->params['util_modif'] = xContext::$auth->username();
         // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::post();
         // Manages versioning
@@ -200,7 +198,9 @@ class iaModelMysql extends xModelMysql {
      */
     function put() {
         // Sets user id as creator
-        $this->params['util_creat'] = xContext::$auth->username();
+        if (isset($this->mapping['creator'])) {
+            $this->params['creator'] = xContext::$auth->username();
+        }
         // Bypasses versioning if not applicable
         if (!$this->versioning) return parent::put();
         // Manages versioning

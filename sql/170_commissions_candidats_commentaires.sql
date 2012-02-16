@@ -1,10 +1,6 @@
 DROP TABLE IF EXISTS commissions_candidats_commentaires;
 CREATE TABLE commissions_candidats_commentaires (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,

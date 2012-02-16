@@ -1,10 +1,8 @@
 DROP TABLE IF EXISTS archives;
 CREATE TABLE archives (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    creator VARCHAR(255) NOT NULL,
     table_name varchar(255) NOT NULL,
     model_name varchar(255) NOT NULL,
     id_field_name varchar(255) NOT NULL,

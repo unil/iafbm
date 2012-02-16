@@ -16,8 +16,6 @@ class CommissionCreationModel extends iaModelMysql {
         'composition_validation' => 'date_composition_validation',
         'commentaire' => 'commentaire',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified'
     );
 
     var $primary = array('id');

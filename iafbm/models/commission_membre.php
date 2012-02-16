@@ -7,8 +7,6 @@ class CommissionMembreModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'personne_id' => 'personne_id',
         'commission_id' => 'commission_id',
         'commission_fonction_id' => 'commission_fonction_id',

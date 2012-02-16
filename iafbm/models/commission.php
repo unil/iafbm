@@ -13,8 +13,6 @@ class CommissionModel extends iaModelMysql {
         'nom' => 'nom',
         'commentaire' => 'commentaire',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified'
     );
 
     var $primary = array('id');

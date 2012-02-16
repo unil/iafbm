@@ -7,8 +7,6 @@ class PaysModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'code' => 'code',
         'nom' => 'nom',
         'nom_en' => 'nom_en'

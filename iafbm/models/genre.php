@@ -7,8 +7,6 @@ class GenreModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'genre' => 'genre',
         'genre_short' => 'genre_short',
         'intitule' => 'intitule',

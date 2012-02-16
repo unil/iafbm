@@ -7,8 +7,6 @@ class PersonneActiviteModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'personne_id' => 'personne_id',
         'departement_id' => 'departement_id',
         'activite_id' => 'activite_id',

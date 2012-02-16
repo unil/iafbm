@@ -7,8 +7,6 @@ class SectionModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'code' => 'code',
         'nom' => 'nom'
     );

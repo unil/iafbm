@@ -7,8 +7,6 @@ class PersonneAdresseModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'personne_id' => 'personne_id',
         'adresse_id' => 'adresse_id',
         'defaut' => 'defaut'

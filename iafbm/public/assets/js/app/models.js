@@ -588,6 +588,9 @@ Ext.define('iafbm.model.Version', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
+        {name: 'created', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'creator', type: 'string'},
+        {name: 'table_name', type: 'string'},
         {name: 'table_name', type: 'string'},
         {name: 'id_field_name', type: 'string'},
         {name: 'id_field_value', type: 'string'},
@@ -614,7 +617,7 @@ Ext.define('iafbm.model.VersionData', {
         {name: 'new_value', type: 'string'},
         // Foreign 'Version' fields
         {name: 'version_created', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'version_modified', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'version_creator', type: 'string'},
         {name: 'version_table_name', type: 'string'},
         {name: 'version_id_field_name', type: 'string'},
         {name: 'version_id_field_value', type: 'string'},

@@ -1,10 +1,6 @@
 DROP TABLE IF EXISTS commissions_membres;
 CREATE TABLE commissions_membres (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     personne_id INT NOT NULL,
     commission_id INT NOT NULL,

@@ -6,10 +6,6 @@ CREATE TABLE personnes (
     id_adifac INT,
 
     actif BOOLEAN NOT NULL DEFAULT TRUE,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
 
     personne_type_id INT,
 

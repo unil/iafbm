@@ -1,10 +1,6 @@
 DROP TABLE IF EXISTS personnes_activites;
 CREATE TABLE personnes_activites (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT TRUE,
 
     personne_id INT,

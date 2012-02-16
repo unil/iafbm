@@ -1,10 +1,6 @@
 DROP TABLE IF EXISTS candidats_formations;
 CREATE TABLE candidats_formations (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     candidat_id INT,
     formation_id INT,

@@ -12,7 +12,7 @@ class ArchiveModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'created' => 'created',
-        'modified' => 'modified',
+        'creator' => 'creator',
         'table_name' => 'table_name',
         'id_field_name' => 'id_field_name',
         'id_field_value' => 'id_field_value',

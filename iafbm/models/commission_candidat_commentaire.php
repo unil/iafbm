@@ -7,8 +7,6 @@ class CommissionCandidatCommentaireModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
-        'created' => 'created',
-        'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
         'termine' => 'termine',

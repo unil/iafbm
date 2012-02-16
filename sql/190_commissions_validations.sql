@@ -1,26 +1,18 @@
 DROP TABLE IF EXISTS commissions_validations_etats;
 CREATE TABLE commissions_validations_etats (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     nom VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-INSERT INTO commissions_validations_etats (id, actif, created, nom) VALUES (1, '1', CURRENT_TIMESTAMP, '-');
-INSERT INTO commissions_validations_etats (id, actif, created, nom) VALUES (2, '1', CURRENT_TIMESTAMP, 'Oui');
-INSERT INTO commissions_validations_etats (id, actif, created, nom) VALUES (3, '1', CURRENT_TIMESTAMP, 'Non');
-INSERT INTO commissions_validations_etats (id, actif, created, nom) VALUES (4, '1', CURRENT_TIMESTAMP, 'Pas de décision');
+INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (1, '1', '-');
+INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (2, '1', 'Oui');
+INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (3, '1', 'Non');
+INSERT INTO commissions_validations_etats (id, actif, nom) VALUES (4, '1', 'Pas de décision');
 
 DROP TABLE IF EXISTS commissions_validations;
 CREATE TABLE commissions_validations (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,

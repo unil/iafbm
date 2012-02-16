@@ -6,8 +6,6 @@ class CommissionTravailEvenementModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
-        'created' => 'created',
-        'modified' => 'modified',
         'actif' => 'actif',
         'commission_id' => 'commission_id',
         'commission_travail_evenement_type_id' => 'commission_travail_evenement_type_id',

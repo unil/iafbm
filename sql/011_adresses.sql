@@ -1,10 +1,6 @@
 DROP TABLE IF EXISTS adresses;
 CREATE TABLE adresses (
     id INT NOT NULL AUTO_INCREMENT,
-    created TIMESTAMP NULL DEFAULT NULL,
-    modified TIMESTAMP NULL DEFAULT NULL,
-    util_creat INT,
-    util_modif INT,
     actif BOOLEAN NOT NULL DEFAULT true,
 
     adresse_type_id INT NOT NULL,

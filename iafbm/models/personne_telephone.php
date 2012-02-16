@@ -7,8 +7,6 @@ class PersonneTelephoneModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'created' => 'created',
-        'modified' => 'modified',
         'personne_id' => 'personne_id',
         'adresse_type_id' => 'adresse_type_id',
         'countrycode' => 'countrycode',
