@@ -2,10 +2,6 @@
 
 require_once(dirname(__file__).'/Script.php');
 
-// TODO:
-// - rename 'database_update' to 'database_reset'
-// - create the update logic
-// - use cli args for skipping project/libs/db
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
