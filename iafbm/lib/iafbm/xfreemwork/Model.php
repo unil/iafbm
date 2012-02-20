@@ -187,8 +187,10 @@ class iaModelMysql extends xModelMysql {
         }
         // In case of soft-deletion, sets $operation to 'delete' instead of 'post'
         $operation = (isset($this->params['actif']) && @$old_record['actif'] && !$this->params['actif']) ? 'delete' : 'post';
-        $this->version($operation, $old_record, $result);
+        $version = $this->version($operation, $old_record, $result);
         $t->end();
+        // Returns result with current version information
+        $result['xversion'] = $version;
         return $result;
     }
 
@@ -212,8 +214,10 @@ class iaModelMysql extends xModelMysql {
             $t->rollback();
             throw $e;
         }
-        $this->version('put', array(), $result);
+        $version = $this->version('put', array(), $result);
         $t->end();
+        // Returns result with current version information
+        $result['xversion'] = $version;
         return $result;
     }
 
@@ -271,12 +275,13 @@ class iaModelMysql extends xModelMysql {
     }
 
     /**
-     * Creates a version of a record.
+     * Creates a version of a record, returning the created version id.
      * Compares fields from old and new records provided
      * and saves the modified fields as a version.
      * @param string Name of the performed operation (get, put, post, delete)
      * @param array Old version of the record.
      * @param array New version of the record.
+     * @return int The created version id, or null if no version was created.
      * @see iaModelMysql::$versioning
      * @see iaModelMysql::$version_fields
      * @see iaModelMysql::$version_foreign_models
@@ -350,6 +355,7 @@ class iaModelMysql extends xModelMysql {
                 ))->put();
             }
         }
+        return $version_id;
     }
 
     /**
