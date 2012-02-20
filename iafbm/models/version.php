@@ -24,4 +24,15 @@ class VersionModel extends iaModelMysql {
     var $primary = array('id');
 
     var $validation = array();
+
+    function current() {
+        $r = xModel::load('version', array(
+            'xorder_by' => 'id',
+            'xorder' => 'DESC',
+            'xlimit' => 1
+        ))->get(0);
+        $v = $r['id'];
+        if (!$v) throw new xException('Could not retrieve current version', 500);
+        return $v;
+    }
 }

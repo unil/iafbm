@@ -11,7 +11,8 @@ class CommissionMembreModel extends iaModelMysql {
         'commission_id' => 'commission_id',
         'commission_fonction_id' => 'commission_fonction_id',
         'activite_id' => 'activite_id',
-        'departement_id' => 'departement_id'
+        'departement_id' => 'departement_id',
+        'version' => 'version'
     );
 
     var $primary = array('id');
@@ -41,4 +42,39 @@ class CommissionMembreModel extends iaModelMysql {
         'activite' => array('activite_id' => 'id'),
         'departement' => array('departement_id' => 'id')
     );
+
+    function put() {
+        // Stores current version to stick to this version of 'personne'
+        // FIXME: guessing the next version number is dangerous!
+        $this->params['version'] = xModel::load('version')->current()+1;
+        return parent::put();
+    }
+
+    /**
+     * Return versioned 'personne' data
+     * instead of using standard 'personne' join
+     * @see https://github.com/unil/iafbm/issues/118
+     */
+    function get($rownum=null) {
+        if (!in_array('personne', $this->join)) return parent::get($rownum);
+        // Disables the 'personne' join
+        // for filling a versioned 'personne' data
+        unset($this->join[array_search('personne', $this->join)]);
+        // Retrieves records
+        $records = parent::get($rownum);
+        // Ensuring it is an array of records (in case where $rownum is defined)
+        $records = isset($rownum) ? array($records) : $records;
+        // Simulates the 'personne' join, applying versioned personne record
+        foreach ($records as &$record) {
+            if (!$record) continue;
+            $personne = xModel::load('personne', array(
+                'id' => $record['personne_id'],
+                'xversion' => $record['version']
+            ))->get(0);
+            foreach ($personne as $field => $value) {
+                $record["personne_{$field}"] = $value;
+            }
+        }
+        return isset($rownum) ? array_shift($records) : $records;
+    }
 }
