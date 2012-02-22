@@ -530,7 +530,7 @@ Ext.define('iafbm.form.Personne', {
             columns: [{
                 // This column is used as a filter for 'Activite' field
                 header: "Type",
-                dataIndex: 'activite_activite_type_id',
+                dataIndex: 'activite_type_id',
                 width: 100,
                 xtype: 'ia-combocolumn',
                 editor: {
@@ -551,7 +551,7 @@ Ext.define('iafbm.form.Personne', {
                         params: { section_id: section_id }
                     }),
                     valueField: 'id',
-                    displayField: 'abreviation',
+                    displayField: 'activite_nom_abreviation',
                     allowBlank: false,
                     // Manages list filtering: only shows titres-academiques related to the member
                     queryMode: 'local',
@@ -573,7 +573,7 @@ Ext.define('iafbm.form.Personne', {
                     }
                 }
             },{
-                header: "Département",
+                header: (section_id==1) ? "Service" : "Département",
                 dataIndex: 'departement_id',
                 flex: 1,
                 xtype: 'ia-combocolumn',
@@ -587,9 +587,9 @@ Ext.define('iafbm.form.Personne', {
                     allowBlank: false
                 }
             },{
-                header: "% Taux d'activité",
+                header: "Taux (%)",
                 dataIndex: 'taux_activite',
-                width: 47,
+                width: 75,
                 align: 'right',
                 xtype: 'numbercolumn',
                 format: '000',
@@ -603,7 +603,7 @@ Ext.define('iafbm.form.Personne', {
             },{
                 header: "Début",
                 dataIndex: 'debut',
-                width: 100,
+                width: 85,
                 xtype: 'ia-datecolumn',
                 editor: {
                     xtype: 'ia-datefield',
@@ -622,7 +622,7 @@ Ext.define('iafbm.form.Personne', {
             },{
                 header: "Fin",
                 dataIndex: 'fin',
-                width: 100,
+                width: 85,
                 xtype: 'ia-datecolumn',
                 editor: {
                     xtype: 'ia-datefield',

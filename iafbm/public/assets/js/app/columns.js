@@ -68,7 +68,7 @@ iafbm.columns.CommissionMembre = [{
         typeAhead: false,
         store: new iafbm.store.PersonneActivite(),
         valueField: 'activite_id',
-        displayField: 'activite_abreviation',
+        displayField: 'activite_nom_abreviation',
         // Manages list filtering: only shows 'acitivtes' related to the 'personne'
         queryMode: 'local',
         listeners: {
@@ -100,8 +100,8 @@ iafbm.columns.CommissionMembre = [{
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
-        displayField: 'departement_nom',
         valueField: 'departement_id',
+        displayField: 'departement_nom',
         store: new iafbm.store.PersonneActivite({
             // FIXME: this is not working (because it's a foreign key)
             params: { order_by: 'departement_nom' }
@@ -267,24 +267,8 @@ iafbm.columns.CommissionType = [{
 }];
 
 iafbm.columns.Activite = [{
-    header: "Abréviation",
-    dataIndex: 'abreviation',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
     header: "Nom",
-    dataIndex: 'nom',
-    flex: 1,
-    field: {
-        xtype: 'textfield',
-        allowBlank: false
-    }
-}, {
-    header: "Type",
-    dataIndex: 'activite_type_id',
+    dataIndex: 'activite_nom_id',
     flex: 1,
     xtype: 'ia-combocolumn',
     field: {
@@ -292,7 +276,7 @@ iafbm.columns.Activite = [{
         displayField: 'nom',
         valueField: 'id',
         allowBlank: false,
-        store: new iafbm.store.ActiviteType()
+        store: new iafbm.store.ActiviteNom()
     }
 }, {
     header: "Section",
@@ -305,6 +289,18 @@ iafbm.columns.Activite = [{
         valueField: 'id',
         allowBlank: false,
         store: new iafbm.store.Section()
+    }
+}, {
+    header: "Type",
+    dataIndex: 'activite_type_id',
+    flex: 1,
+    xtype: 'ia-combocolumn',
+    field: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.ActiviteType()
     }
 }];
 

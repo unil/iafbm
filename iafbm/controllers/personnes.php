@@ -18,13 +18,6 @@ class PersonnesController extends iaWebController {
     function detailAction() {
         $data = array(
             'id' => $this->params['id'],
-/*
-            'title' => 'Commissions',
-            'id' => 'commissions',
-            'url' => xUtil::url('api/commissions'),
-            'fields' => xView::load('commissions/extjs4/fields')->render(),
-            'columns' => xView::load('commissions/extjs4/columns')->render()
-*/
         );
         return xView::load('personnes/detail', $data, $this->meta)->render();
     }
@@ -35,12 +28,12 @@ class PersonnesController extends iaWebController {
             // Fetches 'Fonction' for the current 'Personne'
             $fonctions = xModel::load('personne_activite', array(
                 'personne_id' => $personne['id'],
-                'xjoin' => 'activite'
+                'xjoin' => 'activite,activite_nom'
             ))->get();
             // Creates a CSV list of 'Fonction'
             $f = array();
-            foreach($fonctions as $function) {
-                $f[] = $function['activite_abreviation'];
+            foreach($fonctions as $fonction) {
+                $f[] = $fonction['activite_nom_abreviation'];
             }
             // Adds it to the resultset
             $personne['_activites'] = implode(', ', $f);
@@ -48,10 +41,19 @@ class PersonnesController extends iaWebController {
         return $personnes;
     }
 
+    /**
+     * Ensures 'nom' + 'prenom' fields begin with capitals.
+     * @see transform_params()
+     */
     function post() {
         $this->transform_params();
         return parent::post();
     }
+
+    /**
+     * Ensures 'nom' + 'prenom' fields begin with capitals.
+     * @see transform_params()
+     */
     function put() {
         $this->transform_params();
         return parent::put();

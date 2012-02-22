@@ -12,7 +12,7 @@ class CommissionMembreModel extends iaModelMysql {
         'commission_fonction_id' => 'commission_fonction_id',
         'activite_id' => 'activite_id',
         'departement_id' => 'departement_id',
-        'version' => 'version'
+        'version_id' => 'version_id'
     );
 
     var $primary = array('id');
@@ -44,10 +44,31 @@ class CommissionMembreModel extends iaModelMysql {
     );
 
     function put() {
+        $t = new xTransaction();
+        $t->start();
+        // Stores the actual record
+        $r = parent::put();
         // Stores current version to stick to this version of 'personne'
-        // FIXME: guessing the next version number is dangerous!
-        $this->params['version'] = xModel::load('version')->current()+1;
-        return parent::put();
+        // Updates 'version_id' off versioning
+        $insert_id = $r['xinsertid'];
+        $version_id = xModel::load('version')->current();
+        if (!$insert_id) throw new xException("Problem storing version id", 500);
+        $model = xModel::load($this->name, array(
+            'id' => $insert_id,
+            'version_id' => $version_id
+        ));
+        $model->versioning = false;
+        $model->post();
+        // Makes the system believe that 'version_id' was set with
+        // the actual PUT operation
+        xModel::load('version_data', array(
+            'version_id' => $_version_id,
+            'field_name' => 'version_id',
+            'old_value' => null,
+            'new_value' => $version_id
+        ))->put();
+        $t->end();
+        return $r;
     }
 
     /**
@@ -56,6 +77,8 @@ class CommissionMembreModel extends iaModelMysql {
      * @see https://github.com/unil/iafbm/issues/118
      */
     function get($rownum=null) {
+        // FIXME: Is this all necessary?
+        //        Doesn't the xModel join mecanism applies versioned joins already?
         if (!in_array('personne', $this->join)) return parent::get($rownum);
         // Disables the 'personne' join
         // for filling a versioned 'personne' data
@@ -69,7 +92,7 @@ class CommissionMembreModel extends iaModelMysql {
             if (!$record) continue;
             $personne = xModel::load('personne', array(
                 'id' => $record['personne_id'],
-                'xversion' => $record['version']
+                'xversion' => $record['version_id']
             ))->get(0);
             foreach ($personne as $field => $value) {
                 $record["personne_{$field}"] = $value;

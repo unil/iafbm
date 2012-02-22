@@ -6,28 +6,30 @@ class ActiviteModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
-        'activite_type_id' => 'activite_type_id',
         'section_id' => 'section_id',
-        'abreviation' => 'abreviation',
-        'nom' => 'nom'
+        'activite_type_id' => 'activite_type_id',
+        'activite_nom_id' => 'activite_nom_id'
     );
 
     var $primary = array('id');
 
     var $joins = array(
+        'section' => 'LEFT JOIN sections ON (activites.section_id = sections.id)',
         'activite_type' => 'LEFT JOIN activites_types ON (activites.activite_type_id = activites_types.id)',
-        'section' => 'LEFT JOIN sections ON (activites.section_id = sections.id)'
+        'activite_nom' => 'LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)'
     );
 
-    var $join = array('activite_type', 'section');
+    var $join = array('section', 'activite_type', 'activite_nom');
 
     var $validation = array(
-        'abreviation' => 'mandatory',
-        'nom' => 'mandatory'
+        'section_id' => 'mandatory',
+        'activite_type_id' => 'mandatory',
+        'activite_nom_id' => 'mandatory'
     );
 
     var $archive_foreign_models = array(
+        'section' => array('section_id' => 'id'),
         'activite_type' => array('activite_type_id' => 'id'),
-        'section' => array('section_id' => 'id')
+        'activite_nom' => array('activite_nom_id' => 'id')
     );
 }

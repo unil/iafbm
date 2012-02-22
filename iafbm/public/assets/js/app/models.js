@@ -107,14 +107,30 @@ Ext.define('iafbm.model.ActiviteType', {
         url: x.context.baseuri+'/api/activites_types',
     }
 });
+Ext.define('iafbm.model.ActiviteNom', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'abreviation', type: 'string'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/activites_noms',
+    }
+});
 Ext.define('iafbm.model.Activite', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'activite_type_id', type: 'int', useNull: true},
         {name: 'section_id', type: 'int', useNull: true},
-        {name: 'abreviation', type: 'string'},
-        {name: 'nom', type: 'string'}
+        {name: 'activite_nom_id', type: 'int', useNull: true},
+        {name: 'activite_type_id', type: 'int', useNull: true},
+        {name: 'section_nom', type: 'string'},
+        {name: 'activite_type_nom', type: 'string'},
+        {name: 'activite_nom_nom', type: 'string'},
+        {name: 'activite_nom_abreviation', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -222,10 +238,12 @@ Ext.define('iafbm.model.PersonneActivite', {
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int', useNull: true},
         {name: 'activite_id', type: 'int', useNull: true},
-        {name: 'activite_abreviation', type: 'string'},
-        {name: 'activite_activite_type_id', type: 'int', useNull: true},
+        {name: 'activite_type_id', type: 'int', useNull: true},
+        {name: 'activite_nom_id', type: 'int', useNull: true},
+        {name: 'activite_nom_abreviation', type: 'string'},
         {name: 'departement_id', type: 'int', useNull: true},
         {name: 'departement_nom', type: 'string'},
+        {name: 'section_id', type: 'int', useNull: true},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'debut', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'fin', type: 'date', dateFormat: 'Y-m-d'}
