@@ -63,12 +63,10 @@ class iafbmUpdateScript extends iafbmScript {
     protected function create_database_catalogs() {
         $this->log('Creating database catalogs...');
         // Create catalogue entrie
-        require_once('../sql/999_catalogue_data.php');
+        require_once('../sql/990_catalogue_data.php');
         foreach($catalogue_data as $model_name => $items) {
             $this->log("Creating '{$model_name}'", 1);
-            foreach($items as $item) {
-                xModel::load($model_name, $item)->put();
-            }
+            foreach($items as $item) xModel::load($model_name, $item)->put();
         }
         $this->log('OK', 1);
     }
