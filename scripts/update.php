@@ -53,17 +53,17 @@ class iafbmUpdateScript extends iafbmScript {
         // Executes SQL dump
         $cmd = "mysql --default-character-set=utf8 -u{$user} -p\"{$password}\" {$database} < {$file}";
         exec($cmd, $output, $status);
-        if ($status) throw new xException('Error updating database', $output);
+        if ($status) throw new xException('Error updating database', 500, $output);
         // Cleans SQL temporary file
         exec("rm -f {$file}", $output, $status);
-        if ($status) throw new xException('Error cleaning SQL dump file', $output);
+        if ($status) throw new xException('Error cleaning SQL dump file', 500, $output);
         $this->log('OK', 1);
     }
 
     protected function create_database_catalogs() {
         $this->log('Creating database catalogs...');
         // Create catalogue entrie
-        require_once('../sql/990_catalogue_data.php');
+        require_once('../sql/900_catalogue_data.php');
         foreach($catalogue_data as $model_name => $items) {
             $this->log("Creating '{$model_name}'", 1);
             foreach($items as $item) xModel::load($model_name, $item)->put();
