@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DUMP_FILE=999_dummy_data.sql
+DUMP_FILE=999_dummy_data.sql.disabled
 MYSQL_USER=root
 
 mysqldump -v -u $MYSQL_USER -p --no-create-db --no-create-info iafbm \
