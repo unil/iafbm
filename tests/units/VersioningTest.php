@@ -127,7 +127,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'id' => array(null => $id),
             'actif' => array(null => 1),
-            'created' => array(null => $item['created']),
             'nom' => array(null => $item['nom']),
             'prenom' => array(null => $item['prenom'])
         );
@@ -179,7 +178,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($id, $r['id_field_value']);
         # Version data is correctly written
         $changes = array(
-            'modified' => array($item_old['modified'] => $item['modified']),
             'nom' => array($item_old['nom'] => $item['nom']),
             'prenom' => array($item_old['prenom'] => $item['prenom'])
         );
@@ -226,7 +224,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         //        better log only changed fields: 'modified' and 'actif'
         $changes = array(
             'actif' => array($item_old['actif'] => 0),
-            'modified' => array($item_old['modified'] => date('Y-m-d H:i:s'))
         );
         $this->assertVersionChanges($v, $changes);
         # Pre-deletion version is correctly accessible
@@ -272,7 +269,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($id, $r['id_field_value']);
         # Version data is correctly written
         $changes = array(
-            'modified' => array($item_old['modified'] => $item['modified']),
             'nom' => array($item_old['nom'] => $item['nom']),
             'prenom' => array($item_old['prenom'] => $item['prenom']),
             'pays_id' => array($item_old['pays_id'] => $item['pays_id']),
@@ -334,7 +330,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($pays['id'], $r['id_field_value']);
         # Version data is correctly written
         $changes = array(
-            'modified' => array($pays_old['modified'] => $pays['modified']),
             'nom' => array($pays_old['nom'] => $pays['nom'])
         );
         $this->assertVersionChanges($v, $changes);
@@ -344,8 +339,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $item = $r['items'][0];
         $this->assertEquals($pays['id'], $item['pays_id']);
         $this->assertEquals($pays['nom'], $item['pays_nom']);
-        $this->assertEquals($pays['created'], $item['pays_created']);
-        $this->assertEquals($pays['modified'], $item['pays_modified']);
         # xcount value is correct (1)
         $this->assertEquals(1, $r['xcount']);
         # Pre-modification version is correctly accessible through 'Personne'
@@ -393,15 +386,9 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals('id', $r['id_field_name']);
         $this->assertEquals($item['id'], $r['id_field_value']);
         # Version data is correctly written
-        # (modified is not a modification if timestamps do not differ)
-        $changes = ($item_old['modified'] == $item['modified']) ?
-            array(
-                'pays_id' => array($item_old['pays_id'] => $item['pays_id'])
-            ) :
-            array(
-                'modified' => array($item_old['modified'] => $item['modified']),
-                'pays_id' => array($item_old['pays_id'] => $item['pays_id'])
-            );
+        $changes = array(
+            'pays_id' => array($item_old['pays_id'] => $item['pays_id'])
+        );
         $this->assertVersionChanges($v, $changes);
         # Record is modification is correctly accessible through 'Personne'
         $r = xController::load('personnes', array('id'=>$id))->get();
@@ -473,7 +460,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'id' => array(null => $id),
             'actif' => array(null => 1),
-            'created' => array(null => $item['created']),
             'personne_id' => array(null => $item['personne_id']),
             'adresse_type_id' => array(null => $item['adresse_type_id']),
             'email' => array(null => $item['email']),
@@ -522,7 +508,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($id, $r['id_field_value']);
         # Version data is correctly written
         $changes = array(
-            'modified' => array($item_old['modified'] => $item['modified']),
             'adresse_type_id' => array($item_old['adresse_type_id'] => $item['adresse_type_id']),
             'email' => array($item_old['email'] => $item['email'])
         );
@@ -571,7 +556,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         //        better log only changed fields: 'modified' and 'actif'
         $changes = array(
             'actif' => array($item_old['actif'] => 0),
-            'modified' => array($item_old['modified'] => date('Y-m-d H:i:s'))
         );
         $this->assertVersionChanges($v, $changes);
         # Pre-deletion version is correctly accessible
@@ -622,7 +606,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'id' => array(null => $adresse_id),
             'actif' => array(null => 1),
-            'created' => array(null => $item['adresse_created']),
             'adresse_type_id' => array(null => $item['adresse_adresse_type_id']),
             'rue' => array(null => $item['adresse_rue']),
             'npa' => array(null => $item['adresse_npa']),
@@ -642,7 +625,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'id' => array(null => $id),
             'actif' => array(null => 1),
-            'created' => array(null => $item['created']),
             'personne_id' => array(null => $item['personne_id']),
             'adresse_id' => array(null => $item['adresse_id']),
             'defaut' => array(null => $item['defaut'])
