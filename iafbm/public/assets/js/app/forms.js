@@ -574,12 +574,12 @@ Ext.define('iafbm.form.Personne', {
                 }
             },{
                 header: (section_id==1) ? "Service" : "Département",
-                dataIndex: 'departement_id',
+                dataIndex: 'rattachement_id',
                 flex: 1,
                 xtype: 'ia-combocolumn',
                 editor: {
                     xtype: 'ia-combo',
-                    store: new iafbm.store.Departement({
+                    store: new iafbm.store.Rattachement({
                         params: { section_id: section_id }
                     }),
                     valueField: 'id',

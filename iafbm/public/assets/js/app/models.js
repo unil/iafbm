@@ -138,7 +138,7 @@ Ext.define('iafbm.model.Activite', {
         url: x.context.baseuri+'/api/activites',
     }
 });
-Ext.define('iafbm.model.Departement', {
+Ext.define('iafbm.model.Rattachement', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
@@ -147,7 +147,7 @@ Ext.define('iafbm.model.Departement', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/departements',
+        url: x.context.baseuri+'/api/rattachements',
     }
 });
 Ext.define('iafbm.model.Adresse', {
@@ -241,8 +241,8 @@ Ext.define('iafbm.model.PersonneActivite', {
         {name: 'activite_type_id', type: 'int', useNull: true},
         {name: 'activite_nom_id', type: 'int', useNull: true},
         {name: 'activite_nom_abreviation', type: 'string'},
-        {name: 'departement_id', type: 'int', useNull: true},
-        {name: 'departement_nom', type: 'string'},
+        {name: 'rattachement_id', type: 'int', useNull: true},
+        {name: 'rattachement_nom', type: 'string'},
         {name: 'section_id', type: 'int', useNull: true},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'debut', type: 'date', dateFormat: 'Y-m-d'},
@@ -315,7 +315,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'commission_id', type: 'int'},
         {name: 'commission_fonction_id', type: 'int'},
         {name: 'activite_id', type: 'int', useNull: true},
-        {name: 'departement_id', type: 'int', useNull: true},
+        {name: 'rattachement_id', type: 'int', useNull: true},
         {name: 'titre', type: 'string', defaultValue: 'Prof.'},
         {name: 'actif', type: 'boolean', defaultValue: true},
         // Foreign fields

@@ -5,7 +5,7 @@ CREATE TABLE personnes_activites (
 
     personne_id INT,
     activite_id INT,
-    departement_id INT,
+    rattachement_id INT,
     debut DATE NULL DEFAULT NULL,
     fin DATE DEFAULT NULL,
     taux_activite TINYINT,
@@ -13,5 +13,5 @@ CREATE TABLE personnes_activites (
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (activite_id) REFERENCES activites(id),
-    FOREIGN KEY (departement_id) REFERENCES departements(id)
+    FOREIGN KEY (rattachement_id) REFERENCES rattachements(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

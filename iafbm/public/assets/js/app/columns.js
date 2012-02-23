@@ -95,18 +95,18 @@ iafbm.columns.CommissionMembre = [{
     width: 125,
 }, {
     header: "Dépt / Service",
-    dataIndex: 'departement_id',
+    dataIndex: 'rattachement_id',
     width: 150,
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
-        valueField: 'departement_id',
-        displayField: 'departement_nom',
+        valueField: 'rattachement_id',
+        displayField: 'rattachement_nom',
         store: new iafbm.store.PersonneActivite({
             // FIXME: this is not working (because it's a foreign key)
-            params: { order_by: 'departement_nom' }
+            params: { order_by: 'rattachement_nom' }
         }),
-        // Manages list filtering: only shows 'departements' related to the 'personne'
+        // Manages list filtering: only shows 'rattachements' related to the 'personne'
         queryMode: 'local',
         listeners: {
             beforequery: function(queryEvent, eventOpts) {
@@ -304,7 +304,7 @@ iafbm.columns.Activite = [{
     }
 }];
 
-iafbm.columns.Departement = [{
+iafbm.columns.Rattachement = [{
     header: "Nom",
     dataIndex: 'nom',
     flex: 1,
