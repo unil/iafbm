@@ -311,20 +311,22 @@ Ext.define('iafbm.model.CommissionMembre', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'personne_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
         {name: 'commission_fonction_id', type: 'int'},
         {name: 'activite_id', type: 'int', useNull: true},
         {name: 'rattachement_id', type: 'int', useNull: true},
-        {name: 'titre', type: 'string', defaultValue: 'Prof.'},
-        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'version_id', type: 'int', useNull: true},
         // Foreign fields
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
         {name: 'commission_nom', type: 'string'},
         {name: 'commission_type_racine', type: 'string'},
         {name: 'commission_etat_nom', type: 'string'},
-        {name: 'commission_fonction_nom', type: 'string'}
+        {name: 'commission_fonction_nom', type: 'string'},
+        // Ghost fields
+        {name: '_uptodate', type: 'boolean'},
     ],
     validations: [],
     proxy: {

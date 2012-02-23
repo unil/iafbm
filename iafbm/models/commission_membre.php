@@ -71,9 +71,40 @@ class CommissionMembreModel extends iaModelMysql {
         return $r;
     }
 
+    function post() {
+        // Updates version to record latest version
+        // if 'version_id' parameter is present and set to null
+        if ($this->params['version_id'] === null) {
+            // Retrieves this record 'personne_id' field
+            // if not given through parameters
+            $personne_id = @$this->params['personne_id'];
+            if (!$personne_id) {
+                $r = xModel::load($this->name, array(
+                    'id' => $this->params['id']
+                ))->get(0);
+                $personne_id = @$r['personne_id'];
+                if (!$personne_id) throw new xException('Error retrieving record personne_id');
+            }
+            // Retrieves the lastest version for this record
+            $r = xModel::load('version', array(
+                'model_name' => 'personne',
+                'id_field_value' => $personne_id,
+                'xorder_by' => 'id',
+                'xorder' => 'DESC',
+                'xlimit' => 1
+            ))->get(0);
+            $version_id = @$r['id'];
+            if (!$version_id) throw new xException('Error retrieving record latest version id');
+            // Assigns lastest version for this record
+            $this->params['version_id'] = $version_id;
+        }
+        // Actual (standard) record data POST
+        return parent::post();
+    }
+
     /**
-     * Return versioned 'personne' data
-     * instead of using standard 'personne' join
+     * Returns versioned 'personne' data instead of using standard 'personne' join
+     * and an ad-hoc 'uptodate' field set to true if the versionned person is uptodate, false otherwise.
      * @see https://github.com/unil/iafbm/issues/118
      */
     function get($rownum=null) {
@@ -98,6 +129,19 @@ class CommissionMembreModel extends iaModelMysql {
                 $record["personne_{$field}"] = $value;
             }
         }
-        return isset($rownum) ? array_shift($records) : $records;
+        // Adds 'uptodate' ghost field
+        foreach ($records as &$record) {
+            // Counts versions created since the record stored version id
+            $count = xModel::load('version', array(
+                'model_name' => 'personne',
+                'id_field_value' => $record['personne_id'],
+                'id' => $record['version_id'],
+                'id_comparator' => '>'
+            ))->count();
+            // Sets 'uptodate' ghost field
+            $record['_uptodate'] = !(bool)$count;
+        }
+        // Returns result(s)
+        return isset($rownum) ? $records[$rownum] : $records;
     }
 }

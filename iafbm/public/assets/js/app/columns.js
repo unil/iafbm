@@ -88,15 +88,15 @@ iafbm.columns.CommissionMembre = [{
 }, {
     header: "Nom",
     dataIndex: 'personne_nom',
-    width: 125,
+    flex: 1
 }, {
     header: "Prénom",
     dataIndex: 'personne_prenom',
-    width: 125,
+    flex: 1
 }, {
     header: "Dépt / Service",
     dataIndex: 'rattachement_id',
-    width: 150,
+    flex: 1,
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
@@ -125,7 +125,7 @@ iafbm.columns.CommissionMembre = [{
 }, {
     header: "Fonction",
     dataIndex: 'commission_fonction_id',
-    flex: 1,
+    width: 250,
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
@@ -133,6 +133,41 @@ iafbm.columns.CommissionMembre = [{
         valueField: 'id',
         allowBlank: false,
         store: new iafbm.store.CommissionFonction()
+    }
+}, {
+    header: null,
+    dataIndex: '_uptodate',
+    width: 20,
+    xtype: 'actioncolumn',
+    items: [{
+        icon: x.context.baseuri+'/a/img/ext/arrow_refresh.png',
+        text: 'Actualiser',
+        tooltip: 'Actualiser',
+        handler: function(grid, rowIndex, colIndex) {
+            var msg = [
+                'Cette opération met à jour les données du membre',
+                'à partir de la dernière version de la personne y relative.',
+                '<br/><br/>',
+                'Voulez-vous continuer?'
+            ].join(' ');
+            Ext.Msg.confirm(
+                'Mise à jour du membre',
+                msg,
+                function(is) {
+                    if (is=='yes') this.update_version(grid, rowIndex, colIndex);
+                },
+                this
+            );
+        },
+        getClass: function(value, metadata, record, rowIndex, colIndex, store) {
+            return record.get('_uptodate') ? 'x-hide-display' : '';
+        }
+    }],
+    update_version: function(grid, rowIndex, colIndex) {
+        var store = grid.getStore(),
+            record = store.getAt(rowIndex);
+        record.set('version_id', null);
+        store.sync();
     }
 }];
 

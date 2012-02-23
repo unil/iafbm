@@ -11,6 +11,11 @@ Ext.window.MessageBox.prototype.buttonText.ok = 'OK';
 Ext.window.MessageBox.prototype.buttonText.cancel = 'Annuler';
 
 /**
+ * Quick tips initialization
+ */
+Ext.onReady(Ext.tip.QuickTipManager.init);
+
+/**
  * Additional validation types (vtypes)
  */
 Ext.apply(Ext.form.field.VTypes, {

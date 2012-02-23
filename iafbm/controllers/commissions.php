@@ -31,7 +31,8 @@ class CommissionsController extends iaWebController {
                 'commission_membre',
                 array(
                     'commission_id' => $commission['id'],
-                    'commission_fonction_id' => 1
+                    'commission_fonction_id' => 1,
+                    'xjoin' => 'personne'
                 )
             )->get());
             $commission['_president'] = ($president) ?
