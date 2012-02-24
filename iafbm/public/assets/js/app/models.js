@@ -326,7 +326,7 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'commission_etat_nom', type: 'string'},
         {name: 'commission_fonction_nom', type: 'string'},
         // Ghost fields
-        {name: '_uptodate', type: 'boolean'},
+        {name: '_uptodate', type: 'boolean', defaultValue: true},
     ],
     validations: [],
     proxy: {

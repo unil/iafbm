@@ -70,18 +70,22 @@ iafbm.columns.CommissionMembre = [{
         valueField: 'activite_id',
         displayField: 'activite_nom_abreviation',
         // Manages list filtering: only shows 'acitivtes' related to the 'personne'
-        queryMode: 'local',
         listeners: {
             beforequery: function(queryEvent, eventOpts) {
-                // Filters store record, keeping only the titles related to this person
-                var personne_id = this.up('form').getRecord().get('personne_id');
-                this.store.clearFilter();
-                this.store.filter('personne_id', personne_id);
-                queryEvent.cancel = true;
-                this.expand();
-            },
-            collapse: function(combo, record, index) {
-                this.store.clearFilter();
+                var store = this.getStore(),
+                    record = this.up('form').getRecord(),
+                    personne_id = record.get('personne_id'),
+                    version_id = record.get('version_id');
+                // Assigns store personne_id param if not already set
+                if (
+                    store.params.personne_id == personne_id &&
+                    store.params.xversion == version_id
+                ) return;
+                store.params = {
+                    personne_id: personne_id,
+                    xversion: version_id
+                };
+                store.load();
             }
         }
     }
@@ -107,18 +111,22 @@ iafbm.columns.CommissionMembre = [{
             params: { order_by: 'rattachement_nom' }
         }),
         // Manages list filtering: only shows 'rattachements' related to the 'personne'
-        queryMode: 'local',
         listeners: {
             beforequery: function(queryEvent, eventOpts) {
-                // Filters store record, keeping only the titles related to this person
-                var personne_id = this.up('form').getRecord().get('personne_id');
-                this.store.clearFilter();
-                this.store.filter('personne_id', personne_id);
-                queryEvent.cancel = true;
-                this.expand();
-            },
-            collapse: function(combo, record, index) {
-                this.store.clearFilter();
+                var store = this.getStore(),
+                    record = this.up('form').getRecord(),
+                    personne_id = record.get('personne_id'),
+                    version_id = record.get('version_id');
+                // Assigns store personne_id param if not already set
+                if (
+                    store.params.personne_id == personne_id &&
+                    store.params.xversion == version_id
+                ) return;
+                store.params = {
+                    personne_id: personne_id,
+                    xversion: version_id
+                };
+                store.load();
             }
         }
     }

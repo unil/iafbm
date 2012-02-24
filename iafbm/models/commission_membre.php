@@ -51,16 +51,15 @@ class CommissionMembreModel extends iaModelMysql {
         // Stores current version to stick to this version of 'personne'
         // Updates 'version_id' off versioning
         $insert_id = $r['xinsertid'];
+        if (!$insert_id) throw new xException("Problem retrieving insert id", 500);
         $version_id = xModel::load('version')->current();
-        if (!$insert_id) throw new xException("Problem storing version id", 500);
         $model = xModel::load($this->name, array(
             'id' => $insert_id,
             'version_id' => $version_id
         ));
         $model->versioning = false;
         $model->post();
-        // Makes the system believe that 'version_id' was set with
-        // the actual PUT operation
+        // Simulates that 'version_id' was set with the actual PUT operation
         xModel::load('version_data', array(
             'version_id' => $version_id,
             'field_name' => 'version_id',
@@ -74,7 +73,7 @@ class CommissionMembreModel extends iaModelMysql {
     function post() {
         // Updates version to record latest version
         // if 'version_id' parameter is present and set to null
-        if ($this->params['version_id'] === null) {
+        if (isset($this->params['version_id']) &&  !$this->params['version_id']) {
             // Retrieves this record 'personne_id' field
             // if not given through parameters
             $personne_id = @$this->params['personne_id'];
@@ -86,8 +85,11 @@ class CommissionMembreModel extends iaModelMysql {
                 if (!$personne_id) throw new xException('Error retrieving record personne_id');
             }
             // Retrieves the lastest version for this record
+// TODO
+// FIXME: see the FIXME below
+            $concerned_models = array('personne', 'personne_activite');
             $r = xModel::load('version', array(
-                'model_name' => 'personne',
+                'model_name' => $concerned_models,
                 'id_field_value' => $personne_id,
                 'xorder_by' => 'id',
                 'xorder' => 'DESC',
@@ -108,8 +110,6 @@ class CommissionMembreModel extends iaModelMysql {
      * @see https://github.com/unil/iafbm/issues/118
      */
     function get($rownum=null) {
-        // FIXME: Is this all necessary?
-        //        Doesn't the xModel join mecanism applies versioned joins already?
         if (!in_array('personne', $this->join)) return parent::get($rownum);
         // Disables the 'personne' join
         // for filling a versioned 'personne' data
@@ -132,8 +132,19 @@ class CommissionMembreModel extends iaModelMysql {
         // Adds 'uptodate' ghost field
         foreach ($records as &$record) {
             // Counts versions created since the record stored version id
+///////////////////////////////////////////////////////////////////////////////////
+// TODO
+//
+// FIXME: We shall need the version_meta here in order to find
+//        all 'personne_activite' (amongt others) that are linked to this 'personne'
+// FIXME: Alternatively, we could to get a list of all the ids of 'personne_activite'
+//        that are linked tp this 'personne' id, then query the versioning......
+//        which might better be implemented as a generic:
+//        "find all versions that relates to this personne, including foreign records"
+///////////////////////////////////////////////////////////////////////////////////
+            $concerned_models = array('personne', 'personne_activite');
             $count = xModel::load('version', array(
-                'model_name' => 'personne',
+                'model_name' => $concerned_models,
                 'id_field_value' => $record['personne_id'],
                 'id' => $record['version_id'],
                 'id_comparator' => '>'
