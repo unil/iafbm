@@ -5,19 +5,10 @@ require_once(dirname(__file__).'/Script.php');
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
-        try {
-            $this->update_project();
-            $this->update_libs();
-            $this->create_database_structure();
-            $this->create_database_catalogs();
-        } catch(Exception $e) {
-            $message = $e->getMessage();
-            $this->log("ERROR: {$message}");
-            throw $e;
-        }
-        // Displays run time
-        $this->log();
-        $this->log('Runtime: '.$this->timer_lapse().' seconds');
+        $this->update_project();
+        $this->update_libs();
+        $this->create_database_structure();
+        $this->create_database_catalogs();
     }
 
     protected function update_project() {
