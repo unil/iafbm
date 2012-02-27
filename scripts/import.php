@@ -13,14 +13,24 @@ class iafbmImportScript extends iafbmScript {
         foreach ($data as $item) xModel::load($modelname, $item)->put();
     }
 
-    protected create_personnes_unil() {
+    protected function create_personnes_unil() {
         $data = $this->read_file_personnes_unil();
-        $this->insert('personnes', $data);
+        $this->insert('personne', $data);
     }
 
-    protected create_personnes_chuv() {
+    protected function create_personnes_chuv() {
         $data = $this->read_file_personnes_chuv();
-        $this->insert('personnes', $data);
+        $this->insert('personne', $data);
+    }
+
+    /**
+     * Returns the file contents as an array of lines.
+     */
+    protected function read_file($filename) {
+        $stream = @file_get_contents($filename);
+        if (!$stream) throw new xException("CSV file is empty or not found ({$filename})");
+        $lines = explode("\n", $stream);
+        return $lines;
     }
 
     /**
@@ -31,8 +41,7 @@ class iafbmImportScript extends iafbmScript {
         // Defines fields names and order
         $fields = array('id_unil', 'nom', 'prenom', '...');
         // Create data array
-        $stream = file_get_contents('file.csv');
-        $lines = explode("\n", $stream);
+        $lines = $this->read_file('unil.csv');
         $data = array();
         foreach($lines as $line) {
             $values = explode(',', $line);
@@ -50,8 +59,7 @@ class iafbmImportScript extends iafbmScript {
         // Defines fields names and order
         $fields = array('id_unil', 'nom', 'prenom', '...');
         // Create data array
-        $stream = file_get_contents('file.csv');
-        $lines = explode("\n", $stream);
+        $lines = $this->read_file('chuv.csv');
         $data = array();
         foreach($lines as $line) {
             $values = explode(',', $line);
