@@ -42,8 +42,18 @@ class iafbmUpdateScript extends iafbmScript {
         exec("cat {$file_pristine} | sed s/{db-name}/{$database}/ > $file", $output, $status);
         if ($status) throw new xException('Error creating SQL dump file', $output);
         // Executes SQL dump
-        $cmd = "mysql --default-character-set=utf8 -u{$user} -p\"{$password}\" {$database} < {$file}";
-        exec($cmd, $output, $status);
+        // (one query per statement as xModel::q() can only execute one statement at a time)
+        $statements = explode(';', file_get_contents($file));
+        foreach ($statements as $statement) {
+            // Skips empty statements
+            if (!$statement) continue;
+            // Execute statement
+            xModel::q($statement);
+        }
+/*
+$cmd = "mysql --default-character-set=utf8 -u{$user} -p\"{$password}\" {$database} < {$file}";
+exec($cmd, $output, $status);
+*/
         if ($status) throw new xException('Error updating database', 500, $output);
         // Cleans SQL temporary file
         exec("rm -f {$file}", $output, $status);
