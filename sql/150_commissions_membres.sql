@@ -7,7 +7,7 @@ CREATE TABLE commissions_membres (
     commission_fonction_id INT NOT NULL,
     activite_id INT,
     rattachement_id INT,
-    version_id INT UNSIGNED NOT NULL,
+    version_id INT UNSIGNED,
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
