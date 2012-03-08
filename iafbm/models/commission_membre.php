@@ -72,7 +72,7 @@ class CommissionMembreModel extends iaModelMysql {
 
     function post() {
         // Updates version to record latest version
-        // if 'version_id' parameter is present and set to null
+        // if 'version_id' parameter is present but null
         if (isset($this->params['version_id']) &&  !$this->params['version_id']) {
             // Retrieves this record 'personne_id' field
             // if not given through parameters
