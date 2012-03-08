@@ -19,13 +19,6 @@ class iaModelMysql extends xModelMysql {
     var $version_fields = array();
 
     /**
-     * Specifies which foreign models information will be stored with a version.
-     * The stored information consists of the table-name/id-value of the rows that relates to this record.
-     * @var array
-     */
-    var $version_foreign_models = array();
-
-    /**
      * True to allow archive.
      * @var bool
      */
@@ -50,6 +43,9 @@ class iaModelMysql extends xModelMysql {
      * )
      * </code>
      * @var array
+     * FIXME: This property should be renamed
+     *        to a more generic name such as 'foreign_models'
+     *        for it is used in both versioning and archiving mechanisme
      */
     var $archive_foreign_models = array();
 
@@ -336,26 +332,123 @@ class iaModelMysql extends xModelMysql {
                 'new_value' => $value['new']
             ))->put();
         }
+        // Writes impacted records names and ids
+        // (stores id as param for self::version_get_impacted_records())
+        $this->params[$this->primary()] = $record_id;
+        $this->version_store_relations($version_result['xinsertid']);
+        // Returns version result
         return $version_result;
-        // Writes foreign tables data
-        // FIXME: This is a test implementation, not fully working
-        return;
-        foreach ($this->version_foreign_models as $foreign_model) {
-            $model = xModel::load($foreign_model, array(
-                'commission_id' => $id_field_value,
-            ));
-            $foreign_records = $model->get();
-            $foreign_id_field = implode(',', xUtil::arrize($model->primary));
-            foreach($foreign_records as $foreign_record) {
+    }
+
+    protected function version_get_relations($relations=array()) {
+        // Parses all models in and keeps the ones with a
+        // $archive_foreign_models that relates to this one
+        // (following relations backwards)
+        $files = scandir(xContext::$basepath.'/models');
+        $files = array_diff($files, array('.', '..'));
+        foreach ($files as $file) {
+            $modelname = substr($file, 0, -strlen('.php'));
+            $model = xModel::load($modelname);
+            $relation = xUtil::filter_keys(
+                $model->archive_foreign_models,
+                $this->name
+            );
+            if (!$relation) continue;
+            $relations = xUtil::array_merge(
+                array($modelname => $relation),
+                $model->version_get_relations($relations)
+            );
+        }
+        return $relations;
+    }
+    protected function version_get_impacted_records() {
+        $id = @$this->params[$this->primary()];
+        if (!$id) throw new xException("Missing id parameter");
+        $relations = $this->version_get_relations();
+        // Adding root model record id to initial $data
+        $data = array();
+        $data[$this->name] = array($id);
+        // Queried models list (see anchor #1)
+        $queried = array();
+        $queried[$this->name] = true;
+        // Loops until all relations are processed, including postponed relations (see anchor #1)
+        while (count($relations)) {
+            // Foreach (potential) relation found, retrieves all the related records
+            foreach ($relations as $modelname => $vias) {
+                foreach ($vias as $via_modelname => $foreign_field_info) {
+                    // Determines foreign fields names and values
+                    // according the $this->archive_foreign_models definition flavour
+                    // FIXME: this code duplicates with self::archive_data(), please refactor.
+                    if (is_array($foreign_field_info)) {
+                        $local_field_name = array_shift(array_keys($foreign_field_info));
+                        $foreign_field_name = array_shift(array_values($foreign_field_info));
+                    } else {
+                        // The given foreign field equals the local primary key (id) value
+                        $local_field_name = xModel::load($via_modelname)->primary();
+                        $foreign_field_name = $foreign_field_info;
+                    }
+                    if (!$local_field_name || !$foreign_field_name) {
+                        throw new xException(
+                            "Could not determine local and/or foreign field name for archive ({$local_field_name}/{$foreign_field_name})",
+                            500,
+                            array(
+                                'model' => $modelname,
+                                'via' => $via_modelname,
+                                'foreign field info' => $foreign_field_info
+                            )
+                        );
+                    }
+                    // Skips and postpone this $via_modelname if not yet queried (anchor #1)
+                    if (!@$queried[$via_modelname]) continue;
+                    // Fetches impacted records ids (through $via_modelname)
+                    $foreign_records = xModel::load($via_modelname, array(
+                        xModel::load($via_modelname)->primary() => @$data[$via_modelname],
+                        'xjoin' => array()
+                    ))->get();
+                    $foreign_ids = array();
+                    foreach ($foreign_records as $foreign_record) $foreign_ids[] = $foreign_record[$foreign_field_name];
+                    $foreign_ids = array_unique($foreign_ids, SORT_NUMERIC);
+                    // Fetches impacted records
+                    $local_records = xModel::load($modelname, array(
+                        $local_field_name => $foreign_ids,
+                        'xjoin' => array()
+                    ))->get();
+                    // Stores impacted records names and ids, if any
+                    foreach ($local_records as $record) {
+                        $data[$modelname][] = $record[xModel::load($modelname)->primary()];
+                    }
+                    // Deletes processed relation (keeping only postponed relations, see anchor #1)
+                    unset($relations[$modelname][$via_modelname]);
+                    if (!count($relations[$modelname])) unset($relations[$modelname]);
+                    // Declare model as queried (see anchor #1)
+                    $queried[$modelname] = true;
+                }
+            }
+        }
+        // Removes duplicate ids per model
+        foreach ($data as $model => &$ids) $ids = array_unique($ids, SORT_NUMERIC);
+        // Returns data structure
+        return $data;
+    }
+    protected function version_store_relations($version_id=null) {
+        $t = new xTransaction();
+        $t->start();
+        // Stores impacted records (models names and ids)
+        $impacted_records = $this->version_get_impacted_records();
+        foreach ($impacted_records as $modelname => $ids) {
+            $model = xModel::load($modelname);
+            foreach ($ids as $id) {
+                // Inserts version_relation records
                 xModel::load('version_relation', array(
                     'version_id' => $version_id,
-                    'foreign_table_name' => $model->maintable,
-                    'foreign_id_field' => $foreign_id_field,
-                    'foreign_id_value' => $foreign_record[$foreign_id_field]
+                    'table_name' => $model->maintable,
+                    'model_name' => $model->name,
+                    'id_field_name' => $model->primary(),
+                    'id_field_value' => $id
                 ))->put();
             }
         }
-        return $version_id;
+        return $t->end();
     }
 
     /**
@@ -400,7 +493,7 @@ class iaModelMysql extends xModelMysql {
         // Fetches foreign models data (recursion)
         foreach ($this->archive_foreign_models as $model_name => $foreign_field_info) {
             // Determines foreign fields names and values
-            // according the $this->archive_foreign_model definition flavour
+            // according the $this->archive_foreign_models definition flavour
             if (is_array($foreign_field_info)) {
                 $local_field_name = array_shift(array_keys($foreign_field_info));
                 $foreign_field_name = array_shift(array_values($foreign_field_info));

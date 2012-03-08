@@ -26,3 +26,16 @@ CREATE TABLE versions_data (
     PRIMARY KEY (id),
     FOREIGN KEY (version_id) REFERENCES versions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS versions_relations;
+CREATE TABLE versions_relations (
+    id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    version_id INT UNSIGNED NOT NULL,
+    table_name VARCHAR(255) NOT NULL,
+    model_name VARCHAR(255) NOT NULL,
+    id_field_name VARCHAR(255) NOT NULL,
+    id_field_value INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (version_id) REFERENCES versions(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
