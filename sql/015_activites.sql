@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS activites_noms;
 CREATE TABLE activites_noms (
     id INT NOT NULL AUTO_INCREMENT,
+    id_unil INT,
+    id_chuv INT,
     actif BOOLEAN NOT NULL DEFAULT true,
     nom VARCHAR(255) NOT NULL,
     abreviation VARCHAR(255) NOT NULL,

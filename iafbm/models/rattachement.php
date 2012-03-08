@@ -6,6 +6,8 @@ class RattachementModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
+        'id_unil' => 'id_unil',
+        'id_chuv' => 'id_chuv',
         'actif' => 'actif',
         'section_id' => 'section_id',
         'nom' => 'nom'
