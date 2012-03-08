@@ -535,9 +535,18 @@ Ext.define('iafbm.form.Personne', {
                 xtype: 'ia-combocolumn',
                 editor: {
                     xtype: 'ia-combo',
-                    store: new iafbm.store.ActiviteType(),
-                    valueField: 'id',
-                    displayField: 'nom',
+                    // 'activite' store is used to list 'activite_type' items
+                    // that belong to section_id and contain at least one 'activite'
+                    store: new iafbm.store.Activite({
+                        params: {
+                            xreturn:
+                                'DISTINCT(activites_types.id) AS activite_type_id, \
+                                 activites_types.nom AS activite_type_nom',
+                            section_id: section_id
+                        }
+                    }),
+                    valueField: 'activite_type_id',
+                    displayField: 'activite_type_nom',
                     allowBlank: false
                 }
             },{
