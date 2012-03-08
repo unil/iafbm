@@ -21,6 +21,7 @@ class PersonneEmailModel extends iaModelMysql {
     );
 
     var $archive_foreign_models = array(
+        // FIXME: missing 'personne' relation here?
         'adresse_type' => array('adresse_type_id' => 'id')
     );
 }
