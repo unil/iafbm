@@ -66,10 +66,18 @@ iafbm.columns.CommissionMembre = [{
         xtype: 'combo',
         editable: false,
         typeAhead: false,
-        store: new iafbm.store.PersonneActivite(),
+        // Also retrieves deleted activites for versionned commission_membres
+        // FIXME: this can be huge, personne_id filter
+        //        containing grid personne_ids should be added
+        store: new iafbm.store.PersonneActivite({
+            params: {
+                'actif[]': 0,
+                'actif[]': 1
+            }
+        }),
         valueField: 'activite_id',
         displayField: 'activite_nom_abreviation',
-        // Manages list filtering: only shows 'acitivtes' related to the 'personne'
+        // Manages list filtering: only shows 'acitivites' related to the 'personne'
         listeners: {
             beforequery: function(queryEvent, eventOpts) {
                 var store = this.getStore(),
@@ -86,6 +94,11 @@ iafbm.columns.CommissionMembre = [{
                     xversion: version_id
                 };
                 store.load();
+            },
+            collapse: function(combo, record, index) {
+                var store = this.getStore();
+                delete(store.params.personne_id);
+                delete(store.params.xversion);
             }
         }
     }
@@ -127,6 +140,11 @@ iafbm.columns.CommissionMembre = [{
                     xversion: version_id
                 };
                 store.load();
+            },
+            collapse: function(combo, record, index) {
+                var store = this.getStore();
+                delete(store.params.personne_id);
+                delete(store.params.xversion);
             }
         }
     }
