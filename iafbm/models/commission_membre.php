@@ -34,7 +34,9 @@ class CommissionMembreModel extends iaModelMysql {
         'query' => "{{personne_id}} = {personne_id} AND commissions_membres.actif = 1 AND (1=0 [OR {{*}} LIKE {*}])"
     );
 
-    var $validation = array();
+    var $validation = array(
+        'version_id' => 'mandatory'
+    );
 
     var $archive_foreign_models = array(
         'personne' => array('personne_id' => 'id'),
@@ -73,7 +75,8 @@ class CommissionMembreModel extends iaModelMysql {
     function post() {
         // Updates version to record latest version
         // if 'version_id' parameter is present but null
-        if (isset($this->params['version_id']) &&  !$this->params['version_id']) {
+        // (e.g. the user clicked on the refresh button in commission_membre grid)
+        if (array_key_exists('version_id', $this->params) && is_null($this->params['version_id'])) {
             // Retrieves this record 'personne_id' field
             // if not given through parameters
             $personne_id = @$this->params['personne_id'];
@@ -85,17 +88,15 @@ class CommissionMembreModel extends iaModelMysql {
                 if (!$personne_id) throw new xException('Error retrieving record personne_id');
             }
             // Retrieves the lastest version for this record
-// TODO
-// FIXME: see the FIXME below
-            $concerned_models = array('personne', 'personne_activite');
-            $r = xModel::load('version', array(
-                'model_name' => $concerned_models,
+            $r = xModel::load('version_relation', array(
+                'model_name' => 'personne',
                 'id_field_value' => $personne_id,
-                'xorder_by' => 'id',
+                'xorder_by' => 'version_id',
                 'xorder' => 'DESC',
-                'xlimit' => 1
+                'xlimit' => 1,
+                'xjoin' => array()
             ))->get(0);
-            $version_id = @$r['id'];
+            $version_id = @$r['version_id'];
             if (!$version_id) throw new xException('Error retrieving record latest version id');
             // Assigns lastest version for this record
             $this->params['version_id'] = $version_id;
@@ -132,22 +133,12 @@ class CommissionMembreModel extends iaModelMysql {
         // Adds 'uptodate' ghost field
         foreach ($records as &$record) {
             // Counts versions created since the record stored version id
-///////////////////////////////////////////////////////////////////////////////////
-// TODO
-//
-// FIXME: We shall need the version_meta here in order to find
-//        all 'personne_activite' (amongt others) that are linked to this 'personne'
-// FIXME: Alternatively, we could to get a list of all the ids of 'personne_activite'
-//        that are linked tp this 'personne' id, then query the versioning......
-//        which might better be implemented as a generic:
-//        "find all versions that relates to this personne, including foreign records"
-///////////////////////////////////////////////////////////////////////////////////
-            $concerned_models = array('personne', 'personne_activite');
-            $count = xModel::load('version', array(
-                'model_name' => $concerned_models,
+            $count = xModel::load('version_relation', array(
+                'model_name' => 'personne',
                 'id_field_value' => $record['personne_id'],
-                'id' => $record['version_id'],
-                'id_comparator' => '>'
+                'version_id' => $record['version_id'],
+                'version_id_comparator' => '>',
+                'xjoin' => array()
             ))->count();
             // Sets 'uptodate' ghost field
             $record['_uptodate'] = !(bool)$count;

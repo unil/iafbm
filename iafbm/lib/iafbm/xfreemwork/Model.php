@@ -66,18 +66,19 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function get($rownum=null) {
-        // FIXME: TODO:
-        if (!@$this->params['xversion']) {
-            // Unless specified otherwise through 'actif' parameter,
-            // adds 'actif'=true in where clause
+        // Returns versioned record if 'xversion' parameter is specified
+        if (@$this->params['xversion']) return $this->get_version($rownum);
+        // Manages default value for 'actif' parameter
+        if (array_key_exists('actif', $this->mapping) && !isset($this->params['actif'])) {
+            // defaults to 'actif'=true in where clause
             // because we do not want to return the soft-deleted records
-            if (array_key_exists('actif', $this->mapping) && !isset($this->params['actif'])) {
-                $this->params['actif'] = 1;
-            }
-            return parent::get($rownum);
-        } else {
-            return $this->get_version($rownum);
+            $this->params['actif'] = 1;
+        } elseif (@sort($this->params['actif']) == array(0,1)) {
+            // if both actif and soft-deleted records
+            // are to be retrieved, 'actif' parameter can simply be removed
+            unset($this->params['actif']);
         }
+        return parent::get($rownum);
     }
 
     /**
@@ -401,12 +402,21 @@ class iaModelMysql extends xModelMysql {
                     // Skips and postpone this $via_modelname if not yet queried (anchor #1)
                     if (!@$queried[$via_modelname]) continue;
                     // Fetches impacted records ids (through $via_modelname)
-                    $foreign_records = xModel::load($via_modelname, array(
+                    $foreign_params = array(
                         xModel::load($via_modelname)->primary() => @$data[$via_modelname],
                         'xjoin' => array()
-                    ))->get();
+                    );
+                    if ($this->name == $via_modelname) {
+                        // (In case of a 'delete' operation, the actual deleted record
+                        // must be fetched too. Therefore we also retrieve deleted records
+                        // in this case)
+                        $foreign_params['actif'] = array(0,1);
+                    }
+                    $foreign_records = xModel::load($via_modelname, $foreign_params)->get();
                     $foreign_ids = array();
-                    foreach ($foreign_records as $foreign_record) $foreign_ids[] = $foreign_record[$foreign_field_name];
+                    foreach ($foreign_records as $foreign_record) {
+                        $foreign_ids[] = $foreign_record[$foreign_field_name];
+                    }
                     $foreign_ids = array_unique($foreign_ids, SORT_NUMERIC);
                     // Fetches impacted records
                     $local_records = xModel::load($modelname, array(

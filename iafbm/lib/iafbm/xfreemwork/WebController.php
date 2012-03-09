@@ -190,4 +190,39 @@ class iaWebController extends xWebController {
             'commentaire' => @$this->params['commentaire']
         ))->tag();
     }
+
+    /**
+     * API Method.
+     * Returns history for a given record.
+     * @param int id: id of the record
+     * @return array An array containing the record history
+     */
+    function history() {
+        $id = @$this->params['id'];
+        if (!$id) throw new xException('Missing id parameter');
+        // Retrieves all versions that impact this record
+        // (directly or indirectly)
+        $r = xModel::load('version_relation', array(
+            'model_name' => $this->model,
+            'id_field_value' => $id,
+            'xorder_by' => 'versions_relations.version_id',
+            'xorder' => 'DESC'
+        ))->get();
+        $versions = array();
+        foreach ($r as $rr) $versions[] = $rr['version_id'];
+        //
+        $data = array();
+        foreach ($versions as $version) {
+            $data[$version] = array(
+                'version' => xModel::load('version', array(
+                    'id' => $version
+                ))->get(0),
+                'modifications' => xModel::load('version_data', array(
+                    'version_id' => $version,
+                    'xjoin' => array()
+                ))->get(),
+            );
+        }
+        return $data;
+    }
 }
