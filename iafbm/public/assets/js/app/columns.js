@@ -128,7 +128,8 @@ iafbm.columns.CommissionMembre = [{
         store: new iafbm.store.PersonneActivite({
             params: {
                 order_by: 'rattachement_nom', // FIXME: this is not working (because it's a foreign key)
-                //TODO: xreturn: 'DISTINCT(rattachement_id), rattachement_nom'
+                //TODO: DISTINCT causes problems with xversion
+                //xreturn: 'DISTINCT(rattachement_id), rattachements.nom AS rattachement_nom'
             }
         }),
         // Manages list filtering: only shows 'rattachements' related to the 'personne'
@@ -143,16 +144,20 @@ iafbm.columns.CommissionMembre = [{
                     store.params.personne_id == personne_id &&
                     store.params.xversion == version_id
                 ) return;
-                store.params = {
-                    personne_id: personne_id,
-                    xversion: version_id
-                };
+                store.params.personne_id = personne_id;
+                store.params.xversion = version_id;
+                delete(store.params.actif);
                 store.load();
             },
             collapse: function(combo, record, index) {
                 var store = this.getStore();
+                // Deletes query params
                 delete(store.params.personne_id);
                 delete(store.params.xversion);
+                // Restores actif = [0,1]
+                store.params['actif[]'] = 0;
+                store.params['actif[]'] = 1;
+                // Reloads store
                 store.load();
             }
         }

@@ -108,7 +108,7 @@ Ext.onReady(function() {
             grid: {
                 store: new iafbm.store.CommissionMembre(),
                 params: {
-                    commission_id:<?php echo $d['id'] ?>
+                    commission_id: <?php echo $d['id'] ?>
                 },
                 columns: iafbm.columns.CommissionMembre
             },
