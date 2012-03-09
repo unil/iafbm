@@ -223,17 +223,22 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function delete() {
-        // TODO:
-        // Prevent deletion if foreign row exist
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);
-        // Checks for constraints violations
-        // by virtually deleting the row within an always ROLLBACK'ed transaction.
-        // Note: This transaction uses a separate db connection
-        // in order to unconditionally rollback the delete
-        // without interfering with any pending transaction.
-        if ($this->_is_deletable()) return $this->_delete_soft();
+        // Hard/Soft delete switch
+        if (array_key_exists('actif', $this->mapping)) {
+            // Soft delete:
+            // Checks for constraints violations
+            // by virtually deleting the row within an always ROLLBACK'ed transaction.
+            // Note: This transaction uses a separate db connection
+            // in order to unconditionally rollback the delete
+            // without interfering with any pending transaction.
+            if ($this->_is_deletable()) return $this->_delete_soft();
+        } else {
+            // Hard delete
+            return parent::delete();
+        }
     }
 
     /**

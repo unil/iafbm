@@ -48,11 +48,15 @@ class CommissionMembreModel extends iaModelMysql {
     function put() {
         $t = new xTransaction();
         $t->start();
-        // Stores the actual record
-        $r = parent::put();
+        // Stores the actual record,
+        // with a temporary version_id if parameter is present but null
+        if (array_key_exists('version_id', $this->params) && is_null($this->params['version_id'])) {
+            $this->params['version_id'] = xModel::load('version')->current();
+        }
+        $result = parent::put();
         // Stores current version to stick to this version of 'personne'
         // Updates 'version_id' off versioning
-        $insert_id = $r['xinsertid'];
+        $insert_id = $result['xinsertid'];
         if (!$insert_id) throw new xException("Problem retrieving insert id", 500);
         $version_id = xModel::load('version')->current();
         $model = xModel::load($this->name, array(
@@ -61,7 +65,16 @@ class CommissionMembreModel extends iaModelMysql {
         ));
         $model->versioning = false;
         $model->post();
-        // Simulates that 'version_id' was set with the actual PUT operation
+        // Simulates that 'version_id' was set with the actual PUT operation,
+        // Replacing the temporary 'version_id' field old/new values
+        // with the updated 'version_id'
+        $r = xModel::load('version_data', array(
+            'version_id' => $version_id,
+            'field_name' => 'version_id'
+        ))->get();
+        foreach ($r as $rr) xModel::load('version_data', array(
+            'id' => $rr['id']
+        ))->delete();
         xModel::load('version_data', array(
             'version_id' => $version_id,
             'field_name' => 'version_id',
@@ -69,7 +82,7 @@ class CommissionMembreModel extends iaModelMysql {
             'new_value' => $version_id
         ))->put();
         $t->end();
-        return $r;
+        return $result;
     }
 
     function post() {

@@ -97,8 +97,14 @@ iafbm.columns.CommissionMembre = [{
             },
             collapse: function(combo, record, index) {
                 var store = this.getStore();
+                // Deletes query params
                 delete(store.params.personne_id);
                 delete(store.params.xversion);
+                // Restores actif = [0,1]
+                store.params['actif[]'] = 0;
+                store.params['actif[]'] = 1;
+                // Reloads store
+                store.load();
             }
         }
     }
@@ -120,8 +126,10 @@ iafbm.columns.CommissionMembre = [{
         valueField: 'rattachement_id',
         displayField: 'rattachement_nom',
         store: new iafbm.store.PersonneActivite({
-            // FIXME: this is not working (because it's a foreign key)
-            params: { order_by: 'rattachement_nom' }
+            params: {
+                order_by: 'rattachement_nom', // FIXME: this is not working (because it's a foreign key)
+                //TODO: xreturn: 'DISTINCT(rattachement_id), rattachement_nom'
+            }
         }),
         // Manages list filtering: only shows 'rattachements' related to the 'personne'
         listeners: {
@@ -145,6 +153,7 @@ iafbm.columns.CommissionMembre = [{
                 var store = this.getStore();
                 delete(store.params.personne_id);
                 delete(store.params.xversion);
+                store.load();
             }
         }
     }
