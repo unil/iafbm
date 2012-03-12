@@ -12,6 +12,7 @@ CREATE TABLE personnes (
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     genre_id INT,
+    etatcivil_id INT,
     date_naissance DATE,
     no_avs VARCHAR(255),
     canton_id INT,
@@ -23,6 +24,7 @@ CREATE TABLE personnes (
     PRIMARY KEY (id),
     FOREIGN KEY (personne_type_id) REFERENCES personnes_types(id),
     FOREIGN KEY (genre_id) REFERENCES genres(id),
+    FOREIGN KEY (etatcivil_id) REFERENCES etatscivils(id),
     FOREIGN KEY (pays_id) REFERENCES pays(id),
     FOREIGN KEY (canton_id) REFERENCES cantons(id),
     FOREIGN KEY (permis_id) REFERENCES permis(id)

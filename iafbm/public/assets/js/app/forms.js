@@ -420,6 +420,13 @@ Ext.define('iafbm.form.Personne', {
                 iaDisableFor: []
             }, {
                 xtype: 'ia-combo',
+                fieldLabel: 'Etat civil',
+                name: 'etatcivil_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Etatcivil')
+            }, {
+                xtype: 'ia-combo',
                 fieldLabel: 'Canton d\'origine',
                 name: 'canton_id',
                 displayField: 'nom',

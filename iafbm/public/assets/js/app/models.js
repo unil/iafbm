@@ -186,6 +186,7 @@ Ext.define('iafbm.model.Personne', {
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'genre_id', type: 'int', useNull: true},
+        {name: 'etatcivil_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'no_avs', type: 'string'},
         {name: 'canton_id', type: 'int', useNull: true},

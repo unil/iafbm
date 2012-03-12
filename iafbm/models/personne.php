@@ -17,6 +17,7 @@ class PersonneModel extends iaModelMysql {
         'nom' => 'nom',
         'prenom' => 'prenom',
         'genre_id' => 'genre_id',
+        'etatcivil_id' => 'etatcivil_id',
         'date_naissance' => 'date_naissance',
         'no_avs' => 'no_avs',
         'canton_id' => 'canton_id',
@@ -29,6 +30,7 @@ class PersonneModel extends iaModelMysql {
     var $joins = array(
         'personne_type' => 'LEFT JOIN personnes_types ON (personnes.personne_type_id = personnes_types.id)',
         'genre' => 'LEFT JOIN genres ON (personnes.genre_id = genres.id)',
+        'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
         'canton' => 'LEFT JOIN cantons ON (personnes.canton_id = cantons.id)',
         'pays' => 'LEFT JOIN pays ON (personnes.pays_id = pays.id)',
         'permis' => 'LEFT JOIN permis ON (personnes.permis_id = permis.id)'
