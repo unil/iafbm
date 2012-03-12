@@ -10,7 +10,8 @@ class RattachementModel extends iaModelMysql {
         'id_chuv' => 'id_chuv',
         'actif' => 'actif',
         'section_id' => 'section_id',
-        'nom' => 'nom'
+        'nom' => 'nom',
+        'abreviation' => 'abreviation'
     );
 
     var $primary = array('id');
