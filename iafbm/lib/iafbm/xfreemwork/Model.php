@@ -353,6 +353,7 @@ class iaModelMysql extends xModelMysql {
         $files = scandir(xContext::$basepath.'/models');
         $files = array_diff($files, array('.', '..'));
         foreach ($files as $file) {
+            if (!preg_match('/\.php$/', $file)) continue;
             $modelname = substr($file, 0, -strlen('.php'));
             $model = xModel::load($modelname);
             $relation = xUtil::filter_keys(
