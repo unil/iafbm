@@ -7,10 +7,10 @@ class GenreModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
-        'genre' => 'genre',
-        'genre_short' => 'genre_short',
+        'nom' => 'nom',
+        'initiale' => 'initiale',
         'intitule' => 'intitule',
-        'intitule_short' => 'intitule_short'
+        'intitule_abreviation' => 'intitule_abreviation'
     );
 
     var $order_by = array('id');

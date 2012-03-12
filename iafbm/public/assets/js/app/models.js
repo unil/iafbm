@@ -19,10 +19,10 @@ Ext.define('iafbm.model.Genre', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'genre', type: 'string'},
-        {name: 'genre_short', type: 'string'},
+        {name: 'nom', type: 'string'},
+        {name: 'initiale', type: 'string'},
         {name: 'intitule', type: 'string'},
-        {name: 'intitule_short', type: 'string'}
+        {name: 'intitule_abreviation', type: 'string'}
     ],
     validations: [],
     proxy: {
@@ -372,7 +372,7 @@ Ext.define('iafbm.model.Candidat', {
             return [
                 record.get('prenom'),
                 record.get('nom'),
-                record.get('genre_nom_short')].join(' ');
+                record.get('genre_initiale')].join(' ');
         }},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],

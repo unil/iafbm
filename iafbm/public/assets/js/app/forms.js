@@ -54,7 +54,7 @@ Ext.define('iafbm.form.Candidat', {
                 xtype: 'ia-combo',
                 fieldLabel: 'Genre',
                 name: 'genre_id',
-                displayField: 'genre',
+                displayField: 'nom',
                 valueField: 'id',
                 store: new iafbm.store.Genre({})
             }, {
@@ -403,7 +403,7 @@ Ext.define('iafbm.form.Personne', {
                 xtype: 'ia-combo',
                 fieldLabel: 'Genre',
                 name: 'genre_id',
-                displayField: 'genre',
+                displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Genre'),
                 iaDisableFor: []
@@ -662,6 +662,7 @@ Ext.define('iafbm.form.Personne', {
             params: {
                 personne_id: personne_id,
                 xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
+                // TODO: FIXME: Default sort should be specified on the ExtJS column definition
                 xorder_by: 'commission_etat_id',
                 xorder: 'ASC'
             }

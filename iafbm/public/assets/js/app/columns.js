@@ -256,7 +256,7 @@ iafbm.columns.Candidat = [{
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
-        displayField: 'genre',
+        displayField: 'nom',
         valueField: 'id',
         store: new iafbm.store.Genre()
     }

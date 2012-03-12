@@ -1857,18 +1857,18 @@ $catalogue_data = array(
         array(
             'id' => '1',
             'actif' => '1',
-            'genre' => 'Masculin',
-            'genre_short' => 'H',
+            'nom' => 'Masculin',
+            'initiale' => 'H',
             'intitule' => 'Monsieur',
-            'intitule_short' => 'M'
+            'intitule_abreviation' => 'M'
         ),
         array(
             'id' => '2',
             'actif' => '1',
-            'genre' => 'Féminin',
-            'genre_short' => 'F',
+            'nom' => 'Féminin',
+            'initiale' => 'F',
             'intitule' => 'Madame',
-            'intitule_short' => 'Mme'
+            'intitule_abreviation' => 'Mme'
         ),
     ),
     'etatcivil' => array(
