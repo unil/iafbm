@@ -21,9 +21,9 @@ Ext.onReady(Ext.tip.QuickTipManager.init);
 Ext.apply(Ext.form.field.VTypes, {
     // Swiss AVS number
     avs: function(v) {
-        return /^[\d]{3}\.[\d]{4}\.[\d]{4}\.[\d]{2}$/.test(v);
+        return /^[\d]{2,4}\.[\d]{2,4}\.[\d]{2,4}\.[\d]{2,4}$/.test(v);
     },
-    avsText: 'Ce champs doit être au format xxx.xxxx.xxxx.xx',
+    avsText: 'Ce champs doit être au format xx[xx].xx[xx].xx[xx].xx[xx]',
     // Telephone country code
     telcc: function(v) {
         // Country codes cannot start with 0 and must not be longer than 3 numbers
