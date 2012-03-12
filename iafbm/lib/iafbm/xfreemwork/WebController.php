@@ -83,13 +83,14 @@ class iaWebController extends xWebController {
      */
     function get() {
         if (!in_array('get', $this->allow)) throw new xException("Method not allowed", 403);
-        // Creates parameter for model instance
+        // Creates parameters for model instance
         $params = $this->params;
         // Manages query case
-        if (strlen(@$params['query']) > 0) {
+        if (strlen(@$params['xquery']) > 0) {
+            $model = xModel::load($this->model);
             $fields = array_merge(
-                array_keys(xModel::load($this->model)->mapping),
-                array_keys(xModel::load($this->model)->foreign_mapping())
+                array_keys($model->mapping),
+                array_keys($model->foreign_mapping())
             );
             // Adds (specified if applicable) model fields
             foreach ($fields as $field) {
@@ -99,15 +100,23 @@ class iaWebController extends xWebController {
                 // these are to be used as constraint
                 if (in_array($field, array_keys($this->params), true)) continue;
                 // Adds model field
-                $params[$field] = "%{$this->params['query']}%";
+                $params[$field] = "%{$this->params['xquery']}%";
                 $params["{$field}_comparator"] = 'LIKE';
                 $params["{$field}_operator"] = 'OR';
             }
             // Removes query param
-            unset($params['query']);
+            unset($params['xquery']);
+        }
+        // Manages sort case
+        if (strlen(@$params['xsort']) > 0) {
+            // FIXME: How to sort by name when sort is on some_foreign_id field?
+            $sort = array_shift(json_decode($params['xsort']));
+            $params['xorder_by'] = @$sort->property;
+            $params['xorder'] = @$sort->direction;
+            unset($params['xsort']);
         }
         // Creates extjs compatible result
-        $count_params = xUtil::filter_keys($params, array('xoffset', 'xlimit'), true);
+        $count_params = xUtil::filter_keys($params, array('xoffset', 'xlimit', 'xorder_by', 'xorder'), true);
         return array(
             'xcount' => xModel::load($this->model, $count_params)->count(),
             'items' => xModel::load($this->model, $params)->get()

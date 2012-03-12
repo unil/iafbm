@@ -33,6 +33,7 @@ iafbm.columns.Personne = [{
 }, {
     header: "Carrière professionnelle",
     flex: 1,
+    sortable: false,
     dataIndex: '_activites'
 }, {
     header: "Date de naissance",
@@ -308,6 +309,7 @@ iafbm.columns.Commission = [{
 }, {
     header: "Président",
     dataIndex: '_president',
+    sortable: false,
     width: 150,
 }, {
     header: "Etat",

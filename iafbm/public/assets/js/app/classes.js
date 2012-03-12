@@ -42,6 +42,7 @@ Ext.define('Ext.ia.data.Store', {
     extend:'Ext.data.Store',
     alias: 'store.ia-store',
     pageSize: null,
+    remoteSort: true,
     autoLoad: false,
     autoSync: false,
     params: {},
@@ -82,6 +83,7 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     type: 'rest',
     limitParam: 'xlimit',
     startParam: 'xoffset',
+    sortParam: 'xsort',
     pageParam: undefined,
     timeout: 10000,
     reader: {
@@ -590,6 +592,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
 Ext.define('Ext.ia.form.SearchField', {
     extend: 'Ext.ux.form.SearchField',
     alias: 'widget.ia-searchfield',
+    paramName: 'xquery',
     initComponent: function() {
         this.addEvents(
             /**
