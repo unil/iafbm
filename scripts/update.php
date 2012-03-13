@@ -5,10 +5,41 @@ require_once(dirname(__file__).'/Script.php');
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
-        $this->update_project();
-        $this->update_libs();
-        $this->create_database_structure();
-        $this->create_database_catalogs();
+        $this->opts();
+        // Parses CLI options
+        $update_project = ($this->opt('u:') == 'project');
+        $update_library = ($this->opt('u:') == 'library');
+        $update_project = $update_library = ($this->opt('u'));
+        $blast_database = ($this->opt('x'));
+        // Runs selected actions
+        if ($update_project) $this->update_project();
+        if ($update_library) $this->update_libs();
+        if ($blast_database) $this->create_database_structure();
+        if ($blast_database) $this->create_database_catalogs();
+        // Manages help display
+        if (!($update_project || $update_library || $blast_database)) {
+            $this->display_help();
+        }
+    }
+
+    function help() {
+        return array(
+            "Command-line options",
+            "--------------------",
+            "-h\t\tDisplay this screen",
+            "-u[item]\tUpdate project and libraries",
+            "\t\t\t-uproject: Updates iafbm project only",
+            "\t\t\t-ulibrary: Updates xfreemwork library only",
+            "-x\t\tDrop and create database from scratch",
+            '',
+            '--------------------',
+            "Examples:",
+            "\t{$_SERVER['argv'][0]}\t\tdoes nothing",
+            "\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code",
+            "\t{$_SERVER['argv'][0]} -uproject\tupdates project code only",
+            "\t{$_SERVER['argv'][0]} -ulibrary\tupdates library code only",
+            "\t{$_SERVER['argv'][0]} -u -x\tupdates code and blasts database (!)"
+        );
     }
 
     protected function update_project() {
@@ -50,10 +81,6 @@ class iafbmUpdateScript extends iafbmScript {
             // Execute statement
             xModel::q($statement);
         }
-/*
-$cmd = "mysql --default-character-set=utf8 -u{$user} -p\"{$password}\" {$database} < {$file}";
-exec($cmd, $output, $status);
-*/
         if ($status) throw new xException('Error updating database', 500, $output);
         // Cleans SQL temporary file
         exec("rm -f {$file}", $output, $status);
