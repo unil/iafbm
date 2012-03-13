@@ -13,6 +13,9 @@
 # Variables
 INITIAL_DIRECTORY=`pwd`
 
+# Deletes existing project
+rm -rf iafbm
+
 # Clones iafbm project (git)
 git clone git@github.com:unil/iafbm.git
 
@@ -20,9 +23,9 @@ git clone git@github.com:unil/iafbm.git
 mkdir iafbm/iafbm/lib/xfreemwork
 svn co https://xfreemwork.svn.sourceforge.net/svnroot/xfreemwork/trunk iafbm/iafbm/lib/xfreemwork/lib
 
-# Creates database structure
+# Creates database structure (bypassing confirmation prompt)
 cd iafbm/scripts
-php update.php -x
+php update.php -xyes
 
 # Back to initial shell state
 echo Deploy completed.

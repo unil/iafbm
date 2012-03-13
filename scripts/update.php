@@ -61,7 +61,10 @@ class iafbmUpdateScript extends iafbmScript {
 
     protected function create_database_structure() {
         $this->log('Creating database...');
-        $this->confirm('This action will destroy and create the database from scratch. Are you sure?');
+        // Confirmation message (if applicable)
+        if ($this->opt('x:') != 'yes') {
+            $this->confirm('This action will destroy and create the database from scratch. Are you sure?');
+        }
         // Updates database
         exec("cd ../sql; ./merge.sh; cd -;", $output, $status);
         $user = xContext::$config->db->user;
