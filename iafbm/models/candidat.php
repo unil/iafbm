@@ -41,7 +41,7 @@ class CandidatModel extends iaModelMysql {
     //       Solution: in this file (that is, locally), add:
     //                 create a PaysProModel + PaysPriModel extends PaysModel {}
     var $joins = array(
-        'genre' => 'LEFT JOIN genres ON (candidats.genre_id = commissions.id)',
+        'genre' => 'LEFT JOIN genres ON (candidats.genre_id = genres.id)',
         'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
         'pays' => 'LEFT JOIN pays ON (candidats.pays_pro_id = pays.id)',
         'pays' => 'LEFT JOIN pays ON (candidats.pays_pri_id = pays.id)',

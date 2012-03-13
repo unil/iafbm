@@ -6,6 +6,18 @@ class CommissionsController extends iaWebController {
 
     var $query_fields = array('nom');
 
+    var $sort_fields_substitutions = array(
+        'commission_type_id' => array(
+            'field' => 'commission_type_nom',
+            'join' => 'commission_type'
+        ),
+        'section_id' => array(
+            'field' => 'section_code',
+            'join' => 'section'
+        ),
+        'commission_etat_id' => 'commission_etat_id'
+    );
+
     function indexAction() {
         $data = array(
             'title' => 'Gestion des commissions',

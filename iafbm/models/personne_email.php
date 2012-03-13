@@ -20,6 +20,10 @@ class PersonneEmailModel extends iaModelMysql {
         'email' => 'email'
     );
 
+    var $joins = array(
+        'adresse_type' => 'LEFT JOIN adresses_types ON (personnes_emails.adresse_type_id = adresses_types.id)',
+    );
+
     var $archive_foreign_models = array(
         // FIXME: missing 'personne' relation here?
         'adresse_type' => array('adresse_type_id' => 'id')

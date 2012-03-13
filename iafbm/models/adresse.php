@@ -17,7 +17,8 @@ class AdresseModel extends iaModelMysql {
     var $primary = array('id');
 
     var $joins = array(
-        'pays' => 'LEFT JOIN pays ON (personnes.pays_id = pays.id)'
+        'adresse_type' => 'LEFT JOIN adresses_types ON (adresses.adresse_type_id = adresses_types.id)',
+        'pays' => 'LEFT JOIN pays ON (adresses.pays_id = pays.id)'
     );
 
     var $validation = array();

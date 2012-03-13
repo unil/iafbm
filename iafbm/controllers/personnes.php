@@ -6,6 +6,13 @@ class PersonnesController extends iaWebController {
 
     var $query_fields = array('nom', 'prenom', 'pays_nom', 'pays_code');
 
+    var $sort_fields_substitutions = array(
+        'pays_id' => array(
+            'field' => 'pays_nom',
+            'join' => 'pays'
+        )
+    );
+
     function indexAction() {
         $data = array(
             'title' => 'Personnes',

@@ -20,8 +20,10 @@ class PersonneAdresseModel extends iaModelMysql {
     );
 
     var $joins = array(
+        'personne' => 'LEFT JOIN personnes ON (personnes_adresses.personne_id = personnes.id)',
         'adresse' => 'LEFT JOIN adresses ON (personnes_adresses.adresse_id = adresses.id)',
-        'personne' => 'LEFT JOIN personnes ON (personnes_adresses.personne_id = personnes.id)'
+        'adresse_type' => 'LEFT JOIN adresses_types ON (adresses.adresse_type_id = adresses_types.id)',
+        'pays' => 'LEFT JOIN pays ON (adresses.pays_id = pays.id)'
     );
 
     var $join = array('adresse');

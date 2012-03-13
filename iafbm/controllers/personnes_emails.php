@@ -6,6 +6,13 @@ class PersonnesEmailsController extends iaWebController {
 
     var $query_fields = array('email');
 
+    var $sort_fields_substitutions = array(
+        'adresse_type_id' => array(
+            'field' => 'adresse_type_nom',
+            'join' => 'adresse_type'
+        )
+    );
+
     function post() {
         $params = $this->params['items'];
         $t = new xTransaction();

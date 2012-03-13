@@ -21,6 +21,7 @@ class CommissionMembreModel extends iaModelMysql {
         'personne' => 'LEFT JOIN personnes ON (commissions_membres.personne_id = personnes.id)',
         'commission_fonction' => 'LEFT JOIN commissions_fonctions ON (commissions_membres.commission_fonction_id = commissions_fonctions.id)',
         'activite' => 'LEFT JOIN activites ON (commissions_membres.activite_id = activites.id)',
+        'activite_nom' => 'LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)',
         'rattachement' => 'LEFT JOIN rattachements ON (commissions_membres.rattachement_id = rattachements.id)',
         'commission' => 'LEFT JOIN commissions ON (commissions_membres.commission_id = commissions.id)',
         'commission_type' => 'LEFT JOIN commissions_types ON (commissions.commission_type_id = commissions_types.id)',

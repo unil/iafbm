@@ -458,6 +458,7 @@ Ext.define('iafbm.model.CommissionFonction', {
         {name: 'id', type: 'int'},
         {name: 'nom', type: 'string'},
         {name: 'description', type: 'string'},
+        {name: 'position', type: 'int'},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
     validations: [],

@@ -19,11 +19,21 @@ class iaWebController extends xWebController {
     var $allow = array('get', 'post', 'put', 'delete');
 
     /**
-     * Excluded fields for model parameters creation on query.
-     * Eg. when the query parameter is provided with a GET method.
+     * Fields to query on (for model parameters creation on xquery).
+     * Eg. when the xquery parameter is provided with a GET method.
      * @see iaWebController::get()
      */
     var $query_fields = array();
+
+    /**
+     * Fields to substitute on sort (for model parameters creation on xsort).
+     * Eg. when the xsort parameter is provided with a GET method.
+     *
+     * Useful for substituing foreign keys (containing numeric ids)
+     * with the foreign field name (containing actual text values).
+     * @see iaWebController::get()
+     */
+    var $sort_fields_substitutions = array();
 
 
     /**
@@ -99,7 +109,7 @@ class iaWebController extends xWebController {
                 // Skips fields existing in params:
                 // these are to be used as constraint
                 if (in_array($field, array_keys($this->params), true)) continue;
-                // Adds model field
+                // Adds model parameters
                 $params[$field] = "%{$this->params['xquery']}%";
                 $params["{$field}_comparator"] = 'LIKE';
                 $params["{$field}_operator"] = 'OR';
@@ -109,10 +119,33 @@ class iaWebController extends xWebController {
         }
         // Manages sort case
         if (strlen(@$params['xsort']) > 0) {
-            // FIXME: How to sort by name when sort is on some_foreign_id field?
-            $sort = array_shift(json_decode($params['xsort']));
-            $params['xorder_by'] = @$sort->property;
-            $params['xorder'] = @$sort->direction;
+            $info = array_shift(json_decode($params['xsort']));
+            $property = @$info->property;
+            $direction = @$info->direction;
+            // Manages substitutions
+            // @see self::$sort_fields_substitutions
+            if (in_array($property, array_keys($this->sort_fields_substitutions))) {
+                // Substitutes field name
+                $info = $this->sort_fields_substitutions[$property];
+                if (is_array($info)) {
+                    $property = $info['field'];
+                    $join = $info['join'];
+                } else {
+                    $property = $info;
+                    $join = null;
+                }
+                // Activates join(s) relative to field (if applicable),
+                // preserving already active joins
+                if ($join) {
+                    $params['xjoin'] = array_merge(
+                        array_keys(xModel::load($this->model, $params)->joins()),
+                        array_keys(xModel::load($this->model, array('xjoin' => $join))->joins())
+                    );
+                }
+            }
+            // Adds model parameters
+            $params['xorder_by'] = $property;
+            $params['xorder'] = $direction;
             unset($params['xsort']);
         }
         // Creates extjs compatible result

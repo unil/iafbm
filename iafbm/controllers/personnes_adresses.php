@@ -6,6 +6,17 @@ class PersonnesAdressesController extends iaWebController {
 
     var $query_fields = array('adresse_rue', 'adresse_npa', 'adresse_lieu');
 
+    var $sort_fields_substitutions = array(
+        'adresse_adresse_type_id' => array(
+            'field' => 'adresse_type_nom',
+            'join' => 'adresse,adresse_type'
+        ),
+        'adresse_pays_id' => array(
+            'field' => 'pays_nom',
+            'join' => 'adresse,pays'
+        )
+    );
+
     function post() {
         $params = $this->params['items'];
         $personne_adresse = xModel::load($this->model, $params);
