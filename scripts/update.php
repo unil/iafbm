@@ -80,9 +80,13 @@ class iafbmUpdateScript extends iafbmScript {
         $statements = explode(';', file_get_contents($file));
         foreach ($statements as $statement) {
             // Skips empty statements
-            if (!$statement) continue;
+            if (!preg_match('/[a-zA-Z]+/', $statement)) continue;
             // Execute statement
-            xModel::q($statement);
+            try {
+                xModel::q($statement);
+            } catch (Exception $e) {
+                throw new xException($e->getMessage(), 500, array($statement));
+            }
         }
         if ($status) throw new xException('Error updating database', 500, $output);
         // Cleans SQL temporary file
