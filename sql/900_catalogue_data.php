@@ -159,7 +159,7 @@ $catalogue_data = array(
             'nom' => 'Zurich',
         ),
     ),
-    'pays' => array(
+   /* 'pays' => array(
         array(
             'id' => 1,
             'actif' => '1',
@@ -1826,8 +1826,8 @@ $catalogue_data = array(
             'nom' => 'ex-République yougoslave de Macédoine',
             'nom_en' => 'Macedonia, TFYR',
         ),
-    ),
-    'permis' => array(
+    ),*/
+    /*'permis' => array(
         array(
             'id' => '1',
             'actif' => '1',
@@ -1838,7 +1838,7 @@ $catalogue_data = array(
             'actif' => '1',
             'nom' => 'Permis B'
         ),
-    ),
+    ),*/
     'section' => array(
         array(
             'id' => '1',
@@ -1857,18 +1857,18 @@ $catalogue_data = array(
         array(
             'id' => '1',
             'actif' => '1',
-            'nom' => 'Masculin',
-            'initiale' => 'H',
+            'genre' => 'Masculin',
+            'genre_short' => 'H',
             'intitule' => 'Monsieur',
-            'intitule_abreviation' => 'M'
+            'intitule_short' => 'M'
         ),
         array(
             'id' => '2',
             'actif' => '1',
-            'nom' => 'Féminin',
-            'initiale' => 'F',
+            'genre' => 'Féminin',
+            'genre_short' => 'F',
             'intitule' => 'Madame',
-            'intitule_abreviation' => 'Mme'
+            'intitule_short' => 'Mme'
         ),
     ),
     'etatcivil' => array(
@@ -1892,6 +1892,21 @@ $catalogue_data = array(
             'actif' => '1',
             'nom' => 'Veuf'
         ),
+		array(
+            'id' => '5',
+            'actif' => '1',
+            'nom' => 'Séparé'
+		),
+		array(
+            'id' => '6',
+            'actif' => '1',
+            'nom' => 'Partenariat enregistré'
+		),
+		array(
+            'id' => '7',
+            'actif' => '1',
+            'nom' => 'Inconnu'
+		),
     ),
     'formation' => array(
         array(
@@ -1912,50 +1927,7 @@ $catalogue_data = array(
         array(
             'id' => '4',
             'actif' => '1',
-            'abreviation' => 'Autre'
-        ),
-        array(
-            'id' => '5',
-            'actif' => '1',
             'abreviation' => 'Inconnu'
-        ),
-    ),
-    'rattachement' => array(
-        array(
-            'id' => '1',
-            'actif' => '1',
-            'section_id' => '1',
-            'nom' => 'SSC A'
-        ),
-        array(
-            'id' => '2',
-            'actif' => '1',
-            'section_id' => '1',
-            'nom' => 'SSC B'
-        ),
-        array(
-            'id' => '3',
-            'actif' => '1',
-            'section_id' => '1',
-            'nom' => 'SSC C'
-        ),
-        array(
-            'id' => '4',
-            'actif' => '1',
-            'section_id' => '2',
-            'nom' => 'SSF X'
-        ),
-        array(
-            'id' => '5',
-            'actif' => '1',
-            'section_id' => '2',
-            'nom' => 'SSF Y'
-        ),
-        array(
-            'id' => '6',
-            'actif' => '1',
-            'section_id' => '2',
-            'nom' => 'SSF Z'
         ),
     ),
     'adresse_type' => array(
@@ -2001,157 +1973,7 @@ $catalogue_data = array(
             'actif' => '1',
             'nom' => 'Autre mandat'
         ),
-    ),
-    'activite_nom' => array(
-        array(
-            'id' => 1,
-            'actif' => '1',
-            'abreviation' => 'PO',
-            'nom' => 'Professeur ordinaire',
-        ),
-        array(
-            'id' => 2,
-            'actif' => '1',
-            'abreviation' => 'PO ad personam',
-            'nom' => 'Professeur ordinaire ad personam',
-        ),
-        array(
-            'id' => 3,
-            'actif' => '1',
-            'abreviation' => 'PAS',
-            'nom' => 'Professeur associé',
-        ),
-        array(
-            'id' => 4,
-            'actif' => '1',
-            'abreviation' => 'PAS ad personam',
-            'nom' => 'Professeur associé ad personam',
-        ),
-        array(
-            'id' => 5,
-            'actif' => '1',
-            'abreviation' => 'PAST',
-            'nom' => 'Professeur assistant',
-        ),
-        array(
-            'id' => 6,
-            'actif' => '1',
-            'abreviation' => 'PAST PTC',
-            'nom' => 'Professeur assistant en prétitularisation conditionnelle',
-        ),
-        array(
-            'id' => 7,
-            'actif' => '1',
-            'abreviation' => 'PAST boursier',
-            'nom' => 'Professeur assistant boursier',
-        ),
-        array(
-            'id' => 8,
-            'actif' => '1',
-            'abreviation' => 'PAST suppléant',
-            'nom' => 'Professeur assistant suppléant',
-        ),
-        array(
-            'id' => 9,
-            'actif' => '1',
-            'abreviation' => 'PTIT',
-            'nom' => 'Professeur titulaire',
-        ),
-        array(
-            'id' => 10,
-            'actif' => '1',
-            'abreviation' => 'PI avec indemnités',
-            'nom' => 'Professeur invité avec indemnités',
-        ),
-        array(
-            'id' => 11,
-            'actif' => '1',
-            'abreviation' => 'PI sans incidence financière',
-            'nom' => 'Professeur invité sans incidence financière',
-        ),
-        array(
-            'id' => 12,
-            'actif' => '1',
-            'abreviation' => 'PD-MER1',
-            'nom' => 'Privat-docent et Maître d\'enseignement et de recherche, type 1',
-        ),
-        array(
-            'id' => 13,
-            'actif' => '1',
-            'abreviation' => 'PD-MER2',
-            'nom' => 'Privat-docent et Maître d\'enseignement et de recherche, type 2',
-        ),
-        array(
-            'id' => 14,
-            'actif' => '1',
-            'abreviation' => 'PD',
-            'nom' => 'Privat-docent',
-        ),
-        array(
-            'id' => 15,
-            'actif' => '1',
-            'abreviation' => 'PD sans incidence financière',
-            'nom' => 'Privat-docent sans incidence financière',
-        ),
-        array(
-            'id' => 16,
-            'actif' => '1',
-            'abreviation' => 'MER1',
-            'nom' => 'Maître d\'enseignement et de recherche, type 1',
-        ),
-        array(
-            'id' => 17,
-            'actif' => '1',
-            'abreviation' => 'MER2',
-            'nom' => 'Maître d\'enseignement et de recherche, type 2',
-        ),
-        array(
-            'id' => 18,
-            'actif' => '1',
-            'abreviation' => 'CC avec indemnités',
-            'nom' => 'Chargé de cours avec indemnités',
-        ),
-        array(
-            'id' => 19,
-            'actif' => '1',
-            'abreviation' => 'CC sans incidence financière',
-            'nom' => 'Chargé de cours sans incidence financière',
-        ),
-        array(
-            'id' => 20,
-            'actif' => '1',
-            'abreviation' => 'MA',
-            'nom' => 'Maître assistant',
-        ),
-        array(
-            'id' => 21,
-            'actif' => '1',
-            'abreviation' => 'MA suppléant',
-            'nom' => 'Maître assistant suppléant',
-        ),
-        array(
-            'id' => 22,
-            'actif' => '1',
-            'abreviation' => 'Autre',
-            'nom' => 'Autre',
-        ),
-    ),
-    'activite' => array(
-        array(
-            'id' => 1,
-            'actif' => '1',
-            'section_id' => 1,
-            'activite_type_id' => 1,
-            'activite_nom_id' => 22,
-        ),
-        array(
-            'id' => 2,
-            'actif' => '1',
-            'section_id' => 2,
-            'activite_type_id' => 1,
-            'activite_nom_id' => 22,
-        ),
-    ),
+    ),    
     'personne_type' => array(
         array(
             'id' => 1,
