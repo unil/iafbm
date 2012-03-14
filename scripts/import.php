@@ -7,7 +7,7 @@ class iafbmImportScript extends iafbmScript {
 	private $import_path = "../import/csv";
 	private $local_models = array();
 
-    function run() {    	
+    function run() {    	    	
     	$structures = $this->init_catalog_structures();
     	
     	$input = array();
@@ -96,7 +96,7 @@ class iafbmImportScript extends iafbmScript {
 			    	    'models' => array(
 			    	    	'rattachement' => array(
 			    	    		'mapping' => array(
-			    	    			'code' => 'code',
+			    	    			'abreviation' => 'code',
 			    	    			'nom' => 'nom',
 									'section_id' => 'section',
 			    	    			'id' => 'id',
@@ -126,8 +126,9 @@ class iafbmImportScript extends iafbmScript {
     				    	    'models' => array(
     				    	    	'rattachement' => array(
     				    	    		'mapping' => array(
-    				    	    			'code' => 'Code',
+    				    	    			'abreviation' => 'Code',
     				    	    			'nom' => 'Libellé long',
+    				    	    			'id_chuv' => 'Code',
     										'section_id' => 'SSC',
     				    	    			'id' => 'id',
     									),
@@ -155,7 +156,8 @@ class iafbmImportScript extends iafbmScript {
     								'mapping' => array(
     									'nom' => 'nom',
     									'abreviation' => 'abreviation',
-    									'id' => 'id'
+    									'id' => 'id',
+    									'id_unil' => 'ID UNIL'
     									),
     								'operation' => array(
     									'distinct:nom',
@@ -376,7 +378,6 @@ class iafbmImportScript extends iafbmScript {
     }
     
     protected function write_catalog($model, $data) {
-    	$this->log("***********Prepare catalog for output************");
     	$output = array();
     	
     	$source = $model;
@@ -482,7 +483,6 @@ class iafbmImportScript extends iafbmScript {
      * @param unknown_type $structure
      */
     protected function fill_catalog_from_file($structure) {
-    	$this->log("***********Fill catalog from file************");
     	$catalog = array();
     	
     	$source = $structure['source'];
@@ -726,7 +726,7 @@ class iafbmImportScript extends iafbmScript {
     			$result = $result['id'];
     			break;
     		case 'genre_model' :
-    			$result = xModel::load('genre', array('genre' => $search_string))->get(0);
+    			$result = xModel::load('genre', array('nom' => $search_string))->get(0);
     			if (empty($result)) throw new xException("Genre '$search_string' can not be found.");
     			$result = $result['id'];
     			break;
@@ -734,7 +734,7 @@ class iafbmImportScript extends iafbmScript {
     			$result = $this->do_local_lookup('activite_nom', 'nom', $search_string, 'id');
     			break;
     		case 'rattachement' :
-    			$result = $this->do_local_lookup('rattachement', 'code', $search_string, 'id');
+    			$result = $this->do_local_lookup('rattachement', 'abreviation', $search_string, 'id');
     			break;
     		case 'pays_model' :
     			$result = $this->do_local_lookup('pays', 'nom', $search_string, 'id');

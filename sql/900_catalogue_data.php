@@ -159,7 +159,7 @@ $catalogue_data = array(
             'nom' => 'Zurich',
         ),
     ),
-    /*'permis' => array(
+    'permis' => array(
         array(
             'id' => '1',
             'actif' => '1',
@@ -170,7 +170,22 @@ $catalogue_data = array(
             'actif' => '1',
             'nom' => 'Permis B'
         ),
-    ),*/
+		array(
+            'id' => '3',
+            'actif' => '1',
+            'nom' => 'Permis C'
+		),
+		array(
+            'id' => '4',
+            'actif' => '1',
+            'nom' => 'Permis G'
+		),
+		array(
+            'id' => '5',
+            'actif' => '1',
+            'nom' => 'Permis L'
+		),
+    ),
     'section' => array(
         array(
             'id' => '1',
@@ -189,16 +204,16 @@ $catalogue_data = array(
         array(
             'id' => '1',
             'actif' => '1',
-            'genre' => 'Masculin',
-            'genre_short' => 'H',
+            'nom' => 'Masculin',
+            'initiale' => 'H',
             'intitule' => 'Monsieur',
             'intitule_short' => 'M'
         ),
         array(
             'id' => '2',
             'actif' => '1',
-            'genre' => 'Féminin',
-            'genre_short' => 'F',
+            'nom' => 'Féminin',
+            'initiale' => 'F',
             'intitule' => 'Madame',
             'intitule_short' => 'Mme'
         ),
