@@ -17,6 +17,7 @@ class PersonneModel extends iaModelMysql {
         'nom' => 'nom',
         'prenom' => 'prenom',
         'genre_id' => 'genre_id',
+        'personne_denomination_id' => 'personne_denomination_id',
         'etatcivil_id' => 'etatcivil_id',
         'date_naissance' => 'date_naissance',
         'no_avs' => 'no_avs',

@@ -300,7 +300,7 @@ $catalogue_data = array(
             'actif' => '1',
             'nom' => 'Autre mandat'
         ),
-    ),    
+    ),
     'personne_type' => array(
         array(
             'id' => 1,
@@ -317,6 +317,18 @@ $catalogue_data = array(
             'actif' => '1',
             'nom' => 'Etudiant'
         ),
+    ),
+    'personne_denomination' => array(
+        array(
+            'id' => 1,
+            'actif' => '1',
+            'nom' => 'Professeur'
+        ),
+        array(
+            'id' => 2,
+            'actif' => '1',
+            'nom' => 'Docteur'
+        )
     ),
     'commission_type' => array(
         array(

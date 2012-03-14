@@ -186,6 +186,7 @@ Ext.define('iafbm.model.Personne', {
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'genre_id', type: 'int', useNull: true},
+        {name: 'personne_denomination_id', type: 'int', useNull: true},
         {name: 'etatcivil_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'no_avs', type: 'string'},
@@ -215,6 +216,18 @@ Ext.define('iafbm.model.PersonneType', {
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/personnes_types',
+    }
+});
+Ext.define('iafbm.model.PersonneDenomination', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/personnes_denominations',
     }
 });
 Ext.define('iafbm.model.PersonneFormation', {

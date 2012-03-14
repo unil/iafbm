@@ -408,6 +408,14 @@ Ext.define('iafbm.form.Personne', {
                 store: Ext.create('iafbm.store.Genre'),
                 iaDisableFor: []
             }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Dénomination',
+                name: 'personne_denomination_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.PersonneDenomination'),
+                iaDisableFor: []
+            }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance',
                 name: 'date_naissance',
