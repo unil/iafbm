@@ -32,40 +32,44 @@ Ext.define('iafbm.grid.common.Formations', {
         header: 'Jour',
         dataIndex: '_date_these_jour',
         width: 40,
+        xtype: 'ia-combocolumn',
         editor: {
             xtype: 'ia-combo',
+            mode: 'local',
             store: new Ext.data.ArrayStore({
-                fields: ['value'],
-                data: Ext.Array.createArrayStoreRange(0, 31)
+                fields: ['value', 'label'],
+                data: Ext.ia.staticdata.Days
             }),
             valueField: 'value',
-            displayField: 'value'
+            displayField: 'label'
         }
     },{
         header: 'Mois',
         dataIndex: '_date_these_mois',
-        width: 40,
+        width: 55,
+        xtype: 'ia-combocolumn',
         editor: {
             xtype: 'ia-combo',
             store: new Ext.data.ArrayStore({
-                fields: ['value'],
-                data: Ext.Array.createArrayStoreRange(0, 12)
+                fields: ['value', 'label'],
+                data: Ext.ia.staticdata.Months
             }),
             valueField: 'value',
-            displayField: 'value'
+            displayField: 'label'
         }
     },{
         header: 'Année',
         dataIndex: '_date_these_annee',
         width: 55,
+        xtype: 'ia-combocolumn',
         editor: {
             xtype: 'ia-combo',
             store: new Ext.data.ArrayStore({
-                fields: ['value'],
-                data: Ext.Array.createArrayStoreRange(0, 2050)
+                fields: ['value', 'label'],
+                data: Ext.ia.staticdata.Years
             }),
             valueField: 'value',
-            displayField: 'value'
+            displayField: 'label'
         }
     },{
         header: "Commentaire",

@@ -1,6 +1,7 @@
 /******************************************************************************
  * Ext classes customization
 **/
+Ext.ns('Ext.ia');
 
 /**
  * i18n
@@ -19,13 +20,64 @@ Ext.onReady(Ext.tip.QuickTipManager.init);
 /**
  * Ext.Array.createRange()
  */
-Ext.Array.createArrayStoreRange = function(min, max) {
-    var array = [];
-    for (var i=min; i<=max; i++) {
-        array.push([i]);
+Ext.Array.createArrayStoreRange = function(min, max, step, pad) {
+    var step = step || 1,
+        pad = pad || 0,
+        array = [];
+    var condition = function(n, max, step) {
+        return (step > 0) ? n <= max : n >= max;
+    }
+    for (var n=min; condition(n, max, step); n=n+step) {
+        // Pads number
+        var s = n.toString();
+        if (s.length < pad) {
+            s = ('0000000000' + s).slice(-pad);
+        }
+        // Adds number to result array
+        array.push(s);
     }
     return array;
 };
+
+/**
+ * Date ArrayStore data
+ */
+Ext.ns('Ext.ia.staticdata');
+Ext.ia.staticdata.Days = function() {
+    var values = Ext.Array.createArrayStoreRange(1, 31, 1, 2),
+        data = [[0, '-']];
+    Ext.each(values, function(v) {
+        data.push([parseInt(v), v]);
+    });
+    return data;
+}();
+Ext.ia.staticdata.Months = function() {
+    var values = ["Janv", "Févr", "Mars", "Avr", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"],
+        data = [[0, '-']];
+    Ext.each(values, function(v, k) {
+        data.push([parseInt(k+1), v]);
+    });
+    return data;
+}();
+Ext.ia.staticdata.Years = function() {
+    var values_all = Ext.Array.createArrayStoreRange(2100, 1900, -1, 4),
+        values_sel = Ext.Array.createArrayStoreRange(2020, 1995, -1, 4),
+        data = [];
+    // Selected years around current year
+    data.push([0, '-']);
+    Ext.each(values_sel, function(v) {
+        data.push([parseInt(v), v]);
+    });
+    // All years
+    data.push([0, '-']);
+    Ext.each(values_all, function(v) {
+        data.push([parseInt(v), v]);
+    });
+    return data;
+}();
+
+
+
 
 /**
  * Additional validation types (vtypes)
@@ -299,7 +351,7 @@ Ext.define('Ext.ia.grid.ComboColumn', {
             if (grid) grid.getView().refresh();
         });
         // Manages store autoloading
-        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+        if (store.load && !store.autoLoad && !store.loaded && !store.isLoading()) {
             store.load();
         }
     },
@@ -307,7 +359,7 @@ Ext.define('Ext.ia.grid.ComboColumn', {
     // the valueField value is shown instead of displayField value.
     renderer: function(value, metaData, record, rowIndex, colIndex, store) {
         var column = this.columns[colIndex],
-            editor = column.editor || column.field,
+            editor = column.editor || column.field || column.initialConfig.editor || column.initialConfig.field, // column.initialConfig.* is for when store is an ArrayStore
             comboStore = editor.store,
             displayField = editor.displayField,
             valueField = editor.valueField,
