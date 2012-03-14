@@ -98,11 +98,11 @@ class iafbmImportScript extends iafbmScript {
 			    	    		'mapping' => array(
 			    	    			'abreviation' => 'code',
 			    	    			'nom' => 'nom',
-									'section_id' => 'section',
+			    	    			'section_id' => 'section',
 			    	    			'id' => 'id',
 			    				),
 			    	    		'operation' => array(
-    								'lookup:section_model:section_id',
+    								'find:section:code=section_id:id:section_id'
 			    				),
 			    			),
 			    	 	),
@@ -133,7 +133,7 @@ class iafbmImportScript extends iafbmScript {
     				    	    			'id' => 'id',
     									),
     				    	    		'operation' => array(
-    	    								'lookup:section_model:section_id',
+    										'find:section:code=section_id:id:section_id'
     									),
     								),
     							),
@@ -170,48 +170,50 @@ class iafbmImportScript extends iafbmScript {
     									'activite_nom_id' => 'id',
     								),
     								'operation' => array(
-    									'lookup:activite_model:activite_type_id',
-    									'lookup:section_model:section_id'),
+    									'find:activite_type:nom=activite_type_id:id:activite_type_id',
+    									'find:section:code=section_id:id:section_id',
+    								),
     						),
     					),
     				),
     			),
     			'activite_hosp' => array(
-    	    	    		    	'source' => array(
-    	    	    		    		'type' => 'file', 
-    	    	    		        	'name' => 'fonctions_hospitalieres.csv',
-    	    	    		        	'params' => array (
-    	    								'fields' =>  array('nom'),
-    	    								'split_fields' => array(),
-    	    								'operation' => array(
-    	    										'primaryKey:id:25:nom'
-    										),
-    									),
+    	    	   	'source' => array(
+    	    	   		'type' => 'file', 
+    	    	       	'name' => 'fonctions_hospitalieres.csv',
+    	    	       	'params' => array (
+    	    				'fields' =>  array('nom'),
+    	    				'split_fields' => array(),
+    	    				'operation' => array(
+    	    					'primaryKey:id:25:nom'
+    						),
+    					),
+    				),
+    	    	    'destination' => array(
+    	    	    	'models' => array(
+    	    	    		'activite_nom' => array(
+    	    	    			'mapping' => array(
+    	    	    				'nom' => 'nom',
+    	    	    				'abreviation' => 'nom',
+    	    	    				'id' => 'id'
+    							),
+    	    	    			'operation' => array(
+    	    	    				'distinct:id',
+    							),
+    						),
+    	    	    		'activite' => array(
+    	    	    			'mapping' => array(
+    	    	    				'activite_type_id' => 'Fonction hospitalière',
+    	    	    					'section_id' => 'SSC',
+    	    	    					'activite_nom_id' => 'id',
     								),
-    	    	    				'destination' => array(
-    	    	    					'models' => array(
-    	    	    						'activite_nom' => array(
-    	    	    								'mapping' => array(
-    	    	    									'nom' => 'nom',
-    	    	    									'abreviation' => 'nom',
-    	    	    									'id' => 'id'
-    												),
-    	    	    								'operation' => array(
-    	    	    									'distinct:id',
-    												),
-    										),
-    	    	    						'activite' => array(
-    	    	    								'mapping' => array(
-    	    	    									'activite_type_id' => 'Fonction hospitalière',
-    	    	    									'section_id' => 'SSC',
-    	    	    									'activite_nom_id' => 'id',
-    												),
-    	    	    								'operation' => array(
-    	    	    									'lookup:activite_model:activite_type_id',
-    	    	    									'lookup:section_model:section_id'),
-    												),
-    										),
-    								),
+    	    	    			'operation' => array(
+    								'find:activite_type:nom=activite_type_id:id:activite_type_id',
+    	    						'find:section:code=section_id:id:section_id',
+    							),
+    						),
+    					),
+    				),
     			),
     			'activite_autre_mandat' => array(
     	    		    	'source' => array(
@@ -244,10 +246,11 @@ class iafbmImportScript extends iafbmScript {
     	    									'activite_nom_id' => 'id',
     										),
     	    								'operation' => array(
-    	    									'lookup:activite_model:activite_type_id',
-    	    									'lookup:section_model:section_id'),
+    											'find:activite_type:nom=activite_type_id:id:activite_type_id',
+    	    	    							'find:section:code=section_id:id:section_id',
     										),
     								),
+    						),
     					),
     			),
     			'personnes' => array(
@@ -280,9 +283,9 @@ class iafbmImportScript extends iafbmScript {
     								),
     				    	    	'operation' => array(
     									'distinct:id',
-    									'lookup:pays_model:pays_id',
-    									'lookup:genre_model:genre_id',
-    									'lookup:etatcivil_model:etatcivil_id',
+    									'find:pays:nom=pays_id:id:pays_id',
+    									'find:genre:nom=genre_id:id:genre_id',
+    									'find:etatcivil:nom=etatcivil_id:id:etatcivil_id',
     								),
     						),
     						'personne_activite' => array(
@@ -296,8 +299,8 @@ class iafbmImportScript extends iafbmScript {
     	    				        	'fin' => 'Date fin contrat',
     								),
     	    				    	'operation' => array(
-    									'lookup:section_model:section_id',
-    									'lookup:rattachement:rattachement_id',
+    									'find:section:code=section_id:id:section_id',
+    									'find:rattachement:abreviation=rattachement_id:id:rattachement_id',
     								),
     						),   
     						'personne_email' => array(
@@ -340,7 +343,7 @@ class iafbmImportScript extends iafbmScript {
     	    				        		'pays_id' => 'Pays',
     									),
     				    	    		'operation' => array(
-    										'lookup:pays_model:pays_id',
+    										'find:pays:nom=pays_id:id:pays_id',
     										'merge:rattachement,adresse1,adresse2,adresse3:rue:\n'
     									),
     								),
@@ -442,8 +445,9 @@ class iafbmImportScript extends iafbmScript {
     			 
     			$section_id = $item['section_id'];
     			$activite_nom = $item['activite_id'];
-    			 
-    			$activite_nom_id = $this->do_lookup('activite_nom', $activite_nom);
+    			
+
+    			$activite_nom_id = $this->do_find('activite_nom', array('nom' => $activite_nom), 'id');
     			 
     			$trouve = false;
     	
@@ -660,94 +664,7 @@ class iafbmImportScript extends iafbmScript {
     	 
     	return $temp;
     }
-    /**
-     * 
-     * Searches in local array models for a value in specified key
-     * @param String $model_name (modelname as given in local array)
-     * @param String $compare_to_key_name (key which contains the searched value)
-     * @param String $search_string (searched value)
-     * @param String_type $retrieve_key_name (key containing value with which the searched value should be replaced)
-     * @throws xException
-     */
-    protected function do_local_lookup($model_name, $compare_to_key_name, $search_string, $retrieve_key_name) {
-    	$result = null;
    
-    	if (!array_key_exists($model_name, $this->local_models)) {
-    		throw new xException("Model '$model_name' doesn't exist in local model array.");
-    	}
-    	$model = $this->local_models[$model_name];
-	
-    	if (!array_key_exists($compare_to_key_name, $model[0])) {
-    		throw new xException("Key '$compare_to_key_name' doesn't exist in local model '$model_name'.");
-    	}
-    	if (!array_key_exists($retrieve_key_name, $model[0])) {
-    		throw new xException("Key '$retrieve_key_name' doesn't exist in local model '$model_name'.");
-    	}
-    		
-    	$found = false;
-    	/*
-    	 * it is saver to loop over the key set as not all keys are numeric
-    	*/
-    	$keys = array_keys($model);
-
-    	for ($i = 0; $i < count($keys) && !$found; $i++) {
-    		if (strtolower($model[$keys[$i]][$compare_to_key_name]) == strtolower($search_string)) {
-    			$result = $model[$keys[$i]][$retrieve_key_name];
-    			$found = true;
-    		}
-    	}
-    	
-    	return $result;
-
-    }
-
-
-    
-    protected function do_lookup($model_name, $search_string) {
-    	
-    	$result = null;
-    	
-    	switch($model_name) {
-    		case 'section_model' :
-    			$result = strtolower($search_string) == 'ssf' ? 2 : 1;
-    			break;
-    		case 'activite_model' :
-    			$result = xModel::load('activite_type', array('nom' => $search_string))->get(0);
-    			if (empty($result)) throw new xException("Actitive type '$search_string' can not be found.");
-    			$result = $result['id'];
-    			break;
-    		case 'activite' :
-				
-    			$result = $this->do_local_lookup('activite', 'nom', $result, 'id');
-    			break;
-    		case 'etatcivil_model' :
-    			$result = xModel::load('etatcivil', array('nom' => $search_string))->get(0);
-    			if (empty($result)) throw new xException("Etat civil '$search_string' can not be found.");
-    			$result = $result['id'];
-    			break;
-    		case 'genre_model' :
-    			$result = xModel::load('genre', array('nom' => $search_string))->get(0);
-    			if (empty($result)) throw new xException("Genre '$search_string' can not be found.");
-    			$result = $result['id'];
-    			break;
-    		case 'activite_nom' :
-    			$result = $this->do_local_lookup('activite_nom', 'nom', $search_string, 'id');
-    			break;
-    		case 'rattachement' :
-    			$result = $this->do_local_lookup('rattachement', 'abreviation', $search_string, 'id');
-    			break;
-    		case 'pays_model' :
-    			$result = $this->do_local_lookup('pays', 'nom', $search_string, 'id');
-    			break;
-    		case 'personne' :
-    			$result = $this->do_local_lookup('personne', 'id_unil', $search_string, 'id');
-    			break;
-    	}
-    	if ($result == null) throw new xException("Information not found exception. Information '$search_string' can not be found in model '$model_name'");
-    	
-    	return $result;
-    }
-  
     protected function do_merge($data, $source_fields, $destination_field, $merge_char = "") {
     	$result = null;
     	
@@ -780,30 +697,35 @@ class iafbmImportScript extends iafbmScript {
     }
     protected function do_find($model_name, $search, $retrieve_key_name) {
     	$result = null;
-    
-    	$personne_model = $this->local_models[$model_name];
-    
 
-   		$occurences = 0;
+    	
+    	if (array_key_exists($model_name, $this->local_models)) {
+	    	$model = $this->local_models[$model_name];
+	   		$occurences = 0;
+	
+	    	foreach($model as $item) {
+	    		$number_of_matched_values = 0;
 
-    	foreach($personne_model as $personne) {
-    		$number_of_matched_values = 0;
-    		foreach($search as $key => $value) {
-
-    			if ($personne[$key] == $value) {
-    				$number_of_matched_values += 1;
-    				
-    			}
-    		}
-    		
-    		if ($number_of_matched_values == count($search)) {
-    			$result = $personne[$retrieve_key_name];
-    			$occurences += 1;
-    		}
+	    		foreach($search as $key => $value) {
+	    			if ($item[$key] == $value) {
+	    				$number_of_matched_values += 1;	
+	    			}
+	    		}
+	    		
+	    		if ($number_of_matched_values == count($search)) {
+	    			$result = $item[$retrieve_key_name];
+	    			$occurences += 1;
+	    		}
+	    	}
+    	}
+    	else {
+    		$result= xModel::load($model_name, $search)->get(0);
+    		$result = $result[$retrieve_key_name];
+    		$occurences = count($result);
     	}
     
     	if ($occurences <= 0) {
-    		throw new xException("No match found for", 500, $search);
+    		throw new xException("No match found", 500, $search);
     	}
     	
     	if ($occurences > 1) {
@@ -840,45 +762,44 @@ class iafbmImportScript extends iafbmScript {
     			$model_name = $operation_array[1];
     			
     			$lookup_key_names = explode(',', $operation_array[2]);
+    			
+    	    	$mapping = array();
+    
+    			foreach($lookup_key_names as $name) {
+    				$key = null;
+    				$value = null;
+    				list($key, $value) = explode('=', $name);
+    	
+    				if ($key == null) {
+    					$key = $name;
+    				}
+    		
+    				if ($value == null) {
+    					$value = $name;
+    				}
+    		
+    				$mapping[$key] = $value;
+    			}
+    			
     			$lookup_destination_key = $operation_array[3];
     			$local_key_name = $operation_array[4];
-
 
     			$keys = array_keys($data);
 
     			for ($i = 0; $i < count($keys); $i++) {
     				$search = array();
     				
-    				foreach($lookup_key_names as $key_name) {
+    				foreach($mapping as $model_key => $local_key) {
     					
-	    				if (!array_key_exists($key_name, $data[$keys[$i]])) throw new xException("Key '$key_name' doesn't exist or is not mapped correctly and can therefore not be looked up.");
-	    				$search[$key_name] = $data[$keys[$i]][$key_name];
+	    				if (!array_key_exists($local_key, $data[$keys[$i]])) throw new xException("Key '$local_key' doesn't exist or is not mapped correctly and can therefore not be looked up.");
+	    				$search[$model_key] = $data[$keys[$i]][$local_key];
 	    				
     				}
-    				$result = $this->do_find($model_name, $search, $lookup_destination_key);
+    				$result = $this->do_find($model_name,$search, $lookup_destination_key);
 
     				$data[$keys[$i]][$local_key_name] = $result;
     			}
 
-    			$result = $data;
-    			break;
-    		case 'lookup' :
-    			/**
-    			* about: looks up a value in model for specified search string and replaces existing value specified array
-    			* operation format: string:string:string
-    			* 
-    			* [0] : operation (lookup)
-    			* [1] : model_name
-    			* [2] : search string
-    			* 
-    			* result : array with replaced values for looked up items. If no match, old data array
-    			*/
-    			$keys = array_keys($data);
-    			for ($i = 0; $i < count($keys); $i++) {
-    				if (!array_key_exists($operation_array[2], $data[$keys[$i]])) throw new xException("Key '$operation_array[2]' doesn't exist or is not mapped correctly and can therefore not be looked up.");
-    				$result = $this->do_lookup($operation_array[1], $data[$keys[$i]][$operation_array[2]]);  				
-    				$data[$keys[$i]][$operation_array[2]] = $result;
-    			}
     			$result = $data;
     			break;
     		case 'primaryKey' :
