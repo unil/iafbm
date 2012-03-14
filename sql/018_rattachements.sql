@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS rattachements;
 CREATE TABLE rattachements (
     id INT NOT NULL AUTO_INCREMENT,
-    id_unil INT,
-    id_chuv INT,
+    id_unil VARCHAR(255),
+    id_chuv VARCHAR(255),
     actif BOOLEAN NOT NULL DEFAULT true,
     section_id INT,
     nom VARCHAR(255) NOT NULL,
