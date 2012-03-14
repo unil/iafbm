@@ -271,7 +271,7 @@ class iafbmImportScript extends iafbmScript {
     									'no_avs' => 'N° AVS SAP',
     				        			'genre_id' => 'Sexe',
     				        			'etatcivil_id' => 'Etat civil',
-    				        			'personne_type_id' => '',
+    				        			'personne_type_id' => '1',
     				        			'canton_id' => '',
     				        			'pays_id' => 'Origine',
     				        			'permis_id' => '',
@@ -297,7 +297,16 @@ class iafbmImportScript extends iafbmScript {
     									'lookup:section_model:section_id',
     									'lookup:rattachement:rattachement_id',
     								),
-    						),    						
+    						),   
+    						'personne_email' => array(
+    	    	    				'mapping' => array(
+    	    	    					'personne_id' => 'id',
+    	    	    					'adresse_type_id_id' => '1',
+    									'email' => 'Email',
+    								),
+    	    	    				'operation' => array(
+    								),
+    						), 						
     					),
     				),
     			),
@@ -847,10 +856,8 @@ class iafbmImportScript extends iafbmScript {
 	    				
     				}
     				$result = $this->do_find($model_name, $search, $lookup_destination_key);
-    				//echo "result : $result\n";
-    				//($operation_array[1], $data[$keys[$i]][$operation_array[2]]);
+
     				$data[$keys[$i]][$local_key_name] = $result;
-    				//print_r($search);
     			}
 
     			$result = $data;
