@@ -253,7 +253,7 @@ class iafbmImportScript extends iafbmScript {
     	    			'type' => 'file', 
     	    			'name' => 'personnes.csv',
     	    			'params' => array (
-    		    			'fields' =>  array('Nom', 'Prénom', 'Date de naissance', 'N° AVS SAP', 'Etat civil', 'Sexe', 'Section', 'Unité structurelle', 'No fonction', 'Fonction', 'Date début contrat', 'Date fin contrat', 'Taux du contrat', 'PerNum', 'Email', 'Civilité', 'Origine'),
+    		    			'fields' =>  array('Nom', 'Prénom', 'Date de naissance', 'N° AVS SAP', 'Etat civil', 'Sexe', 'Section', 'Unité structurelle', 'No fonction', 'Fonction', 'Date début contrat', 'Date fin contrat', 'Taux du contrat', 'PerNum', 'Email', 'Origine'),
     		    			'split_fields' => array(),
     	    				'operation' => array(
     	    					'primaryKey:id:1:PerNum'),
@@ -301,7 +301,7 @@ class iafbmImportScript extends iafbmScript {
     						'personne_email' => array(
     	    	    				'mapping' => array(
     	    	    					'personne_id' => 'id',
-    	    	    					'adresse_type_id_id' => '1',
+    	    	    					'adresse_type_id' => '1',
     									'email' => 'Email',
     								),
     	    	    				'operation' => array(
