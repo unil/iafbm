@@ -4,6 +4,7 @@
 
 /**
  * i18n
+ * TODO: FIXME: Move this in locales.js
  */
 Ext.window.MessageBox.prototype.buttonText.yes = 'Oui';
 Ext.window.MessageBox.prototype.buttonText.no = 'Non';
@@ -14,6 +15,17 @@ Ext.window.MessageBox.prototype.buttonText.cancel = 'Annuler';
  * Quick tips initialization
  */
 Ext.onReady(Ext.tip.QuickTipManager.init);
+
+/**
+ * Ext.Array.createRange()
+ */
+Ext.Array.createArrayStoreRange = function(min, max) {
+    var array = [];
+    for (var i=min; i<=max; i++) {
+        array.push([i]);
+    }
+    return array;
+};
 
 /**
  * Additional validation types (vtypes)
@@ -625,7 +637,7 @@ Ext.define('Ext.ia.form.SearchField', {
             val;
         if (me.hasSearch) {
             me.setValue('');
-            delete store.params[me.paramName];
+            if (store.params) delete store.params[me.paramName];
             store.load();
             me.hasSearch = false;
             me.triggerEl.item(0).setDisplayed('none');
@@ -645,11 +657,23 @@ Ext.define('Ext.ia.form.SearchField', {
             me.onTrigger1Click();
             return;
         }
+        // Makes sure store.param is a hashmap
+        // FIXME: why is it always reset to NULL ?
+        //        (eg. in Personne grid, but not in Commission candidats grid)
+//console.log(store.params);
+        if (!Ext.isObject(store.params)) store.params = Ext.apply({}, store.params);
+//console.log(store.params);
+        // Applies store params
         store.params[me.paramName] = value;
-        store.load();
+//console.log(store.params);
         me.hasSearch = true;
         me.triggerEl.item(0).setDisplayed('block');
         me.doComponentLayout();
+        // Data refresh
+        store.load();
+        // Paging reset (if applicable)
+        var paging = this.up('grid').down('pagingtoolbar');
+        if (paging) paging.moveFirst()
         // Extra event
         this.fireEvent('aftersearch', this);
     }
@@ -672,7 +696,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         store: null,
         columns: null,
         newRecordValues: {},
-        searchParams: {},
+        searchParams: {}
     },
     autoSync: false,
     editable: true,

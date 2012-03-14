@@ -29,12 +29,43 @@ Ext.define('iafbm.grid.common.Formations', {
             xtype: 'textfield'
         }
     },{
-        header: "Date",
-        dataIndex: 'date_these',
-        flex: 1,
-        xtype: 'ia-datecolumn',
+        header: 'Jour',
+        dataIndex: '_date_these_jour',
+        width: 40,
         editor: {
-            xtype: 'ia-datefield'
+            xtype: 'ia-combo',
+            store: new Ext.data.ArrayStore({
+                fields: ['value'],
+                data: Ext.Array.createArrayStoreRange(0, 31)
+            }),
+            valueField: 'value',
+            displayField: 'value'
+        }
+    },{
+        header: 'Mois',
+        dataIndex: '_date_these_mois',
+        width: 40,
+        editor: {
+            xtype: 'ia-combo',
+            store: new Ext.data.ArrayStore({
+                fields: ['value'],
+                data: Ext.Array.createArrayStoreRange(0, 12)
+            }),
+            valueField: 'value',
+            displayField: 'value'
+        }
+    },{
+        header: 'Année',
+        dataIndex: '_date_these_annee',
+        width: 55,
+        editor: {
+            xtype: 'ia-combo',
+            store: new Ext.data.ArrayStore({
+                fields: ['value'],
+                data: Ext.Array.createArrayStoreRange(0, 2050)
+            }),
+            valueField: 'value',
+            displayField: 'value'
         }
     },{
         header: "Commentaire",

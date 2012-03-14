@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS candidats_formations;
 CREATE TABLE candidats_formations (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT true,
-    candidat_id INT,
-    formation_id INT,
+    candidat_id INT NOT NULL,
+    formation_id INT NOT NULL,
     lieu_these VARCHAR(255),
     date_these DATE DEFAULT NULL,
     commentaire VARCHAR(255),

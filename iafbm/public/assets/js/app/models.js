@@ -224,6 +224,9 @@ Ext.define('iafbm.model.PersonneFormation', {
         {name: 'personne_id', type: 'int'},
         {name: 'formation_id', type: 'int'},
         {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
+        {name: '_date_these_jour', type: 'int'},
+        {name: '_date_these_mois', type: 'int'},
+        {name: '_date_these_annee', type: 'int'},
         {name: 'lieu_these', type: 'string'},
         {name: 'commentaire', type: 'string'}
     ],
@@ -393,6 +396,9 @@ Ext.define('iafbm.model.CandidatFormation', {
         {name: 'formation_id', type: 'int'},
         {name: 'lieu_these', type: 'string'},
         {name: 'date_these', type: 'date', dateFormat: 'Y-m-d'},
+        {name: '_date_these_jour', type: 'int'},
+        {name: '_date_these_mois', type: 'int'},
+        {name: '_date_these_annee', type: 'int'},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],
