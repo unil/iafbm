@@ -310,6 +310,7 @@ class iafbmImportScript extends iafbmScript {
     									'email' => 'Email',
     								),
     	    	    				'operation' => array(
+    									'distinct:personne_id',
     								),
     						), 						
     					),
@@ -324,7 +325,7 @@ class iafbmImportScript extends iafbmScript {
     		    					'split_fields' => array(),
     	    						'operation' => array(
     	    							'primaryKey:id:1',
-    									'find:personne:nom,prenom:id:personne_id'
+    									'find:personne:nom=nom,prenom=prenom:id:personne_id'
     	    							),
     								),
     							),
