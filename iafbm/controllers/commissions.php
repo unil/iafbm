@@ -40,18 +40,19 @@ class CommissionsController extends iaWebController {
         // Adds '_president' ghost field (if applicable)
         $return = xModel::load($this->model, $this->params)->return;
         if (xUtil::in_array(array('*', '_president'), $return)) {
-        foreach ($commissions['items'] as &$commission) {
-            $president = array_shift(xModel::load(
-                'commission_membre',
-                array(
-                    'commission_id' => $commission['id'],
-                    'commission_fonction_id' => 1,
-                    'xjoin' => 'personne'
-                )
-            )->get());
-            $commission['_president'] = ($president) ?
-                "{$president['personne_prenom']} {$president['personne_nom']}" :
-                '-';
+            foreach ($commissions['items'] as &$commission) {
+                $president = array_shift(xModel::load(
+                    'commission_membre',
+                    array(
+                        'commission_id' => $commission['id'],
+                        'commission_fonction_id' => 1,
+                        'xjoin' => 'personne'
+                    )
+                )->get());
+                $commission['_president'] = ($president) ?
+                    "{$president['personne_prenom']} {$president['personne_nom']}" :
+                    '-';
+            }
         }
         return $commissions;
     }
