@@ -619,7 +619,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                         '<div>',
                         '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
                         '  <h3>{prenom} {nom}</h3>',
-                        '  <div>{pays_nom} {[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
+                        '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
                         '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
                         '</div>'
                     ].join('');
