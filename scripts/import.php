@@ -313,6 +313,7 @@ class iafbmImportScript extends iafbmScript {
     								),
     	    	    				'operation' => array(
     									'distinct:personne_id',
+    									'delete_blanks:email',
     								),
     						), 	
     					),
