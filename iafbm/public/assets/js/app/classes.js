@@ -102,6 +102,11 @@ Ext.define('Ext.ia.data.Store', {
     autoSync: false,
     params: {},
     loaded: false,
+    constructor: function(config) {
+        this.callParent(arguments);
+        // Ensures store.params is a hashtable
+        this.params = this.params || {};
+    },
     applyParamsToProxy: function() {
         // Fix: this.proxy.extraParams is sometimes set to undefined,
         // which prevents to Ext.apply() this.params to the proxy extraParams.
@@ -705,20 +710,15 @@ Ext.define('Ext.ia.form.SearchField', {
         // Makes sure store.param is a hashmap
         // FIXME: why is it always reset to NULL ?
         //        (eg. in Personne grid, but not in Commission candidats grid)
-//console.log(store.params);
-        if (!Ext.isObject(store.params)) store.params = Ext.apply({}, store.params);
-//console.log(store.params);
         // Applies store params
         store.params[me.paramName] = value;
-//console.log(store.params);
         me.hasSearch = true;
         me.triggerEl.item(0).setDisplayed('block');
         me.doComponentLayout();
-        // Data refresh
-        store.load();
-        // Paging reset (if applicable)
+        // Data refresh or Paging reset (whether applicable)
         var paging = this.up('grid').down('pagingtoolbar');
-        if (paging) paging.moveFirst()
+        if (paging) paging.moveFirst();
+        else store.load();
         // Extra event
         this.fireEvent('aftersearch', this);
     }
@@ -827,7 +827,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         // Manages loading message
         this.on({
             beforeload: function() { this.setLoading() },
-            load: function() { this.setLoading(false)}
+            load: function() { this.setLoading(false) }
         });
         // Manages controls disablement when version is set
         this.on({afterrender: function() {
