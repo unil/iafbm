@@ -31,19 +31,23 @@ class PersonnesController extends iaWebController {
 
     function get() {
         $personnes = parent::get();
-        foreach ($personnes['items'] as &$personne) {
-            // Fetches 'Fonction' for the current 'Personne'
-            $fonctions = xModel::load('personne_activite', array(
-                'personne_id' => $personne['id'],
-                'xjoin' => 'activite,activite_nom'
-            ))->get();
-            // Creates a CSV list of 'Fonction'
-            $f = array();
-            foreach($fonctions as $fonction) {
-                $f[] = $fonction['activite_nom_abreviation'];
+        // Adds '_activites' ghost field (if applicable)
+        $return = xModel::load($this->model, $this->params)->return;
+        if (xUtil::in_array(array('*', '_activites'), $return)) {
+            foreach ($personnes['items'] as &$personne) {
+                // Fetches 'Fonction' for the current 'Personne'
+                $fonctions = xModel::load('personne_activite', array(
+                    'personne_id' => $personne['id'],
+                    'xjoin' => 'activite,activite_nom'
+                ))->get();
+                // Creates a CSV list of 'Fonction'
+                $f = array();
+                foreach($fonctions as $fonction) {
+                    $f[] = $fonction['activite_nom_abreviation'];
+                }
+                // Adds it to the resultset
+                $personne['_activites'] = implode(', ', $f);
             }
-            // Adds it to the resultset
-            $personne['_activites'] = implode(', ', $f);
         }
         return $personnes;
     }

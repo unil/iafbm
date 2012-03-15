@@ -103,7 +103,12 @@ Ext.onReady(function() {
             height: 350,
             plugins: [new Ext.ia.grid.plugin.RowEditing()],
             combo: {
-                store: new iafbm.store.Personne(),
+                store: new iafbm.store.Personne({
+                    params: {
+                        xjoin: 'pays',
+                        xreturn: 'id,nom,prenom,pays.nom AS pays_nom,pays.code AS pays_code'
+                    }
+                })
             },
             grid: {
                 store: new iafbm.store.CommissionMembre(),

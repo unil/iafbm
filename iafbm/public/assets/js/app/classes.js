@@ -4,15 +4,6 @@
 Ext.ns('Ext.ia');
 
 /**
- * i18n
- * TODO: FIXME: Move this in locales.js
- */
-Ext.window.MessageBox.prototype.buttonText.yes = 'Oui';
-Ext.window.MessageBox.prototype.buttonText.no = 'Non';
-Ext.window.MessageBox.prototype.buttonText.ok = 'OK';
-Ext.window.MessageBox.prototype.buttonText.cancel = 'Annuler';
-
-/**
  * Quick tips initialization
  */
 Ext.onReady(Ext.tip.QuickTipManager.init);
@@ -563,6 +554,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
     config: {
         combo: {
             store: null,
+            pageSize: 5
         },
         grid: {
             store: null,
@@ -577,7 +569,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             //     field3: 'static value'
             // }
             return record.data;
-        }
+        },
     },
     initComponent: function() {
         // Component
@@ -605,13 +597,14 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         if (!this.store.autoLoad && !this.store.loaded) this.store.load();
     },
     getCombo: function() {
+        // Sets pageSize to combo store
+        this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
+        // Creates combo instance
         //return new Ext.ia.form.field.ComboBox({
         return new Ext.form.field.ComboBox({
             store: this.combo.store,
-            pageSize: 5,
-            limitParam: undefined,
-            startParam: undefined,
-            pageParam: undefined,
+            pageSize: true, // Should equal the store.pageSize, but it works well like that...
+            queryParam: 'xquery',
             typeAhead: false,
             minChars: 1,
             hideTrigger: true,
@@ -626,7 +619,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                         '<div>',
                         '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
                         '  <h3>{prenom} {nom}</h3>',
-                        '  <div>{pays_nom} {[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
+                        '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
                         '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
                         '</div>'
                     ].join('');
