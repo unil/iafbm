@@ -4,15 +4,6 @@
 Ext.ns('Ext.ia');
 
 /**
- * i18n
- * TODO: FIXME: Move this in locales.js
- */
-Ext.window.MessageBox.prototype.buttonText.yes = 'Oui';
-Ext.window.MessageBox.prototype.buttonText.no = 'Non';
-Ext.window.MessageBox.prototype.buttonText.ok = 'OK';
-Ext.window.MessageBox.prototype.buttonText.cancel = 'Annuler';
-
-/**
  * Quick tips initialization
  */
 Ext.onReady(Ext.tip.QuickTipManager.init);
