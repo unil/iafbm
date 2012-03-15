@@ -103,7 +103,7 @@ Ext.onReady(function() {
             height: 350,
             plugins: [new Ext.ia.grid.plugin.RowEditing()],
             combo: {
-                store: new iafbm.store.Personne(),
+                store: new iafbm.store.Personne()
             },
             grid: {
                 store: new iafbm.store.CommissionMembre(),
