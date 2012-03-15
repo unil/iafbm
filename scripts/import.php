@@ -21,17 +21,19 @@ class iafbmImportScript extends iafbmScript {
 	    			foreach ($models as $model_name => $model) {
 	    				$data = $this->write_catalog($model, $input);
 
-	    				if (array_key_exists($model_name, $output)) {
-	    					$temp[$model_name] = $data;
-	    					
-	    					foreach($data as $value) {
-	    						$output[$model_name][] = $value;
-	    					}
+	    				if ($data != null) {
+		    				if (array_key_exists($model_name, $output)) {
+		    					$temp[$model_name] = $data;
+		    					
+		    					foreach($data as $value) {
+		    						$output[$model_name][] = $value;
+		    					}
+		    				}
+		    				else {
+		    					$output[$model_name] = $data;
+		    				}
+		    				$this->local_models = $output;
 	    				}
-	    				else {
-	    					$output[$model_name] = $data;
-	    				}
-	    				$this->local_models = $output;
 	    			}
 	    		}
     		}
@@ -312,7 +314,7 @@ class iafbmImportScript extends iafbmScript {
     	    	    				'operation' => array(
     									'distinct:personne_id',
     								),
-    						), 						
+    						), 	
     					),
     				),
     			),
@@ -354,6 +356,17 @@ class iafbmImportScript extends iafbmScript {
     	    	    				        'adresse_id' => 'id',
     									),
     	    				    	    'operation' => array(
+    									),
+    								),
+    								'personne' => array(
+    	    	    	    	    	'mapping' => array(
+    	    	    	    	    		'id' => 'id',
+    	    	    						'personne_denomination_id' => 'Titre',
+    									),
+    	    	    	    	    	'operation' => array(
+    	    	    	    	    		'delete_blanks:personne_denomination_id',
+    	    	    	    	    		'find:personne_denomination:nom=personne_denomination_id:id:personne_denomination_id',
+    	    	    						'mergeWithModel:personne:id:personne_denomination_id',
     									),
     								),
     							),
@@ -849,10 +862,90 @@ class iafbmImportScript extends iafbmScript {
     			
     			$result = $this->do_merge($data, $operation_array[1], $operation_array[2], $operation_array[3]);
     			break;
+    		case 'delete_blanks' :
+    			/**
+    			 * about: merge n-fields into one filed
+    			 * operation format: string:string:string:(string)
+    			 * [0] : operation (delete_blanks)
+    			 * [1] : fields (if blank entry is deleted)
+    			 *
+    			 * return : array with unique values for specified field
+    			 */
+    			$fields = $operation_array[1];
+    			$fields = explode(',', $fields);
+    			
+    			$result = array();
+    			
+    			foreach($data as $model_name => $item) {
+    				$is_empty = false;
+    				$keys = array_keys($item);
+	    			foreach($fields as $field) {
+		    			if (empty($item[$field])) {
+							$is_empty = true;
+		    			}
+	    			}
+
+    				if (!$is_empty) {
+    					$result[] = $item;
+    				}
+    			}
+    			break;
+    		case 'mergeWithModel' :
+    			/**
+    			* about: merge two models
+    			* operation format: string:string:string:string
+    			* [0] : operation (merge)
+    			* [1] : modelname
+    			* [2] : primary key
+    			* [3] : fields
+    			*
+    			* return : array with unique values for specified field
+    			*/
+    			$model_name = $operation_array[1];
+    			$primary_key_name = $operation_array[2];
+    			$fields = $operation_array[3];
+    			
+    			$fields = explode(",", $fields);
+    			$temp = array();
+    			//echo $primary_key_name;
+    			
+    			
+    			foreach($data as $item_key => $item) {
+    				foreach($item as $key => $value) {
+	    				if (in_array($key, $fields) || $key == $primary_key_name) {
+	    					$temp[$item_key][$key] = $value;
+	    				}
+    				}
+    			}
+    			$this->do_merge_with_model($model_name, $primary_key_name, $temp);
+    			unset($data);
+
+    			break;
     		default :
     			throw new xException("Operation not known exception");
     	}
     	return $result;
+    }
+    
+    protected function do_merge_with_model($model_name, $primary_key_name, $data) {
+    	$model = $this->local_models[$model_name];
+    	
+    	$correspondances = array();
+    	
+    	foreach($data as $key => $item) {
+    		$correspondances[$item[$primary_key_name]] = $key;
+    	}
+
+    	foreach($model as $key_item => $item) {
+    		if (array_key_exists($item[$primary_key_name], $correspondances)) {
+    			foreach($data[$correspondances[$item[$primary_key_name]]] as $key => $value) {
+    				$model[$key_item][$key] = $value; 
+    			}
+    		}
+
+    	}
+		
+		$this->local_models[$model_name] = $model;
     }
 }
 
