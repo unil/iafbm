@@ -37,7 +37,9 @@ class CommissionsController extends iaWebController {
 
     function get() {
         $commissions = parent::get();
-        // Adds '_president' ghost-field
+        // Adds '_president' ghost field (if applicable)
+        $return = xModel::load($this->model, $this->params)->return;
+        if (xUtil::in_array(array('*', '_president'), $return)) {
         foreach ($commissions['items'] as &$commission) {
             $president = array_shift(xModel::load(
                 'commission_membre',
