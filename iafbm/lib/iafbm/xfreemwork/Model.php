@@ -89,7 +89,7 @@ class iaModelMysql extends xModelMysql {
         if (!@$this->params['xversion']) {
             // Unless specified otherwise through 'actif' parameter,
             // adds 'actif'=true in where clause
-            // because we do not want to return the soft-deleted records
+            // because we do not want to count the soft-deleted records
             if (array_key_exists('actif', $this->mapping) && !isset($this->params['actif'])) {
                 $this->params['actif'] = 1;
             }
