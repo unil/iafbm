@@ -310,6 +310,7 @@ class iafbmImportScript extends iafbmScript {
     									'email' => 'Email',
     								),
     	    	    				'operation' => array(
+    									'distinct:personne_id',
     								),
     						), 						
     					),
