@@ -554,6 +554,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
     config: {
         combo: {
             store: null,
+            pageSize: 5
         },
         grid: {
             store: null,
@@ -568,7 +569,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             //     field3: 'static value'
             // }
             return record.data;
-        }
+        },
     },
     initComponent: function() {
         // Component
@@ -596,13 +597,14 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         if (!this.store.autoLoad && !this.store.loaded) this.store.load();
     },
     getCombo: function() {
+        // Sets pageSize to combo store
+        this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
+        // Creates combo instance
         //return new Ext.ia.form.field.ComboBox({
         return new Ext.form.field.ComboBox({
             store: this.combo.store,
-            pageSize: 5,
-            limitParam: undefined,
-            startParam: undefined,
-            pageParam: undefined,
+            pageSize: true, // Should equal the store.pageSize, but it works well like that...
+            queryParam: 'xquery',
             typeAhead: false,
             minChars: 1,
             hideTrigger: true,
