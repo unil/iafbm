@@ -43,11 +43,13 @@ class CandidatModel extends iaModelMysql {
     var $joins = array(
         'genre' => 'LEFT JOIN genres ON (candidats.genre_id = genres.id)',
         'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
-        'pays' => 'LEFT JOIN pays ON (candidats.pays_pro_id = pays.id)',
-        'pays' => 'LEFT JOIN pays ON (candidats.pays_pri_id = pays.id)',
-        'pays' => 'LEFT JOIN pays ON (candidats._id = pays_pri_id.id)',
+        //'pays' => 'LEFT JOIN pays ON (candidats.pays_pro_id = pays.id)',
+        //'pays' => 'LEFT JOIN pays ON (candidats.pays_pri_id = pays.id)',
+        'pays' => 'LEFT JOIN pays ON (candidats.pays_id = pays.id)',
         'commission' => 'LEFT JOIN commissions ON (candidats.commission_id = commissions.id)'
     );
+
+    var $join = array('pays');
 
     var $wheres = array(
         'query' => "{{commission_id}} = {commission_id} AND {{actif}} = 1 AND (1=0 [OR {{*}} LIKE {*}])"

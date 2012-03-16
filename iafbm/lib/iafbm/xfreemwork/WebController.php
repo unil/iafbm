@@ -10,10 +10,10 @@ class iaWebController extends xWebController {
     /**
      * Allowed CRUD operations.
      * Possible values: 'get', 'post', 'put', 'delete'
-     * @see iaWebController::get()
-     * @see iaWebController::post()
-     * @see iaWebController::put()
-     * @see iaWebController::delete()
+     * @see get()
+     * @see post()
+     * @see put()
+     * @see delete()
      * @var array
      */
     var $allow = array('get', 'post', 'put', 'delete');
@@ -21,17 +21,73 @@ class iaWebController extends xWebController {
     /**
      * Fields to query on (for model parameters creation on xquery).
      * Eg. when the xquery parameter is provided with a GET method.
-     * @see iaWebController::get()
+     * @see get()
+     * @var array
      */
     var $query_fields = array();
 
     /**
+     * Fields to transforme before querying.
+     *
+     * For each model field name, the array describes
+     * - either the search AND replace regular expressions
+     * - or the name of one or more transformaers
+     *   (as defined in $query_field_transformers).
+     *
+     * Note that multiple transformers can be specified (see example below).
+     *
+     * Array structure:
+     * <code>
+     * array(
+     *     'fieldname1' => array('/search-regexp/' => '/replace-regexp/'),
+     *     'fieldname2' => 'date-full',
+     *     'fieldname3' => 'date-full,date-binomial'
+     *     ...
+     * )
+     * <code>
+     * @see get()
+     * @see $query_fields
+     * @see $query_fields_transformers
+     * @var array
+     */
+    var $query_fields_transform = array();
+
+    var $query_fields_transformers = array(
+        'date' => array('/^(\d*)\.(\d*)\.(\d*)$/' => '$3-$2-$1'),
+        'date-binomial' => array('/^(\d*)\.(\d*)$/' => '$2-$1')
+    );
+
+    /**
+     * Joins to activate when query is active.
+     * @see xModel::$join
+     * @see $query_fields
+     * @see get()
+     * @var array
+     */
+    var $query_join = array();
+
+    /**
      * Fields to substitute on sort (for model parameters creation on xsort).
-     * Eg. when the xsort parameter is provided with a GET method.
      *
      * Useful for substituing foreign keys (containing numeric ids)
      * with the foreign field name (containing actual text values).
-     * @see iaWebController::get()
+     *
+     * For each model field name, the array describes
+     * - either the other_fieldname to be used as substitute
+     * - or the name of the other_fieldname AND the related join to activate
+     *
+     * Array structure:
+     * <code>
+     * array(
+     *     'fieldname1' => 'other_fieldname1',
+     *     'fieldname2' => array(
+     *         'field' => 'other_fieldname2',
+     *         'join' => 'other_model'
+     *     ),
+     *     ...
+     * )
+     * </code>
+     * @see get()
      */
     var $sort_fields_substitutions = array();
 
@@ -93,11 +149,35 @@ class iaWebController extends xWebController {
      */
     function get() {
         if (!in_array('get', $this->allow)) throw new xException("Method not allowed", 403);
-        // Creates parameters for model instance
-        $params = $this->params;
         // Manages query case
+        $this->handle_query();
+        // Manages sort case
+        $this->handle_sort();
+        // Creates extjs compatible result
+        $params = $this->params;
+        $count_params = xUtil::filter_keys($params, array('xoffset', 'xlimit', 'xorder_by', 'xorder'), true);
+        return array(
+            'xcount' => xModel::load($this->model, $count_params)->count(),
+            'items' => xModel::load($this->model, $params)->get()
+        );
+    }
+
+    /**
+     * Handles query case (eg. 'xquery' parameter is present in parameters).
+     * Transforms existing parameters to induce search behaviour within models.
+     */
+    protected function handle_query() {
+        $params = $this->params;
         if (strlen(@$params['xquery']) > 0) {
-            $model = xModel::load($this->model);
+            $query = $params['xquery'];
+            // Activates join(s) specified in $query_join,
+            // preserving already active joins
+            $params['xjoin'] = array_merge(
+                array_keys(xModel::load($this->model, $params)->joins()),
+                array_keys(xModel::load($this->model, array('xjoin' => $this->query_join))->joins())
+            );
+            // Retrieve model fields names list (including foreign fields)
+            $model = xModel::load($this->model, $params);
             $fields = array_merge(
                 array_keys($model->mapping),
                 array_keys($model->foreign_mapping())
@@ -109,15 +189,58 @@ class iaWebController extends xWebController {
                 // Skips fields existing in params:
                 // these are to be used as constraint
                 if (in_array($field, array_keys($this->params), true)) continue;
+                // Transforms parameter data if applicable
+                // @see $query_fields_transform
+                if (in_array($field, array_keys($this->query_fields_transform))) {
+                    // Retrieves transformers information
+                    $transform = $this->query_fields_transform[$field];
+                    $infos = array();
+                    if (is_array($transform)) {
+                        // TODO
+                        $infos[] = array(
+                            'search' => array_shift(array_keys($transform)),
+                            'replace' => array_shift(array_values($transform))
+                        );
+                    } else {
+                        $transformers = array_map('trim', explode(',', $transform));
+                        foreach ($transformers as $transformer) {
+                            $transformer = $this->query_fields_transformers[$transformer];
+                            $infos[] = array(
+                                'search' => array_shift(array_keys($transformer)),
+                                'replace' => array_shift(array_values($transformer))
+                            );
+                        }
+                    }
+                    // Applies transformers to query value
+                    foreach ($infos as $info) {
+                        $query_transformed = preg_replace($info['search'], $info['replace'], $query, -1, $count);
+                        if ($query_transformed === null) throw new xException("Error transforming query parameter for field ({$field}), value ({$query})", 500);
+                        // If transformer worked, stop here
+                        // Otherwise, continue with next transformer
+                        if ($count) {
+                            $query = $query_transformed;
+                            break;
+                        }
+                    }
+                }
                 // Adds model parameters
-                $params[$field] = "%{$this->params['xquery']}%";
+                $params[$field] = "%{$query}%";
                 $params["{$field}_comparator"] = 'LIKE';
                 $params["{$field}_operator"] = 'OR';
             }
             // Removes query param
             unset($params['xquery']);
+            // Sets modified parameters
+            $this->params = $params;
         }
-        // Manages sort case
+    }
+
+    /**
+     * Handles sort case (eg. 'xsort' parameter is present in parameters).
+     * Transforms existing parameters to change sort parameters within models.
+     */
+    protected function handle_sort() {
+        $params = $this->params;
         if (strlen(@$params['xsort']) > 0) {
             $info = array_shift(json_decode($params['xsort']));
             $property = @$info->property;
@@ -128,12 +251,14 @@ class iaWebController extends xWebController {
                 // Substitutes field name
                 $info = $this->sort_fields_substitutions[$property];
                 if (is_array($info)) {
-                    $property = $info['field'];
-                    $join = $info['join'];
+                    $property_substitued = @$info['field'];
+                    $join = @$info['join'];
                 } else {
-                    $property = $info;
+                    $property_substitued = $info;
                     $join = null;
                 }
+                if (!$property_substitued) throw new xException("Error substituing field ($property_substitued)");
+                $property = $property_substitued;
                 // Activates join(s) relative to field (if applicable),
                 // preserving already active joins
                 if ($join) {
@@ -147,13 +272,9 @@ class iaWebController extends xWebController {
             $params['xorder_by'] = $property;
             $params['xorder'] = $direction;
             unset($params['xsort']);
+            // Sets modified parameters
+            $this->params = $params;
         }
-        // Creates extjs compatible result
-        $count_params = xUtil::filter_keys($params, array('xoffset', 'xlimit', 'xorder_by', 'xorder'), true);
-        return array(
-            'xcount' => xModel::load($this->model, $count_params)->count(),
-            'items' => xModel::load($this->model, $params)->get()
-        );
     }
 
     /**
