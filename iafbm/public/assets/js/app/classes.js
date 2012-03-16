@@ -564,7 +564,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         grid: {
             store: null,
             autoSync: false,
-            params: {}
         },
         makeData: function(record) {
             // Returns a hashtable for feeding Ext.data.Model data, eg:
@@ -596,8 +595,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         var me = this; me.callParent();
         // Sets store to autoSync changes
         this.store.autoSync = this.grid.autoSync;
-        // Sets grid params to store baseParams
-        this.store.params = this.grid.params;
         // Manages store autoloading
         if (!this.store.autoLoad && !this.store.loaded) this.store.load();
     },
@@ -725,6 +722,26 @@ Ext.define('Ext.ia.form.SearchField', {
 });
 
 /**
+ * Extends Ext.ux.form.SearchField with
+ * - events firing: beforesearch, aftersearch and resetsearch
+ */
+Ext.define('Ext.ia.toolbar.Paging', {
+    extend: 'Ext.toolbar.Paging',
+    alias: 'widget.ia-pagingtoolbar',
+    store: null,
+    displayInfo: true,
+    displayMsg: 'Eléments {0} à {1} sur {2}',
+    emptyMsg: "Aucun élément à afficher",
+    items: [],
+    listeners: {
+        // Wait for render time so that the grid store is created
+        // and ready to be bound to the pager
+        beforerender: function() { this.bindStore(this.up('gridpanel').store) }
+    }
+    //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
+});
+
+/**
  * Extends Ext.grid.Panel with
  * - Ext.ia.grid.plugin.RowEditing plugin
  * - Add / Delete buttons
@@ -756,19 +773,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
     editingPluginId: null,
     plugins: [],
     dockedItems: [],
-    bbar: new Ext.PagingToolbar({
-        store: null,
-        displayInfo: true,
-        displayMsg: 'Eléments {0} à {1} sur {2}',
-        emptyMsg: "Aucun élément à afficher",
-        items:[],
-        listeners: {
-            // Wait for render time so that the grid store is created
-            // and ready to be bound to the pager
-            beforerender: function() { this.bindStore(this.up('gridpanel').store) }
-        }
-        //plugins: Ext.create('Ext.ux.ProgressBarPager', {})
-    }),
+    bbar: new Ext.ia.toolbar.Paging(),
     initComponent: function() {
         this.addEvents(
             /**
