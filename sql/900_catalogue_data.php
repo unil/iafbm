@@ -352,6 +352,36 @@ $catalogue_data = array(
             'nom' => 'Commission de présentation',
             'racine' => 'Présentation'
         ),
+		array(
+            'id' => '2',
+            'actif' => '1',
+            'nom' => 'Groupe de réflexion',
+            'racine' => 'Réflexion'
+		),
+		array(
+            'id' => '3',
+            'actif' => '1',
+            'nom' => 'Commission de promotion',
+            'racine' => 'Promotion'
+		),
+		array(
+            'id' => '4',
+            'actif' => '1',
+            'nom' => 'Commission de stabilisation',
+            'racine' => 'Stabilisation'
+		),
+		array(
+            'id' => '5',
+            'actif' => '1',
+            'nom' => 'Commission de titularisation',
+            'racine' => 'Titularisation'
+		),
+		array(
+            'id' => '6',
+            'actif' => '1',
+            'nom' => 'Commission d\'appel',
+            'racine' => 'Appel'
+		),
     ),
     'commission_fonction' => array(
         array(
