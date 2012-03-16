@@ -111,10 +111,15 @@ Ext.onReady(function() {
                 })
             },
             grid: {
-                store: new iafbm.store.CommissionMembre(),
-                params: {
-                    commission_id: <?php echo $d['id'] ?>
-                },
+                store: new iafbm.store.CommissionMembre({
+                    params: {
+                        commission_id: <?php echo $d['id'] ?>
+                    },
+                    sorters: [{
+                        property : 'commission_fonction_position',
+                        direction: 'ASC'
+                    }]
+                }),
                 columns: iafbm.columns.CommissionMembre
             },
             makeData: function(record) {

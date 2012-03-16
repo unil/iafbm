@@ -125,15 +125,14 @@ class CommissionMembreModel extends iaModelMysql {
      * @see https://github.com/unil/iafbm/issues/118
      */
     function get($rownum=null) {
+        // No need to version record if join is not required
         if (!in_array('personne', $this->join)) return parent::get($rownum);
-        // Disables the 'personne' join
-        // for filling a versioned 'personne' data
-        unset($this->join[array_search('personne', $this->join)]);
-        // Retrieves records
+        // Retrieves records (at current version)
         $records = parent::get($rownum);
         // Ensuring it is an array of records (in case where $rownum is defined)
         $records = isset($rownum) ? array($records) : $records;
-        // Simulates the 'personne' join, applying versioned personne record
+        // Updates the 'personne' join, applying versioned personne record
+        $personne_updated = false;
         foreach ($records as &$record) {
             if (!$record) continue;
             $personne = xModel::load('personne', array(
@@ -142,6 +141,7 @@ class CommissionMembreModel extends iaModelMysql {
             ))->get(0);
             foreach ($personne as $field => $value) {
                 $record["personne_{$field}"] = $value;
+                $personne_updated = true;
             }
         }
         // Adds 'uptodate' ghost field
@@ -157,7 +157,22 @@ class CommissionMembreModel extends iaModelMysql {
             // Sets 'uptodate' ghost field
             $record['_uptodate'] = !(bool)$count;
         }
+        // Sorts results on personne field
+        // (if defined by xorder_by and xorder && personne data was updated due to versioning)
+        $personne_fields = array_keys($this->foreign_mapping('personne'));
+        if ($personne_updated && in_array(@$this->params['xorder_by'], $personne_fields)) {
+            $success = usort($records, array($this, '_sort_results'));
+            if (!$success) throw new xException('Error sorting restults');
+        }
         // Returns result(s)
         return isset($rownum) ? $records[$rownum] : $records;
+    }
+    protected function _sort_results($a, $b) {
+        $property = @$this->params['xorder_by'];
+        $direction = @$this->params['xorder'];
+        if (!$property) return 0;
+        $return = $a[$property] > $b[$property] ? 1 : -1;
+        if (strtolower($direction) == 'desc') $return = $return * -1;
+        return $return;
     }
 }
