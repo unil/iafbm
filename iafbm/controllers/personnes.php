@@ -44,7 +44,9 @@ class PersonnesController extends iaWebController {
                 // Fetches 'Fonction' for the current 'Personne'
                 $fonctions = xModel::load('personne_activite', array(
                     'personne_id' => $personne['id'],
-                    'xjoin' => 'activite,activite_nom'
+                    'xjoin' => 'activite,activite_nom',
+                    'xorder_by' => 'activite_nom_abreviation',
+                    'xorder' => 'ASC'
                 ))->get();
                 // Creates a CSV list of 'Fonction'
                 $f = array();
