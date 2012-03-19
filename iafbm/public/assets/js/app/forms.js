@@ -299,14 +299,9 @@ Ext.define('iafbm.form.Personne', {
     frame: true,
     initComponent: function() {
         this.items = [{
-            xtype: 'fieldcontainer',
-            layout: 'hbox',
-            items: [{
-                xtype: 'ia-combo-version',
-                tables: ['personnes', 'adresses', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_formations', 'personnes_activites', 'commissions_membres']
-            }, {
-                xtype: 'ia-create-version'
-            }]
+            xtype: 'ia-versioning',
+            modelname: 'personne',
+            modelid: 1 //FIXME: make it dynamic!
         }, {
             xtype: 'fieldcontainer',
             layout: 'hbox',

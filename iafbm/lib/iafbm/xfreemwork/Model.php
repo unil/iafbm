@@ -326,10 +326,8 @@ class iaModelMysql extends xModelMysql {
             'commentaire' => $commentaire
         ))->put();
         $version_id = $version_result['insertid'];
-        // Do not write version data if no change has been made
-        if (!$changes) return $version_result;
         if(!$version_id) throw new xException('Error while creating version');
-        // Writes version data
+        // Writes version data (if any)
         foreach ($changes as $field => $value) {
             xModel::load('version_data', array(
                 'version_id' => $version_id,

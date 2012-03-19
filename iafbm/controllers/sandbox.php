@@ -274,4 +274,38 @@ EOL;
         ));
         xUtil::pre($controller->get());
     }
+
+    function versionComboAction() {
+return <<<EOL
+<div id="target"></div>
+<script>
+Ext.onReady(function() {
+
+form = Ext.create('Ext.ia.Versioning', {
+    renderTo: 'target',
+    modelname: 'personne',
+    modelid: 1
+});
+
+});
+</script>
+EOL;
+    }
+
+    function formTogglableAction() {
+return <<<EOL
+<div id="target"></div>
+<script>
+Ext.onReady(function() {
+
+form = Ext.create('Ext.ia.Versioning', {
+    renderTo: 'target',
+    modelname: 'personne',
+    modelid: 1
+});
+
+});
+</script>
+EOL;
+    }
 }
