@@ -34,7 +34,12 @@ class PersonneModel extends iaModelMysql {
         'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
         'canton' => 'LEFT JOIN cantons ON (personnes.canton_id = cantons.id)',
         'pays' => 'LEFT JOIN pays ON (personnes.pays_id = pays.id)',
-        'permis' => 'LEFT JOIN permis ON (personnes.permis_id = permis.id)'
+        'permis' => 'LEFT JOIN permis ON (personnes.permis_id = permis.id)',
+        // Careful: join 'activite_nom' causes duplicate records to be returned
+        'activite_nom' => '
+            LEFT JOIN personnes_activites ON (personnes.id = personnes_activites.personne_id)
+            LEFT JOIN activites ON (personnes_activites.activite_id = activites.id)
+            LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)'
     );
 
     var $join = 'pays';
