@@ -26,7 +26,7 @@ abstract class AbstractCommissionController extends iaWebController {
     protected function check_closed() {
         // Depending on child class using this method,
         // the 'id' or 'commission_id' parameter is to be used
-        $id = (strtolower(get_class()) == 'commissionscontroller') ? @$this->params['id'] : @$this->params['commission_id'];
+        $id = @$this->params['commission_id'] ? @$this->params['commission_id'] : @$this->params['id'];
         if (!$id) throw new xException('Missing id parameter');
         $commission = xModel::load('commission', array(
             'id' => $id
