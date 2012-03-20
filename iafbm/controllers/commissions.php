@@ -1,6 +1,44 @@
 <?php
 
-class CommissionsController extends iaWebController {
+/**
+ * This abstract controller should be extended
+ * by every controller that relates to a commission.
+ *
+ * It implements:
+ * - a check that prevents a closed commission to be modified
+*/
+abstract class AbstractCommissionController extends iaWebController {
+
+    function post() {
+        $this->check_closed();
+        return parent::post();
+    }
+
+    function put() {
+        $this->check_closed();
+        return parent::put();
+    }
+
+    /**
+     * Prevents modifications if commission status is 'closed'
+     * by throwing an exection if the given commission id is closed
+     */
+    protected function check_closed() {
+        // Depending on child class using this method,
+        // the 'id' or 'commission_id' parameter is to be used
+        $id = (strtolower(get_class()) == 'commissionscontroller') ? @$this->params['id'] : @$this->params['commission_id'];
+        if (!$id) throw new xException('Missing id parameter');
+        $commission = xModel::load('commission', array(
+            'id' => $id
+        ))->get(0);
+        if (!$commission) throw new xException("Commission does not exist (id: {$id})");
+        if ($commission['commission_etat_id'] == 3) {
+            throw new xException('Cannot modify a closed commission', 403);
+        }
+    }
+}
+
+class CommissionsController extends AbstractCommissionController {
 
     var $model = 'commission';
 
@@ -58,16 +96,13 @@ class CommissionsController extends iaWebController {
     }
 
     /**
-     * Prevents from modifying a 'closed' commission
+     * Manages commission 'closed-lock' and archiving:
+     * - Prevents from modifying a 'closed' commission
+     * - Archives commission when commission_etat becomes 'closed'
+     * @see AbstractCommissionController
      */
     function post() {
-        // Prevents modifications if commission status is 'closed'
-        $commission = xModel::load('commission', array(
-            'id' => $this->params['id']
-        ))->get(0);
-        if ($commission['commission_etat_id'] == 3) {
-            throw new xException('Cannot modify a closed commission', 403);
-        }
+        $this->check_closed();
         // Actual commission modification
         $t = new xTransaction();
         $t->start();

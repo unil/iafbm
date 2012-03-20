@@ -1,6 +1,8 @@
 <?php
 
-class CandidatsController extends iaWebController {
+require_once('commissions.php');
+
+class CandidatsController extends AbstractCommissionController {
 
     var $model = 'candidat';
 

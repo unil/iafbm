@@ -1,7 +1,7 @@
 <?php
 
-class CommissionsCreationsController extends iaWebController {
+require_once('commissions.php');
 
+class CommissionsCreationsController extends AbstractCommissionController {
     var $model = 'commission_creation';
-
 }
