@@ -20,29 +20,6 @@ Ext.onReady(function() {
             anchor: '100%'
         },
         items: [{
-            html: '<b>Cette commission est clôturée</b>',
-            border: false,
-            style: {
-                'border': '1px solid #500',
-                'margin': '0 0 20px 0'
-            },
-            bodyStyle: {
-                'padding': '10px',
-                'color': '#300',
-                'background-color': '#fdd'
-            },
-            // Display logic
-            hidden: true,
-            listeners: {added: function() {
-                var me = this,
-                    form = this.up('form');
-                form.on('load', function() {
-                    if (this.getRecord().get('commission_etat_id') == 3) {
-                        me.show();
-                    }
-                });
-            }}
-        },{
             xtype: 'fieldcontainer',
             combineErrors: true,
             layout: 'hbox',
