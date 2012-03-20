@@ -1107,11 +1107,15 @@ Ext.define('Ext.ia.button.CreateVersion', {
     alias: 'widget.ia-create-version',
     text:'Créer une version',
     model: null, // model constructor
+    getForm: function() {
+        return this.up('form');
+    },
     createVersion: function() {
         var me = this,
             field = this.menu.down('textfield'),
             comment = field.getValue(),
-            record = this.up('form').record,
+            form = this.getForm(),
+            record = form.record,
             id = record.get('id'),
             url = record.proxy.url;
         // Call model url + id + tag xmethod
@@ -1142,7 +1146,6 @@ Ext.define('Ext.ia.button.CreateVersion', {
                 items: [{
                     xtype: 'textfield',
                     //allowBlank: false, // FIXME: Messes with form validation
-                    maskRe: /[a-z\s\S]/,
                     fieldLabel: 'Commentaire',
                     labelWidth: 75,
                     width: 250
@@ -1265,29 +1268,19 @@ Ext.define('Ext.ia.Versioning', {
     extend:'Ext.container.Container',
     alias: 'widget.ia-versioning',
     layout: { type: 'hbox' },
-    modelname: null,
-    modelid: null,
+    comboConfig: {
+        modelname: null,
+        modelid: null,
+        getTopLevelComponent: null
+    },
     initComponent: function() {
-        this.items = [{
-            xtype: 'ia-combo-version',
-            modelname: this.modelname,
-            modelid: this.modelid
-        }, {
-            xtype: 'ia-create-version'
-        }];
+        this.items = [
+            Ext.apply({xtype: 'ia-combo-version'},this.comboConfig),
+            Ext.apply({xtype: 'ia-create-version'},this.formConfig)
+        ];
         // Parent init
         var me = this;
         me.callParent();
-    }
-});
-
-Ext.define('Ext.ia.FormTogglable', {
-    extend:'Ext.container.Container',
-    alias: 'widget.ia-form-togglable',
-    button: null,
-    form: null,
-    initComponent: function() {
-        this.callParent();
     }
 });
 
