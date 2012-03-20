@@ -1,6 +1,8 @@
 <?php
 
-class CandidatsController extends iaWebController {
+require_once('commissions.php');
+
+class CandidatsController extends AbstractCommissionController {
 
     var $model = 'candidat';
 
@@ -28,5 +30,42 @@ class CandidatsController extends iaWebController {
             'id' => $this->params['id'],
         );
         return xView::load('candidats/detail', $data, $this->meta)->render();
+    }
+
+    /**
+     * Ensures 'nom' + 'prenom' fields begin with capitals.
+     * @see PersonnesController
+     * @see transform_params()
+     */
+    function post() {
+        $this->transform_params();
+        return parent::post();
+    }
+
+    /**
+     * Ensures 'nom' + 'prenom' fields begin with capitals.
+     * @see PersonnesController
+     * @see transform_params()
+     */
+    function put() {
+        $this->transform_params();
+        return parent::put();
+    }
+
+    /**
+     * @see PersonnesController
+     */
+    protected function transform_params() {
+        foreach (array('nom', 'prenom') as $p) {
+            $param = &$this->params['items'][$p];
+            if (isset($param))
+                $param = $this->ucnames($param);
+        }
+    }
+    /**
+     * @see PersonnesController
+     */
+    protected function ucnames($str) {
+        return str_replace('- ','-',ucwords(str_replace('-','- ',$str)));
     }
 }

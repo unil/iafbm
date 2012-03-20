@@ -1,6 +1,9 @@
 <?php
 
-class CommissionsMembresController extends iaWebController {
+require_once('commissions.php');
+
+class CommissionsMembresController extends AbstractCommissionController {
+
     var $model = 'commission_membre';
 
     var $sort_fields_substitutions = array(
