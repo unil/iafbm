@@ -19,7 +19,7 @@
   </head>
   <body>
   <div style="text-align: center; font-weight: bold;">
-      Suivre le développement en cliquant <a href="https://github.com/unil/iafbm/issues" target="_blank"> ici</a>
+      <a href="https://wwwfbm.unil.ch/wiki/iafbm/" target="_blank">Suivi du projet</a>
     </div>
 	<!-- BEGIN PAGE -->
 	<div id="page">

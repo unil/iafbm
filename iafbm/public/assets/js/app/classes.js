@@ -1482,6 +1482,29 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         tab.setIconCls(cls);
     },
     initComponent: function() {
+        // 'Closed commission' information message display
+        this.tbar = {
+            xtype: 'panel',
+            html: '<b>Cette commission est clôturée et ne peut être modifiée</b>',
+            bodyStyle: {
+                padding: '15px',
+                background: '#dfd',
+                color: '#030',
+                'text-align': 'center'
+            },
+            // Display logic
+            hidden: true,
+            listeners: {added: function() {
+                var me = this,
+                    form_apercu = this.up('tabpanel').items.getAt(0).down('form');
+                form_apercu.on('load', function() {
+                    if (this.getRecord().get('commission_etat_id') == 3) {
+                        me.show();
+                    }
+                });
+            }}
+        }
+        // Component initialisation
         var me = this;
         me.callParent();
         // For each tab, update its visual state on the form load event
