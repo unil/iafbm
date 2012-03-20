@@ -96,19 +96,13 @@ class CommissionsController extends iaWebController {
         $t->execute(xModel::load('commission', $params), 'put');
         $insertid = $t->insertid();
         // Inserts related items
-        switch (@$params['commission_type_id']) {
-            case 1:
-                $items = array(
-                    xModel::load('commission_creation', array('commission_id'=>$insertid)),
-                    xModel::load('commission_candidat_commentaire', array('commission_id'=>$insertid)),
-                    xModel::load('commission_travail', array('commission_id'=>$insertid)),
-                    xModel::load('commission_validation', array('commission_id'=>$insertid)),
-                    xModel::load('commission_finalisation', array('commission_id'=>$insertid))
-                );
-                break;
-            default:
-                throw new xException('Unknown commission type', 500);
-        }
+        $items = array(
+            xModel::load('commission_creation', array('commission_id'=>$insertid)),
+            xModel::load('commission_candidat_commentaire', array('commission_id'=>$insertid)),
+            xModel::load('commission_travail', array('commission_id'=>$insertid)),
+            xModel::load('commission_validation', array('commission_id'=>$insertid)),
+            xModel::load('commission_finalisation', array('commission_id'=>$insertid))
+        );
         foreach ($items as $item) $t->execute($item, 'put');
         $r = $t->end();
         $r['items'] = array_shift(xModel::load('commission', array('id' => $insertid))->get());
