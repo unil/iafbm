@@ -7,6 +7,7 @@
 Ext.onReady(function() {
 
     // Shared Candidat store
+    // between form_candidat and form_finalisation
     var store_candidat = new iafbm.store.Candidat();
 
     var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
