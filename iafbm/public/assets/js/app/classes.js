@@ -1107,11 +1107,15 @@ Ext.define('Ext.ia.button.CreateVersion', {
     alias: 'widget.ia-create-version',
     text:'Créer une version',
     model: null, // model constructor
+    getForm: function() {
+        return this.up('form');
+    },
     createVersion: function() {
         var me = this,
             field = this.menu.down('textfield'),
             comment = field.getValue(),
-            record = this.up('form').record,
+            form = this.getForm(),
+            record = form.record,
             id = record.get('id'),
             url = record.proxy.url;
         // Call model url + id + tag xmethod
@@ -1173,17 +1177,20 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     listConfig: {
         getInnerTpl: function() {
             return [
-                '<tpl if="id==0">Version actuelle</tpl>',
-                '<tpl if="id!=0">{id}</tpl>',
-                '<tpl if="commentaire"> - {commentaire}</tpl>',
+                '<div>',
+                '  <tpl if="version_id==0">Version actuelle</tpl>',
+                '  <tpl if="version_id!=0">{version_id}</tpl>',
+                '  <tpl if="version_commentaire"> - {version_commentaire}</tpl>',
+                '</div>'
             ].join('');
         }
     },
     emptyText: 'Version actuelle',
-    valueField: 'id',
-    displayField: 'id',
+    valueField: 'version_id',
+    displayField: 'version_id',
     store: null,
-    tables: [],
+    modelname: null,
+    modelid: null,
     getTopLevelComponent: function() {
         return this.up('form');
     },
@@ -1221,20 +1228,18 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
             'changeversion'
         ]);
         //
-        this.store = new iafbm.store.Version({
+        this.store = new iafbm.store.VersionRelation({
             params: {
-                'table_name[]': this.tables,
-                //operation: 'tag',
-                xorder_by: 'id',
+                model_name: this.modelname,
+                id_field_value: this.modelid,
+                version_operation: 'tag',
+                xorder_by: 'version_id',
                 xorder: 'DESC'
             }
         });
         // Adds a record for current version
         this.store.on({load: function() {
-            // Label last version as 'actual version'
-            var record = this.getAt(0);
-            if (record) record.set({id: 0});
-            else this.add({id: 0});
+            this.insert(0, {id: 0});
         }});
         //
         var me = this;
@@ -1243,7 +1248,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         this.on({
             select: function(combo, records) {
                 var record = records.shift(),
-                    version = record.get('id');
+                    version = record.get('version_id');
                 this.changeVersion(version);
                 this.fireEvent('changeversion', me, version);
                 // Sets templated text in combo
@@ -1256,6 +1261,26 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 this.store.load();
             }
         });
+    }
+});
+
+Ext.define('Ext.ia.Versioning', {
+    extend:'Ext.container.Container',
+    alias: 'widget.ia-versioning',
+    layout: { type: 'hbox' },
+    comboConfig: {
+        modelname: null,
+        modelid: null,
+        getTopLevelComponent: null
+    },
+    initComponent: function() {
+        this.items = [
+            Ext.apply({xtype: 'ia-combo-version'},this.comboConfig),
+            Ext.apply({xtype: 'ia-create-version'},this.formConfig)
+        ];
+        // Parent init
+        var me = this;
+        me.callParent();
     }
 });
 
@@ -1482,6 +1507,29 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         tab.setIconCls(cls);
     },
     initComponent: function() {
+        // 'Closed commission' information message display
+        this.tbar = {
+            xtype: 'panel',
+            html: '<b>Cette commission est clôturée et ne peut être modifiée</b>',
+            bodyStyle: {
+                padding: '15px',
+                background: '#dfd',
+                color: '#030',
+                'text-align': 'center'
+            },
+            // Display logic
+            hidden: true,
+            listeners: {added: function() {
+                var me = this,
+                    form_apercu = this.up('tabpanel').items.getAt(0).down('form');
+                form_apercu.on('load', function() {
+                    if (this.getRecord().get('commission_etat_id') == 3) {
+                        me.show();
+                    }
+                });
+            }}
+        }
+        // Component initialisation
         var me = this;
         me.callParent();
         // For each tab, update its visual state on the form load event

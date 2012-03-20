@@ -1,6 +1,8 @@
 <?php
 
-class CommissionsTypesController extends iaWebController {
+require_once('commissions.php');
+
+class CommissionsTypesController extends AbstractCommissionController {
 
     var $model = 'commission_type';
     var $allow = array('get');

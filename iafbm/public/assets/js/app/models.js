@@ -663,12 +663,39 @@ Ext.define('iafbm.model.VersionData', {
         {name: 'version_id_field_name', type: 'string'},
         {name: 'version_id_field_value', type: 'string'},
         {name: 'version_model_name', type: 'string'},
-        {name: 'version_operation', type: 'string'}
+        {name: 'version_operation', type: 'string'},
+        {name: 'version_commentaire', type: 'string'}
     ],
     validations: [],
     proxy: {
         type: 'ia-rest',
         url: x.context.baseuri+'/api/versions_data',
+    }
+});
+
+Ext.define('iafbm.model.VersionRelation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'version_id', type: 'int'},
+        {name: 'table_name', type: 'string'},
+        {name: 'model_name', type: 'string'},
+        {name: 'id_field_name', type: 'string'},
+        {name: 'id_field_value', type: 'string'},
+        // Foreign 'Version' fields
+        {name: 'version_created', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'version_creator', type: 'string'},
+        {name: 'version_table_name', type: 'string'},
+        {name: 'version_id_field_name', type: 'string'},
+        {name: 'version_id_field_value', type: 'string'},
+        {name: 'version_model_name', type: 'string'},
+        {name: 'version_operation', type: 'string'},
+        {name: 'version_commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/versions_relations',
     }
 });
 
