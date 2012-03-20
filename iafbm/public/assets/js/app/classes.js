@@ -837,15 +837,15 @@ Ext.define('Ext.ia.grid.EditPanel', {
         // Manages controls disablement when version is set
         this.on({afterrender: function() {
             // FIXME: This is dirty because the grid should not
-            //        be aware of the ia-combo-version
+            //        be aware of the ia-version-combo
             var me = this,
-                // Finds the ia-combo-version contained in plain forms
+                // Finds the ia-version-combo contained in plain forms
                 form = this.up('form'),
-                form_combo = form ? form.down('ia-combo-version') : null,
-                // Finds the ia-combo-version contained in 'commission' forms
+                form_combo = form ? form.down('ia-version-combo') : null,
+                // Finds the ia-version-combo contained in 'commission' forms
                 tabpanel = this.up('tabpanel'),
                 panel = tabpanel ? tabpanel.up('panel') : null,
-                panel_combo = panel ? panel.down('ia-combo-version') : null,
+                panel_combo = panel ? panel.down('ia-version-combo') : null,
                 //
                 combo = form_combo || panel_combo;
             if (!combo) return;
@@ -1104,8 +1104,45 @@ Ext.override(Ext.form.BasicForm, {
  */
 Ext.define('Ext.ia.button.CreateVersion', {
     extend:'Ext.Button',
-    alias: 'widget.ia-create-version',
+    alias: 'widget.ia-version-create',
     text:'Créer une version',
+    handler: function() {
+        new Ext.window.Window({
+            title: 'Créer une version',
+            autoShow: true,
+            modal: true,
+            frame: false,
+            resizable: false,
+            items: [{
+                xtype: 'form',
+                layout: 'anchor',
+                defaults: {
+                    anchor: '100%'
+                },
+                border: false,
+                width: 330,
+                items: [{
+                    html: "Cette action crée une version qui consiste en un instantané de l'état actuel de la commission.",
+                    border: false,
+                    padding: 10
+                }, {
+                    xtype: 'textfield',
+                    allowBlank: false, // FIXME: Messes with form validation
+                    fieldLabel: 'Commentaire',
+                    labelWidth: 75,
+                    width: 250
+                }],
+                buttons: [{
+                    xtype: 'button',
+                    text: 'Créer',
+                    flex: 1,
+                    formBind: true, //only enabled once the form is valid
+                    disabled: true,
+                    handler: function() { me.createVersion() }
+                }]
+            }]
+        });
+    },
     model: null, // model constructor
     getForm: function() {
         return this.up('form');
@@ -1136,6 +1173,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
     },
     initComponent: function() {
         var me = this;
+/*
         // Creates button menu
         this.menu = {
             items: [{
@@ -1157,6 +1195,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
                 }]
             }],
         };
+*/
         // Inits component
         me.callParent();
     },
@@ -1171,7 +1210,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
  */
 Ext.define('Ext.ia.form.field.VersionComboBox', {
     extend:'Ext.form.field.ComboBox',
-    alias: 'widget.ia-combo-version',
+    alias: 'widget.ia-version-combo',
     typeAhead: false,
     editable: false,
     listConfig: {
@@ -1275,12 +1314,10 @@ Ext.define('Ext.ia.Versioning', {
     },
     initComponent: function() {
         this.items = [
-            Ext.apply({xtype: 'ia-combo-version'},this.comboConfig),
-            Ext.apply({xtype: 'ia-create-version'},this.formConfig)
+            Ext.apply({xtype: 'ia-version-combo'},this.comboConfig),
+            Ext.apply({xtype: 'ia-version-create'},this.formConfig)
         ];
-        // Parent init
-        var me = this;
-        me.callParent();
+        this.callParent();
     }
 });
 
@@ -1388,8 +1425,8 @@ Ext.define('Ext.ia.form.Panel', {
         var record = this.record;
         if (!record) return false;
         this.form.getFields().each(function(f) {
-            // Skips ia-combo-version fields
-            if (f.isXType('ia-combo-version')) return;
+            // Skips ia-version-combo fields
+            if (f.isXType('ia-version-combo')) return;
             // Skips fields that do not exist in record
             if (!Ext.Array.contains(record.fields.keys, f.name)) return;
             // Skips not-modified fields
@@ -1457,15 +1494,15 @@ Ext.define('Ext.ia.form.Panel', {
                     // Disables button if a version is selected
                     this.on({afterrender: function() {
                         // FIXME: This is dirty because the grid should not
-                        //        be aware of the ia-combo-version
+                        //        be aware of the ia-version-combo
                         var me = this,
-                            // Finds the ia-combo-version contained in plain forms
+                            // Finds the ia-version-combo contained in plain forms
                             form = this.up('form'),
-                            form_combo = form ? form.down('ia-combo-version') : null,
-                            // Finds the ia-combo-version contained in 'commission' forms
+                            form_combo = form ? form.down('ia-version-combo') : null,
+                            // Finds the ia-version-combo contained in 'commission' forms
                             tabpanel = this.up('tabpanel'),
                             panel = tabpanel ? tabpanel.up('panel') : null,
-                            panel_combo = panel ? panel.down('ia-combo-version') : null,
+                            panel_combo = panel ? panel.down('ia-version-combo') : null,
                             //
                             combo = form_combo || panel_combo;
                         if (!combo) return;
@@ -1474,7 +1511,7 @@ Ext.define('Ext.ia.form.Panel', {
                             // Toggles form fields to 'readonly' mode
                             // TODO: Move this logic into actual form
                             me.up('form').cascade(function(c) {
-                                if (c.isXType('field') && !c.isXType('ia-combo-version'))
+                                if (c.isXType('field') && !c.isXType('ia-version-combo'))
                                     c.setReadOnly(version);
                             });
                         }});
