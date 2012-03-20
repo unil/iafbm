@@ -14,8 +14,11 @@ Ext.define('iafbm.form.Candidat', {
     },
     initComponent: function() {
         this.items = [{
-            xtype: 'ia-combo-version',
-            tables: ['candidats', 'candidats_formations']
+            xtype: 'ia-versioning',
+            comboConfig: {
+                modelname: 'candidat',
+                modelid: this.getRecordId()
+            }
         },
             this._createCandidat(),
         {
@@ -299,14 +302,11 @@ Ext.define('iafbm.form.Personne', {
     frame: true,
     initComponent: function() {
         this.items = [{
-            xtype: 'fieldcontainer',
-            layout: 'hbox',
-            items: [{
-                xtype: 'ia-combo-version',
-                tables: ['personnes', 'adresses', 'personnes_adresses', 'personnes_telephones', 'personnes_emails', 'personnes_formations', 'personnes_activites', 'commissions_membres']
-            }, {
-                xtype: 'ia-create-version'
-            }]
+            xtype: 'ia-versioning',
+            comboConfig: {
+                modelname: 'personne',
+                modelid: this.getRecordId()
+            }
         }, {
             xtype: 'fieldcontainer',
             layout: 'hbox',

@@ -1,6 +1,6 @@
 <?php
 
-class VersionsDataController extends iaWebController {
+class VersionsRelationsController extends iaWebController {
     var $model = 'version_relation';
     var $allow = array('get');
 }
