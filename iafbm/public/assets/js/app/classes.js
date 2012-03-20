@@ -1289,7 +1289,7 @@ Ext.define('Ext.ia.FormTogglable', {
     initComponent: function() {
         this.callParent();
     }
-}
+});
 
 /**
  * Extends Ext.form.Panel with
