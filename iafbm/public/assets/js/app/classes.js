@@ -378,12 +378,11 @@ Ext.define('Ext.ia.form.field.ComboBox', {
     typeAhead: true,
     triggerAction: 'all',
     lazyRender: true,
+    queryMode: 'local', // http://stackoverflow.com/questions/6587238/loading-the-items-for-a-combo-box-in-advance-with-extjs
     initComponent: function() {
-        var me = this;
+        var me = this,
+            store = this.store;
         me.callParent();
-        // Store onload value refresh (bugfix)
-        var store = this.store;
-        store.on('load', function() { me.setValue(me.getValue()) });
         // Manages store autoloading
         if (!store.autoLoad && !store.loaded && !store.isLoading()) {
             store.load();
@@ -1278,7 +1277,10 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 this.setRawValue(display);
             },
             expand: function() {
-                this.store.load();
+                // Loads on expand to update versions list.
+                // Prevents loading store twice when the store is
+                // not yet loaded (eg. on first expand).
+                if (this.store.loaded) this.store.load();
             }
         });
     }
