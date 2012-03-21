@@ -11,6 +11,11 @@ CREATE TABLE versions (
     commentaire VARCHAR(255),
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE INDEX versions_table_name ON versions(table_name);
+CREATE INDEX versions_model_name ON versions(model_name);
+CREATE INDEX versions_id_field_name ON versions(id_field_name);
+CREATE INDEX versions_id_field_value ON versions(id_field_value);
+CREATE INDEX versions_operation ON versions(operation);
 
 -- Creates an empty initial version
 INSERT INTO versions (table_name, model_name, id_field_name, id_field_value, operation, commentaire) VALUES ('*', '*', '*', 0, 'tag', 'Initial version (empty storage)');
@@ -39,3 +44,7 @@ CREATE TABLE versions_relations (
     PRIMARY KEY (id),
     FOREIGN KEY (version_id) REFERENCES versions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE INDEX versions_relations_table_name ON versions_relations(table_name);
+CREATE INDEX versions_relations_model_name ON versions_relations(model_name);
+CREATE INDEX versions_relations_id_field_name ON versions_relations(id_field_name);
+CREATE INDEX versions_relations_id_field_value ON versions_relations(id_field_value);
