@@ -1287,17 +1287,29 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
 Ext.define('Ext.ia.Versioning', {
     extend:'Ext.container.Container',
     alias: 'widget.ia-versioning',
-    layout: { type: 'hbox' },
+    layout: 'hbox',
     comboConfig: {
         modelname: null,
         modelid: null,
         getTopLevelComponent: null
     },
     initComponent: function() {
-        this.items = [
-            Ext.apply({xtype: 'ia-version-combo'},this.comboConfig),
-            Ext.apply({xtype: 'ia-version-create'},this.formConfig)
-        ];
+        var combo = Ext.apply({xtype: 'ia-version-combo'},this.comboConfig),
+            button = Ext.apply({xtype: 'ia-version-create'},this.formConfig),
+            checkbox = {
+                xtype: 'checkbox',
+                boxLabel: 'Afficher toutes les versions',
+                handler: function(checkbox, value) {
+                    var store = this.up('ia-versioning').down('ia-version-combo').store;
+                    if (value) {
+                        this._version_operation = store.params.version_operation;
+                        delete(store.params.version_operation);
+                    } else {
+                        store.params.version_operation = this._version_operation;
+                    }
+                }
+            };
+        this.items = [combo, button/*, checkbox*/];
         this.callParent();
     }
 });
