@@ -491,7 +491,7 @@ class iaModelMysql extends xModelMysql {
             'version_id' => $last_tag_version_id,
             'version_id_comparator' => '>'
         ))->get();
-        if (!count($versions_since_last_tag)) {
+        if ($last_tag_version_id && !count($versions_since_last_tag)) {
             throw new xException("Cannot create tag: no modifications since last tag (version id: {$last_tag_version_id})");
         }
         // Creates actual tag
