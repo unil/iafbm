@@ -174,7 +174,7 @@ Ext.define('Ext.ia.data.proxy.Rest', {
                 title: 'Erreur',
                 msg: msg,
                 buttons: Ext.Msg.OK,
-                icon: Ext.window.MessageBox.QUESTION
+                icon: Ext.Msg.ERROR
             });
         }
     }
@@ -1177,6 +1177,16 @@ Ext.define('Ext.ia.button.CreateVersion', {
             success: function(xhr) {
                 field.reset();
                 me.window.close();
+            },
+            failure: function(xhr) {
+                var r = Ext.JSON.decode(xhr.responseText);
+                me.window.close();
+                Ext.Msg.show({
+                    title: 'Erreur',
+                    msg: 'Vous ne pouvez pas créer deux version consécutives<br/>sans avoir effectué de modification intermédiaire.',
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR
+                });
             }
         });
     }

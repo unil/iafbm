@@ -474,6 +474,27 @@ class iaModelMysql extends xModelMysql {
         if (!$id) throw new xException('id parameter missing', 403);
         if (!strlen($commentaire)) throw new xException('Commentaire is mandatory', 403);
         $record = xModel::load($this->name, array('id' => $id))->get(0);
+        if (!$record) throw new xException("Record of type '{$this->name}' with id '{$id}' was not found", 404);
+        // Prevents creating two consecutive tags with identical system state
+        // (ie. with no version impacting that record in between)
+        $last_tag = xModel::load('version', array(
+            'model_name' => $this->name,
+            'id_field_value' => $id,
+            'operation' => 'tag',
+            'xorder_by' => 'id',
+            'xorder' => 'DESC'
+        ))->get(0);
+        $last_tag_version_id = @$last_tag['id'];
+        $versions_since_last_tag = xModel::load('version_relation', array(
+            'model_name' => $this->name,
+            'id_field_value' => $id,
+            'version_id' => $last_tag_version_id,
+            'version_id_comparator' => '>'
+        ))->get();
+        if (!count($versions_since_last_tag)) {
+            throw new xException("Cannot create tag: no modifications since last tag (version id: {$last_tag_version_id})");
+        }
+        // Creates actual tag
         return $this->version('tag', $record, array(), $commentaire);
     }
 
