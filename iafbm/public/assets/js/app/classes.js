@@ -1107,7 +1107,8 @@ Ext.define('Ext.ia.button.CreateVersion', {
     alias: 'widget.ia-version-create',
     text:'Créer une version',
     handler: function() {
-        new Ext.window.Window({
+        var me = this;
+        this.window = new Ext.window.Window({
             title: 'Créer une version',
             autoShow: true,
             modal: true,
@@ -1115,41 +1116,49 @@ Ext.define('Ext.ia.button.CreateVersion', {
             resizable: false,
             items: [{
                 xtype: 'form',
-                layout: 'anchor',
-                defaults: {
-                    anchor: '100%'
-                },
                 border: false,
-                width: 330,
+                bodyPadding: 10,
                 items: [{
-                    html: "Cette action crée une version qui consiste en un instantané de l'état actuel de la commission.",
+                    xtype: 'panel',
+                    html: "Cette action crée une version qui consiste en un instantané de l'état actuel des données.",
                     border: false,
-                    padding: 10
+                    bodyPadding: '10px 0',
+                    width: 350
                 }, {
                     xtype: 'textfield',
                     allowBlank: false, // FIXME: Messes with form validation
                     fieldLabel: 'Commentaire',
                     labelWidth: 75,
-                    width: 250
+                    width: 350,
+                    listeners: {
+                        afterrender: function(field) { field.focus(false, 100) }
+                    }
                 }],
                 buttons: [{
                     xtype: 'button',
                     text: 'Créer',
-                    flex: 1,
                     formBind: true, //only enabled once the form is valid
                     disabled: true,
                     handler: function() { me.createVersion() }
-                }]
+                }],
+                listeners: {
+                    // Submit on enter key press
+                    afterrender: function(form, options){
+                        this.keyNav = Ext.create('Ext.util.KeyNav', this.el, {
+                            enter: this.getDockedComponent(0).down('button').handler,
+                            scope: this
+                        });
+                    }
+                }
             }]
         });
     },
-    model: null, // model constructor
     getForm: function() {
         return this.up('form');
     },
     createVersion: function() {
         var me = this,
-            field = this.menu.down('textfield'),
+            field = this.window.down('textfield'),
             comment = field.getValue(),
             form = this.getForm(),
             record = form.record,
@@ -1166,39 +1175,11 @@ Ext.define('Ext.ia.button.CreateVersion', {
             },
             method: 'GET',
             success: function(xhr) {
-                me.hideMenu();
                 field.reset();
+                me.window.close();
             }
         });
-    },
-    initComponent: function() {
-        var me = this;
-/*
-        // Creates button menu
-        this.menu = {
-            items: [{
-                xtype: 'form',
-                layout: 'hbox',
-                border: false,
-                width: 330,
-                items: [{
-                    xtype: 'textfield',
-                    //allowBlank: false, // FIXME: Messes with form validation
-                    fieldLabel: 'Commentaire',
-                    labelWidth: 75,
-                    width: 250
-                }, {
-                    xtype: 'button',
-                    text: 'Créer',
-                    flex: 1,
-                    handler: function() { me.createVersion() }
-                }]
-            }],
-        };
-*/
-        // Inits component
-        me.callParent();
-    },
+    }
 });
 
 /**
@@ -1615,7 +1596,8 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
     }
 });
 
-/* This form is used for the Commission details:
+/**
+ * This form is used for the Commission details:
  * it manages:
  * - creating a checkbox for 'termine' field value
  * - styling the checkbox panel according the 'termine' field value
