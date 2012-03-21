@@ -19,7 +19,9 @@
   </head>
   <body>
   <div style="text-align: center; font-weight: bold;">
-      <a href="https://wwwfbm.unil.ch/wiki/iafbm/" target="_blank">Suivi du projet</a>
+      <a href="https://wwwfbm.unil.ch/wiki/iafbm/" target="_blank">
+          Suivre l'avancement en allant sur le wiki du projet
+      </a>
     </div>
 	<!-- BEGIN PAGE -->
 	<div id="page">
