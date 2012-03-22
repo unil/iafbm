@@ -5,7 +5,8 @@ class CommonMapMapView extends xView {
     function init() {
         // Include OpenLayers library
         $this->meta = xUtil::array_merge($this->meta, array(
-            'js' => array(xUtil::url('a/js/OpenLayers/lib/OpenLayers.js'))
+            'js' => array(xUtil::url('a/js/OpenLayers/lib/OpenLayers.js')),
+            'css' => array(xUtil::url('a/js/OpenLayers/theme/default/style.css'))
         ));
         // Sets default values
         if (!isset($this->data['width'])) $this->data['width'] = '600';

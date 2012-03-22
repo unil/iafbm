@@ -35,6 +35,36 @@ class PersonnesController extends iaWebController {
         return xView::load('personnes/detail', $data, $this->meta)->render();
     }
 
+    /**
+     * Returns geojson representation of data
+     */
+    function map() {
+        // TODO: Set OpenLayers Layer Strategy to OpenLayers.Strategy.BBOX
+        //       and query using BBOX information.
+        //       Also made xModel able to issue '`field` BETWEEN x AND y' where clauses.
+        // Eg: $bbox = array_map('trim', explode(',', $this->params['bbox']));
+        $result = xController::load('personnes_adresses', array(
+            'xjoin' => 'personne,adresse,pays'
+        ))->get();
+        $features = array();
+        foreach ($result['items'] as $item) {
+            // Skips items without a geometry
+            if (is_null(@$item['adresse_geo_x']) || is_null(@$item['adresse_geo_y'])) continue;
+            $features[] = array(
+                'type' => 'Feature',
+                'geometry' => array(
+                    'type' => 'Point',
+                    'coordinates' => array($item['adresse_geo_x'], $item['adresse_geo_y'])
+                ),
+                'properties' => xUtil::filter_keys($item, array('adresse_geo_x', 'adresse_geo_y'), true)
+            );
+        }
+        return array(
+            'type' => 'FeatureCollection',
+            'features' => $features
+        );
+    }
+
     function get() {
         $personnes = parent::get();
         // Adds '_activites' ghost field (if applicable)
