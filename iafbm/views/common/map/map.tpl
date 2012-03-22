@@ -1,36 +1,35 @@
-<div id="<?php echo $d['dom_id'] ? $d['dom_id'] : md5(mktime().rand()) ?>" style="width:<?php echo $d['width'] ?>px;height:<?php echo $d['height']?>px">
-</div>
+<style>
+#<?php echo $d['dom_id'] ?> {
+    padding: 0px !important;
+    height: <?php echo $d['height']?>px !important;
+    <?php if (isset($d['width'])): ?>
+      width: <?php echo $d['width'] ?>px !important;
+    <?php endif ?>
+}
+</style>
+
+<div id="<?php echo $d['dom_id'] ?>"></div>
+
 <script>
 Ext.onReady(function() {
-    map_init();
+    mm = map_init();
 });
 
 function map_init(){
-    olmap = new OpenLayers.Map('map');
-    // Base layers
-    var google_hybrid = new OpenLayers.Layer.Google("Satellite", {
-        type: G_HYBRID_MAP,
-        numZoomLevels: 22
+    var map = new OpenLayers.Map({
+        div: "<?php echo $d['dom_id'] ?>",
+        theme: null,
+        _controls: [
+            new OpenLayers.Control.TouchNavigation({ dragPanOptions: { enableKinetic: true }}),
+            new OpenLayers.Control.ZoomPanel()
+        ],
+        layers: [
+            new OpenLayers.Layer.OSM("OSM Layer")
+        ],
+        _restrictedExtent: new OpenLayers.Bounds(-180, -90, 180, 90), // TODO: Transform projection to EPSG:4326
+        center: new OpenLayers.LonLat(933754.7374017, 5905219.0563776),
+        zoom: 8
     });
-    var google_street = new OpenLayers.Layer.Google("Streets", {
-        type: G_NORMAL_MAP,
-        numZoomLevels: 22
-    });
-    olmap.addLayers([google_street, google_hybrid]);
-    // Itinerary layer
-    itinerary_layer = new OpenLayers.Layer.Vector("Itinerary", {
-        displayInLayerSwitcher: false
-    });
-    olmap.addLayer(itinerary_layer);
-    // Maker layer
-    markers_layer = new OpenLayers.Layer.Markers("Markers", {
-        displayInLayerSwitcher: false
-    });
-    olmap.addLayer(markers_layer);
-    // Map controls
-    olmap.addControl(new OpenLayers.Control.LayerSwitcher());
-    olmap.addControl(new OpenLayers.Control.MousePosition());
-    // Map center
-    olmap.setCenter(new OpenLayers.LonLat(8.305664, 46.71726), 7);
+    return map;
 }
 </script>

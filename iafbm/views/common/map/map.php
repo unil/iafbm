@@ -1,8 +1,17 @@
 <?php
 
-class AllMapMapView extends xView {
+class CommonMapMapView extends xView {
 
     function init() {
+        // Include OpenLayers library
+        $this->meta = xUtil::array_merge($this->meta, array(
+            'js' => array(xUtil::url('a/js/OpenLayers/lib/OpenLayers.js'))
+        ));
+        // Sets default values
+        if (!isset($this->data['width'])) $this->data['width'] = '600';
+        if (!isset($this->data['height'])) $this->data['height'] = '400';
+        if (!isset($this->data['dom_id'])) $this->data['dom_id'] = 'map-'.md5(mktime().rand());
+return;
         // Computes Google Maps API key according the current domain
         preg_match('/\w*\.\w*$/', $_SERVER['SERVER_NAME'], $m);
         $domain = str_replace('.', '_', @$m[0]);
@@ -15,11 +24,6 @@ class AllMapMapView extends xView {
                 xUtil::url('a/js/openlayers/lib/OpenLayers.js')
             )
         ));
-        // Sets default values
-        if (!@$this->data['width']) $this->data['width'] = '600';
-        if (!@$this->data['height']) $this->data['height'] = '400';
-        if (!@$this->data['']) $this->data[''] = '';
-        if (!@$this->data['']) $this->data[''] = '';
     }
 }
 
