@@ -43,9 +43,17 @@ class PersonnesController extends iaWebController {
         //       and query using BBOX information.
         //       Also made xModel able to issue '`field` BETWEEN x AND y' where clauses.
         // Eg: $bbox = array_map('trim', explode(',', $this->params['bbox']));
-        $result = xController::load('personnes_adresses', array(
-            'xjoin' => 'personne,adresse,pays'
-        ))->get();
+
+        // Retrieves personnes, adresses and pays
+        $model = xController::load('personnes_adresses',
+            xUtil::array_merge(
+                $this->params,
+                array('xjoin' => 'personne,adresse,pays')
+            )
+        );
+        $model->query_fields = array(); // Make all fields queriable
+        $result = $model->get();
+        // Creates a GeoJSON-compliant array of features
         $features = array();
         foreach ($result['items'] as $item) {
             // Skips items without a geometry
@@ -59,6 +67,7 @@ class PersonnesController extends iaWebController {
                 'properties' => xUtil::filter_keys($item, array('adresse_geo_x', 'adresse_geo_y'), true)
             );
         }
+        // Returns a GeoJSON-compliant data structure
         return array(
             'type' => 'FeatureCollection',
             'features' => $features

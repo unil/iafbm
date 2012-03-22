@@ -12,6 +12,19 @@
 }
 </style>
 
+<style>
+    form input { border: 1px solid gray; height: 19px; }
+    #map_query_text { width: 830px }
+    #map_query_button,
+    #map_query_reset_button { width: 25px }
+</style>
+<form onsubmit="javascript:map_query();return false;" style="position:absolute;top:100px">
+    <label for="map_query_text">Recherche:</label>
+    <input type="text" name="map_query_text" id="map_query_text"/>
+    <input type="submit" name="map_query_button" id="map_query_button" value=">"/>
+    <input type="reset" name="map_query_reset_button" id="map_query_reset_button" value="X" onclick="form.reset();map_query()"/>
+</form>
+
 <div id="<?php echo $d['dom_id'] ?>"></div>
 
 <script>
@@ -26,8 +39,12 @@ function map_init(){
         strategies: [new OpenLayers.Strategy.Fixed()], // TODO: switch to BBOX strategy
         //strategies: [new OpenLayers.Strategy.BBOX()],
         protocol: new OpenLayers.Protocol.HTTP({
-            url: "<?php echo xUtil::url('api/personnes?xmethod=map') ?>",
-            format: new OpenLayers.Format.GeoJSON()
+            format: new OpenLayers.Format.GeoJSON(),
+            url: "<?php echo xUtil::url('api/personnes') ?>",
+            params: {
+                xmethod: 'map',
+                xquery: null
+            }
         })
     });
     // Map
@@ -98,5 +115,12 @@ function map_init(){
     }
     // Returns map instance
     return map;
+}
+
+function map_query() {
+    var text = document.getElementById('map_query_text').value,
+        layer = mm.layers[1];
+    layer.protocol.params.xquery = text;
+    layer.refresh();
 }
 </script>
