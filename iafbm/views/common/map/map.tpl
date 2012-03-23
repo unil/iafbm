@@ -74,7 +74,7 @@ function map_init(){
             //fontWeight: "bold"
         },{
             // Rules for dynamic styling (cannot be used with clustering since features are in feature.cluster[]
-            ____rules: [
+            _rules: [
                 new OpenLayers.Rule({
                     filter: new OpenLayers.Filter.Comparison({
                         type: OpenLayers.Filter.Comparison.EQUAL_TO,
@@ -181,11 +181,25 @@ function map_init(){
         center: new OpenLayers.LonLat(933754.7374017, 5905219.0563776),
         zoom: 8
     });
-    // Data layer features popup
+    // Data layer features selection+popup management
     layer_data.events.on({
         "featureselected": onFeatureSelect,
         "featureunselected": onFeatureUnselect
     });
+    map.events.on({zoomend: function() {
+        // If Data layer is clustered,
+        // Unselects all layer features, implicitely removing popups.
+        // Note: Cannot use:
+        // this.getControl('control:select:data').unselectAll()
+        // because features are lost from selected features stack after zoom
+        // because cluster strategy re-created all features
+        if (layer_data.strategies[0].active) {
+            var selectControl = this.getControl('control:select:data')
+            for (i in layer_data.features) {
+                selectControl.unselect(layer_data.features[i]);
+            }
+        }
+    }});
     open_form_personne = function(id) {
         new Ext.ia.window.Popup({
             title: 'Détails',
