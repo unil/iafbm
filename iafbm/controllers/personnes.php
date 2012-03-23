@@ -48,7 +48,7 @@ class PersonnesController extends iaWebController {
         $model = xController::load('personnes_adresses',
             xUtil::array_merge(
                 $this->params,
-                array('xjoin' => 'personne,adresse,pays')
+                array('xjoin' => 'personne,adresse_type,adresse,pays')
             )
         );
         $model->query_fields = array(); // Make all fields queriable
