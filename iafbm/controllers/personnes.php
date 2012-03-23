@@ -43,7 +43,6 @@ class PersonnesController extends iaWebController {
         //       and query using BBOX information.
         //       Also made xModel able to issue '`field` BETWEEN x AND y' where clauses.
         // Eg: $bbox = array_map('trim', explode(',', $this->params['bbox']));
-
         // Retrieves personnes, adresses and pays
         $model = xController::load('personnes_adresses',
             xUtil::array_merge(
