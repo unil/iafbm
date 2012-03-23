@@ -46,10 +46,10 @@ function cluster_toggle(state) {
     var layer = mm.getLayersByName('Data').pop(),
         cluster = layer.strategies[0];
     state ? cluster.activate() : cluster.deactivate();
-    layer.refresh(); 
+    layer.refresh();
 }
 </script>
-<input type="checkbox" id="map_cluster_checkbox" name="map_cluster_checkbox" onclick="cluster_toggle(this.checked)"/>
+<input type="checkbox" id="map_cluster_checkbox" name="map_cluster_checkbox" checked="checked" onclick="cluster_toggle(this.checked)"/>
 <label for="map_cluster_checkbox">Cluster, please</label>
 
 <div id="<?php echo $d['dom_id'] ?>"></div>
@@ -89,7 +89,7 @@ function map_init(){
                     filter: new OpenLayers.Filter.Comparison({
                         type: OpenLayers.Filter.Comparison.EQUAL_TO,
                         property: "personne_genre_id",
-                        value: 2 
+                        value: 2
                     }),
                     symbolizer: {
                         fillColor: "#ff8888"
@@ -121,7 +121,7 @@ function map_init(){
             strokeColor: "#3399ff",
             graphicZIndex: 2
         })
-    }); 
+    });
     // Layers
     var layer_osm = new OpenLayers.Layer.OSM("OSM Layer");
     var layer_data = new OpenLayers.Layer.Vector("Data", {
@@ -202,10 +202,10 @@ function map_init(){
                         // Restores closed popup
                         // TODO: Put this logic in layer.afterrefresh event + remove the listener at once (for it is to be run only once).
                         //var feature = layer_data.getFeaturesByAttribute('personne_id', '18').pop();
-                        //var selectControl = map.getControl('control:select:data'); 
+                        //var selectControl = map.getControl('control:select:data');
                         //selectControl.select(feature);
-                        
-                        
+
+
                     }
                 }
             })
@@ -216,7 +216,7 @@ function map_init(){
         // Zooms in on cluster feature click
         var zoomable = map.getZoom() < map.numZoomLevels;
         if (feature.cluster && zoomable) {
-            // Creates Pixel from feature centroid 
+            // Creates Pixel from feature centroid
             var point = feature.geometry.getCentroid(),
                 pixel = map.getPixelFromLonLat(new OpenLayers.LonLat(point.x, point.y));
             // Uses Navigation Control to zoom in, keeping feature under mouse
