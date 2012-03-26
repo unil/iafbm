@@ -60,7 +60,7 @@ iafbm.columns.CommissionMembre = [{
         return {
             model: iafbm.model.Personne,
             id: personne_id,
-            params: uptodate ? {} : { xversion: version }
+            xversion: uptodate ? null : version
         };
     }
 }, {

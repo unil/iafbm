@@ -1199,7 +1199,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
  * - sets xversion parameter to the form' grids' stores
  */
 Ext.define('Ext.ia.form.field.VersionComboBox', {
-    extend:'Ext.form.field.ComboBox',
+    extend:'Ext.ia.form.field.ComboBox',
     alias: 'widget.ia-version-combo',
     typeAhead: false,
     editable: false,
@@ -1268,7 +1268,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         });
         // Adds a record for current version
         this.store.on({load: function() {
-            this.insert(0, {id: 0});
+            this.insert(0, {id: 0, version_id: 0});
         }});
         //
         var me = this;
@@ -1351,7 +1351,8 @@ Ext.define('Ext.ia.form.Panel', {
     fetch: {
         model: null,
         id: null,
-        params: {}
+        params: {},
+        xversion: null
     },
     dockedItems: [],
     getRecordId: function() {
@@ -1524,19 +1525,32 @@ Ext.define('Ext.ia.form.Panel', {
                 },
             });
         }
+        //
         var me = this;
         me.callParent();
         // Manages version combo value if record to load is versioned
-        this.on('beforeload', function() {
-console.log('beforeload');
-tt=this;
-            if (!this.fetch || !this.fetch.params || !this.fetch.params.xversion) return;
-            var version = this.fetch.params.xversion,
+        if (this.fetch && this.fetch.xversion) {
+            var version = this.fetch.xversion,
                 combo = this.down('ia-version-combo');
-console.log('versioned!', this.fetch.params.xversion);
 cc=combo;
-            //combo.select(
-        });
+ss=combo.store;
+console.log('version', version);
+            if (combo && version) {
+                // Disables remote sorting for sorting inserted version
+                combo.store.remoteSort = false;
+                // Adds requested xversion to versions list
+                combo.store.on('load', function() {
+console.log('adding version', version);
+                    console.log('adding id', version);
+                    combo.store.insert(0, {version_id: version});
+                    combo.store.sort('version_id', 'DESC');
+                    //
+                    //combo.store.select({version_id: version});
+                });
+                // Selects requested xversion
+                // TODO
+            }
+        }
         // Manages record loading
         this.on('afterrender', function() {
             this.makeRecord();
