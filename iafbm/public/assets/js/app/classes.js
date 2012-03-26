@@ -1526,6 +1526,17 @@ Ext.define('Ext.ia.form.Panel', {
         }
         var me = this;
         me.callParent();
+        // Manages version combo value if record to load is versioned
+        this.on('beforeload', function() {
+console.log('beforeload');
+tt=this;
+            if (!this.fetch || !this.fetch.params || !this.fetch.params.xversion) return;
+            var version = this.fetch.params.xversion,
+                combo = this.down('ia-version-combo');
+console.log('versioned!', this.fetch.params.xversion);
+cc=combo;
+            //combo.select(
+        });
         // Manages record loading
         this.on('afterrender', function() {
             this.makeRecord();
