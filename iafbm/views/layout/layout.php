@@ -11,6 +11,7 @@ class LayoutLayoutView extends xView {
                 xUtil::url('a/js/ext/locale/ext-lang-fr.js'),
                 xUtil::url('a/js/ext-ux/native/form/SearchField.js'),
                 xUtil::url('a/js/ext-ux/native/CheckColumn.js'),
+                xUtil::url('a/js/ext-ux/notification/Notification.js'),
                 // App ExtJS logic
                 xUtil::url('a/js/ext-custom/custom.js'),
                 xUtil::url('a/js/app/locales.js'),
@@ -29,6 +30,7 @@ class LayoutLayoutView extends xView {
             'css' => array(
                 xUtil::url('a/js/ext/resources/css/ext-all.css'),
                 xUtil::url('a/js/ext-ux/native/css/CheckHeader.css'),
+                xUtil::url('a/js/ext-ux/notification/css/Notification.css'),
                 xUtil::url('a/css/ext.css'),
                 xUtil::url('a/css/main.css'),
                 xUtil::url('a/css/layout.css')
