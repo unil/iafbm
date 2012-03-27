@@ -241,12 +241,23 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
     closeOnSave: false,
     handler: function(gridView, rowIndex, colIndex, item) {
         var me = this,
-            popup = new Ext.ia.window.Popup({
+            record = this.getRecord(gridView, rowIndex, colIndex, item),
+            fetch = this.getFetch(gridView, rowIndex, colIndex, item),
+            id = (record && record.id) || (fetch && fetch.id);
+        // Prevents opening detail on fantom records (eg. id==0)
+        if (!id) {
+            Ext.Msg.alert(
+                'Afficher les détails',
+                'Vous devez enregistrer les modifications avant de pouvoir visualiser les détails.'
+            );
+            return;
+        }
+        var popup = new Ext.ia.window.Popup({
             title: 'Détails',
             item: new this.form({
                 frame: false,
-                record: me.getRecord(gridView, rowIndex, colIndex, item),
-                fetch: me.getFetch(gridView, rowIndex, colIndex, item),
+                record: record,
+                fetch: fetch,
                 listeners: {
                     // Closes popup on form save
                     aftersave: function(form, record) {
@@ -279,6 +290,7 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
         this.sortable = false;
         this.menuDisabled = true;
         this.fixed = true;
+        //
         var me = this;
         me.callParent();
     }
