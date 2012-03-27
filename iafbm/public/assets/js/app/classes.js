@@ -1568,13 +1568,16 @@ Ext.define('Ext.ia.form.Panel', {
             if (combo && version) {
                 // Disables remote sorting, versions are sorted locally
                 combo.store.remoteSort = false;
+                combo.store.sort('version_id', 'DESC');
                 // Adds requested xversion to versions list
+                // if not already existing
                 combo.store.on('load', function() {
-                    this.insert(0, {
-                        version_id: version,
-                        version_commentaire: '***'
-                    });
-                    this.sort('version_id', 'DESC');
+                    if (combo.store.findExact('version_id', version) < 0) {
+                        this.insert(0, {
+                            version_id: version,
+                            version_commentaire: '***'
+                        });
+                    }
                 });
                 // Selects requested version,
                 // updating form stores through ia-version-combo wiget.
