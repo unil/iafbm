@@ -182,6 +182,7 @@ iafbm.columns.CommissionMembre = [{
 }, {
     header: null,
     dataIndex: '_uptodate',
+    sortable: false,
     width: 20,
     xtype: 'actioncolumn',
     items: [{
@@ -189,6 +190,20 @@ iafbm.columns.CommissionMembre = [{
         text: 'Actualiser',
         tooltip: 'Actualiser',
         handler: function(grid, rowIndex, colIndex) {
+            // Prevents update if CommissionMembre store is versioned
+            var store = grid.getStore();
+            if (store.params && store.params.xversion) {
+                Ext.Msg.alert(
+                    'Actualisation du membre', [
+                        'Vous ne pouvez pas actualiser le membre',
+                        'lorsque vous visualisez une commission versionée.',
+                        '<br/><br/>',
+                        'Affichez d\'abord la version actuelle de la commission.'
+                    ].join(' ')
+                );
+                return;
+            }
+            // Confirms and updates CommissionMembre
             var msg = [
                 'Cette opération met à jour les données du membre',
                 'à partir de la dernière version de la personne y relative.',
