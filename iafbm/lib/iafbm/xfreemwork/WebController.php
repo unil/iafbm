@@ -285,11 +285,11 @@ class iaWebController extends xWebController {
      */
     function post() {
         // Checks if method is allowed
-        if (!in_array('post', $this->allow))
-            throw new xException("Method not allowed", 403);
+        if (!in_array('post', $this->allow)) throw new xException("Method not allowed", 403);
         // Checks provided parameters
-        if (!isset($this->params['items']))
-            throw new xException('No items provided', 400);
+        if (!isset($this->params['items'])) throw new xException('No items provided', 400);
+        // Prevents posting a versioned record
+        if (@$this->params['xversion']) throw new xException('Cannot post a versioned record', 400);
         // Checks for params.id and params.items.id consistency
         // (this test is only for precaution: params.id is not used in anyway)
         if (@$this->params['id'] != @$this->params['items']['id'])
@@ -313,6 +313,8 @@ class iaWebController extends xWebController {
         if (!in_array('put', $this->allow)) throw new xException("Method not allowed", 403);
         // Checks provided parameters
         if (!isset($this->params['items'])) throw new xException('No items provided', 400);
+        // Prevents posting a versioned record
+        if (@$this->params['xversion']) throw new xException('Cannot put a versioned record', 400);
         // Checks for params.id and params.items.id consistency
         // (this test is only for precaution: params.id is not used in anyway)
         if (@$this->params['id'] != @$this->params['items']['id'])
