@@ -147,15 +147,25 @@ class CommissionMembreModel extends iaModelMysql {
         // Adds 'uptodate' ghost field
         foreach ($records as &$record) {
             // Counts versions created since the record stored version id
-            $count = xModel::load('version_relation', array(
+            $versions = xModel::load('version_relation', array(
                 'model_name' => 'personne',
                 'id_field_value' => $record['personne_id'],
                 'version_id' => $record['version_id'],
                 'version_id_comparator' => '>',
                 'xjoin' => array()
-            ))->count();
+            ))->get();
+            // If versioned record is requested,
+            // ignores versions above the requested xversion.
+            $xversion = @$this->params['xversion'];
+            if ($xversion) {
+                foreach ($versions as $k => $version) {
+                    if ($version['version_id'] >= $xversion) {
+                        unset($versions[$k]);
+                    }
+                }
+            }
             // Sets 'uptodate' ghost field
-            $record['_uptodate'] = !(bool)$count;
+            $record['_uptodate'] = !(bool)count($versions);
         }
         // Sorts results on personne field
         // (if defined by xorder_by and xorder && personne data was updated due to versioning)

@@ -1105,6 +1105,18 @@ Ext.define('Ext.ia.button.CreateVersion', {
     extend:'Ext.Button',
     alias: 'widget.ia-version-create',
     text:'Créer une version',
+    initComponent: function() {
+        this.addEvents(
+            /**
+             * @event createversion
+             * Fires after a new version has been successfuly created
+             * @param {Object} result The server-side result
+             * @param {Number} version The created version id
+             */
+            'createversion'
+        );
+        this.callParent();
+    },
     handler: function() {
         var me = this;
         this.window = new Ext.window.Window({
@@ -1176,6 +1188,8 @@ Ext.define('Ext.ia.button.CreateVersion', {
             success: function(xhr) {
                 field.reset();
                 me.window.close();
+                var result = Ext.JSON.decode(xhr.responseText);
+                me.fireEvent('createversion', result, result.xinsertid);
             },
             failure: function(xhr) {
                 var r = Ext.JSON.decode(xhr.responseText);
@@ -1199,7 +1213,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
  * - sets xversion parameter to the form' grids' stores
  */
 Ext.define('Ext.ia.form.field.VersionComboBox', {
-    extend:'Ext.form.field.ComboBox',
+    extend:'Ext.ia.form.field.ComboBox',
     alias: 'widget.ia-version-combo',
     typeAhead: false,
     editable: false,
@@ -1220,6 +1234,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     store: null,
     modelname: null,
     modelid: null,
+    width: 350,
     getTopLevelComponent: function() {
         return this.up('form');
     },
@@ -1268,7 +1283,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         });
         // Adds a record for current version
         this.store.on({load: function() {
-            this.insert(0, {id: 0});
+            this.insert(0, {id: 0, version_id: 0});
         }});
         //
         var me = this;
@@ -1277,12 +1292,13 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         this.on({
             select: function(combo, records) {
                 var record = records.shift(),
-                    version = record.get('version_id');
+                    version = record.get('version_id'),
+                    commentaire = record.get('version_commentaire');
                 this.changeVersion(version);
                 this.fireEvent('changeversion', me, version);
                 // Sets templated text in combo
-                var display = version ?
-                    Ext.String.format("Version {0}", version) :
+                var display = (version) ?
+                    Ext.String.format("Version {0} - {1}", version, commentaire) :
                     "Version actuelle";
                 this.setRawValue(display);
             },
@@ -1290,7 +1306,11 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 // Loads on expand to update versions list.
                 // Prevents loading store twice when the store is
                 // not yet loaded (eg. on first expand).
-                if (this.store.loaded) this.store.load();
+                // NOTE: Disabled for the moment because it causes
+                //       the combo to collapse abruptly and makes it unusable.
+                // NOTE: Instead, ia-versioning widget reloads combo store on
+                //       ia-version-create 'createversion' event.
+                // if (this.store.loaded) this.store.load();
             }
         });
     }
@@ -1305,6 +1325,8 @@ Ext.define('Ext.ia.Versioning', {
         modelid: null,
         getTopLevelComponent: null
     },
+    formConfig: {
+    },
     initComponent: function() {
         var combo = Ext.apply({xtype: 'ia-version-combo'},this.comboConfig),
             button = Ext.apply({xtype: 'ia-version-create'},this.formConfig),
@@ -1312,6 +1334,7 @@ Ext.define('Ext.ia.Versioning', {
                 xtype: 'checkbox',
                 boxLabel: 'Afficher toutes les versions',
                 handler: function(checkbox, value) {
+                    // Removes filter on 'version_operation' through store.params
                     var store = this.up('ia-versioning').down('ia-version-combo').store;
                     if (value) {
                         this._version_operation = store.params.version_operation;
@@ -1320,9 +1343,18 @@ Ext.define('Ext.ia.Versioning', {
                         store.params.version_operation = this._version_operation;
                     }
                 }
-            };
+        };
+        // Adds widgets
         this.items = [combo, button/*, checkbox*/];
         this.callParent();
+        // Reloads combo store on createversion
+        var buttonInstance = this.items.getAt(1),
+            comboInstance = this.items.getAt(0);
+        buttonInstance.on('afterrender', function() {
+            this.on('createversion', function(result, version) {
+                comboInstance.store.load();
+            });
+        });
     }
 });
 
@@ -1351,7 +1383,8 @@ Ext.define('Ext.ia.form.Panel', {
     fetch: {
         model: null,
         id: null,
-        params: {}
+        params: {},
+        xversion: null
     },
     dockedItems: [],
     getRecordId: function() {
@@ -1524,8 +1557,33 @@ Ext.define('Ext.ia.form.Panel', {
                 },
             });
         }
+        //
         var me = this;
         me.callParent();
+        // Manages version combo value if a versioned record is requested
+        if (this.fetch && this.fetch.xversion) {
+            var version = this.fetch.xversion,
+                combo = this.down('ia-version-combo');
+            // Applies version if ia-version-combo exists
+            if (combo && version) {
+                // Disables remote sorting, versions are sorted locally
+                combo.store.remoteSort = false;
+                // Adds requested xversion to versions list
+                combo.store.on('load', function() {
+                    this.insert(0, {
+                        version_id: version,
+                        version_commentaire: '***'
+                    });
+                    this.sort('version_id', 'DESC');
+                });
+                // Selects requested version,
+                // updating form stores through ia-version-combo wiget.
+                combo.store.load(function(records, operation, success) {
+                    var record = this.getAt(this.findExact('version_id', version));
+                    combo.fireEvent('select', combo, [record]);
+                });
+            }
+        }
         // Manages record loading
         this.on('afterrender', function() {
             this.makeRecord();
