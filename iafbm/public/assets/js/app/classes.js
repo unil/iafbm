@@ -123,9 +123,11 @@ Ext.define('Ext.ia.data.Store', {
         );
     },
     listeners: {
+        // ExtJS 3.0 Store.params simulation
         beforeload: function() { this.applyParamsToProxy() },
         beforesync: function() { this.applyParamsToProxy() },
         beforeprefetch: function() { this.applyParamsToProxy() },
+        // Loaded flag (TODO: is it used/necessary ?)
         load: function() { this.loaded = true }
     }
 });
@@ -176,6 +178,13 @@ Ext.define('Ext.ia.data.proxy.Rest', {
                 buttons: Ext.Msg.OK,
                 icon: Ext.Msg.ERROR
             });
+        },
+        // Write confirmation notifications
+        // TODO: FIXME: write is not fired (neither on proxy nor on store...)
+        write: function() {
+            Ext.create('Ext.ia.window.Notification', {
+                html:'Enregistrement des données OK!'
+            }).show()
         }
     }
 });
@@ -1825,6 +1834,23 @@ Ext.define('Ext.ia.window.Popup', {
     }
 });
 
+
+/**
+ * Extends Ext.ux.window.Notification with
+ * - default options
+ */
+Ext.define('Ext.ia.window.Notification', {
+    extend: 'Ext.ux.window.Notification',
+    alias: 'widget.ia-notification',
+    cls: 'ux-notification-light',
+    iconCls: 'ux-notification-icon-information',
+    slideInDuration: 100,
+    autoHideDelay: 5000,
+    position: 't',
+    closable: false,
+    //title: '',
+    //html: ''
+})
 
 /******************************************************************************
  * History
