@@ -382,12 +382,12 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
-            height: 397,
+            height: 407,
             defaultType: 'textfield',
             defaults: {
                 labelWidth: 110,
                 width: 300,
-                padding: '10 0',
+                padding: '5 0',
             },
             items: [{
                 fieldLabel: 'Nom',
