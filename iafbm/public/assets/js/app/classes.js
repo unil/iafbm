@@ -1573,6 +1573,7 @@ Ext.define('Ext.ia.form.Panel', {
         var me = this;
         me.callParent();
         // Manages version combo value if a versioned record is requested
+        // FIXME: This should be implemented in ia-version-combo (Form should not be aware of version-combo)
         if (this.fetch && this.fetch.xversion) {
             var version = this.fetch.xversion,
                 combo = this.down('ia-version-combo');
