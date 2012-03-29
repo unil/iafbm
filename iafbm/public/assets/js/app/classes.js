@@ -1266,8 +1266,6 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                         proxy = (store) ? store.proxy : null,
                         type = (proxy) ? proxy.type : null;
                     if (type == 'ia-rest') {
-ee=editor;
-console.log(ee);
                         components.push(editor);
                     }
                 });
@@ -1283,8 +1281,6 @@ console.log(ee);
             }
             // Applies version to the form grids and combos
             if (c.isXType('grid') || c.isXType('combo')) {
-//console.log(c, c.store);
-cc=c;
                 c.store.params['xversion'] = version;
                 c.store.load();
             }
