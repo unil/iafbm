@@ -1255,8 +1255,21 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
             topLevelComponent = this.getTopLevelComponent();
         // Adds top level component (it is often a form)
         topLevelComponent.cascade(function(c) {
-            // Adds forms and grids
-            if (c.isXType('form') || c.isXType('gridpanel')) components.push(c);
+            // Adds forms, grids, combos
+            if (c.isXType('form') || c.isXType('grid') || c.isXType('combo')) components.push(c);
+            // Also adds grids columns combos
+            // (the ones with remote stores proxies)
+            if (c.isXType('grid')) {
+                Ext.each(c.getColumns(), function(column) {
+                    var editor = column.getEditor(),
+                        store = (editor) ? editor.store : null,
+                        proxy = (store) ? store.proxy : null,
+                        type = (proxy) ? proxy.type : null;
+                    if (type == 'ia-rest') {
+                        components.push(editor);
+                    }
+                });
+            }
         });
         return components;
     },
@@ -1266,8 +1279,8 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
             if (c.isXType('form')) {
                 c.loadRecord({xversion:version})
             }
-            // Applies version to the form grids
-            if (c.isXType('gridpanel')) {
+            // Applies version to the form grids and combos
+            if (c.isXType('grid') || c.isXType('combo')) {
                 c.store.params['xversion'] = version;
                 c.store.load();
             }
