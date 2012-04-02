@@ -557,7 +557,6 @@ Ext.define('Ext.ia.form.field.Multi', {
  * and adding items to the destination store.
  * The developer can write the makeData() conversion function,
  * in order to translate source store record into destination store record.
- * -
  */
 Ext.define('Ext.ia.selectiongrid.Panel', {
     extend: 'Ext.grid.Panel',
@@ -586,6 +585,18 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             return record.data;
         },
     },
+    setVersion: function(version) {
+        this.store.params['xversion'] = version;
+        this.store.load();
+    },
+    lockFields: function(locked) {
+tt=this;
+        // FIXME: TODO: To be implemented
+        console.error('Selecttiongrid lock Not implemented')
+        if (locked) {
+            // TODO...
+        }
+    },
     initComponent: function() {
         // Component
         this.store = this.grid.store;
@@ -603,7 +614,8 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
                 if (selection) grid.store.remove(selection);
             }
         }];
-        var me = this; me.callParent();
+        var me = this;
+        me.callParent();
         // Sets store to autoSync changes
         this.store.autoSync = this.grid.autoSync;
         // Manages store autoloading
@@ -785,6 +797,39 @@ Ext.define('Ext.ia.grid.EditPanel', {
     plugins: [],
     dockedItems: [],
     bbar: new Ext.ia.toolbar.Paging(),
+    setVersion: function(version) {
+        // Sets grid store xversion
+        this.store.params['xversion'] = version;
+        this.store.load();
+        // Sets grid columns combo stores xversion
+        Ext.each(this.getColumns(), function(column) {
+            var editor = column.getEditor(),
+                store = (editor) ? editor.store : null,
+                proxy = (store) ? store.proxy : null,
+                type = (proxy) ? proxy.type : null;
+            if (type == 'ia-rest') {
+                editor.store.params['xversion'] = version;
+                editor.store.load();
+            }
+        });
+    },
+    lockFields: function(locked) {
+        // Toggles grid rows editability
+        // (restoring initial value afterwards)
+        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
+        this.editable = locked ? false : this._editableInit;
+        // Toggles grid columns editability (eg. checkboxes)
+        // (restoring initial value afterwards)
+        Ext.each(this.columns, function(c) {
+            if (!c.isXType('ia-radiocolumn')) return;
+            if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
+            c.editable = version ? false : c._editableInit;
+        });
+        // Toggles toolbar buttons
+        this.down('toolbar').items.each(function(c) {
+            if (c.updateState) c.updateState();
+        });
+    },
     initComponent: function() {
         this.addEvents(
             /**
@@ -840,45 +885,11 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 }
             });
         }});
-        // Manages loading message
+        // Manages loading spinner
         this.on({
             beforeload: function() { this.setLoading() },
             load: function() { this.setLoading(false) }
         });
-        // Manages controls disablement when version is set
-        this.on({afterrender: function() {
-            // FIXME: This is dirty because the grid should not
-            //        be aware of the ia-version-combo
-            var me = this,
-                // Finds the ia-version-combo contained in plain forms
-                form = this.up('form'),
-                form_combo = form ? form.down('ia-version-combo') : null,
-                // Finds the ia-version-combo contained in 'commission' forms
-                tabpanel = this.up('tabpanel'),
-                panel = tabpanel ? tabpanel.up('panel') : null,
-                panel_combo = panel ? panel.down('ia-version-combo') : null,
-                //
-                combo = form_combo || panel_combo;
-            if (!combo) return;
-            // Manages versioned/unversioned grid controls
-            combo.on({changeversion: function(combo, version) {
-                // Toggles grid toolbar buttons disablement
-                me.down('toolbar').items.each(function(c) {
-                    c.setDisabled(Boolean(version))
-                });
-                // Toggles grid rows editability
-                // (restoring initial value afterwards)
-                if (typeof(me._editableInit)=='undefined') me._editableInit = me.editable;
-                me.editable = version ? false : me._editableInit;
-                // Toggles grid columns editability (eg. checkboxes)
-                // (restoring initial value afterwards)
-                Ext.each(me.columns, function(c) {
-                    if (!c.isXType('ia-radiocolumn')) return;
-                    if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
-                    c.editable = version ? false : c._editableInit;
-                });
-            }});
-        }});
         // Fixes incorrect grid layout that occurs
         // occasionaly when grid is too narrow (FIXME)
         this.on({load: function() {
@@ -890,7 +901,12 @@ Ext.define('Ext.ia.grid.EditPanel', {
             text: this.toolbarLabels.add,
             iconCls: 'icon-add',
             handler: this.addItem,
-            scope: this
+            scope: this,
+            updateState: function() {
+                var grid = this.up('grid');
+                // Disables if grid is not editable (see this.editable)
+                this.setDisabled(!grid.editable);
+            }
         };
         var del = {
             text: this.toolbarLabels.delete,
@@ -903,9 +919,16 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 var me = this,
                     grid = this.up('grid');
                 grid.on('selectionchange', function(view, records) {
-                    me.setDisabled(!records.length);
+                    me.updateState();
                 });
-            }}
+            }},
+            updateState: function() {
+                var grid = this.up('grid'),
+                    records = grid.getSelectionModel().getSelection();
+                // Disables if no record selected,
+                // or if grid is not editable (see this.editable)
+                this.setDisabled(!(records.length && grid.editable));
+            }
         };
         var save = {
             text: this.toolbarLabels.save,
@@ -917,13 +940,17 @@ Ext.define('Ext.ia.grid.EditPanel', {
             listeners: {afterrender: function() {
                 var me = this,
                     store = this.up('grid').getStore();
-                var callback = function() {
-                    me.setDisabled(!store.getNonPristineRecords().length);
-                }
-                store.on('add', callback);
-                store.on('update', callback);
-                store.on('remove', callback);
-            }}
+                store.on('add', this.updateState);
+                store.on('update', this.updateState);
+                store.on('remove', this.updateState);
+            }},
+            updateState: function() {
+                var grid = this.up('grid'),
+                    store = grid.getStore();
+                // Disables if no record selected,
+                // or if grid is not editable (see this.editable)
+                this.setDisabled(!store.getNonPristineRecords().length);
+            }
         };
         var search = new Ext.ia.form.SearchField({
             store: null,
@@ -947,6 +974,9 @@ Ext.define('Ext.ia.grid.EditPanel', {
             },
             onResetSearch: function() {
                 this.store.params = this._storeParams;
+            },
+            updateState: function() {
+                // Search is never disabled for now
             }
         });
         // Adds items conditionally
@@ -1111,7 +1141,7 @@ Ext.override(Ext.form.BasicForm, {
 */
 
 /**
- * FIXME: Test "create version" button
+ * "Create version" button widget.
  */
 Ext.define('Ext.ia.button.CreateVersion', {
     extend:'Ext.Button',
@@ -1250,41 +1280,11 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     getTopLevelComponent: function() {
         return this.up('form');
     },
-    getComponents: function() {
-        var components = [],
-            topLevelComponent = this.getTopLevelComponent();
-        // Adds top level component (it is often a form)
-        topLevelComponent.cascade(function(c) {
-            // Adds forms, grids, combos
-            if (c.isXType('form') || c.isXType('grid') || c.isXType('combo')) components.push(c);
-            // Also adds grids columns combos
-            // (the ones with remote stores proxies)
-            if (c.isXType('grid')) {
-                Ext.each(c.getColumns(), function(column) {
-                    var editor = column.getEditor(),
-                        store = (editor) ? editor.store : null,
-                        proxy = (store) ? store.proxy : null,
-                        type = (proxy) ? proxy.type : null;
-                    if (type == 'ia-rest') {
-                        components.push(editor);
-                    }
-                });
-            }
-        });
-        return components;
-    },
     changeVersion: function(version) {
-        Ext.each(this.getComponents(), function(c) {
-            // Applies version to the forms record
-            if (c.isXType('form')) {
-                c.loadRecord({xversion:version})
-            }
-            // Applies version to the form grids and combos
-            if (c.isXType('grid') || c.isXType('combo')) {
-                c.store.params['xversion'] = version;
-                c.store.load();
-            }
-        });
+        var component = this.getTopLevelComponent();
+cc=component;
+        component.setVersion(version);
+        component.lockFields(version);
     },
     initComponent: function() {
         this.addEvents([
@@ -1512,6 +1512,36 @@ Ext.define('Ext.ia.form.Panel', {
         });
         return changes;
     },
+    setVersion: function(version) {
+        // Sets form record xversion
+        this.loadRecord({xversion:version});
+        // Sets contained grids xversion
+        this.cascade(function(c) {
+            if (c.isXType('grid')) c.setVersion(version);
+        });
+    },
+    lockFields: function(locked) {
+/*
+        // TODO with global toolbar concept
+        // Disables 'save' button
+        me.setDisabled(locked);
+*/
+      // Toggles components disablement
+      this.cascade(function(c) {
+            // Toggles form fields to 'readonly' mode
+            if (c.isXType('field') && !c.isXType('ia-version-combo')) {
+                c.setReadOnly(locked);
+            }
+            // Toggles contained grids
+            if (c.isXType('grid')) {
+                c.lockFields(locked);
+            }
+            // Toggles contained buttons
+            if (c.isXType('button')) {
+                c.setDisabled(locked);
+            }
+        });
+    },
     initComponent: function() {
         this.addEvents(
             /**
@@ -1550,36 +1580,7 @@ Ext.define('Ext.ia.form.Panel', {
                 text: 'Enregistrer',
                 iconCls: 'icon-save',
                 scale: 'medium',
-                handler: function() { me.saveRecord() },
-                initComponent: function() {
-                    var me = this;
-                    me.callParent();
-                    // Disables button if a version is selected
-                    this.on({afterrender: function() {
-                        // FIXME: This is dirty because the grid should not
-                        //        be aware of the ia-version-combo
-                        var me = this,
-                            // Finds the ia-version-combo contained in plain forms
-                            form = this.up('form'),
-                            form_combo = form ? form.down('ia-version-combo') : null,
-                            // Finds the ia-version-combo contained in 'commission' forms
-                            tabpanel = this.up('tabpanel'),
-                            panel = tabpanel ? tabpanel.up('panel') : null,
-                            panel_combo = panel ? panel.down('ia-version-combo') : null,
-                            //
-                            combo = form_combo || panel_combo;
-                        if (!combo) return;
-                        combo.on({changeversion: function(combo, version) {
-                            me.setDisabled(version);
-                            // Toggles form fields to 'readonly' mode
-                            // TODO: Move this logic into actual form
-                            me.up('form').cascade(function(c) {
-                                if (c.isXType('field') && !c.isXType('ia-version-combo'))
-                                    c.setReadOnly(version);
-                            });
-                        }});
-                    }});
-                },
+                handler: function() { me.saveRecord() }
             });
         }
         //
@@ -1634,6 +1635,20 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         // Determines tab CSS class
         var cls = finished ? 'tab-icon-done' : 'tab-icon-pending';
         tab.setIconCls(cls);
+    },
+    setVersion: function(version) {
+        this.items.each(function(c) {
+            // We need to go down one nesting level
+            // to access the actual tab content
+            c.down().setVersion(version);
+        });
+    },
+    lockFields: function(lock) {
+        this.items.each(function(c) {
+            // We need to go down one nesting level
+            // to access the actual tab content
+            c.down().lockFields(lock);
+        });
     },
     initComponent: function() {
         // 'Closed commission' information message display
