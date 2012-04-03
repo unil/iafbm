@@ -778,15 +778,16 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
                 editor.store.load();
             }
         });
-        // Sets grid as not editable and updates its state,
-        // storing the previous 'editable' state
-        this.editable
-    },
-    lockFields: function(locked) {
-        // Toggles grid rows editability
-        // (restoring initial value afterwards)
+        // Sets grid as not editable and updates its state
+        // - storing the previous 'editable' state
         if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
-        this.editable = locked ? false : this._editableInit;
+        // - setting form as not editable if versioned,
+        //   or restores stored editable state if not versioned
+        this.editable = version ? false : this._editableInit;
+        // - updating component state
+        this.updateState();
+    },
+    updateState: function() {
         // Toggles grid columns editability (eg. checkboxes)
         // (restoring initial value afterwards)
         Ext.each(this.columns, function(c) {
@@ -795,8 +796,8 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
             c.editable = version ? false : c._editableInit;
         });
         // Toggles dockedItems elements (eg. buttons)
-        this.dockedItems.each(function(dockedItems) {
-            dockedItems.items.each(function(c) {
+        this.dockedItems.each(function(toolbar) {
+            toolbar.cascade(function(c) {
                 if (c.updateState) c.updateState();
             })
         });
@@ -856,15 +857,14 @@ Ext.define('Ext.ia.grid.EditPanel', {
         me.callParent();
     },
     makeDockedItems: function() {
+        var me = this;
         var add = {
             text: this.toolbarLabels.add,
             iconCls: 'icon-add',
             handler: this.addItem,
             scope: this,
             updateState: function() {
-                var grid = this.up('grid');
-                // Disables if grid is not editable (see this.editable)
-                this.setDisabled(!grid.editable);
+                this.setDisabled(!me.editable);
             }
         };
         var del = {
@@ -882,11 +882,10 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 });
             }},
             updateState: function() {
-                var grid = this.up('grid'),
-                    records = grid.getSelectionModel().getSelection();
+                var records = me.getSelectionModel().getSelection();
                 // Disables if no record selected,
                 // or if grid is not editable (see this.editable)
-                this.setDisabled(!(records.length && grid.editable));
+                this.setDisabled(!(records.length && me.editable));
             }
         };
         var save = {
@@ -904,8 +903,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 store.on('remove', this.updateState);
             }},
             updateState: function() {
-                var grid = this.up('grid'),
-                    store = grid.getStore();
+                var store = me.getStore();
                 // Disables if no record selected,
                 // or if grid is not editable (see this.editable)
                 this.setDisabled(!store.getNonPristineRecords().length);
@@ -935,7 +933,10 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 this.store.params = this._storeParams;
             },
             updateState: function() {
-                // Search is never disabled for now
+                // Search is disabled if store is versioned
+                // because server-side does not support
+                // searching on versioned datasets yet.
+                this.setDisabled(me.store && me.store.params.xversion);
             }
         });
         // Adds items conditionally
@@ -1018,8 +1019,15 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
     // TODO: FIXME: Make grid editor combos versioned too !!!
     //              Solving server-side performance/computing problem first.
     setVersion: function(version) {
+        // Sets version (see ia-editbasepanel)
         this.store.params['xversion'] = version;
         this.store.load();
+        // -> Avoids grid combo columns versioning (see ia-editbasepanel) <-
+        // Sets not editable (see ia-editbasepanel)
+        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
+        this.editable = version ? false : this._editableInit;
+        this.updateState();
+
     },
     initComponent: function() {
         // Component
@@ -1322,7 +1330,6 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     changeVersion: function(version) {
         var component = this.getTopLevelComponent();
         component.setVersion(version);
-        component.lockFields(version);
     },
     initComponent: function() {
         this.addEvents([
@@ -1552,39 +1559,49 @@ Ext.define('Ext.ia.form.Panel', {
         return changes;
     },
     setVersion: function(version) {
+        var me = this;
         // Sets form record xversion
         this.loadRecord({xversion:version});
-        // Sets contained grids xversion
+        // Cascade setVersion() where applicable
         this.cascade(function(c) {
-            if (c.isXType('grid')) c.setVersion(version);
+            if (c === me) return;
+            if (c.setVersion) c.setVersion(version);
         });
+        // Sets grid as not editable and updates its state
+        // - storing the previous 'editable' state
+        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
+        // - setting form as not editable if versioned,
+        //   or restores stored editable state if not versioned
+        this.editable = version ? false : this._editableInit;
+        // - updating component state
+        this.updateState();
     },
-    lockFields: function(locked) {
-        this.editable = !Boolean(locked);
+    updateState: function() {
+        var me = this;
+        // Toggles form items (eg. fields)
+        // FIXME: Form items disablement logic could be moved
+        //        inside a Field-specific updateState() method
+        this.cascade(function(c) {
+            // Do not disable version-combo
+            if (c.isXType('ia-version-combo')) return;
+            // Toggles form fields to 'readonly' mode
+            if (c.isXType('field')) c.setReadOnly(!me.editable);
+            // Toggles contained buttons
+            if (c.isXType('button')) c.setDisabled(!me.editable);
+        });
+        // Cascades call to updateState()
+        // on form items
+        this.cascade(function(c) {
+            // Skips processing itself
+            if (c === me) return;
+            if (c.updateState) c.updateState();
+        });
+        // Cascades call to updateState()
+        // on dockedItems elements (eg. buttons)
         this.dockedItems.each(function(dockedItem) {
             dockedItem.items.each(function(c) {
                 if (c.updateState) c.updateState();
             });
-        });
-/*
-        // TODO with global toolbar concept
-        // Disables 'save' button
-        me.setDisabled(locked);
-*/
-      // Toggles components disablement
-      this.cascade(function(c) {
-            // Toggles form fields to 'readonly' mode
-            if (c.isXType('field') && !c.isXType('ia-version-combo')) {
-                c.setReadOnly(locked);
-            }
-            // Toggles contained grids
-            if (c.isXType('grid')) {
-                c.lockFields(locked);
-            }
-            // Toggles contained buttons
-            if (c.isXType('button')) {
-                c.setDisabled(locked);
-            }
         });
     },
     initComponent: function() {
@@ -1621,6 +1638,7 @@ Ext.define('Ext.ia.form.Panel', {
         if (!this.editable) this.lockFields(this.editable);
         // If applicable, create a save button for the form
         if (this.record || this.fetch.model) {
+            var me = this;
             if (!this.tbar) this.tbar = [];
             this.tbar.push({
                 xtype: 'button',
@@ -1629,7 +1647,7 @@ Ext.define('Ext.ia.form.Panel', {
                 scale: 'medium',
                 handler: function() { me.saveRecord() },
                 updateState: function() {
-                    this.setDisabled(!this.editable);
+                    this.setDisabled(!me.editable);
                 }
             });
         }
@@ -1811,6 +1829,7 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         toolbar.addCls(cls);
     },
     makeDockedItems: function() {
+        var me = this;
         return ['->', {
             xtype: 'checkbox',
             itemId: 'checkbox-finished',
@@ -1825,7 +1844,7 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
                 this.up('form').onCheckboxClick(checkbox);
             },
             updateState: function() {
-                this.setDisabled(!this.up('form').editable);
+                this.setDisabled(!me.editable);
             }
         }];
     },
