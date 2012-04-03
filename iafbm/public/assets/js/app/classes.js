@@ -778,6 +778,9 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
                 editor.store.load();
             }
         });
+        // Sets grid as not editable and updates its state,
+        // storing the previous 'editable' state
+        this.editable
     },
     lockFields: function(locked) {
         // Toggles grid rows editability
@@ -1318,7 +1321,6 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     },
     changeVersion: function(version) {
         var component = this.getTopLevelComponent();
-cc=component;
         component.setVersion(version);
         component.lockFields(version);
     },
@@ -1440,6 +1442,7 @@ Ext.define('Ext.ia.form.Panel', {
         labelAlign: 'right',
         msgTarget: 'side'
     },
+    editable: true,
     record: null,
     fetch: {
         model: null,
@@ -1557,6 +1560,12 @@ Ext.define('Ext.ia.form.Panel', {
         });
     },
     lockFields: function(locked) {
+        this.editable = !Boolean(locked);
+        this.dockedItems.each(function(dockedItem) {
+            dockedItem.items.each(function(c) {
+                if (c.updateState) c.updateState();
+            });
+        });
 /*
         // TODO with global toolbar concept
         // Disables 'save' button
@@ -1608,6 +1617,8 @@ Ext.define('Ext.ia.form.Panel', {
             */
             'aftersave'
         );
+        // Locks form if not editable
+        if (!this.editable) this.lockFields(this.editable);
         // If applicable, create a save button for the form
         if (this.record || this.fetch.model) {
             if (!this.tbar) this.tbar = [];
@@ -1616,7 +1627,10 @@ Ext.define('Ext.ia.form.Panel', {
                 text: 'Enregistrer',
                 iconCls: 'icon-save',
                 scale: 'medium',
-                handler: function() { me.saveRecord() }
+                handler: function() { me.saveRecord() },
+                updateState: function() {
+                    this.setDisabled(!this.editable);
+                }
             });
         }
         //
@@ -1809,6 +1823,9 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
                 if (finished == checked) return;
                 // Fires checkbox change logic
                 this.up('form').onCheckboxClick(checkbox);
+            },
+            updateState: function() {
+                this.setDisabled(!this.up('form').editable);
             }
         }];
     },
