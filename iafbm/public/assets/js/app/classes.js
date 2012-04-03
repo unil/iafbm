@@ -552,122 +552,6 @@ Ext.define('Ext.ia.form.field.Multi', {
  */
 
 /**
- * Selection grid enables the user to add items from one store into another
- * by searching the source store using an autocomplete list
- * and adding items to the destination store.
- * The developer can write the makeData() conversion function,
- * in order to translate source store record into destination store record.
- */
-Ext.define('Ext.ia.selectiongrid.Panel', {
-    extend: 'Ext.grid.Panel',
-    alias: 'widget.ia-selectiongrid',
-    //uses:?
-    requires: [
-        'Ext.grid.Panel',
-        'Ext.form.field.ComboBox'
-    ],
-    config: {
-        combo: {
-            store: null,
-            pageSize: 5
-        },
-        grid: {
-            store: null,
-            autoSync: false,
-        },
-        makeData: function(record) {
-            // Returns a hashtable for feeding Ext.data.Model data, eg:
-            // return {
-            //     field1: record.get('id'),
-            //     field2: record.get('name'),
-            //     field3: 'static value'
-            // }
-            return record.data;
-        },
-    },
-    setVersion: function(version) {
-        this.store.params['xversion'] = version;
-        this.store.load();
-    },
-    lockFields: function(locked) {
-tt=this;
-        // FIXME: TODO: To be implemented
-        console.error('Selecttiongrid lock Not implemented')
-        if (locked) {
-            // TODO...
-        }
-    },
-    initComponent: function() {
-        // Component
-        this.store = this.grid.store;
-        this.columns = this.grid.columns;
-        this.tbar = [
-            'Ajouter',
-            this.getCombo()
-        ];
-        this.bbar = [{
-            text: 'Supprimer la sélection',
-            iconCls: 'icon-delete',
-            handler: function() {
-                var grid = this.up('gridpanel');
-                var selection = grid.getView().getSelectionModel().getSelection()[0];
-                if (selection) grid.store.remove(selection);
-            }
-        }];
-        var me = this;
-        me.callParent();
-        // Sets store to autoSync changes
-        this.store.autoSync = this.grid.autoSync;
-        // Manages store autoloading
-        if (!this.store.autoLoad && !this.store.loaded) this.store.load();
-    },
-    getCombo: function() {
-        // Sets pageSize to combo store
-        this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
-        // Creates combo instance
-        //return new Ext.ia.form.field.ComboBox({
-        return new Ext.form.field.ComboBox({
-            store: this.combo.store,
-            pageSize: true, // Should equal the store.pageSize, but it works well like that...
-            queryParam: 'xquery',
-            typeAhead: false,
-            minChars: 1,
-            hideTrigger: true,
-            width: 350,
-            listConfig: {
-                loadingText: 'Recherche...',
-                emptyText: 'Aucun résultat.',
-                // Custom rendering template for each item
-                getInnerTpl: function() {
-                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
-                    return [
-                        '<div>',
-                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
-                        '  <h3>{prenom} {nom}</h3>',
-                        '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
-                        '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
-                        '</div>'
-                    ].join('');
-                }
-            },
-            listeners: {
-                select: function(combo, selection) {
-                    // Inserts record into grid store
-                    var grid = this.up('gridpanel'),
-                        records = [];
-                    Ext.each(selection, function(record) {
-                        records.push(new grid.store.model(grid.makeData(record)));
-                    });
-                    grid.store.insert(grid.store.getCount(), records);
-                    Ext.defer(this.clearValue, 250, this);
-                },
-                blur: function() { this.clearValue() }
-            }
-        });
-    }
-});
-
-/**
  * Extends Ext.ux.form.SearchField with
  * - events firing: beforesearch, aftersearch and resetsearch
  */
@@ -765,93 +649,73 @@ Ext.define('Ext.ia.toolbar.Paging', {
 });
 
 /**
+ * Extends Ext.grid.plugin.RowEditing with
+ * - project-specific config
+ * - autoCancel logic (disabled for now)
+ */
+Ext.define('Ext.ia.grid.plugin.RowEditing', {
+    extend: 'Ext.grid.plugin.RowEditing',
+    alias: 'plugin.ia-rowediting',
+    clicksToEdit: 2,
+    clicksToMoveEditor: 1,
+    autoCancel: false,
+    errorSummary: false,
+    constructor: function() {
+        var me = this;
+        me.callParent(arguments);
+        // FIXME: Is it still necessary?
+        // Workaround: we need to reset the store.params because surprisingly,
+        // they get changed when a row is added to the grid through
+        // the RowEditor plugin
+        //this.on('edit', function(context) {
+        //    context.store.params = context.store.proxy.extraParams;
+        //});
+        //
+        // Workaround for preventing validation errors tooltips to show up.
+        // Curse errorSummary is not properly managed
+        this.on('beforeedit', function() {
+            if (!me.errorSummary) this.editor.showToolTip = function() {};
+        });
+    },
+    // On edit cancel, remove phantom row or reject existing row modifications
+    // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
+    // NOTE: Disabled because it is managed better in ExtJS >= 4.0.7
+    _cancelEdit: function() {
+        if (this.context) {
+            var record = this.context.record;
+            if (record.phantom) {
+                // This _deleting flag based conditional return prevents an infinite loop
+                // for store.remove(record) probably indirectly calls
+                // this cancelEdit method...
+                if (record._deleting) return;
+                record._deleting = true;
+                this.context.store.remove(record);
+            } else {
+                record.reject();
+            }
+        }
+        var me = this;
+        me.callParent();
+    }
+});
+
+/**
  * Extends Ext.grid.Panel with
  * - Ext.ia.grid.plugin.RowEditing plugin
- * - Add / Delete buttons
- * - Search field
- * - Paging
  */
-Ext.define('Ext.ia.grid.EditPanel', {
+Ext.define('Ext.ia.grid.EditBasePanel', {
     extend: 'Ext.grid.Panel',
-    alias: 'widget.ia-editgrid',
-    config: {
-        width: 880,
-        height: 300,
-        frame: true,
-        store: null,
-        columns: null,
-        newRecordValues: {},
-        searchParams: {}
-    },
-    autoSync: false,
-    editable: true,
-    toolbarButtons: ['add', 'delete', 'save', 'search'],
-    toolbarLabels: {
-        add: 'Ajouter',
-        delete: 'Supprimer',
-        save: 'Enregistrer les modifications',
-        search: 'Rechercher'
-    },
-    pageSize: 10,
+    alias: 'widget.ia-editbasepanel',
     editingPluginId: null,
     plugins: [],
-    dockedItems: [],
-    bbar: new Ext.ia.toolbar.Paging(),
-    setVersion: function(version) {
-        // Sets grid store xversion
-        this.store.params['xversion'] = version;
-        this.store.load();
-        // Sets grid columns combo stores xversion
-        Ext.each(this.getColumns(), function(column) {
-            var editor = column.getEditor(),
-                store = (editor) ? editor.store : null,
-                proxy = (store) ? store.proxy : null,
-                type = (proxy) ? proxy.type : null;
-            if (type == 'ia-rest') {
-                editor.store.params['xversion'] = version;
-                editor.store.load();
-            }
-        });
-    },
-    lockFields: function(locked) {
-        // Toggles grid rows editability
-        // (restoring initial value afterwards)
-        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
-        this.editable = locked ? false : this._editableInit;
-        // Toggles grid columns editability (eg. checkboxes)
-        // (restoring initial value afterwards)
-        Ext.each(this.columns, function(c) {
-            if (!c.isXType('ia-radiocolumn')) return;
-            if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
-            c.editable = version ? false : c._editableInit;
-        });
-        // Toggles toolbar buttons
-        this.down('toolbar').items.each(function(c) {
-            if (c.updateState) c.updateState();
-        });
-    },
+    editable: true,
+    pageSize: 0, // Disabled
+    autoSync: false,
     initComponent: function() {
-        this.addEvents(
-            /**
-            * @event beforeload
-            * Fires before the record is loaded. Return false to cancel.
-            * @param {Ext.ia.grid.EditPanel} this
-            */
-            'beforeload',
-            /**
-            * @event beforeload
-            * Fires after the record is loaded.
-            */
-            'load'
-        );
-        // Dynamic parameters
-        if (!this.bbar) this.pageSize = null;
         // Creates Editing plugin (storing its id as grid property)
         this.plugins = [new Ext.ia.grid.plugin.RowEditing({
             pluginId: this.editingPluginId = Ext.id()
         })];
-        // Creates docked items (toolbar)
-        this.dockedItems = this.makeDockedItems();
         // Initializes Component
         var me = this;
         me.callParent();
@@ -895,6 +759,98 @@ Ext.define('Ext.ia.grid.EditPanel', {
         this.on({load: function() {
             this.doComponentLayout();
         }});
+    },
+    getEditingPlugin: function() {
+        return this.getPlugin(this.editingPluginId);
+    },
+    setVersion: function(version) {
+        // Sets grid store xversion
+        this.store.params['xversion'] = version;
+        this.store.load();
+        // Sets grid columns combo stores xversion
+        Ext.each(this.columns, function(column) {
+            var editor = column.getEditor(),
+                store = (editor) ? editor.store : null,
+                proxy = (store) ? store.proxy : null,
+                type = (proxy) ? proxy.type : null;
+            if (type == 'ia-rest') {
+                editor.store.params['xversion'] = version;
+                editor.store.load();
+            }
+        });
+    },
+    lockFields: function(locked) {
+        // Toggles grid rows editability
+        // (restoring initial value afterwards)
+        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
+        this.editable = locked ? false : this._editableInit;
+        // Toggles grid columns editability (eg. checkboxes)
+        // (restoring initial value afterwards)
+        Ext.each(this.columns, function(c) {
+            if (!c.isXType('ia-radiocolumn')) return;
+            if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
+            c.editable = version ? false : c._editableInit;
+        });
+        // Toggles dockedItems elements (eg. buttons)
+        this.dockedItems.each(function(dockedItems) {
+            dockedItems.items.each(function(c) {
+                if (c.updateState) c.updateState();
+            })
+        });
+    }
+});
+
+/**
+ * Extends Ext.grid.Panel with
+ * - Ext.ia.grid.plugin.RowEditing plugin
+ * - Add / Delete buttons
+ * - Search field
+ * - Paging
+ */
+Ext.define('Ext.ia.grid.EditPanel', {
+    extend: 'Ext.ia.grid.EditBasePanel',
+    alias: 'widget.ia-editgrid',
+    config: {
+        width: 880,
+        height: 300,
+        frame: true,
+        store: null,
+        columns: null,
+        newRecordValues: {},
+        searchParams: {}
+    },
+    toolbarButtons: ['add', 'delete', 'save', 'search'],
+    toolbarLabels: {
+        add: 'Ajouter',
+        delete: 'Supprimer',
+        save: 'Enregistrer les modifications',
+        search: 'Rechercher'
+    },
+    pageSize: 10,
+    editable: true,
+    dockedItems: [],
+    bbar: new Ext.ia.toolbar.Paging(),
+    initComponent: function() {
+        this.addEvents(
+            /**
+            * @event beforeload
+            * Fires before the record is loaded. Return false to cancel.
+            * @param {Ext.ia.grid.EditPanel} this
+            */
+            'beforeload',
+            /**
+            * @event beforeload
+            * Fires after the record is loaded.
+            */
+            'load'
+        );
+        // Dynamic parameters
+        if (!this.bbar) this.pageSize = null;
+        // Creates docked items (toolbar)
+        this.dockedItems = this.makeDockedItems();
+        // Initializes Component
+        var me = this;
+        me.callParent();
     },
     makeDockedItems: function() {
         var add = {
@@ -995,9 +951,6 @@ Ext.define('Ext.ia.grid.EditPanel', {
             items: items
         }];
     },
-    getEditingPlugin: function() {
-        return this.getPlugin(this.editingPluginId);
-    },
     createRecord: function() {
         return new this.store.model(this.newRecordValues);
     },
@@ -1022,53 +975,136 @@ Ext.define('Ext.ia.grid.EditPanel', {
 });
 
 /**
- * Extends Ext.grid.plugin.RowEditing with
- * - project-specific config
- * - autoCancel logic (disabled for now)
+ * Selection grid enables the user to add items from one store into another
+ * by searching the source store using an autocomplete list
+ * and adding items to the destination store.
+ * The developer can write the makeData() conversion function,
+ * in order to translate source store record into destination store record.
  */
-Ext.define('Ext.ia.grid.plugin.RowEditing', {
-    extend: 'Ext.grid.plugin.RowEditing',
-    alias: 'plugin.ia-rowediting',
-    clicksToEdit: 2,
-    clicksToMoveEditor: 1,
-    autoCancel: false,
-    errorSummary: false,
-    constructor: function() {
-        var me = this;
-        me.callParent(arguments);
-        // FIXME: Is it still necessary?
-        // Workaround: we need to reset the store.params because surprisingly,
-        // they get changed when a row is added to the grid through
-        // the RowEditor plugin
-        //this.on('edit', function(context) {
-        //    context.store.params = context.store.proxy.extraParams;
-        //});
-        //
-        // Workaround for preventing validation errors tooltips to show up.
-        // Curse errorSummary is not properly managed
-        this.on('beforeedit', function() {
-            if (!me.errorSummary) this.editor.showToolTip = function() {};
-        });
+Ext.define('Ext.ia.selectiongrid.Panel', {
+    extend: 'Ext.ia.grid.EditBasePanel',
+    alias: 'widget.ia-selectiongrid',
+    //uses:?
+    requires: [
+        'Ext.grid.Panel',
+        'Ext.form.field.ComboBox'
+    ],
+    config: {
+        combo: {
+            store: null,
+            pageSize: 5
+        },
+        grid: {
+            store: null,
+            autoSync: false,
+        },
+        makeData: function(record) {
+            // Returns a hashtable for feeding Ext.data.Model data, eg:
+            // return {
+            //     field1: record.get('id'),
+            //     field2: record.get('name'),
+            //     field3: 'static value'
+            // }
+            return record.data;
+        },
     },
-    // On edit cancel, remove phantom row or reject existing row modifications
-    // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
-    // NOTE: Managed better in ExtJS 4.0.7
-    _cancelEdit: function() {
-        if (this.context) {
-            var record = this.context.record;
-            if (record.phantom) {
-                // This _deleting flag based conditional return prevents an infinite loop
-                // for store.remove(record) probably indirectly calls
-                // this cancelEdit method...
-                if (record._deleting) return;
-                record._deleting = true;
-                this.context.store.remove(record);
-            } else {
-                record.reject();
+    // Parent Ext.ia.grid.EditBasePanel.setVesion()
+    // should be used, but disabled for now due to
+    // performance issue with 'personnes_activites' combo store
+    //
+    // TODO: FIXME: Make grid editor combos versioned too !!!
+    //              Solving server-side performance/computing problem first.
+    setVersion: function(version) {
+        this.store.params['xversion'] = version;
+        this.store.load();
+    },
+    initComponent: function() {
+        // Component
+        this.store = this.grid.store;
+        this.columns = this.grid.columns;
+        // Top toolbar
+        this.tbar = [
+            'Ajouter',
+            this.getCombo()
+        ];
+        // Bottom toolbar
+        this.bbar = [{
+            text: 'Supprimer la sélection',
+            iconCls: 'icon-delete',
+            handler: function() {
+                var grid = this.up('gridpanel');
+                var selection = grid.getView().getSelectionModel().getSelection()[0];
+                if (selection) grid.store.remove(selection);
+            },
+            disabled: true,
+            listeners: {afterrender: function() {
+                var me = this,
+                    grid = this.up('grid');
+                grid.on('selectionchange', function(view, records) {
+                    me.updateState();
+                });
+            }},
+            updateState: function() {
+                var grid = this.up('grid');
+                // Disables if no row selected
+                // or if grid is not editable (see this.editable)
+                var selection = grid.getSelectionModel().getSelection(),
+                    count = selection.length;
+                this.setDisabled(!(grid.editable && count));
             }
-        }
+        }];
+        // Parent init
         var me = this;
         me.callParent();
+    },
+    getCombo: function() {
+        // Sets pageSize to combo store
+        this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
+        // Creates combo instance
+        //return new Ext.ia.form.field.ComboBox({
+        return new Ext.form.field.ComboBox({
+            store: this.combo.store,
+            pageSize: true, // Should equal the store.pageSize, but it works well like that...
+            queryParam: 'xquery',
+            typeAhead: false,
+            minChars: 1,
+            hideTrigger: true,
+            width: 350,
+            listConfig: {
+                loadingText: 'Recherche...',
+                emptyText: 'Aucun résultat.',
+                // Custom rendering template for each item
+                getInnerTpl: function() {
+                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                    return [
+                        '<div>',
+                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                        '  <h3>{prenom} {nom}</h3>',
+                        '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
+                        '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
+                        '</div>'
+                    ].join('');
+                }
+            },
+            listeners: {
+                select: function(combo, selection) {
+                    // Inserts record into grid store
+                    var grid = this.up('gridpanel'),
+                        records = [];
+                    Ext.each(selection, function(record) {
+                        records.push(new grid.store.model(grid.makeData(record)));
+                    });
+                    grid.store.insert(grid.store.getCount(), records);
+                    Ext.defer(this.clearValue, 250, this);
+                },
+                blur: function() { this.clearValue() }
+            },
+            updateState: function() {
+                var grid = this.up('grid');
+                // Disables if grid is not editable (see this.editable)
+                this.setDisabled(!grid.editable);
+            }
+        });
     }
 });
 
