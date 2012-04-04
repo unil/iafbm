@@ -1,6 +1,6 @@
 <?php
 
-class iaAuth extends xAuth{
+class iaAuth extends xAuth {
 
     function set_from_aai() {
         $authenticated = isset(
