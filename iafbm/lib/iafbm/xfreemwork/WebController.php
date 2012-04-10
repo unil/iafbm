@@ -19,50 +19,18 @@ class iaWebController extends xWebController {
     var $allow = array('get', 'post', 'put', 'delete');
 
     /**
-     * Fields to query on (for model parameters creation on xquery).
-     * Eg. when the xquery parameter is provided with a GET method.
-     * @see get()
-     * @var array
+     * @see iaQueryManager::$fields
      */
     var $query_fields = array();
 
     /**
-     * Fields to transforme before querying.
-     *
-     * For each model field name, the array describes
-     * - either the search AND replace regular expressions
-     * - or the name of one or more transformaers
-     *   (as defined in $query_field_transformers).
-     *
-     * Note that multiple transformers can be specified (see example below).
-     *
-     * Array structure:
-     * <code>
-     * array(
-     *     'fieldname1' => array('/search-regexp/' => '/replace-regexp/'),
-     *     'fieldname2' => 'date-full',
-     *     'fieldname3' => 'date-full,date-binomial'
-     *     ...
-     * )
-     * <code>
-     * @see get()
-     * @see $query_fields
-     * @see $query_fields_transformers
-     * @var array
+     * @see iaQueryManager::$transformers
      */
-    var $query_fields_transform = array();
-
-    var $query_fields_transformers = array(
-        'date' => array('/^(\d*)\.(\d*)\.(\d*)$/' => '$3-$2-$1'),
-        'date-binomial' => array('/^(\d*)\.(\d*)$/' => '$2-$1')
-    );
+    var $query_transform = array();
 
     /**
      * Joins to activate when query is active.
-     * @see xModel::$join
-     * @see $query_fields
-     * @see get()
-     * @var array
+     * @see iaQueryManager::$join
      */
     var $query_join = array();
 
@@ -91,14 +59,10 @@ class iaWebController extends xWebController {
      */
     var $sort_fields_substitutions = array();
 
-
-    /**
-     * Sets auth information
-     */
-    protected function __construct($params = null) {
+    function __construct($params=null) {
         parent::__construct($params);
-        // Setting auth information on every call
-        // because it can change anytime
+        // Setups auth information,
+        // on every call because it can change anytime
         xContext::$auth->set_from_aai();
     }
 
@@ -167,72 +131,13 @@ class iaWebController extends xWebController {
      * Transforms existing parameters to induce search behaviour within models.
      */
     protected function handle_query() {
-        $params = $this->params;
-        if (strlen(@$params['xquery']) > 0) {
-            $query = $params['xquery'];
-            // Activates join(s) specified in $query_join,
-            // preserving already active joins
-            $params['xjoin'] = array_merge(
-                array_keys(xModel::load($this->model, $params)->joins()),
-                array_keys(xModel::load($this->model, array('xjoin' => $this->query_join))->joins())
-            );
-            // Retrieve model fields names list (including foreign fields)
-            $model = xModel::load($this->model, $params);
-            $fields = array_merge(
-                array_keys($model->mapping),
-                array_keys($model->foreign_mapping())
-            );
-            // Adds (specified if applicable) model fields
-            foreach ($fields as $field) {
-                // Skips model field if $this->query_field exists but $field not in list
-                if ($this->query_fields && !in_array($field, $this->query_fields)) continue;
-                // Skips fields existing in params:
-                // these are to be used as constraint
-                if (in_array($field, array_keys($this->params), true)) continue;
-                // Transforms parameter data if applicable
-                // @see $query_fields_transform
-                if (in_array($field, array_keys($this->query_fields_transform))) {
-                    // Retrieves transformers information
-                    $transform = $this->query_fields_transform[$field];
-                    $infos = array();
-                    if (is_array($transform)) {
-                        // TODO
-                        $infos[] = array(
-                            'search' => array_shift(array_keys($transform)),
-                            'replace' => array_shift(array_values($transform))
-                        );
-                    } else {
-                        $transformers = array_map('trim', explode(',', $transform));
-                        foreach ($transformers as $transformer) {
-                            $transformer = $this->query_fields_transformers[$transformer];
-                            $infos[] = array(
-                                'search' => array_shift(array_keys($transformer)),
-                                'replace' => array_shift(array_values($transformer))
-                            );
-                        }
-                    }
-                    // Applies transformers to query value
-                    foreach ($infos as $info) {
-                        $query_transformed = preg_replace($info['search'], $info['replace'], $query, -1, $count);
-                        if ($query_transformed === null) throw new xException("Error transforming query parameter for field ({$field}), value ({$query})", 500);
-                        // If transformer worked, stop here
-                        // Otherwise, continue with next transformer
-                        if ($count) {
-                            $query = $query_transformed;
-                            break;
-                        }
-                    }
-                }
-                // Adds model parameters
-                $params[$field] = "%{$query}%";
-                $params["{$field}_comparator"] = 'LIKE';
-                $params["{$field}_operator"] = 'OR';
-            }
-            // Removes query param
-            unset($params['xquery']);
-            // Sets modified parameters
-            $this->params = $params;
-        }
+        $qm = xPlugin::load('QueryManager', $this->params);
+        $qm->model = $this->model;
+        $qm->fields = $this->query_fields;
+        $qm->join = $this->query_join;
+        $qm->transform = $this->query_transform;
+        $p = $qm->run();
+        $this->params = array_merge($this->params, $p);
     }
 
     /**

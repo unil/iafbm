@@ -7,7 +7,7 @@ class PersonnesController extends iaWebController {
     var $query_fields = array(
         'nom', 'prenom', 'pays_nom', 'pays_code', 'date_naissance'
     );
-    var $query_fields_transform = array(
+    var $query_transform = array(
         'date_naissance' => 'date,date-binomial'
     );
     var $query_join = 'pays';
