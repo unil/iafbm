@@ -1,8 +1,9 @@
 <?php
 
-class HomeController extends xWebController {
+class HomeController extends iaWebController {
 
-    function init() {
+    function __construct($params=array()) {
+        parent::__construct($params);
         $this->add_meta('navigation/highlight', 'home');
     }
 
