@@ -40,20 +40,23 @@ class PersonnesController extends iaWebController {
         // Adds '_activites' ghost field (if applicable)
         $return = xModel::load($this->model, $this->params)->return;
         if (xUtil::in_array(array('*', '_activites'), $return)) {
+            // Fetches 'activites' for each 'personne' in result set
+            $ids = array();
+            foreach ($personnes['items'] as &$personne) $ids[] = $personne['id'];
+            $fonctions = xModel::load('personne_activite', array(
+                'personne_id' => $ids,
+                'xjoin' => 'activite,activite_nom',
+                'xorder_by' => 'activite_nom_abreviation',
+                'xorder' => 'ASC'
+            ))->get();
+            // Applies '_activites' ghost field
             foreach ($personnes['items'] as &$personne) {
-                // Fetches 'Fonction' for the current 'Personne'
-                $fonctions = xModel::load('personne_activite', array(
-                    'personne_id' => $personne['id'],
-                    'xjoin' => 'activite,activite_nom',
-                    'xorder_by' => 'activite_nom_abreviation',
-                    'xorder' => 'ASC'
-                ))->get();
-                // Creates a CSV list of 'Fonction'
                 $f = array();
-                foreach($fonctions as $fonction) {
-                    $f[] = $fonction['activite_nom_abreviation'];
+                foreach ($fonctions as $fonction) {
+                    if ($fonction['personne_id'] == $personne['id'])
+                        $f[] = $fonction['activite_nom_abreviation'];
                 }
-                // Adds it to the resultset
+                // Creates a CSV list
                 $personne['_activites'] = implode(', ', $f);
             }
         }
