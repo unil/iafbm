@@ -6,6 +6,31 @@ class CommissionsMembresController extends AbstractCommissionController {
 
     var $model = 'commission_membre';
 
+    var $query_fields = array(
+        'personne_nom',
+        'personne_prenom',
+        'personne_personne_type_nom',
+        'personne_genre_nom',
+        'personne_date_naissance',
+        'personne_pays_nom',
+        'personne_canton_nom',
+        'activite_nom_nom',
+        'activite_section_code',
+        'rattachement_abreviation',
+        'rattachement_nom',
+        'rattachement_section_code',
+        'commission_nom',
+        'commission_commission_type_nom',
+        'commission_commission_etat_nom',
+        'commission_fonction_nom',
+        'commission_section_nom',
+        'commission_commentaire'
+    );
+    var $query_transform = array(
+        'date_naissance' => 'date,date-binomial'
+    );
+    var $query_join = 'personne,pays,genre,commission_fonction,activite,activite_nom,rattachement,commission,commission_type,commission_etat,section';
+
     var $sort_fields_substitutions = array(
         'activite_id' => array(
             'field' => 'activite_nom_nom',

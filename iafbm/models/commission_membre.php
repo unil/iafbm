@@ -32,7 +32,7 @@ class CommissionMembreModel extends iaModelMysql {
     var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'rattachement');
 
     var $wheres = array(
-        'query' => "{{personne_id}} = {personne_id} AND commissions_membres.actif = 1 AND (1=0 [OR {{*}} LIKE {*}])"
+        'query-fulltext' => "models/common/query-fulltext"
     );
 
     var $validation = array(

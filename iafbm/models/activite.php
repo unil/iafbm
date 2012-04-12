@@ -21,6 +21,10 @@ class ActiviteModel extends iaModelMysql {
 
     var $join = array('section', 'activite_type', 'activite_nom');
 
+    var $wheres = array(
+        'query-fulltext' => "models/common/query-fulltext"
+    );
+
     var $validation = array(
         'section_id' => 'mandatory',
         'activite_type_id' => 'mandatory',

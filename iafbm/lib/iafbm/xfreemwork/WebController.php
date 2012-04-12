@@ -107,6 +107,33 @@ class iaWebController extends xWebController {
 
     /**
      * API Method.
+     * Returns a list of fields available for the underlying model.
+     * @return array
+     */
+    function fields() {
+        if (!$this->model) throw new xException('This entity has no model', 404);
+        $model = xModel::load($this->model);
+        $model->join = array_keys($model->joins());
+        $fields = array_unique(array_merge(
+            array_keys($model->mapping),
+            array_keys($model->foreign_mapping())
+        ));
+        sort($fields);
+        return $fields;
+    }
+
+    /**
+     * API Method.
+     * Returns a list of queryable fields.
+     * @return array
+     */
+    function queryfields() {
+        // array_values() is used for array reindexing
+        return array_values(array_intersect($this->fields(), $this->query_fields));
+    }
+
+    /**
+     * API Method.
      * Generic get method for API calls.
      * @param mixed Any model fields for filtering, or a query parameter for search
      * @return array An ExtJS compatible resultset structure.

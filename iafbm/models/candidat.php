@@ -52,7 +52,7 @@ class CandidatModel extends iaModelMysql {
     var $join = array('pays');
 
     var $wheres = array(
-        'query' => "{{commission_id}} = {commission_id} AND {{actif}} = 1 AND (1=0 [OR {{*}} LIKE {*}])"
+        'query-fulltext' => "models/common/query-fulltext"
     );
 
     var $validation = array(

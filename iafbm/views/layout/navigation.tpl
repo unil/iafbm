@@ -25,6 +25,10 @@ $navigation = array(
         'activites' => array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'
+        ),
+        'search' => array(
+            'url' => u('search'),
+            'label' => 'Recherche'
         )
     )
 );

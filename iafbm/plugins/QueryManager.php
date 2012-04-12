@@ -27,7 +27,7 @@ class QueryManagerPlugin extends xPlugin {
      *
      * For each model field name, the array describes
      * - either the search AND replace regular expressions
-     * - or the name of one or more transformaers
+     * - or the name of one or more transformers
      *   (as defined in $query_field_transformers).
      *
      * Note that multiple transformers can be specified (see example below).
@@ -61,7 +61,7 @@ class QueryManagerPlugin extends xPlugin {
      * @var array
      */
     protected $operators = array(
-        ' ' => 'OR', //'AND', // FIXME: ' ' should be 'AND'
+        ' ' => 'AND',
         ',' => 'OR'
     );
 
@@ -77,9 +77,12 @@ class QueryManagerPlugin extends xPlugin {
         $this->setup_join();
         $query = $this->get_query();
         $p = array();
+        // Adds fields values
         foreach ($query as $part) {
             $p = array_merge($p, $this->make_param($part, $p));
         }
+        // Sets query template (xwhere)
+        $p['xwhere'] = 'query-fulltext';
         return $p;
     }
     protected function make_param($query_part, $existing_params=array()) {
@@ -87,18 +90,26 @@ class QueryManagerPlugin extends xPlugin {
         $fields = $query_part['field'] ?
             xUtil::arrize($query_part['field']) :
             $this->get_fields();
+        // Creates fields values
+        // (values are always set as an array)
         foreach($fields as $field) {
             $value = $this->transform($field, $query_part['value']);
-            $values = @$existing_params[$field] ? explode('|', $existing_params[$field]) : array();
+            $values = @$existing_params[$field] ? $existing_params[$field] : array();
             array_push($values, $value);
-            $values = implode('|', $values);
             $p[$field] = $values;
-            $p["{$field}_operator"] = $query_part['operator'];
-            $p["{$field}_comparator"] = 'REGEXP';
+            //$p["{$field}_operator"] = $query_part['operator'];
         }
         return $p;
     }
 
+    /**
+     * Transforms a field value according its transform definition.
+     * @see $transform
+     * @see $transformers
+     * @param string Model field name.
+     * @param string Value to transform.
+     * @return string Transformed value.
+     */
     protected function transform($field, $value) {
         $transform = @$this->transform[$field];
         if (!$transform) return $value;
@@ -163,11 +174,14 @@ class QueryManagerPlugin extends xPlugin {
             $op = $parts[$i];
             $value = $parts[$i+1];
             $field = null;
+            // Manages optional field prefix (eg. field:value)
             $value = explode(':', $value);
             if (count($value)>1) {
+                // Case field prefix (eg. field:value)
                 $field = $value[0];
                 $value = $value[1];
             } else {
+                // Case simple value (eg: value)
                 $value = array_shift($value);
             }
             $s[] = array(

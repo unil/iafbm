@@ -27,6 +27,10 @@ class CommissionModel extends iaModelMysql {
 
     var $join = array('commission_type');
 
+    var $wheres = array(
+        'query-fulltext' => "models/common/query-fulltext"
+    );
+
     var $validation = array(
         'nom' => array('mandatory')
     );
