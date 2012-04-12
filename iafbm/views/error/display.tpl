@@ -19,4 +19,6 @@ printf (
 
 <hr/>
 
+<?php if ('development' == xContext::$profile): ?>
 <pre><?php echo $d['exception'] ?></pre>
+<?php endif ?>
