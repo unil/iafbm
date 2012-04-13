@@ -46,7 +46,7 @@ class QueryManagerPlugin extends xPlugin {
     public $transform = array();
 
     /**
-     * Transformers.
+     * Available Transformers.
      * @var array
      */
     protected $transformers = array(
