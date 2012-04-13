@@ -672,7 +672,6 @@ Ext.define('iafbm.form.Personne', {
         var store = new iafbm.store.CommissionMembre({
             params: {
                 personne_id: personne_id,
-                xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
                 // TODO: FIXME: Default sort should be specified on the ExtJS column definition
                 xorder_by: 'commission_etat_id',
                 xorder: 'ASC'
@@ -688,7 +687,6 @@ Ext.define('iafbm.form.Personne', {
                 height: 150,
                 bbar: null,
                 store: store,
-                searchParams: { xwhere: 'query' },
                 iaDisableFor: [],
                 columns: [{
                     xtype: 'ia-actioncolumn-redirect',
