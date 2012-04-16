@@ -309,7 +309,7 @@ form = Ext.create('Ext.ia.Versioning', {
 EOL;
     }
 
-    function DataWhereAction() {
+    function dataWhereAction() {
         $p1 = array(
             'a' => 1,
             'b' => 2,
@@ -333,26 +333,54 @@ EOL;
                 'x' => 0
             ),
             array(
-                'OR' => array(
+                array('OR' => array(
                     'a' => 1,
                     'b' => 2
-                ),
+                )),
                 array(
                     'c' => 3
-                )
+                ),
+                array('OR' => array(
+                    'a' => 1,
+                    'b' => 2
+                ))
             )
         );
         // Params set selection
         $p = $p4;
         xUtil::pre($p);
         // Class test
-        $c = xSqlWhereInterpreter::load(null, $p);
-        xUtil::pre($c->test());
-        xUtil::pre($c->structure());
+        $parser = new xSqlWhereParser($p);
+        xUtil::pre($parser->test());
+        xUtil::pre($parser->parse());
         die();
     }
 }
 
+class xSqlSelect {} // For values: enquoting, etc
+class xSqlFrom {}
+class xSqlJoin {}
+class xSqlOrder {}
+class xSqlGroup {}
+class xSqlOffset {}
+class xSqlExpression {}
+
+class xSqlWhere {
+
+    public $component;
+
+    function __construct(xSqlWherePredicateGroup $component) {
+        $this->component = $component;
+    }
+
+    function __toString() {
+        return implode(' ', array("WHERE", $this->component));
+    }
+}
+
+/**
+ * Anatomically, a predicate group contains a set of predicates and an operator.
+ */
 class xSqlWherePredicateGroup {
 
     public $predicates = array();
@@ -369,16 +397,20 @@ class xSqlWherePredicateGroup {
      */
     public static $operators = array('AND', 'OR');
 
-    function __construct($predicates=array(), $operator=null) {
+    function __construct(array $predicates=array(), $operator=null) {
         $this->predicates = xUtil::arrize($predicates);
         if ($operator) $this->operator = $operator;
     }
 
     function __toString() {
-        return "(".implode(" $this->operator ", $this->predicates).")";
+        $operator = " {$this->operator} ";
+        return implode(array("(", implode($operator, $this->predicates), ")"));
     }
 }
 
+/**
+ * Anatomically, a predicate contains a field/value pair and a comparator.
+ */
 class xSqlWherePredicate {
 
     public $field;
@@ -407,7 +439,50 @@ class xSqlWherePredicate {
     }
 }
 
-class xSqlWhereInterpreter extends xPlugin {
+/**
+ * Creates a xSqlWhere clause from a structured description array.
+ *
+ * Example 1 would generate: ((a = 1 AND b = 2 AND (c = 3))
+ * REST forms (FYI):
+ * - HTTP: ?w[a]=1&w[b]=2&[c]=3 or ?a=1&b=2&c=3
+ * - JSON: { a:1, b:2, c:3 }
+ * <code>
+ * array(
+ *     'a' => 1,
+ *     'b' => 2,
+ *     'c' => 3
+ * );
+ * </code>
+ *
+ * Example 2 would generate: ((x = 0) AND ((a = 1 OR b = 2) AND (c = 3)))
+ * REST forms (FYI):
+ * - HTTP: ?w[0][x]=0&w[1][OR][a]=1&w[1][OR][b]=2&w[1][][c]=3
+ * - JSON: [ {x:0}, { OR:{a:1, b:2}, {c:3} } ]
+ * <code>
+ * array(
+ *     array(
+ *         'x' => 0
+ *     ),
+ *     array(
+ *         'OR' => array(
+ *             'a' => 1,
+ *             'b' => 2
+ *         ),
+ *         array(
+ *             'c' => 3
+ *         )
+ *     )
+ * )
+ * </code>
+ */
+class xSqlWhereParser extends xPlugin {
+
+    // Dev purpose:
+    // Makes constructor public for easy instanciation (testing)
+    // TODO: remove this
+    public function __construct(array $params=array()) {
+        return parent::__construct($params);
+    }
 
     /**
      * Recursively processes parameter items,
@@ -415,25 +490,38 @@ class xSqlWhereInterpreter extends xPlugin {
      * @param array Base of the where structure to be returned (for recursive calls).
      * @return array A where structure.
      */
-    protected function walk_item($p) {
+    protected function walk_item(array $p) {
         $structure = array();
-        foreach ($p as $key => $value) {
+        // Processes predicates/groups items
+        foreach ($p as $key => $item) {
+            // Determines wheter to process item:
+            // - as a group: which contains other predicates and/or groups
+            // - as a predicate: which contains a field:value pair
             if ($this->is_group($key)) {
                 // Computes operator, or null if no operator defined
-                $operator = array_shift(array_intersect(xSqlWherePredicateGroup::$operators, array($key)));
-                // Creates predicates array through iteration
-                $predicates = $this->walk_item($value);
-                // Adds predicates to group
+                $operator = array_shift(array_intersect(
+                    xSqlWherePredicateGroup::$operators,
+                    array($key)
+                ));
+                // Recurses into group childrens to create predicates array structure
+                $predicates = $this->walk_item($item);
+                // Adds predicates structure to group
                 $structure[] = new xSqlWherePredicateGroup($predicates, $operator);
-            } else {
-                $structure[] = new xSqlWherePredicate($key, $value);
+            } else /* $item is a predicate */ {
+                // Parses comparator
+                // TODO: Setup 'comparator' concept and parse comparator
+                $comparator = null;
+                // In this case, $key:$item is the predicate field:value pair
+                $field = $key;
+                // Adds single predicate to group
+                $structure[] = new xSqlWherePredicate($field, $item, $comparator);
             }
         }
         return $structure;
     }
 
     /**
-     * Determines whether the $key implies a group or a field.
+     * Determines whether the $key implies a group or a predicate.
      * @param mixed Key to be tested
      */
     protected function is_group($key) {
@@ -446,21 +534,22 @@ class xSqlWhereInterpreter extends xPlugin {
         );
     }
 
-    function structure() {
+    /**
+     * @return xSqlWhere Containing the parsed where structure
+     */
+    function parse() {
         // Ensures that top-level array is a 'group'
         $p = $this->params;
         if (count($p)) $p = array($p);
         // Recursively creates a predicates structure
-        return $this->walk_item($p);
+        $groups = $this->walk_item($p);
+        // Extracts the top-level group object (xSqlWherePredicateGroup)
+        $group = array_shift($groups);
+        //
+        return new xSqlWhere($group);
     }
 
     function test() {
-        $s = $this->structure();
-        return implode(' ', $s);
+        return (string)$this->parse();
     }
-
-    public static function load($name, $params=null) {
-        return new xSqlWhereInterpreter($params);
-    }
-
 }
