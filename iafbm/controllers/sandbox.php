@@ -308,4 +308,159 @@ form = Ext.create('Ext.ia.Versioning', {
 </script>
 EOL;
     }
+
+    function DataWhereAction() {
+        $p1 = array(
+            'a' => 1,
+            'b' => 2,
+            'c' => 3
+        );
+        $p2 = array(
+            array(
+                'a' => 1,
+                'b' => 2
+            )
+        );
+        $p3 = array(
+            'x' => 0,
+            array(
+                'a' => 1,
+                'b' => 2
+            )
+        );
+        $p4 = array(
+            array(
+                'x' => 0
+            ),
+            array(
+                'OR' => array(
+                    'a' => 1,
+                    'b' => 2
+                ),
+                array(
+                    'c' => 3
+                )
+            )
+        );
+        // Params set selection
+        $p = $p4;
+        xUtil::pre($p);
+        // Class test
+        $c = xSqlWhereInterpreter::load(null, $p);
+        xUtil::pre($c->test());
+        xUtil::pre($c->structure());
+        die();
+    }
+}
+
+class xSqlWherePredicateGroup {
+
+    public $predicates = array();
+
+    /**
+     * Default operator.
+     * @var string
+     */
+    public $operator = 'AND';
+
+    /**
+     * Accepted operators.
+     * @var array
+     */
+    public static $operators = array('AND', 'OR');
+
+    function __construct($predicates=array(), $operator=null) {
+        $this->predicates = xUtil::arrize($predicates);
+        if ($operator) $this->operator = $operator;
+    }
+
+    function __toString() {
+        return "(".implode(" $this->operator ", $this->predicates).")";
+    }
+}
+
+class xSqlWherePredicate {
+
+    public $field;
+    public $value;
+
+    /**
+     * Default operator.
+     * @var string
+     */
+    public $comparator = '=';
+
+    /**
+     * Accepted comparators.
+     * @var array
+     */
+    public static $comparators = array('=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IN', 'BETWEEN');
+
+    function __construct($field, $value, $comparator=null) {
+        $this->field = $field;
+        $this->value = $value;
+        if ($comparator) $this->comparator = $comparator;
+    }
+
+    function __toString() {
+        return "{$this->field} {$this->comparator} {$this->value}";
+    }
+}
+
+class xSqlWhereInterpreter extends xPlugin {
+
+    /**
+     * Recursively processes parameter items,
+     * extracts structure
+     * @param array Base of the where structure to be returned (for recursive calls).
+     * @return array A where structure.
+     */
+    protected function walk_item($p) {
+        $structure = array();
+        foreach ($p as $key => $value) {
+            if ($this->is_group($key)) {
+                // Computes operator, or null if no operator defined
+                $operator = array_shift(array_intersect(xSqlWherePredicateGroup::$operators, array($key)));
+                // Creates predicates array through iteration
+                $predicates = $this->walk_item($value);
+                // Adds predicates to group
+                $structure[] = new xSqlWherePredicateGroup($predicates, $operator);
+            } else {
+                $structure[] = new xSqlWherePredicate($key, $value);
+            }
+        }
+        return $structure;
+    }
+
+    /**
+     * Determines whether the $key implies a group or a field.
+     * @param mixed Key to be tested
+     */
+    protected function is_group($key) {
+        // max() is used to simulate an OR operator
+        return max(
+            // is $key an operator?
+            in_array(strtoupper($key), xSqlWherePredicateGroup::$operators),
+            // is $key an integer index?
+            (int)$key === $key
+        );
+    }
+
+    function structure() {
+        // Ensures that top-level array is a 'group'
+        $p = $this->params;
+        if (count($p)) $p = array($p);
+        // Recursively creates a predicates structure
+        return $this->walk_item($p);
+    }
+
+    function test() {
+        $s = $this->structure();
+        return implode(' ', $s);
+    }
+
+    public static function load($name, $params=null) {
+        return new xSqlWhereInterpreter($params);
+    }
+
 }
