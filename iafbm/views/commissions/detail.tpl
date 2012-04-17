@@ -105,7 +105,6 @@ Ext.onReady(function() {
                     personne_id: record.get('id'),
                     commission_fonction_id: 1,
                     commission_id: <?php echo $d['id'] ?>,
-                    actif: 1,
                     personne_nom: record.get('nom'),
                     personne_prenom: record.get('prenom')
                 }
@@ -593,7 +592,6 @@ Ext.onReady(function() {
             text: '<span style="font-weight:bold;font-size:18px">Clôturer</span>',
             height: 50,
             // Disables button if commission is already 'closed'
-            // FIXME: buggy
             listeners: {
                 afterrender: function() {
                     var me = this,
@@ -602,12 +600,16 @@ Ext.onReady(function() {
                         me.disableIf(form.getRecord());
                     }
                     form.on('load', function() {
-                        me.disableIf(this.getRecord());
+                        me.disableIf(this.getRecord(), form.store);
                     });
                 }
             },
-            disableIf: function(record) {
-                this.setDisabled(record.get('commission_etat_id') == 3);
+            disableIf: function(record, store) {
+                // Disables 'close' button
+                // if commission not already closed & form is not versioned
+                var versioned = store && store.params.xversion;
+                var enable = record.get('commission_etat_id')!=3 && !versioned;
+                this.setDisabled(!enable);
             },
             // Click logic
             handler: function() {
@@ -634,6 +636,7 @@ Ext.onReady(function() {
         }*/]
     });
 
+    // Panels ids are used for URL hash
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
         activeTab: 0,
         plain: true,
@@ -694,7 +697,7 @@ Ext.onReady(function() {
                 modelname: 'commission',
                 modelid: <?php echo $d['id'] ?>,
                 getTopLevelComponent: function() {
-                    return this.up('panel');
+                    return this.up('panel').down('tabpanel');
                 }
             },
             formConfig: {
