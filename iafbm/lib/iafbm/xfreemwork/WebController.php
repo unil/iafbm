@@ -163,7 +163,7 @@ class iaWebController extends xWebController {
         $qm->fields = $this->query_fields;
         $qm->join = $this->query_join;
         $qm->transform = $this->query_transform;
-        $p = $qm->run();
+        $p = $qm->params();
         $this->params = array_merge($this->params, $p);
     }
 

@@ -65,7 +65,12 @@ class QueryManagerPlugin extends xPlugin {
         ',' => 'OR'
     );
 
-    function run() {
+    /**
+     * Returns an array of xModel-compatible parameters
+     * that reflects the 'fulltext search string' ('xquery' parameter).
+     * @return array
+     */
+    public function params() {
         $q = @$this->params['xquery'];
         // Skips if no query issued
         if (strlen($q) < 1) return array();
@@ -74,15 +79,20 @@ class QueryManagerPlugin extends xPlugin {
     }
 
     protected function make_params() {
-        $this->setup_join();
         $query = $this->get_query();
         $p = array();
+        // Sets join parameter, keeping already active joins
+        $p['xjoin'] = array_unique(array_merge(
+            array_keys(xModel::load($this->model, $this->params)->joins()),
+            array_keys(xModel::load($this->model, array('xjoin' => $this->join))->joins())
+        ));
         // Adds fields values
         foreach ($query as $part) {
             $p = array_merge($p, $this->make_param($part, $p));
         }
         // Sets query template (xwhere)
         $p['xwhere'] = 'query-fulltext';
+        // Returns generated params
         return $p;
     }
     protected function make_param($query_part, $existing_params=array()) {
@@ -146,7 +156,30 @@ class QueryManagerPlugin extends xPlugin {
     }
 
     /**
-     * Returns a structured query representation
+     * Returns a structured query representation from fulltext string.
+     *
+     * The query representation consists in a set of keyword information.
+     * Each keyword information contains:
+     * - operator: the operator (AND, OR)
+     * - value: the value (keyword)
+     * - fieldname: the fieldname associated with the value (if speficied, null otherwise).
+     *
+     * For example, "some-value fieldname:some-other-value" would return the following structure.
+     * <code>
+     * array(
+     *     array(
+     *         'operator' => 'AND',
+     *         'value' => 'some-value',
+     *         'field' => null
+     *     ),
+     *     array(
+     *         'operator' => 'AND',
+     *         'value' => 'some-other-value',
+     *         'field' => 'fieldname'
+     *     ),
+     *     ...
+     * )
+     * </code>
      * @return array
      */
     protected function get_query() {
@@ -194,18 +227,6 @@ class QueryManagerPlugin extends xPlugin {
     }
 
     /**
-     * Activates join(s) query joins, preverving already active joins.
-     * @see $join
-     * @return array
-     */
-    protected function setup_join() {
-        $this->params['xjoin'] = array_merge(
-            array_keys(xModel::load($this->model, $this->params)->joins()),
-            array_keys(xModel::load($this->model, array('xjoin' => $this->join))->joins())
-        );
-    }
-
-    /**
      * Returns an array of field to query on.
      *
      * Returns the configured fields in fields property,
@@ -226,7 +247,8 @@ class QueryManagerPlugin extends xPlugin {
         // Keeps required fields only (if applicable)
         if ($this->fields) $fields = array_intersect($fields, $this->fields);
         // Discards fields existing in params: these are to be used as constraints
-        $fields = array_diff($fields, array_keys($this->params));
+        // FIXME: Constraints are not taken into account yet (to be done)
+        //$fields = array_diff($fields, array_keys($this->params));
         // Returns selected fields
         return $fields;
     }
