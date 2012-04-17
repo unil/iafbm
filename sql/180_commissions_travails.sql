@@ -23,6 +23,8 @@ CREATE TABLE commissions_travails_evenements_types (
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE UNIQUE INDEX commission_id_unique ON commissions_travails(commission_id);
+
 
 
 DROP TABLE IF EXISTS commissions_travails_evenements;
