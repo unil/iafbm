@@ -4,7 +4,9 @@ class PersonnesAdressesController extends iaWebController {
 
     var $model = 'personne_adresse';
 
-    var $query_fields = array('adresse_rue', 'adresse_npa', 'adresse_lieu');
+    var $query_fields = array('personne_nom', 'personne_prenom', 'adresse_rue', 'adresse_npa', 'adresse_lieu');
+
+    var $query_join = array('personne', 'adresse');
 
     var $sort_fields_substitutions = array(
         'adresse_adresse_type_id' => array(

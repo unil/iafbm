@@ -14,7 +14,8 @@ Ext.onReady(function() {
             ['Candidat', 'Candidats'],
             ['Commission', 'Commissions'],
             ['CommissionMembre', 'Membres de commissions'],
-            ['Activite', 'Fonctions']
+            ['Activite', 'Fonctions'],
+            ['PersonneAdresse', 'Adresses de personnes']
         ]
     });
 

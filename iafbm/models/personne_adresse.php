@@ -28,6 +28,10 @@ class PersonneAdresseModel extends iaModelMysql {
 
     var $join = array('adresse');
 
+    var $wheres = array(
+        'query-fulltext' => "models/common/query-fulltext"
+    );
+
     var $archive_foreign_models = array(
         'adresse' => array('adresse_id' => 'id')
     );

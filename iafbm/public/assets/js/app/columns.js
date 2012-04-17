@@ -45,6 +45,86 @@ iafbm.columns.Personne = [{
     }
 }];
 
+iafbm.columns.PersonneAdresse = [{
+    header: "Type",
+    dataIndex: 'adresse_adresse_type_id',
+    width: 85,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        store: new iafbm.store.AdresseType(),
+        valueField: 'id',
+        displayField: 'nom',
+        allowBlank: false
+    }
+},{
+    header: "Adresse",
+    dataIndex: 'adresse_rue',
+    flex: 1,
+    renderer: function(value) {
+        // Converts NL|CR into <br/> for field display
+        var breakTag = '<br/>';
+        value = (value + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+        return ['<div style="white-space:normal">', value, '</div>'].join('');
+    },
+    editor: {
+        //xtype: 'textfield',
+        xtype: 'ia-textarea',
+        grow: true,
+        growMin: 22,
+        growMax: 22,
+        fixEditorHeight: function() {
+            // FIXME: Not used, should be deleted after feature validation
+            // Sets RowEditor panel height according textarea height
+            var editorHeight = this.el.down('textarea').getHeight();
+            this.up('panel').setHeight(editorHeight+20);
+        },
+        fireKey: function(event) {
+            // Accepts ENTER as regular key
+            if (event.getKey() == event.ENTER) event.stopPropagation();
+            //this.fixEditorHeight();
+        },
+        //listeners: {focus: function() {
+        //    this.fixEditorHeight();
+        //}}
+    }
+},{
+    header: "NPA",
+    dataIndex: 'adresse_npa',
+    width: 40,
+    editor: {
+        xtype: 'textfield',
+        maskRe: /[0-9]/
+    }
+},{
+    header: "Lieu",
+    dataIndex: 'adresse_lieu',
+    width: 100,
+    editor: {
+        xtype: 'textfield',
+    }
+},{
+    header: "Pays",
+    dataIndex: 'adresse_pays_id',
+    width: 100,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        store: new iafbm.store.Pays(),
+        valueField: 'id',
+        displayField: 'nom',
+    }
+}/*,{
+    header: "Par défaut",
+    dataIndex: 'defaut',
+    width: 65,
+    xtype: 'ia-radiocolumn',
+    editor: {
+        xtype: 'checkboxfield',
+        disabled: true
+    }
+}*/];
+
 iafbm.columns.CommissionMembre = [{
     xtype: 'ia-actioncolumn-detailform',
     form: iafbm.form.Personne,
