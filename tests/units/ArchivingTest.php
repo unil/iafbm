@@ -35,6 +35,10 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             'commentaire' => 'Un commentaire test'
         )))->put();
         $ids['commission'] = $commission_result['items']['id'];
+        $ids['commission_type'] = $commission_result['items']['commission_type_id'];
+        $ids['commission_etat'] = $commission_result['items']['commission_etat_id'];
+        $ids['section'] = $commission_result['items']['section_id'];
+        // - Updates commission 'creation'
         $r = xController::load('commissions_creations', array(
             'id' => $this->insertid($commission_result, 'commission_creation'),
             'items' => array(
@@ -45,6 +49,7 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             )
         ))->post();
         $ids['commission_creation'] = $r['items']['id'];
+        // - Creates commission 'membres'
         $r = xController::load('commissions_membres', array(
             'id' => 0,
             'items' => array(
@@ -56,6 +61,8 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             )
         ))->put();
         $ids['commission_membre'] = $r['items']['id'];
+        $ids['commission_fonction'] = $r['items']['commission_fonction_id'];
+        // - Updates commission 'candidats commentaire'
         $r = xController::load('commissions_candidats_commentaires', array(
             'id' => $this->insertid($commission_result, 'commission_candidat_commentaire'),
             'items' => array(
@@ -65,6 +72,7 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             )
         ))->post();
         $ids['commission_candidat_commentaire'] = $r['items']['id'];
+        // - Creates commission 'candidats'
         $r = xController::load('candidats', array(
             'id' => 0,
             'items' => array(
@@ -75,6 +83,7 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             )
         ))->put();
         $ids['candidat'] = $r['items']['id'];
+        // - Creates commission 'candidats' 'formations'
         $r = xController::load('candidats_formations', array(
             'id' => 0,
             'items' => array(
@@ -86,8 +95,35 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
         ))->put();
         $ids['candidat_formation'] = $r['items']['id'];
         $ids['formation'] = $r['items']['formation_id'];
-        // Archives commission
-        xController::load('commissions', array(
+        // - Updates commission 'travail'
+        $r = xController::load('commissions_travails', array(
+            'id' => $this->insertid($commission_result, 'commission_travail'),
+            'items' => array(
+                'id' => $this->insertid($commission_result, 'commission_travail'),
+                'commission_id' => $ids['commission'],
+                'primo_loco' => $ids['candidat'],
+                'commentaire' => 'Commentaire commission travail'
+            )
+        ))->post();
+        $ids['commission_travail'] = $r['items']['id'];
+        // - Creates commission 'candidats'
+        $r = xController::load('commissions_travails_evenements', array(
+            'id' => 0,
+            'items' => array(
+                'id' => 0,
+                'commission_id' => $ids['commission'],
+                'commission_travail_evenement_type_id' => 2,
+                'date' => '2000-01-31'
+            )
+        ))->put();
+        $ids['commission_travail_evenement'] = $r['items']['id'];
+        $ids['commission_travail_evenement_type'] = $r['items']['commission_travail_evenement_type_id'];
+        // - Leave commission 'validation' unchanged
+        $ids['commission_validation'] = $this->insertid($commission_result, 'commission_validation');
+        // - Leave commission 'finalisation' unchanged
+        $ids['commission_finalisation'] = $this->insertid($commission_result, 'commission_finalisation');
+        // Archives commission (by 'closing' it)
+        $r = xController::load('commissions', array(
             'id' => $ids['commission'],
             'items' => array(
                 'id' => $ids['commission'],
@@ -95,6 +131,7 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             )
         ))->post();
         $ids['commission'] = $r['items']['id'];
+        $ids['commission_etat'] = $r['items']['commission_etat_id'];
         // Checks commission state
         $commission = xController::load('commissions', array(
             'id' => $ids['commission'],
@@ -112,11 +149,14 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
         $this->assertCount(1, $archive);
         $archive = array_shift($archive);
         $archive_id =  $archive['id'];
-        // Checks generated 'archive_data' rows
+        // Checks generated archive
         // - Creates comparable structure for $data information
         $data_stored = array();
         foreach ($ids as $model => $id) {
-            $r = xModel::load($model, array('id'=>$id))->get();
+            $r = xModel::load($model, array(
+                'id' => $id,
+                'xjoin' => ''
+            ))->get();
             $data_stored[$model][$id] = array_shift($r);
         }
         // - Creates comparable structure for 'archive_data' model
@@ -132,25 +172,38 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             $data_archive[$model][$id][$field] = $value;
         }
         // - Compares both 'stored' and 'archive' data
-// ksort($data_archive);
-// ksort($data_stored);
-// $data_stored['dsa'] = 1;
-// $diff = array_diff(
-//     $data_archive,
-//     $data_stored
-// );
-// var_dump($diff);
-// return;
-        // TODO: watch for model existing in $data_stored but not in $data_archive
-        // TODO: does the thing below work?
-        foreach($data_archive as $model => $records) {
-            foreach($records as $id => $record) {
-            var_dump("$model:$id");
-                $diff = array_diff(
-                    $data_archive[$model][$id],
-                    $data_stored[$model][$id]
+        // - Checks that both data contain the same models
+        $diff_models = $this->diff(
+            array_keys($data_stored),
+            array_keys($data_archive)
+        );
+        $this->assertEmpty($diff_models);
+        $models = array_keys($data_archive);
+        foreach($models as $model) {
+            // - Checks that both data contain the same records ids
+            $diff_ids = $this->diff(
+                $data_stored[$model],
+                $data_archive[$model]
+            );
+            $this->assertEmpty($diff_ids);
+            $model_ids = array_unique(array_merge(
+                array_keys($data_stored[$model]),
+                array_keys($data_archive[$model])
+            ));
+            // - Checks that both data contain the same records fields
+            foreach($model_ids as $id) {
+                $diff_fields = $this->diff(
+                    array_keys($data_stored[$model][$id]),
+                    array_keys($data_archive[$model][$id])
                 );
-                var_dump($diff);
+                $this->assertEmpty($diff_fields);
+                // - Checks that both data contain the same records data
+                $fields = array_keys($data_archive[$model][$id]);
+                foreach($fields as $field) {
+                    $value_stored = $data_stored[$model][$id][$field];
+                    $value_archive = $data_archive[$model][$id][$field];
+                    $this->assertSame($value_stored, $value_archive, "$model:$id:$field: '$value_stored' <> '$value_archive'");
+                }
             }
         }
     }
@@ -163,5 +216,11 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
         }
         if (!@$id) throw new xException('Count not find insert id');
         return $id;
+    }
+    protected function diff($array1, $array2) {
+        return array_unique(array_merge(
+            array_diff($array1, $array2),
+            array_diff($array2, $array1)
+        ));
     }
 }
