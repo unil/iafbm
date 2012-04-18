@@ -14,11 +14,6 @@ abstract class AbstractCommissionController extends iaWebController {
         return parent::post();
     }
 
-    function put() {
-        $this->check_closed();
-        return parent::put();
-    }
-
     /**
      * Prevents modifications if commission status is 'closed'
      * by throwing an exection if the given commission id is closed
@@ -33,7 +28,7 @@ abstract class AbstractCommissionController extends iaWebController {
         ))->get(0);
         if (!$commission) throw new xException("Commission does not exist (id: {$id})");
         if ($commission['commission_etat_id'] == 3) {
-            throw new xException('Cannot modify a closed commission', 403);
+            throw new xException('Cannot modify a closed commission', 403, $commission);
         }
     }
 }
