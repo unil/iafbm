@@ -20,7 +20,6 @@ class xTransactionTest extends iaPHPUnit_Framework_TestCase {
             'prenom' => "Un prénom ($f)"
         )), 'put');
         ## Operation result is well-formed
-var_dump($r->getMessage());
         $this->assertEquals(1, $r['xaffectedrows']);
         $this->assertTrue($r['xsuccess']);
         $id = $r['xinsertid'];
