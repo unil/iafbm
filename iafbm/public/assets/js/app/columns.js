@@ -63,82 +63,28 @@ iafbm.columns.CommissionMembre = [{
         };
     }
 }, {
+    // NOTE: This column implements *very* lazy data loading.
     header: "Activité",
     dataIndex: 'activite_id',
+    xtype: 'templatecolumn',
+    tpl: '{activite_nom_abreviation}',
     width: 150,
-    xtype: 'ia-combocolumn',
     editor: {
-        xtype: 'combo',
+        xtype: 'ia-combo',
         editable: false,
         typeAhead: false,
-        // Also retrieves deleted activites for versionned commission_membres
-        // FIXME: this can be huge, personne_id filter
-        //        containing grid personne_ids should be added
         store: new iafbm.store.PersonneActivite({
+            autoLoad: false,
             params: {
-                'actif[]': 0,
-                'actif[]': 1
+                personne_id: null,
+                xversion: null,
+                xjoin: 'activite,activite_nom'
             }
         }),
         valueField: 'activite_id',
         displayField: 'activite_nom_abreviation',
-        // Manages list filtering: only shows 'acitivites' related to the 'personne'
         listeners: {
-            beforequery: function(queryEvent, eventOpts) {
-                var store = this.getStore(),
-                    record = this.up('form').getRecord(),
-                    personne_id = record.get('personne_id'),
-                    version_id = record.get('version_id');
-                // Assigns store personne_id param if not already set
-                if (
-                    store.params.personne_id == personne_id &&
-                    store.params.xversion == version_id
-                ) return;
-                store.params = {
-                    personne_id: personne_id,
-                    xversion: version_id
-                };
-                store.load();
-            },
-            collapse: function(combo, record, index) {
-                var store = this.getStore();
-                // Deletes query params
-                delete(store.params.personne_id);
-                delete(store.params.xversion);
-                // Restores actif = [0,1]
-                store.params['actif[]'] = 0;
-                store.params['actif[]'] = 1;
-                // Reloads store
-                store.load();
-            }
-        }
-    }
-}, {
-    header: "Nom",
-    dataIndex: 'personne_nom',
-    flex: 1
-}, {
-    header: "Prénom",
-    dataIndex: 'personne_prenom',
-    flex: 1
-}, {
-    header: "Dépt / Service",
-    dataIndex: 'rattachement_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        valueField: 'rattachement_id',
-        displayField: 'rattachement_nom',
-        store: new iafbm.store.PersonneActivite({
-            params: {
-                order_by: 'rattachement_nom', // FIXME: this is not working (because it's a foreign key)
-                //TODO: DISTINCT causes problems with xversion
-                //xreturn: 'DISTINCT(rattachement_id), rattachements.nom AS rattachement_nom'
-            }
-        }),
-        // Manages list filtering: only shows 'rattachements' related to the 'personne'
-        listeners: {
+            // Manages list filtering: only shows 'acitivites' related to the 'personne'
             beforequery: function(queryEvent, eventOpts) {
                 var store = this.getStore(),
                     record = this.up('form').getRecord(),
@@ -151,19 +97,99 @@ iafbm.columns.CommissionMembre = [{
                 ) return;
                 store.params.personne_id = personne_id;
                 store.params.xversion = version_id;
-                delete(store.params.actif);
-                store.load();
+                store.load(function(records, operation, success) {
+                    if (!success) return;
+                    this.insert(records.length, {
+                        id: null,
+                        activite_id: null,
+                        activite_nom_abreviation: '(Aucune)'
+                    });
+                });
             },
-            collapse: function(combo, record, index) {
-                var store = this.getStore();
-                // Deletes query params
-                delete(store.params.personne_id);
-                delete(store.params.xversion);
-                // Restores actif = [0,1]
-                store.params['actif[]'] = 0;
-                store.params['actif[]'] = 1;
-                // Reloads store
-                store.load();
+            afterrender: function() {
+                // FIXME: not fired by the ext framework :(
+                // Displays activite_abreviation_nom as combo raw value
+                // because the store only loads on collapse
+                var activite_abreviation_nom = this.up('form').getRecord().get('activite_nom_abreviation');
+                var me = this,
+                    setRawValue = function() {
+                        if (!me.getRawValue()) me.setRawValue(activite_abreviation_nom);
+                    };
+                Ext.defer(setRawValue, 500);
+            },
+            select: function(combo, selectedRecords) {
+                // Affects the selected record 'activite_nom_abreviation' to grid record
+                // in order to display the value once the combo collapses
+                var activite_abreviation_nom = selectedRecords.pop().get('activite_nom_abreviation');
+                this.up('form').getRecord().set('activite_nom_abreviation', activite_abreviation_nom);
+            }
+        }
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1
+}, {
+    // NOTE: This column implements *very* lazy data loading.
+    header: "Dépt / Service",
+    dataIndex: 'rattachement_id',
+    xtype: 'templatecolumn',
+    tpl: '{rattachement_nom}',
+    flex: 1,
+    editor: {
+        xtype: 'ia-combo',
+        valueField: 'rattachement_id',
+        displayField: 'rattachement_nom',
+        store: new iafbm.store.PersonneActivite({
+            autoLoad: false,
+            params: {
+                personne_id: null,
+                order_by: 'rattachement_nom', // FIXME: this is not working (because it's a foreign key)
+            }
+        }),
+        listeners: {
+            // Manages list filtering: only shows 'acitivites' related to the 'personne'
+            beforequery: function(queryEvent, eventOpts) {
+                var store = this.getStore(),
+                    record = this.up('form').getRecord(),
+                    personne_id = record.get('personne_id'),
+                    version_id = record.get('version_id');
+                // Assigns store personne_id param if not already set
+                if (
+                    store.params.personne_id == personne_id &&
+                    store.params.xversion == version_id
+                ) return;
+                store.params.personne_id = personne_id;
+                store.params.xversion = version_id;
+                store.load(function(records, operation, success) {
+                    if (!success) return;
+                    this.insert(records.length, {
+                        id: null,
+                        activite_id: null,
+                        rattachement_nom: '(Aucune)'
+                    });
+                });
+            },
+            afterrender: function() {
+                // FIXME: not fired by the ext framework :(
+                // Displays activite_abreviation_nom as combo raw value
+                // because the store only loads on collapse
+                var rattachement_nom = this.up('form').getRecord().get('rattachement_nom');
+                var me = this,
+                    setRawValue = function() {
+                        if (!me.getRawValue()) me.setRawValue(rattachement_nom);
+                    };
+                Ext.defer(setRawValue, 500);
+            },
+            select: function(combo, selectedRecords) {
+                // Affects the selected record 'activite_nom_abreviation' to grid record
+                // in order to display the value once the combo collapses
+                var rattachement_nom = selectedRecords.pop().get('rattachement_nom');
+                this.up('form').getRecord().set('rattachement_nom', rattachement_nom);
             }
         }
     }
