@@ -338,6 +338,8 @@ Ext.define('iafbm.model.CommissionMembre', {
         // Foreign fields
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
+        {name: 'activite_nom_abreviation', type: 'string'},
+        {name: 'rattachement_nom', type: 'string'},
         {name: 'commission_nom', type: 'string'},
         {name: 'commission_type_racine', type: 'string'},
         {name: 'commission_etat_nom', type: 'string'},
