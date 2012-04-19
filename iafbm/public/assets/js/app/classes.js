@@ -1012,23 +1012,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             return record.data;
         },
     },
-    // Parent Ext.ia.grid.EditBasePanel.setVesion()
-    // should be used, but disabled for now due to
-    // performance issue with 'personnes_activites' combo store
-    //
-    // TODO: FIXME: Make grid editor combos versioned too !!!
-    //              Solving server-side performance/computing problem first.
-    setVersion: function(version) {
-        // Sets version (see ia-editbasepanel)
-        this.store.params['xversion'] = version;
-        this.store.load();
-        // -> Avoids grid combo columns versioning (see ia-editbasepanel) <-
-        // Sets not editable (see ia-editbasepanel)
-        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
-        this.editable = version ? false : this._editableInit;
-        this.updateState();
-
-    },
     initComponent: function() {
         // Component
         this.store = this.grid.store;

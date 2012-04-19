@@ -67,6 +67,21 @@ iafbm.columns.CommissionMembre = [{
     dataIndex: 'activite_id',
     width: 150,
     xtype: 'ia-combocolumn',
+    _getPersonneIds: function() {
+        var records = this.up('grid').store.getRange();
+            ids = [];
+        Ext.each(records, function(record) {
+            console.log(record.data.personne_id);
+            ids.push(record.data.personne_id);
+        });
+        return ids;
+    },
+    listeners: {
+        afterrender: function() {
+tt=this;
+console.log(tt._getPersonneIds());
+        }
+    },
     editor: {
         xtype: 'combo',
         editable: false,
@@ -76,14 +91,25 @@ iafbm.columns.CommissionMembre = [{
         //        containing grid personne_ids should be added
         store: new iafbm.store.PersonneActivite({
             params: {
-                'actif[]': 0,
-                'actif[]': 1
+//                'personne_id[]': null // Empty personne id, will be set in load listener
             }
         }),
         valueField: 'activite_id',
         displayField: 'activite_nom_abreviation',
-        // Manages list filtering: only shows 'acitivites' related to the 'personne'
         listeners: {
+            // FIXME
+            // TODO: Don't forget to set: xjoin: ''
+            the_right_one: function() {
+                var params = [],
+                    records = this.up('grid').store.getAll();
+                records.each(function(record) {
+                    params.push({
+                        'personne_id[]': record.get('personne_id')
+                    });
+                });
+                console.log('personne_id[]', params);
+            },
+            // Manages list filtering: only shows 'acitivites' related to the 'personne'
             beforequery: function(queryEvent, eventOpts) {
                 var store = this.getStore(),
                     record = this.up('form').getRecord(),
@@ -100,14 +126,12 @@ iafbm.columns.CommissionMembre = [{
                 };
                 store.load();
             },
+            // Resets 'personne_id' filter
             collapse: function(combo, record, index) {
                 var store = this.getStore();
                 // Deletes query params
+                // FIXME: TODO: Reset personne_id to commission_membres.personne_ids
                 delete(store.params.personne_id);
-                delete(store.params.xversion);
-                // Restores actif = [0,1]
-                store.params['actif[]'] = 0;
-                store.params['actif[]'] = 1;
                 // Reloads store
                 store.load();
             }
