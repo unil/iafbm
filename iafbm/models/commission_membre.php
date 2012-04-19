@@ -29,7 +29,7 @@ class CommissionMembreModel extends iaModelMysql {
         'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)'
     );
 
-    var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'rattachement');
+    var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'activite_nom', 'rattachement');
 
     var $wheres = array(
         'query-fulltext' => "models/common/query-fulltext"
