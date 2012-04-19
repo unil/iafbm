@@ -875,11 +875,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
             // Manages button disable state
             disabled: true,
             listeners: {afterrender: function() {
-                var me = this,
-                    grid = this.up('grid');
-                grid.on('selectionchange', function(view, records) {
-                    me.updateState();
-                });
+                var grid = this.up('grid');
+                grid.on('selectionchange', this.updateState, this);
             }},
             updateState: function() {
                 var records = me.getSelectionModel().getSelection();
@@ -896,11 +893,10 @@ Ext.define('Ext.ia.grid.EditPanel', {
             // Manages button disable state
             disabled: true,
             listeners: {afterrender: function() {
-                var me = this,
-                    store = this.up('grid').getStore();
-                store.on('add', this.updateState);
-                store.on('update', this.updateState);
-                store.on('remove', this.updateState);
+                var store = this.up('grid').getStore();
+                store.on('add', this.updateState, this);
+                store.on('update', this.updateState, this);
+                store.on('remove', this.updateState, this);
             }},
             updateState: function() {
                 var store = me.getStore();
