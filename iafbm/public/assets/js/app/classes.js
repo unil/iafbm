@@ -252,6 +252,7 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
             );
             return;
         }
+        // Creates popup
         var popup = new Ext.ia.window.Popup({
             title: 'Détails',
             item: new this.form({
@@ -1467,7 +1468,11 @@ Ext.define('Ext.ia.form.Panel', {
             var me = this;
             this.fetch.model.load(this.fetch.id, {
                 success: function(record) {
-                    // Checks record before applying
+                    // FIXME: Test on xversion prevents displaying an error
+                    //        meanwhile the actual versioned record is loaded (see this.initComponent()).
+                    //        This is dirty
+                    if (!record && me.fetch.xversion) return;
+                    // Checks record before applying data
                     if (!record) {
                         proxy.fireEvent('exception', proxy, {}, {action:'read'});
                         return;
