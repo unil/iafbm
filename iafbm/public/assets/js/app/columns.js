@@ -55,7 +55,7 @@ iafbm.columns.CommissionMembre = [{
         var commission_membre = gridView.getStore().getAt(rowIndex),
             personne_id = commission_membre.get('personne_id'),
             version = commission_membre.get('version_id');
-        // Load versioned record
+        // Loads versioned record (if applicable, eg. xversion > 0)
         return {
             model: iafbm.model.Personne,
             id: personne_id,
@@ -264,10 +264,14 @@ iafbm.columns.Candidat = [{
         return null
     },
     getFetch: function(gridView, rowIndex, colIndex, item) {
-        var candidat = gridView.getStore().getAt(rowIndex);
+        var store = gridView.getStore(),
+            candidat = store.getAt(rowIndex),
+            version = store.params.xversion;
+        // Loads versioned record (if applicable, eg. xversion > 0)
         return {
             model: iafbm.model.Candidat,
-            id: candidat.get('id')
+            id: candidat.get('id'),
+            xversion: version
         };
     }
 }, {
