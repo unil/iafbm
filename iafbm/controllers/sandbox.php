@@ -376,44 +376,83 @@ EOL;
             )
         );
         //
-        $o = array(
-            'table1.field1 ASC',
-            'table2.field2 DESC'
+        $g1 = array(
+            'table1.field1',
+            'table2.field2',
+            //'table3' => array('field31', 'field32')
+            //'field0' // no table specified behaviour?
         );
-        // Class test (simple)
-/*
-        $w = $w4;
-        xUtil::pre($w);
-        $parser = new xSqlRequestParserWhere($w);
+        //
+        $o1 = array(
+            'table1.field1 ASC',
+            'table2.field2 DESC',
+            //'table3' => array('field31 ASC', 'field32 DESC')
+            //'field0' // no table specified behaviour?
+        );
+        //
+        $full = array(
+            'select' => $s1,
+            'from' => $f1,
+            'joins' => $j1,
+            'where' => $w4,
+            'group' => $g1,
+            'order' => $o1,
+            //'having' => array()
+        );
+        //
+        // Class test (xSql)
+        $parser = new xSqlRequestParserSql($full);
         $sql = $parser->parse();
         xUtil::pre((string)$sql);
-*/
+        xUtil::pre($full);
+        xUtil::pre($sql);
+/*
         //
         // Class test (xSqlSelect)
-/*
         $s = $s1;
         xUtil::pre($s);
         $parser = new xSqlRequestParserSelect($s);
         $sql = $parser->parse();
         xUtil::pre((string)$sql);
-*/
+        //
+        // Class test (simple)
+        $w = $w4;
+        xUtil::pre($w);
+        $parser = new xSqlRequestParserWhere($w);
+        $sql = $parser->parse();
+        xUtil::pre((string)$sql);
         //
         // Class test (xSqlFrom)
-/*
         $f = $f1;
         xUtil::pre($f);
         $parser = new xSqlRequestParserFrom($f);
         $sql = $parser->parse();
         xUtil::pre((string)$sql);
-*/
         //
         // Class test (xSqlFrom)
         $j = $j1;
         xUtil::pre($j);
-        $parser = new xSqlRequestParserJoin($j);
+        $parser = new xSqlRequestParserJoins($j);
         $joins = $parser->parse();
         xUtil::pre(implode(",\n", $joins));
         xUtil::pre($joins);
+        //
+        // Class test (xSqlGroup)
+        $g = $g1;
+        xUtil::pre($g);
+        $parser = new xSqlRequestParserGroup($g);
+        $group = $parser->parse();
+        xUtil::pre((string)$group);
+        xUtil::pre($group);
+        //
+        // Class test (xSqlOrder)
+        $o = $o1;
+        xUtil::pre($o);
+        $parser = new xSqlRequestParserOrder($o);
+        $order = $parser->parse();
+        xUtil::pre((string)$order);
+        xUtil::pre($order);
+*/
         //
         die();
     }
