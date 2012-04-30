@@ -10,6 +10,8 @@ class CommissionMembreModel extends iaModelMysql {
         'personne_id' => 'personne_id',
         'commission_id' => 'commission_id',
         'commission_fonction_id' => 'commission_fonction_id',
+        'fonction_complement' => 'fonction_complement',
+        'personne_denomination_id' => 'personne_denomination_id',
         'activite_id' => 'activite_id',
         'rattachement_id' => 'rattachement_id',
         'version_id' => 'version_id'

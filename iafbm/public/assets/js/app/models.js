@@ -332,6 +332,8 @@ Ext.define('iafbm.model.CommissionMembre', {
         {name: 'personne_id', type: 'int'},
         {name: 'commission_id', type: 'int'},
         {name: 'commission_fonction_id', type: 'int'},
+        {name: 'fonction_complement', type: 'string'},
+        {name: 'personne_denomination_id', type: 'int', useNull: true},
         {name: 'activite_id', type: 'int', useNull: true},
         {name: 'rattachement_id', type: 'int', useNull: true},
         {name: 'version_id', type: 'int', useNull: true},
