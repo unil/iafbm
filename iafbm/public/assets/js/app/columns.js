@@ -62,7 +62,7 @@ iafbm.columns.CommissionMembre = [{
             xversion: version
         };
     }
-}, {
+}, /* Disabled as of ticket #177 {
     // NOTE: This column implements *very* lazy data loading.
     header: "Activité",
     dataIndex: 'activite_id',
@@ -125,7 +125,7 @@ iafbm.columns.CommissionMembre = [{
             }
         }
     }
-}, {
+},*/ {
     header: "Nom",
     dataIndex: 'personne_nom',
     flex: 1
@@ -133,7 +133,7 @@ iafbm.columns.CommissionMembre = [{
     header: "Prénom",
     dataIndex: 'personne_prenom',
     flex: 1
-}, {
+}, /* Disabled as of ticket #177 {
     // NOTE: This column implements *very* lazy data loading.
     header: "Dépt / Service",
     dataIndex: 'rattachement_id',
@@ -193,7 +193,7 @@ iafbm.columns.CommissionMembre = [{
             }
         }
     }
-}, {
+},*/ {
     header: "Fonction",
     dataIndex: 'commission_fonction_id',
     width: 250,
