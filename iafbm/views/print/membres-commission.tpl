@@ -8,7 +8,7 @@
     }
 ?>
 
-<h1><?php echo $d['commission']['nom'] ?></h1>
+<h1>Composition de la commission pour <?php echo $d['commission']['nom'] ?></h1>
 <hr/>
 <table class="noborder">
   <tr>
@@ -24,5 +24,5 @@
 </table>
 <hr/>
 <div style="font-size:8pt">
-  No de la commission: <?php echo $d['commission']['id'] ?>
+  Décanat/Unité Relève/Ref. <?php echo $d['commission']['id'] ?>
 </div>
