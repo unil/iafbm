@@ -310,6 +310,8 @@ EOL;
     }
 
     function dataWhereAction() {
+        require_once('/var/www/own/RestQL/code/php/import.php');
+        //
         $s1 = array(
             'field',
             array('field_x', 'field_y'),
