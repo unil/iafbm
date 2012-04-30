@@ -21,7 +21,9 @@ class AdresseModel extends iaModelMysql {
         'pays' => 'LEFT JOIN pays ON (adresses.pays_id = pays.id)'
     );
 
-    var $validation = array();
+    var $validation = array(
+        'adresse_type_id' => 'mandatory'
+    );
 
     var $archive_foreign_models = array(
         'adresse_type' => array('adresse_type_id' => 'id')

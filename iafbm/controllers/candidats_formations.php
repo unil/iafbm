@@ -62,9 +62,9 @@ class CandidatsFormationsController extends iaWebController {
     protected function handle_date() {
         // Checks date validity
         $info = array(
-            'day' => $this->params['items']['_date_these_jour'],
-            'month' => $this->params['items']['_date_these_mois'],
-            'year' => $this->params['items']['_date_these_annee'],
+            'day' => @$this->params['items']['_date_these_jour'],
+            'month' => @$this->params['items']['_date_these_mois'],
+            'year' => @$this->params['items']['_date_these_annee'],
         );
         // Checks date components range
         if ($info['day'] < 0 || $info['day'] < 0 || $info['year'] < 0)
