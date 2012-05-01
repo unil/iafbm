@@ -252,6 +252,7 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
             );
             return;
         }
+        // Creates popup
         var popup = new Ext.ia.window.Popup({
             title: 'Détails',
             item: new this.form({
@@ -1008,23 +1009,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             return record.data;
         },
     },
-    // Parent Ext.ia.grid.EditBasePanel.setVesion()
-    // should be used, but disabled for now due to
-    // performance issue with 'personnes_activites' combo store
-    //
-    // TODO: FIXME: Make grid editor combos versioned too !!!
-    //              Solving server-side performance/computing problem first.
-    setVersion: function(version) {
-        // Sets version (see ia-editbasepanel)
-        this.store.params['xversion'] = version;
-        this.store.load();
-        // -> Avoids grid combo columns versioning (see ia-editbasepanel) <-
-        // Sets not editable (see ia-editbasepanel)
-        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
-        this.editable = version ? false : this._editableInit;
-        this.updateState();
-
-    },
     initComponent: function() {
         // Component
         this.store = this.grid.store;
@@ -1484,7 +1468,11 @@ Ext.define('Ext.ia.form.Panel', {
             var me = this;
             this.fetch.model.load(this.fetch.id, {
                 success: function(record) {
-                    // Checks record before applying
+                    // FIXME: Test on xversion prevents displaying an error
+                    //        meanwhile the actual versioned record is loaded (see this.initComponent()).
+                    //        This is dirty
+                    if (!record && me.fetch.xversion) return;
+                    // Checks record before applying data
                     if (!record) {
                         proxy.fireEvent('exception', proxy, {}, {action:'read'});
                         return;

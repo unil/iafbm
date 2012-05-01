@@ -265,7 +265,9 @@ class iaModelMysql extends xModelMysql {
         // BEGIN a separate transaction
         xModel::q('SET AUTOCOMMIT=0');
         // Executes query
-        $r = xModel::q("DELETE FROM {$this->maintable} WHERE id = {$this->params['id']}");
+        $id = $this->params[$this->primary()];
+        $sql = "DELETE FROM {$this->maintable} WHERE id = {$id}";
+        $r = xModel::q($sql);
         // ROLLBACK the separate transaction
         xModel::q('ROLLBACK');
         //
