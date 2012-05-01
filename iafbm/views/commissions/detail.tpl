@@ -107,7 +107,26 @@ Ext.onReady(function() {
                     personne_nom: record.get('nom'),
                     personne_prenom: record.get('prenom')
                 }
-            }
+            },
+            tbar: ['->', {
+                xtype: 'button',
+                text: 'Imprimer',
+                iconCls: 'icon-print',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/print/commissions_membres/', id].join('');
+                    location.href = url;
+                }
+            }, '-', {
+                xtype: 'button',
+                text: 'Visualiser',
+                iconCls: 'icon-details',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/print/commissions_membres/', id, '?html'].join('');
+                    window.open(url);
+                }
+            }]
         })/*, {
             xtype: 'ia-history'
         }*/]

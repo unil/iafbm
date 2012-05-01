@@ -1009,6 +1009,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             return record.data;
         },
     },
+    tbar: [],
     initComponent: function() {
         // Component
         this.store = this.grid.store;
@@ -1017,7 +1018,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         this.tbar = [
             'Ajouter',
             this.getCombo()
-        ];
+        ].concat(this.tbar);
         // Bottom toolbar
         this.bbar = [{
             text: 'Supprimer la sélection',
