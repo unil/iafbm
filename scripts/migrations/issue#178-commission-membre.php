@@ -11,8 +11,6 @@ class iafbmIssue178 extends iafbmScript {
         }
         //
         $this->create_fields();
-        $this->update_records();
-        $this->update_versioning();
     }
 
     function create_fields() {
