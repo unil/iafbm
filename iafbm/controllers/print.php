@@ -19,6 +19,8 @@ class printController extends iaWebController {
     }
 
     protected function print_commissions_membres() {
+        $this->params['xorientation'] = 'landscape';
+        // Fetches related records
         $id = @$this->params['id'];
         if (!$id) throw new xException('Commission id parameter missing');
         $commission = xController::load('commissions', array(
@@ -30,9 +32,28 @@ class printController extends iaWebController {
             'xjoin' => 'personne,personne_denomination,commission_fonction',
             'xorder_by' => 'commission_fonction_position, personne_nom, personne_prenom'
         ))->get();
+        // Transforms members structure (this feels dirty, sorry)
+        $m = array();
+        $fields_to_keep = array('id', 'personne_id', 'personne_denomination_nom', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
+        $fields_to_concat = array('personne_denomination_nom', 'commission_fonction_nom', 'fonction_complement');
+        foreach ($membres['items'] as $membre) {
+            $membre = xUtil::filter_keys($membre, $fields_to_keep);
+            $id = $membre['personne_id'];
+            if (@!$m[$id]) {
+                $m[$id] = $membre;
+                foreach($fields_to_concat as $field) {
+                    $m[$id][$field] = array($membre[$field]);
+                }
+            } else {
+                foreach($fields_to_concat as $field) {
+                    $m[$id][$field] = array_merge($m[$id][$field], array($membre[$field]));
+                }
+            }
+        }
+        // Renders view
         $data = array(
             'commission' => array_shift($commission['items']),
-            'membres' => $membres['items']
+            'membres' => $m
         );
         $html = xView::load('print/membres-commission', $data)->render();
         return $this->_print($html);
@@ -57,6 +78,12 @@ class printController extends iaWebController {
     }
 
     function _print($html) {
+        // PDF formatting parameters
+        $orientation = @$this->params['xorientation'];
+        if (!$orientation) $orientation = 'portrait';
+        $paper = @$this->params['xpaper'];
+        $paper = strtolower($paper);
+        if (!$paper) $paper = 'a4';
         // Renders $html within print template
         $html = xView::load('layout/print', array(
             'content' => $html
@@ -66,7 +93,7 @@ class printController extends iaWebController {
         // Creates PDF file
         require_once(xContext::$basepath.'/lib/dompdf/dompdf_config.inc.php');
         $dompdf = new DOMPDF();
-        $dompdf->set_paper('a4', 'portrait');
+        $dompdf->set_paper($paper, $orientation);
         $dompdf->set_base_path(xContext::$baseurl);
         $dompdf->load_html($html);
         $dompdf->render();
