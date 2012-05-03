@@ -366,7 +366,7 @@ class iafbmImportScript extends iafbmScript {
     									),
     	    	    	    	    	'operation' => array(
     	    	    	    	    		'delete_blanks:personne_denomination_id',
-    	    	    	    	    		'find:personne_denomination:nom=personne_denomination_id:id:personne_denomination_id',
+    	    	    	    	    		'find:personne_denomination:nom_masculin=personne_denomination_id:id:personne_denomination_id',
     	    	    						'mergeWithModel:personne:id:personne_denomination_id',
     									),
     								),
