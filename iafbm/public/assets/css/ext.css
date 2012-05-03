@@ -13,6 +13,9 @@
 .icon-details {
     background-image: url(../img/ext/page_white_magnify.png) !important;
 }
+.icon-print {
+    background-image: url(../img/ext/printer.png) !important;
+}
 
 
 .tab-icon-ok,

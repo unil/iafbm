@@ -124,7 +124,22 @@ class Text_Frame_Decorator extends Frame_Decorator {
   
   // split the text in this frame at the offset specified.  The remaining
   // text is added a sibling frame following this one and is returned.
+  // Edit: Fixes line-break (see http://www.vithuroathvun.com/dompdf-problem-line-break-in-context/)
   function split_text($offset) {
+    if ( $offset == 0 )
+      return;
+
+    $text = $this->_frame->get_node()->nodeValue;
+
+    $split = $this->_frame->get_node()->splitText($offset);
+    $this->_frame->get_node()->nodeValue = mb_substr($text,0,$offset);
+    $split->nodeValue = mb_substr($text,$offset);
+    $deco = $this->copy($split);
+
+    $p = $this->get_parent();
+    $p->insert_child_after($deco, $this, false);
+  }
+  function split_text_DIST($offset) {
     if ( $offset == 0 )
       return;
     

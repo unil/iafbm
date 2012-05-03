@@ -62,6 +62,18 @@ iafbm.columns.CommissionMembre = [{
             xversion: version
         };
     }
+}, {
+    header: "Dénomination",
+    dataIndex: 'personne_denomination_id',
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        editable: false,
+        typeAhead: false,
+        store: new iafbm.store.PersonneDenomination(),
+        valueField: 'id',
+        displayField: 'nom'
+    }
 }, /* Disabled as of ticket #177 {
     // NOTE: This column implements *very* lazy data loading.
     header: "Activité",
@@ -196,7 +208,7 @@ iafbm.columns.CommissionMembre = [{
 },*/ {
     header: "Fonction",
     dataIndex: 'commission_fonction_id',
-    width: 250,
+    width: 200,
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
@@ -204,6 +216,13 @@ iafbm.columns.CommissionMembre = [{
         valueField: 'id',
         allowBlank: false,
         store: new iafbm.store.CommissionFonction()
+    }
+}, {
+    header: "Complément de fonction",
+    dataIndex: 'fonction_complement',
+    flex: 1,
+    editor: {
+        xtype: 'textfield'
     }
 }, {
     header: null,
