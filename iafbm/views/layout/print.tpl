@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="header">
-      <img src="<?php echo u('a/img/id/unilogo_bleu_72dpi.png', true) ?>" alt="Université de Lausanne"/>
+      <img src="<?php echo u('a/img/id/unil.png', true) ?>" alt="Université de Lausanne"/>
       <div class="tagline">
           Faculté de biologie
           <br/>
