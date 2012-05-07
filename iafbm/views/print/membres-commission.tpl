@@ -23,7 +23,7 @@ tr.president {
 ?>
   <tr class="<?php echo $class ?>">
     <td style="width:15%">
-        <?php echo implode('<br/>', $membre['personne_denomination_nom']) ?>
+        <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
     </td>
     <td style="width:30%">
         <?php echo "{$membre['personne_prenom']} {$membre['personne_nom']}" ?>

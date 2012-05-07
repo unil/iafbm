@@ -29,13 +29,13 @@ class printController extends iaWebController {
         if (!$commission) throw new xException('Commission does not exist');
         $membres = xController::load('commissions_membres', array(
             'commission_id' => $id,
-            'xjoin' => 'personne,personne_denomination,commission_fonction',
+            'xjoin' => 'personne, personne_denomination, commission_fonction',
             'xorder_by' => 'commission_fonction_position, personne_nom, personne_prenom'
         ))->get();
         // Transforms members structure (this feels dirty, sorry)
         $m = array();
-        $fields_to_keep = array('id', 'personne_id', 'personne_denomination_nom', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
-        $fields_to_concat = array('personne_denomination_nom', 'commission_fonction_nom', 'fonction_complement');
+        $fields_to_keep = array('id', 'personne_id', 'personne_denomination_abreviation', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
+        $fields_to_concat = array('personne_denomination_abreviation', 'commission_fonction_nom', 'fonction_complement');
         foreach ($membres['items'] as $membre) {
             $membre = xUtil::filter_keys($membre, $fields_to_keep);
             $id = $membre['personne_id'];
