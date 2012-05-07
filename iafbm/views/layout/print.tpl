@@ -2,12 +2,11 @@
 
 // Returns a file:// url from a http(s):// url
 function pdfurl($url) {
-    $is_pdf = $d['pdf'];
+    $is_pdf = !isset($_REQUEST['html']);
     if (!$is_pdf) return $url;
     $file = preg_replace('/.*a(.+)/', 'file://'.xContext::$basepath.'/public/a$1', $url);
     return $file;
 }
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
