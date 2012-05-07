@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>UNIL - FBM - Intranet Administratif</title>
     <?php foreach (isset($m['css']) ? $m['css'] : array() as $css): ?>
-      <link rel="stylesheet" href="<?php echo $css ?>" type="text/css"/>
+      <!-- <link rel="stylesheet" href="<?php echo $css ?>" type="text/css"/> -->
+      <style><?php echo file_get_contents($css) ?></style>
     <?php endforeach ?>
   </head>
   <body>
