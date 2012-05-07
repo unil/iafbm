@@ -339,9 +339,9 @@ $catalogue_data = array(
 						'nom' => 'Professeur(e)',
 						'nom_masculin' => 'Professeur',
 						'nom_feminin' => 'Professeure',
-						'abreviation' => 'Prof',
-						'abreviation_masculin' => 'Prof',
-						'abreviation_feminin' => 'Prof',
+						'abreviation' => 'Prof.',
+						'abreviation_masculin' => 'Prof.',
+						'abreviation_feminin' => 'Prof.',
 						'poids' => '5'
 				),
 				array(
@@ -355,24 +355,27 @@ $catalogue_data = array(
 						'poids' => '3'
 				),
 				array(
+                        'id' => 3,
 						'nom' => 'Madame/Monsieur',
 						'nom_masculin' => 'Monsieur',
 						'nom_feminin' => 'Madame',
 						'abreviation' => 'M/me',
-						'abreviation_masculin' => 'M',
+						'abreviation_masculin' => 'M.',
 						'abreviation_feminin' => 'Mme',
 						'poids' => '1'
 				),
 				array(
+                        'id' => 4,
 						'nom' => 'Docteur(e) en sciences',
 						'nom_masculin' => 'Docteur en sciences',
 						'nom_feminin' => 'Docteure en sciences',
-						'abreviation' => 'Dr(e) Sc',
-						'abreviation_masculin' => 'Dr Sc',
-						'abreviation_feminin' => 'Dre Sc',
+						'abreviation' => 'Dr(e) Sc.',
+						'abreviation_masculin' => 'Dr Sc.',
+						'abreviation_feminin' => 'Dre Sc.',
 						'poids' => '4'
 				),
 				array(
+                        'id' => 5,
 						'nom' => 'Maître',
 						'nom_masculin' => 'Maître',
 						'nom_feminin' => 'Maître',
@@ -382,6 +385,7 @@ $catalogue_data = array(
 						'poids' => '2'
 				),
 				array(
+                        'id' => 6,
 						'nom' => 'Doyen(ne)',
 						'nom_masculin' => 'Doyen',
 						'nom_feminin' => 'Doyenne',
@@ -391,6 +395,7 @@ $catalogue_data = array(
 						'poids' => '7'
 				),
 				array(
+                        'id' => 7,
 						'nom' => 'vice-Doyen(ne)',
 						'nom_masculin' => 'vice-Doyen',
 						'nom_feminin' => 'vice-Doyenne',
