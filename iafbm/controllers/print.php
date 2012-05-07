@@ -85,11 +85,13 @@ class printController extends iaWebController {
         $paper = strtolower($paper);
         if (!$paper) $paper = 'a4';
         // Renders $html within print template
+        $is_pdf = !isset($this->params['html']);
         $html = xView::load('layout/print', array(
-            'content' => $html
+            'content' => $html,
+            'pdf' => $is_pdf
         ))->render();
         // Returns HTML if required
-        if (isset($this->params['html'])) die($html);
+        if (!$is_pdf) die($html);
         // Creates PDF file
         require_once(xContext::$basepath.'/lib/dompdf/dompdf_config.inc.php');
         $dompdf = new DOMPDF();
