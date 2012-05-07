@@ -2,6 +2,8 @@
 
 class iaAuth extends xAuth {
 
+    protected $role_separator = ';';
+
     function set_from_aai() {
         $authenticated = isset(
             $_SERVER['HTTP_SHIB_PERSON_UID'],
@@ -14,7 +16,7 @@ class iaAuth extends xAuth {
                 $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION']
             )
         ) : 'guest';
-        $roles = array();
+        $roles = @$_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'];
         $this->set($username, $roles);
     }
 
