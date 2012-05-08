@@ -5,5 +5,3 @@
 </a>
 
 créé
-
-(par <?php echo $d['version']['creator'] ?>)

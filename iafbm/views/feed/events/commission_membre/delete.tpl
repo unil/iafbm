@@ -9,7 +9,3 @@ supprimé de la
 <a href="<?php echo u("commissions/{$d['entity']['commission_id']}") ?>">
   commission n°<?php echo $d['entity']['commission_id'] ?>
 </a>
-
-par
-
-<?php echo $d['version']['creator'] ?>

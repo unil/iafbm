@@ -15,5 +15,3 @@ en tant que
 <a href="#">
   <?php echo strtolower($d['entity']['commission_fonction_nom']) ?>
 </a>
-
-(par <?php echo $d['version']['creator'] ?>)

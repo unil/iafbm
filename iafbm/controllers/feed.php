@@ -5,7 +5,7 @@ class FeedController extends iaWebController {
     function defaultAction() {
         // Fetches latest events
         $versions = xModel::load('version', array(
-            'xlimit' => 10,
+            'xlimit' => 20,
             'xorder_by' => 'created',
             'xorder' => 'DESC'
         ))->get();
@@ -43,7 +43,12 @@ class FeedController extends iaWebController {
             $model = $event['version']['model_name'];
             $operation = $event['version']['operation'];
             try {
-                $lines[] = xView::load("feed/events/{$model}/{$operation}", $event)->render();
+                $lines[] = array(
+                    'event' => xView::load("feed/events/{$model}/{$operation}", $event)->render(),
+                    'info' => xView::load('feed/info', $event)->render(),
+                    // TODO:
+                    //'delta' => xView::load('feed/delta', $event)->render()
+                );
             } catch (xException $e) {
                 if ($e->status == 404) null;
                 else throw $e;
