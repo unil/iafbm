@@ -61,11 +61,18 @@ class iaModelMysql extends xModelMysql {
         return parent::invalids($fields);
     }
 
+    function check_allowed($operation) {
+        if (!xContext::$auth->is_allowed_model($this->name, $operation)) {
+            throw new xException ("You are not allowed to '{$operation}' on '{$this->name}'", 403);
+        }
+    }
+
     /**
      * Enhanced get method.
      * Manages versioning.
      */
     function get($rownum=null) {
+        $this->check_allowed('get');
         // Returns versioned record if 'xversion' parameter is specified
         if (@$this->params['xversion']) return $this->get_version($rownum);
         // Manages default value for 'actif' parameter
