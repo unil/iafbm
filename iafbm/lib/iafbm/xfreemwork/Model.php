@@ -93,6 +93,7 @@ class iaModelMysql extends xModelMysql {
      * Counts only active records.
      */
     function count() {
+        $this->check_allowed('get');
         if (!@$this->params['xversion']) {
             // Unless specified otherwise through 'actif' parameter,
             // adds 'actif'=true in where clause
@@ -182,6 +183,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function post() {
+        $this->check_allowed('post');
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for post action', 400);
@@ -212,6 +214,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function put() {
+        $this->check_allowed('put');
         // Sets user id as creator
         if (isset($this->mapping['creator'])) {
             $this->params['creator'] = xContext::$auth->username();
@@ -239,6 +242,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function delete() {
+        $this->check_allowed('delete');
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);
