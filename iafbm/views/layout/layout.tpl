@@ -25,7 +25,7 @@
     </div>
 <?php if (xContext::$profile == 'development'): ?>
     <div class="warning message" style="text-align:center;font-weight:bold">
-        Please mind: You are in development mode and security is disabled
+        Please mind: You are in development mode
     </div>
 <?php endif ?>
 	<!-- BEGIN PAGE -->
