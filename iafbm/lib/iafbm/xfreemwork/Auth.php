@@ -17,7 +17,7 @@ class iaAuth extends xAuth {
     * )
     * @var array
     */
-    protected $permissions = array(
+    private $permissions = array(
         'fbm-iafbm-g' => array(
             'models' => array(
                 '*' => 'R',
@@ -54,8 +54,13 @@ class iaAuth extends xAuth {
             )
         ) : 'guest';
         $roles = @$_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'];
+        // Development default values
+        if (xContext::$profile == 'development') {
+            $username = xContext::$config->dev->auth->username;
+            $roles = xContext::$config->dev->auth->roles;
+        }
+        // Sets auth information and updates user permissions
         $this->set($username, $roles);
-        // Updates user permissions
         $this->user_permissions = $this->user_permissions();
     }
 
@@ -66,8 +71,6 @@ class iaAuth extends xAuth {
      * @param string Operations name ('get', 'put', 'post' or 'delete').
      */
     function is_allowed_model($name, $operation) {
-        // Allows everything in development mode
-        if (xContext::$profile == 'development') return true;
         // Determines if allowed
         $map = array(
             'get' => 'R',
