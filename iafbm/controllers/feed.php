@@ -46,7 +46,8 @@ class FeedController extends iaWebController {
                 $lines[] = array(
                     'event' => xView::load("feed/events/{$model}/{$operation}", $event)->render(),
                     'info' => xView::load('feed/info', $event)->render(),
-                    // TODO:
+                    // TODO: details about modified fields | details <> delta, what's the difference?
+                    //'details' => null, // eg: Commission n°123 modifiée [avec décision CDir au "20.08.2012"] [avec Commentaire à "En attente de..."] [avec Préavis CDir supprimé]
                     //'delta' => xView::load('feed/delta', $event)->render()
                 );
             } catch (xException $e) {

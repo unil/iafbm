@@ -1,10 +1,19 @@
 <style>
 .feed-list li {
-    height: 35px;
+    padding: 10px 5px;
 }
 .feed-list li img {
     vertical-align: top;
     margin: 0 5px;
+    filter: alpha(opacity=66);
+    opacity: 0.5;
+}
+.feed-list li:hover {
+    background-color: #eee;
+}
+.feed-list li:hover img {
+    filter: alpha(opacity=100);
+    opacity: 1;
 }
 .feed-list .feed-info {
     color: #aaa;
@@ -12,7 +21,6 @@
 </style>
 
 <h1>Flux d'actualités</h1>
-<br/>
 <ul class="feed-list">
 <?php foreach ($d as $line): ?>
     <li>
