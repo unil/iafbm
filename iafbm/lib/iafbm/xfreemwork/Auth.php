@@ -55,7 +55,15 @@ class iaAuth extends xAuth {
         ) : 'guest';
         $roles = @$_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'];
         // Development default values
-        if (xContext::$profile == 'development') {
+        // TODO: assess and test this
+        // FIXME: this doesn't work...
+        $apply_development_default_auth = !min(
+            xContext::$profile == 'development',
+            isset($_SERVER['HTTP_SHIB_PERSON_UID']),
+            isset($_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION']),
+            isset($_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'])
+        );
+        if ($apply_development_default_auth) {
             $username = xContext::$config->dev->auth->username;
             $roles = xContext::$config->dev->auth->roles;
         }
