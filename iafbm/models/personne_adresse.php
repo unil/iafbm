@@ -26,7 +26,7 @@ class PersonneAdresseModel extends iaModelMysql {
         'pays' => 'LEFT JOIN pays ON (adresses.pays_id = pays.id)'
     );
 
-    var $join = array('adresse');
+    var $join = array('personne', 'adresse');
 
     var $archive_foreign_models = array(
         'adresse' => array('adresse_id' => 'id')

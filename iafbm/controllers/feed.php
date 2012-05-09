@@ -2,9 +2,38 @@
 
 class FeedController extends iaWebController {
 
+    /**
+     * Determines supported events (eg. events that can be displayed)
+     * and returns an array structure:
+     * <code>
+     * array(
+     *     'modelname1' => array('op1', 'op2', 'op3'),
+     *     'person' => array('put', 'post'),
+     *     ...
+     * )
+     * </code>
+     */
+    protected function supported_events() {
+        $scan = function($path) {
+            return array_diff(scandir($path), array('.', '..'));
+        };
+        //
+        $supported = array();
+        // Scans for supported models
+        $models = preg_replace('/\.php$/', null, $scan(xContext::$basepath.'/views/feed/events'));
+        // Scans for supported operations per models
+        foreach ($models as $model) {
+            $operations = preg_replace('/\.tpl$/', null, $scan(xContext::$basepath."/views/feed/events/{$model}"));
+            $supported[$model] = $operations;
+        }
+        return $supported;
+    }
+
     function defaultAction() {
-        // Fetches latest events
+        $supported = $this->supported_events();
+        // Fetches latest (supported) events
         $versions = xModel::load('version', array(
+            'model_name' => array_keys($supported),
             'xlimit' => 20,
             'xorder_by' => 'created',
             'xorder' => 'DESC'
