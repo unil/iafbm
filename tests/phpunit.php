@@ -52,7 +52,10 @@ class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
     function setUp() {
         require_once('../iafbm/public/Bootstrap.php');
         new Bootstrap();
-        // Sets a default 'unit-tests' username
+        // Sets a default auth information with all permissions
+        $_SERVER['HTTP_SHIB_PERSON_UID'] = 'unit-tests';
+        $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = 'org';
+        $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'] = 'fbm-iafbm-releve-g';
         xContext::$auth->set_from_aai();
     }
     function tearDown() {
