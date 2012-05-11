@@ -17,7 +17,7 @@ class iaAuth extends xAuth {
     * )
     * @var array
     */
-    private $permissions = array(
+    protected $permissions = array(
         'fbm-iafbm-g' => array(
             'models' => array(
                 '*' => 'R',
