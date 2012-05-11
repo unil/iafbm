@@ -53,7 +53,7 @@ class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
         require_once('../iafbm/public/Bootstrap.php');
         new Bootstrap();
         // Sets a default 'unit-tests' username
-        xContext::$auth->set('unit-tests', array());
+        xContext::$auth->set_from_aai();
     }
     function tearDown() {
     }

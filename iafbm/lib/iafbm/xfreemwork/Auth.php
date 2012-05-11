@@ -44,7 +44,8 @@ class iaAuth extends xAuth {
     function set_from_aai() {
         $authenticated = isset(
             $_SERVER['HTTP_SHIB_PERSON_UID'],
-            $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION']
+            $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'],
+            $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF']
         );
         $username = $authenticated ? implode(
             '@',
@@ -57,12 +58,10 @@ class iaAuth extends xAuth {
         // Development default values
         // TODO: assess and test this
         // FIXME: this doesn't work...
-        $apply_development_default_auth = !min(
-            xContext::$profile == 'development',
-            isset($_SERVER['HTTP_SHIB_PERSON_UID']),
-            isset($_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION']),
-            isset($_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'])
-        );
+        $apply_development_default_auth =
+            xContext::$profile == 'development' &&
+            !$authenticated
+        ;
         if ($apply_development_default_auth) {
             $username = xContext::$config->dev->auth->username;
             $roles = xContext::$config->dev->auth->roles;
