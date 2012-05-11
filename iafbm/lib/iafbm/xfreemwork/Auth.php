@@ -56,15 +56,17 @@ class iaAuth extends xAuth {
         ) : 'guest';
         $roles = @$_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'];
         // Development default values
-        // TODO: assess and test this
-        // FIXME: this doesn't work...
         $apply_development_default_auth =
             xContext::$profile == 'development' &&
             !$authenticated
         ;
         if ($apply_development_default_auth) {
-            $username = xContext::$config->dev->auth->username;
-            $roles = xContext::$config->dev->auth->roles;
+            $username = @xContext::$config->dev->auth->username;
+            $roles = @xContext::$config->dev->auth->roles;
+        }
+        // Prevents unauthenticated access
+        if (!$username || !$roles) {
+            throw new xException('You must be authenticated to continue', 403);
         }
         // Sets auth information and updates user permissions
         $this->set($username, $roles);
