@@ -34,7 +34,7 @@ class FeedController extends iaWebController {
         // Fetches latest (supported) events
         $versions = xModel::load('version', array(
             'model_name' => array_keys($supported),
-            'xlimit' => 20,
+            'xlimit' => isset($this->params['xlimit']) ? $this->params['xlimit'] : 20,
             'xorder_by' => 'created',
             'xorder' => 'DESC'
         ))->get();
