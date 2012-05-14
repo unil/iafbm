@@ -25,17 +25,12 @@
  * - Ext.ia.tab.CommissionPanel
  * - Ext.ia.form.CommissionPhasePanel
  */
-.tab-icon-ok,
 .tab-icon-done {
     background-image: url(../img/ext/bullet_green.png) !important;
 }
-
-.tab-icon-warning,
 .tab-icon-pending {
     background-image: url(../img/ext/bullet_orange.png) !important;
 }
-
-.tab-icon-neutral,
 .tab-icon-unknown {
     background-image: url(../img/ext/bullet_gray.png) !important;
 }
@@ -45,7 +40,6 @@
     background-image: none;
     background-image: -moz-linear-gradient(center top , #9CD099, white);
 }
-
 .x-ia-toolbar-pending {
     background-color: #FFC487;
     background-image: none;
