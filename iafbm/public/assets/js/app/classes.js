@@ -67,9 +67,6 @@ Ext.ia.staticdata.Years = function() {
     return data;
 }();
 
-
-
-
 /**
  * Additional validation types (vtypes)
  */
@@ -169,7 +166,14 @@ Ext.define('Ext.ia.data.proxy.Rest', {
                 update: "l'écriture",
                 destroy: "la suppression"
             };
-            var msg = ['Une erreur est survenue pendant', actions[operation.action], 'des données'].join(' ');
+            var msg = [
+                'Une erreur est survenue pendant',
+                actions[operation.action],
+                'des données',
+                ['(', response.status, ' ', response.statusText, ')'].join('')
+            ].join(' ');
+//FIXME
+return;
             Ext.Msg.show({
                 title: 'Erreur',
                 msg: msg,
@@ -396,10 +400,20 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         var me = this,
             store = this.store;
         me.callParent();
-        // Manages store autoloading
-        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
-            store.load();
-        }
+        // Manages store autoloading & exceptions
+        this.on('afterrender', function() {
+            if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+                store.load(function(records, operation, success) {
+                    if (!success && operation.error.status == 403) {
+                        var height = me.getHeight(),
+                            combo = me.el.child('.x-form-item-body');
+                        combo.addCls('x-ia-panel-unauthorized');
+                        combo.dom.innerHTML = 'Non autorisé';
+                        combo.setHeight(height);
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -732,7 +746,7 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
             this.store.autoSync = me.autoSync;
             this.store.load({
                 callback: function(records, operation) {
-                    me.fireEvent('load');
+                    if (operation.success) me.fireEvent('load');
                 }
             });
         }});
@@ -742,6 +756,10 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
             var me = this;
             this.store.getProxy().on({
                 exception: function(proxy, response, operation) {
+                    if (operation.action == 'read' && response.status == 403) {
+                        me.addClass('x-ia-panel-unauthorized');
+                        me.el.dom.innerHTML = 'Non autorisé';
+                    }
                     if (operation.action == 'destroy') {
                         me.store.removeAll();
                         me.store.removed = [];
@@ -750,11 +768,6 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
                 }
             });
         }});
-        // Manages loading spinner
-        this.on({
-            beforeload: function() { this.setLoading() },
-            load: function() { this.setLoading(false) }
-        });
         // Fixes incorrect grid layout that occurs
         // occasionaly when grid is too narrow (FIXME)
         this.on({load: function() {
@@ -1468,20 +1481,28 @@ Ext.define('Ext.ia.form.Panel', {
             // Creates the record
             var me = this;
             this.fetch.model.load(this.fetch.id, {
-                success: function(record) {
+                success: function(record, operation) {
                     // FIXME: Test on xversion prevents displaying an error
                     //        meanwhile the actual versioned record is loaded (see this.initComponent()).
                     //        This is dirty
                     if (!record && me.fetch.xversion) return;
                     // Checks record before applying data
                     if (!record) {
-                        proxy.fireEvent('exception', proxy, {}, {action:'read'});
+                        proxy.fireEvent('exception', proxy, operation.response, operation);
                         return;
                     }
                     // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
                     me.fireEvent('load', me, me.record);
+                },
+                // Manages exceptions
+                failure: function() {
+                    var toolbar = me.dockedItems.getAt(me.dockedItems.findIndex('xtype', 'toolbar'));
+                    toolbar.hide();
+                    me.addCls('x-ia-panel-unauthorized');
+                    me.body.addCls('x-ia-panel-unauthorized');
+                    me.body.dom.innerHTML = 'Non autorisé';
                 },
                 callback: function() {
                     if (proxy) proxy.extraParams = proxyExtraParams;
