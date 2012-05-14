@@ -87,23 +87,36 @@ table.user-detail th img {
     $first = xUtil::timestamp($d['versions']['first']['created']);
     $last = xUtil::timestamp($d['versions']['last']['created']);
     $timespan = $last-$first;
-    $avg_day = $count/$timespan*60*24;
+    $avg_day = $count/$timespan*60*60*24;
     $rate_versions = $count/$total;
     $rate_modifications = $d['modifications']['count']/$d['modifications']['total'];
 ?>
+            Du
+            <em><?php echo xUtil::date($first) ?></em>
+            au
+            <em><?php echo xUtil::date($last) ?></em>
+            <br/><br/>
             <em><?php echo $count ?></em>
             versions créées en
-            <em><?php echo round($timespan/60/24, 0, PHP_ROUND_HALF_DOWN) ?></em>
+            <em><?php echo round($timespan/60/60/24, 1, PHP_ROUND_HALF_DOWN) ?></em>
             jours
-            <br/><br/>
-            <em><?php echo round($avg_day, 0) ?></em>
-            versions par jour
+            (<em><?php echo round($avg_day, 0) ?></em>
+            versions par jour)
             <br/><br/>
             <em><?php echo round($rate_versions*100, 0) ?></em>%
             des versions
+            (<em><?php echo $count ?></em>
+            sur
+            <em><?php echo $total ?></em>)
             <br/><br/>
             <em><?php echo round($rate_modifications*100, 0) ?></em>%
             des modifications
+            (<em><?php echo $d['modifications']['count'] ?></em>
+            sur
+            <em><?php echo $d['modifications']['total'] ?></em>)
+            <br/><br/>
+            Dernière modification
+            <em><?php echo xUtil::timeago($last) ?></em>
         </td>
     </tr>
 </table>
