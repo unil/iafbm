@@ -1,3 +1,6 @@
+/**********************************************************
+ * Custom ext icons
+ */
 .icon-add {
     background-image: url(../img/ext/add.png) !important;
 }
@@ -17,7 +20,11 @@
     background-image: url(../img/ext/printer.png) !important;
 }
 
-
+/**********************************************************
+ * Custom ext icons for Commission tabs & forms
+ * - Ext.ia.tab.CommissionPanel
+ * - Ext.ia.form.CommissionPhasePanel
+ */
 .tab-icon-ok,
 .tab-icon-done {
     background-image: url(../img/ext/bullet_green.png) !important;
@@ -52,7 +59,7 @@
 
 /**********************************************************
  * ExtJS fixes
-**/
+ */
 
 /* Fixes Ext.form.field.Display vertical alignment */
 .x-form-display-field {
