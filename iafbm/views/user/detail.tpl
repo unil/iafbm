@@ -54,8 +54,12 @@ table.user-detail th img {
         </th>
         <td>
 <?php if (array_filter($d['identity'])): ?>
-            <?php echo implode(' ', array($d['identity']['givenName'], $d['identity']['surname'])) ?>
-            <?php echo implode('à', array($d['identity']['affiliation'], $d['identity']['org'])) ?>
+            <?php
+                echo implode(', ', array(
+                    implode(' ', array($d['identity']['name'], $d['identity']['surname'])),
+                    implode('à', array($d['identity']['affiliation'], $d['identity']['org']))
+                ));
+            ?>
             <br/>
             <?php echo $d['email'] ?>
 <?php else: ?>
