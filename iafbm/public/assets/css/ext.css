@@ -1,11 +1,21 @@
-.x-ia-panel-unauthorized {
-    color: #300;
-    background-color: #fdd;
+.x-ia-panel-mask {
+    color: black;
+    background-color: #ddd;
     text-align: center;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 11px !important;
     padding-top: 5px;
 }
+.x-ia-panel-mask-denied,
+.x-ia-panel-mask-error {
+    color: #300;
+    background-color: #fdd;
+}
+.x-ia-panel-mask-notfound {
+    color: #003;
+    background-color: #cdf;
+}
+
 
 /**********************************************************
  * Custom ext icons

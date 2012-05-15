@@ -9,6 +9,28 @@ Ext.ns('Ext.ia');
 Ext.onReady(Ext.tip.QuickTipManager.init);
 
 /**
+ * Common captions
+ */
+Ext.ia.caption = {
+    status: {
+        400: 'Requête malformée',
+        401: 'Accès non autorisé',
+        403: 'Accès non autorisé',
+        404: 'Element introuvable',
+        405: 'Accès non autorisé',
+        408: 'Délai expiré'
+    },
+    type: {
+        400: 'error',
+        401: 'denied',
+        403: 'denied',
+        404: 'notfound',
+        405: 'denied',
+        408: 'error'
+    }
+};
+
+/**
  * Ext.Array.createRange()
  */
 Ext.Array.createArrayStoreRange = function(min, max, step, pad) {
@@ -161,33 +183,24 @@ Ext.define('Ext.ia.data.proxy.Rest', {
     },
     listeners: {
         exception: function(proxy, response, operation) {
-            // User message
-            var actions = {
-                create: "l'ecriture",
-                read: "la lecture",
-                update: "l'écriture",
-                destroy: "la suppression"
-            };
-            var msg = [
-                'Une erreur est survenue pendant',
-                actions[operation.action],
-                'des données',
-                ['(', response.status, ' ', response.statusText, ')'].join('')
-            ].join(' ');
-//FIXME
-return;
-            Ext.Msg.show({
-                title: 'Erreur',
-                msg: msg,
-                buttons: Ext.Msg.OK,
-                icon: Ext.Msg.ERROR
-            });
-        },
-        // Write confirmation notifications
-        // TODO: FIXME: write is not fired (neither on proxy nor on store...)
-        write: function() {
+            var statuses = Ext.ia.caption.status;
+            var types = Ext.ia.caption.type;
+            // Message display
+            var r = Ext.JSON.decode(response.responseText),
+                type = types[response.status],
+                title = statuses[response.status],
+                msg = r.message,
+                iconCls = 'ux-notification-icon-'+type,
+                cls = [
+                    Ext.ia.window.Notification.prototype.cls,
+                    'ux-notification-bg-'+type
+                ].join(' ');
             Ext.create('Ext.ia.window.Notification', {
-                html:'Enregistrement des données OK!'
+                title: title,
+                html: msg,
+                width: 300,
+                iconCls: iconCls,
+                cls: cls
             }).show()
         }
     }
@@ -413,11 +426,11 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         this.on('afterrender', function() {
             if (!store.autoLoad && !store.loaded && !store.isLoading()) {
                 store.load(function(records, operation, success) {
-                    if (!success && operation.error.status == 403) {
+                    if (!success) {
                         var height = me.getHeight(),
                             combo = me.el.child('.x-form-item-body');
-                        combo.addCls('x-ia-panel-unauthorized');
-                        combo.dom.innerHTML = 'Non autorisé';
+                        combo.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                        combo.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
                         combo.setHeight(height);
                     }
                 });
@@ -760,15 +773,19 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
             });
         }});
         // Manages proxy exceptions:
-        // Reverts store data on proxy exception
+        // - Masks component
+        // - Reverts store data on proxy exception
         this.on({afterrender: function() {
             var me = this;
             this.store.getProxy().on({
                 exception: function(proxy, response, operation) {
-                    if (operation.action == 'read' && response.status == 403) {
-                        me.addClass('x-ia-panel-unauthorized');
-                        me.el.dom.innerHTML = 'Non autorisé';
-                    }
+                    //
+                    me.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+mm=me;
+me.dockedItems.each(function(c) { c.hide() })
+me.body.hide();
+                    me.el.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                    // Reverts deleted records
                     if (operation.action == 'destroy') {
                         me.store.removeAll();
                         me.store.removed = [];
@@ -1506,12 +1523,22 @@ Ext.define('Ext.ia.form.Panel', {
                     me.fireEvent('load', me, me.record);
                 },
                 // Manages exceptions
-                failure: function() {
+                failure: function(record, operation) {
+                    var height = me.getHeight();
+                    // Hides existing items
                     var toolbar = me.dockedItems.getAt(me.dockedItems.findIndex('xtype', 'toolbar'));
                     toolbar.hide();
-                    me.addCls('x-ia-panel-unauthorized');
-                    me.body.addCls('x-ia-panel-unauthorized');
-                    me.body.dom.innerHTML = 'Non autorisé';
+                    me.items.each(function(c) { c.hide() });
+                    // Sets message class
+                    me.body.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                    // Creates message panel item
+                    me.add({
+                        html: Ext.ia.caption.status[operation.error.status],
+                        border: false,
+                        frame: false,
+                        bodyStyle: 'background-color:transparent'
+                    });
+                    me.setHeight(height);
                 },
                 callback: function() {
                     if (proxy) proxy.extraParams = proxyExtraParams;
@@ -1951,10 +1978,15 @@ Ext.define('Ext.ia.window.Notification', {
     alias: 'widget.ia-notification',
     cls: 'ux-notification-light',
     iconCls: 'ux-notification-icon-information',
-    slideInDuration: 100,
-    autoHideDelay: 5000,
-    position: 't',
-    closable: false,
+    slideInDuration: 66,
+    slideBackAnimation: 'easeOut',
+    slideBackDuration: 66,
+    hideDuration: 3000,
+    autoHideDelay: 1000,
+    position: 'br',
+    closable: true,
+    shadow: true,
+    useXAxis: true,
     //title: '',
     //html: ''
 })

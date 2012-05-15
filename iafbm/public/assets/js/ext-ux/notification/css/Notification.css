@@ -1,47 +1,78 @@
 /*
  * Default styling
  */
-
 .ux-notification-window .x-window-body {
     text-align: center;
     padding: 15px 5px 15px 5px;
     width: 200px;
 }
 
-
 /*
- * Icons definitions
- *
- * set iconCls to 'ux-notification-icon-information'
+ * Title icons definitions
+ * set iconCls to 'ux-notification-icon-*'
  */
-
-.ux-notification-icon-information {
+.ux-notification-icon-confirm {
+    background-image: url('../images/accept.png');
+}
+.ux-notification-icon-info {
     background-image: url('../images/icon16_info.png');
 }
-
 .ux-notification-icon-error {
     background-image: url('../images/icon16_error.png');
 }
+.ux-notification-icon-denied {
+    background-image: url('../images/delete.png');
+}
+.ux-notification-icon-notfound {
+    background-image: url('../images/page_white_error.png');
+}
+.ux-notification-light .x-window-header img {
+    opacity: 0.66;
+    position: relative;
+    top: -3px;
+}
 
+/*
+ * Title backgrounds definitions
+ * set cls to 'ux-notification-bg-*'
+ */
+.ux-notification-bg-confirm  .x-window-header {
+    background-color: #dfd;
+}
+.ux-notification-bg-info  .x-window-header {
+    background-color: #ffd;
+}
+.ux-notification-bg-error .x-window-header {
+    background-color: #fdd;
+}
+.ux-notification-bg-denied  .x-window-header {
+    background-color: #fdd;
+}
+.ux-notification-bg-notfound .x-window-header {
+    background-color: #cdf;
+}
 
 /*
  * Light theme
- *
- * set cls property to: 'ux-notification-light theme'
+ * set cls property to: 'ux-notification-light'
  */
-
-.ux-notification-light .x-window-header {
-    background-color: transparent;
-}
-
 body .ux-notification-light {
     background-image: url('../images/fader.png');
 }
-
+.ux-notification-light .x-window-header .x-window-header-text-container {
+    margin-left: 3px;
+    padding-bottom: 3px;
+}
+.ux-notification-light .x-window-header-text {
+    font-size: 11px;
+}
 .ux-notification-light .x-window-body {
     text-align: center;
-    padding: 15px 5px 18px 5px;
+    padding: 15px 5px 5px 5px;
+    margin-top: -5px;
     width: 200px;
     background-color: transparent;
     border: 0px solid white;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
 }
