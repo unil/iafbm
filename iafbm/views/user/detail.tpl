@@ -60,11 +60,18 @@ table.user-detail th img {
                     implode(' à ', array($d['identity']['affiliation'], $d['identity']['org']))
                 ));
             ?>
-            <br/>
-            <?php echo $d['identity']['email'] ?>
 <?php else: ?>
             <?php echo '-' ?>
 <?php endif ?>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <img src="<?php echo u('a/img/controllers/user/email.png') ?>"/>
+            Contact
+        </th>
+        <td>
+            <?php echo @$d['identity']['email'] ? $d['identity']['email'] : '-' ?>
         </td>
     </tr>
     <tr>
