@@ -18,7 +18,7 @@ class UserController extends iaWebController {
             ),
             'roles' => array(
                 'actual' => xContext::$auth->roles(),
-                'available' => xContext::$auth->get_permissions()
+                'available' => array_keys(xContext::$auth->get_permissions())
             ),
             'permissions' => xContext::$auth->user_permissions(),
             'versions' => array(

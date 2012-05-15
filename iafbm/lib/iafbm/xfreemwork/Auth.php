@@ -156,4 +156,8 @@ class iaAuth extends xAuth {
         }
         return $p;
     }
+
+    function get_permissions() {
+        return $this->permissions;
+    }
 }
