@@ -50,6 +50,21 @@ table.user-detail th img {
     <tr>
         <th>
             <img src="<?php echo u('a/img/controllers/user/report_user.png') ?>"/>
+            Identité
+        </th>
+        <td>
+<?php if (array_filter($d['identity'])): ?>
+            <?php echo "{$d['identity']['givenName']} {$d['identity']['surname']} ({$d['identity']['affiliation']} {$d['identity']['org']})" ?>
+            <br/>
+            <?php echo $d['email'] ?>
+<?php else: ?>
+            <?php echo '-' ?>
+<?php endif ?>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <img src="<?php echo u('a/img/controllers/user/group.png') ?>"/>
             Roles
         </th>
         <td>
