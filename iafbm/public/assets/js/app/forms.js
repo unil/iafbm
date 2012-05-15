@@ -382,12 +382,12 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
-            height: 397,
+            height: 407,
             defaultType: 'textfield',
             defaults: {
                 labelWidth: 110,
                 width: 300,
-                padding: '10 0',
+                padding: '5 0',
             },
             items: [{
                 fieldLabel: 'Nom',
@@ -554,10 +554,13 @@ Ext.define('iafbm.form.Personne', {
                     // that belong to section_id and contain at least one 'activite'
                     store: new iafbm.store.Activite({
                         params: {
-                            xreturn:
-                                'DISTINCT(activites_types.id) AS activite_type_id, \
-                                 activites_types.nom AS activite_type_nom',
-                            section_id: section_id
+                            section_id: section_id,
+                            xgroup_by: 'activite_type_id',
+                            xreturn: [
+                                'id',
+                                'activite_type_id',
+                                'activite_type_nom',
+                            ].join()
                         }
                     }),
                     valueField: 'activite_type_id',

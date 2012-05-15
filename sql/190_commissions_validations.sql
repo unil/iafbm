@@ -34,3 +34,5 @@ CREATE TABLE commissions_validations (
     FOREIGN KEY (cf_etat) REFERENCES commissions_validations_etats(id),
     FOREIGN KEY (cdir_etat) REFERENCES commissions_validations_etats(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE UNIQUE INDEX commission_id_unique ON commissions_validations(commission_id);

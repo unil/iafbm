@@ -79,7 +79,6 @@ Ext.onReady(function() {
             title: 'Composition',
             width: 857,
             height: 350,
-            plugins: [new Ext.ia.grid.plugin.RowEditing()],
             combo: {
                 store: new iafbm.store.Personne({
                     params: {
@@ -105,11 +104,29 @@ Ext.onReady(function() {
                     personne_id: record.get('id'),
                     commission_fonction_id: 1,
                     commission_id: <?php echo $d['id'] ?>,
-                    actif: 1,
                     personne_nom: record.get('nom'),
                     personne_prenom: record.get('prenom')
                 }
-            }
+            },
+            tbar: ['->', {
+                xtype: 'button',
+                text: 'Imprimer',
+                iconCls: 'icon-print',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/print/commissions_membres/', id].join('');
+                    location.href = url;
+                }
+            }, '-', {
+                xtype: 'button',
+                text: 'Visualiser',
+                iconCls: 'icon-details',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/print/commissions_membres/', id, '?html'].join('');
+                    window.open(url);
+                }
+            }]
         })/*, {
             xtype: 'ia-history'
         }*/]
@@ -593,7 +610,6 @@ Ext.onReady(function() {
             text: '<span style="font-weight:bold;font-size:18px">Clôturer</span>',
             height: 50,
             // Disables button if commission is already 'closed'
-            // FIXME: buggy
             listeners: {
                 afterrender: function() {
                     var me = this,
@@ -602,12 +618,16 @@ Ext.onReady(function() {
                         me.disableIf(form.getRecord());
                     }
                     form.on('load', function() {
-                        me.disableIf(this.getRecord());
+                        me.disableIf(this.getRecord(), form.store);
                     });
                 }
             },
-            disableIf: function(record) {
-                this.setDisabled(record.get('commission_etat_id') == 3);
+            disableIf: function(record, store) {
+                // Disables 'close' button
+                // if commission not already closed & form is not versioned
+                var versioned = store && store.params.xversion;
+                var enable = record.get('commission_etat_id')!=3 && !versioned;
+                this.setDisabled(!enable);
             },
             // Click logic
             handler: function() {
@@ -634,6 +654,7 @@ Ext.onReady(function() {
         }*/]
     });
 
+    // Panels ids are used for URL hash
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
         activeTab: 0,
         plain: true,
@@ -694,7 +715,7 @@ Ext.onReady(function() {
                 modelname: 'commission',
                 modelid: <?php echo $d['id'] ?>,
                 getTopLevelComponent: function() {
-                    return this.up('panel');
+                    return this.up('panel').down('tabpanel');
                 }
             },
             formConfig: {

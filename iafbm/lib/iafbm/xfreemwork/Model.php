@@ -98,62 +98,70 @@ class iaModelMysql extends xModelMysql {
     }
 
     protected function get_version($rownum=null) {
-        unset($this->params['actif']); // Also retrive 'deleted' rows
-        $results = parent::get();
         $primary = $this->primary();
         $version = @$this->params['xversion'];
+        // Manages params for correct versions increments application
+        $params_pristine = $this->params;
+        unset($this->params['actif']); // Also retrive 'deleted' rows
+        $results = parent::get();
         // Checks if version exists
         if (!xModel::load('version', array('id'=>$version))->get()) {
             throw new xException("Version {$version} does not exist", 404);
         }
         // Creates versionned results
         foreach ($results as $position => &$result) {
-            if ($version) {
-                $modifications = xModel::load('version_data', array(
-                    'version_table_name' => $this->maintable,
-                    'version_id_field_value' => $result[$primary],
-                    'version_id' => $version,
-                    'version_id_comparator' => '>',
-                    'xorder_by' => 'id',
-                    'xorder' => 'DESC'
-                ))->get();
-                // Applies versions modifications
-                foreach ($modifications as $modification) {
-                    $modelfield = $this->modelfield($modification['field_name']);
-                    $result[$modelfield] = $modification['old_value'];
+            $record_id = @$result[$primary];
+            // Ensures the record id is available
+            if (!$record_id) throw new xException(
+                "Record primary key ('{$primary}') field must be specified".
+                "in 'xreturn' parameter if 'xversion' parameter is specified"
+            );
+            $modifications = xModel::load('version_data', array(
+                'version_table_name' => $this->maintable,
+                'version_id_field_value' => $record_id,
+                'version_id' => $version,
+                'version_id_comparator' => '>',
+                'xorder_by' => 'id',
+                'xorder' => 'DESC'
+            ))->get();
+            // Applies versions modifications
+            foreach ($modifications as $modification) {
+                $modelfield = $this->modelfield($modification['field_name']);
+                $result[$modelfield] = $modification['old_value'];
+            }
+            // Applies joined models modifications
+            foreach ($this->joins() as $model => $sql) {
+                $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
+                $join_id = @$result["{$model}_{$join_primary}"];
+                if (!$join_id) {
+                    // If modified $result foreign key is empty,
+                    // Creates an empty foreign model that will set foreign fields values to null
+                    $join_results = array_fill_keys(array_keys(xModel::load($model)->mapping), null);
+                } else {
+                    // Fetches versioned foreign model
+                    // Recursive call here (because the xversion parameter is present)
+                    $join_results = xModel::load($model, array(
+                        'id' => $join_id,
+                        'xversion' => $version,
+                        'xjoin' => array()
+                    ))->get(0);
                 }
-                // Applies joined models modifications
-                foreach ($this->joins() as $model => $sql) {
-                    $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
-                    $join_id = $result["{$model}_{$join_primary}"];
-                    if (!$join_id) {
-                        // If modified $result foreign key is empty,
-                        // Creates an empty foreign model that will set foreign fields values to null
-                        $join_results = array_fill_keys(array_keys(xModel::load($model)->mapping), null);
-                    } else {
-                        // Fetches versioned foreign model
-                        // Recursive call here (because the xversion parameter is present)
-                        $join_results = xModel::load($model, array(
-                            'id' => $join_id,
-                            'xversion' => $version,
-                            'xjoin' => array()
-                        ))->get(0);
-                    }
-                    // Applies foreign model values
-                    foreach ($join_results as $modelfield => $value) {
-                        $result["{$model}_{$modelfield}"] = $value;
-                    }
-                }
-                // Removes row if it was
-                // - not yet existing at the given revision (id=null)
-                // - deleted at the given revision (actif=0)
-                // FIXME: This results in a wrong 'count' property in JSON result
-                //        issued by the controller
-                if (!$result[$primary] || (isset($result['actif']) && !$result['actif'])) {
-                    unset($results[$position]);
+                // Applies foreign model values
+                foreach ($join_results as $modelfield => $value) {
+                    $result["{$model}_{$modelfield}"] = $value;
                 }
             }
+            // Removes row if it was
+            // - not yet existing at the given revision (id=null)
+            // - deleted at the given revision (actif=0)
+            // FIXME: This results in a wrong 'count' property in JSON result
+            //        issued by the controller
+            if (!$result[$primary] || (isset($result['actif']) && !$result['actif'])) {
+                unset($results[$position]);
+            }
         }
+        // Reverts modified params
+        $this->params = $params_pristine;
         // Reindexes results array:
         // previous unset() may have resulted in non-contiguous array indices)
         $results = array_values($results);
@@ -178,13 +186,14 @@ class iaModelMysql extends xModelMysql {
         $old_record = xModel::load($this->name, array('id'=>$this->params['id'], 'xjoin'=>array()))->get(0);
         try {
             $result = parent::post();
+            // In case of soft-deletion,
+            // sets $operation to 'delete' instead of 'post'
+            $operation = (isset($this->params['actif']) && @$old_record['actif'] && !$this->params['actif']) ? 'delete' : 'post';
+            $version = $this->version($operation, $old_record, $result);
         } catch (Exception $e) {
             $t->rollback();
             throw $e;
         }
-        // In case of soft-deletion, sets $operation to 'delete' instead of 'post'
-        $operation = (isset($this->params['actif']) && @$old_record['actif'] && !$this->params['actif']) ? 'delete' : 'post';
-        $version = $this->version($operation, $old_record, $result);
         $t->end();
         // Returns result with current version information
         $result['xversion'] = $version;
@@ -207,11 +216,11 @@ class iaModelMysql extends xModelMysql {
         $t->start();
         try {
             $result = parent::put();
+            $version = $this->version('put', array(), $result);
         } catch (Exception $e) {
             $t->rollback();
             throw $e;
         }
-        $version = $this->version('put', array(), $result);
         $t->end();
         // Returns result with current version information
         $result['xversion'] = $version;
@@ -226,7 +235,8 @@ class iaModelMysql extends xModelMysql {
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);
-        // Hard/Soft delete switch
+        // Hard/Soft delete switch:
+        // a record is hard deletable if it has no 'actif' field
         if (array_key_exists('actif', $this->mapping)) {
             // Soft delete:
             // Checks for constraints violations
@@ -255,7 +265,9 @@ class iaModelMysql extends xModelMysql {
         // BEGIN a separate transaction
         xModel::q('SET AUTOCOMMIT=0');
         // Executes query
-        $r = xModel::q("DELETE FROM {$this->maintable} WHERE id = {$this->params['id']}");
+        $id = $this->params[$this->primary()];
+        $sql = "DELETE FROM {$this->maintable} WHERE id = {$id}";
+        $r = xModel::q($sql);
         // ROLLBACK the separate transaction
         xModel::q('ROLLBACK');
         //

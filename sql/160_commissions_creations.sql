@@ -14,3 +14,5 @@ CREATE TABLE commissions_creations (
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE UNIQUE INDEX commission_id_unique ON commissions_creations(commission_id);

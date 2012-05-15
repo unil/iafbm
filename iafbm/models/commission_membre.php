@@ -10,6 +10,8 @@ class CommissionMembreModel extends iaModelMysql {
         'personne_id' => 'personne_id',
         'commission_id' => 'commission_id',
         'commission_fonction_id' => 'commission_fonction_id',
+        'fonction_complement' => 'fonction_complement',
+        'personne_denomination_id' => 'personne_denomination_id',
         'activite_id' => 'activite_id',
         'rattachement_id' => 'rattachement_id',
         'version_id' => 'version_id'
@@ -20,6 +22,7 @@ class CommissionMembreModel extends iaModelMysql {
     var $joins = array(
         'personne' => 'LEFT JOIN personnes ON (commissions_membres.personne_id = personnes.id)',
         'commission_fonction' => 'LEFT JOIN commissions_fonctions ON (commissions_membres.commission_fonction_id = commissions_fonctions.id)',
+        'personne_denomination' => 'LEFT JOIN personnes_denominations ON (commissions_membres.personne_denomination_id = personnes_denominations.id)',
         'activite' => 'LEFT JOIN activites ON (commissions_membres.activite_id = activites.id)',
         'activite_nom' => 'LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)',
         'rattachement' => 'LEFT JOIN rattachements ON (commissions_membres.rattachement_id = rattachements.id)',
@@ -29,7 +32,7 @@ class CommissionMembreModel extends iaModelMysql {
         'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)'
     );
 
-    var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'rattachement');
+    var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'activite_nom', 'rattachement');
 
     var $wheres = array(
         'query' => "{{personne_id}} = {personne_id} AND commissions_membres.actif = 1 AND (1=0 [OR {{*}} LIKE {*}])"
