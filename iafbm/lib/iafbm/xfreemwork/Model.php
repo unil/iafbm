@@ -61,11 +61,18 @@ class iaModelMysql extends xModelMysql {
         return parent::invalids($fields);
     }
 
+    function check_allowed($operation) {
+        if (!xContext::$auth->is_allowed_model($this->name, $operation)) {
+            throw new xException ("You are not allowed to '{$operation}' on '{$this->name}'", 403);
+        }
+    }
+
     /**
      * Enhanced get method.
      * Manages versioning.
      */
     function get($rownum=null) {
+        $this->check_allowed('get');
         // Returns versioned record if 'xversion' parameter is specified
         if (@$this->params['xversion']) return $this->get_version($rownum);
         // Manages default value for 'actif' parameter
@@ -86,6 +93,7 @@ class iaModelMysql extends xModelMysql {
      * Counts only active records.
      */
     function count() {
+        $this->check_allowed('get');
         if (!@$this->params['xversion']) {
             // Unless specified otherwise through 'actif' parameter,
             // adds 'actif'=true in where clause
@@ -175,6 +183,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function post() {
+        $this->check_allowed('post');
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for post action', 400);
@@ -205,6 +214,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function put() {
+        $this->check_allowed('put');
         // Sets user id as creator
         if (isset($this->mapping['creator'])) {
             $this->params['creator'] = xContext::$auth->username();
@@ -232,6 +242,7 @@ class iaModelMysql extends xModelMysql {
      * Manages versioning.
      */
     function delete() {
+        $this->check_allowed('delete');
         // Ensures primary key(s) parameters are present
         if (!array_intersect(xUtil::arrize($this->primary), array_keys($this->params)))
             throw new xException('Missing primary keys parameter(s) for delete action', 400);

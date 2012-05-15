@@ -6,7 +6,8 @@ class ErrorDisplayView extends xView {
         // Messages definition
         $this->msgs = array(
             400 => _('The data you provided is not correct'),
-            401 => _('You are not allowed to access this page'),
+            401 => _('You are not allowed to access this resource'),
+            403 => _('You are not allowed to access this resource'),
             404 => _('The page you requested was not found'),
             500 => _('An unexpected error happened'),
             'default' => _('An unknown error happened')
@@ -22,7 +23,7 @@ class ErrorDisplayView extends xView {
         $this->meta['title'] = @$this->titles[$status] ? $this->titles[$status] : $this->titles['default'];
         // Setup view data
         $this->data['previous_page'] = xWebFront::previous_url();
-        $this->data['msg'] = $this->msgs[$status] ? $this->msgs[$status] : $this->msgs['default'];
+        $this->data['msg'] = @$this->msgs[$status] ? $this->msgs[$status] : $this->msgs['default'];
     }
 }
 

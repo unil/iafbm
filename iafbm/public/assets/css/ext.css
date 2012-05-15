@@ -1,3 +1,15 @@
+.x-ia-panel-unauthorized {
+    color: #300;
+    background-color: #fdd;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+    padding-top: 5px;
+}
+
+/**********************************************************
+ * Custom ext icons
+ */
 .icon-add {
     background-image: url(../img/ext/add.png) !important;
 }
@@ -17,18 +29,17 @@
     background-image: url(../img/ext/printer.png) !important;
 }
 
-
-.tab-icon-ok,
+/**********************************************************
+ * Custom ext icons for Commission tabs & forms
+ * - Ext.ia.tab.CommissionPanel
+ * - Ext.ia.form.CommissionPhasePanel
+ */
 .tab-icon-done {
     background-image: url(../img/ext/bullet_green.png) !important;
 }
-
-.tab-icon-warning,
 .tab-icon-pending {
     background-image: url(../img/ext/bullet_orange.png) !important;
 }
-
-.tab-icon-neutral,
 .tab-icon-unknown {
     background-image: url(../img/ext/bullet_gray.png) !important;
 }
@@ -38,7 +49,6 @@
     background-image: none;
     background-image: -moz-linear-gradient(center top , #9CD099, white);
 }
-
 .x-ia-toolbar-pending {
     background-color: #FFC487;
     background-image: none;
@@ -52,7 +62,7 @@
 
 /**********************************************************
  * ExtJS fixes
-**/
+ */
 
 /* Fixes Ext.form.field.Display vertical alignment */
 .x-form-display-field {
