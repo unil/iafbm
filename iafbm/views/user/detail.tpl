@@ -80,7 +80,12 @@ table.user-detail th img {
             Roles
         </th>
         <td>
-            <?php echo implode('<br/>', $d['roles']) ?>
+<?php
+    $roles_actual = array_intersect($d['roles']['actual'], $d['roles']['available']);
+    $roles_others = array_diff($d['roles']['actual'], $d['roles']['available']);
+?>
+            <?php foreach ($roles_actual as $role) { $role = "<em>$role</em><br/>"; } ?>
+            <?php foreach ($roles_others as $role) echo $role.'<br/>' ?>
         </td>
     </tr>
     <tr>

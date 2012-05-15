@@ -16,7 +16,10 @@ class UserController extends iaWebController {
                 'org' => @$_SERVER['homeOrganization'],
                 'affiliation' => @$_SERVER['affiliation']
             ),
-            'roles' => xContext::$auth->roles(),
+            'roles' => array(
+                'actual' => xContext::$auth->roles(),
+                'available' => xContext::$auth->get_permissions()
+            ),
             'permissions' => xContext::$auth->user_permissions(),
             'versions' => array(
                 'total' => xModel::load('version')->count(),
