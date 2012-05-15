@@ -7,7 +7,6 @@ class UserController extends iaWebController {
     }
 
     function detailAction() {
-//xUtil::pre($_SERVER);
         $data = array(
             'username' => xContext::$auth->username(),
             'identity' => array(
@@ -15,7 +14,7 @@ class UserController extends iaWebController {
                 'surname' => @$_SERVER['surname'],
                 'email' => @$_SERVER['mail'],
                 'org' => @$_SERVER['homeOrganization'],
-                'affliation' => @$_SERVER['affiliation']
+                'affiliation' => @$_SERVER['affiliation']
             ),
             'roles' => xContext::$auth->roles(),
             'permissions' => xContext::$auth->user_permissions(),
