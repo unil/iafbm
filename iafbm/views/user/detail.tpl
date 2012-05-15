@@ -118,6 +118,7 @@ table.user-detail th img {
     $rate_versions = $count/$total;
     $rate_modifications = $d['modifications']['count']/$d['modifications']['total'];
 ?>
+<?php if ($count): ?>
             Du
             <em><?php echo xUtil::date($first) ?></em>
             au
@@ -144,6 +145,9 @@ table.user-detail th img {
             <br/><br/>
             Dernière modification
             <em><?php echo xUtil::timeago($last) ?></em>
+<?php else: ?>
+            Aucune activité à ce jour
+<?php endif ?>
         </td>
     </tr>
 </table>
