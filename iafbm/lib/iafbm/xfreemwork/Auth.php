@@ -21,8 +21,11 @@ class iaAuth extends xAuth {
         'fbm-iafbm-g' => array(
             'models' => array(
                 '*' => 'R',
-                'personne' => 'CRUD',
                 'candidat' => null,
+                'version' => 'CR',
+                'version_data' => 'CR',
+                'version_relation' => 'CR',
+                'archive' => 'CR'
             )
         ),
         'fbm-iafbm-releve-g, fbm-iafbm-admin-g' => array(
