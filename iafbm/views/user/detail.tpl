@@ -56,12 +56,12 @@ table.user-detail th img {
 <?php if (array_filter($d['identity'])): ?>
             <?php
                 echo implode(', ', array(
-                    implode(' ', array($d['identity']['name'], $d['identity']['surname'])),
-                    implode('à', array($d['identity']['affiliation'], $d['identity']['org']))
+                    '<em>'.implode(' ', array($d['identity']['name'], $d['identity']['surname'])).'</em>',
+                    implode(' à ', array($d['identity']['affiliation'], $d['identity']['org']))
                 ));
             ?>
             <br/>
-            <?php echo $d['email'] ?>
+            <?php echo $d['identity']['email'] ?>
 <?php else: ?>
             <?php echo '-' ?>
 <?php endif ?>
