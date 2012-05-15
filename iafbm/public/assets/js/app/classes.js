@@ -9,7 +9,9 @@ Ext.ns('Ext.ia');
 Ext.onReady(Ext.tip.QuickTipManager.init);
 
 /**
- * Common captions
+ * Common captions.
+ * Used for:
+ * - Notifying of errors HTTP Requests error (according the HTTP status)
  */
 Ext.ia.caption = {
     status: {
@@ -27,6 +29,30 @@ Ext.ia.caption = {
         404: 'notfound',
         405: 'denied',
         408: 'error'
+    },
+    titles: {
+        create: 'Ajout',
+        read: 'Lecture',
+        update: 'Modification',
+        delete: 'Suppression',
+        //
+        400: 'impossible (invalide)',
+        401: 'non autorisé(e)',
+        403: 'non autorisé(e)',
+        404: 'impossible',
+        405: 'non autorisé(e)',
+    },
+    texts: {
+        401: "Vous n'avez pas les autorisations pour",
+        402: "Vous n'avez pas les autorisations pour",
+        403: "Vous n'avez pas les autorisations pour",
+        404: "La ressource est introuvable, impossible de",
+        405: "Vous n'avez pas les autorisations pour",
+        //
+        create: 'créer',
+        read: 'lire',
+        update: 'modifier',
+        delete: 'supprimer'
     }
 };
 
@@ -181,24 +207,59 @@ Ext.define('Ext.ia.data.proxy.Rest', {
         update: 'post',
         destroy: 'delete'
     },
+    afterRequest: function(request, success) {
+        // FIXME: clean this code + Factorize with error notifications below
+        // CRUD successes notifications
+        if (!success || request.action == 'read') return;
+        var title = 'OK';
+        var cls = [
+            Ext.ia.window.Notification.prototype.cls,
+            'ux-notification-bg-confirm'
+        ].join(' ');
+        // Actual notification display
+        Ext.create('Ext.ia.window.Notification', {
+            title: title,
+            html: [
+                'Merci'
+            ].join('<br/>'),
+            iconCls: 'ux-notification-icon-confirm',
+            cls: cls
+        }).show()
+    },
     listeners: {
         exception: function(proxy, response, operation) {
-            var statuses = Ext.ia.caption.status;
-            var types = Ext.ia.caption.type;
-            // Message display
+            // CRUD errors notifications
+            var statuses = Ext.ia.caption.status,
+                types = Ext.ia.caption.type,
+                titles = Ext.ia.caption.titles,
+                texts = Ext.ia.caption.texts;
+            // Determines whether to notify or not
+            if (operation.action == 'read' && response.status != 404) return;
+            // Create text to display
             var r = Ext.JSON.decode(response.responseText),
                 type = types[response.status],
-                title = statuses[response.status],
-                msg = r.message,
+                title = [
+                    titles[operation.action],
+                    titles[response.status]
+                ].join(' '),
+                message = [
+                    texts[response.status],
+                    texts[operation.action],
+                    'la ressource',
+                    proxy.model.prototype.modelName.split('.').pop().toLowerCase()
+                ].join(' ');
+                detail = r.message,
                 iconCls = 'ux-notification-icon-'+type,
                 cls = [
                     Ext.ia.window.Notification.prototype.cls,
                     'ux-notification-bg-'+type
                 ].join(' ');
+            // Actual notification display
             Ext.create('Ext.ia.window.Notification', {
                 title: title,
-                html: msg,
-                width: 300,
+                html: [
+                    '<strong>'+message+'</strong>'
+                ].join('<br/>'),
                 iconCls: iconCls,
                 cls: cls
             }).show()
@@ -426,7 +487,8 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         this.on('afterrender', function() {
             if (!store.autoLoad && !store.loaded && !store.isLoading()) {
                 store.load(function(records, operation, success) {
-                    if (!success) {
+                    // Masks the component
+                    if (!success && operation.action == 'read') {
                         var height = me.getHeight(),
                             combo = me.el.child('.x-form-item-body');
                         combo.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
@@ -779,12 +841,13 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
             var me = this;
             this.store.getProxy().on({
                 exception: function(proxy, response, operation) {
-                    //
-                    me.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
-mm=me;
-me.dockedItems.each(function(c) { c.hide() })
-me.body.hide();
-                    me.el.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                    // Masks the component
+                    if (operation.action == 'read') {
+                        me.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                        me.dockedItems.each(function(c) { c.hide() });
+                        me.body.hide();
+                        me.el.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                    }
                     // Reverts deleted records
                     if (operation.action == 'destroy') {
                         me.store.removeAll();
@@ -1522,7 +1585,7 @@ Ext.define('Ext.ia.form.Panel', {
                     me.getForm().loadRecord(me.record);
                     me.fireEvent('load', me, me.record);
                 },
-                // Manages exceptions
+                // Masks the component if data loading fails
                 failure: function(record, operation) {
                     var height = me.getHeight();
                     // Hides existing items
@@ -1978,12 +2041,13 @@ Ext.define('Ext.ia.window.Notification', {
     alias: 'widget.ia-notification',
     cls: 'ux-notification-light',
     iconCls: 'ux-notification-icon-information',
+    width: 300,
     slideInDuration: 66,
     slideBackAnimation: 'easeOut',
     slideBackDuration: 66,
     hideDuration: 3000,
     autoHideDelay: 1000,
-    position: 'br',
+    position: 't',
     closable: true,
     shadow: true,
     useXAxis: true,
