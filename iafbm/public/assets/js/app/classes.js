@@ -20,7 +20,8 @@ Ext.ia.caption = {
         403: 'Accès non autorisé',
         404: 'Element introuvable',
         405: 'Accès non autorisé',
-        408: 'Délai expiré'
+        408: 'Délai expiré',
+        500: 'Erreur inopinée'
     },
     type: {
         400: 'error',
@@ -28,7 +29,8 @@ Ext.ia.caption = {
         403: 'denied',
         404: 'notfound',
         405: 'denied',
-        408: 'error'
+        408: 'error',
+        500: 'error'
     },
     titles: {
         create: 'Ajout',
@@ -41,6 +43,7 @@ Ext.ia.caption = {
         403: 'non autorisé(e)',
         404: 'impossible',
         405: 'non autorisé(e)',
+        500: 'impossible (erreur système)'
     },
     texts: {
         401: "Vous n'avez pas les autorisations pour",
@@ -48,6 +51,7 @@ Ext.ia.caption = {
         403: "Vous n'avez pas les autorisations pour",
         404: "La ressource est introuvable, impossible de",
         405: "Vous n'avez pas les autorisations pour",
+        500: "Une erreur inattendue est survenue pour",
         //
         create: 'créer',
         read: 'lire',
