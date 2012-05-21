@@ -2,7 +2,7 @@
 
 class iaAuth extends xAuth {
    /**
-    * Persmissions configuration:
+    * Roles <-> Persmissions configuration:
     * - Each group permission is read sequentially.
     * - When a user is in multiple groups,
     * array(
@@ -21,6 +21,9 @@ class iaAuth extends xAuth {
         'fbm-iafbm-g' => array(
             'models' => array(
                 '*' => 'R',
+                'personne' => 'CRUD',
+                'personne_adresse' => 'CRUD',
+                'adresse' => 'CRUD',
                 'candidat' => null,
                 'version' => 'CR',
                 'version_data' => 'CR',
@@ -35,8 +38,6 @@ class iaAuth extends xAuth {
         )
     );
 
-    protected $user_permissions = array();
-
     protected $role_separator = ';';
 
 
@@ -46,6 +47,7 @@ class iaAuth extends xAuth {
     }
 
     function set_from_aai() {
+        // Retrives 'username' and 'roles' data from Shibboleth
         $authenticated = isset(
             $_SERVER['HTTP_SHIB_PERSON_UID'],
             $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'],
@@ -72,9 +74,15 @@ class iaAuth extends xAuth {
         if (!$username || !$roles) {
             throw new xException('You must be authenticated to continue', 403);
         }
-        // Sets auth information and updates user permissions
-        $this->set($username, $roles);
-        $this->user_permissions = $this->user_permissions();
+        // Determines wether 'roles' have changed since last request
+        $roles_have_changed = (implode(';', $this->roles()) != $roles);
+        // Sets auth information
+        $this->set($username, $roles, $this->info());
+        // Updates and stores user permissions (only if Shibboleth roles have changed)
+        if ($roles_have_changed) {
+            $permissions = $this->compute_permissions();
+            $this->set($username, $roles, array('permissions' => $permissions));
+        }
     }
 
     /**
@@ -91,7 +99,8 @@ class iaAuth extends xAuth {
             'post' => 'U',
             'delete' => 'D'
         );
-        $allowed_operations = @$this->user_permissions['models'][$name];
+        $permissions = $this->get_permissions();
+        $allowed_operations = @$permissions['models'][$name];
         $requested_operation = @$map[strtolower($operation)];
         return !!@stristr($allowed_operations, $requested_operation);
     }
@@ -134,7 +143,7 @@ class iaAuth extends xAuth {
      * Computes and returns actual user permissions.
      * @return array
      */
-    function user_permissions() {
+    protected function compute_permissions() {
         $to_array = function($string) {
             $a = array();
             for ($i=0; $i<strlen($string); $i++) $a[$i] = $string[$i];
@@ -158,6 +167,6 @@ class iaAuth extends xAuth {
     }
 
     function get_permissions() {
-        return $this->permissions;
+        return $this->info('permissions') ? $this->info('permissions') : array();
     }
 }
