@@ -15,6 +15,8 @@ Ext.onReady(Ext.tip.QuickTipManager.init);
  */
 Ext.ia.caption = {
     status: {
+        // FIXME: Not used for now: use it or remove it.
+        200: 'OK',
         400: 'Requête malformée',
         401: 'Accès non autorisé',
         403: 'Accès non autorisé',
@@ -23,7 +25,9 @@ Ext.ia.caption = {
         408: 'Délai expiré',
         500: 'Erreur inopinée'
     },
+    // Used for notifications css classnames construction
     type: {
+        200: 'confirm',
         400: 'error',
         401: 'denied',
         403: 'denied',
@@ -32,12 +36,14 @@ Ext.ia.caption = {
         408: 'error',
         500: 'error'
     },
+    // Used for notifications titles
     titles: {
         create: 'Ajout',
         read: 'Lecture',
         update: 'Modification',
         delete: 'Suppression',
         //
+        200: 'effectué(e)',
         400: 'impossible (invalide)',
         401: 'non autorisé(e)',
         403: 'non autorisé(e)',
@@ -45,7 +51,9 @@ Ext.ia.caption = {
         405: 'non autorisé(e)',
         500: 'impossible (erreur système)'
     },
+    // Used for notifications text content
     texts: {
+        200: "Succès pour",
         401: "Vous n'avez pas les autorisations pour",
         402: "Vous n'avez pas les autorisations pour",
         403: "Vous n'avez pas les autorisations pour",
@@ -211,64 +219,51 @@ Ext.define('Ext.ia.data.proxy.Rest', {
         update: 'post',
         destroy: 'delete'
     },
+    // CRUD notifications
     afterRequest: function(request, success) {
-        // FIXME: clean this code + Factorize with error notifications below
-        // CRUD successes notifications
-        if (!success || request.action == 'read') return;
-        var title = 'OK';
-        var cls = [
-            Ext.ia.window.Notification.prototype.cls,
-            'ux-notification-bg-confirm'
-        ].join(' ');
+        // Retrieves 'HTTP status' and 'operation.action'
+        var status = success ?
+                request.operation.response.status :
+                request.operation.error.status,
+            action = request.operation.action,
+            proxy = this;
+        // Determines whether to notify or not
+        if (success || action == 'read' && status != 404) return;
+        // Captions pool as local variables
+        var statuses = Ext.ia.caption.status,
+            types = Ext.ia.caption.type,
+            titles = Ext.ia.caption.titles,
+            texts = Ext.ia.caption.texts;
+        // Create text to display
+        var type = types[status],
+            model = proxy.model.prototype.modelName.split('.').pop().replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase(),
+            title = [
+                titles[action],
+                titles[status]
+            ].join(' '),
+            message = [
+                texts[status],
+                texts[action],
+                'la ressource',
+                '<em>'+model+'</em>'
+            ].join(' ');
+            iconCls = 'ux-notification-icon-'+type,
+            cls = [
+                Ext.ia.window.Notification.prototype.cls,
+                'ux-notification-bg-'+type
+            ].join(' ');
         // Actual notification display
         Ext.create('Ext.ia.window.Notification', {
             title: title,
             html: [
-                'Merci'
+                '<strong>'+message+'</strong>'
             ].join('<br/>'),
-            iconCls: 'ux-notification-icon-confirm',
-            cls: cls
+            iconCls: iconCls,
+            cls: cls,
+            autoHide: success,
+            hideDuration: 300
         }).show()
     },
-    listeners: {
-        exception: function(proxy, response, operation) {
-            // CRUD errors notifications
-            var statuses = Ext.ia.caption.status,
-                types = Ext.ia.caption.type,
-                titles = Ext.ia.caption.titles,
-                texts = Ext.ia.caption.texts;
-            // Determines whether to notify or not
-            if (operation.action == 'read' && response.status != 404) return;
-            // Create text to display
-            var r = Ext.JSON.decode(response.responseText),
-                type = types[response.status],
-                title = [
-                    titles[operation.action],
-                    titles[response.status]
-                ].join(' '),
-                message = [
-                    texts[response.status],
-                    texts[operation.action],
-                    'la ressource',
-                    proxy.model.prototype.modelName.split('.').pop().toLowerCase()
-                ].join(' ');
-                detail = r.message,
-                iconCls = 'ux-notification-icon-'+type,
-                cls = [
-                    Ext.ia.window.Notification.prototype.cls,
-                    'ux-notification-bg-'+type
-                ].join(' ');
-            // Actual notification display
-            Ext.create('Ext.ia.window.Notification', {
-                title: title,
-                html: [
-                    '<strong>'+message+'</strong>'
-                ].join('<br/>'),
-                iconCls: iconCls,
-                cls: cls
-            }).show()
-        }
-    }
 });
 
 /**
@@ -2050,7 +2045,7 @@ Ext.define('Ext.ia.window.Notification', {
     slideBackAnimation: 'easeOut',
     slideBackDuration: 66,
     hideDuration: 3000,
-    autoHideDelay: 1000,
+    autoHideDelay: 500,
     position: 't',
     closable: true,
     shadow: true,
