@@ -6,10 +6,6 @@
 
 Ext.onReady(function() {
 
-    // Shared Candidat store
-    // between form_candidat and form_finalisation
-    var store_candidat = new iafbm.store.Candidat();
-
     var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Commission'),
         fetch: {
@@ -341,21 +337,27 @@ Ext.onReady(function() {
                     fieldLabel: 'Primo loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'primo_loco',
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secundo loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'secondo_loco'
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'tertio_loco'
                 }]
             }]
