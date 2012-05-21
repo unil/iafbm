@@ -744,19 +744,110 @@ Ext.define('iafbm.form.PropositionNomination', {
         this.items = [{
             xtype: 'fieldset',
             title: 'Proposition de nomination',
-            items: []
+            items: [{
+                xtype: 'textfield',
+                readOnly: true,
+                fieldLabel: 'Faculté',
+                value: 'Faculté de biologie et de médecine'
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Section',
+                displayField: 'code',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Section'),
+                allowBlank: false
+            }, {
+                fieldLabel: 'Institut',
+                value: '?'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Objet'
+            }, {
+                fieldLabel: 'Titre proposé'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Début du contrat'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Fin du contrat'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: "Taux d'activié"
+            }, {
+                fieldLabel: 'Charge horaire'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Indemnité'
+            }, {
+                fieldLabel: 'Primo loco'
+            }, {
+                fieldLabel: 'Autres candidats'
+            }]
         }, {
             xtype: 'fieldset',
             title: 'Coordonnées',
-            items: []
+            items: [{
+                fieldLabel: 'Dénomination'
+            }, {
+                fieldLabel: 'Nom'
+            }, {
+                fieldLabel: 'Prénom'
+            }, {
+                fieldLabel: 'Adresse'
+            }, {
+                fieldLabel: 'Email'
+            }, {
+                fieldLabel: 'Etat civil'
+            }, {
+                fieldLabel: 'Date de naissance'
+            }, {
+                fieldLabel: "Pays d'origine"
+            }, {
+                fieldLabel: "Canton d'origine"
+            }, {
+                fieldLabel: 'Permis'
+            }, {
+                fieldLabel: 'Fonction actuelle'
+            }, {
+                fieldLabel: 'Discipline générale'
+            }, {
+                fieldLabel: 'Grade universitaire'
+            }, {
+                fieldLabel: "Lieu et date de l'obtention du grade"
+            }, {
+                fieldLabel: 'Date préavis'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Observations'
+            }]
         }, {
             xtype: 'fieldset',
             title: 'Annexes',
-            items: []
+            items: [{
+                fieldLabel: 'Rapport de commission'
+            }, {
+                fieldLabel: 'Cahier des charges'
+            }, {
+                fieldLabel: 'CV et liste publications'
+            }, {
+                fieldLabel: 'Déclaration de santé'
+            }]
         }, {
             xtype: 'fieldset',
             title: 'Imputation',
-            items: []
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: 'Fonds'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Centre financier'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Unité structurelle'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Numéro de projet'
+            }]
         }]
         var me = this;
         me.callParent();
