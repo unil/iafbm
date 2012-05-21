@@ -18,11 +18,16 @@
 
   </head>
   <body>
-  <div style="text-align: center; font-weight: bold;">
+    <div style="text-align: center; font-weight: bold;">
       <a href="https://wwwfbm.unil.ch/wiki/iafbm/" target="_blank">
           Suivre l'avancement en allant sur le wiki du projet
       </a>
     </div>
+<?php if (xContext::$profile == 'development'): ?>
+    <div class="warning message" style="text-align:center;font-weight:bold">
+        Please mind: You are in development mode
+    </div>
+<?php endif ?>
 	<!-- BEGIN PAGE -->
 	<div id="page">
 		<!-- BEBIN HEADER -->

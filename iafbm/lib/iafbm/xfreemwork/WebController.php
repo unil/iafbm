@@ -153,12 +153,27 @@ class iaWebController extends xWebController {
         $this->handle_query();
         // Manages sort case
         $this->handle_sort();
+        // Fetches data
+        $count = xModel::load(
+            $this->model,
+            xUtil::filter_keys($this->params, array('xoffset', 'xlimit', 'xorder_by', 'xorder'), true)
+        )->count();
+        $items = xModel::load(
+            $this->model,
+            $this->params
+        )->get();
+        // Determines wheter to return a 404 status
+        $pk = xModel::load($this->model)->primary();
+        $fields = array_keys(xModel::load($this->model)->mapping);
+        $by_id = in_array($pk, array_keys($this->params)) && !array_intersect($this->params, $fields);
+        if ($by_id && !$count) {
+            $resource = xModel::load($this->model)->name;
+            throw new xException("The requested {$resource} does not exist", 404);
+        }
         // Creates extjs compatible result
-        $params = $this->params;
-        $count_params = xUtil::filter_keys($params, array('xoffset', 'xlimit', 'xorder_by', 'xorder'), true);
         return array(
-            'xcount' => xModel::load($this->model, $count_params)->count(),
-            'items' => xModel::load($this->model, $params)->get()
+            'xcount' => $count,
+            'items' => $items
         );
     }
 

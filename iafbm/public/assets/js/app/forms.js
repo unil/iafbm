@@ -97,6 +97,7 @@ Ext.define('iafbm.form.Candidat', {
         return {
             xtype: 'fieldset',
             title: 'Diplômes obtenus',
+            height: 155,
             items: [
                 new iafbm.grid.common.Formations({
                     store: new iafbm.store.CandidatFormation({
@@ -131,6 +132,8 @@ Ext.define('iafbm.form.Candidat', {
         return {
             xtype: 'fieldset',
             title: 'Position actuelle',
+            height: 155,
+            padding: '20 0 0 0',
             defaults: {
                 border: false,
                 flex: 1,
