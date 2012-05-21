@@ -21,9 +21,6 @@ class iaAuth extends xAuth {
         'fbm-iafbm-g' => array(
             'models' => array(
                 '*' => 'R',
-                'personne' => 'CRUD',
-                'personne_adresse' => 'CRUD',
-                'adresse' => 'CRUD',
                 'candidat' => null,
                 'version' => 'CR',
                 'version_data' => 'CR',
@@ -79,7 +76,7 @@ class iaAuth extends xAuth {
         // Sets auth information
         $this->set($username, $roles, $this->info());
         // Updates and stores user permissions (only if Shibboleth roles have changed)
-        if ($roles_have_changed) {
+        if (true||$roles_have_changed) {
             $permissions = $this->compute_permissions();
             $this->set($username, $roles, array('permissions' => $permissions));
         }
