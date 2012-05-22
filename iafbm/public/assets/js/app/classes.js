@@ -432,6 +432,17 @@ Ext.define('Ext.ia.grid.RadioColumn', {
  * Extends Ext.grid.Column with
  * - remote store display workaround
  */
+Ext.define('Ext.grid.column.Template', {
+    extend:'Ext.grid.Column',
+    alias: 'widget.ia-percentcolumn',
+    format: '000',
+    tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>'
+});
+
+/**
+ * Extends Ext.grid.Column with
+ * - remote store display workaround
+ */
 Ext.define('Ext.ia.grid.ComboColumn', {
     extend:'Ext.grid.Column',
     alias: 'widget.ia-combocolumn',
@@ -484,7 +495,7 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         me.callParent();
         // Manages store autoloading & exceptions
         this.on('afterrender', function() {
-            if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+            if (store && !store.autoLoad && !store.loaded && !store.isLoading()) {
                 store.load(function(records, operation, success) {
                     // Masks the component
                     if (!success && operation.action == 'read') {
@@ -536,6 +547,17 @@ Ext.define('Ext.ia.form.field.Date', {
     format: 'd.m.Y',
     altFormats: 'd.m.Y|d-m-Y|d m Y',
     startDay: 1
+});
+
+/**
+ * Extends Ext.form.field.Number with
+ * - min/max values set to 0/100
+ */
+Ext.define('Ext.ia.form.field.Percentage', {
+    extend:'Ext.form.field.Number',
+    alias: 'widget.ia-percentfield',
+    maxValue: 100,
+    minValue: 0
 });
 
 /**
