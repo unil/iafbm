@@ -32,6 +32,11 @@ class iaAuth extends xAuth {
             'models' => array(
                 '*' => 'CRUD'
             )
+        ),
+        'local-superuser' => array(
+            'models' => array(
+                '*' => 'CRUD'
+            )
         )
     );
 
@@ -58,7 +63,7 @@ class iaAuth extends xAuth {
             )
         ) : 'guest';
         $roles = @$_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'];
-        // Development default values
+        // Development default values (!)
         $apply_development_default_auth =
             xContext::$profile == 'development' &&
             !$authenticated
@@ -74,13 +79,27 @@ class iaAuth extends xAuth {
         // Determines wether 'roles' have changed since last request
         $roles_have_changed = (implode(';', $this->roles()) != $roles);
         // Sets auth information
-        $this->set($username, $roles, $this->info());
+        $this->set($username, $roles);
         // Updates and stores user permissions (only if Shibboleth roles have changed)
         if (true||$roles_have_changed) {
             $permissions = $this->compute_permissions();
             $this->set($username, $roles, array('permissions' => $permissions));
         }
     }
+
+/* TODO: make permissions on self::set().
+    function set($username, $roles, $info=array()) {
+        parent::set($username, $roles);
+        $permissions = $this->compute_permissions();
+        return parent::set(
+            $username,
+            $roles,
+            array_merge_recursive(
+                $info,
+                array('permissions' => $permissions)
+            ));
+    }
+*/
 
     /**
      * Returns true if user is allowed to execute $operation on $model,
