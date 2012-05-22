@@ -621,12 +621,9 @@ Ext.define('iafbm.form.Personne', {
                 dataIndex: 'taux_activite',
                 width: 75,
                 align: 'right',
-                xtype: 'numbercolumn',
-                format: '000',
-                xtype: 'templatecolumn',
-                tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>',
+                xtype: 'ia-percentcolumn',
                 editor: {
-                    xtype: 'numberfield',
+                    xtype: 'ia-percentfield',
                     maxValue: 100,
                     minValue: 0
                 }
@@ -742,6 +739,15 @@ Ext.define('iafbm.form.PropositionNomination', {
     frame: true,
     initComponent: function() {
         this.items = [{
+            xtype: 'ia-combo',
+            fieldLabel: 'Candidat',
+            width: 400,
+            displayField: '_display',
+            valueField: 'id',
+            store: new iafbm.store.Candidat({
+                //params: { commission_id: 0 }
+            })
+        }, {
             xtype: 'fieldset',
             title: 'Proposition de nomination',
             items: [{
@@ -757,37 +763,72 @@ Ext.define('iafbm.form.PropositionNomination', {
                 store: Ext.create('iafbm.store.Section'),
                 allowBlank: false
             }, {
+                //FIXME
+                xtype: 'displayfield',
                 fieldLabel: 'Institut',
                 value: '?'
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Objet'
             }, {
-                fieldLabel: 'Titre proposé'
+                //FIXME
+                xtype: 'displayfield',
+                fieldLabel: 'Titre proposé',
+                value: '?'
             }, {
-                xtype: 'textfield',
-                fieldLabel: 'Début du contrat'
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                fieldLabel: 'Début du contrat',
+                items: [{
+                    xtype: 'ia-datefield',
+                }, {
+                    xtype: 'displayfield',
+                    value: '&nbsp;'
+                }, {
+                    xtype: 'checkbox',
+                    boxLabel: 'Au plutot tôt',
+                    handler: function() {
+                        var datefield = this.up().down('datefield');
+                        datefield.setDisabled(this.checked);
+                        this.checked ? datefield.hide() : datefield.show();
+                    }
+                }]
             }, {
-                xtype: 'textfield',
+                xtype: 'ia-datefield',
                 fieldLabel: 'Fin du contrat'
             }, {
-                xtype: 'textfield',
-                fieldLabel: "Taux d'activié"
+                xtype: 'ia-percentfield',
+                fieldLabel: "Taux d'activité"
             }, {
                 fieldLabel: 'Charge horaire'
             }, {
-                xtype: 'textfield',
-                fieldLabel: 'Indemnité'
+                xtype: 'numberfield',
+                fieldLabel: 'Indemnité (CHF)'
             }, {
-                fieldLabel: 'Primo loco'
+                xtype: 'ia-combo',
+                fieldLabel: 'Primo loco',
+                editable: false,
+                valueField: 'value',
+                displayField: 'label',
+                store: new Ext.data.ArrayStore({
+                    fields: ['value', 'label'],
+                    data: [[1, 'Oui'], [0, 'Non']]
+                }),
             }, {
-                fieldLabel: 'Autres candidats'
+                xtype: 'displayfield',
+                fieldLabel: 'Autres candidats',
+                value: 'todo'
             }]
         }, {
             xtype: 'fieldset',
             title: 'Coordonnées',
             items: [{
-                fieldLabel: 'Dénomination'
+                xtype: 'ia-combo',
+                fieldLabel: 'Dénomination',
+                displayField: 'abreviation',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.PersonneDenomination'),
+                allowBlank: false
             }, {
                 fieldLabel: 'Nom'
             }, {
@@ -795,42 +836,91 @@ Ext.define('iafbm.form.PropositionNomination', {
             }, {
                 fieldLabel: 'Adresse'
             }, {
-                fieldLabel: 'Email'
+                fieldLabel: 'Email',
+                vtype: 'email'
             }, {
-                fieldLabel: 'Etat civil'
+                xtype: 'ia-combo',
+                fieldLabel: 'Etat civil',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Etatcivil'),
+                allowBlank: false
             }, {
+                xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance'
             }, {
-                fieldLabel: "Pays d'origine"
+                xtype: 'ia-combo',
+                fieldLabel: "Pays d'origine",
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Pays'),
+                allowBlank: false
             }, {
-                fieldLabel: "Canton d'origine"
+                xtype: 'ia-combo',
+                fieldLabel: "Canton d'origine",
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Canton')
             }, {
-                fieldLabel: 'Permis'
+                xtype: 'ia-combo',
+                fieldLabel: 'Permis',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Permis'),
+                allowBlank: false
             }, {
+                // Data: candidat.fonction_actuelle
                 fieldLabel: 'Fonction actuelle'
             }, {
                 fieldLabel: 'Discipline générale'
             }, {
-                fieldLabel: 'Grade universitaire'
+                xtype: 'ia-combo',
+                fieldLabel: 'Grade universitaire',
+                displayField: 'abreviation',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Formation'),
+                allowBlank: false
             }, {
+                xtype: 'ia-datefield',
                 fieldLabel: "Lieu et date de l'obtention du grade"
             }, {
+                // Data: commission_validation: Décanat or CF? ask.
+                xtype: 'ia-datefield',
                 fieldLabel: 'Date préavis'
             }, {
-                xtype: 'textfield',
-                fieldLabel: 'Observations'
+                xtype: 'ia-textarea',
+                fieldLabel: 'Observations',
+                grow: true
             }]
         }, {
             xtype: 'fieldset',
             title: 'Annexes',
+            defaults: {
+                listeners: {
+                    afterrender: function() { this.handler() },
+                    change: function() { this.handler() }
+                },
+                handler: function() {
+                    var el = this.boxLabelEl;
+                    this.checked ? el.show() : el.hide();
+                }
+            },
             items: [{
-                fieldLabel: 'Rapport de commission'
+                xtype: 'checkbox',
+                fieldLabel: 'Rapport de commission',
+                boxLabel: 'Recu'
             }, {
-                fieldLabel: 'Cahier des charges'
+                xtype: 'checkbox',
+                fieldLabel: 'Cahier des charges',
+                boxLabel: 'Recu'
             }, {
-                fieldLabel: 'CV et liste publications'
+                xtype: 'checkbox',
+                fieldLabel: 'CV et liste publications',
+                boxLabel: 'Recu'
             }, {
-                fieldLabel: 'Déclaration de santé'
+                xtype: 'checkbox',
+                fieldLabel: 'Déclaration de santé',
+                boxLabel: 'Recu'
             }]
         }, {
             xtype: 'fieldset',

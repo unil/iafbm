@@ -222,7 +222,12 @@ Ext.define('iafbm.model.PersonneDenomination', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'nom', type: 'string'}
+        {name: 'nom', type: 'string'},
+        {name: 'nom_masculin', type: 'string'},
+        {name: 'nom_feminin', type: 'string'},
+        {name: 'abreviation', type: 'string'},
+        {name: 'abreviation_masculin', type: 'string'},
+        {name: 'abreviation_feminin', type: 'string'},
     ],
     validations: [],
     proxy: {
