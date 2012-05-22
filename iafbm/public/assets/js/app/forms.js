@@ -734,19 +734,61 @@ Ext.define('iafbm.form.Personne', {
 
 Ext.define('iafbm.form.PropositionNomination', {
     extend: 'Ext.ia.form.Panel',
-    //store: Ext.create('iafbm.store.Candidat'), //fixme, this should not be necessary
+    commission_id: null,
+    common: {
+        store_candidat: new iafbm.store.Candidat({
+            // Sets 'nomination' fields according 'candidat' fields values
+            autoLoad: false,
+            listeners: { load: function() {
+                var fields = {
+                    denomination_id: denomination_id,
+                    nom: nom,
+                    prenom: prenom,
+                    adresse: adresse_pro, // FIXME: use default adresse fields (pro|pri)
+                    email: email_pro,     // FIXME: use default adresse fields (pro|pri)
+                    etatcivil_id: etatcivil_id,
+                    date_naissance: date_naissance,
+                    pays_id: pays_pro_id  // FIXME: use default adresse fields (pro|pri)
+                };
+                Ext.each(fields, function(field_candidat, field_nomination) {
+                    // TODO
+                    /*
+                    var field = form.items.findBy(function(item) {
+                        return item.name == field_nomination
+                    });
+                    store_nomination[field_nomination] = this.getAt(0).get(field_candidat);
+                    */
+                });
+            }}
+        }),
+        store_commission: new iafbm.store.Commission({
+            params: { id: 0 /*FIXME*/ }
+        })
+    },
     title: 'Proposition de nomination',
     frame: true,
+    store: null,
     initComponent: function() {
+        this.store = new iafbm.store.CommissionPropositionNomination({
+            params: { commission_id: this.commission_id }
+        });
+console.log(ss=this.store);
         this.items = [{
             xtype: 'ia-combo',
             fieldLabel: 'Candidat',
+            editable: false,
             width: 400,
             displayField: '_display',
             valueField: 'id',
             store: new iafbm.store.Candidat({
-                //params: { commission_id: 0 }
-            })
+                // TODO: params: { commission_id: 0 }
+            }),
+            // Reloads store with selected 'candidat' data
+            listeners: { change: function() {
+                var store_candidat = this.up().common.store_candidat;
+                store_candidat.params.id = this.getValue();
+                store_candidat.load();
+            }}
         }, {
             xtype: 'fieldset',
             title: 'Proposition de nomination',

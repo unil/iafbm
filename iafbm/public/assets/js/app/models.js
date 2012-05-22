@@ -397,7 +397,8 @@ Ext.define('iafbm.model.Candidat', {
             return [
                 record.get('prenom'),
                 record.get('nom'),
-                record.get('genre_initiale')].join(' ');
+                record.get('genre_initiale')
+            ].join(' ');
         }},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
@@ -634,6 +635,38 @@ Ext.define('iafbm.model.CommissionFinalisation', {
         url: x.context.baseuri+'/api/commissions_finalisations',
     }
 });
+Ext.define('iafbm.model.CommissionPropositionNomination', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'section_id', type: 'int', useNull: true},
+        {name: 'objet', type: 'string'},
+        {name: 'contrat_debut', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'contrat_fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'contrat_taux', type: 'int'},
+        {name: 'indemnite', type: 'int'},
+        {name: 'denomination_id', type: 'int', useNull: true},
+        {name: 'nom', type: 'string'},
+        {name: 'prenom', type: 'string'},
+        {name: 'adresse', type: 'sting'},
+        {name: 'email', type: 'sting'},
+        {name: 'etatcivil_id', type: 'int', useNull: true},
+        {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'pays_id', type: 'int', useNull: true},
+        {name: 'canton_id', type: 'int', useNull: true},
+        {name: 'permis_id', type: 'int', useNull: true},
+        {name: 'formation_id', type: 'int', useNull: true},
+        {name: 'position_actuelle_fonction', type: 'string'},
+        {name: 'discipline_generale', type: 'string'},
+        {name: 'observations', type: 'string'},
+        {name: 'actif', type: 'boolean', defaultValue: true}
+    ],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions_propositions_nominations',
+    }
+});
 Ext.define('iafbm.model.Version', {
     extend: 'Ext.data.Model',
     fields: [
@@ -681,7 +714,6 @@ Ext.define('iafbm.model.VersionData', {
         url: x.context.baseuri+'/api/versions_data',
     }
 });
-
 Ext.define('iafbm.model.VersionRelation', {
     extend: 'Ext.data.Model',
     fields: [

@@ -509,7 +509,6 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 name: 'envoi_proposition_nomination',
             }, {
-                id: 'proposition-nomination-button', // Used by commission tabPanel
                 xtype: 'button',
                 text: 'Formulaire',
                 iconCls: 'icon-details',
@@ -518,6 +517,7 @@ Ext.onReady(function() {
                         popup = new Ext.ia.window.Popup({
                         title: 'Détails',
                         item: new iafbm.form.PropositionNomination({
+                            commission_id: '<?php echo $d['commission_id'] ?>',
                             frame: false,
                             //record: me.getRecord(gridView, rowIndex, colIndex, item),
                             //fetch: me.getFetch(gridView, rowIndex, colIndex, item),

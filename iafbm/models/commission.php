@@ -41,6 +41,7 @@ class CommissionModel extends iaModelMysql {
          'commission_travail' => 'commission_id',
          'commission_travail_evenement' => 'commission_id',
          'commission_validation' => 'commission_id',
+         'commission_proposition_nomination' => 'commission_id',
          'commission_finalisation' => 'commission_id',
          'commission_type' => array('commission_type_id' => 'id'),
          'commission_etat' => array('commission_etat_id' => 'id'),
