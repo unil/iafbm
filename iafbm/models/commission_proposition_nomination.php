@@ -2,6 +2,8 @@
 
 class CommissionPropositionNominationModel extends iaModelMysql {
 
+    var $versioning = false;
+
     var $table = 'commissions_propositions_nominations';
 
     var $mapping = array(
@@ -40,6 +42,7 @@ class CommissionPropositionNominationModel extends iaModelMysql {
         'etatcivil' => 'LEFT JOIN etatscivils ON (commissions_propositions_nominations.etatcivil_id = etatscivils.id)',
         'pays' => 'LEFT JOIN pays ON (commissions_propositions_nominations.pays_id = pays.id)',
         'canton' => 'LEFT JOIN cantons ON (commissions_propositions_nominations.canton_id = cantons.id)',
+        'permis' => 'LEFT JOIN permis ON (commissions_propositions_nominations.permis_id = permis.id)',
         'formation' => 'LEFT JOIN formations ON (commissions_propositions_nominations.formation_id = formation.id)',
     );
 
