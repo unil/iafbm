@@ -509,6 +509,7 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 name: 'envoi_proposition_nomination',
             }, {
+                id: 'proposition-nomination-button', // Used by commission tabPanel
                 xtype: 'button',
                 text: 'Formulaire',
                 iconCls: 'icon-details',
@@ -573,7 +574,9 @@ Ext.onReady(function() {
                 valueField: 'id',
                 store: new iafbm.store.Candidat({
                     params: { commission_id: <?php echo $d['id'] ?> }
-                })
+                }),
+                // Reloads candidats on drowndown expand because it is subject to change
+                listeners: { expand: function() { this.store.load() } }
             }]
         }, {
             xtype: 'fieldcontainer',
