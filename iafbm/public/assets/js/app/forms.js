@@ -737,9 +737,11 @@ Ext.define('iafbm.form.PropositionNomination', {
     commission_id: null,
     common: {
         store_candidat: new iafbm.store.Candidat({
-            // Sets 'nomination' fields according 'candidat' fields values
             autoLoad: false,
-            listeners: { load: function() {
+            // Sets 'nomination' model fields according 'candidat' fields values
+            listeners: { load: function(store, records, success, operation) {
+                if (!success) return;
+rr=records;
                 var fields = {
                     denomination_id: denomination_id,
                     nom: nom,
@@ -776,6 +778,7 @@ console.log(ss=this.store);
         this.items = [{
             xtype: 'ia-combo',
             fieldLabel: 'Candidat',
+            name: 'candidat_id',
             editable: false,
             width: 400,
             displayField: '_display',
@@ -802,8 +805,7 @@ console.log(ss=this.store);
                 fieldLabel: 'Section',
                 displayField: 'code',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Section'),
-                allowBlank: false
+                store: Ext.create('iafbm.store.Section')
             }, {
                 //FIXME
                 xtype: 'displayfield',
@@ -869,8 +871,7 @@ console.log(ss=this.store);
                 fieldLabel: 'Dénomination',
                 displayField: 'abreviation',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.PersonneDenomination'),
-                allowBlank: false
+                store: Ext.create('iafbm.store.PersonneDenomination')
             }, {
                 fieldLabel: 'Nom'
             }, {
@@ -885,8 +886,7 @@ console.log(ss=this.store);
                 fieldLabel: 'Etat civil',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Etatcivil'),
-                allowBlank: false
+                store: Ext.create('iafbm.store.Etatcivil')
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance'
@@ -895,8 +895,7 @@ console.log(ss=this.store);
                 fieldLabel: "Pays d'origine",
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Pays'),
-                allowBlank: false
+                store: Ext.create('iafbm.store.Pays')
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: "Canton d'origine",
@@ -908,8 +907,7 @@ console.log(ss=this.store);
                 fieldLabel: 'Permis',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Permis'),
-                allowBlank: false
+                store: Ext.create('iafbm.store.Permis')
             }, {
                 // Data: candidat.fonction_actuelle
                 fieldLabel: 'Fonction actuelle'
@@ -920,8 +918,7 @@ console.log(ss=this.store);
                 fieldLabel: 'Grade universitaire',
                 displayField: 'abreviation',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Formation'),
-                allowBlank: false
+                store: Ext.create('iafbm.store.Formation')
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: "Lieu et date de l'obtention du grade"

@@ -4,15 +4,15 @@ CREATE TABLE commissions_propositions_nominations (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT true,
     commission_id INT NOT NULL,
+    candidat_id INT NOT NULL,
     section_id INT NOT NULL,
     objet TEXT,
-    /*titre_propose? INT NOT NULL,*/
+/*  titre_propose? INT NOT NULL, */
     contrat_debut DATE NULL DEFAULT NULL,
     contrat_fin DATE,
     contrat_taux TINYINT UNSIGNED,
     indemnite INT UNSIGNED,
-    --
-    denomination_id INT NOT NULL,
+    denomination_id INT,
     nom VARCHAR(255),
     prenom VARCHAR(255),
     adresse TEXT,
@@ -22,14 +22,13 @@ CREATE TABLE commissions_propositions_nominations (
     pays_id INT,
     canton_id INT,
     permis_id INT,
-    --
     position_actuelle_fonction TEXT,
     discipline_generale TEXT,
     formation_id INT,
-    --
     observations TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
+    FOREIGN KEY (candidat_id) REFERENCES candidats(id),
     FOREIGN KEY (section_id) REFERENCES sections(id),
     FOREIGN KEY (denomination_id) REFERENCES personnes_denominations(id),
     FOREIGN KEY (etatcivil_id) REFERENCES etatscivils(id),
