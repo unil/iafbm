@@ -197,6 +197,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
 
     /**
      * @depends test_entity_create
+     * @expectedException xException
+     * @expectedExceptionMessage The requested personne
      */
     function test_entity_delete($id) {
         # Record correctly exists from tests depended upon
@@ -529,6 +531,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     /**
      * Tests entity deletion when foreign key constraint passes.
      * @depends test_relation_1n_create
+     * @expectedException xException
+     * @expectedExceptionMessage The requested personne_email
      */
     function test_relation_1n_delete($id) {
         # Record correctly exists from tests depended upon
@@ -645,47 +649,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
 
     /**
      * @depends test_relation_nn_create_adresse
-     *
-     *
-     * WARNING: This test sometimes fails:
-     *
-     * 1) VersioningTest::test_relation_nn_modify
-     * Failed asserting that two arrays are equal.
-     * --- Expected
-     * +++ Actual
-     * @@ @@
-     * Array (
-     *      'id' => '153'
-     *      'actif' => '1'
-     *      'created' => '2012-02-03 10:16:32'
-     * -    'modified' => null
-     * -    'personne_id' => '98'
-     * +    'modified' => '2012-02-03 10:16:32'
-     * +    'personne_id' => '1'
-     * @@ @@
-     *     'personne_actif' => '1'
-     * -    'personne_created' => '2012-02-03 10:16:32'
-     * -    'personne_modified' => null
-     * -    'personne_personne_type_id' => null
-     * -    'personne_nom' => 'Nom'
-     * -    'personne_prenom' => 'Prénom'
-     * +    'personne_created' => '2011-10-17 14:47:42'
-     * +    'personne_modified' => '2012-02-02 17:21:41'
-     * +    'personne_personne_type_id' => '1'
-     * +    'personne_nom' => 'RiceS XXX'
-     * +    'personne_prenom' => 'Damien'
-     *      'personne_genre_id' => null
-     * -    'personne_date_naissance' => null
-     * +    'personne_date_naissance' => '2011-04-01'
-     *      'personne_no_avs' => null
-     *      'personne_canton_id' => null
-     * -    'personne_pays_id' => null
-     * +    'personne_pays_id' => '36'
-     *      'personne_permis_id' => null
-     * )
-     * /var/www/iafbm/tests/units/VersioningTest.php:711
-     *
-     *
      */
     function test_relation_nn_modify($id) {
         # Record correctly exists from tests depended upon
