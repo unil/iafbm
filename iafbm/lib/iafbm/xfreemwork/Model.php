@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Project specific xModelMysql
+ * Project specific xModelMysql.
+ * - Manages model-level permissions
+ * - Manages versioning
+ * - Manages archive
+ * - Manages soft-delete
+ * @package iafbm
  */
 class iaModelMysql extends xModelMysql {
 
@@ -61,9 +66,14 @@ class iaModelMysql extends xModelMysql {
         return parent::invalids($fields);
     }
 
+    /**
+     * Checks that the model is allowed for the given $operation.
+     * @param string Operation (get, putm post, delete).
+     */
     function check_allowed($operation) {
         if (!xContext::$auth->is_allowed_model($this->name, $operation)) {
-            throw new xException ("You are not allowed to '{$operation}' on '{$this->name}'", 403);
+            $roles = implode(', ', xContext::$auth->roles());
+            throw new xException ("You are not allowed to '{$operation}' on '{$this->name}' with roles '{$roles}'", 403);
         }
     }
 

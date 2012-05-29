@@ -19,8 +19,18 @@ class AuthRolesTest extends iaPHPUnit_Framework_TestCase {
     function test_permissions_fbm_iafbm_g() {
         $permissions = array();
         foreach (xModel::scan() as $model) {
-            if ($model == 'candidat') continue;  // Candidat model is disallowed
-            $permissions[$model] = array('get'); // Every other model is get allowed
+            // Candidat model is disallowed
+            if ($model == 'candidat') {
+                continue;
+            }
+            // Archive and version models are put allowed & get
+            if (in_array($model, array('archive', 'archive_data', 'version', 'version_data', 'version_relation'))) {
+                $permissions[$model] = array('put', 'get');
+            }
+            // Every other model is get allowed
+            else {
+                $permissions[$model] = array('get');
+            }
         }
         $this->do_test_permissions(
             'fbm-iafbm-g',

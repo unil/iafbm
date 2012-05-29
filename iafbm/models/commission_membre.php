@@ -71,20 +71,23 @@ class CommissionMembreModel extends iaModelMysql {
         $model->post();
         // Simulates that 'version_id' was set with the actual PUT operation,
         // Replacing the temporary 'version_id' field old/new values
-        // with the updated 'version_id'
+        // with the updated 'version_id' (1)
         $r = xModel::load('version_data', array(
             'version_id' => $version_id,
             'field_name' => 'version_id'
         ))->get();
-        foreach ($r as $rr) xModel::load('version_data', array(
-            'id' => $rr['id']
-        ))->delete();
+        // Deletes version_data related rows, bypassing iaJournalingModel 'prevent-delete-mecanism'
+        $table = xModel::load('version_data')->maintable;
+        $primary = xModel::load('version_data')->primary();
+        foreach ($r as $rr) xModel::q("DELETE FROM `{$table}` WHERE `{$primary}` = '{$rr[$primary]}'");
+        // Re-creates the deleted row, but with the correct verions_id (ie. 'personne' version)
         xModel::load('version_data', array(
             'version_id' => $version_id,
             'field_name' => 'version_id',
             'old_value' => null,
             'new_value' => $version_id
         ))->put();
+        // End of the simulation (1)
         $t->end();
         return $result;
     }

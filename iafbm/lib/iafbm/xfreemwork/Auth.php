@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Project specific Auth.
+ * Uses Shibboleth information to automatically authenticate the user.
+ * @package iafbm
+ */
 class iaAuth extends xAuth {
    /**
     * Roles <-> Persmissions configuration:
@@ -25,10 +30,16 @@ class iaAuth extends xAuth {
                 'version' => 'CR',
                 'version_data' => 'CR',
                 'version_relation' => 'CR',
-                'archive' => 'CR'
+                'archive' => 'CR',
+                'archive_data' => 'CR'
             )
         ),
         'fbm-iafbm-releve-g, fbm-iafbm-admin-g' => array(
+            'models' => array(
+                '*' => 'CRUD'
+            )
+        ),
+        'local-superuser' => array(
             'models' => array(
                 '*' => 'CRUD'
             )
@@ -58,7 +69,7 @@ class iaAuth extends xAuth {
             )
         ) : 'guest';
         $roles = @$_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'];
-        // Development default values
+        // Development default values (!)
         $apply_development_default_auth =
             xContext::$profile == 'development' &&
             !$authenticated
@@ -76,11 +87,25 @@ class iaAuth extends xAuth {
         // Sets auth information
         $this->set($username, $roles, $this->info());
         // Updates and stores user permissions (only if Shibboleth roles have changed)
-        if (true||$roles_have_changed) {
+        if ($roles_have_changed) {
             $permissions = $this->compute_permissions();
             $this->set($username, $roles, array('permissions' => $permissions));
         }
     }
+
+/* TODO: make permissions on self::set().
+    function set($username, $roles, $info=array()) {
+        parent::set($username, $roles);
+        $permissions = $this->compute_permissions();
+        return parent::set(
+            $username,
+            $roles,
+            array_merge_recursive(
+                $info,
+                array('permissions' => $permissions)
+            ));
+    }
+*/
 
     /**
      * Returns true if user is allowed to execute $operation on $model,
