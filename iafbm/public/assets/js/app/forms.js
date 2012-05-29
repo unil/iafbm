@@ -737,31 +737,7 @@ Ext.define('iafbm.form.PropositionNomination', {
     commission_id: null,
     common: {
         store_candidat: new iafbm.store.Candidat({
-            autoLoad: false,
-            // Sets 'nomination' model fields according 'candidat' fields values
-            listeners: { load: function(store, records, success, operation) {
-                if (!success) return;
-rr=records;
-                var fields = {
-                    denomination_id: denomination_id,
-                    nom: nom,
-                    prenom: prenom,
-                    adresse: adresse_pro, // FIXME: use default adresse fields (pro|pri)
-                    email: email_pro,     // FIXME: use default adresse fields (pro|pri)
-                    etatcivil_id: etatcivil_id,
-                    date_naissance: date_naissance,
-                    pays_id: pays_pro_id  // FIXME: use default adresse fields (pro|pri)
-                };
-                Ext.each(fields, function(field_candidat, field_nomination) {
-                    // TODO
-                    /*
-                    var field = form.items.findBy(function(item) {
-                        return item.name == field_nomination
-                    });
-                    store_nomination[field_nomination] = this.getAt(0).get(field_candidat);
-                    */
-                });
-            }}
+            autoLoad: false
         }),
         store_commission: new iafbm.store.Commission({
             params: { id: 0 /*FIXME*/ }
@@ -771,10 +747,10 @@ rr=records;
     frame: true,
     store: null,
     initComponent: function() {
+        if (!this.commission_id) throw new Error("commission_id property cannot be empty");
         this.store = new iafbm.store.CommissionPropositionNomination({
             params: { commission_id: this.commission_id }
         });
-console.log(ss=this.store);
         this.items = [{
             xtype: 'ia-combo',
             fieldLabel: 'Candidat',
@@ -784,13 +760,42 @@ console.log(ss=this.store);
             displayField: '_display',
             valueField: 'id',
             store: new iafbm.store.Candidat({
-                // TODO: params: { commission_id: 0 }
+                params: { commission_id: this.commission_id }
             }),
-            // Reloads store with selected 'candidat' data
+            // Reloads store_candidat with selected 'candidat' data
+            // Sets 'nomination' model fields according 'candidat' fields values
             listeners: { change: function() {
-                var store_candidat = this.up().common.store_candidat;
+                var form = this.up('form'),
+                    store_candidat = this.up().common.store_candidat;
                 store_candidat.params.id = this.getValue();
-                store_candidat.load();
+                store_candidat.load(function(records, operation, success) {
+                    if (!success) return;
+                    var record = records.pop(),
+                        mapping = {
+                        denomination_id: 'denomination_id',
+                        nom: 'nom',
+                        prenom: 'prenom',
+                        etatcivil_id: 'etatcivil_id',
+                        date_naissance: 'date_naissance',
+                        adresse: '_adresse_defaut',
+                        email: '_email_defaut',
+                        pays_id: '_pays_defaut_id'
+                    };
+                    // Workaround:
+                    // Creates a hashmap with the form fields that we want to manipulate
+                    var keys = [];
+                    Ext.iterate(mapping, function(key) {
+                        keys.push(key);
+                    });
+                    var fields = {};
+                    form.cascade(function(item) {
+                        if (Ext.Array.contains(keys, item.name)) fields[item.name] = item;
+                    });
+                    Ext.iterate(fields, function(name, field) {
+                        var candidat_field = mapping[name];
+                        field.setValue(record.get(candidat_field));
+                    });
+                });
             }}
         }, {
             xtype: 'fieldset',
@@ -873,26 +878,33 @@ console.log(ss=this.store);
                 valueField: 'id',
                 store: Ext.create('iafbm.store.PersonneDenomination')
             }, {
-                fieldLabel: 'Nom'
+                fieldLabel: 'Nom',
+                name: 'nom'
             }, {
-                fieldLabel: 'Prénom'
+                fieldLabel: 'Prénom',
+                name: 'prenom'
             }, {
-                fieldLabel: 'Adresse'
+                fieldLabel: 'Adresse',
+                name: 'adresse'
             }, {
                 fieldLabel: 'Email',
+                name: 'email',
                 vtype: 'email'
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Etat civil',
+                name: 'etatcivil_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Etatcivil')
             }, {
                 xtype: 'ia-datefield',
-                fieldLabel: 'Date de naissance'
+                fieldLabel: 'Date de naissance',
+                name: 'date_naissance'
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: "Pays d'origine",
+                name: 'pays_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Pays')

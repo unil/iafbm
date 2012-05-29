@@ -393,6 +393,13 @@ Ext.define('iafbm.model.Candidat', {
         // Foreign fields
         {name: 'commission_nom', type: 'string'},
         // Ghost fields
+        {name: '_adresse_defaut', type: 'string'},
+        {name: '_npa_defaut', type: 'string'},
+        {name: '_lieu_defaut', type: 'string'},
+        {name: '_pays_defaut_id', type: 'int', useName: true},
+        {name: '_telephone_defaut_countrycode', type: 'string'},
+        {name: '_telephone_defaut', type: 'string'},
+        {name: '_email_defaut', type: 'string'},
         {name: '_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('prenom'),
@@ -646,18 +653,6 @@ Ext.define('iafbm.model.CommissionPropositionNomination', {
         {name: 'contrat_fin', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'contrat_taux', type: 'int'},
         {name: 'indemnite', type: 'int'},
-        {name: 'denomination_id', type: 'int', useNull: true},
-        {name: 'nom', type: 'string'},
-        {name: 'prenom', type: 'string'},
-        {name: 'adresse', type: 'sting'},
-        {name: 'email', type: 'sting'},
-        {name: 'etatcivil_id', type: 'int', useNull: true},
-        {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'pays_id', type: 'int', useNull: true},
-        {name: 'canton_id', type: 'int', useNull: true},
-        {name: 'permis_id', type: 'int', useNull: true},
-        {name: 'formation_id', type: 'int', useNull: true},
-        {name: 'position_actuelle_fonction', type: 'string'},
         {name: 'discipline_generale', type: 'string'},
         {name: 'observations', type: 'string'},
         {name: 'actif', type: 'boolean', defaultValue: true}
