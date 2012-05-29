@@ -33,6 +33,23 @@ class CandidatsController extends AbstractCommissionController {
     }
 
     /**
+     * Adds default adress ghost fields
+     */
+    function get() {
+        $result = parent::get();
+        foreach ($result['items'] as &$item) {
+            $default = $item['adresse_defaut'];
+            $fields = array('adresse_#', 'npa_#', 'lieu_#', 'pays_#_id', 'telephone_#_countrycode', 'telephone_#', 'email_#');
+            foreach ($fields as $field) {
+                $field_source = str_replace('#', $default, $field);
+                $field_dest = str_replace('#', 'defaut', $field);
+                $item["_{$field_dest}"] = @$item[$field_source];
+            }
+        }
+        return $result;
+    }
+
+    /**
      * Ensures 'nom' + 'prenom' fields begin with capitals.
      * @see PersonnesController
      * @see transform_params()
