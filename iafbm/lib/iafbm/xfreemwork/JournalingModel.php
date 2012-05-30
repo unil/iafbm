@@ -6,7 +6,7 @@
  * - Checks that the accessed row(s) relate to an allowed model.
  * @package iafbm
  */
-class iaJournalingModelMysql extends iaModelMysql {
+abstract class iaJournalingModelMysql extends iaModelMysql {
 
     /**
      * Checks that the requested model_name or table_name is allowed.
