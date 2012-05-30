@@ -39,6 +39,13 @@ class iaAuth extends xAuth {
                 '*' => 'CRUD'
             )
         ),
+        'test' => array(
+            'models' => array(
+                '*' => 'CRUD',
+                'candidat' => null,
+                'adresse' => null
+            )
+        ),
         'local-superuser' => array(
             'models' => array(
                 '*' => 'CRUD'
