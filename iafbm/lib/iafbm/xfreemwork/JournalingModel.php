@@ -24,14 +24,15 @@ class iaJournalingModelMysql extends iaModelMysql {
      * @param string Operation (get, putm post, delete).
      */
     protected function check_allowed_model($operation) {
-        // For 'get' operation on unspecified 'model_name', applies allowed models
-        if ($operation == 'get' && !@$this->params['model_name']) {
+        // For 'get' operation on unspecified primary-key nor 'model_name' parameters,
+        // applies allowed models filter
+        if ($operation == 'get' && !xUtil::filter_keys($this->params, array($this->primary(), 'model_name'))) {
             $allowed_models = array_filter(xModel::scan(), function($model) use ($operation) {
                 return xContext::$auth->is_allowed_model($model, $operation);
             });
             $this->params['model_name'] = $allowed_models;
         }
-        // Checks if requested models are allowed
+        // Checks that requested models are allowed
         $models = @$this->params['model_name'] ? xUtil::arrize($this->params['model_name']) : array();
         foreach ($models as $model) {
             if (!xContext::$auth->is_allowed_model($model, $operation)) {
