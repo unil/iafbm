@@ -24,7 +24,7 @@ class iaJournalingModelMysql extends iaModelMysql {
      * @param string Operation (get, putm post, delete).
      */
     protected function check_allowed_model($operation) {
-        // For get operation on unspecified 'model_name', applies allowed models
+        // For 'get' operation on unspecified 'model_name', applies allowed models
         if ($operation == 'get' && !@$this->params['model_name']) {
             $allowed_models = array_filter(xModel::scan(), function($model) use ($operation) {
                 return xContext::$auth->is_allowed_model($model, $operation);

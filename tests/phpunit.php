@@ -45,7 +45,10 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $phpunit);
 // PHPUnit Autoload
 require "{$phpunit}/PHPUnit/Autoload.php";
 
-// Custom PHPUnit_Framework_TestCase
+/**
+ * Custom PHPUnit_Framework_TestCase
+ * @package unittests
+ */
 class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
 {
 
@@ -58,8 +61,8 @@ class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'] = 'local-superuser';
         xContext::$auth->set_from_aai();
     }
-    function tearDown() {
-    }
+
+    function tearDown() {}
 
     function create($controller_name, $data) {
         return xController::load($controller_name, array(
