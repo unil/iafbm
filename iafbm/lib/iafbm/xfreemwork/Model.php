@@ -8,7 +8,7 @@
  * - Manages soft-delete
  * @package iafbm
  */
-class iaModelMysql extends xModelMysql {
+abstract class iaModelMysql extends xModelMysql {
 
     /**
      * True to enable versioning on this model.
