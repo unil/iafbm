@@ -1,4 +1,4 @@
-<img src="<?php echo u('a/img/controllers/feed/events/delete.png') ?>"/>
+<img src="<?php echo u('a/img/controllers/feed/events/cross.png') ?>"/>
 
 
 Adresse supprimée pour

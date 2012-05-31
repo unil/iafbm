@@ -1,4 +1,4 @@
-<img src="<?php echo u('a/img/controllers/feed/events/edit.png') ?>"/>
+<img src="<?php echo u('a/img/controllers/feed/events/user_edit.png') ?>"/>
 
 
 Email modifié pour
