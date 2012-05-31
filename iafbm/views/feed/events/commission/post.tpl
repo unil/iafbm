@@ -1,4 +1,4 @@
-<img src="<?php echo u('a/img/controllers/feed/events/edit.png') ?>"/>
+<img src="<?php echo u('a/img/controllers/feed/events/pencil.png') ?>"/>
 
 
 Commission n°<?php echo $d['entity']['id'] ?>
