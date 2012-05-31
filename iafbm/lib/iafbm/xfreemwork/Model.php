@@ -1,9 +1,14 @@
 <?php
 
 /**
- * Project specific xModelMysql
+ * Project specific xModelMysql.
+ * - Manages model-level permissions
+ * - Manages versioning
+ * - Manages archive
+ * - Manages soft-delete
+ * @package iafbm
  */
-class iaModelMysql extends xModelMysql {
+abstract class iaModelMysql extends xModelMysql {
 
     /**
      * True to enable versioning on this model.
@@ -61,10 +66,31 @@ class iaModelMysql extends xModelMysql {
         return parent::invalids($fields);
     }
 
-    function check_allowed($operation) {
-        if (!xContext::$auth->is_allowed_model($this->name, $operation)) {
-            throw new xException ("You are not allowed to '{$operation}' on '{$this->name}'", 403);
+    /**
+     * Checks that the model is allowed for the given $operation.
+     * @param string Operation (get, putm post, delete).
+     * @param string Model name (optional, defaults to current model).
+     */
+    function check_allowed($operation, $modelname=null) {
+        if (!$modelname) $modelname = $this->name;
+        if (!xContext::$auth->is_allowed_model($modelname, $operation)) {
+            $roles = implode(', ', xContext::$auth->roles());
+            throw new xException ("You are not allowed to '{$operation}' on '{$modelname}' with roles '{$roles}'", 403);
         }
+    }
+
+    /**
+     * Enhances parent method with permissions check.
+     * Prevents joining with unallowed models.
+     * @see xModelMysql::sql_join()
+     * @return string
+     */
+    function sql_join() {
+        // Iteractes activated joins models to check if allowed
+        foreach ($this->joins() as $model => $join) {
+            $this->check_allowed('get', $model);
+        }
+        return "\t".implode($this->joins(), "\n\t");
     }
 
     /**
@@ -264,9 +290,7 @@ class iaModelMysql extends xModelMysql {
 
     /**
      * Performs a unconditionally ROLLBACKed DELETE statements to test contraints.
-     * @return bool True if the row deletion passes contraints.
-     *              Otherwise, an exception is thrown.
-     * @throw xException
+     * @return boolean True if the row deletion passes contraints checks.
      */
     function _is_deletable() {
         // Delete hard uses a separate db connection

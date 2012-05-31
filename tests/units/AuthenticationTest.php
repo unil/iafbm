@@ -3,11 +3,12 @@
 require_once(__DIR__.'/../../iafbm/lib/xfreemwork/lib/lib/Util/Auth.php');
 require_once(__DIR__.'/../../iafbm/lib/iafbm/xfreemwork/Auth.php');
 require_once(__DIR__.'/../../iafbm/lib/xfreemwork/lib/lib/Core/Bootstrap.php');
-require_once(__DIR__.'/../../iafbm/public/Bootstrap.php');
+require_once(__DIR__.'/../../iafbm/lib/iafbm/xfreemwork/Bootstrap.php');
 
 /**
  * Unittesing-specific iaAuth class.
  * Defines a static $permission.
+ * @package unittests
  */
 class iaTestAuth extends iaAuth {
     protected $permissions = array(

@@ -3,6 +3,7 @@
 /**
  * Tests xTransaction class.
  * Test are made at xModel level.
+ * @package unittests
  */
 class ArchivingTest extends iaPHPUnit_Framework_TestCase {
 

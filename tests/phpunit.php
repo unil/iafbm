@@ -45,21 +45,24 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $phpunit);
 // PHPUnit Autoload
 require "{$phpunit}/PHPUnit/Autoload.php";
 
-// Custom PHPUnit_Framework_TestCase
+/**
+ * Custom PHPUnit_Framework_TestCase
+ * @package unittests
+ */
 class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
 {
 
     function setUp() {
-        require_once('../iafbm/public/Bootstrap.php');
+        require_once(dirname(__file__).'/../iafbm/lib/iafbm/xfreemwork/Bootstrap.php');
         new Bootstrap();
         // Sets a default auth information with all permissions
         $_SERVER['HTTP_SHIB_PERSON_UID'] = 'unit-tests';
-        $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = 'org';
-        $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'] = 'fbm-iafbm-releve-g';
+        $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = 'localhost';
+        $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'] = 'local-superuser';
         xContext::$auth->set_from_aai();
     }
-    function tearDown() {
-    }
+
+    function tearDown() {}
 
     function create($controller_name, $data) {
         return xController::load($controller_name, array(

@@ -116,10 +116,10 @@ table.user-detail th img {
 <?php
     $count = $d['versions']['count'];
     $total = $d['versions']['total'];
-    $first = xUtil::timestamp($d['versions']['first']['created']);
-    $last = xUtil::timestamp($d['versions']['last']['created']);
+    $first = @xUtil::timestamp($d['versions']['first']['created']);
+    $last = @xUtil::timestamp($d['versions']['last']['created']);
     $timespan = $last-$first;
-    $avg_day = $count/$timespan*60*60*24;
+    $avg_day = $timespan ? $count/$timespan*60*60*24 : 0;
     $rate_versions = $count/$total;
     $rate_modifications = $d['modifications']['count']/$d['modifications']['total'];
 ?>

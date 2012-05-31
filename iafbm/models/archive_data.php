@@ -1,9 +1,8 @@
 <?php
 /**
- * This model stores tables write activity
- * @note This Model does not extends iaModelMysql because wo do not want to version history
+ * This model stores tables row archives data.
  */
-class ArchiveDataModel extends iaModelMysql {
+class ArchiveDataModel extends iaJournalingModelMysql {
 
     var $table = 'archives_data';
 
@@ -34,8 +33,4 @@ class ArchiveDataModel extends iaModelMysql {
         'table_field_name' => 'mandatory',
         'model_field_name' => 'mandatory'
     );
-
-    function post() {
-        throw new xException("{{$this->name} model cannot be modified", 403);
-    }
 }
