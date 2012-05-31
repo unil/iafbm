@@ -736,21 +736,73 @@ Ext.define('iafbm.form.PropositionNomination', {
     extend: 'Ext.ia.form.Panel',
     commission_id: null,
     common: {
+        // This store is used to load the user selected 'candidat'
+        // for information display
         store_candidat: new iafbm.store.Candidat({
             autoLoad: false
         }),
+        // This store is used to load the related 'commission'
+        // for information display
         store_commission: new iafbm.store.Commission({
-            params: { id: 0 /*FIXME*/ }
+            autoLoad: false
         })
     },
     title: 'Proposition de nomination',
     frame: true,
     store: null,
+    // Applies the received record fields to forms fields, according mapping.
+    // mapping: { form_field_name: 'record_field_name' }
+    applyToForm: function(record, mapping) {
+        var form = this,
+            record = record || null,
+            mapping = mapping || {};
+        // Workaround:
+        // Creates a hashmap with the form fields that we want to manipulate
+        var keys = [];
+        Ext.iterate(mapping, function(key) {
+            keys.push(key);
+        });
+        var fields = {};
+        form.cascade(function(item) {
+            if (Ext.Array.contains(keys, item.name)) fields[item.name] = item;
+        });
+        Ext.iterate(fields, function(name, field) {
+            var candidat_field = mapping[name];
+            field.setValue(record.get(candidat_field));
+        });
+    },
+    //
     initComponent: function() {
+        var me = this;
         if (!this.commission_id) throw new Error("commission_id property cannot be empty");
+        // Form store
         this.store = new iafbm.store.CommissionPropositionNomination({
             params: { commission_id: this.commission_id }
         });
+        // Ad-hoc 'commission' store setup (see this.common.store_commission)
+        this.common.store_commission.on('load', function(store, records, success) {
+            if (!success) return;
+            me.applyToForm(records.pop(), {
+                section_id: 'section_id'
+            });
+        });
+        this.common.store_commission.params.commission_id = this.commission_id;
+        this.common.store_commission.load();
+        // Ad-hoc 'candidat' store setup (see this.common.store_commission)
+        this.common.store_candidat.on('load', function(store, records, success) {
+            if (!success) return;
+            me.applyToForm(records.pop(), {
+                denomination_id: 'denomination_id',
+                nom: 'nom',
+                prenom: 'prenom',
+                etatcivil_id: 'etatcivil_id',
+                date_naissance: 'date_naissance',
+                adresse: '_adresse_defaut',
+                email: '_email_defaut',
+                pays_id: '_pays_defaut_id'
+            });
+        });
+        // Form items
         this.items = [{
             xtype: 'ia-combo',
             fieldLabel: 'Candidat',
@@ -765,37 +817,11 @@ Ext.define('iafbm.form.PropositionNomination', {
             // Reloads store_candidat with selected 'candidat' data
             // Sets 'nomination' model fields according 'candidat' fields values
             listeners: { change: function() {
-                var form = this.up('form'),
+                var candidat_id = this.getValue(),
                     store_candidat = this.up().common.store_candidat;
-                store_candidat.params.id = this.getValue();
-                store_candidat.load(function(records, operation, success) {
-                    if (!success) return;
-                    var record = records.pop(),
-                        mapping = {
-                        denomination_id: 'denomination_id',
-                        nom: 'nom',
-                        prenom: 'prenom',
-                        etatcivil_id: 'etatcivil_id',
-                        date_naissance: 'date_naissance',
-                        adresse: '_adresse_defaut',
-                        email: '_email_defaut',
-                        pays_id: '_pays_defaut_id'
-                    };
-                    // Workaround:
-                    // Creates a hashmap with the form fields that we want to manipulate
-                    var keys = [];
-                    Ext.iterate(mapping, function(key) {
-                        keys.push(key);
-                    });
-                    var fields = {};
-                    form.cascade(function(item) {
-                        if (Ext.Array.contains(keys, item.name)) fields[item.name] = item;
-                    });
-                    Ext.iterate(fields, function(name, field) {
-                        var candidat_field = mapping[name];
-                        field.setValue(record.get(candidat_field));
-                    });
-                });
+                if (!candidat_id) return;
+                store_candidat.params.id = candidat_id;
+                store_candidat.load();
             }}
         }, {
             xtype: 'fieldset',
@@ -808,6 +834,7 @@ Ext.define('iafbm.form.PropositionNomination', {
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Section',
+                name: 'section_id',
                 displayField: 'code',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Section')
@@ -946,6 +973,7 @@ Ext.define('iafbm.form.PropositionNomination', {
         }, {
             xtype: 'fieldset',
             title: 'Annexes',
+            // Shows/hides box label on select/unselect
             defaults: {
                 listeners: {
                     afterrender: function() { this.handler() },
