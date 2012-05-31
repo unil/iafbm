@@ -2,6 +2,7 @@
 
 /**
  * Tests iaAuth Roles configuration.
+ * @package unittests
  */
 class AuthRolesTest extends iaPHPUnit_Framework_TestCase {
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Project specific Auth.
+ * Uses Shibboleth information to automatically authenticate the user.
+ * @package iafbm
+ */
 class iaAuth extends xAuth {
    /**
     * Roles <-> Persmissions configuration:

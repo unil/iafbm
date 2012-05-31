@@ -2,10 +2,7 @@
 
 /**
  * Tests versioning feature through xModels (bypasses xControllers complexity)
- *
- * TODO:
- * - Test versioning robustness to errors, eg:
- *    - the controller starts a transaction, an error occurs within the transaction, no version should not be written (case: add personne_adresse)
+ * @package unittests
  */
 class VersioningTest extends iaPHPUnit_Framework_TestCase {
 
