@@ -842,7 +842,10 @@ Ext.define('iafbm.form.PropositionNomination', {
                                 model: iafbm.model.Candidat,
                                 id: 1 // TODO: use prev() combo record id
                             }
-                        })
+                        }),
+                        listeners: {
+                            // TODO: refresh candidat_store record on close (for refreshing data in PropositionNomination fields)
+                        }
                     });
                 },
                 listeners: {
