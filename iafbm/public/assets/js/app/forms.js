@@ -821,7 +821,7 @@ Ext.define('iafbm.form.PropositionNomination', {
                 // Sets 'nomination' model fields according 'candidat' fields values
                 listeners: { change: function() {
                     var candidat_id = this.getValue(),
-                        store_candidat = this.up().common.store_candidat;
+                        store_candidat = this.up('form').common.store_candidat;
                     if (!candidat_id) return;
                     store_candidat.params.id = candidat_id;
                     store_candidat.load();
