@@ -804,25 +804,51 @@ Ext.define('iafbm.form.PropositionNomination', {
         });
         // Form items
         this.items = [{
-            xtype: 'ia-combo',
-            fieldLabel: 'Candidat',
-            name: 'candidat_id',
-            editable: false,
-            width: 400,
-            displayField: '_display',
-            valueField: 'id',
-            store: new iafbm.store.Candidat({
-                params: { commission_id: this.commission_id }
-            }),
-            // Reloads store_candidat with selected 'candidat' data
-            // Sets 'nomination' model fields according 'candidat' fields values
-            listeners: { change: function() {
-                var candidat_id = this.getValue(),
-                    store_candidat = this.up().common.store_candidat;
-                if (!candidat_id) return;
-                store_candidat.params.id = candidat_id;
-                store_candidat.load();
-            }}
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+            items: [{
+                xtype: 'ia-combo',
+                fieldLabel: 'Candidat',
+                name: 'candidat_id',
+                editable: false,
+                width: 400,
+                displayField: '_display',
+                valueField: 'id',
+                store: new iafbm.store.Candidat({
+                    params: { commission_id: this.commission_id }
+                }),
+                // Reloads store_candidat with selected 'candidat' data
+                // Sets 'nomination' model fields according 'candidat' fields values
+                listeners: { change: function() {
+                    var candidat_id = this.getValue(),
+                        store_candidat = this.up().common.store_candidat;
+                    if (!candidat_id) return;
+                    store_candidat.params.id = candidat_id;
+                    store_candidat.load();
+                }}
+            }, {
+                xtype: 'button',
+                text: 'Editer le candidat',
+                iconCls: 'icon-details',
+                margin: '0 5',
+                handler: function() {
+                    var me = this,
+                        popup = new Ext.ia.window.Popup({
+                        title: 'Candidat',
+                        item: new iafbm.form.Candidat({
+                            frame: false,
+                            modal: true,
+                            fetch: {
+                                model: iafbm.model.Candidat,
+                                id: 1 // TODO: use prev() combo record id
+                            }
+                        })
+                    });
+                },
+                listeners: {
+                    // TODO: listen to candidat-combo to disable button when no candidat selected
+                }
+            }],
         }, {
             xtype: 'fieldset',
             title: 'Proposition de nomination',
