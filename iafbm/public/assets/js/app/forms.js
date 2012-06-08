@@ -802,6 +802,10 @@ Ext.define('iafbm.form.PropositionNomination', {
                 pays_id: '_pays_defaut_id'
             });
         });
+        // Form defaults
+        this.fieldDefaults = { // or this.fieldDefaults:?
+            width: 400
+        },
         // Form items
         this.items = [{
             xtype: 'fieldcontainer',
@@ -810,13 +814,14 @@ Ext.define('iafbm.form.PropositionNomination', {
                 xtype: 'ia-combo',
                 fieldLabel: 'Candidat',
                 name: 'candidat_id',
-                editable: false,
-                width: 400,
                 displayField: '_display',
                 valueField: 'id',
                 store: new iafbm.store.Candidat({
                     params: { commission_id: this.commission_id }
                 }),
+                editable: false,
+                width: 400,
+                labelWidth: 65,
                 // Reloads store_candidat with selected 'candidat' data
                 // Sets 'nomination' model fields according 'candidat' fields values
                 listeners: { change: function() {
