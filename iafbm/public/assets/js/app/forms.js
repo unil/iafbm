@@ -751,7 +751,7 @@ Ext.define('iafbm.form.PropositionNomination', {
     frame: true,
     store: null,
     // Applies the received record fields to forms fields, according mapping.
-    // mapping: { form_field_name: 'record_field_name' }
+    // mapping structure: { form_field_name: 'record_field_name' }
     applyToForm: function(record, mapping) {
         var form = this,
             record = record || null,
@@ -810,6 +810,7 @@ Ext.define('iafbm.form.PropositionNomination', {
         this.items = [{
             xtype: 'fieldcontainer',
             layout: 'hbox',
+            width: '100%',
             items: [{
                 xtype: 'ia-combo',
                 fieldLabel: 'Candidat',
@@ -834,7 +835,7 @@ Ext.define('iafbm.form.PropositionNomination', {
             }, {
                 xtype: 'button',
                 text: 'Editer le candidat',
-                iconCls: 'icon-details',
+                iconCls: 'icon-edit',
                 margin: '0 5',
                 handler: function() {
                     var me = this,
@@ -848,12 +849,12 @@ Ext.define('iafbm.form.PropositionNomination', {
                                 id: 1 // TODO: use prev() combo record id
                             }
                         }),
-                        listeners: {
+                        _listeners: {
                             // TODO: refresh candidat_store record on close (for refreshing data in PropositionNomination fields)
                         }
                     });
                 },
-                listeners: {
+                _listeners: {
                     // TODO: listen to candidat-combo to disable button when no candidat selected
                 }
             }],
