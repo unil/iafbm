@@ -803,7 +803,7 @@ Ext.define('iafbm.form.PropositionNomination', {
             });
         });
         // Form defaults
-        this.fieldDefaults = { // or this.fieldDefaults:?
+        this.fieldDefaults = {
             width: 400
         },
         // Form items
