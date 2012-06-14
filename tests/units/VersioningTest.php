@@ -426,7 +426,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query: DELETE FROM/', $e->getMessage());
+            $this->assertRegExp('/^Invalid query:/', $e->getMessage());
             $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
         }
     }
@@ -721,7 +721,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query: DELETE FROM/', $e->getMessage());
+            $this->assertRegExp('/^Invalid query:/', $e->getMessage());
             $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
         }
         # 'Adresse' deletion correctly fails
@@ -730,7 +730,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query: DELETE FROM/', $e->getMessage());
+            $this->assertRegExp('/^Invalid query:/', $e->getMessage());
             $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
         }
     }
