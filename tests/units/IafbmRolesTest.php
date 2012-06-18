@@ -4,7 +4,7 @@
  * Tests iaAuth Roles configuration.
  * @package unittests
  */
-class AuthRolesTest extends iaPHPUnit_Framework_TestCase {
+class IafbmRolesTest extends iaPHPUnit_Framework_TestCase {
 
     function test_permissions_allroles() {
         $permissions = array();
