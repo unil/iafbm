@@ -5,11 +5,10 @@ require_once(dirname(__file__).'/Script.php');
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
-        $this->opts();
         // Parses CLI options
         $update_project = ($this->opt('u:') == 'project');
         $update_library = ($this->opt('u:') == 'library');
-        $update_project = $update_library = ($this->opt('u'));
+        //$update_project = $update_library = ($this->opt('u'));
         $blast_database = ($this->opt('x'));
         // Runs selected actions
         if ($update_project) $this->update_project();
@@ -35,7 +34,7 @@ class iafbmUpdateScript extends iafbmScript {
             '--------------------',
             "Examples:",
             "\t{$_SERVER['argv'][0]}\t\tdoes nothing",
-            "\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code",
+            //"\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code",
             "\t{$_SERVER['argv'][0]} -uproject\tupdates project code only",
             "\t{$_SERVER['argv'][0]} -ulibrary\tupdates library code only",
             "\t{$_SERVER['argv'][0]} -u -x\tupdates code and blasts database (!)"
@@ -54,7 +53,8 @@ class iafbmUpdateScript extends iafbmScript {
         $this->log('Updating libraries...');
         // Updates libs
         $libpath = dirname(xContext::$libpath);
-        exec("svn up {$libpath}", $output, $status);
+        exec("cd {$libpath} && git checkout master && git pull", $output, $status);
+        exec('cd -');
         if ($status) throw new xException('Error updating libs', $output);
         $this->log('OK', 1);
     }

@@ -57,11 +57,25 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Checks out xfreemwork library (SVN)
-mkdir iafbm/iafbm/lib/xfreemwork
-svn co https://xfreemwork.svn.sourceforge.net/svnroot/xfreemwork/trunk iafbm/iafbm/lib/xfreemwork/lib
+# xfm-php submodule
+cd iafbm
+git submodule init
 if [ $? -ne 0 ]; then
-    echo '! Could not checkout SVN project.'
+    echo '! Could not init xfm-php submodule.'
+    echo '! Aborting...'
+    exit 1
+fi
+git submodule update
+if [ $? -ne 0 ]; then
+    echo '! Could not init xfm-php submodule.'
+    echo '! Aborting...'
+    exit 1
+fi
+# set branch master
+cd iafbm/lib/xfm
+git branch master
+if [ $? -ne 0 ]; then
+    echo '! Could not init xfm-php submodule.'
     echo '! Aborting...'
     exit 1
 fi
