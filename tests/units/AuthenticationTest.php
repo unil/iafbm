@@ -1,16 +1,13 @@
 <?php
 
-require_once(__DIR__.'/../../iafbm/lib/xfreemwork/lib/lib/Util/Auth.php');
-require_once(__DIR__.'/../../iafbm/lib/iafbm/xfreemwork/Auth.php');
-require_once(__DIR__.'/../../iafbm/lib/xfreemwork/lib/lib/Core/Bootstrap.php');
-require_once(__DIR__.'/../../iafbm/lib/iafbm/xfreemwork/Bootstrap.php');
+require_once(__DIR__.'/../lib/iaPHPUnit_Auth_Framework_TestCase.php');
 
 /**
  * Unittesing-specific iaAuth class.
- * Defines a static $permission.
+ * Defines a custom $permission.
  * @package unittests
  */
-class iaTestAuth extends iaAuth {
+class AuthenticationTestAuth extends iaAuth {
     protected $permissions = array(
         'multiple , roles, canonalization' => array(
             'models' => array(
@@ -25,39 +22,15 @@ class iaTestAuth extends iaAuth {
         ),
     );
 
-    function get_permissions() {
+    function get_permissions_property() {
         return $this->permissions;
-    }
-}
-
-/**
- * Unittesing-specific Bootstrap.
- * Setups iaTestAuth as xContext::$auth.
- */
-class iaTestAuthBootstrap extends Bootstrap {
-    function setup_auth() {
-        xContext::$log->log("Setting up iaTestAuth", $this);
-        xContext::$auth = new iaTestAuth();
     }
 }
 
 /**
  * Tests iaAuth class.
  */
-class AuthenticationTest extends iaPHPUnit_Framework_TestCase {
-
-    function setUp() {
-        new iaTestAuthBootstrap();
-    }
-
-    protected function set_shibboleth($username, $org, $roles) {
-        // Simulates Shibboleth server information
-        $_SERVER['HTTP_SHIB_PERSON_UID'] = $username;
-        $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = $org;
-        $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'] = $roles;
-        // Reparses auth information
-        xContext::$auth->set_from_aai();
-    }
+class AuthenticationTest extends iaPHPUnit_Auth_Framework_TestCase {
 
     function test_auth_info_from_shibboleth() {
         $auth = xContext::$auth;
@@ -78,7 +51,7 @@ class AuthenticationTest extends iaPHPUnit_Framework_TestCase {
 
     function test_canonalization_multiple_roles() {
         $auth = xContext::$auth;
-        $permissions = $auth->get_permissions();
+        $permissions = $auth->get_permissions_property();
         // Only keeps roles to test (eg. it canonalizes)
         $permissions = xUtil::filter_keys($permissions, array('multiple', 'roles', 'canonalization'));
         foreach ($permissions as $role => $info) {
@@ -99,7 +72,7 @@ class AuthenticationTest extends iaPHPUnit_Framework_TestCase {
         }
         // Actual test
         $auth = xContext::$auth;
-        $permissions = $auth->get_permissions();
+        $permissions = $auth->get_permissions_property();
         // Only keeps role to test (eg. it has a wildcard)
         $permissions = xUtil::filter_keys($permissions, array('wildcards'));
         foreach ($permissions as $role => $info) {
