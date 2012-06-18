@@ -14,7 +14,6 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
      */
     function check_allowed($operation) {
         $this->check_allowed_model($operation);
-        $this->check_allowed_table($operation);
     }
 
     /**
@@ -24,16 +23,25 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
      * @param string Operation (get, putm post, delete).
      */
     protected function check_allowed_model($operation) {
-        // For 'get' operation on unspecified primary-key nor 'model_name' parameters,
-        // applies allowed models filter
-        if ($operation == 'get' && !xUtil::filter_keys($this->params, array($this->primary(), 'model_name'))) {
-            $allowed_models = array_filter(xModel::scan(), function($model) use ($operation) {
-                return xContext::$auth->is_allowed_model($model, $operation);
-            });
-            $this->params['model_name'] = $allowed_models;
+        $model_field_name = $this->model_field_name();
+        // Prevents 'get' operation with unspecified 'model_name' parameters,
+        if ($operation == 'get' && !xUtil::filter_keys($this->params, $model_field_name)) {
+            throw new xException (
+                "Please specify '{$model_field_name}' parameter",
+                400,
+                array(
+                    'params' => $this->params,
+                    'model' => $this->name,
+                    'join' => $this->join,
+                    'mapping' => array_merge(
+                        array_keys($this->mapping),
+                        array_keys($this->foreign_mapping())
+                    )
+                )
+            );
         }
-        // Checks that requested models are allowed
-        $models = @$this->params['model_name'] ? xUtil::arrize($this->params['model_name']) : array();
+        // Prevents requesting an unallowed model
+        $models = @$this->params[$model_field_name] ? xUtil::arrize($this->params[$model_field_name]) : array();
         foreach ($models as $model) {
             if (!xContext::$auth->is_allowed_model($model, $operation)) {
                 throw new xException ("You are not allowed to '{$operation}' on '{$this->name}' with model '{$model}'", 403);
@@ -42,19 +50,23 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
     }
 
     /**
-     * Checks that the given table_name param relate to allowed models.
-     * @see iaJournalingModelMysql::check_allowed()
-     * @param string Operation (get, putm post, delete).
+     * Determines and return the field name related to 'model_field'
+     * (can be a local for a foreign field)
+     * @return string The name of the field related to 'model_field'
      */
-    protected function check_allowed_table($operation) {
-        // Checks if requested models are allowed
-        $tables = @$this->params['table_name'] ? xUtil::arrize($this->params['table_name']) : array();
-        foreach (xModel::scan() as $model_name) {
-            $model = xModel::load($model_name);
-            foreach ($tables as $table) {
-                if ($model->maintable == $table && !xContext::$auth->is_allowed_model($model->name, $operation)) {
-                    throw new xException ("You are not allowed to '{$operation}' on '{$this->name}' with table '{$table}'", 403);
-                }
+    function model_field_name() {
+        // Feteches all modelfields names
+        $mapping = array_merge(
+            array_keys($this->mapping),
+            array_keys($this->foreign_mapping())
+        );
+        // Determines which one relates to modelfield,
+        // priority is given to local field name because
+        // it is merged first (see argument order in array_merge() above)
+        $candidates = array();
+        foreach ($mapping as $field) {
+            if (substr($field, -strlen('model_name')) == 'model_name') {
+                return $field;
             }
         }
     }

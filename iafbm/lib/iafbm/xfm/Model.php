@@ -139,7 +139,14 @@ abstract class iaModelMysql extends xModelMysql {
         unset($this->params['actif']); // Also retrive 'deleted' rows
         $results = parent::get();
         // Checks if version exists
-        if (!xModel::load('version', array('id'=>$version))->get()) {
+        // NOTE: Custom SQL query to bypass iaJournalingModel::check_allowed()
+        //       that prevents unspecified 'model_name' parameter,
+        //       because of recursivity for foreign fields,
+        //       model_name is not always $this->name (?)
+        $version_count = mysql_num_rows(
+            xModel::q("SELECT * FROM versions WHERE id = '{$version}';")
+        );
+        if (!$version_count) {
             throw new xException("Version {$version} does not exist", 404);
         }
         // Creates versionned results
@@ -151,7 +158,7 @@ abstract class iaModelMysql extends xModelMysql {
                 "in 'xreturn' parameter if 'xversion' parameter is specified"
             );
             $modifications = xModel::load('version_data', array(
-                'version_table_name' => $this->maintable,
+                'version_model_name' => $this->name,
                 'version_id_field_value' => $record_id,
                 'version_id' => $version,
                 'version_id_comparator' => '>',
