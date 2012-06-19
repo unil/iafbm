@@ -61,21 +61,13 @@ fi
 cd iafbm
 git submodule init
 if [ $? -ne 0 ]; then
-    echo '! Could not init xfm-php submodule.'
+    echo '! Could not init git submodule(s).'
     echo '! Aborting...'
     exit 1
 fi
 git submodule update
 if [ $? -ne 0 ]; then
-    echo '! Could not init xfm-php submodule.'
-    echo '! Aborting...'
-    exit 1
-fi
-# set branch master
-cd iafbm/lib/xfm
-git branch master
-if [ $? -ne 0 ]; then
-    echo '! Could not init xfm-php submodule.'
+    echo '! Could not update git submodule(s).'
     echo '! Aborting...'
     exit 1
 fi

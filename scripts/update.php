@@ -52,10 +52,9 @@ class iafbmUpdateScript extends iafbmScript {
     protected function update_libs() {
         $this->log('Updating libraries...');
         // Updates libs
-        $libpath = dirname(xContext::$libpath);
-        exec("cd {$libpath} && git checkout master && git pull", $output, $status);
-        exec('cd -');
-        if ($status) throw new xException('Error updating libs', $output);
+        $basepath = dirname(xContext::$basepath);
+        exec("cd {$basepath} && git submodule update && cd -", $output, $status);
+        if ($status) throw new xException('Error updating git submodule(s)', $output);
         $this->log('OK', 1);
     }
 
