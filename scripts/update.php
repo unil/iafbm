@@ -6,9 +6,8 @@ class iafbmUpdateScript extends iafbmScript {
 
     function run() {
         // Parses CLI options
-        $update_project = ($this->opt('u:') == 'project');
-        $update_library = ($this->opt('u:') == 'library');
-        //$update_project = $update_library = ($this->opt('u'));
+        $update_project = ($this->opt('u:') == 'project' || $this->opt('u::') === true);
+        $update_library = ($this->opt('u:') == 'library' || $this->opt('u::') === true);
         $blast_database = ($this->opt('x'));
         // Runs selected actions
         if ($update_project) $this->update_project();
@@ -34,9 +33,9 @@ class iafbmUpdateScript extends iafbmScript {
             '--------------------',
             "Examples:",
             "\t{$_SERVER['argv'][0]}\t\tdoes nothing",
-            //"\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code",
-            "\t{$_SERVER['argv'][0]} -uproject\tupdates project code only",
-            "\t{$_SERVER['argv'][0]} -ulibrary\tupdates library code only",
+            "\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code (recommended)",
+            "\t{$_SERVER['argv'][0]} -uproject\tupdates project code only (not recommended)",
+            "\t{$_SERVER['argv'][0]} -ulibrary\tupdates library code only (not recommended)",
             "\t{$_SERVER['argv'][0]} -u -x\tupdates code and blasts database (!)"
         );
     }
