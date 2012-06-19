@@ -1,8 +1,10 @@
 <?php
 /**
  * This model stores tables rows archives.
+ * @note No need to extend iaJournalingModelMysql for security reasons
+ *       because 'archive' tables are not exposed through a model.
  */
-class ArchiveModel extends iaJournalingModelMysql {
+class ArchiveModel extends iaModelMysql {
 
     var $table = 'archives';
 

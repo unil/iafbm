@@ -74,6 +74,7 @@ class CommissionMembreModel extends iaModelMysql {
         // with the updated 'version_id' (1)
         $r = xModel::load('version_data', array(
             'version_id' => $version_id,
+            'version_model_name' => $this->name,
             'field_name' => 'version_id'
         ))->get();
         // Deletes version_data related rows, bypassing iaJournalingModel 'prevent-delete-mecanism'
