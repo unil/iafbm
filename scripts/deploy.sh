@@ -71,6 +71,7 @@ if [ $? -ne 0 ]; then
     echo '! Aborting...'
     exit 1
 fi
+cd -
 
 # Creates database structure (bypassing confirmation prompt)
 cd iafbm/scripts
@@ -80,9 +81,16 @@ if [ $? -ne 0 ]; then
     echo '! Aborting...'
     exit 1
 fi
+cd -
 
 # Removes downloaded deploy.sh
+cd $INITIAL_DIRECTORY
 rm -f deploy.sh
+if [ $? -ne 0 ]; then
+    echo '! Could not delete the downloaded deploy.sh'
+    echo '! Aborting...'
+    exit 1
+fi
 
 # Back to initial shell state
 echo Deploy completed.
