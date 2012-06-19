@@ -45,40 +45,10 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $phpunit);
 // PHPUnit Autoload
 require "{$phpunit}/PHPUnit/Autoload.php";
 
-// Custom PHPUnit_Framework_TestCase
-class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
-{
-
-    function setUp() {
-        require_once('../iafbm/public/Bootstrap.php');
-        new Bootstrap();
-        // Sets a default auth information with all permissions
-        $_SERVER['HTTP_SHIB_PERSON_UID'] = 'unit-tests';
-        $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = 'org';
-        $_SERVER['HTTP_SHIB_CUSTOM_UNILMEMBEROF'] = 'fbm-iafbm-releve-g';
-        xContext::$auth->set_from_aai();
-    }
-    function tearDown() {
-    }
-
-    function create($controller_name, $data) {
-        return xController::load($controller_name, array(
-            'items' => $data
-        ));
-    }
-    function get($controller_name, $data) {
-        $data = is_array($data) ? $data : array('id'=>$data);
-        return xController::load($controller_name, $data)->get();
-    }
-
-    function dump() {
-        print "\n";
-        foreach(func_get_args() as $arg) {
-            var_dump($arg);
-            print "\n";
-        }
-    }
-}
+// iafbm-specific PHPUnit_Framework_TestCase classes
+$lib = __DIR__.'/lib';
+require_once("{$lib}/iaPHPUnit_Framework_TestCase.php");
+require_once("{$lib}/iaPHPUnit_Auth_Framework_TestCase.php");
 
 // PHPUnit autorun
 PHPUnit_TextUI_Command::main();

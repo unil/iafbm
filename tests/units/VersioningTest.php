@@ -2,10 +2,7 @@
 
 /**
  * Tests versioning feature through xModels (bypasses xControllers complexity)
- *
- * TODO:
- * - Test versioning robustness to errors, eg:
- *    - the controller starts a transaction, an error occurs within the transaction, no version should not be written (case: add personne_adresse)
+ * @package unittests
  */
 class VersioningTest extends iaPHPUnit_Framework_TestCase {
 
@@ -45,24 +42,19 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
      * @return int the $n'th last version id
      */
     protected function get_last_version($n=0) {
-        $r = xController::load('versions', array(
-            'xorder_by' => 'id',
-            'xorder' => 'DESC',
-            'xlimit' => $n+1
-        ), false)->get();
-        $v = @$r['items'][$n]['id'];
-        $this->assertNotEmpty($v);
-        return $v;
+        return xModel::load('version')->current($n);
     }
 
     /**
      * Asserts that the given $version_id contains the given $expected_changes.
+     * @param string Mandatory model_name for 'version' model security system.
      * @param integer The version id.
      * @param array The expected changes ('old value' => 'new value').
      */
-    protected function assertVersionChanges($version_id, $expected_changes=array()) {
+    protected function assertVersionChanges($model_name, $version_id, $expected_changes=array()) {
         $version_data = xModel::load('version_data', array(
-            'version_id'=>$version_id
+            'version_id' => $version_id,
+            'version_model_name' => $model_name
         ))->get();
         $actual_changes = array();
         foreach ($version_data as $data) {
@@ -117,7 +109,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id'=>$v,
+            'model_name' => 'personne'
+        ))->get(0);
         $this->assertEquals('personne', $r['model_name']);
         $this->assertEquals('personnes', $r['table_name']);
         $this->assertEquals('put', $r['operation']);
@@ -130,7 +125,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'nom' => array(null => $item['nom']),
             'prenom' => array(null => $item['prenom'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne', $v, $changes);
         # Pre-insertion version is correctly inexistant
         $r = xController::load('personnes', array(
             'id' => $id,
@@ -170,7 +165,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'personne'
+        ))->get(0);
         $this->assertEquals('personne', $r['model_name']);
         $this->assertEquals('personnes', $r['table_name']);
         $this->assertEquals('post', $r['operation']);
@@ -181,7 +179,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'nom' => array($item_old['nom'] => $item['nom']),
             'prenom' => array($item_old['prenom'] => $item['prenom'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne', $v, $changes);
         # Pre-modification version is correctly accessible
         $r = xController::load('personnes', array(
             'id' => $id,
@@ -197,6 +195,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
 
     /**
      * @depends test_entity_create
+     * @expectedException xException
+     * @expectedExceptionMessage The requested personne
      */
     function test_entity_delete($id) {
         # Record correctly exists from tests depended upon
@@ -225,7 +225,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'actif' => array($item_old['actif'] => 0),
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne', $v, $changes);
         # Pre-deletion version is correctly accessible
         $r = xController::load('personnes', array(
             'id' => $id,
@@ -261,7 +261,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($item, $r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id'=>$v,
+            'model_name' => 'personne'
+        ))->get(0);
         $this->assertEquals('personne', $r['model_name']);
         $this->assertEquals('personnes', $r['table_name']);
         $this->assertEquals('post', $r['operation']);
@@ -273,7 +276,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'prenom' => array($item_old['prenom'] => $item['prenom']),
             'pays_id' => array($item_old['pays_id'] => $item['pays_id']),
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne', $v, $changes);
         # 'Pays' is correctly retrieved through 'Personne'
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
@@ -322,7 +325,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($pays, $r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'pays'
+        ))->get(0);
         $this->assertEquals('pays', $r['model_name']);
         $this->assertEquals('pays', $r['table_name']);
         $this->assertEquals('post', $r['operation']);
@@ -332,7 +338,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'nom' => array($pays_old['nom'] => $pays['nom'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('pays', $v, $changes);
         # Record modification is correctly accessible through 'Personne'
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
@@ -379,7 +385,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertEquals($item, $r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'personne'
+        ))->get(0);
         $this->assertEquals('personne', $r['model_name']);
         $this->assertEquals('personnes', $r['table_name']);
         $this->assertEquals('post', $r['operation']);
@@ -389,7 +398,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'pays_id' => array($item_old['pays_id'] => $item['pays_id'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne', $v, $changes);
         # Record is modification is correctly accessible through 'Personne'
         $r = xController::load('personnes', array('id'=>$id))->get();
         $this->assertCount(1, $r['items']);
@@ -427,7 +436,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query: DELETE FROM/', $e->getMessage());
+            $this->assertRegExp('/^Invalid query:/', $e->getMessage());
             $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
         }
     }
@@ -450,7 +459,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'personne_email'
+        ))->get(0);
         $this->assertEquals('personne_email', $r['model_name']);
         $this->assertEquals('personnes_emails', $r['table_name']);
         $this->assertEquals('put', $r['operation']);
@@ -465,7 +477,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'email' => array(null => $item['email']),
             'defaut' => array(null => $item['defaut'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne_email', $v, $changes);
         # Pre-insertion version is correctly inexistant
         $r = xController::load('personnes_emails', array(
             'id' => $id,
@@ -500,7 +512,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertSame($item, @$r['items'][0]);
         # Version is correctly written
         $v = $this->get_last_version();
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'personne_email'
+        ))->get(0);
         $this->assertEquals('personne_email', $r['model_name']);
         $this->assertEquals('personnes_emails', $r['table_name']);
         $this->assertEquals('post', $r['operation']);
@@ -511,7 +526,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'adresse_type_id' => array($item_old['adresse_type_id'] => $item['adresse_type_id']),
             'email' => array($item_old['email'] => $item['email'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne_email', $v, $changes);
         # Pre-modification version is correctly accessible
         $r = xController::load('personnes_emails', array(
             'id' => $id,
@@ -529,6 +544,8 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
     /**
      * Tests entity deletion when foreign key constraint passes.
      * @depends test_relation_1n_create
+     * @expectedException xException
+     * @expectedExceptionMessage The requested personne_email
      */
     function test_relation_1n_delete($id) {
         # Record correctly exists from tests depended upon
@@ -557,7 +574,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $changes = array(
             'actif' => array($item_old['actif'] => 0),
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne_email', $v, $changes);
         # Pre-deletion version is correctly accessible
         $r = xController::load('personnes_emails', array(
             'id' => $id,
@@ -596,7 +613,10 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         $this->assertSame($item, $r['items'][0]);
         # 'Adresse' version is correctly written
         $v = $this->get_last_version(1);
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'adresse'
+        ))->get(0);
         $this->assertEquals('adresse', $r['model_name']);
         $this->assertEquals('adresses', $r['table_name']);
         $this->assertEquals('put', $r['operation']);
@@ -612,10 +632,13 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'lieu' => array(null => $item['adresse_lieu']),
             'pays_id' => array(null => $item['adresse_pays_id'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('adresse', $v, $changes);
         # 'PersonneAdresse' version is correctly written
         $v = $this->get_last_version(0);
-        $r = xModel::load('version', array('id'=>$v))->get(0);
+        $r = xModel::load('version', array(
+            'id' => $v,
+            'model_name' => 'personne_adresse'
+        ))->get(0);
         $this->assertEquals('personne_adresse', $r['model_name']);
         $this->assertEquals('personnes_adresses', $r['table_name']);
         $this->assertEquals('put', $r['operation']);
@@ -629,7 +652,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
             'adresse_id' => array(null => $item['adresse_id']),
             'defaut' => array(null => $item['defaut'])
         );
-        $this->assertVersionChanges($v, $changes);
+        $this->assertVersionChanges('personne_adresse', $v, $changes);
         # Pre-insertion version is correctly inexistant
         $r = xController::load('personnes_adresses', array(
             'id' => $id,
@@ -645,47 +668,6 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
 
     /**
      * @depends test_relation_nn_create_adresse
-     *
-     *
-     * WARNING: This test sometimes fails:
-     *
-     * 1) VersioningTest::test_relation_nn_modify
-     * Failed asserting that two arrays are equal.
-     * --- Expected
-     * +++ Actual
-     * @@ @@
-     * Array (
-     *      'id' => '153'
-     *      'actif' => '1'
-     *      'created' => '2012-02-03 10:16:32'
-     * -    'modified' => null
-     * -    'personne_id' => '98'
-     * +    'modified' => '2012-02-03 10:16:32'
-     * +    'personne_id' => '1'
-     * @@ @@
-     *     'personne_actif' => '1'
-     * -    'personne_created' => '2012-02-03 10:16:32'
-     * -    'personne_modified' => null
-     * -    'personne_personne_type_id' => null
-     * -    'personne_nom' => 'Nom'
-     * -    'personne_prenom' => 'Prénom'
-     * +    'personne_created' => '2011-10-17 14:47:42'
-     * +    'personne_modified' => '2012-02-02 17:21:41'
-     * +    'personne_personne_type_id' => '1'
-     * +    'personne_nom' => 'RiceS XXX'
-     * +    'personne_prenom' => 'Damien'
-     *      'personne_genre_id' => null
-     * -    'personne_date_naissance' => null
-     * +    'personne_date_naissance' => '2011-04-01'
-     *      'personne_no_avs' => null
-     *      'personne_canton_id' => null
-     * -    'personne_pays_id' => null
-     * +    'personne_pays_id' => '36'
-     *      'personne_permis_id' => null
-     * )
-     * /var/www/iafbm/tests/units/VersioningTest.php:711
-     *
-     *
      */
     function test_relation_nn_modify($id) {
         # Record correctly exists from tests depended upon
@@ -761,7 +743,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query: DELETE FROM/', $e->getMessage());
+            $this->assertRegExp('/^Invalid query:/', $e->getMessage());
             $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
         }
         # 'Adresse' deletion correctly fails
@@ -770,7 +752,7 @@ class VersioningTest extends iaPHPUnit_Framework_TestCase {
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 500);
-            $this->assertRegExp('/^Invalid query: DELETE FROM/', $e->getMessage());
+            $this->assertRegExp('/^Invalid query:/', $e->getMessage());
             $this->assertRegExp('/Cannot delete or update a parent row: a foreign key constraint fails/', $e->getMessage());
         }
     }

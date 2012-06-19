@@ -3,6 +3,8 @@
 /**
  * Tests xTransaction class.
  * Test are made at xModel level.
+ * @todo Move this in xfreemwork unittests.
+ * @package unittests
  */
 class xTransactionTest extends iaPHPUnit_Framework_TestCase {
 

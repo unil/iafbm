@@ -1,9 +1,8 @@
 <?php
 /**
- * This model stores tables write activity
- * @note This Model does not extends iaModelMysql because wo do not want to version history
+ * This model stores tables write activity data.
  */
-class VersionDataModel extends iaModelMysql {
+class VersionDataModel extends iaJournalingModelMysql {
 
     var $versioning = false;
 

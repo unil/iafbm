@@ -57,14 +57,21 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Checks out xfreemwork library (SVN)
-mkdir iafbm/iafbm/lib/xfreemwork
-svn co https://xfreemwork.svn.sourceforge.net/svnroot/xfreemwork/trunk iafbm/iafbm/lib/xfreemwork/lib
+# xfm-php submodule
+cd iafbm
+git submodule init
 if [ $? -ne 0 ]; then
-    echo '! Could not checkout SVN project.'
+    echo '! Could not init git submodule(s).'
     echo '! Aborting...'
     exit 1
 fi
+git submodule update
+if [ $? -ne 0 ]; then
+    echo '! Could not update git submodule(s).'
+    echo '! Aborting...'
+    exit 1
+fi
+cd -
 
 # Creates database structure (bypassing confirmation prompt)
 cd iafbm/scripts
@@ -74,9 +81,16 @@ if [ $? -ne 0 ]; then
     echo '! Aborting...'
     exit 1
 fi
+cd -
 
 # Removes downloaded deploy.sh
+cd $INITIAL_DIRECTORY
 rm -f deploy.sh
+if [ $? -ne 0 ]; then
+    echo '! Could not delete the downloaded deploy.sh'
+    echo '! Aborting...'
+    exit 1
+fi
 
 # Back to initial shell state
 echo Deploy completed.
