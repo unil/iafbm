@@ -1,9 +1,9 @@
 <?php
 
 require_once(__DIR__.'/../../iafbm/lib/xfm/lib/Util/Auth.php');
-require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/Auth.php');
+require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/iaAuth.php');
 require_once(__DIR__.'/../../iafbm/lib/xfm/lib/Core/Bootstrap.php');
-require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/Bootstrap.php');
+require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/iaBootstrap.php');
 
 // See iaPHPUnit_Auth_Framework_TestCase docblock below for instructions
 
@@ -13,7 +13,7 @@ require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/Bootstrap.php');
  * @internal
  * @see iaPHPUnit_Auth_Framework_TestCase
  */
-class iaTestAuthBootstrap extends Bootstrap {
+class iaTestAuthBootstrap extends iaBootstrap {
 
     /**
      * Set at construct time.

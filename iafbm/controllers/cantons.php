@@ -1,6 +1,6 @@
 <?php
 
-class CantonsController extends iaWebController {
+class CantonsController extends iaExtRestController {
     var $model = 'canton';
     var $allow = array('get');
 }

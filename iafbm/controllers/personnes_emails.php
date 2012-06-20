@@ -1,6 +1,6 @@
 <?php
 
-class PersonnesEmailsController extends iaWebController {
+class PersonnesEmailsController extends iaExtRestController {
 
     var $model = 'personne_email';
 

@@ -1,6 +1,6 @@
 <?php
 
-class SectionsController extends iaWebController {
+class SectionsController extends iaExtRestController {
     var $model = 'section';
     var $allow = array('get');
 }

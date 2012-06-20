@@ -3,7 +3,7 @@
 /**
  * Project specific xWebController
  */
-class iaWebController extends xWebController {
+class iaExtRestController extends xWebController {
 
     var $model = null;
 

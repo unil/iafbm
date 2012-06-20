@@ -1,6 +1,6 @@
 <?php
 
-class PersonnesFormationsController extends iaWebController {
+class PersonnesFormationsController extends iaExtRestController {
 
     var $model = 'personne_formation';
 

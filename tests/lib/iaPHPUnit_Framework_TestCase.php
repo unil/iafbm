@@ -10,8 +10,8 @@ class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
 {
 
     function setUp() {
-        require_once(dirname(__file__).'/../../iafbm/lib/iafbm/xfm/Bootstrap.php');
-        new Bootstrap();
+        require_once(dirname(__file__).'/../../iafbm/lib/iafbm/xfm/iaBootstrap.php');
+        new iaBootstrap();
         // Sets a default auth information with all permissions
         $_SERVER['HTTP_SHIB_PERSON_UID'] = 'unit-tests';
         $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = 'localhost';

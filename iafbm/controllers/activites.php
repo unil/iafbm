@@ -1,6 +1,6 @@
 <?php
 
-class ActivitesController extends iaWebController {
+class ActivitesController extends iaExtRestController {
 
     var $model = 'activite';
 
