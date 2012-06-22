@@ -59,15 +59,9 @@ fi
 
 # xfm-php submodule
 cd iafbm
-git submodule init
+git submodule update --init --recursive
 if [ $? -ne 0 ]; then
-    echo '! Could not init git submodule(s).'
-    echo '! Aborting...'
-    exit 1
-fi
-git submodule update
-if [ $? -ne 0 ]; then
-    echo '! Could not update git submodule(s).'
+    echo '! Could not init/update git submodule(s).'
     echo '! Aborting...'
     exit 1
 fi
