@@ -12,8 +12,8 @@ class iaPHPUnit_Framework_TestCase extends xPHPUnit_Framework_TestCase
 {
 
     function setup_bootstrap() {
-        require_once(__dir__.'/../../iafbm/lib/iafbm/xfm/Bootstrap.php');
-        new Bootstrap();
+        require_once(__dir__.'/../../iafbm/lib/iafbm/xfm/iaBootstrap.php');
+        new iaBootstrap();
     }
 
     function setUp() {
