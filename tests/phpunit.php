@@ -1,38 +1,48 @@
 <?php
-/* PHPUnit
+/*
+ * (c) 2012 Damien Corpataux
  *
- * Copyright (c) 2001-2012, Sebastian Bergmann <sebastian@phpunit.de>.
- * All rights reserved.
+ * Licensed under the GNU GPL v3.0 license,
+ * accessible at http://www.gnu.org/licenses/gpl-3.0.html
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *   * Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *   * Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
- *
- *   * Neither the name of Sebastian Bergmann nor the names of his
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+**/
+
+// Requires PHPUnit dependancies (using existing xfm submodules)
+$vendors = __dir__.'/../../iafbm/iafbm/lib/xfm/unittests/vendors';
+$paths = array(
+    "{$vendors}/phpunit/",
+    "{$vendors}/php-file-iterator/",
+    "{$vendors}/php-code-coverage/",
+    "{$vendors}/php-token-stream/",
+    "{$vendors}/php-text-template/",
+    "{$vendors}/php-timer/",
+    "{$vendors}/phpunit-mock-objects/"
+);
+foreach ($paths as $path) set_include_path(
+    get_include_path() . PATH_SEPARATOR . $path
+);
+
+// Requires PHPUnit library
+require_once "PHPUnit/Autoload.php";
+
+// Requires xfm custom xPHPUnit_Framework_TestCase
+require_once __dir__.'/../../iafbm/iafbm/lib/xfm/unittests/lib/PHPUnit_Framework_TestCase.php';
+
+// Requires project-specific xPHPUnit_Framework_TestCase child classes
+require_once __dir__.'/lib/iaPHPUnit_Framework_TestCase.php';
+require_once __dir__.'/lib/iaPHPUnit_Auth_Framework_TestCase.php';
+
+// PHPUnit autorun
+if (PHP_SAPI==='cli') PHPUnit_TextUI_Command::main();
+
+
+
+
+
+
+
+
+die();
 
 define('PHPUnit_MAIN_METHOD', 'PHPUnit_TextUI_Command::main');
 

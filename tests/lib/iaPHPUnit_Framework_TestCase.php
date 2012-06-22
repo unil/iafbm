@@ -1,17 +1,23 @@
 <?php
 
+require_once(__dir__.'/../../iafbm/lib/xfm/unittests/lib/PHPUnit_Framework_TestCase.php');
+
 /**
  * Custom PHPUnit_Framework_TestCase.
  * Sets up custom authentication information with 'local-superuser' role.
  * @package unittests
  */
 
-class iaPHPUnit_Framework_TestCase extends PHPUnit_Framework_TestCase
+class iaPHPUnit_Framework_TestCase extends xPHPUnit_Framework_TestCase
 {
 
-    function setUp() {
-        require_once(dirname(__file__).'/../../iafbm/lib/iafbm/xfm/Bootstrap.php');
+    function setup_bootstrap() {
+        require_once(__dir__.'/../../iafbm/lib/iafbm/xfm/Bootstrap.php');
         new Bootstrap();
+    }
+
+    function setUp() {
+        parent::setUp();
         // Sets a default auth information with all permissions
         $_SERVER['HTTP_SHIB_PERSON_UID'] = 'unit-tests';
         $_SERVER['HTTP_SHIB_SWISSEP_HOMEORGANIZATION'] = 'localhost';
