@@ -34,33 +34,3 @@ require_once __dir__.'/lib/iaPHPUnit_Auth_Framework_TestCase.php';
 
 // PHPUnit autorun
 if (PHP_SAPI==='cli') PHPUnit_TextUI_Command::main();
-
-
-
-
-
-
-
-
-die();
-
-define('PHPUnit_MAIN_METHOD', 'PHPUnit_TextUI_Command::main');
-
-// Setups PHPUnit libs paths
-$phpunit = '../iafbm/lib/PhpUnit';
-$pear = '../iafbm/lib/PEAR';
-set_include_path(get_include_path() . PATH_SEPARATOR . $pear);
-set_include_path(get_include_path() . PATH_SEPARATOR . $phpunit);
-
-// PHPUnit Autoload
-require "{$phpunit}/PHPUnit/Autoload.php";
-
-// iafbm-specific PHPUnit_Framework_TestCase classes
-$lib = __DIR__.'/lib';
-require_once("{$lib}/iaPHPUnit_Framework_TestCase.php");
-require_once("{$lib}/iaPHPUnit_Auth_Framework_TestCase.php");
-
-// PHPUnit autorun
-PHPUnit_TextUI_Command::main();
-
-?>
