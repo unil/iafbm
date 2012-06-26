@@ -46,5 +46,5 @@ tr.president {
 </table>
 <hr/>
 <div style="font-size:8pt">
-  Décanat/Unité Relève/Ref. <?php echo $d['commission']['id'] ?>
+  Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'] ?>
 </div>
