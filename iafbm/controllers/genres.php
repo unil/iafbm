@@ -1,6 +1,6 @@
 <?php
 
-class GenresController extends iaWebController {
+class GenresController extends iaExtRestController {
     var $model = 'genre';
     var $allow = array('get');
 }

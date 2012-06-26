@@ -7,7 +7,7 @@
  * It implements:
  * - a check that prevents a closed commission to be modified
 */
-abstract class AbstractCommissionController extends iaWebController {
+abstract class AbstractCommissionController extends iaExtRestController {
 
     function post() {
         $this->check_closed();

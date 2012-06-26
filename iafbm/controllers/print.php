@@ -1,6 +1,6 @@
 <?php
 
-class printController extends iaWebController {
+class printController extends iaExtRestController {
 
     function defaultAction() {
         $controller = $this->params['controller'];
