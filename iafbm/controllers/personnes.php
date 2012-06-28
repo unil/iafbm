@@ -25,14 +25,19 @@ class PersonnesController extends iaExtRestController {
             'id' => 'personnes',
             'model' => 'Personne'
         );
-        return xView::load('common/extjs/grid', $data, $this->meta)->render();
+        return xView::load('common/extjs/grid', $data, $this->meta);
     }
 
     function detailAction() {
         $data = array(
             'id' => $this->params['id'],
         );
-        return xView::load('personnes/detail', $data, $this->meta)->render();
+        return xView::load('personnes/detail', $data, $this->meta);
+    }
+
+    function exportAction() {
+        // TODO
+        return xView::load('personnes/export', $data, $this->meta);
     }
 
     function get() {
