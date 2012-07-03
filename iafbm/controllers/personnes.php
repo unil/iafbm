@@ -36,6 +36,18 @@ class PersonnesController extends iaExtRestController {
     }
 
     function exportAction() {
+        return xView::load('personnes/export', $data, $this->meta);
+    }
+
+    function export() {
+        // Fields labels
+        // TODO: Move this into class property or method
+        //       for use by both export() and exportAction()
+        $fields_labels = array(
+            // ...
+            'pays_nom' => 'Pays d\'origine'
+            // ...
+        );
         // Models joins to traverse (1..1 or n..1 joins)
         $models_joins = array(
             //'model-name|join-name, join-name-2' => 'foreign-table-field-name',
@@ -131,6 +143,8 @@ class PersonnesController extends iaExtRestController {
                     // Merges foreign row field with 'personne' $row
                     $row[$field] = $value;
 */
+                    // TODO: use raw $field but substitute
+                    //       with $fields_labels array
                     $row["{$model}_{$field}"] = $value;
                 }
             }
@@ -153,8 +167,7 @@ class PersonnesController extends iaExtRestController {
             }
             return $row;
         }, $rows);
-        xUtil::pre($rows); // TODO: Dev purpose, remove this
-        return xView::load('personnes/export', $data, $this->meta);
+        return $rows;
     }
 
     function get() {
