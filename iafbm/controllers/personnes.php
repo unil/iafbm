@@ -19,6 +19,39 @@ class PersonnesController extends iaExtRestController {
         )
     );
 
+    var $export_fields_labels = array(
+        'id' => 'id',
+        'id_unil' => 'id_unil',
+        'id_chuv' => 'id_chuv',
+        'id_adifac' => 'id_adifac',
+        'nom' => 'Nom',
+        'prenom' => 'Prénom',
+        'date_naissance' => 'Date de naissance',
+        'no_avs' => 'N° AVS',
+        'personne_type_nom' => 'Type',
+        'genre_nom' => 'Genre',
+        'personne_denomination_nom' => 'Dénomination',
+        'personne_denomination_abreviation' => 'Dénomination (abrév)',
+        'etatcivil_nom' => 'Etat civil',
+        'pays_nom' => 'Pays d\'origine',
+        'canton_nom' => 'Canton d\'origine',
+        'permis_nom' => 'Permis',
+        'adresse_adresse_type_nom' => 'Type d\'adresse',
+        'adresse_rue' => 'Rue',
+        'adresse_npa' => 'NPA',
+        'adresse_lieu' => 'Lieu',
+        'adresse_pays_nom' => 'Pays',
+        'personne_telephone_adresse_type_nom' => 'Type de téléphone',
+        'personne_telephone_countrycode' => 'Tél (indicatif)',
+        'personne_telephone_telephone' => 'Tél',
+        'personne_email_adresse_type_nom' => 'Type d\'email',
+        'personne_email_email' => 'Email',
+        'formation_abreviation' => 'Formation',
+        'activite_section_nom' => 'Section',
+        'activite_activite_nom_nom' => 'Activité',
+        'activite_activite_nom_abreviation' => 'Activité (abrév)'
+    );
+
     function indexAction() {
         $data = array(
             'title' => 'Personnes',
@@ -36,18 +69,15 @@ class PersonnesController extends iaExtRestController {
     }
 
     function exportAction() {
-        return xView::load('personnes/export', $data, $this->meta);
+        if ($this->params['fields']) {
+            $fields = implode(',', $this->params['fields']);
+            $url = xUtil::url("api/personnes/export/0?{$fields}&xformat=csv");
+            header("Location: $url");
+        }
+        else return xView::load('personnes/export', $data, $this->meta);
     }
 
     function export() {
-        // Fields labels
-        // TODO: Move this into class property or method
-        //       for use by both export() and exportAction()
-        $fields_labels = array(
-            // ...
-            'pays_nom' => 'Pays d\'origine'
-            // ...
-        );
         // Models joins to traverse (1..1 or n..1 joins)
         $models_joins = array(
             //'model-name|join-name, join-name-2' => 'foreign-table-field-name',
@@ -133,40 +163,23 @@ class PersonnesController extends iaExtRestController {
                 // Prefixes foreign rows with model name
                 // and merges with the 'personne' $row
                 foreach ($foreign_row as $field => $value) {
-/* TODO: review this fieldnames cleaning logic
-                    // Prevents repeating foreign model name (eg: activite_activite_nom)
-                    $field = (substr($field, 0, strlen($model)) == $model) ?
-                        $field : "{$model}_{$field}";
-                    // Prevents repeating source model name (eg: personne_email)
-                    $field = (substr($field, 0, strlen($this->model)) == $this->model) ?
-                        substr($field, strlen($this->model)+1) : $field;
-                    // Merges foreign row field with 'personne' $row
-                    $row[$field] = $value;
-*/
-                    // TODO: use raw $field but substitute
-                    //       with $fields_labels array
                     $row["{$model}_{$field}"] = $value;
                 }
             }
         }
-        // Filters unwanted fields
-        $remove_fields_regexp = array(
-            '/^actif$/',
-            '/.*_actif$/',
-            '/.*_id$/',
-            '/.*_id_.*/',
-            '/.*_defaut$/'
-        );
-        $rows = array_map(function($row) use ($remove_fields_regexp) {
+        // Substitutes fields names with labels
+        $fields_labels = $this->export_fields_labels;
+        $rows = array_map(function($row) use ($fields_labels) {
+            $fields = array_keys($fields_labels);
+            $labelled_row = array();
             foreach ($row as $field => $value) {
-                foreach ($remove_fields_regexp as $regexp) {
-                    if (preg_match($regexp, $field)) {
-                        unset($row[$field]);
-                    }
-                }
+                if (!in_array($field, $fields) || !$fields_labels[$field]) continue;
+                $labelled_row[$fields_labels[$field]] = $value;
             }
-            return $row;
+            return $labelled_row;
         }, $rows);
+        // TODO: Order rows according $this->export_fields_labels ?
+        // Returns export
         return $rows;
     }
 
