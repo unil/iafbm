@@ -20,12 +20,6 @@
 <?php endforeach ?>
   <br/>
   <input type="submit" id="do-export" value="Télécharger le fichier" style="padding:10px"/>
-  <div id="do-export-pending" style="display:none; text-align:center">
-    <img src="<?php echo u('a/img/icons/spinner-48x48.gif') ?>"/>
-    <div style="font-size:16px;font-weight:bold;margin:20px">
-        Veuillez patienter pendant la préparation des données
-    </div>
-  </div>
 </form>
 
 <script>
