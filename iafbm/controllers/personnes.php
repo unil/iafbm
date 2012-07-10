@@ -69,12 +69,31 @@ class PersonnesController extends iaExtRestController {
     }
 
     function exportAction() {
-        if ($this->params['fields']) {
-            $fields = implode(',', $this->params['fields']);
-            $url = xUtil::url("api/personnes/export/0?{$fields}&xformat=csv");
-            header("Location: $url");
+        $export_dir = '/tmp';
+        if (@$this->params['fields']) {
+            // Generates CSV file
+            $csv = xFront::load('api', array(
+                'fields' => $this->params['fields'],
+            ))->encode_csv($this->export());
+            $file = 'export-personnes-'.md5($csv).'.csv';
+            file_put_contents("{$export_dir}/{$file}", $csv);
+            header('Location: '.xUtil::url("personnes/do/export?file={$file}"));
+            exit;
+        } elseif (@$this->params['file']) {
+            // Displays download link
+            $data['link'] = xUtil::url("personnes/do/export?dl={$this->params['file']}");
+            return xView::load('personnes/export-download', $data, $this->meta);
+        } elseif (@$this->params['dl']) {
+            // Actual file download
+            $filename = 'export-personnes.csv';
+            header('Content-Type: application/zip');
+            header("Content-Disposition: attachment; filename={$filename}");
+            print file_get_contents("{$export_dir}/{$this->params['dl']}");
+            exit;
+        } else {
+            // Export configuration page
+            return xView::load('personnes/export', $data, $this->meta);
         }
-        else return xView::load('personnes/export', $data, $this->meta);
     }
 
     function export() {
@@ -122,7 +141,7 @@ class PersonnesController extends iaExtRestController {
             '    LEFT JOIN personnes_activites',
             '       ON  personnes_activites.personne_id = personnes.id',
             '       AND personnes_activites.actif = 1',
-            //'LIMIT 10', // TODO: Dev purpose, remove this
+            'LIMIT 100', // TODO: Dev purpose, remove this
         ));
         // Creates 'personne' result array
         $r = xModel::q($q);
@@ -168,7 +187,12 @@ class PersonnesController extends iaExtRestController {
             }
         }
         // Substitutes fields names with labels
+        // removing unwanted fields if required by 'fields' parameter
         $fields_labels = $this->export_fields_labels;
+        if (@$this->params['fields'])  $fields_labels = xUtil::filter_keys(
+            $fields_labels,
+            xUtil::arrize($this->params['fields'])
+        );
         $rows = array_map(function($row) use ($fields_labels) {
             $fields = array_keys($fields_labels);
             $labelled_row = array();

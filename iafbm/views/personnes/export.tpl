@@ -8,13 +8,15 @@
 <h1>Export des personnes &amp; adresses</h1>
 
 <form method="post" style="padding:10px">
+  <a href="javascript:void(0)" id="select-all-fields">Sélectionner tous les champs</a>
+  <hr/>
 <?php foreach ($fields_labels as $field => $label): ?>
 <?php
     $id = "export-fields-{$field}";
     $checked = in_array($field, $fields_checked) ? ' checked="checked"' : null;
 ?>
-  <div>
-    <input type="checkbox" id="<?php echo $id ?>" name="fields" value="<?php echo $label ?>"<?php echo $checked ?>/>
+  <div id="fields-list">
+    <input type="checkbox" id="<?php echo $id ?>" name="fields[]" value="<?php echo $field ?>"<?php echo $checked ?>/>
     <label for="<?php echo $id ?>"><?php echo $label ?></label>
   </div>
 <?php endforeach ?>
@@ -23,6 +25,13 @@
 </form>
 
 <script>
+// Select all fields feature
+Ext.fly('select-all-fields').on('click', function() {
+    Ext.select('#fields-list input').each(function(el) {
+        el.dom.checked="checked"
+    });
+});
+// Shows spinner on form submit
 Ext.fly('do-export').on('click', function() {
     this.findParent('form').submit();
     this.replaceWith({
