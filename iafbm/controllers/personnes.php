@@ -72,7 +72,6 @@ class PersonnesController extends iaExtRestController {
         $export_dir = '/tmp';
         // Cleans exported files older than x (avoid cron setup)
         $ttl = 1*24*60*60; // 1 day
-        $ttl = 3500;
         foreach (glob("{$export_dir}/export-personnes-*.csv") as $file) {
             if (mktime()-fileatime($file) > $ttl) unlink($file);
         }
