@@ -70,6 +70,13 @@ class PersonnesController extends iaExtRestController {
 
     function exportAction() {
         $export_dir = '/tmp';
+        // Cleans exported files older than x (avoid cron setup)
+        $ttl = 1*24*60*60; // 1 day
+        $ttl = 3500;
+        foreach (glob("{$export_dir}/export-personnes-*.csv") as $file) {
+            if (mktime()-fileatime($file) > $ttl) unlink($file);
+        }
+        // Actual action behaviour
         if (@$this->params['fields']) {
             // Generates CSV file
             $csv = xFront::load('api', array(
@@ -85,10 +92,15 @@ class PersonnesController extends iaExtRestController {
             return xView::load('personnes/export-download', $data, $this->meta);
         } elseif (@$this->params['dl']) {
             // Actual file download
+            $file = $this->params['dl'];
+            if (!preg_match('/^export-personnes-\w{32}\.csv$/', $file)) {
+                throw new xException('Unauthorized file pattern', 403);
+            }
             $filename = 'export-personnes.csv';
-            header('Content-Type: application/zip');
+            header('Content-Type: application/csv');
             header("Content-Disposition: attachment; filename={$filename}");
-            print file_get_contents("{$export_dir}/{$this->params['dl']}");
+            $file = "{$export_dir}/{$this->params['dl']}";
+            print file_exists($file) ? file_get_contents($file) : null;
             exit;
         } else {
             // Export configuration page
