@@ -48,6 +48,7 @@ class PersonnesController extends iaExtRestController {
         'personne_email_email' => 'Email',
         'formation_abreviation' => 'Formation',
         'activite_section_nom' => 'Section',
+        'activite_section_code' => 'Section (abrév)',
         'activite_activite_nom_nom' => 'Activité',
         'activite_activite_nom_abreviation' => 'Activité (abrév)'
     );
@@ -137,22 +138,22 @@ class PersonnesController extends iaExtRestController {
             '    LEFT JOIN personnes_adresses',
             '       ON  personnes_adresses.personne_id = personnes.id',
             '       AND personnes_adresses.actif = 1',
-            //'       AND personnes_adresses.defaut = 1',
+            '       AND personnes_adresses.defaut = 1',
             '    LEFT JOIN personnes_telephones',
             '       ON  personnes_telephones.personne_id = personnes.id AND personnes_telephones.actif = 1',
             '       AND personnes_telephones.actif = 1',
-            //'       AND personnes_telephones.defaut = 1',
+            '       AND personnes_telephones.defaut = 1',
             '    LEFT JOIN personnes_emails',
             '       ON  personnes_emails.personne_id = personnes.id',
             '       AND personnes_emails.actif = 1',
-            //'       AND personnes_emails.defaut = 1',
+            '       AND personnes_emails.defaut = 1',
             '    LEFT JOIN personnes_formations',
             '       ON  personnes_formations.personne_id = personnes.id',
             '       AND personnes_formations.actif = 1',
             '    LEFT JOIN personnes_activites',
             '       ON  personnes_activites.personne_id = personnes.id',
             '       AND personnes_activites.actif = 1',
-            'LIMIT 100', // TODO: Dev purpose, remove this
+'LIMIT 100'
         ));
         // Creates 'personne' result array
         $r = xModel::q($q);
@@ -213,7 +214,7 @@ class PersonnesController extends iaExtRestController {
             }
             return $labelled_row;
         }, $rows);
-        // TODO: Order rows according $this->export_fields_labels ?
+        // TODO: order fields according $fields_labels order
         // Returns export
         return $rows;
     }

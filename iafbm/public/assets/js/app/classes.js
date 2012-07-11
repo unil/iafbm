@@ -407,14 +407,18 @@ Ext.define('Ext.ia.grid.RadioColumn', {
         //
         var me = this;
         me.callParent();
-        this.on('checkchange', this.refresh);
+        this.on('checkchange', this.click);
         this.on('click', function() { return Boolean(this.editable) });
     },
-    refresh: function(checkcolumn, recordIndex, checked) {
-        var store = this.up('gridpanel').getStore();
-        // Refreshes the grid by reloading the store
-        // in order to show the actual unique selected row
-        store.load();
+    click: function(checkcolumn, recordIndex, checked) {
+        // Sets all visible radiocolumns to false (unchecked),
+        // except the checked radiocolumn
+        var store = this.up('grid').store,
+            field = this.dataIndex;
+        Ext.each(store.getRange(), function(record) {
+            if (record.index == recordIndex) return;
+            record.set(field, false);
+        });
     },
     processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
         if (Ext.Array.contains(['mousedown', 'keyup'], type) || Ext.Array.contains([e.ENTER, e.SPACE], e.getKey())) {
