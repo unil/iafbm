@@ -1,8 +1,26 @@
 <?php
+    // Default checked fields
     $fields_labels = xController::load('personnes')->export_fields_labels;
     $fields_checked = array(
-        'nom', 'prenom'
+        'nom',
+        'prenom',
+        'personne_denomination_nom',
+        'adresse_adresse_type_nom',
+        'adresse_rue',
+        'adresse_npa',
+        'adresse_lieu',
+        'adresse_pays_nom',
+        'personne_email_adresse_type_nom',
+        'personne_email_email'
     );
+    // Default operating system (detection, or defaults to modes 1st option)
+    $agent = $_SERVER['HTTP_USER_AGENT'];
+    if(preg_match('/Linux/', $agent)) $os = 'Linux';
+    elseif(preg_match('/Win/', $agent)) $os = 'Windows';
+    elseif(preg_match('/Mac/', $agent)) $os = 'Mac';
+    else $os = 'Unknown';
+    $mode_detected = in_array($os, array_keys($d['modes'])) ?
+        $os : array_shift(array_keys($d['modes']));
 ?>
 
 <h1>Export des personnes &amp; adresses</h1>
@@ -13,7 +31,7 @@
 <?php foreach ($d['modes'] as $mode => $x): ?>
 <?php
     $id = "mode-{$mode}";
-    $checked = ($mode==array_shift(array_keys($d['modes']))) ? ' checked="checked"' : null;
+    $checked = ($mode_detected==$mode) ? ' checked="checked"' : null;
 ?>
     <div>
       <input type="radio" name="mode" id="<?php echo $id ?>" value="<?php echo $mode ?>" <?php echo $checked ?>/>

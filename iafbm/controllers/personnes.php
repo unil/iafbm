@@ -20,10 +20,10 @@ class PersonnesController extends iaExtRestController {
     );
 
     var $export_fields_labels = array(
-        'id' => 'id',
-        'id_unil' => 'id_unil',
-        'id_chuv' => 'id_chuv',
-        'id_adifac' => 'id_adifac',
+        'id' => 'ID',
+        'id_unil' => 'ID UNIL',
+        'id_chuv' => 'ID CHUV',
+        'id_adifac' => 'ID ADIFAC',
         'nom' => 'Nom',
         'prenom' => 'Prénom',
         'date_naissance' => 'Date de naissance',
@@ -131,7 +131,7 @@ class PersonnesController extends iaExtRestController {
         $models_joins = array(
             //'model-name|join-name, join-name-2' => 'foreign-table-field-name',
             'personne_type' => 'personne_type_id',
-            'genre' => 'genre_id',
+            'genre' => 'genre_id', // Must exist before 'personne_denomination'
             'personne_denomination' => 'personne_denomination_id',
             'etatcivil' => 'etatcivil_id',
             'pays' => 'pays_id',
@@ -197,6 +197,16 @@ class PersonnesController extends iaExtRestController {
                     )
                 );
                 $foreign_row = array_shift($foreign_row);
+                // Manages epicene 'personne_denomination_nom' (female/male):
+                // replaces 'denomination.nom' with female/male field
+                // FIXME: this should be placed in personne_denomination model or controller
+                if ($model == 'personne_denomination' && @$row['personne_denomination_id']) {
+                    if ($row['genre_initiale']=='F') {
+                        $foreign_row['nom'] = "{$row['genre_intitule']} la {$foreign_row['nom_feminin']}";
+                    } elseif ($row['genre_initiale']=='H') {
+                        $foreign_row['nom'] = "{$row['genre_intitule']} le {$foreign_row['nom_masculin']}";
+                    }
+                }
                 // If no foreign_row (eg. empty foreign id)
                 // simulates an empty row for data-structure consistency
                 if (!$foreign_row) {
