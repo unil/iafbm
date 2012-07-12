@@ -1,6 +1,6 @@
 <?php
 
-class CommissionsFonctionsController extends iaWebController {
+class CommissionsFonctionsController extends iaExtRestController {
     var $model = 'commission_fonction';
     var $allow = array('get');
 

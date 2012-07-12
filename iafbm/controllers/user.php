@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends iaWebController {
+class UserController extends iaExtRestController {
 
     function defaultAction() {
         return $this->detailAction();
