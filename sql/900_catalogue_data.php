@@ -503,10 +503,25 @@ $catalogue_data = array(
 				array(
 						'id' => '9',
 						'actif' => '1',
-						'nom' => 'Invité',
-						'description' => 'Invité',
-						'position' => '9'
+                        'nom' => 'A entendre',
+                        'description' => 'Personne à entendre',
+                        'position' => ?
+
 				),
+                array(
+                        'id' => '10',
+                        'actif' => '1',
+                        'nom' => 'A entendre',
+                        'description' => 'Personne à entendre',
+                        'position' => ?
+                ),
+                array(
+                        'id' => '10',
+                        'actif' => '1',
+                        'nom' => 'Représentant FHV',
+                        'description' => 'Représentant FHV',
+                        'position' => ?
+                ),
 		),
 		'commission_etat' => array(
 				array(
