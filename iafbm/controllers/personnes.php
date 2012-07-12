@@ -170,8 +170,7 @@ class PersonnesController extends iaExtRestController {
             '       AND personnes_formations.actif = 1',
             '    LEFT JOIN personnes_activites',
             '       ON  personnes_activites.personne_id = personnes.id',
-            '       AND personnes_activites.actif = 1',
-'LIMIT 100'
+            '       AND personnes_activites.actif = 1'
         ));
         // Creates 'personne' result array
         $r = xModel::q($q);
