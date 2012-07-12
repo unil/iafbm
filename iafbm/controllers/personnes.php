@@ -70,7 +70,20 @@ class PersonnesController extends iaExtRestController {
     }
 
     function exportAction() {
+        // Config
         $export_dir = '/tmp';
+        $modes = array(
+            'Windows' => array(
+                'xseparator' => ',',
+                'xnewline' => "\n",
+                'xencoding' => 'ISO-8859-1'
+            ),
+            'Mac' => array(
+                'xseparator' => ';',
+                'xnewline' => "\r",
+                'xencoding' => 'ISO-8859-1'
+            )
+        );
         // Cleans exported files older than x (avoid cron setup)
         $ttl = 1*24*60*60; // 1 day
         foreach (glob("{$export_dir}/export-personnes-*.csv") as $file) {
@@ -79,9 +92,13 @@ class PersonnesController extends iaExtRestController {
         // Actual action behaviour
         if (@$this->params['fields']) {
             // Generates CSV file
-            $csv = xFront::load('api', array(
+            $modeparams = $modes[@$this->params['mode']];
+            if (!$modeparams) $modeparams = $modes[0];
+            $csvparams = array_merge(array(
                 'fields' => $this->params['fields'],
-            ))->encode_csv($this->export());
+                'xformat' => 'csv'
+            ), $modeparams);
+            $csv = xFront::load('api', $csvparams)->encode($this->export());
             $file = 'export-personnes-'.md5($csv).'.csv';
             file_put_contents("{$export_dir}/{$file}", $csv);
             header('Location: '.xUtil::url("personnes/do/export?file={$file}"));
@@ -104,6 +121,7 @@ class PersonnesController extends iaExtRestController {
             exit;
         } else {
             // Export configuration page
+            $data['modes'] = $modes;
             return xView::load('personnes/export', $data, $this->meta);
         }
     }
