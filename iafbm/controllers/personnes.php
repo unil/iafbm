@@ -20,10 +20,10 @@ class PersonnesController extends iaExtRestController {
     );
 
     var $export_fields_labels = array(
-        'id' => 'ID',
-        'id_unil' => 'ID UNIL',
-        'id_chuv' => 'ID CHUV',
-        'id_adifac' => 'ID ADIFAC',
+        'id' => 'id',
+        'id_unil' => 'id UNIL',
+        'id_chuv' => 'id CHUV',
+        'id_adifac' => 'id ADIFAC',
         'nom' => 'Nom',
         'prenom' => 'Prénom',
         'date_naissance' => 'Date de naissance',
