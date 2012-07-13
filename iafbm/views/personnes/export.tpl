@@ -23,10 +23,10 @@
         $os : array_shift(array_keys($d['modes']));
 ?>
 
-<h1>Export des personnes &amp; adresses</h1>
+<h1>Exportation des personnes (CSV)</h1>
 
 <div>
-  <form method="post" style="padding:10px;line-height:166%">
+  <form id="export-form" method="post" style="padding:10px;line-height:166%">
   <h2>Sélectionnez votre système</h2>
 <?php foreach ($d['modes'] as $mode => $x): ?>
 <?php
@@ -59,24 +59,23 @@
 
 <script>
 // Select all fields feature
-Ext.fly('select-all-fields').on('click', function() {
+Ext.get('select-all-fields').on('click', function() {
     Ext.select('#fields-list input').each(function(el) {
         el.dom.checked="checked"
     });
 });
 // Shows spinner on form submit
-Ext.fly('do-export').on('click', function() {
-    this.findParent('form').submit();
-    this.replaceWith({
+Ext.get('do-export').on('mouseup', function() {
+    Ext.get('export-form').dom.submit();
+    Ext.get('do-export').replaceWith({
         tag: 'div',
         style: 'font-weight:bold',
         children: [{
             tag: 'img',
-            style: 'padding: 25px',
             src: '<?php echo u('a/img/icons/spinner-32x32.gif') ?>',
         }, {
             tag: 'span',
-            style: 'position:relative; left:5px; bottom:12px',
+            style: 'position:relative; left:15px; bottom:12px',
             html: 'Patientez pendant la préparation des données'
         }]
     })
