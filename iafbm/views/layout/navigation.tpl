@@ -22,6 +22,10 @@ $navigation = array(
         ),
     ),
     'Autres' => array(
+        'personnes-export' => array(
+            'url' => u('personnes/do/export'),
+            'label' => 'Export des personnes (CSV)'
+        ),
         'activites' => array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'

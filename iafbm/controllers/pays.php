@@ -1,5 +1,5 @@
 <?php
 
-class PaysController extends iaWebController {
+class PaysController extends iaExtRestController {
     var $model = 'pays';
 }
