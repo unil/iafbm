@@ -519,7 +519,7 @@ $catalogue_data = array(
                         'actif' => '11',
                         'nom' => 'A entendre',
                         'description' => 'A entendre',
-                        'position' => ''
+                        'position' => '11'
                 ),
 		),
 		'commission_etat' => array(
