@@ -17,20 +17,27 @@ class iafbmIssue191 extends iafbmScript {
     }
 
     function update_records(xTransaction $t) {
+        // Shifts positions to insert id=10 at position 7
+        xModel::q('
+            update commissions_fonctions
+            set position = position+1
+            where position >= 7
+        ');
+        // Inserts 2 new positions
         $put = array(
             xModel::load('commission_fonction', array(
                 'id' => 10,
                 'actif' => '1',
                 'nom' => 'A entendre',
                 'description' => 'Personne à entendre',
-                'position' => ?
+                'position' => '7'
             )),
             xModel::load('commission_fonction', array(
                 'id' => 11,
                 'actif' => '1',
                 'nom' => 'Représentant FHV',
                 'description' => 'Représentant FHV',
-                'position' => ?
+                'position' => '11'
             )),
         );
         //
