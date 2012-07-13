@@ -28,15 +28,15 @@ class iafbmIssue191 extends iafbmScript {
             xModel::load('commission_fonction', array(
                 'id' => 10,
                 'actif' => '1',
-                'nom' => 'A entendre',
-                'description' => 'Personne à entendre',
+                'nom' => 'Représentant FHV',
+                'description' => 'Représentant FHV',
                 'position' => '7'
             )),
             xModel::load('commission_fonction', array(
                 'id' => 11,
                 'actif' => '1',
-                'nom' => 'Représentant FHV',
-                'description' => 'Représentant FHV',
+                'nom' => 'A entendre',
+                'description' => 'Personne à entendre',
                 'position' => '11'
             )),
         );
