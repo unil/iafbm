@@ -74,7 +74,7 @@ class PersonnesController extends iaExtRestController {
         $export_dir = '/tmp';
         $modes = array(
             'Windows' => array(
-                'xseparator' => ',',
+                'xseparator' => ';',
                 'xnewline' => "\n",
                 'xencoding' => 'ISO-8859-1'
             ),
