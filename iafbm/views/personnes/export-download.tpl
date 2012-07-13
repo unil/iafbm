@@ -1,4 +1,4 @@
-<h1>Export des personnes &amp; adresses</h1>
+<h1>Export des personnes (CSV)</h1>
 
 <div style="padding:20px 10px">
 
