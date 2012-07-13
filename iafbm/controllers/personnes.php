@@ -202,8 +202,10 @@ class PersonnesController extends iaExtRestController {
                 if ($model == 'personne_denomination' && @$row['personne_denomination_id']) {
                     if ($row['genre_initiale']=='F') {
                         $foreign_row['nom'] = "{$row['genre_intitule']} la {$foreign_row['nom_feminin']}";
+                        $foreign_row['abreviation'] = $foreign_row['abreviation_feminin'];
                     } elseif ($row['genre_initiale']=='H') {
                         $foreign_row['nom'] = "{$row['genre_intitule']} le {$foreign_row['nom_masculin']}";
+                        $foreign_row['abreviation'] = $foreign_row['abreviation_masculin'];
                     }
                 }
                 // If no foreign_row (eg. empty foreign id)
