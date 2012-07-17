@@ -130,17 +130,17 @@ class PersonnesController extends iaExtRestController {
         // Models joins to traverse (1..1 or n..1 joins)
         $models_joins = array(
             //'model-name|join-name, join-name-2' => 'foreign-table-field-name',
-            //'personne_type' => 'personne_type_id',
-            //'genre' => 'genre_id', // Must exist before 'personne_denomination'
-            //'personne_denomination' => 'personne_denomination_id',
-            //'etatcivil' => 'etatcivil_id',
-            //'pays' => 'pays_id',
-            //'canton' => 'canton_id',
-            //'permis' => 'permis_id',
-            //'adresse|pays,adresse_type' => 'adresse_id',
-            //'personne_telephone|adresse_type' => 'telephone_id',
-            //'personne_email|adresse_type' => 'email_id',
-            //'formation' => 'formation_id',
+            'personne_type' => 'personne_type_id',
+            'genre' => 'genre_id', // Must exist before 'personne_denomination'
+            'personne_denomination' => 'personne_denomination_id',
+            'etatcivil' => 'etatcivil_id',
+            'pays' => 'pays_id',
+            'canton' => 'canton_id',
+            'permis' => 'permis_id',
+            'adresse|pays,adresse_type' => 'adresse_id',
+            'personne_telephone|adresse_type' => 'telephone_id',
+            'personne_email|adresse_type' => 'email_id',
+            'formation' => 'formation_id',
             'activite|activite_nom,activite_type,section' => 'activite_id',
         );
         // Initializes SQL joins list with 1..n joins
@@ -150,8 +150,8 @@ class PersonnesController extends iaExtRestController {
             '    personnes_adresses.adresse_id AS adresse_id,',
             '    personnes_telephones.id AS telephone_id,',
             '    personnes_emails.id AS email_id,',
-            '    personnes_formations.id AS formation_id,',
-            '    personnes_activites.id as activite_id',
+            '    personnes_formations.formation_id AS formation_id,',
+            '    personnes_activites.activite_id as activite_id',
             'FROM personnes',
             '    LEFT JOIN personnes_adresses',
             '       ON  personnes_adresses.personne_id = personnes.id',
@@ -175,10 +175,6 @@ class PersonnesController extends iaExtRestController {
         // Creates 'personne' result array
         $r = xModel::q($q);
         while ($row = mysql_fetch_assoc($r)) $rows[] = $row;
-foreach ($rows as $i => &$row) {
-    $row = xUtil::filter_keys($row, array('id', 'nom', 'prenom', 'activite_id'));
-}
-//return $rows;
         // Creates n..1 joins fields
         foreach ($models_joins as $join_info => $tablefield) {
             @list($model, $join) = explode('|', $join_info);
@@ -215,7 +211,6 @@ foreach ($rows as $i => &$row) {
                 // If no foreign_row (eg. empty foreign id)
                 // simulates an empty row for data-structure consistency
                 if (!$foreign_row) {
-xUtil::pre("Empty foreign '{$foreign_model->name}' for activite_id={$foreign_model->params['id']}, personne_id={$row['id']}");
                     $mapping = array_merge(
                         $foreign_model->mapping,
                         $foreign_model->foreign_mapping()
