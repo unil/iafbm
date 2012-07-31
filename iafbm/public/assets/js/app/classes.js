@@ -407,17 +407,21 @@ Ext.define('Ext.ia.grid.RadioColumn', {
         //
         var me = this;
         me.callParent();
+        // Manages the unchecking of other exising rows checkboxes
+        // (visual purpose only, the server-side logic MUST take care of setting all other options to false)
         this.on('checkchange', this.click);
+        // Disables clicking when the grid row is in edit mode
         this.on('click', function() { return Boolean(this.editable) });
     },
     click: function(checkcolumn, recordIndex, checked) {
         // Sets all visible radiocolumns to false (unchecked),
         // except the checked radiocolumn
         var store = this.up('grid').store,
-            field = this.dataIndex;
+            fieldname = this.dataIndex;
+        // Sets all loaded records to false, except the clicked record
         Ext.each(store.getRange(), function(record) {
-            if (record.index == recordIndex) return;
-            record.set(field, false);
+            if (store.getAt(recordIndex) == record) return;
+            record.set(fieldname, false);
         });
     },
     processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
