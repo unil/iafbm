@@ -275,6 +275,45 @@ iafbm.columns.CommissionMembre = [{
         store.sync();
     }
 }];
+iafbm.columns.CommissionMembreNonominatif = [{
+    header: "Dénomination",
+    dataIndex: 'personne_denomination_id',
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        editable: false,
+        typeAhead: false,
+        store: new iafbm.store.PersonneDenomination(),
+        valueField: 'id',
+        displayField: 'nom'
+    }
+}, {
+    header: "Nom et prénom",
+    dataIndex: 'nom_prenom',
+    width: 300,
+    editor: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Fonction",
+    dataIndex: 'commission_fonction_id',
+    width: 200,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionFonction()
+    }
+}, {
+    header: "Complément de fonction",
+    dataIndex: 'fonction_complement',
+    flex: 1,
+    editor: {
+        xtype: 'textfield'
+    }
+}];
 
 iafbm.columns.Candidat = [{
     xtype: 'ia-actioncolumn-detailform',

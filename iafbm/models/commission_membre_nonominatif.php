@@ -38,7 +38,7 @@ class CommissionMembreNonominatifModel extends iaModelMysql {
     );
 
     var $validation = array(
-        'version_id' => 'mandatory'
+        'commission_fonction_id' => 'mandatory'
     );
 
     var $archive_foreign_models = array(

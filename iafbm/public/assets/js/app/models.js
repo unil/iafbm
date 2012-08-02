@@ -367,7 +367,6 @@ Ext.define('iafbm.model.CommissionMembreNonominatif', {
         {name: 'personne_denomination_id', type: 'int', useNull: true},
         {name: 'activite_id', type: 'int', useNull: true},
         {name: 'rattachement_id', type: 'int', useNull: true},
-        {name: 'version_id', type: 'int', useNull: true},
         // Foreign fields
         {name: 'activite_nom_abreviation', type: 'string'},
         {name: 'rattachement_nom', type: 'string'},
