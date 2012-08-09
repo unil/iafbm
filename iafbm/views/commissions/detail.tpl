@@ -131,7 +131,7 @@ Ext.onReady(function() {
                 iconCls: 'icon-get',
                 handler: function() {
                     var id = <?php echo $d['id'] ?>,
-                        url = [x.context.baseuri, '/.../', id].join('');
+                        url = [x.context.baseuri, '/api/commissions_membres/export/', id, '?xformat=csv'].join('');
                     location.href = url;
                 }
             }]

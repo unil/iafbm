@@ -34,19 +34,57 @@ class CommissionsMembresController extends AbstractCommissionController {
         foreach ($data as &$d) {
             $adresses = xModel::load('personne_adresse', array(
                 'personne_id' => $d['personne_id'],
-                'xversion' => $d['version_id']
+                'xversion' => $d['version_id'],
+                'xjoin' => array('adresse', 'adresse_type', 'pays')
             ))->get();
-xUtil::pre($adresse);
             // Discards adresses that are not set as default
             // This has to be done after retrieval because of xversion
-            foreach ($adresses as $i => $a) if (!$a['default']) unset($adresses[$i]);
+            foreach ($adresses as $i => $a) if (!$a['defaut']) unset($adresses[$i]);
             // Checks that only one default adresse exists
             if (count($adresses) > 1) throw new xException(
-                "Personne id {$d['personne_id']} have multiple default adresses"
+                "Personne id {$d['personne_id']} has multiple default adresses"
             );
             // Adds adresse fields to personne row
-            $adresse = array_shift($adresses);
-            foreach ($adresse as $field => $value) $d[$field] = $value;
+            if($adresse = array_shift($adresses)) {
+                // Adds fields and values to personne row
+                foreach ($adresse as $field => $value) $d[$field] = $value;
+            } else {
+                // Adds fields with empty values to personne row
+                // for data structure consistency
+                $fields = xModel::load(
+                    'personne_adresse'
+                )->foreign_mapping(array('adresse', 'adresse_type', 'pays'));
+                foreach ($fields as $field => $dbfield) $d[$field] = null;
+            }
+            // Filters/renames/reorders fields to export
+            $fields = array('id',
+                'fonction_complement',
+                'personne_id_unil',
+                'personne_id_chuv',
+                'personne_id_adifac',
+                'personne_nom',
+                'personne_prenom',
+                'personne_date_naissance',
+                'personne_no_avs',
+                'commission_fonction_nom',
+                'commission_fonction_description',
+                'activite_nom_nom',
+                'activite_nom_abreviation',
+                'rattachement_nom',
+                'rattachement_abreviation',
+                'commission_nom',
+                'commission_commentaire',
+                'personne_pays_nom',
+                'personne_pays_nom_en',
+                '_uptodate',
+                'adresse_rue',
+                'adresse_npa',
+                'adresse_lieu',
+                'adresse_type_nom',
+                'pays_nom', // Should be translated to; 'adresse_pays_nom'
+                'pays_en'   // Should be translated to; 'adresse_pays_nom_en'
+            );
+            $d = xUtil::filter_keys($d, $fields);
         }
         return $data;
     }
