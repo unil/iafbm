@@ -21,6 +21,21 @@ class CommissionsMembresController extends AbstractCommissionController {
         'commission_etat_nom' => 'commission_etat_id'
     );
 
+    function exportAction() {
+        // TODO: Create a common (and factorized) export controller (as for print)
+        //       The export controller MUST factorize export "modes"
+        //       (eg. mac/windows encodings and default CSV flavours)
+        // Ouputs HTTP header for download
+        $filename = @"export-commission-membres-{$this->params['id']}.csv";
+        header('Content-Type: application/csv');
+        header("Content-Disposition: attachment; filename={$filename}");
+        // Print generated CSV
+        print xFront::load('api',
+            array_merge(array('xformat'=>'csv'), $this->params)
+        )->encode($this->export());
+        exit;
+    }
+
     function export() {
         // TODO
         // Fields: 'Dénomination', 'Fonction', 'Complément de fonction', 'Nom et prénom', 'Type adresse', 'Rue', 'NPA', 'Ville', 'Pays', 'Type téléphone', 'Indicatif', 'Numéro', 'Type email', 'Email'
