@@ -39,27 +39,31 @@ class CommissionsMembresController extends AbstractCommissionController {
     function export() {
         // TODO
         // Fields: 'Dénomination', 'Fonction', 'Complément de fonction', 'Nom et prénom', 'Type adresse', 'Rue', 'NPA', 'Ville', 'Pays', 'Type téléphone', 'Indicatif', 'Numéro', 'Type email', 'Email'
+die($this->params['id']);
         $commission_id = @$this->params['id'];
         if (!$commission_id) throw new xException("id parameter missing, please provide a 'commission' id", 400);
         // Fetches 'commission_membre' rows
         $data = xModel::load('commission_membre', array(
-            'commission_id' => $commission_id
+            'commission_id' => $commission_id,
+            //'xjoin' => null
         ))->get();
         // Adds versioned 'adresse' model row for each 'commission_membre' row
         foreach ($data as &$d) {
             $adresses = xModel::load('personne_adresse', array(
                 'personne_id' => $d['personne_id'],
                 'xversion' => $d['version_id'],
-                'xjoin' => array('adresse', 'adresse_type', 'pays')
+                'xjoin' => array('adresse', 'adresse_type', 'adresse_pays')
             ))->get();
             // Discards adresses that are not set as default
             // This has to be done after retrieval because of xversion
-            foreach ($adresses as $i => $a) if (!$a['defaut']) unset($adresses[$i]);
+            foreach ($adresses as $i => $a) {
+                if (!$a['actif'] || !$a['defaut']) unset($adresses[$i]);
+            }
             // Checks that only one default adresse exists
             if (count($adresses) > 1) throw new xException(
                 "Personne id {$d['personne_id']} has multiple default adresses"
             );
-            // Adds adresse fields to personne row
+            // Adds adresse fields to 'commission_membre' model row
             if($adresse = array_shift($adresses)) {
                 // Adds fields and values to personne row
                 foreach ($adresse as $field => $value) $d[$field] = $value;
@@ -68,7 +72,7 @@ class CommissionsMembresController extends AbstractCommissionController {
                 // for data structure consistency
                 $fields = xModel::load(
                     'personne_adresse'
-                )->foreign_mapping(array('adresse', 'adresse_type', 'pays'));
+                )->foreign_mapping(array('adresse', 'adresse_type', 'adresse_pays'));
                 foreach ($fields as $field => $dbfield) $d[$field] = null;
             }
             // Filters/renames/reorders fields to export
@@ -81,6 +85,8 @@ class CommissionsMembresController extends AbstractCommissionController {
                 'personne_prenom',
                 'personne_date_naissance',
                 'personne_no_avs',
+                'personne_pays_nom',
+                'personne_pays_nom_en',
                 'commission_fonction_nom',
                 'commission_fonction_description',
                 'activite_nom_nom',
@@ -89,17 +95,15 @@ class CommissionsMembresController extends AbstractCommissionController {
                 'rattachement_abreviation',
                 'commission_nom',
                 'commission_commentaire',
-                'personne_pays_nom',
-                'personne_pays_nom_en',
                 '_uptodate',
                 'adresse_rue',
                 'adresse_npa',
                 'adresse_lieu',
                 'adresse_type_nom',
-                'pays_nom', // Should be translated to; 'adresse_pays_nom'
-                'pays_en'   // Should be translated to; 'adresse_pays_nom_en'
+                'adresse_pays_nom', // Should be translated to; 'adresse_pays_nom'
+                'adresse_pays_en'   // Should be translated to; 'adresse_pays_nom_en'
             );
-            $d = xUtil::filter_keys($d, $fields);
+            //$d = xUtil::filter_keys($d, $fields);
         }
         return $data;
     }
