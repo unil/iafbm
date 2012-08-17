@@ -125,6 +125,15 @@ Ext.onReady(function() {
                         url = [x.context.baseuri, '/print/commissions_membres/', id, '?html'].join('');
                     window.open(url);
                 }
+            }, '-', {
+                xtype: 'button',
+                text: 'Export adresses (CSV)',
+                iconCls: 'icon-get',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/commissions_membres/do/export/', id, '?xformat=csv'].join('');
+                    location.href = url;
+                }
             }]
         }), {
             xtype: 'ia-editgrid',

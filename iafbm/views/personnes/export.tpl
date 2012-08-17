@@ -15,9 +15,9 @@
     );
     // Default operating system (detection, or defaults to modes 1st option)
     $agent = $_SERVER['HTTP_USER_AGENT'];
-    if(preg_match('/Linux/', $agent)) $os = 'Linux';
-    elseif(preg_match('/Win/', $agent)) $os = 'Windows';
-    elseif(preg_match('/Mac/', $agent)) $os = 'Mac';
+    if(preg_match('/Linux/', $agent)) $os = 'linux';
+    elseif(preg_match('/Win/', $agent)) $os = 'windows';
+    elseif(preg_match('/Mac/', $agent)) $os = 'mac';
     else $os = 'Unknown';
     $mode_detected = in_array($os, array_keys($d['modes'])) ?
         $os : array_shift(array_keys($d['modes']));
@@ -35,7 +35,7 @@
 ?>
     <div>
       <input type="radio" name="mode" id="<?php echo $id ?>" value="<?php echo $mode ?>" <?php echo $checked ?>/>
-      <label for="<?php echo $id ?>"><?php echo $mode ?></label>
+      <label for="<?php echo $id ?>"><?php echo ucwords($mode) ?></label>
     </div>
 <?php endforeach ?>
   <br/>

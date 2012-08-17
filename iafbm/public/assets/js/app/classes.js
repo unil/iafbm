@@ -900,6 +900,7 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
     updateState: function() {
         // Toggles grid columns editability (eg. checkboxes)
         // (restoring initial value afterwards)
+        var version = this.store.params['xversion'];
         Ext.each(this.columns, function(c) {
             if (!c.isXType('ia-radiocolumn')) return;
             if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;

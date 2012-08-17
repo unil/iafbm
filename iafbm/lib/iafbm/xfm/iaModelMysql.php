@@ -154,7 +154,7 @@ abstract class iaModelMysql extends xModelMysql {
             $record_id = @$result[$primary];
             // Ensures the record id is available
             if (!$record_id) throw new xException(
-                "Record primary key ('{$primary}') field must be specified".
+                "Record primary key ('{$primary}') field must be specified ".
                 "in 'xreturn' parameter if 'xversion' parameter is specified"
             );
             $modifications = xModel::load('version_data', array(
