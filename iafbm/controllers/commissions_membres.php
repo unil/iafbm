@@ -39,7 +39,6 @@ class CommissionsMembresController extends AbstractCommissionController {
     function export() {
         // TODO
         // Fields: 'Dénomination', 'Fonction', 'Complément de fonction', 'Nom et prénom', 'Type adresse', 'Rue', 'NPA', 'Ville', 'Pays', 'Type téléphone', 'Indicatif', 'Numéro', 'Type email', 'Email'
-die($this->params['id']);
         $commission_id = @$this->params['id'];
         if (!$commission_id) throw new xException("id parameter missing, please provide a 'commission' id", 400);
         // Fetches 'commission_membre' rows
@@ -76,6 +75,7 @@ die($this->params['id']);
                 foreach ($fields as $field => $dbfield) $d[$field] = null;
             }
             // Filters/renames/reorders fields to export
+            // (TODO: move this outside this foreach loop)
             $fields = array('id',
                 'fonction_complement',
                 'personne_id_unil',
@@ -103,7 +103,7 @@ die($this->params['id']);
                 'adresse_pays_nom', // Should be translated to; 'adresse_pays_nom'
                 'adresse_pays_en'   // Should be translated to; 'adresse_pays_nom_en'
             );
-            //$d = xUtil::filter_keys($d, $fields);
+            $d = xUtil::filter_keys($d, $fields);
         }
         return $data;
     }
