@@ -72,18 +72,6 @@ class PersonnesController extends iaExtRestController {
     function exportAction() {
         // Config
         $export_dir = '/tmp';
-        $modes = array(
-            'Windows' => array(
-                'xseparator' => ';',
-                'xnewline' => "\n",
-                'xencoding' => 'ISO-8859-1'
-            ),
-            'Mac' => array(
-                'xseparator' => ';',
-                'xnewline' => "\r",
-                'xencoding' => 'ISO-8859-1'
-            )
-        );
         // Cleans exported files older than x (avoid cron setup)
         $ttl = 1*24*60*60; // 1 day
         foreach (glob("{$export_dir}/export-personnes-*.csv") as $file) {
@@ -92,12 +80,10 @@ class PersonnesController extends iaExtRestController {
         // Actual action behaviour
         if (@$this->params['fields']) {
             // Generates CSV file
-            $modeparams = $modes[@$this->params['mode']];
-            if (!$modeparams) $modeparams = $modes[0];
-            $csvparams = array_merge(array(
-                'fields' => $this->params['fields'],
-                'xformat' => 'csv'
-            ), $modeparams);
+            $csvparams = array(
+                'xformat' => 'csv',
+                'xmode' => @$this->params['mode']
+            );
             $csv = xFront::load('api', $csvparams)->encode($this->export());
             $file = 'export-personnes-'.md5($csv).'.csv';
             file_put_contents("{$export_dir}/{$file}", $csv);
@@ -121,7 +107,7 @@ class PersonnesController extends iaExtRestController {
             exit;
         } else {
             // Export configuration page
-            $data['modes'] = $modes;
+            $data['modes'] = xFront::load('api')->modes;
             return xView::load('personnes/export', $data, $this->meta);
         }
     }
@@ -170,7 +156,8 @@ class PersonnesController extends iaExtRestController {
             '       AND personnes_formations.actif = 1',
             '    LEFT JOIN personnes_activites',
             '       ON  personnes_activites.personne_id = personnes.id',
-            '       AND personnes_activites.actif = 1'
+            '       AND personnes_activites.actif = 1',
+            'WHERE personnes.actif = 1'
         ));
         // Creates 'personne' result array
         $r = xModel::q($q);
@@ -198,15 +185,29 @@ class PersonnesController extends iaExtRestController {
                 $foreign_row = array_shift($foreign_row);
                 // Manages epicene 'personne_denomination_nom' (female/male):
                 // replaces 'denomination.nom' with female/male field
-                // FIXME: this should be placed in personne_denomination model or controller
+                // FIXME: this should be factorized in personne_denomination model or controller
                 if ($model == 'personne_denomination' && @$row['personne_denomination_id']) {
+                    // Defines female/male terms to use
                     if ($row['genre_initiale']=='F') {
-                        $foreign_row['nom'] = "{$row['genre_intitule']} la {$foreign_row['nom_feminin']}";
-                        $foreign_row['abreviation'] = $foreign_row['abreviation_feminin'];
+                        $determinant = 'la';
+                        $appellation = $row['genre_intitule'];
+                        $titre = $foreign_row['nom_feminin'];
+                        $abreviation = $foreign_row['abreviation_feminin'];
                     } elseif ($row['genre_initiale']=='H') {
-                        $foreign_row['nom'] = "{$row['genre_intitule']} le {$foreign_row['nom_masculin']}";
-                        $foreign_row['abreviation'] = $foreign_row['abreviation_masculin'];
+                        $determinant = 'la';
+                        $appellation = $row['genre_intitule'];
+                        $titre = $foreign_row['nom_feminin'];
+                        $abreviation = $foreign_row['abreviation_masculin'];
                     }
+                    // No $titre for Madame/Monsieur (avoids Madame la Madame)
+                    if ($row['personne_denomination_id'] == 3) {
+                        $determinant = null;
+                        $titre = null;
+                    }
+                    // Creates 'denomination' string
+                    $foreign_row['nom'] = trim("{$appellation} {$determinant} {$titre}");
+                    // Switches 'abreviation' row content
+                    $foreign_row['abreviation'] = $abreviation;
                 }
                 // If no foreign_row (eg. empty foreign id)
                 // simulates an empty row for data-structure consistency
@@ -243,6 +244,10 @@ class PersonnesController extends iaExtRestController {
             }
             return $labelled_row;
         }, $rows);
+        // Makes rows unique
+        // (eg. duplicate rows when activite field is not checked)
+        // (unique logic should take place by filtering SQL and joins definition above)
+        $rows = array_map("unserialize", array_unique(array_map("serialize", $rows)));
         // TODO: order fields according $fields_labels order
         // Returns export
         return $rows;
