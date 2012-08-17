@@ -95,7 +95,6 @@ class CommissionsMembresController extends AbstractCommissionController {
                 'rattachement_abreviation',
                 'commission_nom',
                 'commission_commentaire',
-                '_uptodate',
                 'adresse_rue',
                 'adresse_npa',
                 'adresse_lieu',
