@@ -516,7 +516,7 @@ $catalogue_data = array(
                 ),
                 array(
                         'id' => '11',
-                        'actif' => '11',
+                        'actif' => '1',
                         'nom' => 'A entendre',
                         'description' => 'A entendre',
                         'position' => '11'
