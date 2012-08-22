@@ -58,7 +58,6 @@ tr.president {
 <hr/>
 <table class="noborder" style="vertical-align:top">
 <?php foreach(concat($d['membres']) as $membre): ?>
-<?php xUtil::pre($membre['nom_prenom']); ?>
   <tr class="<?php echo cssclass($membre) ?>">
     <td style="width:15%">
         <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
