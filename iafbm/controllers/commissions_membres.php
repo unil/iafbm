@@ -36,6 +36,64 @@ class CommissionsMembresController extends AbstractCommissionController {
         exit;
     }
 
+    /**
+     * Returns unified commission_membre & commission_membre_nonominatif models.
+     * Fields: TODO
+     * TODO: Shall we create a "meta-model" commission_membre_common, or something?
+     */
+    function getAll() {
+        // Determines common fields between both models, according active joins
+        $fields = array_intersect(
+            array_merge(
+                array_keys(xModel::load('commission_membre')->mapping),
+                array_keys(xModel::load('commission_membre')->foreign_mapping()),
+                array('nom_prenom') // This field will be created programatically
+            ),
+            array_merge(
+                array_keys(xModel::load('commission_membre_nonominatif')->mapping),
+                array_keys(xModel::load('commission_membre_nonominatif')->foreign_mapping())
+            )
+        );
+        // Fetches 'membres' and unifies fields names
+        $membres = xModel::load('commission_membre', $this->params)->get();
+        foreach ($membres as &$membre) {
+            // Concatenates fields 'nom' & 'prenom' into 'nom_prenom'
+            $membre['nom_prenom'] = "{$membre['personne_nom']} {$membre['personne_prenom']}";
+            // Filters fields to keep common fields
+            $membre = xUtil::filter_keys($membre, $fields);
+        }
+        // Fetches 'membres non nominatifs' and unifies fields names
+        $membres_nonominatifs = xModel::load('commission_membre_nonominatif', $this->params)->get();
+        foreach ($membres_nonominatifs as &$membre) {
+            // Filters fields to keep common fields
+            $membre = xUtil::filter_keys($membre, $fields);
+        }
+        return xUtil::array_merge($membres, $membres_nonominatifs);
+    }
+
+    /**
+     * Returns commission 'membres' (eg. not 'A entendre' or 'Invité')
+     * @see getAll()
+     */
+    function getMembres() {
+        $this->params = xUtil::array_merge($this->params, array(
+            'commission_fonction_id' => array(9, 11),
+            'commission_fonction_id_comparator' => 'NOT IN',
+        ));
+        return $this->getAll();
+    }
+
+    /**
+     * Returns commission 'membres non-nominatifs' (eg. only 'A entendre' or 'Invité')
+     * @see getAll()
+     */
+    function getNonMembres() {
+        $this->params = xUtil::array_merge($this->params, array(
+            'commission_fonction_id' => array(9, 11)
+        ));
+        return $this->getAll();
+    }
+
     function export() {
         // TODO
         // Fields: 'Dénomination', 'Fonction', 'Complément de fonction', 'Nom et prénom', 'Type adresse', 'Rue', 'NPA', 'Ville', 'Pays', 'Type téléphone', 'Indicatif', 'Numéro', 'Type email', 'Email'
