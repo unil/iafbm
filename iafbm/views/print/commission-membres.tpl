@@ -28,6 +28,18 @@ function cssclass($membre) {
     $class = in_array(1, $membre['commission_fonction_id']) ? 'president' : null;
     return $class;
 }
+
+// Returns membre '_activites' ghost field
+function activite($membre) {
+    // Retrieves personne._activite pseudo-field
+    if ($membre['personne_id']) {
+        $personne = xController::load('personnes', array(
+            'id' => $membre['personne_id'])
+        )->get();
+        return @$personne['items'][0]['_activites'];
+    }
+    return '-';
+}
 ?>
 
 <style>
@@ -46,11 +58,7 @@ tr.president {
 <hr/>
 <table class="noborder" style="vertical-align:top">
 <?php foreach(concat($d['membres']) as $membre): ?>
-<?php
-    // Retrieves personne._activite pseudo-field
-    $personne = xController::load('personnes', array('id' => $membre['personne_id']))->get();
-    $activite = @$personne['items'][0]['_activites'];
-?>
+<?php xUtil::pre($membre['nom_prenom']); ?>
   <tr class="<?php echo cssclass($membre) ?>">
     <td style="width:15%">
         <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
@@ -69,13 +77,13 @@ tr.president {
         <?php endfor ?>
     </td>
     <td style="width:20%">
-        <?php echo $activite ?>
+        <?php echo activite($membre) ?>
     </td>
   </tr>
 <?php endforeach; ?>
 </table>
 <hr/>
-<div style="font-size:8pt">
+<div style="font-size:8pt <?php if (isset($_REQUEST['html'])) echo ";visibility:hidden" ?>">
   Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'] ?>
 </div>
 
@@ -103,7 +111,7 @@ tr.president {
         <?php endfor ?>
     </td>
     <td style="width:20%">
-        <?php echo $activite ?>
+        <?php echo activite($membre) ?>
     </td>
   </tr>
 <?php endforeach; ?>
