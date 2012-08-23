@@ -1,6 +1,4 @@
 <?php
-//xUtil::pre($d);
-//die();
 // Transforms members structure (this feels dirty, sorry)
 function concat($m) {
     $membres = array();
@@ -90,7 +88,7 @@ tr.president {
 
 <div style="page-break-before:always"/>
 
-<h1>Non-membres de la commission pour <?php echo $d['commission']['nom'] ?></h1>
+<h1>Autres participants pour la commission pour <?php echo $d['commission']['nom'] ?></h1>
 <hr/>
 <table class="noborder" style="vertical-align:top">
 <?php if ($d['non-membres']) foreach(concat($d['non-membres']) as $membre): ?>
@@ -115,7 +113,7 @@ tr.president {
         <?php echo activite($membre) ?>
     </td>
   </tr>
-<?php endforeach; else echo '<tr><td>Aucun non-membre pour cette commission</td></tr>' ?>
+<?php endforeach; else echo '<tr><td>Aucun autre participant pour cette commission</td></tr>' ?>
 </table>
 <hr/>
 <div style="font-size:8pt">
