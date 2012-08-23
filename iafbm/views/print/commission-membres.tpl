@@ -59,7 +59,7 @@ tr.president {
 <h1>Membres de la commission pour <?php echo $d['commission']['nom'] ?></h1>
 <hr/>
 <table class="noborder" style="vertical-align:top">
-<?php foreach(concat($d['membres']) as $membre): ?>
+<?php if ($d['membres']) foreach(concat($d['membres']) as $membre): ?>
   <tr class="<?php echo cssclass($membre) ?>">
     <td style="width:15%">
         <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
@@ -81,10 +81,10 @@ tr.president {
         <?php echo activite($membre) ?>
     </td>
   </tr>
-<?php endforeach; ?>
+<?php endforeach; else echo '<tr><td>Aucun membre pour cette commission</td></tr>' ?>
 </table>
 <hr/>
-<div style="font-size:8pt <?php if (isset($_REQUEST['html'])) echo ";visibility:hidden" ?>">
+<div style="font-size:8pt <?php if (isset($_REQUEST['html'])) echo ";visibility:hidden;height:30px" ?>">
   Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'] ?>
 </div>
 
@@ -93,7 +93,7 @@ tr.president {
 <h1>Non-membres de la commission pour <?php echo $d['commission']['nom'] ?></h1>
 <hr/>
 <table class="noborder" style="vertical-align:top">
-<?php foreach(concat($d['non-membres']) as $membre): ?>
+<?php if ($d['non-membres']) foreach(concat($d['non-membres']) as $membre): ?>
   <tr class="<?php echo cssclass($membre) ?>">
     <td style="width:15%">
         <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
@@ -115,7 +115,7 @@ tr.president {
         <?php echo activite($membre) ?>
     </td>
   </tr>
-<?php endforeach; ?>
+<?php endforeach; else echo '<tr><td>Aucun non-membre pour cette commission</td></tr>' ?>
 </table>
 <hr/>
 <div style="font-size:8pt">
