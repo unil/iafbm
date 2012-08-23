@@ -88,7 +88,7 @@ tr.president {
 
 <div style="page-break-before:always"/>
 
-<h1>Autres participants pour la commission pour <?php echo $d['commission']['nom'] ?></h1>
+<h1>Autres participants à la commission pour <?php echo $d['commission']['nom'] ?></h1>
 <hr/>
 <table class="noborder" style="vertical-align:top">
 <?php if ($d['non-membres']) foreach(concat($d['non-membres']) as $membre): ?>
