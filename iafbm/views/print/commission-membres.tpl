@@ -1,4 +1,6 @@
 <?php
+//xUtil::pre($d);
+//die();
 // Transforms members structure (this feels dirty, sorry)
 function concat($m) {
     $membres = array();
@@ -63,7 +65,7 @@ tr.president {
         <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
     </td>
     <td style="width:30%">
-        <?php echo "{$membre['personne_prenom']} {$membre['personne_nom']}" ?>
+        <?php echo $membre['nom_prenom'] ?>
     </td>
     <td style="width:35%">
         <?php $count = count($membre['commission_fonction_nom']) ?>

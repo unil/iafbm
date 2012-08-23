@@ -84,7 +84,7 @@ class CommissionsMembresController extends AbstractCommissionController {
         ))->get();
         foreach ($membres as &$membre) {
             // Concatenates fields 'nom' & 'prenom' into 'nom_prenom'
-            $membre['nom_prenom'] = "{$membre['personne_nom']} {$membre['personne_prenom']}";
+            $membre['nom_prenom'] = "{$membre['personne_prenom']} {$membre['personne_nom']}";
             // Fills unexisting fields with null
             $membre = xUtil::array_merge(
                 array_fill_keys($fields, null),
