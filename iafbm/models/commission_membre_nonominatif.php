@@ -14,7 +14,6 @@ class CommissionMembreNonominatifModel extends iaModelMysql {
         'personne_denomination_id' => 'personne_denomination_id',
         'activite_id' => 'activite_id',
         'rattachement_id' => 'rattachement_id',
-        'version_id' => 'version_id'
     );
 
     var $primary = array('id');

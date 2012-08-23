@@ -194,9 +194,9 @@ class PersonnesController extends iaExtRestController {
                         $titre = $foreign_row['nom_feminin'];
                         $abreviation = $foreign_row['abreviation_feminin'];
                     } elseif ($row['genre_initiale']=='H') {
-                        $determinant = 'la';
+                        $determinant = 'le';
                         $appellation = $row['genre_intitule'];
-                        $titre = $foreign_row['nom_feminin'];
+                        $titre = $foreign_row['nom_masculin'];
                         $abreviation = $foreign_row['abreviation_masculin'];
                     }
                     // No $titre for Madame/Monsieur (avoids Madame la Madame)
