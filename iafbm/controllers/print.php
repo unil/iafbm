@@ -1,6 +1,6 @@
 <?php
 
-class printController extends iaWebController {
+class printController extends iaExtRestController {
 
     function defaultAction() {
         $controller = $this->params['controller'];
@@ -27,35 +27,23 @@ class printController extends iaWebController {
             'id' => $id
         ))->get();
         if (!$commission) throw new xException('Commission does not exist');
-        $membres = xController::load('commissions_membres', array(
+        // Common model params
+        $params = array(
             'commission_id' => $id,
             'xjoin' => 'personne, personne_denomination, commission_fonction',
-            'xorder_by' => 'commission_fonction_position, personne_nom, personne_prenom'
-        ))->get();
-        // Transforms members structure (this feels dirty, sorry)
-        $m = array();
-        $fields_to_keep = array('id', 'personne_id', 'personne_denomination_abreviation', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
-        $fields_to_concat = array('personne_denomination_abreviation', 'commission_fonction_nom', 'fonction_complement');
-        foreach ($membres['items'] as $membre) {
-            $membre = xUtil::filter_keys($membre, $fields_to_keep);
-            $id = $membre['personne_id'];
-            if (@!$m[$id]) {
-                $m[$id] = $membre;
-                foreach($fields_to_concat as $field) {
-                    $m[$id][$field] = array($membre[$field]);
-                }
-            } else {
-                foreach($fields_to_concat as $field) {
-                    $m[$id][$field] = array_merge($m[$id][$field], array($membre[$field]));
-                }
-            }
-        }
+            'xorder_by' => 'commission_fonction_position, personne_prenom, personne_nom, nom_prenom'
+        );
+        // Retrives commission membres (excluding 'A entendre' and 'Invité')
+        $membres = xController::load('commissions_membres', $params)->getMembres();
+        // Retrives commission non-membres (only 'A entendre' and 'Invité')
+        $nonmembres = xController::load('commissions_membres', $params)->getNonMembres();
         // Renders view
         $data = array(
             'commission' => array_shift($commission['items']),
-            'membres' => $m
+            'membres' => $membres,
+            'non-membres' => $nonmembres
         );
-        $html = xView::load('print/membres-commission', $data)->render();
+        $html = xView::load('print/commission-membres', $data)->render();
         return $this->_print($html);
     }
 

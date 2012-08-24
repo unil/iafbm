@@ -456,14 +456,14 @@ $catalogue_data = array(
 						'actif' => '1',
 						'nom' => 'Expert extérieur',
 						'description' => 'Expert extérieur',
-						'position' => '7'
+						'position' => '8'
 				),
 				array(
 						'id' => '3',
 						'actif' => '1',
 						'nom' => 'Délégué à l\'égalité',
 						'description' => 'Délégué à l\'égalité',
-						'position' => '8'
+						'position' => '9'
 				),
 				array(
 						'id' => '4',
@@ -505,8 +505,22 @@ $catalogue_data = array(
 						'actif' => '1',
 						'nom' => 'Invité',
 						'description' => 'Invité',
-						'position' => '9'
+						'position' => '10'
 				),
+                array(
+                        'id' => '10',
+                        'actif' => '1',
+                        'nom' => 'Représentant FHV',
+                        'description' => 'Représentant FHV',
+                        'position' => '7'
+                ),
+                array(
+                        'id' => '11',
+                        'actif' => '1',
+                        'nom' => 'A entendre',
+                        'description' => 'A entendre',
+                        'position' => '11'
+                ),
 		),
 		'commission_etat' => array(
 				array(

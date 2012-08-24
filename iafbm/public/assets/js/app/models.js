@@ -355,6 +355,32 @@ Ext.define('iafbm.model.CommissionMembre', {
         url: x.context.baseuri+'/api/commissions_membres',
     }
 });
+Ext.define('iafbm.model.CommissionMembreNonominatif', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'nom_prenom', type: 'string'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'commission_fonction_id', type: 'int'},
+        {name: 'fonction_complement', type: 'string'},
+        {name: 'personne_denomination_id', type: 'int', useNull: true},
+        {name: 'activite_id', type: 'int', useNull: true},
+        {name: 'rattachement_id', type: 'int', useNull: true},
+        // Foreign fields
+        {name: 'activite_nom_abreviation', type: 'string'},
+        {name: 'rattachement_nom', type: 'string'},
+        {name: 'commission_nom', type: 'string'},
+        {name: 'commission_type_racine', type: 'string'},
+        {name: 'commission_etat_nom', type: 'string'},
+        {name: 'commission_fonction_nom', type: 'string'},
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions_membres_nonominatifs',
+    }
+});
 Ext.define('iafbm.model.Candidat', {
     extend: 'Ext.data.Model',
     fields: [

@@ -6,10 +6,6 @@
 
 Ext.onReady(function() {
 
-    // Shared Candidat store
-    // between form_candidat and form_finalisation
-    var store_candidat = new iafbm.store.Candidat();
-
     var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Commission'),
         fetch: {
@@ -75,10 +71,13 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
+        }, {
+            baseCls: 'title',
+            html: 'Composition'
         }, new Ext.ia.selectiongrid.Panel({
-            title: 'Composition',
+            title: 'Membres nominatifs',
             width: 857,
-            height: 350,
+            height: 250,
             combo: {
                 store: new iafbm.store.Personne({
                     params: {
@@ -126,8 +125,33 @@ Ext.onReady(function() {
                         url = [x.context.baseuri, '/print/commissions_membres/', id, '?html'].join('');
                     window.open(url);
                 }
+            }, '-', {
+                xtype: 'button',
+                text: 'Export adresses (CSV)',
+                iconCls: 'icon-get',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/commissions_membres/do/export/', id, '?xformat=csv'].join('');
+                    location.href = url;
+                }
             }]
-        })/*, {
+        }), {
+            xtype: 'ia-editgrid',
+            title: 'Membres non nominatifs',
+            width: 857,
+            height: 200,
+            toolbarButtons: ['add', 'delete'],
+            store: ss = new iafbm.store.CommissionMembreNonominatif({
+                params: { commission_id: <?php echo $d['id'] ?> },
+                sorters: [{
+                    property : 'commission_fonction_position',
+                    direction: 'ASC'
+                }]
+            }),
+            newRecordValues: { commission_id: '<?php echo $d['id'] ?>' },
+            columns: iafbm.columns.CommissionMembreNonominatif,
+            bbar: null
+        }/*, {
             xtype: 'ia-history'
         }*/]
     });
@@ -341,21 +365,27 @@ Ext.onReady(function() {
                     fieldLabel: 'Primo loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'primo_loco',
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secundo loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'secondo_loco'
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'tertio_loco'
                 }]
             }]

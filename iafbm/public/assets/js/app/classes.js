@@ -9,6 +9,66 @@ Ext.ns('Ext.ia');
 Ext.onReady(Ext.tip.QuickTipManager.init);
 
 /**
+ * Common captions.
+ * Used for:
+ * - Notifying of errors HTTP Requests error (according the HTTP status)
+ */
+Ext.ia.caption = {
+    status: {
+        // FIXME: Not used for now: use it or remove it.
+        200: 'OK',
+        400: 'Requête malformée',
+        401: 'Accès non autorisé',
+        403: 'Accès non autorisé',
+        404: 'Element introuvable',
+        405: 'Accès non autorisé',
+        408: 'Délai expiré',
+        500: 'Erreur inopinée'
+    },
+    // Used for notifications css classnames construction
+    type: {
+        200: 'confirm',
+        400: 'error',
+        401: 'denied',
+        403: 'denied',
+        404: 'notfound',
+        405: 'denied',
+        408: 'error',
+        500: 'error'
+    },
+    // Used for notifications titles
+    titles: {
+        create: 'Ajout',
+        read: 'Lecture',
+        update: 'Modification',
+        delete: 'Suppression',
+        //
+        200: 'effectué(e)',
+        400: 'impossible (invalide)',
+        401: 'non autorisé(e)',
+        403: 'non autorisé(e)',
+        404: 'impossible',
+        405: 'non autorisé(e)',
+        500: 'impossible (erreur système)'
+    },
+    // Used for notifications text content
+    texts: {
+        200: "Succès pour",
+        401: "Vous n'avez pas les autorisations pour",
+        402: "Vous n'avez pas les autorisations pour",
+        403: "Vous n'avez pas les autorisations pour",
+        404: "La ressource est introuvable, impossible de",
+        405: "Vous n'avez pas les autorisations pour",
+        500: "Une erreur inattendue est survenue pour",
+        //
+        create: 'créer',
+        read: 'lire',
+        update: 'modifier',
+        delete: 'supprimer'
+    }
+};
+
+/**
  * Ext.Array.createRange()
  */
 Ext.Array.createArrayStoreRange = function(min, max, step, pad) {
@@ -67,9 +127,6 @@ Ext.ia.staticdata.Years = function() {
     return data;
 }();
 
-
-
-
 /**
  * Additional validation types (vtypes)
  */
@@ -123,9 +180,11 @@ Ext.define('Ext.ia.data.Store', {
         );
     },
     listeners: {
+        // ExtJS 3.0 Store.params simulation
         beforeload: function() { this.applyParamsToProxy() },
         beforesync: function() { this.applyParamsToProxy() },
         beforeprefetch: function() { this.applyParamsToProxy() },
+        // Loaded flag (TODO: is it used/necessary ?)
         load: function() { this.loaded = true }
     }
 });
@@ -160,24 +219,51 @@ Ext.define('Ext.ia.data.proxy.Rest', {
         update: 'post',
         destroy: 'delete'
     },
-    listeners: {
-        exception: function(proxy, response, operation) {
-            // User message
-            var actions = {
-                create: "l'ecriture",
-                read: "la lecture",
-                update: "l'écriture",
-                destroy: "la suppression"
-            };
-            var msg = ['Une erreur est survenue pendant', actions[operation.action], 'des données'].join(' ');
-            Ext.Msg.show({
-                title: 'Erreur',
-                msg: msg,
-                buttons: Ext.Msg.OK,
-                icon: Ext.Msg.ERROR
-            });
-        }
-    }
+    // CRUD notifications
+    afterRequest: function(request, success) {
+        // Retrieves 'HTTP status' and 'operation.action'
+        var status = success ?
+                request.operation.response.status :
+                request.operation.error.status,
+            action = request.operation.action,
+            proxy = this;
+        // Determines whether to notify or not
+        if (success || action == 'read' && status != 404) return;
+        // Captions pool as local variables
+        var statuses = Ext.ia.caption.status,
+            types = Ext.ia.caption.type,
+            titles = Ext.ia.caption.titles,
+            texts = Ext.ia.caption.texts;
+        // Create text to display
+        var type = types[status],
+            model = proxy.model.prototype.modelName.split('.').pop().replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase(),
+            title = [
+                titles[action],
+                titles[status]
+            ].join(' '),
+            message = [
+                texts[status],
+                texts[action],
+                'la ressource',
+                '<em>'+model+'</em>'
+            ].join(' ');
+            iconCls = 'ux-notification-icon-'+type,
+            cls = [
+                Ext.ia.window.Notification.prototype.cls,
+                'ux-notification-bg-'+type
+            ].join(' ');
+        // Actual notification display
+        Ext.create('Ext.ia.window.Notification', {
+            title: title,
+            html: [
+                '<strong>'+message+'</strong>'
+            ].join('<br/>'),
+            iconCls: iconCls,
+            cls: cls,
+            autoHide: success,
+            hideDuration: 300
+        }).show()
+    },
 });
 
 /**
@@ -321,14 +407,22 @@ Ext.define('Ext.ia.grid.RadioColumn', {
         //
         var me = this;
         me.callParent();
-        this.on('checkchange', this.refresh);
+        // Manages the unchecking of other exising rows checkboxes
+        // (visual purpose only, the server-side logic MUST take care of setting all other options to false)
+        this.on('checkchange', this.click);
+        // Disables clicking when the grid row is in edit mode
         this.on('click', function() { return Boolean(this.editable) });
     },
-    refresh: function(checkcolumn, recordIndex, checked) {
-        var store = this.up('gridpanel').getStore();
-        // Refreshes the grid by reloading the store
-        // in order to show the actual unique selected row
-        store.load();
+    click: function(checkcolumn, recordIndex, checked) {
+        // Sets all visible radiocolumns to false (unchecked),
+        // except the checked radiocolumn
+        var store = this.up('grid').store,
+            fieldname = this.dataIndex;
+        // Sets all loaded records to false, except the clicked record
+        Ext.each(store.getRange(), function(record) {
+            if (store.getAt(recordIndex) == record) return;
+            record.set(fieldname, false);
+        });
     },
     processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
         if (Ext.Array.contains(['mousedown', 'keyup'], type) || Ext.Array.contains([e.ENTER, e.SPACE], e.getKey())) {
@@ -396,10 +490,21 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         var me = this,
             store = this.store;
         me.callParent();
-        // Manages store autoloading
-        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
-            store.load();
-        }
+        // Manages store autoloading & exceptions
+        this.on('afterrender', function() {
+            if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+                store.load(function(records, operation, success) {
+                    // Masks the component
+                    if (!success && operation.action == 'read') {
+                        var height = me.getHeight(),
+                            combo = me.el.child('.x-form-item-body');
+                        combo.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                        combo.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                        combo.setHeight(height);
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -732,16 +837,25 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
             this.store.autoSync = me.autoSync;
             this.store.load({
                 callback: function(records, operation) {
-                    me.fireEvent('load');
+                    if (operation.success) me.fireEvent('load');
                 }
             });
         }});
         // Manages proxy exceptions:
-        // Reverts store data on proxy exception
+        // - Masks component
+        // - Reverts store data on proxy exception
         this.on({afterrender: function() {
             var me = this;
             this.store.getProxy().on({
                 exception: function(proxy, response, operation) {
+                    // Masks the component
+                    if (operation.action == 'read') {
+                        me.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                        me.dockedItems.each(function(c) { c.hide() });
+                        me.body.hide();
+                        me.el.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                    }
+                    // Reverts deleted records
                     if (operation.action == 'destroy') {
                         me.store.removeAll();
                         me.store.removed = [];
@@ -750,11 +864,6 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
                 }
             });
         }});
-        // Manages loading spinner
-        this.on({
-            beforeload: function() { this.setLoading() },
-            load: function() { this.setLoading(false) }
-        });
         // Fixes incorrect grid layout that occurs
         // occasionaly when grid is too narrow (FIXME)
         this.on({load: function() {
@@ -791,6 +900,7 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
     updateState: function() {
         // Toggles grid columns editability (eg. checkboxes)
         // (restoring initial value afterwards)
+        var version = this.store.params['xversion'];
         Ext.each(this.columns, function(c) {
             if (!c.isXType('ia-radiocolumn')) return;
             if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
@@ -1468,20 +1578,38 @@ Ext.define('Ext.ia.form.Panel', {
             // Creates the record
             var me = this;
             this.fetch.model.load(this.fetch.id, {
-                success: function(record) {
+                success: function(record, operation) {
                     // FIXME: Test on xversion prevents displaying an error
                     //        meanwhile the actual versioned record is loaded (see this.initComponent()).
                     //        This is dirty
                     if (!record && me.fetch.xversion) return;
                     // Checks record before applying data
                     if (!record) {
-                        proxy.fireEvent('exception', proxy, {}, {action:'read'});
+                        proxy.fireEvent('exception', proxy, operation.response, operation);
                         return;
                     }
                     // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
                     me.fireEvent('load', me, me.record);
+                },
+                // Masks the component if data loading fails
+                failure: function(record, operation) {
+                    var height = me.getHeight();
+                    // Hides existing items
+                    var toolbar = me.dockedItems.getAt(me.dockedItems.findIndex('xtype', 'toolbar'));
+                    toolbar.hide();
+                    me.items.each(function(c) { c.hide() });
+                    // Sets message class
+                    me.body.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                    // Creates message panel item
+                    me.add({
+                        html: Ext.ia.caption.status[operation.error.status],
+                        border: false,
+                        frame: false,
+                        bodyStyle: 'background-color:transparent'
+                    });
+                    me.setHeight(height);
                 },
                 callback: function() {
                     if (proxy) proxy.extraParams = proxyExtraParams;
@@ -1911,6 +2039,29 @@ Ext.define('Ext.ia.window.Popup', {
     }
 });
 
+
+/**
+ * Extends Ext.ux.window.Notification with
+ * - default options
+ */
+Ext.define('Ext.ia.window.Notification', {
+    extend: 'Ext.ux.window.Notification',
+    alias: 'widget.ia-notification',
+    cls: 'ux-notification-light',
+    iconCls: 'ux-notification-icon-information',
+    width: 300,
+    slideInDuration: 66,
+    slideBackAnimation: 'easeOut',
+    slideBackDuration: 66,
+    hideDuration: 3000,
+    autoHideDelay: 500,
+    position: 't',
+    closable: true,
+    shadow: true,
+    useXAxis: true,
+    //title: '',
+    //html: ''
+})
 
 /******************************************************************************
  * History

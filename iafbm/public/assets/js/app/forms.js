@@ -97,6 +97,7 @@ Ext.define('iafbm.form.Candidat', {
         return {
             xtype: 'fieldset',
             title: 'Diplômes obtenus',
+            height: 155,
             items: [
                 new iafbm.grid.common.Formations({
                     store: new iafbm.store.CandidatFormation({
@@ -131,6 +132,8 @@ Ext.define('iafbm.form.Candidat', {
         return {
             xtype: 'fieldset',
             title: 'Position actuelle',
+            height: 155,
+            padding: '20 0 0 0',
             defaults: {
                 border: false,
                 flex: 1,
@@ -199,6 +202,7 @@ Ext.define('iafbm.form.Candidat', {
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
                 defaults: {
+                    height: 250,
                     fieldDefaults: {
                         labelAlign: 'right',
                         msgTarget: 'side'
@@ -217,6 +221,7 @@ Ext.define('iafbm.form.Candidat', {
                         xtype: 'ia-textarea',
                         grow: true,
                         growMin: 0,
+                        growMax: 65,
                         fieldLabel: 'Adresse',
                         emptyText: 'Adresse',
                         name: 'adresse_pro'
@@ -258,6 +263,7 @@ Ext.define('iafbm.form.Candidat', {
                         xtype: 'ia-textarea',
                         grow: true,
                         growMin: 0,
+                        growMax: 65,
                         fieldLabel: 'Adresse',
                         emptyText: 'Adresse',
                         name: 'adresse_pri'

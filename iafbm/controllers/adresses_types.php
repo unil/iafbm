@@ -1,6 +1,6 @@
 <?php
 
-class AdressesTypesController extends iaWebController {
+class AdressesTypesController extends iaExtRestController {
     var $model = 'adresse_type';
     var $allow = array('get');
 }
