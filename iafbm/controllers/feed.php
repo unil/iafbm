@@ -1,6 +1,6 @@
 <?php
 
-class FeedController extends iaWebController {
+class FeedController extends iaExtRestController {
 
     /**
      * Determines supported events (eg. events that can be displayed)
