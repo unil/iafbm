@@ -63,7 +63,6 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
         // Determines which one relates to modelfield,
         // priority is given to local field name because
         // it is merged first (see argument order in array_merge() above)
-        $candidates = array();
         foreach ($mapping as $field) {
             if (substr($field, -strlen('model_name')) == 'model_name') {
                 return $field;
