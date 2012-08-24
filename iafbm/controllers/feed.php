@@ -47,7 +47,8 @@ class FeedController extends iaExtRestController {
             // Adds version deltas data to event
             $event['deltas'] = xModel::load('version_data', array(
                 'version_id' => $version['id'],
-                'xjoin' => ''
+                'version_model_name' => $version['model_name'],
+                'xjoin' => 'version'
             ))->get();
             // Adds related entity data to event
             $event['entity'] = xModel::load($version['model_name'], array(
