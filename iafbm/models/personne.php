@@ -39,6 +39,10 @@ class PersonneModel extends iaModelMysql {
 
     var $join = 'pays';
 
+    var $wheres = array(
+        'query' => 'common/model/query'
+    );
+
     var $validation = array(
         //'personne_type_id' => 'mandatory',
         'nom' => 'mandatory',
