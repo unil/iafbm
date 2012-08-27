@@ -738,6 +738,7 @@ Ext.define('iafbm.form.Personne', {
 Ext.define('iafbm.form.PropositionNomination', {
     extend: 'Ext.ia.form.Panel',
     commission_id: null,
+    // Common stores used by multiple widgets within this form.
     common: {
         // This store is used to load the user selected 'candidat'
         // for information display
@@ -818,7 +819,7 @@ Ext.define('iafbm.form.PropositionNomination', {
                 xtype: 'ia-combo',
                 fieldLabel: 'Candidat',
                 name: 'candidat_id',
-                displayField: '_display',
+                displayField: '_display', // TODO: Use template instead?
                 valueField: 'id',
                 store: new iafbm.store.Candidat({
                     params: { commission_id: this.commission_id }
@@ -841,7 +842,8 @@ Ext.define('iafbm.form.PropositionNomination', {
                 iconCls: 'icon-edit',
                 margin: '0 5',
                 handler: function() {
-                    var me = this,
+                    var candidat_id = this.prev().getValue(),
+                        common = this.up('form').common,
                         popup = new Ext.ia.window.Popup({
                         title: 'Candidat',
                         item: new iafbm.form.Candidat({
@@ -849,16 +851,30 @@ Ext.define('iafbm.form.PropositionNomination', {
                             modal: true,
                             fetch: {
                                 model: iafbm.model.Candidat,
-                                id: 1 // TODO: use prev() combo record id
+                                id: candidat_id
                             }
                         }),
-                        _listeners: {
-                            // TODO: refresh candidat_store record on close (for refreshing data in PropositionNomination fields)
+                        listeners: {
+                            // Reloads candidat_store record on close (for refreshing data in PropositionNomination fields)
+                            close: function() {
+                                console.log('close');
+                                common.store_candidat.load();
+                                // TODO: Reload combo.store too, or make combo use the common.store_candidat
+                            }
                         }
                     });
                 },
-                _listeners: {
-                    // TODO: listen to candidat-combo to disable button when no candidat selected
+                listeners: {
+                    // Listens to candidat-combo to disable button when no candidat selected
+                    afterrender: function() {
+                        var button = this,
+                            combo = this.prev();
+                        combo.on({change: function(combo, value) {
+                            button.setDisabled(!value);
+                        }});
+                        // Fires 'change' envent to trigger button en/disabled state
+                        combo.fireEvent('change', combo, combo.getValue(), undefined);
+                    }
                 }
             }],
         }, {
