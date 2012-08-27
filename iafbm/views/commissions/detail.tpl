@@ -444,6 +444,13 @@ Ext.onReady(function() {
             }]
         }, {
             xtype: 'fieldcontainer',
+            fieldLabel: 'Réception du rapport',
+            items: [{
+                xtype: 'ia-datefield',
+                name: 'reception_rapport',
+            }]
+        }, {
+            xtype: 'fieldcontainer',
             fieldLabel: 'Validation par le Décanat',
             items: [{
                 xtype: 'ia-datefield',
@@ -502,36 +509,6 @@ Ext.onReady(function() {
             }]
         }, {
             xtype: 'fieldcontainer',
-            fieldLabel: 'Validation par le CDir',
-            items: [{
-                xtype: 'ia-datefield',
-                name: 'cdir_date'
-            }, {
-                xtype: 'ia-combo',
-                displayField: 'nom',
-                valueField: 'id',
-                store: store_validation_etat,
-                name: 'cdir_etat'
-            }, {
-                xtype: 'ia-textarea',
-                name: 'cdir_commentaire',
-                anchor: '100%',
-                width: 381,
-                growMin: 21,
-                grow: true
-            }]
-        }, {
-            baseCls: 'title',
-            html: 'Informations complémentaires'
-        }, {
-            xtype: 'fieldcontainer',
-            fieldLabel: 'Réception du rapport',
-            items: [{
-                xtype: 'ia-datefield',
-                name: 'reception_rapport',
-            }]
-        }, {
-            xtype: 'fieldcontainer',
             fieldLabel: 'Proposition de nomination',
             items: [{
                 xtype: 'ia-datefield',
@@ -558,6 +535,26 @@ Ext.onReady(function() {
                         })
                     });
                 }
+            }]
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Validation par le CDir',
+            items: [{
+                xtype: 'ia-datefield',
+                name: 'cdir_date'
+            }, {
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_validation_etat,
+                name: 'cdir_etat'
+            }, {
+                xtype: 'ia-textarea',
+                name: 'cdir_commentaire',
+                anchor: '100%',
+                width: 381,
+                growMin: 21,
+                grow: true
             }]
         }, {
             baseCls: 'title',
