@@ -243,6 +243,11 @@ class iaExtRestController extends xWebController {
                 $params["{$field}_comparator"] = 'LIKE';
                 $params["{$field}_operator"] = 'OR';
             }
+            // Uses 'query' where-template
+            // if it is supported by the actual xModel and no 'xwhere' param is defined
+            if (@xModel::load($this->model)->wheres['query'] && !$this->params['xwhere']) {
+                $params['xwhere'] = 'query';
+            }
             // Removes query param
             unset($params['xquery']);
             // Sets modified parameters

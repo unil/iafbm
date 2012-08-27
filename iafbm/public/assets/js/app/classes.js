@@ -407,14 +407,22 @@ Ext.define('Ext.ia.grid.RadioColumn', {
         //
         var me = this;
         me.callParent();
-        this.on('checkchange', this.refresh);
+        // Manages the unchecking of other exising rows checkboxes
+        // (visual purpose only, the server-side logic MUST take care of setting all other options to false)
+        this.on('checkchange', this.click);
+        // Disables clicking when the grid row is in edit mode
         this.on('click', function() { return Boolean(this.editable) });
     },
-    refresh: function(checkcolumn, recordIndex, checked) {
-        var store = this.up('gridpanel').getStore();
-        // Refreshes the grid by reloading the store
-        // in order to show the actual unique selected row
-        store.load();
+    click: function(checkcolumn, recordIndex, checked) {
+        // Sets all visible radiocolumns to false (unchecked),
+        // except the checked radiocolumn
+        var store = this.up('grid').store,
+            fieldname = this.dataIndex;
+        // Sets all loaded records to false, except the clicked record
+        Ext.each(store.getRange(), function(record) {
+            if (store.getAt(recordIndex) == record) return;
+            record.set(fieldname, false);
+        });
     },
     processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
         if (Ext.Array.contains(['mousedown', 'keyup'], type) || Ext.Array.contains([e.ENTER, e.SPACE], e.getKey())) {
@@ -914,6 +922,7 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
     updateState: function() {
         // Toggles grid columns editability (eg. checkboxes)
         // (restoring initial value afterwards)
+        var version = this.store.params['xversion'];
         Ext.each(this.columns, function(c) {
             if (!c.isXType('ia-radiocolumn')) return;
             if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
