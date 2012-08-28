@@ -673,12 +673,13 @@ Ext.define('iafbm.model.CommissionPropositionNomination', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
-        {name: 'section_id', type: 'int', useNull: true},
+        {name: 'candidat_id', type: 'int', useNull: true},
         {name: 'objet', type: 'string'},
+        //{name: 'titre_propose?', type: 'string'},
         {name: 'contrat_debut', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'contrat_fin', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'contrat_taux', type: 'int'},
-        {name: 'indemnite', type: 'int'},
+        {name: 'contrat_taux', type: 'int', useNull: true},
+        {name: 'indemnite', type: 'int', useNull: true},
         {name: 'discipline_generale', type: 'string'},
         {name: 'observations', type: 'string'},
         {name: 'actif', type: 'boolean', defaultValue: true}

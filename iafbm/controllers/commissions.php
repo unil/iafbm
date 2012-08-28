@@ -131,7 +131,8 @@ class CommissionsController extends AbstractCommissionController {
             xModel::load('commission_candidat_commentaire', array('commission_id'=>$insertid)),
             xModel::load('commission_travail', array('commission_id'=>$insertid)),
             xModel::load('commission_validation', array('commission_id'=>$insertid)),
-            xModel::load('commission_finalisation', array('commission_id'=>$insertid))
+            xModel::load('commission_finalisation', array('commission_id'=>$insertid)),
+            xModel::load('commission_proposition_nomination', array('commission_id'=>$insertid))
         );
         foreach ($items as $item) $t->execute($item, 'put');
         $r = $t->end();

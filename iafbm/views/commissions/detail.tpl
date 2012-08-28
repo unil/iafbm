@@ -521,11 +521,12 @@ Ext.onReady(function() {
                     var me = this,
                         popup = new Ext.ia.window.Popup({
                         title: 'Détails',
-                        item: new iafbm.form.PropositionNomination({
-                            commission_id: '<?php echo $d['id'] ?>',
+                        item: new iafbm.form.CommissionPropositionNomination({
+                            fetch: {
+                                model: iafbm.model.CommissionPropositionNomination,
+                                params: { commission_id: '<?php echo $d['id'] ?>' }
+                            },
                             frame: false,
-                            //record: me.getRecord(gridView, rowIndex, colIndex, item),
-                            //fetch: me.getFetch(gridView, rowIndex, colIndex, item),
                             listeners: {
                                 // Closes popup on form save
                                 aftersave: function(form, record) {
