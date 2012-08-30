@@ -785,8 +785,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 __commission__section_id: 'section_id'
             });
         });
-        this.common.store_commission.params.commission_id = this.fetch.params.commission_id;
-        this.common.store_commission.load();
+        this.common.store_commission.load({params:{commission_id:this.fetch.params.commission_id}});
         // Ad-hoc 'candidat' store setup (see this.common.store_commission)
         this.common.store_candidat.on('load', function(store, records, success) {
             if (!success) return;
@@ -829,8 +828,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                     var candidat_id = this.getValue(),
                         store_candidat = this.up('form').common.store_candidat;
                     if (!candidat_id) return;
-                    store_candidat.params.id = candidat_id;
-                    store_candidat.load();
+                    store_candidat.load({params:{id:candidat_id}});
                 }}
             }, {
                 xtype: 'button',
