@@ -62,11 +62,32 @@ Ext.define('iafbm.form.Candidat', {
                 store: new iafbm.store.Genre({})
             }, {
                 xtype: 'ia-combo',
+                fieldLabel: 'Dénomination',
+                name: 'personne_denomination_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.PersonneDenomination')
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Canton d\'origine',
+                name: 'canton_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Canton'),
+            }, {
+                xtype: 'ia-combo',
                 fieldLabel: 'Pays d\'origine',
                 name: 'pays_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: new iafbm.store.Pays({})
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Permis de séjour',
+                name: 'permis_id',
+                displayField: 'nom',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Permis'),
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance',
@@ -790,6 +811,8 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 __candidat_denomination_id: 'denomination_id',
                 __candidat_nom: 'nom',
                 __candidat_prenom: 'prenom',
+                __candidat_personne_denomination_id: 'personne_denomination_id',
+                __candidat_canton_id: 'canton_id',
                 __candidat_pays_id: 'pays_id',
                 __candidat_etatcivil_id: 'etatcivil_id',
                 __candidat_permis_id: 'permis_id',
@@ -954,7 +977,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: 'Dénomination',
-                name: '__candidat_denomination_id',
+                name: '__candidat_personne_denomination_id',
                 displayField: 'abreviation',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.PersonneDenomination'),
@@ -1007,7 +1030,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: "Canton d'origine",
-                name: null, //FIXME
+                name: '__candidat_canton_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Canton')

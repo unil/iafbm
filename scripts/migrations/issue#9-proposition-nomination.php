@@ -9,8 +9,30 @@ class iafbmIssue9 extends iafbmScript {
         if ($this->already_run()) {
             throw new Exception('This script has already run');
         }
+        $t = new xTransaction();
+        $t->start();
+        $this->create_table__commissions_propositions_nominations($t);
+        $this->create_fields__candidats($t);
+        $t->end();
+    }
+
+    // Creates table 'commissions_propositions_nominations'
+    function create_table__commissions_propositions_nominations(xTransaction $t) {
+        $this->execute_sql_file('191_commissions_propositions_nominations.sql', $t);
+    }
+
+    /**
+     * Adds fields to table 'candidats'
+     */
+    function create_fields__candidats(xTransaction $t) {
+        $t->execute_sql('ALTER TABLE candidats ADD COLUMN personne_denomination_id INT AFTER genre_id');
+        $t->execute_sql('ALTER TABLE candidats ADD FOREIGN KEY (personne_denomination_id) REFERENCES personnes_denominations(id)');
         //
-        $this->execute_sql_file('191_commissions_propositions_nominations.sql');
+        $t->execute_sql('ALTER TABLE candidats ADD COLUMN canton_id INT AFTER pays_id');
+        $t->execute_sql('ALTER TABLE candidats ADD FOREIGN KEY (canton_id) REFERENCES cantons(id)');
+        //
+        $t->execute_sql('ALTER TABLE candidats ADD COLUMN permis_id INT AFTER canton_id');
+        $t->execute_sql('ALTER TABLE candidats ADD FOREIGN KEY (permis_id) REFERENCES permis(id)');
     }
 
     /**

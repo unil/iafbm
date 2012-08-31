@@ -6,8 +6,11 @@ CREATE TABLE candidats (
     nom VARCHAR(255),
     prenom VARCHAR(255),
     genre_id INT,
+    personne_denomination_id INT,
     etatcivil_id INT,
     pays_id INT,
+    canton_id INT,
+    permis_id INT,
     date_naissance DATE,
     nombre_enfants SMALLINT,
     no_avs VARCHAR(255),
@@ -31,8 +34,11 @@ CREATE TABLE candidats (
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
     FOREIGN KEY (genre_id) REFERENCES genres(id),
+    FOREIGN KEY (personne_denomination_id) REFERENCES personnes_denominations(id),
     FOREIGN KEY (etatcivil_id) REFERENCES etatscivils(id),
     FOREIGN KEY (pays_id) REFERENCES pays(id),
+    FOREIGN KEY (canton_id) REFERENCES canton(id),
+    FOREIGN KEY (permis_id) REFERENCES permis(id),
     FOREIGN KEY (pays_pro_id) REFERENCES pays(id),
     FOREIGN KEY (pays_pri_id) REFERENCES pays(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
