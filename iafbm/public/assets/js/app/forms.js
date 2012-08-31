@@ -744,11 +744,6 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
         // for information display
         store_candidat: new iafbm.store.Candidat({
             autoLoad: false
-        }),
-        // This store is used to load the related 'commission'
-        // for information display
-        store_commission: new iafbm.store.Commission({
-            autoLoad: false
         })
     },
     title: 'Proposition de nomination',
@@ -778,26 +773,33 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
     initComponent: function() {
         var me = this;
         if (!this.fetch.params.commission_id) throw new Error("commission_id property cannot be empty");
-        // Ad-hoc 'commission' store setup (see this.common.store_commission)
-        this.common.store_commission.on('load', function(store, records, success) {
-            if (!success) return;
-            me.applyToForm(records.pop(), {
-                __commission__section_id: 'section_id'
-            });
+        // Ad-hoc 'commission' store setup (for info fields values)
+        new iafbm.store.Commission().load({
+            params: { id: this.fetch.params.commission_id },
+            callback: function(records, operation, success) {
+                if (!success) return;
+                me.applyToForm(records.pop(), {
+                    __commission__section_id: 'section_id'
+                });
+            }
         });
-        this.common.store_commission.load({params:{commission_id:this.fetch.params.commission_id}});
         // Ad-hoc 'candidat' store setup (see this.common.store_commission)
         this.common.store_candidat.on('load', function(store, records, success) {
             if (!success) return;
             me.applyToForm(records.pop(), {
-                denomination_id: 'denomination_id',
-                nom: 'nom',
-                prenom: 'prenom',
-                etatcivil_id: 'etatcivil_id',
-                date_naissance: 'date_naissance',
-                adresse: '_adresse_defaut',
-                email: '_email_defaut',
-                pays_id: '_pays_defaut_id'
+                __candidat_denomination_id: 'denomination_id',
+                __candidat_nom: 'nom',
+                __candidat_prenom: 'prenom',
+                __candidat_pays_id: 'pays_id',
+                __candidat_etatcivil_id: 'etatcivil_id',
+                __candidat_permis_id: 'permis_id',
+                __candidat_date_naissance: 'date_naissance',
+                __candidat_defaut_adresse: '_adresse_defaut',
+                __candidat_defaut_npa: '_npa_defaut',
+                __candidat_defaut_lieu: '_lieu_defaut',
+                __candidat_defaut_pays_id: '_pays_defaut_id',
+                __candidat_defaut_email: '_email_defaut',
+                __candidat_position_actuelle_fonction: 'position_actuelle_fonction'
             });
         });
         // Form defaults
@@ -815,7 +817,6 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 name: 'candidat_id',
                 displayField: '_display', // TODO: Use template instead?
                 valueField: 'id',
-                // TODO: Use common.store_candidat instead of a new instance
                 store: new iafbm.store.Candidat({
                     params: { commission_id: this.fetch.params.commission_id }
                 }),
@@ -953,31 +954,39 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: 'Dénomination',
+                name: '__candidat_denomination_id',
                 displayField: 'abreviation',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.PersonneDenomination')
+                store: Ext.create('iafbm.store.PersonneDenomination'),
             }, {
                 readOnly: true,
                 fieldLabel: 'Nom',
-                name: 'nom'
+                name: '__candidat_nom'
             }, {
                 readOnly: true,
                 fieldLabel: 'Prénom',
-                name: 'prenom'
+                name: '__candidat_prenom'
             }, {
                 readOnly: true,
                 fieldLabel: 'Adresse',
-                name: 'adresse'
+                name: '__candidat_defaut_adresse'
+            }, {
+                readOnly: true,
+                fieldLabel: 'NPA',
+                name: '__candidat_defaut_npa',
+            }, {
+                readOnly: true,
+                fieldLabel: 'Lieu',
+                name: '__candidat_defaut_lieu',
             }, {
                 readOnly: true,
                 fieldLabel: 'Email',
-                name: 'email',
-                vtype: 'email'
+                name: '__candidat_defaut_email',
             }, {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: 'Etat civil',
-                name: 'etatcivil_id',
+                name: '__candidat_etatcivil_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Etatcivil')
@@ -985,12 +994,12 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-datefield',
                 readOnly: true,
                 fieldLabel: 'Date de naissance',
-                name: 'date_naissance'
+                name: '__candidat_date_naissance'
             }, {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: "Pays d'origine",
-                name: 'pays_id',
+                name: '__candidat_pays_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Pays')
@@ -998,6 +1007,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: "Canton d'origine",
+                name: null, //FIXME
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Canton')
@@ -1005,31 +1015,38 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: 'Permis',
+                name: '__candidat_permis_id',
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Permis')
             }, {
                 // Data: candidat.fonction_actuelle
                 readOnly: true,
-                fieldLabel: 'Fonction actuelle'
+                fieldLabel: 'Fonction actuelle',
+                name: '__candidat_position_actuelle_fonction'
             }, {
-                fieldLabel: 'Discipline générale'
+                fieldLabel: 'Discipline générale',
+                name: null //FIXME
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Grade universitaire',
+                name: null, //FIXME
                 displayField: 'abreviation',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Formation')
             }, {
                 xtype: 'ia-datefield',
-                fieldLabel: "Lieu et date de l'obtention du grade"
+                fieldLabel: "Lieu et date de l'obtention du grade",
+                name: null //FIXME
             }, {
                 // Data: commission_validation: Décanat or CF? ask.
                 xtype: 'ia-datefield',
-                fieldLabel: 'Date préavis'
+                fieldLabel: 'Date préavis',
+                name: null //FIXME
             }, {
                 xtype: 'ia-textarea',
                 fieldLabel: 'Observations',
+                name: null, //FIXME
                 grow: true
             }]
         }, {
@@ -1049,18 +1066,22 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             items: [{
                 xtype: 'checkbox',
                 fieldLabel: 'Rapport de commission',
+                name: null, //FIXME
                 boxLabel: 'Recu'
             }, {
                 xtype: 'checkbox',
                 fieldLabel: 'Cahier des charges',
+                name: null, //FIXME
                 boxLabel: 'Recu'
             }, {
                 xtype: 'checkbox',
                 fieldLabel: 'CV et liste publications',
+                name: null, //FIXME
                 boxLabel: 'Recu'
             }, {
                 xtype: 'checkbox',
                 fieldLabel: 'Déclaration de santé',
+                name: null, //FIXME
                 boxLabel: 'Recu'
             }]
         }, {
@@ -1068,16 +1089,20 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             title: 'Imputation',
             items: [{
                 xtype: 'textfield',
-                fieldLabel: 'Fonds'
+                fieldLabel: 'Fonds',
+                name: null, //FIXME
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Centre financier'
+                fieldLabel: 'Centre financier',
+                name: null, //FIXME
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Unité structurelle'
+                fieldLabel: 'Unité structurelle',
+                name: null, //FIXME
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Numéro de projet'
+                fieldLabel: 'Numéro de projet',
+                name: null, //FIXME
             }]
         }]
         var me = this;
