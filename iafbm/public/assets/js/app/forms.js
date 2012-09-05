@@ -776,15 +776,17 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             record = record || null,
             mapping = mapping || {};
         // Workaround:
-        // Creates a hashmap with the form fields that we want to manipulate
+        // Creates a hashmap with the form fields names that we want to manipulate
         var keys = [];
         Ext.iterate(mapping, function(key) {
             keys.push(key);
         });
+        // Cascades form fields to collect fields that are to be manipulated
         var fields = {};
         form.cascade(function(item) {
             if (Ext.Array.contains(keys, item.name)) fields[item.name] = item;
         });
+        // Manipulates fields values, applying values to fields
         Ext.iterate(fields, function(name, field) {
             var candidat_field = mapping[name];
             field.setValue(record.get(candidat_field));
@@ -806,7 +808,10 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
         });
         // Ad-hoc 'candidat' store setup (see this.common.store_commission)
         this.common.store_candidat.on('load', function(store, records, success) {
-            if (!success) return;
+            // Workaround: skips if records is empty - it happens when
+            // the PropositionNomination form is opened more than once,
+            // store_candidat triggers load event with an empty records list.
+            if (!success || !records.length) return;
             me.applyToForm(records.pop(), {
                 __candidat_denomination_id: 'denomination_id',
                 __candidat_nom: 'nom',
@@ -876,7 +881,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                             // Reloads candidat_store record on close (for refreshing data in PropositionNomination fields)
                             close: function() {
                                 common.store_candidat.load();
-                                // TODO: Reload combo.store too, or make combo use the common.store_candidat
+                                // TODO: Reload combo.store too
                             }
                         }
                     });
@@ -911,24 +916,45 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Section')
             }, {
-                //FIXME
-                xtype: 'displayfield',
                 fieldLabel: 'Institut',
-                value: '?'
+                name: 'institut'
             }, {
                 xtype: 'textfield',
-                fieldLabel: 'Objet'
+                fieldLabel: 'Objet',
+                name: 'objet'
             }, {
-                //FIXME
-                xtype: 'displayfield',
-                fieldLabel: 'Titre proposé',
-                value: '?'
+                xtype: 'ia-combo',
+                fieldLabel: 'Fonction/Titre',
+                name: 'activite_id',
+                displayField: 'activite_nom_abreviation',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Activite', {params: {
+                    xorder_by: 'section_code,activite_type_nom,activite_nom_abreviation'
+                }}),
+                editable: false,
+                listConfig: {
+                    // Custom rendering template for each item
+                    getInnerTpl: function() {
+                        return '{section_code} / {activite_type_nom} / {activite_nom_abreviation}';
+                    }
+                },
+                listeners: { change: function(combo, value) {
+                    // Uses listConfig.getInnerTpl() template to render field value
+                    var record = this.store.getById(value);
+                    if (!record) return;
+                    var tpl = this.listConfig.getInnerTpl(),
+                        display = new Ext.Template(tpl).applyTemplate(record.data);
+                    this.setRawValue(display);
+                }}
             }, {
+                // FIXME: set checkbox as checked when commission_proposition_nomination store loaded
+                //        contrat_debut is null (TODO)
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
                 fieldLabel: 'Début du contrat',
                 items: [{
                     xtype: 'ia-datefield',
+                    name: 'contrat_debut'
                 }, {
                     xtype: 'displayfield',
                     value: '&nbsp;'
@@ -937,13 +963,18 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                     boxLabel: 'Au plutot tôt',
                     handler: function() {
                         var datefield = this.up().down('datefield');
-                        datefield.setDisabled(this.checked);
-                        this.checked ? datefield.hide() : datefield.show();
+                        if (this.checked) {
+                            datefield.setValue(null);
+                            datefield.hide();
+                        } else {
+                            datefield.show();
+                        }
                     }
                 }]
             }, {
                 xtype: 'ia-datefield',
-                fieldLabel: 'Fin du contrat'
+                fieldLabel: 'Fin du contrat',
+                name: 'contrat_fin'
             }, {
                 xtype: 'ia-percentfield',
                 fieldLabel: "Taux d'activité",
@@ -953,7 +984,8 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 name: ''
             }, {
                 xtype: 'numberfield',
-                fieldLabel: 'Indemnité (CHF)'
+                fieldLabel: 'Indemnité (CHF)',
+                name: 'indemnite'
             }, {
                 xtype: 'ia-combo',
                 readOnly: true,
@@ -1069,7 +1101,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             }, {
                 xtype: 'ia-textarea',
                 fieldLabel: 'Observations',
-                name: null, //FIXME
+                name: 'observations',
                 grow: true
             }]
         }, {

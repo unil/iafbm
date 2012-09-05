@@ -19,14 +19,21 @@ abstract class AbstractCommissionController extends iaExtRestController {
      * by throwing an exection if the given commission id is closed
      */
     protected function check_closed() {
+        // Merges item data with params with priority to params
+        // to ensure 'commission_id' param exists if applicable
+        $params = xUtil::array_merge(
+            array('id' => $this->params['items']['id']),
+            array('commission_id' => $this->params['items']['commission_id']),
+            $this->params
+        );
         // Depending on child class using this method,
         // the 'id' or 'commission_id' parameter is to be used
-        $id = @$this->params['commission_id'] ? @$this->params['commission_id'] : @$this->params['id'];
+        $id = @$params['commission_id'] ? @$params['commission_id'] : @$params['id'];
         if (!$id) throw new xException('Missing id parameter');
         $commission = xModel::load('commission', array(
             'id' => $id
         ))->get(0);
-        if (!$commission) throw new xException("Commission does not exist (id: {$id})");
+        if (!$commission) throw new xException("Commission does not exist (id: {$id})", 500, $params);
         if ($commission['commission_etat_id'] == 3) {
             throw new xException('Cannot modify a closed commission', 403, $commission);
         }

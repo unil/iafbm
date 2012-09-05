@@ -1669,6 +1669,8 @@ Ext.define('Ext.ia.form.Panel', {
         var record = this.record;
         if (!record) return false;
         this.form.getFields().each(function(f) {
+            //FIXME: For debugging issue 'unsaved changes dialog shows when not applicable'
+            //console.log('Field:', f.name, 'record:', record.get(f.name), 'field:', f.getValue());
             // Skips ia-version-combo fields
             if (f.isXType('ia-version-combo')) return;
             // Skips fields that do not exist in record
