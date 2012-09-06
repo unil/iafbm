@@ -806,6 +806,16 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 });
             }
         });
+        // Ad-hoc 'commission_travails' store setup (for info fields values)
+        new iafbm.store.CommissionTravail().load({
+            params: { id: this.fetch.params.commission_id },
+            callback: function(records, operation, success) {
+                if (!success) return;
+                me.applyToForm(records.pop(), {
+                    __commission_travail__primo_loco: 'primo_loco'
+                });
+            }
+        });
         // Ad-hoc 'candidat' store setup (see this.common.store_commission)
         this.common.store_candidat.on('load', function(store, records, success) {
             // Workaround: skips if records is empty - it happens when
@@ -916,6 +926,9 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Section')
             }, {
+                // FIXME: Ok pour champs texte libre?
+                //        Sinon, on doit implémenter la gestion de structure des services
+                //        (cf. workshop)
                 fieldLabel: 'Institut',
                 name: 'institut'
             }, {
@@ -961,10 +974,10 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 }, {
                     xtype: 'checkbox',
                     boxLabel: 'Au plutot tôt',
+                    name: 'contrat_debut_au_plus_tot',
                     handler: function() {
                         var datefield = this.up().down('datefield');
                         if (this.checked) {
-                            datefield.setValue(null);
                             datefield.hide();
                         } else {
                             datefield.show();
@@ -980,8 +993,9 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 fieldLabel: "Taux d'activité",
                 name: 'contrat_taux'
             }, {
+                // FIXME: Manage unit (h/mois, h/semestre, h/année, %)
                 fieldLabel: 'Charge horaire',
-                name: ''
+                name: 'charge_horaire'
             }, {
                 xtype: 'numberfield',
                 fieldLabel: 'Indemnité (CHF)',
@@ -990,13 +1004,19 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'ia-combo',
                 readOnly: true,
                 fieldLabel: 'Primo loco',
+                name: '__commission_travail__primo_loco',
                 editable: false,
-                valueField: 'value',
-                displayField: 'label',
+                displayField: '_display',
+                valueField: 'id',
+                store: new iafbm.store.Candidat({
+                    params: { commission_id: this.fetch.params.commission_id }
+                }),
+                /*
                 store: new Ext.data.ArrayStore({
                     fields: ['value', 'label'],
                     data: [[1, 'Oui'], [0, 'Non']]
                 }),
+                */
             }, {
                 xtype: 'displayfield',
                 fieldLabel: 'Autres candidats',
@@ -1080,24 +1100,38 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 fieldLabel: 'Fonction actuelle',
                 name: '__candidat_position_actuelle_fonction'
             }, {
+                // FIXME: Stefan va clarifier (cf. PV workshop)
                 fieldLabel: 'Discipline générale',
-                name: null //FIXME
+                name: 'discipline_generale'
             }, {
+                // FIXME: Stefan va clarifier (cf. PV workshop)
                 xtype: 'ia-combo',
                 fieldLabel: 'Grade universitaire',
-                name: null, //FIXME
+                name: 'formation_id',
                 displayField: 'abreviation',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Formation')
             }, {
-                xtype: 'ia-datefield',
+                // FIXME: Stefan va clarifier (cf. PV workshop)
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
                 fieldLabel: "Lieu et date de l'obtention du grade",
-                name: null //FIXME
+                items: [{
+                    xtype: 'textfield',
+                    name: 'grade_obtention_lieu',
+                    margin: '0 5 0 0',
+                    width: 170
+                }, {
+                    xtype: 'ia-datefield',
+                    name: 'grade_obtention_date',
+                    width: 115
+                }]
             }, {
+                // FIXME: Stefan va clarifier (cf. PV workshop)
                 // Data: commission_validation: Décanat or CF? ask.
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date préavis',
-                name: null //FIXME
+                name: 'preavis'
             }, {
                 xtype: 'ia-textarea',
                 fieldLabel: 'Observations',
@@ -1121,23 +1155,23 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             items: [{
                 xtype: 'checkbox',
                 fieldLabel: 'Rapport de commission',
-                name: null, //FIXME
-                boxLabel: 'Recu'
+                name: 'annexe_rapport_commission',
+                boxLabel: 'Reçu'
             }, {
                 xtype: 'checkbox',
                 fieldLabel: 'Cahier des charges',
-                name: null, //FIXME
-                boxLabel: 'Recu'
+                name: 'annexe_cahier_des_charges',
+                boxLabel: 'Reçu'
             }, {
                 xtype: 'checkbox',
                 fieldLabel: 'CV et liste publications',
-                name: null, //FIXME
-                boxLabel: 'Recu'
+                name: 'annexe_cv_publications',
+                boxLabel: 'Reçu'
             }, {
                 xtype: 'checkbox',
                 fieldLabel: 'Déclaration de santé',
-                name: null, //FIXME
-                boxLabel: 'Recu'
+                name: 'annexe_declaration_sante',
+                boxLabel: 'Reçu'
             }]
         }, {
             xtype: 'fieldset',
@@ -1145,19 +1179,19 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             items: [{
                 xtype: 'textfield',
                 fieldLabel: 'Fonds',
-                name: null, //FIXME
+                name: 'annexe_rapport_commission',
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Centre financier',
-                name: null, //FIXME
+                name: 'annexe_cahier_des_charges',
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Unité structurelle',
-                name: null, //FIXME
+                name: 'annexe_cv_publications',
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Numéro de projet',
-                name: null, //FIXME
+                name: 'annexe_declaration_sante',
             }]
         }]
         var me = this;
