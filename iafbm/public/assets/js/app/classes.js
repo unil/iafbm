@@ -1642,14 +1642,15 @@ Ext.define('Ext.ia.form.Panel', {
     saveRecord: function() {
         if (this.fireEvent('beforesave', this, record) === false) return;
         var me = this,
-            record = this.getRecord();
+            record = this.getRecord(),
+            form = this.getForm();
         //TODO: would it be clever to reuse the record validation be used here?
-        if (!this.getForm().isValid()) return;
+        if (!form.isValid()) return;
         // Updates record from form values
         // FIXME: updateRecord() will trigger the save action
         //        if the record belongs to Store with autoSync,
         //        which will trigger the POST request twice :(
-        this.getForm().updateRecord(record);
+        form.updateRecord(record);
         record.save({ success: function(record, operation) {
             if (!operation.success) return;
             me.fireEvent('aftersave', me, record);
