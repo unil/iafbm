@@ -25,7 +25,7 @@ class CommissionModel extends iaModelMysql {
         'commission_fonction' => 'LEFT JOIN commissions_fonctions ON (commissions_membres.commission_fonction_id = commissions_fonctions.id)'
     );
 
-    var $join = array('commission_type');
+    var $join = array('commission_type', 'section');
 
     var $validation = array(
         'nom' => array('mandatory')

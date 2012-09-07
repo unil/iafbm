@@ -9,6 +9,21 @@ class printController extends iaExtRestController {
         return $this->$method();
     }
 
+    /**
+     * Returns commission $id.
+     * Throws exception if commission does not exist.
+     * @param int Id of the commission.
+     * @return array Commission record.
+     */
+    protected function get_commission($id) {
+        $commission = xController::load('commissions', array(
+            'id' => $id
+        ))->get();
+        $commission = array_shift($commission['items']);
+        if (!$commission) throw new xException('Commission does not exist');
+        return $commission;
+    }
+
     protected function print_commissions() {
         $commissions = xController::load('commissions', array(
             'xjoin' => 'commission_type,commission_etat,section'
@@ -22,11 +37,8 @@ class printController extends iaExtRestController {
         $this->params['xorientation'] = 'landscape';
         // Fetches related records
         $id = @$this->params['id'];
-        if (!$id) throw new xException('Commission id parameter missing');
-        $commission = xController::load('commissions', array(
-            'id' => $id
-        ))->get();
-        if (!$commission) throw new xException('Commission does not exist');
+        if (!$id) throw new xException("Commission 'id' parameter missing");
+        $commission = $this->get_commission($id);
         // Common model params
         $params = array(
             'commission_id' => $id,
@@ -39,7 +51,7 @@ class printController extends iaExtRestController {
         $nonmembres = xController::load('commissions_membres', $params)->getNonMembres();
         // Renders view
         $data = array(
-            'commission' => array_shift($commission['items']),
+            'commission' => array_shift($commission),
             'membres' => $membres,
             'non-membres' => $nonmembres
         );
@@ -49,19 +61,44 @@ class printController extends iaExtRestController {
 
     protected function print_candidats() {
         $id = @$this->params['id'];
-        if (!$id) throw new xException('Commission id parameter missing');
-        $commission = xController::load('commissions', array(
-            'id' => $id
-        ))->get();
-        if (!$commission) throw new xException('Commission does not exist');
+        if (!$id) throw new xException("Commission 'id' parameter missing");
+        $commission = $this->get_commission($id);
         $candidats = xController::load('candidats', array(
             'commission_id' => $id
         ))->get();
         $data = array(
-            'commission' => array_shift($commission['items']),
+            'commission' => array_shift($commission),
             'candidats' => $candidats['items']
         );
         $html = xView::load('print/candidats-commission', $data)->render();
+        return $this->_print($html);
+    }
+
+    protected function print_proposition_nomination() {
+        // Fetches related records
+        $id = @$this->params['id'];
+        if (!$id) throw new xException("Commission 'id' parameter missing");
+        $commission = $this->get_commission($id);
+        $proposition = xModel::load('commission_proposition_nomination', array(
+            'commission_id' => $id,
+            'xjoin' => 'commission_travail,commission_validation,activite,formation'
+        ))->get(0);
+        try {
+            $candidat = xController::load('candidats', array(
+                'id' => $proposition['candidat_id'],
+                'xjoin' => 'personne_denomination,etatcivil,pays,canton,permis'
+            ))->get();
+        } catch (Exception $e) {
+            $candidat = array();
+        }
+        $candidat = array_shift($candidat['items']);
+        // Rendering
+        $data = array(
+            'commission' => $commission,
+            'proposition' => $proposition,
+            'candidat' => $candidat
+        );
+        $html = xView::load('print/proposition-nomination', $data)->render();
         return $this->_print($html);
     }
 

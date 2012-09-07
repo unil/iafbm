@@ -40,6 +40,8 @@ class CommissionPropositionNominationModel extends iaModelMysql {
 
     var $joins = array(
         'commission' => 'LEFT JOIN commissions ON (commissions_propositions_nominations.commission_id = commissions.id)',
+        'commission_travail' => 'LEFT JOIN commissions_travails ON (commissions_propositions_nominations.commission_id = commissions_travails.commission_id)',
+        'commission_validation' => 'LEFT JOIN commissions_validations ON (commissions_propositions_nominations.commission_id = commissions_validations.commission_id)',
         'candidat' => 'LEFT JOIN candidats ON (commissions_propositions_nominations.candidat_id = candidats.id)',
         'activite' => 'LEFT JOIN activites ON (commissions_propositions_nominations.activite_id = activites.id)',
         'formation' => 'LEFT JOIN formations ON (commissions_propositions_nominations.formation_id = formations.id)',
