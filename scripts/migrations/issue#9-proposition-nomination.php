@@ -6,19 +6,27 @@ class iafbmIssue9 extends iafbmScript {
 
     function run() {
         // Single run test
-        if ($this->already_run()) {
+        if (false&&$this->already_run()) {
             throw new Exception('This script has already run');
         }
         $t = new xTransaction();
         $t->start();
-        $this->create_table__commissions_propositions_nominations($t);
         $this->create_fields__candidats($t);
+        $this->create_fields__commissions($t);
+        $this->create_table__commissions_propositions_nominations($t);
         $t->end();
     }
 
     // Creates table 'commissions_propositions_nominations'
     function create_table__commissions_propositions_nominations(xTransaction $t) {
         $this->execute_sql_file('191_commissions_propositions_nominations.sql', $t);
+    }
+
+    /**
+     * Adds fields to table 'candidats'
+     */
+    function create_fields__commissions(xTransaction $t) {
+        $t->execute_sql('ALTER TABLE commissions ADD COLUMN institut TEXT AFTER nom');
     }
 
     /**

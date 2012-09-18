@@ -65,6 +65,12 @@ Ext.onReady(function() {
             ]
         }, {
             baseCls: 'title',
+            html: 'Institut'
+        }, {
+            xtype: 'textfield',
+            name: 'institut'
+        }, {
+            baseCls: 'title',
             html: 'Commentaire'
         }, {
             xtype: 'ia-textarea',

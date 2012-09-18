@@ -23,17 +23,8 @@ function row($label, $value, $value_suffix=null) {
 
 <?php
 // TODO:
-// - dates formatting
 // - Charge horaire: unit display
-// - Primo loco: display Oui/Non
-// - Autres candidats
-// - Grade universitaire: From candidats_formations?
-// - Discipline générale: Quel champs de commission (champs commission à ajouter?)
-// - Date préavis: Date Décanat/CF: Quelles sont les règle pour le sélection
-//   - la plus récente/ancienne?
-//   - oui+la plus récente/ancienne?
-//   - ...
-// - Date: Utiliser date courante?
+// - Date préavis: Date Décanat/CF: Selon dropdown formulaire
 ?>
 
 <style>
@@ -47,7 +38,7 @@ function row($label, $value, $value_suffix=null) {
   </td></tr>
   <?php echo row('Faculté', 'Faculté de biologie et médecine') ?>
   <?php echo row('Section', $d['commission']['section_code']) ?>
-  <?php echo row('Institut', "TODO: A implémenter dans onglet 'apercu général' et reprendre ici") ?>
+  <?php echo row('Institut', $d['commission']['institut']) ?>
   <?php echo row('Objet', $d['proposition']['objet']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
@@ -55,7 +46,10 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : xUtil::date($d['proposition']['contrat_debut'])) ?>
   <?php echo row('Fin de contrat', xUtil::date($d['proposition']['contrat_fin'])) ?>
   <?php echo row("Taux d'activité", $d['proposition']['contrat_taux'], ' %') ?>
-  <?php echo row('Charge horaire', $d['proposition']['charge_horaire'] /* TODO: unit */) ?>
+  <?php echo row('Charge horaire', $d['proposition']['charge_horaire'] ? implode(' ', array(
+        $d['proposition']['charge_horaire'], $d['proposition']['charge_horaire_unite']
+    )) : null);
+  ?>
   <?php echo row('Indemnité', $d['proposition']['indemnite'], ' CHF') ?>
   <?php echo row('Primo loco', $d['candidat']['_primo_loco'] ? 'Oui' : 'Non') ?>
   <?php
@@ -112,7 +106,7 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Observations', nl2br($d['proposition']['observations'])) ?>
   <?php echo row('Date', xUtil::date(mktime())) ?>
 
-<?php if (max(xUtil::filter_keys($d['proposition'], array('annexe_rapport_commission', 'annexe_cahier_des_charges', 'annexe_cv_publications', 'annexe_declaration_sante')))): ?>
+<?php if (@max(xUtil::filter_keys($d['proposition'], array('annexe_rapport_commission', 'annexe_cahier_des_charges', 'annexe_cv_publications', 'annexe_declaration_sante')))): ?>
   <tr><td colspan="2">
     <h3>Annexes</h3>
   </td></tr>
@@ -122,7 +116,7 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Déclaration de santé', $d['proposition']['annexe_declaration_sante'] ? 'X' : null) ?>
 <?php endif ?>
 
-<?php if (max(xUtil::filter_keys($d['proposition'], array('imputation_fonds', 'imputation_centre_financier', 'imputation_unite_structurelle', 'imputation_numero_projet')))): ?>
+<?php if (@max(xUtil::filter_keys($d['proposition'], array('imputation_fonds', 'imputation_centre_financier', 'imputation_unite_structurelle', 'imputation_numero_projet')))): ?>
   <tr><td colspan="2">
     <h3>imputation</h3>
   </td></tr>

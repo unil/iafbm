@@ -11,6 +11,7 @@ class CommissionModel extends iaModelMysql {
         'section_id' => 'section_id',
         'termine' => 'termine',
         'nom' => 'nom',
+        'institut' => 'institut',
         'commentaire' => 'commentaire',
         'actif' => 'actif',
     );

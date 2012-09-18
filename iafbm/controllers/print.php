@@ -20,7 +20,7 @@ class printController extends iaExtRestController {
             'id' => $id
         ))->get();
         $commission = array_shift($commission['items']);
-        if (!$commission) throw new xException('Commission does not exist');
+        if (!$commission) throw new xException("Commission id:{$id} does not exist", 404);
         return $commission;
     }
 
@@ -116,7 +116,9 @@ class printController extends iaExtRestController {
         $autres_candidats = $autres_candidats['items'];
         // Fetches 'candidat_formation' data
         $formations = xModel::load('candidat_formation', array(
-            'candidat_id' => $candidat['id']
+            'candidat_id' => $candidat['id'],
+            'xorder_by' => 'date_these',
+            'xorder' => 'DESC'
         ))->get();
         // Rendering
         $data = array(
