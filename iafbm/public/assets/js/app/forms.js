@@ -756,8 +756,242 @@ Ext.define('iafbm.form.Personne', {
     }
 });
 
-// FIXME: This one is complete but is bugeous functionnaly
+// Rewriting of DRAFT__iafbm.form.CommissionPropositionNomination
 Ext.define('iafbm.form.CommissionPropositionNomination', {
+    extend: 'Ext.ia.form.Panel',
+    store: Ext.create('iafbm.store.CommissionPropositionNomination'), // FIXME: this should not be necessary
+    //
+    initComponent: function() {
+        // Form defaults
+        this.defaults = {
+            width: '100%',
+            defaults: {
+                width: 400,
+                labelWidth: 120
+            }
+        };
+        // Form items
+        this.items = [{
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+            items: [{
+                xtype: 'ia-combo',
+                fieldLabel: 'Candidat',
+                name: 'candidat_id',
+                displayField: '_display', // TODO: Use template instead?
+                valueField: 'id',
+                store: new iafbm.store.Candidat({
+                    params: { commission_id: this.fetch.params.commission_id }
+                }),
+                editable: false,
+            }, {
+                xtype: 'button',
+                text: 'Formulaire candidat',
+                iconCls: 'icon-edit',
+                width: 150,
+                margin: '0 5',
+                handler: function() {
+                    var candidat_id = this.prev().getValue(),
+                        common = this.up('form').common,
+                        popup = new Ext.ia.window.Popup({
+                        title: 'Candidat',
+                        item: new iafbm.form.Candidat({
+                            frame: false,
+                            modal: true,
+                            fetch: {
+                                model: iafbm.model.Candidat,
+                                id: candidat_id
+                            }
+                        })
+                    });
+                },
+                listeners: {
+                    // Listens to candidat-combo to disable button when no candidat selected
+                    afterrender: function() {
+                        var button = this,
+                            combo = this.prev();
+                        combo.on({change: function(combo, value) {
+                            button.setDisabled(!value);
+                        }});
+                        // Fires 'change' envent to trigger button en/disabled state
+                        combo.fireEvent('change', combo, combo.getValue(), undefined);
+                    }
+                }
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: 'Proposition de nomination',
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: 'Objet',
+                name: 'objet'
+            }, {
+                xtype: 'ia-combo',
+                fieldLabel: 'Titre proposé',
+                name: 'activite_id',
+                displayField: 'activite_nom_abreviation',
+                valueField: 'id',
+                store: Ext.create('iafbm.store.Activite', {params: {
+                    xorder_by: 'section_code,activite_type_nom,activite_nom_abreviation'
+                }}),
+                editable: false,
+                listConfig: {
+                    // Custom rendering template for each item
+                    getInnerTpl: function() {
+                        return '{section_code} / {activite_type_nom} / {activite_nom_abreviation}';
+                    }
+                },
+                listeners: { change: function(combo, value) {
+                    // Uses listConfig.getInnerTpl() template to render field value
+                    var record = this.store.getById(value);
+                    if (!record) return;
+                    var tpl = this.listConfig.getInnerTpl(),
+                        display = new Ext.Template(tpl).applyTemplate(record.data);
+                    this.setRawValue(display);
+                }}
+            }, {
+                // FIXME: set checkbox as checked when commission_proposition_nomination store loaded
+                //        contrat_debut is null (TODO)
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                fieldLabel: 'Début du contrat',
+                items: [{
+                    xtype: 'ia-datefield',
+                    name: 'contrat_debut'
+                }, {
+                    xtype: 'displayfield',
+                    value: '&nbsp;'
+                }, {
+                    xtype: 'checkbox',
+                    boxLabel: 'Au plutot tôt',
+                    name: 'contrat_debut_au_plus_tot',
+                    handler: function() {
+                        var datefield = this.up().down('datefield');
+                        if (this.checked) {
+                            datefield.hide();
+                        } else {
+                            datefield.show();
+                        }
+                    }
+                }]
+            }, {
+                xtype: 'ia-datefield',
+                fieldLabel: 'Fin du contrat',
+                name: 'contrat_fin'
+            }, {
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                fieldLabel: 'Charge horaire',
+                items: [{
+                    xtype: 'numberfield',
+                    name: 'charge_horaire'
+                }, {
+                    xtype: 'ia-combo',
+                    name: 'charge_horaire_unite',
+                    displayField: 'unit',
+                    valueField: 'unit',
+                    store: Ext.create('Ext.data.ArrayStore', {
+                        autoDestroy: true,
+                        fields: ['unit'],
+                        data: [['%'], ['h/semaine'], ['h/semestre'], ['h/année']]
+                    })
+                }]
+            }, {
+                xtype: 'numberfield',
+                fieldLabel: 'Indemnité (CHF)',
+                name: 'indemnite'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Titre du cours',
+                name: 'titre_cours'
+            }, {
+                // FIXME: Stefan va clarifier (cf. PV workshop)
+                // Data: commission_validation: Décanat or CF? ask.
+                xtype: 'ia-combo',
+                fieldLabel: 'Date préavis',
+                // TODO: name: 'preavis'
+                displayField: 'unit',
+                valueField: 'unit',
+                store: Ext.create('Ext.data.ArrayStore', {
+                    autoDestroy: true,
+                    fields: ['unit'],
+                    // TODO: dates taken from CommissionValidation
+                    data: [['Préavis Décanat: ...'], ['Préavis CF: ...']]
+                })
+            }, {
+                xtype: 'ia-textarea',
+                fieldLabel: 'Observations',
+                name: 'observations',
+                grow: true
+
+            }, {
+                xtype: 'ia-datefield',
+                fieldLabel: 'Date (proposition?)',
+                // TODO: name: 'date_proposition'
+            }]
+        }, {
+                        xtype: 'fieldset',
+            title: 'Annexes',
+            // Shows/hides box label on select/unselect
+            defaults: {
+                listeners: {
+                    afterrender: function() { this.handler() },
+                    change: function() { this.handler() }
+                },
+                handler: function() {
+                    var el = this.boxLabelEl;
+                    this.checked ? el.show() : el.hide();
+                }
+            },
+            items: [{
+                xtype: 'checkbox',
+                fieldLabel: 'Rapport de commission',
+                name: 'annexe_rapport_commission',
+                boxLabel: 'Reçu'
+            }, {
+                xtype: 'checkbox',
+                fieldLabel: 'Cahier des charges',
+                name: 'annexe_cahier_des_charges',
+                boxLabel: 'Reçu'
+            }, {
+                xtype: 'checkbox',
+                fieldLabel: 'CV et liste publications',
+                name: 'annexe_cv_publications',
+                boxLabel: 'Reçu'
+            }, {
+                xtype: 'checkbox',
+                fieldLabel: 'Déclaration de santé',
+                name: 'annexe_declaration_sante',
+                boxLabel: 'Reçu'
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: 'Imputation',
+            items: [{
+                xtype: 'textfield',
+                fieldLabel: 'Fonds',
+                name: 'annexe_rapport_commission',
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Centre financier',
+                name: 'annexe_cahier_des_charges',
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Unité structurelle',
+                name: 'annexe_cv_publications',
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Numéro de projet',
+                name: 'annexe_declaration_sante',
+            }]
+        }]
+        //
+        this.callParent();
+    }
+});
+
+// FIXME: This one is complete but is bugeous functionnaly
+Ext.define('OLD__iafbm.form.CommissionPropositionNomination', {
     extend: 'Ext.ia.form.Panel',
     store: Ext.create('iafbm.store.CommissionPropositionNomination'), // FIXME: this should not be necessary
     // Common stores used by multiple widgets within this form.
@@ -938,7 +1172,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 name: 'objet'
             }, {
                 xtype: 'ia-combo',
-                fieldLabel: 'Fonction/Titre',
+                fieldLabel: 'Titre proposé',
                 name: 'activite_id',
                 displayField: 'activite_nom_abreviation',
                 valueField: 'id',
@@ -1141,6 +1375,9 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 grow: true
             }]
         }, {
+            // FIXME: Checkboxes causes saving problems:
+            //          - Shows unwanted 'modification not saved' dialog,
+            //          - Resets all boxes before saving?
             xtype: 'fieldset',
             title: 'Annexes',
             // Shows/hides box label on select/unselect
@@ -1199,10 +1436,4 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
         var me = this;
         me.callParent();
     }
-});
-
-// Rewriting of DRAFT__iafbm.form.CommissionPropositionNomination
-Ext.define('NEW__iafbm.form.CommissionPropositionNomination', {
-    extend: 'Ext.ia.form.Panel',
-
 });

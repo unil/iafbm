@@ -685,7 +685,6 @@ Ext.define('iafbm.model.CommissionPropositionNomination', {
         {name: 'contrat_debut', type: 'date', dateFormat: 'Y-m-d', useNull: true},
         {name: 'contrat_debut_au_plus_tot', type: 'boolean'},
         {name: 'contrat_fin', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'contrat_taux', type: 'int', useNull: true},
         {name: 'charge_horaire', type: 'int', useNull: true},
         {name: 'charge_horaire_unite', type: 'string'},
         {name: 'indemnite', type: 'int', useNull: true},

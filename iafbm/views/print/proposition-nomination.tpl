@@ -45,8 +45,7 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Titre proposé', $d['proposition']['formation_abreviation']) ?>
   <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : xUtil::date($d['proposition']['contrat_debut'])) ?>
   <?php echo row('Fin de contrat', xUtil::date($d['proposition']['contrat_fin'])) ?>
-  <?php echo row("Taux d'activité", $d['proposition']['contrat_taux'], ' %') ?>
-  <?php echo row('Charge horaire', $d['proposition']['charge_horaire'] ? implode(' ', array(
+  <?php echo row("Taux d'activité/Charge horaire", $d['proposition']['charge_horaire'] ? implode(' ', array(
         $d['proposition']['charge_horaire'], $d['proposition']['charge_horaire_unite']
     )) : null);
   ?>

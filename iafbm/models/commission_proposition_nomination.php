@@ -16,7 +16,6 @@ class CommissionPropositionNominationModel extends iaModelMysql {
         'contrat_debut' => 'contrat_debut',
         'contrat_debut_au_plus_tot' => 'contrat_debut_au_plus_tot',
         'contrat_fin' => 'contrat_fin',
-        'contrat_taux' => 'contrat_taux',
         'indemnite' => 'indemnite',
         'charge_horaire' => 'charge_horaire',
         'charge_horaire_unite' => 'charge_horaire_unite',

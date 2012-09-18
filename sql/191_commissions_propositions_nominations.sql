@@ -9,7 +9,6 @@ CREATE TABLE commissions_propositions_nominations (
     contrat_debut DATE NULL DEFAULT NULL,
     contrat_debut_au_plus_tot BOOLEAN,
     contrat_fin DATE,
-    contrat_taux TINYINT UNSIGNED,
     charge_horaire INT UNSIGNED,
     charge_horaire_unite TEXT,
     indemnite INT UNSIGNED,
