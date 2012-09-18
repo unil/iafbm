@@ -75,14 +75,16 @@ class printController extends iaExtRestController {
     }
 
     protected function print_proposition_nomination() {
-        // Fetches related records
+        // Manages params
         $id = @$this->params['id'];
         if (!$id) throw new xException("Commission 'id' parameter missing");
+        // Fetches commission data
         $commission = $this->get_commission($id);
         $proposition = xModel::load('commission_proposition_nomination', array(
             'commission_id' => $id,
             'xjoin' => 'commission_travail,commission_validation,activite,formation'
         ))->get(0);
+        // Fetches candidat data
         try {
             $candidat = xController::load('candidats', array(
                 'id' => $proposition['candidat_id'],
@@ -92,11 +94,37 @@ class printController extends iaExtRestController {
             $candidat = array();
         }
         $candidat = array_shift($candidat['items']);
+        // Fetches 'autres candidats' data
+        try {
+            $commission_travail = xModel::load('commission_travail', array(
+                'commission_id' => $commission['id']
+            ))->get(0);
+            $locos = array_diff(
+                array_filter(array(
+                    $commission_travail['primo_loco'],
+                    $commission_travail['secondo_loco'],
+                    $commission_travail['tertio_loco']
+                )),
+                array_filter(array($candidat['id']))
+            );
+            $autres_candidats = xController::load('candidats', array(
+                'id' => $locos,
+            ))->get();
+        } catch (Exception $e) {
+            $autres_candidats = array();
+        }
+        $autres_candidats = $autres_candidats['items'];
+        // Fetches 'candidat_formation' data
+        $formations = xModel::load('candidat_formation', array(
+            'candidat_id' => $candidat['id']
+        ))->get();
         // Rendering
         $data = array(
             'commission' => $commission,
             'proposition' => $proposition,
-            'candidat' => $candidat
+            'candidat' => $candidat,
+            'candidat-formations' => $formations,
+            'autres-candidats' => $autres_candidats
         );
         $html = xView::load('print/proposition-nomination', $data)->render();
         return $this->_print($html);
@@ -106,8 +134,7 @@ class printController extends iaExtRestController {
         // PDF formatting parameters
         $orientation = @$this->params['xorientation'];
         if (!$orientation) $orientation = 'portrait';
-        $paper = @$this->params['xpaper'];
-        $paper = strtolower($paper);
+        $paper = strtolower(@$this->params['xpaper']);
         if (!$paper) $paper = 'a4';
         // Renders $html within print template
         $html = xView::load('layout/print', array(

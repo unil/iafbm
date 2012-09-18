@@ -10,7 +10,10 @@
  * @return string|null The HTML table row, or null if $label or $value is empty.
  */
 function row($label, $value, $value_suffix=null) {
-    if (!strlen($label) || !strlen($value)) return null;
+    // TODO: should xUtil::date() return null if argument is null?
+    //       i think yes, and also xUtil::time() and xUtil::datetime().
+    // Returns null if $label or $value is empty, or $value is '-' (as in empty xUtil::date())
+    if (!strlen($label) || !strlen($value) || $value=='-') return null;
     else {
         $label_suffix = (!$label || $label=='&nbsp;') ? null : ':';
         return "<tr><th>{$label}{$label_suffix}</th><td>{$value}{$value_suffix}</td></tr>";
@@ -44,18 +47,24 @@ function row($label, $value, $value_suffix=null) {
   </td></tr>
   <?php echo row('Faculté', 'Faculté de biologie et médecine') ?>
   <?php echo row('Section', $d['commission']['section_code']) ?>
-  <?php echo row('Institut', "TODO: Implémenté dans onglet 'apercu général' et reprendre ici") ?>
+  <?php echo row('Institut', "TODO: A implémenter dans onglet 'apercu général' et reprendre ici") ?>
   <?php echo row('Objet', $d['proposition']['objet']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
   <?php echo row('Titre proposé', $d['proposition']['formation_abreviation']) ?>
-  <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : $d['proposition']['contrat_debut']) ?>
-  <?php echo row('Fin de contrat', $d['proposition']['contrat_fin']) ?>
+  <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : xUtil::date($d['proposition']['contrat_debut'])) ?>
+  <?php echo row('Fin de contrat', xUtil::date($d['proposition']['contrat_fin'])) ?>
   <?php echo row("Taux d'activité", $d['proposition']['contrat_taux'], ' %') ?>
   <?php echo row('Charge horaire', $d['proposition']['charge_horaire'] /* TODO: unit */) ?>
   <?php echo row('Indemnité', $d['proposition']['indemnite'], ' CHF') ?>
-  <?php echo row('Primo loco', null /* TODO: Oui/Non */) ?>
-  <?php echo row('Autres candidats', null /* TODO */) ?>
+  <?php echo row('Primo loco', $d['candidat']['_primo_loco'] ? 'Oui' : 'Non') ?>
+  <?php
+    echo row('Autres candidats', $d['candidat']['_primo_loco'] ?
+        implode('<br/>', array_map(function($candidat) {
+            return "{$candidat['prenom']} {$candidat['nom']}";
+        }, $d['autres-candidats'])) : null
+    )
+  ?>
 
   <tr><td colspan="2">
     <h3>Coordonnées</h3>
@@ -81,21 +90,27 @@ function row($label, $value, $value_suffix=null) {
   ?>
   <?php echo row('Email', @$d['candidat']['_email_defaut']) ?>
   <?php echo row('Etat civil', @$d['candidat']['etatcivil_nom']) ?>
-  <?php echo row('Date de naissance', @$d['candidat']['date_naissance']) ?>
+  <?php echo row('Date de naissance', xUtil::date(@$d['candidat']['date_naissance'])) ?>
   <?php echo row("Pays d'origine", @$d['candidat']['pays_nom']) ?>
   <?php echo row("Canton d'origine pour les Suisses", @$d['candidat']['canton_nom']) ?>
   <?php echo row('Permis', @$d['candidat']['permis_nom']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
   <?php echo row('Fonction actuelle', @$d['candidat']['position_actuelle_fonction']) ?>
-  <?php echo row('Discipline générale', 'TODO from which commission field?') ?>
-  <?php echo row('Grade universitaire', 'TODO from candidats_formations?') ?>
-  <?php echo row("Lieu et date de l'obtention du grade", 'TODO from candidats_formations?') ?>
+  <?php
+    echo row('Grade universitaire', implode('<br/>', array_map(function($formation) {
+        return implode(', ', array_filter(array(
+            "<b>{$formation['formation_abreviation']}</b>",
+            xUtil::date($formation['date_these']),
+            $formation['lieu_these']
+        )));
+    }, $d['candidat-formations'])))
+  ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
   <?php echo row('Date préavis', 'TODO: Date décanat/CF, quelles règles pour la selection?') ?>
   <?php echo row('Observations', nl2br($d['proposition']['observations'])) ?>
-  <?php echo row('Date', 'TODO: Date courante?') ?>
+  <?php echo row('Date', xUtil::date(mktime())) ?>
 
 <?php if (max(xUtil::filter_keys($d['proposition'], array('annexe_rapport_commission', 'annexe_cahier_des_charges', 'annexe_cv_publications', 'annexe_declaration_sante')))): ?>
   <tr><td colspan="2">

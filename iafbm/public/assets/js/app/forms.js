@@ -756,6 +756,7 @@ Ext.define('iafbm.form.Personne', {
     }
 });
 
+// FIXME: This one is complete but is bugeous functionnaly
 Ext.define('iafbm.form.CommissionPropositionNomination', {
     extend: 'Ext.ia.form.Panel',
     store: Ext.create('iafbm.store.CommissionPropositionNomination'), // FIXME: this should not be necessary
@@ -994,6 +995,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 name: 'contrat_taux'
             }, {
                 // FIXME: Manage unit (h/mois, h/semestre, h/année, %)
+                xtype: 'numberfield',
                 fieldLabel: 'Charge horaire',
                 name: 'charge_horaire'
             }, {
@@ -1197,4 +1199,10 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
         var me = this;
         me.callParent();
     }
+});
+
+// Rewriting of DRAFT__iafbm.form.CommissionPropositionNomination
+Ext.define('NEW__iafbm.form.CommissionPropositionNomination', {
+    extend: 'Ext.ia.form.Panel',
+
 });

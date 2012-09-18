@@ -23,7 +23,7 @@ abstract class AbstractCommissionController extends iaExtRestController {
         // to ensure 'commission_id' param exists if applicable
         $params = xUtil::array_merge(
             array('id' => $this->params['items']['id']),
-            array('commission_id' => $this->params['items']['commission_id']),
+            array('commission_id' => @$this->params['items']['commission_id']),
             $this->params
         );
         // Depending on child class using this method,
