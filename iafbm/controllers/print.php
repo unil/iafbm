@@ -80,9 +80,15 @@ class printController extends iaExtRestController {
         if (!$id) throw new xException("Commission 'id' parameter missing");
         // Fetches commission data
         $commission = $this->get_commission($id);
+        // Fetches proposition nomination data
         $proposition = xModel::load('commission_proposition_nomination', array(
             'commission_id' => $id,
-            'xjoin' => 'commission_travail,commission_validation,activite,formation'
+            'xjoin' => 'commission_travail,commission_validation,activite'
+        ))->get(0);
+        // Fetches activite data
+        $activite = xModel::load('activite', array(
+            'id' => $proposition['activite_id'],
+            'xjoin' => 'section,activite_type,activite_nom'
         ))->get(0);
         // Fetches candidat data
         try {
@@ -124,6 +130,7 @@ class printController extends iaExtRestController {
         $data = array(
             'commission' => $commission,
             'proposition' => $proposition,
+            'activite' => $activite,
             'candidat' => $candidat,
             'candidat-formations' => $formations,
             'autres-candidats' => $autres_candidats

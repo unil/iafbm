@@ -21,7 +21,8 @@ class CommissionPropositionNominationModel extends iaModelMysql {
         'charge_horaire_unite' => 'charge_horaire_unite',
         'titre_cours' => 'titre_cours',
         'observations' => 'observations',
-        'formation_id' => 'formation_id',
+        'date_preavis_champs' => 'date_preavis_champs',
+        'date_proposition' => 'date_proposition',
         'annexe_rapport_commission' => 'annexe_rapport_commission',
         'annexe_cahier_des_charges' => 'annexe_cahier_des_charges',
         'annexe_cv_publications' => 'annexe_cv_publications',
@@ -39,8 +40,7 @@ class CommissionPropositionNominationModel extends iaModelMysql {
         'commission_travail' => 'LEFT JOIN commissions_travails ON (commissions_propositions_nominations.commission_id = commissions_travails.commission_id)',
         'commission_validation' => 'LEFT JOIN commissions_validations ON (commissions_propositions_nominations.commission_id = commissions_validations.commission_id)',
         'candidat' => 'LEFT JOIN candidats ON (commissions_propositions_nominations.candidat_id = candidats.id)',
-        'activite' => 'LEFT JOIN activites ON (commissions_propositions_nominations.activite_id = activites.id)',
-        'formation' => 'LEFT JOIN formations ON (commissions_propositions_nominations.formation_id = formations.id)',
+        'activite' => 'LEFT JOIN activites ON (commissions_propositions_nominations.activite_id = activites.id)'
     );
 
     var $join = array('commission');

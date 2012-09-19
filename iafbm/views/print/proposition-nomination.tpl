@@ -21,11 +21,6 @@ function row($label, $value, $value_suffix=null) {
 }
 ?>
 
-<?php
-// TODO:
-// - Charge horaire: unit display
-// - Date préavis: Date Décanat/CF: Selon dropdown formulaire
-?>
 
 <style>
   h3 { margin-bottom: 0 }
@@ -42,7 +37,12 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Objet', $d['proposition']['objet']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
-  <?php echo row('Titre proposé', $d['proposition']['formation_abreviation']) ?>
+  <?php echo row('Titre proposé', implode(' / ', array(
+        $d['activite']['section_code'],
+        $d['activite']['activite_type_nom'],
+        $d['activite']['activite_nom_abreviation']
+    )));
+  ?>
   <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : xUtil::date($d['proposition']['contrat_debut'])) ?>
   <?php echo row('Fin de contrat', xUtil::date($d['proposition']['contrat_fin'])) ?>
   <?php echo row("Taux d'activité/Charge horaire", $d['proposition']['charge_horaire'] ? implode(' ', array(
@@ -101,7 +101,14 @@ function row($label, $value, $value_suffix=null) {
   ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
-  <?php echo row('Date préavis', 'TODO: Date décanat/CF, quelles règles pour la selection?') ?>
+  <?php echo row(
+        'Date préavis',
+        implode(': ', array(
+            'TODO label Décanat/CF',
+            xUtil::date($d['proposition']["commission_validation_{$d['proposition']['date_preavis_champs']}"])
+        ))
+    )
+  ?>
   <?php echo row('Observations', nl2br($d['proposition']['observations'])) ?>
   <?php echo row('Date', xUtil::date(mktime())) ?>
 
@@ -117,7 +124,7 @@ function row($label, $value, $value_suffix=null) {
 
 <?php if (@max(xUtil::filter_keys($d['proposition'], array('imputation_fonds', 'imputation_centre_financier', 'imputation_unite_structurelle', 'imputation_numero_projet')))): ?>
   <tr><td colspan="2">
-    <h3>imputation</h3>
+    <h3>Imputation</h3>
   </td></tr>
   <?php echo row('Fond', $d['proposition']['imputation_fonds']) ?>
   <?php echo row('Centre financier', $d['proposition']['imputation_centre_financier']) ?>

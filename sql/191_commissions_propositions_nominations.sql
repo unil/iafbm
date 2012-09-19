@@ -4,8 +4,8 @@ CREATE TABLE commissions_propositions_nominations (
     actif BOOLEAN NOT NULL DEFAULT true,
     commission_id INT NOT NULL,
     candidat_id INT,
-    objet TEXT,
     activite_id INT,
+    objet TEXT,
     contrat_debut DATE NULL DEFAULT NULL,
     contrat_debut_au_plus_tot BOOLEAN,
     contrat_fin DATE,
@@ -13,8 +13,9 @@ CREATE TABLE commissions_propositions_nominations (
     charge_horaire_unite TEXT,
     indemnite INT UNSIGNED,
     titre_cours TEXT,
-    formation_id INT,
     observations TEXT,
+    date_preavis_champs TEXT,
+    date_proposition DATE NULL DEFAULT NULL,
     annexe_rapport_commission BOOLEAN DEFAULT NULL,
     annexe_cahier_des_charges BOOLEAN DEFAULT NULL,
     annexe_cv_publications BOOLEAN DEFAULT NULL,
@@ -26,7 +27,6 @@ CREATE TABLE commissions_propositions_nominations (
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
     FOREIGN KEY (candidat_id) REFERENCES candidats(id),
-    FOREIGN KEY (activite_id) REFERENCES activites(id),
-    FOREIGN KEY (formation_id) REFERENCES formations(id)
+    FOREIGN KEY (activite_id) REFERENCES activites(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE UNIQUE INDEX commission_id_unique ON commissions_propositions_nominations(commission_id);

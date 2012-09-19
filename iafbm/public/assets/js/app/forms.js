@@ -835,20 +835,14 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                     xorder_by: 'section_code,activite_type_nom,activite_nom_abreviation'
                 }}),
                 editable: false,
+                // Custom rendering template for data display
+                displayTpl: '<tpl for=".">{section_code} / {activite_type_nom} / {activite_nom_abreviation}</tpl>',
                 listConfig: {
-                    // Custom rendering template for each item
                     getInnerTpl: function() {
-                        return '{section_code} / {activite_type_nom} / {activite_nom_abreviation}';
+                        // Reuses displayTpl template
+                        return this.pickerField.displayTpl.html;
                     }
-                },
-                listeners: { change: function(combo, value) {
-                    // Uses listConfig.getInnerTpl() template to render field value
-                    var record = this.store.getById(value);
-                    if (!record) return;
-                    var tpl = this.listConfig.getInnerTpl(),
-                        display = new Ext.Template(tpl).applyTemplate(record.data);
-                    this.setRawValue(display);
-                }}
+                }
             }, {
                 // FIXME: set checkbox as checked when commission_proposition_nomination store loaded
                 //        contrat_debut is null (TODO)
@@ -884,10 +878,14 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 fieldLabel: 'Charge horaire',
                 items: [{
                     xtype: 'numberfield',
-                    name: 'charge_horaire'
+                    name: 'charge_horaire',
+                    width: 80,
+                    margin: '0 2 0 0'
                 }, {
                     xtype: 'ia-combo',
+                    editable: false,
                     name: 'charge_horaire_unite',
+                    width: 190,
                     displayField: 'unit',
                     valueField: 'unit',
                     store: Ext.create('Ext.data.ArrayStore', {
@@ -909,14 +907,34 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 // Data: commission_validation: Décanat or CF? ask.
                 xtype: 'ia-combo',
                 fieldLabel: 'Date préavis',
-                // TODO: name: 'preavis'
-                displayField: 'unit',
-                valueField: 'unit',
+                name: 'date_preavis_champs',
+                displayField: 'display',
+                valueField: 'value',
                 store: Ext.create('Ext.data.ArrayStore', {
                     autoDestroy: true,
-                    fields: ['unit'],
-                    // TODO: dates taken from CommissionValidation
-                    data: [['Préavis Décanat: ...'], ['Préavis CF: ...']]
+                    fields: ['display', 'value'],
+                    data: [],
+                    store: Ext.create('iafbm.store.CommissionValidation', {
+                        params: { commission_id: this.fetch.params.commission_id },
+                    }),
+                    listeners: { load: function() {
+                        var store = this;
+                        this.store.load(function(records) {
+                            var record = records[0],
+                                addDate = function(label, field) {
+                                    var date = record.get(field),
+                                        date = date ? Ext.Date.format(date, 'd.m.Y') : '-';
+                                    store.add({
+                                        display: [label, ': ', date].join(''),
+                                        value: field
+                                    });
+                            };
+
+                            store.removeAll();
+                            addDate('Préavis Décanat', 'decanat_date');
+                            addDate('Préavis CF', 'cf_date');
+                        });
+                    }}
                 })
             }, {
                 xtype: 'ia-textarea',
@@ -927,10 +945,10 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date (proposition?)',
-                // TODO: name: 'date_proposition'
+                name: 'date_proposition'
             }]
         }, {
-                        xtype: 'fieldset',
+            xtype: 'fieldset',
             title: 'Annexes',
             // Shows/hides box label on select/unselect
             defaults: {
@@ -970,19 +988,19 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             items: [{
                 xtype: 'textfield',
                 fieldLabel: 'Fonds',
-                name: 'annexe_rapport_commission',
+                name: 'imputation_fonds',
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Centre financier',
-                name: 'annexe_cahier_des_charges',
+                name: 'imputation_centre_financier',
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Unité structurelle',
-                name: 'annexe_cv_publications',
+                name: 'imputation_unite_structurelle',
             }, {
                 xtype: 'textfield',
                 fieldLabel: 'Numéro de projet',
-                name: 'annexe_declaration_sante',
+                name: 'imputation_numero_projet',
             }]
         }]
         //
