@@ -37,7 +37,7 @@ CREATE TABLE candidats (
     FOREIGN KEY (personne_denomination_id) REFERENCES personnes_denominations(id),
     FOREIGN KEY (etatcivil_id) REFERENCES etatscivils(id),
     FOREIGN KEY (pays_id) REFERENCES pays(id),
-    FOREIGN KEY (canton_id) REFERENCES canton(id),
+    FOREIGN KEY (canton_id) REFERENCES cantons(id),
     FOREIGN KEY (permis_id) REFERENCES permis(id),
     FOREIGN KEY (pays_pro_id) REFERENCES pays(id),
     FOREIGN KEY (pays_pri_id) REFERENCES pays(id)
