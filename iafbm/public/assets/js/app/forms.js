@@ -97,6 +97,7 @@ Ext.define('iafbm.form.Candidat', {
         return {
             xtype: 'fieldset',
             title: 'Diplômes obtenus',
+            height: 155,
             items: [
                 new iafbm.grid.common.Formations({
                     store: new iafbm.store.CandidatFormation({
@@ -131,6 +132,8 @@ Ext.define('iafbm.form.Candidat', {
         return {
             xtype: 'fieldset',
             title: 'Position actuelle',
+            height: 155,
+            padding: '20 0 0 0',
             defaults: {
                 border: false,
                 flex: 1,
@@ -199,6 +202,7 @@ Ext.define('iafbm.form.Candidat', {
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
                 defaults: {
+                    height: 250,
                     fieldDefaults: {
                         labelAlign: 'right',
                         msgTarget: 'side'
@@ -217,6 +221,7 @@ Ext.define('iafbm.form.Candidat', {
                         xtype: 'ia-textarea',
                         grow: true,
                         growMin: 0,
+                        growMax: 65,
                         fieldLabel: 'Adresse',
                         emptyText: 'Adresse',
                         name: 'adresse_pro'
@@ -258,6 +263,7 @@ Ext.define('iafbm.form.Candidat', {
                         xtype: 'ia-textarea',
                         grow: true,
                         growMin: 0,
+                        growMax: 65,
                         fieldLabel: 'Adresse',
                         emptyText: 'Adresse',
                         name: 'adresse_pri'
@@ -382,12 +388,12 @@ Ext.define('iafbm.form.Personne', {
         return {
             xtype: 'fieldset',
             title: 'Coordonnées',
-            height: 397,
+            height: 407,
             defaultType: 'textfield',
             defaults: {
                 labelWidth: 110,
                 width: 300,
-                padding: '10 0',
+                padding: '5 0',
             },
             items: [{
                 fieldLabel: 'Nom',
@@ -554,10 +560,13 @@ Ext.define('iafbm.form.Personne', {
                     // that belong to section_id and contain at least one 'activite'
                     store: new iafbm.store.Activite({
                         params: {
-                            xreturn:
-                                'DISTINCT(activites_types.id) AS activite_type_id, \
-                                 activites_types.nom AS activite_type_nom',
-                            section_id: section_id
+                            section_id: section_id,
+                            xgroup_by: 'activite_type_id',
+                            xreturn: [
+                                'id',
+                                'activite_type_id',
+                                'activite_type_nom',
+                            ].join()
                         }
                     }),
                     valueField: 'activite_type_id',

@@ -1,3 +1,25 @@
+.x-ia-panel-mask {
+    color: #ddd;
+    background-color: #ddd;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px !important;
+    padding-top: 5px;
+}
+.x-ia-panel-mask-denied,
+.x-ia-panel-mask-error {
+    color: #300;
+    background-color: #fdd;
+}
+.x-ia-panel-mask-notfound {
+    color: #003;
+    background-color: #cdf;
+}
+
+
+/**********************************************************
+ * Custom ext icons
+ */
 .icon-add {
     background-image: url(../img/ext/add.png) !important;
 }
@@ -8,24 +30,26 @@
     background-image: url(../img/ext/disk.png) !important;
 }
 .icon-get {
-    background-image: url(../img/ext/page_white_get.png) !important;
+    background-image: url(../img/ext/page_white_put.png) !important;
 }
 .icon-details {
     background-image: url(../img/ext/page_white_magnify.png) !important;
 }
+.icon-print {
+    background-image: url(../img/ext/printer.png) !important;
+}
 
-
-.tab-icon-ok,
+/**********************************************************
+ * Custom ext icons for Commission tabs & forms
+ * - Ext.ia.tab.CommissionPanel
+ * - Ext.ia.form.CommissionPhasePanel
+ */
 .tab-icon-done {
     background-image: url(../img/ext/bullet_green.png) !important;
 }
-
-.tab-icon-warning,
 .tab-icon-pending {
     background-image: url(../img/ext/bullet_orange.png) !important;
 }
-
-.tab-icon-neutral,
 .tab-icon-unknown {
     background-image: url(../img/ext/bullet_gray.png) !important;
 }
@@ -35,7 +59,6 @@
     background-image: none;
     background-image: -moz-linear-gradient(center top , #9CD099, white);
 }
-
 .x-ia-toolbar-pending {
     background-color: #FFC487;
     background-image: none;
@@ -49,7 +72,7 @@
 
 /**********************************************************
  * ExtJS fixes
-**/
+ */
 
 /* Fixes Ext.form.field.Display vertical alignment */
 .x-form-display-field {

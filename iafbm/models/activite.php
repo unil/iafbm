@@ -6,6 +6,7 @@ class ActiviteModel extends iaModelMysql {
 
     var $mapping = array(
         'id' => 'id',
+        'actif' => 'actif',
         'section_id' => 'section_id',
         'activite_type_id' => 'activite_type_id',
         'activite_nom_id' => 'activite_nom_id'

@@ -52,89 +52,51 @@ iafbm.columns.CommissionMembre = [{
         return null;
     },
     getFetch: function(gridView, rowIndex, colIndex, item) {
-        var commission_membre = gridView.getStore().getAt(rowIndex);
+        var commission_membre = gridView.getStore().getAt(rowIndex),
+            personne_id = commission_membre.get('personne_id'),
+            version = commission_membre.get('version_id');
+        // Loads versioned record (if applicable, eg. xversion > 0)
         return {
             model: iafbm.model.Personne,
-            id: commission_membre.get('personne_id')
+            id: personne_id,
+            xversion: version
         };
     }
 }, {
-    header: "Activité",
-    dataIndex: 'activite_id',
-    width: 150,
+    header: "Dénomination",
+    dataIndex: 'personne_denomination_id',
     xtype: 'ia-combocolumn',
     editor: {
-        xtype: 'combo',
+        xtype: 'ia-combo',
         editable: false,
         typeAhead: false,
-        // Also retrieves deleted activites for versionned commission_membres
-        // FIXME: this can be huge, personne_id filter
-        //        containing grid personne_ids should be added
+        store: new iafbm.store.PersonneDenomination(),
+        valueField: 'id',
+        displayField: 'nom'
+    }
+}, /* Disabled as of ticket #177 {
+    // NOTE: This column implements *very* lazy data loading.
+    header: "Activité",
+    dataIndex: 'activite_id',
+    xtype: 'templatecolumn',
+    tpl: '{activite_nom_abreviation}',
+    width: 150,
+    editor: {
+        xtype: 'ia-combo',
+        editable: false,
+        typeAhead: false,
         store: new iafbm.store.PersonneActivite({
+            autoLoad: false,
             params: {
-                'actif[]': 0,
-                'actif[]': 1
+                personne_id: null,
+                xversion: null,
+                xjoin: 'activite,activite_nom'
             }
         }),
         valueField: 'activite_id',
         displayField: 'activite_nom_abreviation',
-        // Manages list filtering: only shows 'acitivites' related to the 'personne'
         listeners: {
-            beforequery: function(queryEvent, eventOpts) {
-                var store = this.getStore(),
-                    record = this.up('form').getRecord(),
-                    personne_id = record.get('personne_id'),
-                    version_id = record.get('version_id');
-                // Assigns store personne_id param if not already set
-                if (
-                    store.params.personne_id == personne_id &&
-                    store.params.xversion == version_id
-                ) return;
-                store.params = {
-                    personne_id: personne_id,
-                    xversion: version_id
-                };
-                store.load();
-            },
-            collapse: function(combo, record, index) {
-                var store = this.getStore();
-                // Deletes query params
-                delete(store.params.personne_id);
-                delete(store.params.xversion);
-                // Restores actif = [0,1]
-                store.params['actif[]'] = 0;
-                store.params['actif[]'] = 1;
-                // Reloads store
-                store.load();
-            }
-        }
-    }
-}, {
-    header: "Nom",
-    dataIndex: 'personne_nom',
-    flex: 1
-}, {
-    header: "Prénom",
-    dataIndex: 'personne_prenom',
-    flex: 1
-}, {
-    header: "Dépt / Service",
-    dataIndex: 'rattachement_id',
-    flex: 1,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        valueField: 'rattachement_id',
-        displayField: 'rattachement_nom',
-        store: new iafbm.store.PersonneActivite({
-            params: {
-                order_by: 'rattachement_nom', // FIXME: this is not working (because it's a foreign key)
-                //TODO: DISTINCT causes problems with xversion
-                //xreturn: 'DISTINCT(rattachement_id), rattachements.nom AS rattachement_nom'
-            }
-        }),
-        // Manages list filtering: only shows 'rattachements' related to the 'personne'
-        listeners: {
+            // Manages list filtering: only shows 'acitivites' related to the 'personne'
             beforequery: function(queryEvent, eventOpts) {
                 var store = this.getStore(),
                     record = this.up('form').getRecord(),
@@ -147,26 +109,106 @@ iafbm.columns.CommissionMembre = [{
                 ) return;
                 store.params.personne_id = personne_id;
                 store.params.xversion = version_id;
-                delete(store.params.actif);
-                store.load();
+                store.load(function(records, operation, success) {
+                    if (!success) return;
+                    this.insert(records.length, {
+                        id: null,
+                        activite_id: null,
+                        activite_nom_abreviation: '(Aucune)'
+                    });
+                });
             },
-            collapse: function(combo, record, index) {
-                var store = this.getStore();
-                // Deletes query params
-                delete(store.params.personne_id);
-                delete(store.params.xversion);
-                // Restores actif = [0,1]
-                store.params['actif[]'] = 0;
-                store.params['actif[]'] = 1;
-                // Reloads store
-                store.load();
+            afterrender: function() {
+                // FIXME: not fired by the ext framework :(
+                // Displays activite_abreviation_nom as combo raw value
+                // because the store only loads on collapse
+                var activite_abreviation_nom = this.up('form').getRecord().get('activite_nom_abreviation');
+                var me = this,
+                    setRawValue = function() {
+                        if (!me.getRawValue()) me.setRawValue(activite_abreviation_nom);
+                    };
+                Ext.defer(setRawValue, 500);
+            },
+            select: function(combo, selectedRecords) {
+                // Affects the selected record 'activite_nom_abreviation' to grid record
+                // in order to display the value once the combo collapses
+                var activite_abreviation_nom = selectedRecords.pop().get('activite_nom_abreviation');
+                this.up('form').getRecord().set('activite_nom_abreviation', activite_abreviation_nom);
             }
         }
     }
+},*/ {
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1
 }, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1
+}, /* Disabled as of ticket #177 {
+    // NOTE: This column implements *very* lazy data loading.
+    header: "Dépt / Service",
+    dataIndex: 'rattachement_id',
+    xtype: 'templatecolumn',
+    tpl: '{rattachement_nom}',
+    flex: 1,
+    editor: {
+        xtype: 'ia-combo',
+        valueField: 'rattachement_id',
+        displayField: 'rattachement_nom',
+        store: new iafbm.store.PersonneActivite({
+            autoLoad: false,
+            params: {
+                personne_id: null,
+                order_by: 'rattachement_nom', // FIXME: this is not working (because it's a foreign key)
+            }
+        }),
+        listeners: {
+            // Manages list filtering: only shows 'acitivites' related to the 'personne'
+            beforequery: function(queryEvent, eventOpts) {
+                var store = this.getStore(),
+                    record = this.up('form').getRecord(),
+                    personne_id = record.get('personne_id'),
+                    version_id = record.get('version_id');
+                // Assigns store personne_id param if not already set
+                if (
+                    store.params.personne_id == personne_id &&
+                    store.params.xversion == version_id
+                ) return;
+                store.params.personne_id = personne_id;
+                store.params.xversion = version_id;
+                store.load(function(records, operation, success) {
+                    if (!success) return;
+                    this.insert(records.length, {
+                        id: null,
+                        activite_id: null,
+                        rattachement_nom: '(Aucune)'
+                    });
+                });
+            },
+            afterrender: function() {
+                // FIXME: not fired by the ext framework :(
+                // Displays activite_abreviation_nom as combo raw value
+                // because the store only loads on collapse
+                var rattachement_nom = this.up('form').getRecord().get('rattachement_nom');
+                var me = this,
+                    setRawValue = function() {
+                        if (!me.getRawValue()) me.setRawValue(rattachement_nom);
+                    };
+                Ext.defer(setRawValue, 500);
+            },
+            select: function(combo, selectedRecords) {
+                // Affects the selected record 'activite_nom_abreviation' to grid record
+                // in order to display the value once the combo collapses
+                var rattachement_nom = selectedRecords.pop().get('rattachement_nom');
+                this.up('form').getRecord().set('rattachement_nom', rattachement_nom);
+            }
+        }
+    }
+},*/ {
     header: "Fonction",
     dataIndex: 'commission_fonction_id',
-    width: 250,
+    width: 200,
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
@@ -176,8 +218,16 @@ iafbm.columns.CommissionMembre = [{
         store: new iafbm.store.CommissionFonction()
     }
 }, {
+    header: "Complément de fonction",
+    dataIndex: 'fonction_complement',
+    flex: 1,
+    editor: {
+        xtype: 'textfield'
+    }
+}, {
     header: null,
     dataIndex: '_uptodate',
+    sortable: false,
     width: 20,
     xtype: 'actioncolumn',
     items: [{
@@ -185,6 +235,20 @@ iafbm.columns.CommissionMembre = [{
         text: 'Actualiser',
         tooltip: 'Actualiser',
         handler: function(grid, rowIndex, colIndex) {
+            // Prevents update if CommissionMembre store is versioned
+            var store = grid.getStore();
+            if (store.params && store.params.xversion) {
+                Ext.Msg.alert(
+                    'Actualisation du membre', [
+                        'Vous ne pouvez pas actualiser le membre',
+                        'lorsque vous visualisez une commission versionée.',
+                        '<br/><br/>',
+                        'Affichez d\'abord la version actuelle de la commission.'
+                    ].join(' ')
+                );
+                return;
+            }
+            // Confirms and updates CommissionMembre
             var msg = [
                 'Cette opération met à jour les données du membre',
                 'à partir de la dernière version de la personne y relative.',
@@ -211,6 +275,45 @@ iafbm.columns.CommissionMembre = [{
         store.sync();
     }
 }];
+iafbm.columns.CommissionMembreNonominatif = [{
+    header: "Dénomination",
+    dataIndex: 'personne_denomination_id',
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        editable: false,
+        typeAhead: false,
+        store: new iafbm.store.PersonneDenomination(),
+        valueField: 'id',
+        displayField: 'nom'
+    }
+}, {
+    header: "Nom et prénom",
+    dataIndex: 'nom_prenom',
+    width: 300,
+    editor: {
+        xtype: 'textfield'
+    }
+}, {
+    header: "Fonction",
+    dataIndex: 'commission_fonction_id',
+    width: 200,
+    xtype: 'ia-combocolumn',
+    editor: {
+        xtype: 'ia-combo',
+        displayField: 'nom',
+        valueField: 'id',
+        allowBlank: false,
+        store: new iafbm.store.CommissionFonction()
+    }
+}, {
+    header: "Complément de fonction",
+    dataIndex: 'fonction_complement',
+    flex: 1,
+    editor: {
+        xtype: 'textfield'
+    }
+}];
 
 iafbm.columns.Candidat = [{
     xtype: 'ia-actioncolumn-detailform',
@@ -219,10 +322,14 @@ iafbm.columns.Candidat = [{
         return null
     },
     getFetch: function(gridView, rowIndex, colIndex, item) {
-        var candidat = gridView.getStore().getAt(rowIndex);
+        var store = gridView.getStore(),
+            candidat = store.getAt(rowIndex),
+            version = store.params.xversion;
+        // Loads versioned record (if applicable, eg. xversion > 0)
         return {
             model: iafbm.model.Candidat,
-            id: candidat.get('id')
+            id: candidat.get('id'),
+            xversion: version
         };
     }
 }, {

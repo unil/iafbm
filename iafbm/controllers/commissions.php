@@ -7,16 +7,11 @@
  * It implements:
  * - a check that prevents a closed commission to be modified
 */
-abstract class AbstractCommissionController extends iaWebController {
+abstract class AbstractCommissionController extends iaExtRestController {
 
     function post() {
         $this->check_closed();
         return parent::post();
-    }
-
-    function put() {
-        $this->check_closed();
-        return parent::put();
     }
 
     /**
@@ -33,7 +28,7 @@ abstract class AbstractCommissionController extends iaWebController {
         ))->get(0);
         if (!$commission) throw new xException("Commission does not exist (id: {$id})");
         if ($commission['commission_etat_id'] == 3) {
-            throw new xException('Cannot modify a closed commission', 403);
+            throw new xException('Cannot modify a closed commission', 403, $commission);
         }
     }
 }

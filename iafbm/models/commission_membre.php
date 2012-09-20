@@ -10,6 +10,8 @@ class CommissionMembreModel extends iaModelMysql {
         'personne_id' => 'personne_id',
         'commission_id' => 'commission_id',
         'commission_fonction_id' => 'commission_fonction_id',
+        'fonction_complement' => 'fonction_complement',
+        'personne_denomination_id' => 'personne_denomination_id',
         'activite_id' => 'activite_id',
         'rattachement_id' => 'rattachement_id',
         'version_id' => 'version_id'
@@ -20,6 +22,7 @@ class CommissionMembreModel extends iaModelMysql {
     var $joins = array(
         'personne' => 'LEFT JOIN personnes ON (commissions_membres.personne_id = personnes.id)',
         'commission_fonction' => 'LEFT JOIN commissions_fonctions ON (commissions_membres.commission_fonction_id = commissions_fonctions.id)',
+        'personne_denomination' => 'LEFT JOIN personnes_denominations ON (commissions_membres.personne_denomination_id = personnes_denominations.id)',
         'activite' => 'LEFT JOIN activites ON (commissions_membres.activite_id = activites.id)',
         'activite_nom' => 'LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)',
         'rattachement' => 'LEFT JOIN rattachements ON (commissions_membres.rattachement_id = rattachements.id)',
@@ -29,7 +32,7 @@ class CommissionMembreModel extends iaModelMysql {
         'section' => 'LEFT JOIN sections ON (commissions.section_id = sections.id)'
     );
 
-    var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'rattachement');
+    var $join = array('personne', 'commission', 'commission_fonction', 'activite', 'activite_nom', 'rattachement');
 
     var $wheres = array(
         'query' => "{{personne_id}} = {personne_id} AND commissions_membres.actif = 1 AND (1=0 [OR {{*}} LIKE {*}])"
@@ -68,20 +71,24 @@ class CommissionMembreModel extends iaModelMysql {
         $model->post();
         // Simulates that 'version_id' was set with the actual PUT operation,
         // Replacing the temporary 'version_id' field old/new values
-        // with the updated 'version_id'
+        // with the updated 'version_id' (1)
         $r = xModel::load('version_data', array(
             'version_id' => $version_id,
+            'version_model_name' => $this->name,
             'field_name' => 'version_id'
         ))->get();
-        foreach ($r as $rr) xModel::load('version_data', array(
-            'id' => $rr['id']
-        ))->delete();
+        // Deletes version_data related rows, bypassing iaJournalingModel 'prevent-delete-mecanism'
+        $table = xModel::load('version_data')->maintable;
+        $primary = xModel::load('version_data')->primary();
+        foreach ($r as $rr) xModel::q("DELETE FROM `{$table}` WHERE `{$primary}` = '{$rr[$primary]}'");
+        // Re-creates the deleted row, but with the correct verions_id (ie. 'personne' version)
         xModel::load('version_data', array(
             'version_id' => $version_id,
             'field_name' => 'version_id',
             'old_value' => null,
             'new_value' => $version_id
         ))->put();
+        // End of the simulation (1)
         $t->end();
         return $result;
     }
@@ -147,15 +154,25 @@ class CommissionMembreModel extends iaModelMysql {
         // Adds 'uptodate' ghost field
         foreach ($records as &$record) {
             // Counts versions created since the record stored version id
-            $count = xModel::load('version_relation', array(
+            $versions = xModel::load('version_relation', array(
                 'model_name' => 'personne',
                 'id_field_value' => $record['personne_id'],
                 'version_id' => $record['version_id'],
                 'version_id_comparator' => '>',
                 'xjoin' => array()
-            ))->count();
+            ))->get();
+            // If versioned record is requested,
+            // ignores versions above the requested xversion.
+            $xversion = @$this->params['xversion'];
+            if ($xversion) {
+                foreach ($versions as $k => $version) {
+                    if ($version['version_id'] >= $xversion) {
+                        unset($versions[$k]);
+                    }
+                }
+            }
             // Sets 'uptodate' ghost field
-            $record['_uptodate'] = !(bool)$count;
+            $record['_uptodate'] = !(bool)count($versions);
         }
         // Sorts results on personne field
         // (if defined by xorder_by and xorder && personne data was updated due to versioning)

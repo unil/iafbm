@@ -5,11 +5,9 @@ require_once(dirname(__file__).'/Script.php');
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
-        $this->opts();
         // Parses CLI options
-        $update_project = ($this->opt('u:') == 'project');
-        $update_library = ($this->opt('u:') == 'library');
-        $update_project = $update_library = ($this->opt('u'));
+        $update_project = ($this->opt('u:') == 'project' || $this->opt('u::') === true);
+        $update_library = ($this->opt('u:') == 'library' || $this->opt('u::') === true);
         $blast_database = ($this->opt('x'));
         // Runs selected actions
         if ($update_project) $this->update_project();
@@ -35,9 +33,9 @@ class iafbmUpdateScript extends iafbmScript {
             '--------------------',
             "Examples:",
             "\t{$_SERVER['argv'][0]}\t\tdoes nothing",
-            "\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code",
-            "\t{$_SERVER['argv'][0]} -uproject\tupdates project code only",
-            "\t{$_SERVER['argv'][0]} -ulibrary\tupdates library code only",
+            "\t{$_SERVER['argv'][0]} -u\t\tupdates both project and libraries code (recommended)",
+            "\t{$_SERVER['argv'][0]} -uproject\tupdates project code only (not recommended)",
+            "\t{$_SERVER['argv'][0]} -ulibrary\tupdates library code only (not recommended)",
             "\t{$_SERVER['argv'][0]} -u -x\tupdates code and blasts database (!)"
         );
     }
@@ -52,10 +50,10 @@ class iafbmUpdateScript extends iafbmScript {
 
     protected function update_libs() {
         $this->log('Updating libraries...');
-        // Updates libs
-        $libpath = dirname(xContext::$libpath);
-        exec("svn up {$libpath}", $output, $status);
-        if ($status) throw new xException('Error updating libs', $output);
+        // Updates xfm libs
+        $basepath = dirname(xContext::$basepath);
+        exec("cd {$basepath} && git submodule update --init --recursive && cd -", $output, $status);
+        if ($status) throw new xException("Error updating git submodule(s): {$output}");
         $this->log('OK', 1);
     }
 
@@ -108,5 +106,3 @@ class iafbmUpdateScript extends iafbmScript {
 }
 
 new iafbmUpdateScript();
-
-?>

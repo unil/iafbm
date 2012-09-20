@@ -1,6 +1,6 @@
 <?php
 
-class PersonnesAdressesController extends iaWebController {
+class PersonnesAdressesController extends iaExtRestController {
 
     var $model = 'personne_adresse';
 
@@ -59,9 +59,13 @@ class PersonnesAdressesController extends iaWebController {
     /**
      * If $params['defaut'] is true,
      * updates all Adresse rows related to this personne_id,
-     * setting their 'defaut' field to false
+     * setting their 'defaut' field to false.
+     * @todo Factorize this between personnes_adresses, personnes_emails, personnes_telephones
+     * @see PersonnesAdressesController::_unique_defaut()
+     * @see PersonnesEmailsController::_unique_defaut()
+     * @see PersonnesTelephonesController::_unique_defaut()
      */
-    protected function _unique_defaut($params, $transaction=null) {
+    protected function _unique_defaut($params, $transaction) {
         // Parameters check
         if (@!$params['defaut']) return; // If default is not set to true, no need to continue
         if (@!$params['id']) throw new xException('id parameter missing');

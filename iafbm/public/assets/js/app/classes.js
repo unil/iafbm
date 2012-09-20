@@ -9,6 +9,66 @@ Ext.ns('Ext.ia');
 Ext.onReady(Ext.tip.QuickTipManager.init);
 
 /**
+ * Common captions.
+ * Used for:
+ * - Notifying of errors HTTP Requests error (according the HTTP status)
+ */
+Ext.ia.caption = {
+    status: {
+        // FIXME: Not used for now: use it or remove it.
+        200: 'OK',
+        400: 'Requête malformée',
+        401: 'Accès non autorisé',
+        403: 'Accès non autorisé',
+        404: 'Element introuvable',
+        405: 'Accès non autorisé',
+        408: 'Délai expiré',
+        500: 'Erreur inopinée'
+    },
+    // Used for notifications css classnames construction
+    type: {
+        200: 'confirm',
+        400: 'error',
+        401: 'denied',
+        403: 'denied',
+        404: 'notfound',
+        405: 'denied',
+        408: 'error',
+        500: 'error'
+    },
+    // Used for notifications titles
+    titles: {
+        create: 'Ajout',
+        read: 'Lecture',
+        update: 'Modification',
+        delete: 'Suppression',
+        //
+        200: 'effectué(e)',
+        400: 'impossible (invalide)',
+        401: 'non autorisé(e)',
+        403: 'non autorisé(e)',
+        404: 'impossible',
+        405: 'non autorisé(e)',
+        500: 'impossible (erreur système)'
+    },
+    // Used for notifications text content
+    texts: {
+        200: "Succès pour",
+        401: "Vous n'avez pas les autorisations pour",
+        402: "Vous n'avez pas les autorisations pour",
+        403: "Vous n'avez pas les autorisations pour",
+        404: "La ressource est introuvable, impossible de",
+        405: "Vous n'avez pas les autorisations pour",
+        500: "Une erreur inattendue est survenue pour",
+        //
+        create: 'créer',
+        read: 'lire',
+        update: 'modifier',
+        delete: 'supprimer'
+    }
+};
+
+/**
  * Ext.Array.createRange()
  */
 Ext.Array.createArrayStoreRange = function(min, max, step, pad) {
@@ -67,9 +127,6 @@ Ext.ia.staticdata.Years = function() {
     return data;
 }();
 
-
-
-
 /**
  * Additional validation types (vtypes)
  */
@@ -123,9 +180,11 @@ Ext.define('Ext.ia.data.Store', {
         );
     },
     listeners: {
+        // ExtJS 3.0 Store.params simulation
         beforeload: function() { this.applyParamsToProxy() },
         beforesync: function() { this.applyParamsToProxy() },
         beforeprefetch: function() { this.applyParamsToProxy() },
+        // Loaded flag (TODO: is it used/necessary ?)
         load: function() { this.loaded = true }
     }
 });
@@ -160,24 +219,51 @@ Ext.define('Ext.ia.data.proxy.Rest', {
         update: 'post',
         destroy: 'delete'
     },
-    listeners: {
-        exception: function(proxy, response, operation) {
-            // User message
-            var actions = {
-                create: "l'ecriture",
-                read: "la lecture",
-                update: "l'écriture",
-                destroy: "la suppression"
-            };
-            var msg = ['Une erreur est survenue pendant', actions[operation.action], 'des données'].join(' ');
-            Ext.Msg.show({
-                title: 'Erreur',
-                msg: msg,
-                buttons: Ext.Msg.OK,
-                icon: Ext.Msg.ERROR
-            });
-        }
-    }
+    // CRUD notifications
+    afterRequest: function(request, success) {
+        // Retrieves 'HTTP status' and 'operation.action'
+        var status = success ?
+                request.operation.response.status :
+                request.operation.error.status,
+            action = request.operation.action,
+            proxy = this;
+        // Determines whether to notify or not
+        if (success || action == 'read' && status != 404) return;
+        // Captions pool as local variables
+        var statuses = Ext.ia.caption.status,
+            types = Ext.ia.caption.type,
+            titles = Ext.ia.caption.titles,
+            texts = Ext.ia.caption.texts;
+        // Create text to display
+        var type = types[status],
+            model = proxy.model.prototype.modelName.split('.').pop().replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase(),
+            title = [
+                titles[action],
+                titles[status]
+            ].join(' '),
+            message = [
+                texts[status],
+                texts[action],
+                'la ressource',
+                '<em>'+model+'</em>'
+            ].join(' ');
+            iconCls = 'ux-notification-icon-'+type,
+            cls = [
+                Ext.ia.window.Notification.prototype.cls,
+                'ux-notification-bg-'+type
+            ].join(' ');
+        // Actual notification display
+        Ext.create('Ext.ia.window.Notification', {
+            title: title,
+            html: [
+                '<strong>'+message+'</strong>'
+            ].join('<br/>'),
+            iconCls: iconCls,
+            cls: cls,
+            autoHide: success,
+            hideDuration: 300
+        }).show()
+    },
 });
 
 /**
@@ -241,12 +327,24 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
     closeOnSave: false,
     handler: function(gridView, rowIndex, colIndex, item) {
         var me = this,
-            popup = new Ext.ia.window.Popup({
+            record = this.getRecord(gridView, rowIndex, colIndex, item),
+            fetch = this.getFetch(gridView, rowIndex, colIndex, item),
+            id = (record && record.id) || (fetch && fetch.id);
+        // Prevents opening detail on fantom records (eg. id==0)
+        if (!id) {
+            Ext.Msg.alert(
+                'Afficher les détails',
+                'Vous devez enregistrer les modifications avant de pouvoir visualiser les détails.'
+            );
+            return;
+        }
+        // Creates popup
+        var popup = new Ext.ia.window.Popup({
             title: 'Détails',
             item: new this.form({
                 frame: false,
-                record: me.getRecord(gridView, rowIndex, colIndex, item),
-                fetch: me.getFetch(gridView, rowIndex, colIndex, item),
+                record: record,
+                fetch: fetch,
                 listeners: {
                     // Closes popup on form save
                     aftersave: function(form, record) {
@@ -279,6 +377,7 @@ Ext.define('Ext.ia.grid.column.ActionForm', {
         this.sortable = false;
         this.menuDisabled = true;
         this.fixed = true;
+        //
         var me = this;
         me.callParent();
     }
@@ -308,14 +407,22 @@ Ext.define('Ext.ia.grid.RadioColumn', {
         //
         var me = this;
         me.callParent();
-        this.on('checkchange', this.refresh);
+        // Manages the unchecking of other exising rows checkboxes
+        // (visual purpose only, the server-side logic MUST take care of setting all other options to false)
+        this.on('checkchange', this.click);
+        // Disables clicking when the grid row is in edit mode
         this.on('click', function() { return Boolean(this.editable) });
     },
-    refresh: function(checkcolumn, recordIndex, checked) {
-        var store = this.up('gridpanel').getStore();
-        // Refreshes the grid by reloading the store
-        // in order to show the actual unique selected row
-        store.load();
+    click: function(checkcolumn, recordIndex, checked) {
+        // Sets all visible radiocolumns to false (unchecked),
+        // except the checked radiocolumn
+        var store = this.up('grid').store,
+            fieldname = this.dataIndex;
+        // Sets all loaded records to false, except the clicked record
+        Ext.each(store.getRange(), function(record) {
+            if (store.getAt(recordIndex) == record) return;
+            record.set(fieldname, false);
+        });
     },
     processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
         if (Ext.Array.contains(['mousedown', 'keyup'], type) || Ext.Array.contains([e.ENTER, e.SPACE], e.getKey())) {
@@ -383,10 +490,21 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         var me = this,
             store = this.store;
         me.callParent();
-        // Manages store autoloading
-        if (!store.autoLoad && !store.loaded && !store.isLoading()) {
-            store.load();
-        }
+        // Manages store autoloading & exceptions
+        this.on('afterrender', function() {
+            if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+                store.load(function(records, operation, success) {
+                    // Masks the component
+                    if (!success && operation.action == 'read') {
+                        var height = me.getHeight(),
+                            combo = me.el.child('.x-form-item-body');
+                        combo.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                        combo.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                        combo.setHeight(height);
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -540,110 +658,6 @@ Ext.define('Ext.ia.form.field.Multi', {
  */
 
 /**
- * Selection grid enables the user to add items from one store into another
- * by searching the source store using an autocomplete list
- * and adding items to the destination store.
- * The developer can write the makeData() conversion function,
- * in order to translate source store record into destination store record.
- * -
- */
-Ext.define('Ext.ia.selectiongrid.Panel', {
-    extend: 'Ext.grid.Panel',
-    alias: 'widget.ia-selectiongrid',
-    //uses:?
-    requires: [
-        'Ext.grid.Panel',
-        'Ext.form.field.ComboBox'
-    ],
-    config: {
-        combo: {
-            store: null,
-            pageSize: 5
-        },
-        grid: {
-            store: null,
-            autoSync: false,
-        },
-        makeData: function(record) {
-            // Returns a hashtable for feeding Ext.data.Model data, eg:
-            // return {
-            //     field1: record.get('id'),
-            //     field2: record.get('name'),
-            //     field3: 'static value'
-            // }
-            return record.data;
-        },
-    },
-    initComponent: function() {
-        // Component
-        this.store = this.grid.store;
-        this.columns = this.grid.columns;
-        this.tbar = [
-            'Ajouter',
-            this.getCombo()
-        ];
-        this.bbar = [{
-            text: 'Supprimer la sélection',
-            iconCls: 'icon-delete',
-            handler: function() {
-                var grid = this.up('gridpanel');
-                var selection = grid.getView().getSelectionModel().getSelection()[0];
-                if (selection) grid.store.remove(selection);
-            }
-        }];
-        var me = this; me.callParent();
-        // Sets store to autoSync changes
-        this.store.autoSync = this.grid.autoSync;
-        // Manages store autoloading
-        if (!this.store.autoLoad && !this.store.loaded) this.store.load();
-    },
-    getCombo: function() {
-        // Sets pageSize to combo store
-        this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
-        // Creates combo instance
-        //return new Ext.ia.form.field.ComboBox({
-        return new Ext.form.field.ComboBox({
-            store: this.combo.store,
-            pageSize: true, // Should equal the store.pageSize, but it works well like that...
-            queryParam: 'xquery',
-            typeAhead: false,
-            minChars: 1,
-            hideTrigger: true,
-            width: 350,
-            listConfig: {
-                loadingText: 'Recherche...',
-                emptyText: 'Aucun résultat.',
-                // Custom rendering template for each item
-                getInnerTpl: function() {
-                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
-                    return [
-                        '<div>',
-                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
-                        '  <h3>{prenom} {nom}</h3>',
-                        '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
-                        '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
-                        '</div>'
-                    ].join('');
-                }
-            },
-            listeners: {
-                select: function(combo, selection) {
-                    // Inserts record into grid store
-                    var grid = this.up('gridpanel'),
-                        records = [];
-                    Ext.each(selection, function(record) {
-                        records.push(new grid.store.model(grid.makeData(record)));
-                    });
-                    grid.store.insert(grid.store.getCount(), records);
-                    Ext.defer(this.clearValue, 250, this);
-                },
-                blur: function() { this.clearValue() }
-            }
-        });
-    }
-});
-
-/**
  * Extends Ext.ux.form.SearchField with
  * - events firing: beforesearch, aftersearch and resetsearch
  */
@@ -741,245 +755,6 @@ Ext.define('Ext.ia.toolbar.Paging', {
 });
 
 /**
- * Extends Ext.grid.Panel with
- * - Ext.ia.grid.plugin.RowEditing plugin
- * - Add / Delete buttons
- * - Search field
- * - Paging
- */
-Ext.define('Ext.ia.grid.EditPanel', {
-    extend: 'Ext.grid.Panel',
-    alias: 'widget.ia-editgrid',
-    config: {
-        width: 880,
-        height: 300,
-        frame: true,
-        store: null,
-        columns: null,
-        newRecordValues: {},
-        searchParams: {}
-    },
-    autoSync: false,
-    editable: true,
-    toolbarButtons: ['add', 'delete', 'save', 'search'],
-    toolbarLabels: {
-        add: 'Ajouter',
-        delete: 'Supprimer',
-        save: 'Enregistrer les modifications',
-        search: 'Rechercher'
-    },
-    pageSize: 10,
-    editingPluginId: null,
-    plugins: [],
-    dockedItems: [],
-    bbar: new Ext.ia.toolbar.Paging(),
-    initComponent: function() {
-        this.addEvents(
-            /**
-            * @event beforeload
-            * Fires before the record is loaded. Return false to cancel.
-            * @param {Ext.ia.grid.EditPanel} this
-            */
-            'beforeload',
-            /**
-            * @event beforeload
-            * Fires after the record is loaded.
-            */
-            'load'
-        );
-        // Dynamic parameters
-        if (!this.bbar) this.pageSize = null;
-        // Creates Editing plugin (storing its id as grid property)
-        this.plugins = [new Ext.ia.grid.plugin.RowEditing({
-            pluginId: this.editingPluginId = Ext.id()
-        })];
-        // Creates docked items (toolbar)
-        this.dockedItems = this.makeDockedItems();
-        // Initializes Component
-        var me = this;
-        me.callParent();
-        // Manage this.editable state
-        this.getEditingPlugin().on('beforeedit', function() {
-            return Boolean(me.editable);
-        });
-        // Manages store loading
-        // (on 'afterrender' event so that loading mask can be set on 'beforeload' event)
-        this.on({afterrender: function() {
-            this.fireEvent('beforeload', this);
-            this.store.pageSize = this.pageSize;
-            this.store.autoSync = me.autoSync;
-            this.store.load({
-                callback: function(records, operation) {
-                    me.fireEvent('load');
-                }
-            });
-        }});
-        // Manages proxy exceptions:
-        // Reverts store data on proxy exception
-        this.on({afterrender: function() {
-            var me = this;
-            this.store.getProxy().on({
-                exception: function(proxy, response, operation) {
-                    if (operation.action == 'destroy') {
-                        me.store.removeAll();
-                        me.store.removed = [];
-                        me.store.load();
-                    }
-                }
-            });
-        }});
-        // Manages loading message
-        this.on({
-            beforeload: function() { this.setLoading() },
-            load: function() { this.setLoading(false) }
-        });
-        // Manages controls disablement when version is set
-        this.on({afterrender: function() {
-            // FIXME: This is dirty because the grid should not
-            //        be aware of the ia-version-combo
-            var me = this,
-                // Finds the ia-version-combo contained in plain forms
-                form = this.up('form'),
-                form_combo = form ? form.down('ia-version-combo') : null,
-                // Finds the ia-version-combo contained in 'commission' forms
-                tabpanel = this.up('tabpanel'),
-                panel = tabpanel ? tabpanel.up('panel') : null,
-                panel_combo = panel ? panel.down('ia-version-combo') : null,
-                //
-                combo = form_combo || panel_combo;
-            if (!combo) return;
-            // Manages versioned/unversioned grid controls
-            combo.on({changeversion: function(combo, version) {
-                // Toggles grid toolbar buttons disablement
-                me.down('toolbar').items.each(function(c) {
-                    c.setDisabled(Boolean(version))
-                });
-                // Toggles grid rows editability
-                // (restoring initial value afterwards)
-                if (typeof(me._editableInit)=='undefined') me._editableInit = me.editable;
-                me.editable = version ? false : me._editableInit;
-                // Toggles grid columns editability (eg. checkboxes)
-                // (restoring initial value afterwards)
-                Ext.each(me.columns, function(c) {
-                    if (!c.isXType('ia-radiocolumn')) return;
-                    if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
-                    c.editable = version ? false : c._editableInit;
-                });
-            }});
-        }});
-        // Fixes incorrect grid layout that occurs
-        // occasionaly when grid is too narrow (FIXME)
-        this.on({load: function() {
-            this.doComponentLayout();
-        }});
-    },
-    makeDockedItems: function() {
-        var add = {
-            text: this.toolbarLabels.add,
-            iconCls: 'icon-add',
-            handler: this.addItem,
-            scope: this
-        };
-        var del = {
-            text: this.toolbarLabels.delete,
-            iconCls: 'icon-delete',
-            handler: this.removeItem,
-            scope: this,
-            // Manages button disable state
-            disabled: true,
-            listeners: {afterrender: function() {
-                var me = this,
-                    grid = this.up('grid');
-                grid.on('selectionchange', function(view, records) {
-                    me.setDisabled(!records.length);
-                });
-            }}
-        };
-        var save = {
-            text: this.toolbarLabels.save,
-            iconCls: 'icon-save',
-            handler: this.syncItems,
-            scope: this,
-            // Manages button disable state
-            disabled: true,
-            listeners: {afterrender: function() {
-                var me = this,
-                    store = this.up('grid').getStore();
-                var callback = function() {
-                    me.setDisabled(!store.getNonPristineRecords().length);
-                }
-                store.on('add', callback);
-                store.on('update', callback);
-                store.on('remove', callback);
-            }}
-        };
-        var search = new Ext.ia.form.SearchField({
-            store: null,
-            emptyText: 'Mots-clés',
-            listeners: {
-                // Wait for render time so that the grid store is created
-                // and ready to be bound to the search field
-                beforerender: function() { this.store = this.up('gridpanel').store },
-                beforesearch: function() { this.onBeforeSearch() },
-                aftersearch: function() { this.onResetSearch() },
-                resetsearch: function() { this.onResetSearch() },
-            },
-            onBeforeSearch: function() {
-                // Saves current store params
-                this._storeParams = Ext.clone(this.store.params);
-                // Applies searchParams to store proxy
-                this.store.params = Ext.apply(
-                    this.store.params,
-                    this.up('gridpanel').searchParams
-                );
-            },
-            onResetSearch: function() {
-                this.store.params = this._storeParams;
-            }
-        });
-        // Adds items conditionally
-        var items = [];
-        if (Ext.Array.contains(this.toolbarButtons, 'add'))
-            items.push(add);
-        if (Ext.Array.contains(this.toolbarButtons, 'delete'))
-            items.push('-', del);
-        if (Ext.Array.contains(this.toolbarButtons, 'save'))
-            items.push('-', save);
-        if (Ext.Array.contains(this.toolbarButtons, 'search'))
-            items.push('->', '-', this.toolbarLabels.search, search);
-        // Creates and returns the toolbar with its items
-        return [{
-            xtype: 'toolbar',
-            items: items
-        }];
-    },
-    getEditingPlugin: function() {
-        return this.getPlugin(this.editingPluginId);
-    },
-    createRecord: function() {
-        return new this.store.model(this.newRecordValues);
-    },
-    addItem: function() {
-        var grid = this,
-            autoSync = grid.store.autoSync;
-        // Disables autoSync before inserting line
-        grid.store.autoSync = false;
-        grid.store.insert(0, grid.createRecord());
-        // Re-enables autoSync after inserting line (if applicable)
-        grid.store.autoSync = autoSync;
-        grid.getEditingPlugin().startEdit(0, 0);
-    },
-    removeItem: function() {
-        var grid = this,
-            selection = grid.getView().getSelectionModel().getSelection()[0];
-        if (selection) grid.store.remove(selection);
-    },
-    syncItems: function() {
-        this.store.sync();
-    }
-});
-
-/**
  * Extends Ext.grid.plugin.RowEditing with
  * - project-specific config
  * - autoCancel logic (disabled for now)
@@ -1010,7 +785,7 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
     },
     // On edit cancel, remove phantom row or reject existing row modifications
     // http://www.sencha.com/forum/showthread.php?130412-OPEN-EXTJSIV-1649-RowEditing-improvement-suggestions
-    // NOTE: Managed better in ExtJS 4.0.7
+    // NOTE: Disabled because it is managed better in ExtJS >= 4.0.7
     _cancelEdit: function() {
         if (this.context) {
             var record = this.context.record;
@@ -1027,6 +802,411 @@ Ext.define('Ext.ia.grid.plugin.RowEditing', {
         }
         var me = this;
         me.callParent();
+    }
+});
+
+/**
+ * Extends Ext.grid.Panel with
+ * - Ext.ia.grid.plugin.RowEditing plugin
+ */
+Ext.define('Ext.ia.grid.EditBasePanel', {
+    extend: 'Ext.grid.Panel',
+    alias: 'widget.ia-editbasepanel',
+    editingPluginId: null,
+    plugins: [],
+    editable: true,
+    pageSize: 0, // Disabled
+    autoSync: false,
+    initComponent: function() {
+        // Creates Editing plugin (storing its id as grid property)
+        this.plugins = [new Ext.ia.grid.plugin.RowEditing({
+            pluginId: this.editingPluginId = Ext.id()
+        })];
+        // Initializes Component
+        var me = this;
+        me.callParent();
+        // Manage this.editable state
+        this.getEditingPlugin().on('beforeedit', function() {
+            return Boolean(me.editable);
+        });
+        // Manages store loading
+        // (on 'afterrender' event so that loading mask can be set on 'beforeload' event)
+        this.on({afterrender: function() {
+            this.fireEvent('beforeload', this);
+            this.store.pageSize = this.pageSize;
+            this.store.autoSync = me.autoSync;
+            this.store.load({
+                callback: function(records, operation) {
+                    if (operation.success) me.fireEvent('load');
+                }
+            });
+        }});
+        // Manages proxy exceptions:
+        // - Masks component
+        // - Reverts store data on proxy exception
+        this.on({afterrender: function() {
+            var me = this;
+            this.store.getProxy().on({
+                exception: function(proxy, response, operation) {
+                    // Masks the component
+                    if (operation.action == 'read') {
+                        me.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                        me.dockedItems.each(function(c) { c.hide() });
+                        me.body.hide();
+                        me.el.dom.innerHTML = innerHTML = Ext.ia.caption.status[operation.error.status];
+                    }
+                    // Reverts deleted records
+                    if (operation.action == 'destroy') {
+                        me.store.removeAll();
+                        me.store.removed = [];
+                        me.store.load();
+                    }
+                }
+            });
+        }});
+        // Fixes incorrect grid layout that occurs
+        // occasionaly when grid is too narrow (FIXME)
+        this.on({load: function() {
+            this.doComponentLayout();
+        }});
+    },
+    getEditingPlugin: function() {
+        return this.getPlugin(this.editingPluginId);
+    },
+    setVersion: function(version) {
+        // Sets grid store xversion
+        this.store.params['xversion'] = version;
+        this.store.load();
+        // Sets grid columns combo stores xversion
+        Ext.each(this.columns, function(column) {
+            var editor = column.getEditor(),
+                store = (editor) ? editor.store : null,
+                proxy = (store) ? store.proxy : null,
+                type = (proxy) ? proxy.type : null;
+            if (type == 'ia-rest') {
+                editor.store.params['xversion'] = version;
+                editor.store.load();
+            }
+        });
+        // Sets grid as not editable and updates its state
+        // - storing the previous 'editable' state
+        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
+        // - setting form as not editable if versioned,
+        //   or restores stored editable state if not versioned
+        this.editable = version ? false : this._editableInit;
+        // - updating component state
+        this.updateState();
+    },
+    updateState: function() {
+        // Toggles grid columns editability (eg. checkboxes)
+        // (restoring initial value afterwards)
+        var version = this.store.params['xversion'];
+        Ext.each(this.columns, function(c) {
+            if (!c.isXType('ia-radiocolumn')) return;
+            if (typeof(c._editableInit)=='undefined') c._editableInit = c.editable;
+            c.editable = version ? false : c._editableInit;
+        });
+        // Toggles dockedItems elements (eg. buttons)
+        this.dockedItems.each(function(toolbar) {
+            toolbar.cascade(function(c) {
+                if (c.updateState) c.updateState();
+            })
+        });
+    }
+});
+
+/**
+ * Extends Ext.grid.Panel with
+ * - Ext.ia.grid.plugin.RowEditing plugin
+ * - Add / Delete buttons
+ * - Search field
+ * - Paging
+ */
+Ext.define('Ext.ia.grid.EditPanel', {
+    extend: 'Ext.ia.grid.EditBasePanel',
+    alias: 'widget.ia-editgrid',
+    config: {
+        width: 880,
+        height: 300,
+        frame: true,
+        store: null,
+        columns: null,
+        newRecordValues: {},
+        searchParams: {}
+    },
+    toolbarButtons: ['add', 'delete', 'save', 'search'],
+    toolbarLabels: {
+        add: 'Ajouter',
+        delete: 'Supprimer',
+        save: 'Enregistrer les modifications',
+        search: 'Rechercher'
+    },
+    pageSize: 10,
+    editable: true,
+    dockedItems: [],
+    bbar: new Ext.ia.toolbar.Paging(),
+    initComponent: function() {
+        this.addEvents(
+            /**
+            * @event beforeload
+            * Fires before the record is loaded. Return false to cancel.
+            * @param {Ext.ia.grid.EditPanel} this
+            */
+            'beforeload',
+            /**
+            * @event beforeload
+            * Fires after the record is loaded.
+            */
+            'load'
+        );
+        // Dynamic parameters
+        if (!this.bbar) this.pageSize = null;
+        // Creates docked items (toolbar)
+        this.dockedItems = this.makeDockedItems();
+        // Initializes Component
+        var me = this;
+        me.callParent();
+    },
+    makeDockedItems: function() {
+        var me = this;
+        var add = {
+            text: this.toolbarLabels.add,
+            iconCls: 'icon-add',
+            handler: this.addItem,
+            scope: this,
+            updateState: function() {
+                this.setDisabled(!me.editable);
+            }
+        };
+        var del = {
+            text: this.toolbarLabels.delete,
+            iconCls: 'icon-delete',
+            handler: this.removeItem,
+            scope: this,
+            // Manages button disable state
+            disabled: true,
+            listeners: {afterrender: function() {
+                var grid = this.up('grid');
+                grid.on('selectionchange', this.updateState, this);
+            }},
+            updateState: function() {
+                var records = me.getSelectionModel().getSelection();
+                // Disables if no record selected,
+                // or if grid is not editable (see this.editable)
+                this.setDisabled(!(records.length && me.editable));
+            }
+        };
+        var save = {
+            text: this.toolbarLabels.save,
+            iconCls: 'icon-save',
+            handler: this.syncItems,
+            scope: this,
+            // Manages button disable state
+            disabled: true,
+            listeners: {afterrender: function() {
+                var store = this.up('grid').getStore();
+                store.on('add', this.updateState, this);
+                store.on('update', this.updateState, this);
+                store.on('remove', this.updateState, this);
+            }},
+            updateState: function() {
+                var store = me.getStore();
+                // Disables if no record selected,
+                // or if grid is not editable (see this.editable)
+                this.setDisabled(!store.getNonPristineRecords().length);
+            }
+        };
+        var search = new Ext.ia.form.SearchField({
+            store: null,
+            emptyText: 'Mots-clés',
+            listeners: {
+                // Wait for render time so that the grid store is created
+                // and ready to be bound to the search field
+                beforerender: function() { this.store = this.up('gridpanel').store },
+                beforesearch: function() { this.onBeforeSearch() },
+                aftersearch: function() { this.onResetSearch() },
+                resetsearch: function() { this.onResetSearch() },
+            },
+            onBeforeSearch: function() {
+                // Saves current store params
+                this._storeParams = Ext.clone(this.store.params);
+                // Applies searchParams to store proxy
+                this.store.params = Ext.apply(
+                    this.store.params,
+                    this.up('gridpanel').searchParams
+                );
+            },
+            onResetSearch: function() {
+                this.store.params = this._storeParams;
+            },
+            updateState: function() {
+                // Search is disabled if store is versioned
+                // because server-side does not support
+                // searching on versioned datasets yet.
+                this.setDisabled(me.store && me.store.params.xversion);
+            }
+        });
+        // Adds items conditionally
+        var items = [];
+        if (Ext.Array.contains(this.toolbarButtons, 'add'))
+            items.push(add);
+        if (Ext.Array.contains(this.toolbarButtons, 'delete'))
+            items.push('-', del);
+        if (Ext.Array.contains(this.toolbarButtons, 'save'))
+            items.push('-', save);
+        if (Ext.Array.contains(this.toolbarButtons, 'search'))
+            items.push('->', '-', this.toolbarLabels.search, search);
+        // Creates and returns the toolbar with its items
+        return [{
+            xtype: 'toolbar',
+            items: items
+        }];
+    },
+    createRecord: function() {
+        return new this.store.model(this.newRecordValues);
+    },
+    addItem: function() {
+        var grid = this,
+            autoSync = grid.store.autoSync;
+        // Disables autoSync before inserting line
+        grid.store.autoSync = false;
+        grid.store.insert(0, grid.createRecord());
+        // Re-enables autoSync after inserting line (if applicable)
+        grid.store.autoSync = autoSync;
+        grid.getEditingPlugin().startEdit(0, 0);
+    },
+    removeItem: function() {
+        var grid = this,
+            selection = grid.getView().getSelectionModel().getSelection()[0];
+        if (selection) grid.store.remove(selection);
+    },
+    syncItems: function() {
+        this.store.sync();
+    }
+});
+
+/**
+ * Selection grid enables the user to add items from one store into another
+ * by searching the source store using an autocomplete list
+ * and adding items to the destination store.
+ * The developer can write the makeData() conversion function,
+ * in order to translate source store record into destination store record.
+ */
+Ext.define('Ext.ia.selectiongrid.Panel', {
+    extend: 'Ext.ia.grid.EditBasePanel',
+    alias: 'widget.ia-selectiongrid',
+    //uses:?
+    requires: [
+        'Ext.grid.Panel',
+        'Ext.form.field.ComboBox'
+    ],
+    config: {
+        combo: {
+            store: null,
+            pageSize: 5
+        },
+        grid: {
+            store: null,
+            autoSync: false,
+        },
+        makeData: function(record) {
+            // Returns a hashtable for feeding Ext.data.Model data, eg:
+            // return {
+            //     field1: record.get('id'),
+            //     field2: record.get('name'),
+            //     field3: 'static value'
+            // }
+            return record.data;
+        },
+    },
+    tbar: [],
+    initComponent: function() {
+        // Component
+        this.store = this.grid.store;
+        this.columns = this.grid.columns;
+        // Top toolbar
+        this.tbar = [
+            'Ajouter',
+            this.getCombo()
+        ].concat(this.tbar);
+        // Bottom toolbar
+        this.bbar = [{
+            text: 'Supprimer la sélection',
+            iconCls: 'icon-delete',
+            handler: function() {
+                var grid = this.up('gridpanel');
+                var selection = grid.getView().getSelectionModel().getSelection()[0];
+                if (selection) grid.store.remove(selection);
+            },
+            disabled: true,
+            listeners: {afterrender: function() {
+                var me = this,
+                    grid = this.up('grid');
+                grid.on('selectionchange', function(view, records) {
+                    me.updateState();
+                });
+            }},
+            updateState: function() {
+                var grid = this.up('grid');
+                // Disables if no row selected
+                // or if grid is not editable (see this.editable)
+                var selection = grid.getSelectionModel().getSelection(),
+                    count = selection.length;
+                this.setDisabled(!(grid.editable && count));
+            }
+        }];
+        // Parent init
+        var me = this;
+        me.callParent();
+    },
+    getCombo: function() {
+        // Sets pageSize to combo store
+        this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
+        // Creates combo instance
+        //return new Ext.ia.form.field.ComboBox({
+        return new Ext.form.field.ComboBox({
+            store: this.combo.store,
+            pageSize: true, // Should equal the store.pageSize, but it works well like that...
+            queryParam: 'xquery',
+            typeAhead: false,
+            minChars: 1,
+            hideTrigger: true,
+            width: 350,
+            listConfig: {
+                loadingText: 'Recherche...',
+                emptyText: 'Aucun résultat.',
+                // Custom rendering template for each item
+                getInnerTpl: function() {
+                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                    return [
+                        '<div>',
+                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                        '  <h3>{prenom} {nom}</h3>',
+                        '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
+                        '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
+                        '</div>'
+                    ].join('');
+                }
+            },
+            listeners: {
+                select: function(combo, selection) {
+                    // Inserts record into grid store
+                    var grid = this.up('gridpanel'),
+                        records = [];
+                    Ext.each(selection, function(record) {
+                        records.push(new grid.store.model(grid.makeData(record)));
+                    });
+                    grid.store.insert(grid.store.getCount(), records);
+                    Ext.defer(this.clearValue, 250, this);
+                },
+                blur: function() { this.clearValue() }
+            },
+            updateState: function() {
+                var grid = this.up('grid');
+                // Disables if grid is not editable (see this.editable)
+                this.setDisabled(!grid.editable);
+            }
+        });
     }
 });
 
@@ -1099,12 +1279,24 @@ Ext.override(Ext.form.BasicForm, {
 */
 
 /**
- * FIXME: Test "create version" button
+ * "Create version" button widget.
  */
 Ext.define('Ext.ia.button.CreateVersion', {
     extend:'Ext.Button',
     alias: 'widget.ia-version-create',
     text:'Créer une version',
+    initComponent: function() {
+        this.addEvents(
+            /**
+             * @event createversion
+             * Fires after a new version has been successfuly created
+             * @param {Object} result The server-side result
+             * @param {Number} version The created version id
+             */
+            'createversion'
+        );
+        this.callParent();
+    },
     handler: function() {
         var me = this;
         this.window = new Ext.window.Window({
@@ -1176,6 +1368,8 @@ Ext.define('Ext.ia.button.CreateVersion', {
             success: function(xhr) {
                 field.reset();
                 me.window.close();
+                var result = Ext.JSON.decode(xhr.responseText);
+                me.fireEvent('createversion', result, result.xinsertid);
             },
             failure: function(xhr) {
                 var r = Ext.JSON.decode(xhr.responseText);
@@ -1199,7 +1393,7 @@ Ext.define('Ext.ia.button.CreateVersion', {
  * - sets xversion parameter to the form' grids' stores
  */
 Ext.define('Ext.ia.form.field.VersionComboBox', {
-    extend:'Ext.form.field.ComboBox',
+    extend:'Ext.ia.form.field.ComboBox',
     alias: 'widget.ia-version-combo',
     typeAhead: false,
     editable: false,
@@ -1220,31 +1414,13 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     store: null,
     modelname: null,
     modelid: null,
+    width: 350,
     getTopLevelComponent: function() {
         return this.up('form');
     },
-    getComponents: function() {
-        var components = [],
-            topLevelComponent = this.getTopLevelComponent();
-        // Adds top level component (it is often a form)
-        topLevelComponent.cascade(function(c) {
-            // Adds forms and grids
-            if (c.isXType('form') || c.isXType('gridpanel')) components.push(c);
-        });
-        return components;
-    },
     changeVersion: function(version) {
-        Ext.each(this.getComponents(), function(c) {
-            // Applies version to the forms record
-            if (c.isXType('form')) {
-                c.loadRecord({xversion:version})
-            }
-            // Applies version to the form grids
-            if (c.isXType('gridpanel')) {
-                c.store.params['xversion'] = version;
-                c.store.load();
-            }
-        });
+        var component = this.getTopLevelComponent();
+        component.setVersion(version);
     },
     initComponent: function() {
         this.addEvents([
@@ -1268,7 +1444,7 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         });
         // Adds a record for current version
         this.store.on({load: function() {
-            this.insert(0, {id: 0});
+            this.insert(0, {id: 0, version_id: 0});
         }});
         //
         var me = this;
@@ -1277,12 +1453,13 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
         this.on({
             select: function(combo, records) {
                 var record = records.shift(),
-                    version = record.get('version_id');
+                    version = record.get('version_id'),
+                    commentaire = record.get('version_commentaire');
                 this.changeVersion(version);
                 this.fireEvent('changeversion', me, version);
                 // Sets templated text in combo
-                var display = version ?
-                    Ext.String.format("Version {0}", version) :
+                var display = (version) ?
+                    Ext.String.format("Version {0} - {1}", version, commentaire) :
                     "Version actuelle";
                 this.setRawValue(display);
             },
@@ -1290,7 +1467,11 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
                 // Loads on expand to update versions list.
                 // Prevents loading store twice when the store is
                 // not yet loaded (eg. on first expand).
-                if (this.store.loaded) this.store.load();
+                // NOTE: Disabled for the moment because it causes
+                //       the combo to collapse abruptly and makes it unusable.
+                // NOTE: Instead, ia-versioning widget reloads combo store on
+                //       ia-version-create 'createversion' event.
+                // if (this.store.loaded) this.store.load();
             }
         });
     }
@@ -1305,6 +1486,8 @@ Ext.define('Ext.ia.Versioning', {
         modelid: null,
         getTopLevelComponent: null
     },
+    formConfig: {
+    },
     initComponent: function() {
         var combo = Ext.apply({xtype: 'ia-version-combo'},this.comboConfig),
             button = Ext.apply({xtype: 'ia-version-create'},this.formConfig),
@@ -1312,6 +1495,7 @@ Ext.define('Ext.ia.Versioning', {
                 xtype: 'checkbox',
                 boxLabel: 'Afficher toutes les versions',
                 handler: function(checkbox, value) {
+                    // Removes filter on 'version_operation' through store.params
                     var store = this.up('ia-versioning').down('ia-version-combo').store;
                     if (value) {
                         this._version_operation = store.params.version_operation;
@@ -1320,9 +1504,18 @@ Ext.define('Ext.ia.Versioning', {
                         store.params.version_operation = this._version_operation;
                     }
                 }
-            };
+        };
+        // Adds widgets
         this.items = [combo, button/*, checkbox*/];
         this.callParent();
+        // Reloads combo store on createversion
+        var buttonInstance = this.items.getAt(1),
+            comboInstance = this.items.getAt(0);
+        buttonInstance.on('afterrender', function() {
+            this.on('createversion', function(result, version) {
+                comboInstance.store.load();
+            });
+        });
     }
 });
 
@@ -1347,11 +1540,13 @@ Ext.define('Ext.ia.form.Panel', {
         labelAlign: 'right',
         msgTarget: 'side'
     },
+    editable: true,
     record: null,
     fetch: {
         model: null,
         id: null,
-        params: {}
+        params: {},
+        xversion: null
     },
     dockedItems: [],
     getRecordId: function() {
@@ -1383,16 +1578,38 @@ Ext.define('Ext.ia.form.Panel', {
             // Creates the record
             var me = this;
             this.fetch.model.load(this.fetch.id, {
-                success: function(record) {
-                    // Checks record before applying
+                success: function(record, operation) {
+                    // FIXME: Test on xversion prevents displaying an error
+                    //        meanwhile the actual versioned record is loaded (see this.initComponent()).
+                    //        This is dirty
+                    if (!record && me.fetch.xversion) return;
+                    // Checks record before applying data
                     if (!record) {
-                        proxy.fireEvent('exception', proxy, {}, {action:'read'});
+                        proxy.fireEvent('exception', proxy, operation.response, operation);
                         return;
                     }
                     // Load record into form
                     me.record = record;
                     me.getForm().loadRecord(me.record);
                     me.fireEvent('load', me, me.record);
+                },
+                // Masks the component if data loading fails
+                failure: function(record, operation) {
+                    var height = me.getHeight();
+                    // Hides existing items
+                    var toolbar = me.dockedItems.getAt(me.dockedItems.findIndex('xtype', 'toolbar'));
+                    toolbar.hide();
+                    me.items.each(function(c) { c.hide() });
+                    // Sets message class
+                    me.body.addCls('x-ia-panel-mask x-ia-panel-mask-'+Ext.ia.caption.type[operation.error.status]);
+                    // Creates message panel item
+                    me.add({
+                        html: Ext.ia.caption.status[operation.error.status],
+                        border: false,
+                        frame: false,
+                        bodyStyle: 'background-color:transparent'
+                    });
+                    me.setHeight(height);
                 },
                 callback: function() {
                     if (proxy) proxy.extraParams = proxyExtraParams;
@@ -1454,6 +1671,52 @@ Ext.define('Ext.ia.form.Panel', {
         });
         return changes;
     },
+    setVersion: function(version) {
+        var me = this;
+        // Sets form record xversion
+        this.loadRecord({xversion:version});
+        // Cascade setVersion() where applicable
+        this.cascade(function(c) {
+            if (c === me) return;
+            if (c.setVersion) c.setVersion(version);
+        });
+        // Sets grid as not editable and updates its state
+        // - storing the previous 'editable' state
+        if (typeof(this._editableInit)=='undefined') this._editableInit = this.editable;
+        // - setting form as not editable if versioned,
+        //   or restores stored editable state if not versioned
+        this.editable = version ? false : this._editableInit;
+        // - updating component state
+        this.updateState();
+    },
+    updateState: function() {
+        var me = this;
+        // Toggles form items (eg. fields)
+        // FIXME: Form items disablement logic could be moved
+        //        inside a Field-specific updateState() method
+        this.cascade(function(c) {
+            // Do not disable version-combo
+            if (c.isXType('ia-version-combo')) return;
+            // Toggles form fields to 'readonly' mode
+            if (c.isXType('field')) c.setReadOnly(!me.editable);
+            // Toggles contained buttons
+            if (c.isXType('button')) c.setDisabled(!me.editable);
+        });
+        // Cascades call to updateState()
+        // on form items
+        this.cascade(function(c) {
+            // Skips processing itself
+            if (c === me) return;
+            if (c.updateState) c.updateState();
+        });
+        // Cascades call to updateState()
+        // on dockedItems elements (eg. buttons)
+        this.dockedItems.each(function(dockedItem) {
+            dockedItem.items.each(function(c) {
+                if (c.updateState) c.updateState();
+            });
+        });
+    },
     initComponent: function() {
         this.addEvents(
             /**
@@ -1484,8 +1747,11 @@ Ext.define('Ext.ia.form.Panel', {
             */
             'aftersave'
         );
+        // Locks form if not editable
+        if (!this.editable) this.lockFields(this.editable);
         // If applicable, create a save button for the form
         if (this.record || this.fetch.model) {
+            var me = this;
             if (!this.tbar) this.tbar = [];
             this.tbar.push({
                 xtype: 'button',
@@ -1493,39 +1759,42 @@ Ext.define('Ext.ia.form.Panel', {
                 iconCls: 'icon-save',
                 scale: 'medium',
                 handler: function() { me.saveRecord() },
-                initComponent: function() {
-                    var me = this;
-                    me.callParent();
-                    // Disables button if a version is selected
-                    this.on({afterrender: function() {
-                        // FIXME: This is dirty because the grid should not
-                        //        be aware of the ia-version-combo
-                        var me = this,
-                            // Finds the ia-version-combo contained in plain forms
-                            form = this.up('form'),
-                            form_combo = form ? form.down('ia-version-combo') : null,
-                            // Finds the ia-version-combo contained in 'commission' forms
-                            tabpanel = this.up('tabpanel'),
-                            panel = tabpanel ? tabpanel.up('panel') : null,
-                            panel_combo = panel ? panel.down('ia-version-combo') : null,
-                            //
-                            combo = form_combo || panel_combo;
-                        if (!combo) return;
-                        combo.on({changeversion: function(combo, version) {
-                            me.setDisabled(version);
-                            // Toggles form fields to 'readonly' mode
-                            // TODO: Move this logic into actual form
-                            me.up('form').cascade(function(c) {
-                                if (c.isXType('field') && !c.isXType('ia-version-combo'))
-                                    c.setReadOnly(version);
-                            });
-                        }});
-                    }});
-                },
+                updateState: function() {
+                    this.setDisabled(!me.editable);
+                }
             });
         }
+        //
         var me = this;
         me.callParent();
+        // Manages version combo value if a versioned record is requested
+        // FIXME: This should be implemented in ia-version-combo (Form should not be aware of version-combo)
+        if (this.fetch && this.fetch.xversion) {
+            var version = this.fetch.xversion,
+                combo = this.down('ia-version-combo');
+            // Applies version if ia-version-combo exists
+            if (combo && version) {
+                // Disables remote sorting, versions are sorted locally
+                combo.store.remoteSort = false;
+                combo.store.sort('version_id', 'DESC');
+                // Adds requested xversion to versions list
+                // if not already existing
+                combo.store.on('load', function() {
+                    if (combo.store.findExact('version_id', version) < 0) {
+                        this.insert(0, {
+                            version_id: version,
+                            version_commentaire: '***'
+                        });
+                    }
+                });
+                // Selects requested version,
+                // updating form stores through ia-version-combo wiget.
+                combo.store.load(function(records, operation, success) {
+                    var record = this.getAt(this.findExact('version_id', version));
+                    combo.fireEvent('select', combo, [record]);
+                });
+            }
+        }
         // Manages record loading
         this.on('afterrender', function() {
             this.makeRecord();
@@ -1547,6 +1816,20 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         // Determines tab CSS class
         var cls = finished ? 'tab-icon-done' : 'tab-icon-pending';
         tab.setIconCls(cls);
+    },
+    setVersion: function(version) {
+        this.items.each(function(c) {
+            // We need to go down one nesting level
+            // to access the actual tab content
+            c.down().setVersion(version);
+        });
+    },
+    lockFields: function(lock) {
+        this.items.each(function(c) {
+            // We need to go down one nesting level
+            // to access the actual tab content
+            c.down().lockFields(lock);
+        });
     },
     initComponent: function() {
         // 'Closed commission' information message display
@@ -1659,6 +1942,7 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         toolbar.addCls(cls);
     },
     makeDockedItems: function() {
+        var me = this;
         return ['->', {
             xtype: 'checkbox',
             itemId: 'checkbox-finished',
@@ -1671,6 +1955,9 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
                 if (finished == checked) return;
                 // Fires checkbox change logic
                 this.up('form').onCheckboxClick(checkbox);
+            },
+            updateState: function() {
+                this.setDisabled(!me.editable);
             }
         }];
     },
@@ -1752,6 +2039,29 @@ Ext.define('Ext.ia.window.Popup', {
     }
 });
 
+
+/**
+ * Extends Ext.ux.window.Notification with
+ * - default options
+ */
+Ext.define('Ext.ia.window.Notification', {
+    extend: 'Ext.ux.window.Notification',
+    alias: 'widget.ia-notification',
+    cls: 'ux-notification-light',
+    iconCls: 'ux-notification-icon-information',
+    width: 300,
+    slideInDuration: 66,
+    slideBackAnimation: 'easeOut',
+    slideBackDuration: 66,
+    hideDuration: 3000,
+    autoHideDelay: 500,
+    position: 't',
+    closable: true,
+    shadow: true,
+    useXAxis: true,
+    //title: '',
+    //html: ''
+})
 
 /******************************************************************************
  * History

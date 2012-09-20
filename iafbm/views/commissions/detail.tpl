@@ -6,10 +6,6 @@
 
 Ext.onReady(function() {
 
-    // Shared Candidat store
-    // between form_candidat and form_finalisation
-    var store_candidat = new iafbm.store.Candidat();
-
     var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Commission'),
         fetch: {
@@ -75,11 +71,13 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
+        }, {
+            baseCls: 'title',
+            html: 'Composition'
         }, new Ext.ia.selectiongrid.Panel({
-            title: 'Composition',
+            title: 'Membres nominatifs',
             width: 857,
-            height: 350,
-            plugins: [new Ext.ia.grid.plugin.RowEditing()],
+            height: 250,
             combo: {
                 store: new iafbm.store.Personne({
                     params: {
@@ -105,12 +103,55 @@ Ext.onReady(function() {
                     personne_id: record.get('id'),
                     commission_fonction_id: 1,
                     commission_id: <?php echo $d['id'] ?>,
-                    actif: 1,
                     personne_nom: record.get('nom'),
                     personne_prenom: record.get('prenom')
                 }
-            }
-        })/*, {
+            },
+            tbar: ['->', {
+                xtype: 'button',
+                text: 'Imprimer',
+                iconCls: 'icon-print',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/print/commissions_membres/', id].join('');
+                    location.href = url;
+                }
+            }, '-', {
+                xtype: 'button',
+                text: 'Visualiser',
+                iconCls: 'icon-details',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/print/commissions_membres/', id, '?html'].join('');
+                    window.open(url);
+                }
+            }, '-', {
+                xtype: 'button',
+                text: 'Export adresses (CSV)',
+                iconCls: 'icon-get',
+                handler: function() {
+                    var id = <?php echo $d['id'] ?>,
+                        url = [x.context.baseuri, '/commissions_membres/do/export/', id, '?xformat=csv'].join('');
+                    location.href = url;
+                }
+            }]
+        }), {
+            xtype: 'ia-editgrid',
+            title: 'Membres non nominatifs',
+            width: 857,
+            height: 200,
+            toolbarButtons: ['add', 'delete'],
+            store: ss = new iafbm.store.CommissionMembreNonominatif({
+                params: { commission_id: <?php echo $d['id'] ?> },
+                sorters: [{
+                    property : 'commission_fonction_position',
+                    direction: 'ASC'
+                }]
+            }),
+            newRecordValues: { commission_id: '<?php echo $d['id'] ?>' },
+            columns: iafbm.columns.CommissionMembreNonominatif,
+            bbar: null
+        }/*, {
             xtype: 'ia-history'
         }*/]
     });
@@ -324,21 +365,27 @@ Ext.onReady(function() {
                     fieldLabel: 'Primo loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'primo_loco',
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secundo loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'secondo_loco'
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio loco',
                     displayField: '_display',
                     valueField: 'id',
-                    store: store_candidat,
+                    store: new iafbm.store.Candidat({
+                        params: { commission_id: <?php echo $d['id'] ?> }
+                    }),
                     name: 'tertio_loco'
                 }]
             }]
@@ -593,7 +640,6 @@ Ext.onReady(function() {
             text: '<span style="font-weight:bold;font-size:18px">Clôturer</span>',
             height: 50,
             // Disables button if commission is already 'closed'
-            // FIXME: buggy
             listeners: {
                 afterrender: function() {
                     var me = this,
@@ -602,12 +648,16 @@ Ext.onReady(function() {
                         me.disableIf(form.getRecord());
                     }
                     form.on('load', function() {
-                        me.disableIf(this.getRecord());
+                        me.disableIf(this.getRecord(), form.store);
                     });
                 }
             },
-            disableIf: function(record) {
-                this.setDisabled(record.get('commission_etat_id') == 3);
+            disableIf: function(record, store) {
+                // Disables 'close' button
+                // if commission not already closed & form is not versioned
+                var versioned = store && store.params.xversion;
+                var enable = record.get('commission_etat_id')!=3 && !versioned;
+                this.setDisabled(!enable);
             },
             // Click logic
             handler: function() {
@@ -634,6 +684,7 @@ Ext.onReady(function() {
         }*/]
     });
 
+    // Panels ids are used for URL hash
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
         activeTab: 0,
         plain: true,
@@ -694,7 +745,7 @@ Ext.onReady(function() {
                 modelname: 'commission',
                 modelid: <?php echo $d['id'] ?>,
                 getTopLevelComponent: function() {
-                    return this.up('panel');
+                    return this.up('panel').down('tabpanel');
                 }
             },
             formConfig: {

@@ -17,6 +17,10 @@ hr {
   height: 1px;
 }
 
+em {
+  font-weight: bold;
+}
+
 /**
 LAYOUT
 **/

@@ -1,6 +1,6 @@
 <?php
 
-class RattachementsController extends iaWebController {
+class RattachementsController extends iaExtRestController {
 
     var $model = 'rattachement';
 

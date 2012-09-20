@@ -1,9 +1,8 @@
 <?php
 /**
- * This model stores tables write activity
- * @note This Model does not extends iaModelMysql because wo do not want to version history
+ * This model stores tables write activity.
  */
-class VersionModel extends iaModelMysql {
+class VersionModel extends iaJournalingModelMysql {
 
     var $versioning = false;
 
@@ -25,13 +24,16 @@ class VersionModel extends iaModelMysql {
 
     var $validation = array();
 
-    function current() {
-        $r = xModel::load('version', array(
-            'xorder_by' => 'id',
-            'xorder' => 'DESC',
-            'xlimit' => 1
-        ))->get(0);
-        $v = $r['id'];
+    /**
+     * Returns the current revision (eg. the last stored revision).
+     * If $n is given, returns the last-$n revision.
+     * @param int If given, return the last-$n revision.
+     * @return int
+     */
+    function current($n=0) {
+        // Raw SQL query to bypass mandatory 'model_name' parameter
+        $r = xModel::q("SELECT `id` FROM `versions` ORDER BY id DESC LIMIT 1 OFFSET {$n};");
+        $v = array_shift(mysql_fetch_assoc($r));
         if (!$v) throw new xException('Could not retrieve current version', 500);
         return $v;
     }
