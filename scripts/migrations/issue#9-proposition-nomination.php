@@ -11,7 +11,6 @@ class iafbmIssue9 extends iafbmScript {
         }
         $t = new xTransaction();
         $t->start();
-/*
         $this->log("Creating additional fields");
         $this->log("Processing table 'candidats'", 1);
         $this->create_fields__candidats($t);
@@ -25,7 +24,6 @@ class iafbmIssue9 extends iafbmScript {
         $this->log("Creating additional table 'commission");
         $this->log("Creating", 1);
         $this->create_table__commissions_propositions_nominations($t);
-*/
         $this->log("Populating", 1);
         $this->populate_table__commissions_propositions_nominations($t);
         $t->end();
