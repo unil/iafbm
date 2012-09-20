@@ -51,5 +51,8 @@ class CommissionPropositionNominationModel extends iaModelMysql {
     );
 
     var $archive_foreign_models = array(
+        'candidat' => array('candidat_id' => 'id'),
+        'activite' => array('activite_id' => 'id'),
+        'grandeur' => array('grandeur_id' => 'id')
     );
 }
