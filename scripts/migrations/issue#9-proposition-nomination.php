@@ -19,7 +19,6 @@ class iafbmIssue9 extends iafbmScript {
         $this->log("Creating additional table 'grandeur'");
         $this->create_table__grandeurs($t);
         $this->log("Creating additional table 'commission");
-        $this->log("Creating", 1);
         $this->create_table__commissions_propositions_nominations($t);
         $this->log("Populating additional table 'grandeur'");
         $this->populate_table__grandeurs($t);
