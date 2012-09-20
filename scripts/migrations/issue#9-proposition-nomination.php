@@ -6,18 +6,41 @@ class iafbmIssue9 extends iafbmScript {
 
     function run() {
         // Single run test
-        if (false&&$this->already_run()) {
+        if ($this->already_run()) {
             throw new Exception('This script has already run');
         }
         $t = new xTransaction();
         $t->start();
         $this->create_fields__candidats($t);
         $this->create_fields__commissions($t);
+        $this->create_table__grandeurs($t);
+        $this->populate_table__grandeurs($t);
         $this->create_table__commissions_propositions_nominations($t);
         $t->end();
     }
 
-    // Creates table 'commissions_propositions_nominations'
+
+    /**
+     * Creates table 'grandeurs'
+     */
+    function create_table__grandeurs(xTransaction $t) {
+        $this->execute_sql_file('005_grandeurs.sql', $t);
+    }
+
+    /**
+     * Populates table 'grandeurs'
+     */
+    function populate_table__grandeurs(xTransaction $t) {
+        include(xContext::$basepath.'/../sql/900_catalogue_data.php');
+        $data = $catalogue_data['grandeur'];
+        foreach ($data as $record) {
+            $t->execute(xModel::load('grandeur', $record), 'put');
+        }
+    }
+
+    /**
+     * Creates table 'commissions_propositions_nominations'
+     */
     function create_table__commissions_propositions_nominations(xTransaction $t) {
         $this->execute_sql_file('191_commissions_propositions_nominations.sql', $t);
     }
