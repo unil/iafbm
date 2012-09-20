@@ -11,11 +11,21 @@ class iafbmIssue9 extends iafbmScript {
         }
         $t = new xTransaction();
         $t->start();
+        $this->log("Creating additional fields");
+        $this->log("Processing table 'candidats'", 1);
         $this->create_fields__candidats($t);
+        $this->log("Processing table 'commission'", 1);
         $this->create_fields__commissions($t);
+        $this->log("Creating additional table 'grandeur'");
+        $this->log("Creating", 1);
         $this->create_table__grandeurs($t);
+        $this->log("Populating", 1);
         $this->populate_table__grandeurs($t);
+        $this->log("Creating additional table 'commission");
+        $this->log("Creating", 1);
         $this->create_table__commissions_propositions_nominations($t);
+        $this->log("Populating", 1);
+        $this->populate_table__commissions_propositions_nominations($t);
         $t->end();
     }
 
@@ -43,6 +53,19 @@ class iafbmIssue9 extends iafbmScript {
      */
     function create_table__commissions_propositions_nominations(xTransaction $t) {
         $this->execute_sql_file('191_commissions_propositions_nominations.sql', $t);
+    }
+
+    /**
+     * Populates table 'commissions_propositions_nominations'
+     * by creating a default row for each commission row.
+     */
+    function populate_table__commissions_propositions_nominations(xTransaction $t) {
+        $items = xModel::load('commission')->get();
+        foreach ($items as $item) {
+            $t->execute(xModel::load('commissions_propositions_nominations', array(
+                'commission_id' => $item['id']
+            )));
+        }
     }
 
     /**

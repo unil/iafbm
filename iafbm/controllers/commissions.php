@@ -158,6 +158,7 @@ class CommissionsController extends AbstractCommissionController {
         $t->execute(xModel::load('commission_creation', $params), 'delete');
         $t->execute(xModel::load('commission_membre', $params), 'delete');
         $t->execute(xModel::load('commission_candidat_commentaire', $params), 'delete');
+        $t->execute(xModel::load('commission_proposition_nomination', $params), 'delete');
         $t->execute(xModel::load('candidat', $params), 'delete');
         $t->execute(xModel::load('commission', $this->params), 'delete');
         return $t->end();
