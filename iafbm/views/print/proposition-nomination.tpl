@@ -10,10 +10,8 @@
  * @return string|null The HTML table row, or null if $label or $value is empty.
  */
 function row($label, $value, $value_suffix=null) {
-    // TODO: should xUtil::date() return null if argument is null?
-    //       i think yes, and also xUtil::time() and xUtil::datetime().
-    // Returns null if $label or $value is empty, or $value is '-' (as in empty xUtil::date())
-    if (!strlen($label) || !strlen($value) || $value=='-') return null;
+    // Returns null if $label or $value is empty
+    if (!strlen($label) || !strlen($value)) return null;
     else {
         $label_suffix = (!$label || $label=='&nbsp;') ? null : ':';
         return "<tr><th>{$label}{$label_suffix}</th><td>{$value}{$value_suffix}</td></tr>";
@@ -37,11 +35,11 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Objet', $d['proposition']['objet']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
-  <?php echo row('Titre proposé', implode(' / ', array(
+  <?php echo row('Titre proposé', implode(' / ', array_filter(array(
         $d['activite']['section_code'],
         $d['activite']['activite_type_nom'],
         $d['activite']['activite_nom_abreviation']
-    )));
+    ))));
   ?>
   <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : xUtil::date($d['proposition']['contrat_debut'])) ?>
   <?php echo row('Fin de contrat', xUtil::date($d['proposition']['contrat_fin'])) ?>
