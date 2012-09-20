@@ -11,6 +11,7 @@ class iafbmIssue9 extends iafbmScript {
         }
         $t = new xTransaction();
         $t->start();
+/*
         $this->log("Creating additional fields");
         $this->log("Processing table 'candidats'", 1);
         $this->create_fields__candidats($t);
@@ -24,6 +25,7 @@ class iafbmIssue9 extends iafbmScript {
         $this->log("Creating additional table 'commission");
         $this->log("Creating", 1);
         $this->create_table__commissions_propositions_nominations($t);
+*/
         $this->log("Populating", 1);
         $this->populate_table__commissions_propositions_nominations($t);
         $t->end();
@@ -60,11 +62,14 @@ class iafbmIssue9 extends iafbmScript {
      * by creating a default row for each commission row.
      */
     function populate_table__commissions_propositions_nominations(xTransaction $t) {
-        $items = xModel::load('commission')->get();
+        $items = xModel::load('commission', array(
+            'xorder' => 'ASC',
+            'xorder_by' => 'id'
+        ))->get();
         foreach ($items as $item) {
-            $t->execute(xModel::load('commissions_propositions_nominations', array(
+            $t->execute(xModel::load('commission_proposition_nomination', array(
                 'commission_id' => $item['id']
-            )));
+            )), 'put');
         }
     }
 
@@ -94,8 +99,15 @@ class iafbmIssue9 extends iafbmScript {
      * This means the script has already been run on this instance.
      */
     function already_run() {
+        // Checks table exists
         $r = xModel::q("SHOW TABLES LIKE 'commissions_propositions_nominations'");
-        return mysql_num_rows($r);
+        $table_exists = (bool)mysql_num_rows($r);
+        if (!$table_exists) return false;
+        // Checks rows match
+        return (
+            mysql_num_rows(xModel::q("SELECT id FROM commissions")) ==
+            mysql_num_rows(xModel::q("SELECT id FROM commissions_propositions_nominations"))
+        );
     }
 
 }
