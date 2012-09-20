@@ -10,7 +10,7 @@ CREATE TABLE commissions_propositions_nominations (
     contrat_debut_au_plus_tot BOOLEAN,
     contrat_fin DATE,
     charge_horaire INT UNSIGNED,
-    charge_horaire_unite TEXT,
+    grandeur_id INT,
     indemnite INT UNSIGNED,
     titre_cours TEXT,
     observations TEXT,
@@ -27,6 +27,7 @@ CREATE TABLE commissions_propositions_nominations (
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id),
     FOREIGN KEY (candidat_id) REFERENCES candidats(id),
-    FOREIGN KEY (activite_id) REFERENCES activites(id)
+    FOREIGN KEY (activite_id) REFERENCES activites(id),
+    FOREIGN KEY (grandeur_id) REFERENCES grandeurs(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 CREATE UNIQUE INDEX commission_id_unique ON commissions_propositions_nominations(commission_id);

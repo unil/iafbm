@@ -1,6 +1,48 @@
 <?php
 
 $catalogue_data = array(
+        'grandeur' => array(
+                array(
+                        'id' => 1,
+                        'actif' => '1',
+                        'nom' => 'Poucentage',
+                        'dimsension_symbole' => '%',
+                        'unite' => 'Pourcent(s)',
+                        'unite_singulier' => 'Pourcent',
+                        'unite_pluriel' => 'Pourcents',
+                        'unite_symbole' => '%'
+                ),
+                array(
+                        'id' => 2,
+                        'actif' => '1',
+                        'nom' => 'Charge en heures par année',
+                        'dimsension_symbole' => 'h/année',
+                        'unite' => 'Heure(s) par année',
+                        'unite_singulier' => 'Heure par année',
+                        'unite_pluriel' => 'Heures par année',
+                        'unite_symbole' => 'h/année'
+                ),
+                array(
+                        'id' => 3,
+                        'actif' => '1',
+                        'nom' => 'Charge en heures par semestre',
+                        'dimsension_symbole' => 'h/semestre',
+                        'unite' => 'Heure(s) par semestre',
+                        'unite_singulier' => 'Heure par semestre',
+                        'unite_pluriel' => 'Heures par semestre',
+                        'unite_symbole' => 'h/semestre'
+                ),
+                array(
+                        'id' => 4,
+                        'actif' => '1',
+                        'nom' => 'Charge en heures par mois',
+                        'dimsension_symbole' => 'h/mois',
+                        'unite' => 'Heure(s) par mois',
+                        'unite_singulier' => 'Heure par mois',
+                        'unite_pluriel' => 'Heures par mois',
+                        'unite_symbole' => 'h/mois'
+                )
+        ),
 		'canton' => array(
 				array(
 						'id' => 1,

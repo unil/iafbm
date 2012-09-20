@@ -761,6 +761,27 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
     store: Ext.create('iafbm.store.CommissionPropositionNomination'), // FIXME: this should not be necessary
     //
     initComponent: function() {
+        var form = this;
+        // Form buttons
+        this.tbar = ['-', {
+            xtype: 'button',
+            text: 'Visualiser',
+            iconCls: 'icon-details',
+            handler: function() {
+                var id = form.record.get('commission_id'),
+                    url = [x.context.baseuri, '/print/proposition_nomination/', id, '?html'].join('');
+                window.open(url);
+            }
+        }, '-', {
+            xtype: 'button',
+            text: 'Imprimer',
+            iconCls: 'icon-print',
+            handler: function() {
+                var id = form.record.get('commission_id'),
+                    url = [x.context.baseuri, '/print/proposition_nomination/', id].join('');
+                window.open(url);
+            }
+        }];
         // Form defaults
         this.defaults = {
             width: '100%',
@@ -883,14 +904,12 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 }, {
                     xtype: 'ia-combo',
                     editable: false,
-                    name: 'charge_horaire_unite',
-                    width: 190,
-                    displayField: 'unit',
-                    valueField: 'unit',
-                    store: Ext.create('Ext.data.ArrayStore', {
-                        autoDestroy: true,
-                        fields: ['unit'],
-                        data: [['%'], ['h/semaine'], ['h/semestre'], ['h/année']]
+                    name: 'grandeur_id',
+                    width: 191,
+                    displayField: 'unite_symbole',
+                    valueField: 'id',
+                    store: Ext.create('iafbm.store.Grandeur', {
+                        params: { 'id[]': [1,2,3,4] }
                     })
                 }]
             }, {
@@ -943,7 +962,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
 
             }, {
                 xtype: 'ia-datefield',
-                fieldLabel: 'Date (proposition?)',
+                fieldLabel: 'Date',
                 name: 'date_proposition'
             }]
         }, {

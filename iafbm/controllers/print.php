@@ -83,7 +83,7 @@ class printController extends iaExtRestController {
         // Fetches proposition nomination data
         $proposition = xModel::load('commission_proposition_nomination', array(
             'commission_id' => $id,
-            'xjoin' => 'commission_travail,commission_validation,activite'
+            'xjoin' => 'commission_travail,commission_validation,activite,grandeur'
         ))->get(0);
         // Fetches activite data
         $activite = xModel::load('activite', array(

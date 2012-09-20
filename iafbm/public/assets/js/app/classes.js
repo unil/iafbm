@@ -1778,7 +1778,7 @@ Ext.define('Ext.ia.form.Panel', {
         if (this.record || this.fetch.model) {
             var me = this;
             if (!this.tbar) this.tbar = [];
-            this.tbar.push({
+            this.tbar.unshift({
                 xtype: 'button',
                 text: 'Enregistrer',
                 iconCls: 'icon-save',

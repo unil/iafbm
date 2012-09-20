@@ -3,6 +3,23 @@
 **/
 
 // Models
+Ext.define('iafbm.model.Grandeur', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'},
+        {name: 'dimsension_symbole', type: 'string'},
+        {name: 'unite', type: 'string'},
+        {name: 'unite_singulier', type: 'string'},
+        {name: 'unite_pluriel', type: 'string'},
+        {name: 'unite_symbole', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/grandeurs',
+    }
+});
 Ext.define('iafbm.model.Etatcivil', {
     extend: 'Ext.data.Model',
     fields: [
@@ -686,7 +703,7 @@ Ext.define('iafbm.model.CommissionPropositionNomination', {
         {name: 'contrat_debut_au_plus_tot', type: 'boolean'},
         {name: 'contrat_fin', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'charge_horaire', type: 'int', useNull: true},
-        {name: 'charge_horaire_unite', type: 'string'},
+        {name: 'grandeur_id', type: 'int', useNull: true},
         {name: 'indemnite', type: 'int', useNull: true},
         {name: 'titre_cours', type: 'string'},
         {name: 'grade_obtention_lieu', type: 'string'},

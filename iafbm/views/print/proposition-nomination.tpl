@@ -45,9 +45,11 @@ function row($label, $value, $value_suffix=null) {
   ?>
   <?php echo row('Début de contrat', $d['proposition']['contrat_debut_au_plus_tot'] ? 'Au plus tôt' : xUtil::date($d['proposition']['contrat_debut'])) ?>
   <?php echo row('Fin de contrat', xUtil::date($d['proposition']['contrat_fin'])) ?>
-  <?php echo row("Taux d'activité/Charge horaire", $d['proposition']['charge_horaire'] ? implode(' ', array(
-        $d['proposition']['charge_horaire'], $d['proposition']['charge_horaire_unite']
-    )) : null);
+  <?php echo row(
+        "Taux d'activité/Charge horaire", $d['proposition']['charge_horaire'] ?
+            implode(' ', array(
+                $d['proposition']['charge_horaire'], $d['proposition']['grandeur_unite_symbole']
+            )) : null);
   ?>
   <?php echo row('Indemnité', $d['proposition']['indemnite'], ' CHF') ?>
   <?php echo row('Primo loco', $d['candidat']['_primo_loco'] ? 'Oui' : 'Non') ?>
@@ -59,6 +61,7 @@ function row($label, $value, $value_suffix=null) {
     )
   ?>
 
+  <?php echo row('&nbsp;', '&nbsp;') ?>
   <tr><td colspan="2">
     <h3>Coordonnées</h3>
   </td></tr>
@@ -89,6 +92,7 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Permis', @$d['candidat']['permis_nom']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
+<?php if (@max(array($d['candidat']['position_actuelle_fonction'], $d['candiat-formations']))): ?>
   <?php echo row('Fonction actuelle', @$d['candidat']['position_actuelle_fonction']) ?>
   <?php
     echo row('Grade universitaire', implode('<br/>', array_map(function($formation) {
@@ -100,19 +104,24 @@ function row($label, $value, $value_suffix=null) {
     }, $d['candidat-formations'])))
   ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
+<?php endif ?>
 
-  <?php echo row(
+  <?php
+    $preavis_labels = array(
+        'decanat_date' => '(Validation par le Décanat)',
+        'cf_date' => '(Validation par le CF)'
+    );
+    $date = xUtil::date($d['proposition']["commission_validation_{$d['proposition']['date_preavis_champs']}"]);
+    echo row(
         'Date préavis',
-        implode(': ', array(
-            'TODO label Décanat/CF',
-            xUtil::date($d['proposition']["commission_validation_{$d['proposition']['date_preavis_champs']}"])
-        ))
+        $date ? "{$date} {$preavis_labels[$d['proposition']['date_preavis_champs']]}" : null
     )
   ?>
   <?php echo row('Observations', nl2br($d['proposition']['observations'])) ?>
   <?php echo row('Date', xUtil::date(mktime())) ?>
 
 <?php if (@max(xUtil::filter_keys($d['proposition'], array('annexe_rapport_commission', 'annexe_cahier_des_charges', 'annexe_cv_publications', 'annexe_declaration_sante')))): ?>
+  <?php echo row('&nbsp;', '&nbsp;') ?>
   <tr><td colspan="2">
     <h3>Annexes</h3>
   </td></tr>
@@ -123,6 +132,7 @@ function row($label, $value, $value_suffix=null) {
 <?php endif ?>
 
 <?php if (@max(xUtil::filter_keys($d['proposition'], array('imputation_fonds', 'imputation_centre_financier', 'imputation_unite_structurelle', 'imputation_numero_projet')))): ?>
+  <?php echo row('&nbsp;', '&nbsp;') ?>
   <tr><td colspan="2">
     <h3>Imputation</h3>
   </td></tr>

@@ -532,13 +532,7 @@ Ext.onReady(function() {
                                 model: iafbm.model.CommissionPropositionNomination,
                                 params: { commission_id: '<?php echo $d['id'] ?>' }
                             },
-                            frame: false,
-                            listeners: {
-                                // Closes popup on form save
-                                aftersave: function(form, record) {
-                                    popup.close();
-                                }
-                            }
+                            frame: false
                         })
                     });
                 }
