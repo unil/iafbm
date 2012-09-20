@@ -17,14 +17,13 @@ class iafbmIssue9 extends iafbmScript {
         $this->log("Processing table 'commission'", 1);
         $this->create_fields__commissions($t);
         $this->log("Creating additional table 'grandeur'");
-        $this->log("Creating", 1);
         $this->create_table__grandeurs($t);
-        $this->log("Populating", 1);
-        $this->populate_table__grandeurs($t);
         $this->log("Creating additional table 'commission");
         $this->log("Creating", 1);
         $this->create_table__commissions_propositions_nominations($t);
-        $this->log("Populating", 1);
+        $this->log("Populating additional table 'grandeur'");
+        $this->populate_table__grandeurs($t);
+        $this->log("Populating additional table 'commissions_propositions_nominations'");
         $this->populate_table__commissions_propositions_nominations($t);
         $t->end();
     }
@@ -43,6 +42,7 @@ class iafbmIssue9 extends iafbmScript {
     function populate_table__grandeurs(xTransaction $t) {
         include(xContext::$basepath.'/../sql/900_catalogue_data.php');
         $data = $catalogue_data['grandeur'];
+
         foreach ($data as $record) {
             $t->execute(xModel::load('grandeur', $record), 'put');
         }
