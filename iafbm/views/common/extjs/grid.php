@@ -12,7 +12,7 @@ class CommonExtjsGridView extends CommonExtjsBaseView {
             'title' => 'Elements',
             'id' => sha1(microtime().session_id()),
             'pageSize' => 25,
-            'height' => 605,
+            'height' => 630,
             'columns' => @$this->data['columns'] ? $this->data['columns'] : "iafbm.columns.{$this->data['model']}",
             'editable' => true,
             'autoSync' => false,
