@@ -90,7 +90,6 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Permis', @$d['candidat']['permis_nom']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
-<?php if (@max(array($d['candidat']['position_actuelle_fonction'], $d['candiat-formations']))): ?>
   <?php echo row('Fonction actuelle', @$d['candidat']['position_actuelle_fonction']) ?>
   <?php
     echo row('Grade universitaire', implode('<br/>', array_map(function($formation) {
@@ -101,6 +100,7 @@ function row($label, $value, $value_suffix=null) {
         )));
     }, $d['candidat-formations'])))
   ?>
+<?php if (@max(array($d['candidat']['position_actuelle_fonction'], $d['candiat-formations']))): ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 <?php endif ?>
 
