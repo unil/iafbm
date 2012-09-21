@@ -760,28 +760,29 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
     extend: 'Ext.ia.form.Panel',
     store: Ext.create('iafbm.store.CommissionPropositionNomination'), // FIXME: this should not be necessary
     //
-    initComponent: function() {
-        var form = this;
-        // Form buttons
-        this.tbar = ['-', {
+    getToobarButtons: function(commission_id) {
+        var url = [
+            x.context.baseuri,
+            '/print/proposition_nomination/',
+            commission_id
+        ].join('');
+        return [{
             xtype: 'button',
             text: 'Visualiser',
             iconCls: 'icon-details',
-            handler: function() {
-                var id = form.record.get('commission_id'),
-                    url = [x.context.baseuri, '/print/proposition_nomination/', id, '?html'].join('');
-                window.open(url);
-            }
-        }, '-', {
+            handler: function() {window.open(url+'?html')}
+        }, {
             xtype: 'button',
             text: 'Imprimer',
             iconCls: 'icon-print',
-            handler: function() {
-                var id = form.record.get('commission_id'),
-                    url = [x.context.baseuri, '/print/proposition_nomination/', id].join('');
-                window.open(url);
-            }
+            handler: function() {window.open(url)}
         }];
+    },
+    //
+    initComponent: function() {
+        // Form toolbar buttons
+        this.tbar = this.getToobarButtons(this.fetch.params.commission_id);
+        this.tbar.unshift('-');
         // Form defaults
         this.defaults = {
             width: '100%',

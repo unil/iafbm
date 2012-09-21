@@ -516,27 +516,35 @@ Ext.onReady(function() {
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Proposition de nomination',
-            items: [{
-                xtype: 'ia-datefield',
-                name: 'envoi_proposition_nomination',
-            }, {
-                xtype: 'button',
-                text: 'Formulaire',
-                iconCls: 'icon-details',
-                handler: function() {
-                    var me = this,
-                        popup = new Ext.ia.window.Popup({
-                        title: 'Détails',
-                        item: new iafbm.form.CommissionPropositionNomination({
-                            fetch: {
-                                model: iafbm.model.CommissionPropositionNomination,
-                                params: { commission_id: '<?php echo $d['id'] ?>' }
-                            },
-                            frame: false
-                        })
-                    });
-                }
-            }]
+            items: function() {
+                var items = [{
+                    xtype: 'ia-datefield',
+                    name: 'envoi_proposition_nomination',
+                }, {
+                    xtype: 'button',
+                    text: 'Formulaire',
+                    iconCls: 'icon-details',
+                    handler: function() {
+                        var me = this,
+                            popup = new Ext.ia.window.Popup({
+                            title: 'Détails',
+                            item: new iafbm.form.CommissionPropositionNomination({
+                                fetch: {
+                                    model: iafbm.model.CommissionPropositionNomination,
+                                    params: { commission_id: '<?php echo $d['id'] ?>' }
+                                },
+                                frame: false
+                            })
+                        });
+                    }
+                }];
+                items.push(
+                    iafbm.form.CommissionPropositionNomination.prototype.getToobarButtons(
+                        <?php echo $d['id'] ?>
+                    )
+                );
+                return items;
+            }()
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Validation par le CDir',
