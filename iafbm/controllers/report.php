@@ -90,7 +90,10 @@ class ReportController extends iaExtRestController {
                     ))->get();
                     foreach ($commissions_membres as $commission_membre) {
                         $commission_id = @$commission_membre['commission_id'];
-                        $commissions[$commission_id] = xModel::load('commission', array('id'=>$commission_id))->get();
+                        $commissions[$commission_id] = xModel::load('commission', array(
+                            'id' => $commission_id,
+                            // FIXME: filter on commissions 'permanantes': 'commission_type_id' => ?
+                        ))->get();
                     }
                     $data[] = array(
                         'personne_activite' => $personne_activite,
