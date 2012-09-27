@@ -65,6 +65,7 @@ class ReportController extends iaExtRestController {
         $get_personnes_by_activites = function($activite_nom_abreviation, $section_code) {
             $data = array();
             // Determines 'activite' id
+            // that corresponds to the given activite and section
             $activites_id = array();
             $r = xModel::load('activite', array(
                 'activite_nom_abreviation' => $activite_nom_abreviation,
@@ -77,6 +78,10 @@ class ReportController extends iaExtRestController {
             foreach ($activites_id as $activite_id) {
                 $r = xModel::load('personne_activite', array(
                     'activite_id' => $activite_id,
+                    'debut' => xUtil::ustime(),
+                    'debut_comparator' => '<=',
+                    'fin' => xUtil::ustime(),
+                    'fin_comparator' => '>=',
                     'xjoin' => ''
                 ))->get();
                 foreach ($r as $item) {
@@ -93,7 +98,7 @@ class ReportController extends iaExtRestController {
                         $commissions[$commission_id] = xModel::load('commission', array(
                             'id' => $commission_id,
                             // FIXME: filter on commissions 'permanantes': 'commission_type_id' => ?
-                        ))->get();
+                        ))->get(0);
                     }
                     $data[] = array(
                         'personne_activite' => $personne_activite,

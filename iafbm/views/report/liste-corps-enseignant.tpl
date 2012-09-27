@@ -36,16 +36,16 @@
     </tr>
 <?php foreach ($d as $item): ?>
     <tr>
-        <td><?php echo $item['personne']['nom'] ?></td>
-        <td><?php echo $item['personne']['prenom'] ?></td>
-        <td><?php echo xUtil::date($item['personne']['date_naissance']) ?></td>
-        <td><?php echo $item['activite']['activite_nom_abreviation'] ?></td>
-        <td><?php echo $item['rattachement']['nom'] ?></td>
-        <td><?php echo $item['personne_activite']['taux_activite'] ?>%</td>
-        <td><?php echo xUtil::date($item['personne_activite']['debut']) ?></td>
-        <td><?php echo xUtil::date($item['personne_activite']['fin']) ?></td>
-        <td><?php echo $item[''][''] ?>?</td>
-        <td><?php if ($item['commissions']) foreach($item['commissions'] as $commission) echo $commission['nom'].'<br/>'; else echo '-' ?></td>
+        <td style="width:10%"><?php echo $item['personne']['nom'] ?></td>
+        <td style="width:10%"><?php echo $item['personne']['prenom'] ?></td>
+        <td style="width:5%"><?php echo xUtil::date($item['personne']['date_naissance']) ?></td>
+        <td style="width:5%"><?php echo $item['activite']['activite_nom_abreviation'] ?></td>
+        <td style="width:10%"><?php echo $item['rattachement']['nom'] ?></td>
+        <td style="width:10%"><?php echo $item['personne_activite']['taux_activite'] ?>%</td>
+        <td style="width:10%"><?php echo xUtil::date($item['personne_activite']['debut']) ?></td>
+        <td style="width:10%"><?php echo xUtil::date($item['personne_activite']['fin']) ?></td>
+        <td style="width:5%"><?php echo $item[''][''] ?>?</td>
+        <td style="width:20%"><?php if ($item['commissions']) foreach($item['commissions'] as $commission) echo $commission['nom'].'<br/><br/>'; else echo '-' ?></td>
     </tr>
 <?php endforeach ?>
 </table>
