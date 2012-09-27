@@ -108,6 +108,7 @@ class ReportController extends iaExtRestController {
             return $data;
         };
         $data = $get_personnes_by_activites(array('PO', 'PO ad personam'), 'SSC');
+        $this->params['xorientation'] = 'landscape';
         $this->_print(xView::load('report/liste-corps-enseignant', $data, $this->meta));
     }
 
