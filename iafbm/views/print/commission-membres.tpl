@@ -54,7 +54,7 @@ tr.president {
 }
 </style>
 
-<h1>Membres de la <?php echo lcfirst($d['commission']['nom']) ?></h1>
+<h1>Membres de la <?php echo lcfirst($d['commission']['nom']) ?>  (avec droit de vote)</h1>
 <hr/>
 <table class="noborder" style="vertical-align:top">
 <?php if ($d['membres']) foreach(concat($d['membres']) as $membre): ?>
@@ -88,7 +88,7 @@ tr.president {
 
 <div style="page-break-before:always"/>
 
-<h1>Autres participants à la <?php echo lcfirst($d['commission']['nom']) ?></h1>
+<h1>Autres participants à la <?php echo lcfirst($d['commission']['nom']) ?> (sans droit de vote)</h1>
 <hr/>
 <table class="noborder" style="vertical-align:top">
 <?php if ($d['non-membres']) foreach(concat($d['non-membres']) as $membre): ?>
