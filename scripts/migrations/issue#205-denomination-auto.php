@@ -29,10 +29,6 @@ class iafbmIssue205 extends iafbmScript {
     );
 
     function run() {
-        // Single run test
-        if ($this->already_run()) {
-            throw new Exception('This script has already run');
-        }
         // Confirmation
         $this->confirm("This action will modify every 'personne' denomination. Are you sure?");
         // Process
@@ -90,19 +86,6 @@ class iafbmIssue205 extends iafbmScript {
         }
         // Computes unused $mapping activites
         $this->unprocessed['activite'] = array_diff(array_keys($this->mapping), array_unique($processed_activites));
-    }
-
-    /**
-     * Returns true if the modified data already exist.
-     * This means the script has already been run on this instance.
-     */
-    function already_run() {
-return false;
-        $r = xModel::load('rattachement', array(
-            'id' => array(166, 167),
-            'xjoin' => 'activite'
-        ))->get();
-        return !!$r;
     }
 }
 
