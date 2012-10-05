@@ -135,14 +135,12 @@ class CommissionsMembresController extends AbstractCommissionController {
     }
 
     function export() {
-        // TODO
-        // Fields: 'Dénomination', 'Fonction', 'Complément de fonction', 'Nom et prénom', 'Type adresse', 'Rue', 'NPA', 'Ville', 'Pays', 'Type téléphone', 'Indicatif', 'Numéro', 'Type email', 'Email'
         $commission_id = @$this->params['id'];
         if (!$commission_id) throw new xException("id parameter missing, please provide a 'commission' id", 400);
         // Fetches 'commission_membre' rows
         $data = xModel::load('commission_membre', array(
             'commission_id' => $commission_id,
-            //'xjoin' => null
+            'xjoin' => 'personne,personne_denomination,commission_fonction'
         ))->get();
         // Adds versioned 'adresse' model row for each 'commission_membre' row
         foreach ($data as &$d) {
@@ -174,31 +172,17 @@ class CommissionsMembresController extends AbstractCommissionController {
             }
             // Filters/renames/reorders fields to export
             // (TODO: move this outside this foreach loop)
-            $fields = array('id',
-                'fonction_complement',
-                'personne_id_unil',
-                'personne_id_chuv',
-                'personne_id_adifac',
-                'personne_nom',
-                'personne_prenom',
-                'personne_date_naissance',
-                'personne_no_avs',
-                'personne_pays_nom',
-                'personne_pays_nom_en',
+            $fields = array(
+                'id',
                 'commission_fonction_nom',
-                'commission_fonction_description',
-                'activite_nom_nom',
-                'activite_nom_abreviation',
-                'rattachement_nom',
-                'rattachement_abreviation',
-                'commission_nom',
-                'commission_commentaire',
+                'personne_denomination_nom',
+                'personne_prenom',
+                'personne_nom',
                 'adresse_rue',
                 'adresse_npa',
                 'adresse_lieu',
-                'adresse_type_nom',
-                'adresse_pays_nom', // Should be translated to; 'adresse_pays_nom'
-                'adresse_pays_en'   // Should be translated to; 'adresse_pays_nom_en'
+                //'TODO: default telephone',
+                //'TODO: default email',
             );
             $d = xUtil::filter_keys($d, $fields);
         }
