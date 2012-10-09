@@ -190,7 +190,7 @@ class CommissionsMembresController extends AbstractCommissionController {
                         array_keys(xModel::load($model)->foreign_mapping($join)),
                         array_keys(xModel::load($model)->mapping)
                     );
-                    foreach ($fields as $field) $d[$field] = null;
+                    foreach ($fields as $field) if(!$d[$field]) $d[$field] = null;
                 }
             }
             // Merges 'countrycode'+'telephone' into 'telephone'
