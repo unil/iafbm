@@ -29,8 +29,8 @@ require_once "PHPUnit/Autoload.php";
 require_once __dir__.'/../../iafbm/iafbm/lib/xfm/unittests/lib/PHPUnit_Framework_TestCase.php';
 
 // Requires project-specific xPHPUnit_Framework_TestCase child classes
-require_once __dir__.'/lib/iaPHPUnit_Framework_TestCase.php';
-require_once __dir__.'/lib/iaPHPUnit_Auth_Framework_TestCase.php';
+require_once __dir__.'/../iafbm/lib/fbm/phpunit/iaPHPUnit_Framework_TestCase.php';
+require_once __dir__.'/../iafbm/lib/fbm/phpunit/iaPHPUnit_Auth_Framework_TestCase.php';
 
 // PHPUnit autorun
 if (PHP_SAPI==='cli') PHPUnit_TextUI_Command::main();

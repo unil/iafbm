@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../lib/iaPHPUnit_Auth_Framework_TestCase.php');
+require_once(__DIR__.'/../../iafbm/lib/fbm/phpunit/iaPHPUnit_Auth_Framework_TestCase.php');
 
 /**
  * Unittesing-specific iaAuth class.
