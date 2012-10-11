@@ -1,3 +1,6 @@
 [submodule "iafbm/lib/xfm"]
 	path = iafbm/lib/xfm
 	url = git@github.com:damiencorpataux/xfm-php.git
+[submodule "iafbm/lib/fbm"]
+	path = iafbm/lib/fbm
+	url = https://github.com/damiencorpataux/fbm-xfm-library.git
