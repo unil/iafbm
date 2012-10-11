@@ -15,7 +15,7 @@ class LayoutLayoutView extends xView {
                 // App ExtJS logic
                 xUtil::url('a/js/ext-custom/custom.js'),
                 xUtil::url('a/js/app/locales.js'),
-                xUtil::url('a/js/app/classes.js'),
+                xUtil::url('a/js/extjs-fbm/classes.js'),
                 xUtil::url('a/js/app/models.js'),
                 xUtil::url('a/js/app/forms.js'),
                 xUtil::url('a/js/app/columns.js'),
