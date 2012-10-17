@@ -43,7 +43,7 @@ class iafbmIssue196 extends iafbmScript {
                 'id_unil' => null,
                 'id_chuv' => null,
                 'section_id' => 2,
-                'nom' => 'Ecole de Médecine',
+                'nom' => 'Ecole de médecine',
                 'abreviation' => 'EM'
             )),
         );
