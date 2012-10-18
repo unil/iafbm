@@ -135,17 +135,17 @@ class CommissionsMembresController extends AbstractCommissionController {
     }
 
     function export() {
-        // Export config
+        // Export config: order and columns names
         $export_fields = array(
-            'commission_fonction_nom',
-            'personne_denomination_nom',
-            'personne_prenom',
-            'personne_nom',
-            'adresse_rue',
-            'adresse_npa',
-            'adresse_lieu',
-            'telephone',
-            'email',
+            'Fonction' => 'commission_fonction_nom',
+            'Dénomination' => 'personne_denomination_nom',
+            'Prénom' => 'personne_nom',
+            'Nom' => 'personne_prenom',
+            'Adresse' => 'adresse_rue',
+            'Code postal' => 'adresse_npa',
+            'Ville' => 'adresse_lieu',
+            'Téléphone' => 'telephone',
+            'Email' => 'email',
         );
         // Manages params
         $commission_id = @$this->params['id'];
@@ -197,6 +197,12 @@ class CommissionsMembresController extends AbstractCommissionController {
             $d['telephone'] = $d['countrycode'] ? "+{$d['countrycode']} {$d['telephone']}" : null;
             // Filters fields to export
             $d = xUtil::filter_keys($d, $export_fields);
+            // Sorts fields
+            $sorter = array_values($export_fields);
+            $d = array_merge(array_flip($sorter), $d);
+            // Renames fields with readable-names
+            $d = array_combine(array_keys($export_fields), array_values($d));
+
         }
         return $data;
     }
