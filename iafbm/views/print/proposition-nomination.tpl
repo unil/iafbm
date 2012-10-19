@@ -59,10 +59,12 @@ function row($label, $value, $value_suffix=null) {
     )
   ?>
 
+<?php if (@max(xUtil::filter_keys($d['candidat'], array('nom', 'prenom', '_adresse_defaut', '_pays_defaut_id', '_email_defaut', 'etatcivil_nom', 'date_naissance', 'pays_nom', 'canton_nom', 'permis_nom')))): ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
   <tr><td colspan="2">
     <h3>Coordonnées</h3>
   </td></tr>
+<?php endif ?>
   <?php echo row('Titre', implode(' / ', array_filter(array(
         $d['proposition']['personne_denomination_nom_masculin'],
         $d['proposition']['personne_denomination_nom_feminin']
@@ -116,7 +118,6 @@ function row($label, $value, $value_suffix=null) {
     )
   ?>
   <?php echo row('Observations', nl2br($d['proposition']['observations'])) ?>
-  <?php echo row('Date', xUtil::date(mktime())) ?>
 
 <?php if (@max(xUtil::filter_keys($d['proposition'], array('annexe_rapport_commission', 'annexe_cahier_des_charges', 'annexe_cv_publications', 'annexe_declaration_sante')))): ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
@@ -140,7 +141,8 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Numéro de projet', $d['proposition']['imputation_numero_projet']) ?>
 <?php endif ?>
 </table>
-<?php
 
-
-?>
+<div style="margin-top:150px">
+    <div style="float:left;width:500px">Lausanne, le <?php echo xUtil::date($d['proposition']['date_proposition']) ?></div>
+    <div>Doyen/ne FBM</div>
+</div>

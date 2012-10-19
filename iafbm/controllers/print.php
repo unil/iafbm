@@ -97,9 +97,9 @@ class printController extends iaExtRestController {
                 'xjoin' => 'personne_denomination,etatcivil,pays,canton,permis'
             ))->get();
         } catch (Exception $e) {
-            $candidat = array();
+            $candidat = array('items'=>array());
         }
-        $candidat = array_shift($candidat['items']);
+        $candidat = array_shift(@$candidat['items']);
         // Fetches 'autres candidats' data
         try {
             $commission_travail = xModel::load('commission_travail', array(
@@ -119,7 +119,7 @@ class printController extends iaExtRestController {
         } catch (Exception $e) {
             $autres_candidats = array();
         }
-        $autres_candidats = $autres_candidats['items'];
+        $autres_candidats = @$autres_candidats['items'];
         // Fetches 'candidat_formation' data
         $formations = xModel::load('candidat_formation', array(
             'candidat_id' => $candidat['id'],

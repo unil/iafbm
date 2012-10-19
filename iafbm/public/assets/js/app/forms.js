@@ -896,7 +896,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             }, {
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
-                fieldLabel: 'Charge horaire',
+                fieldLabel: 'Taux d\'activité/Charge horaire',
                 items: [{
                     xtype: 'numberfield',
                     name: 'charge_horaire',
@@ -963,7 +963,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
 
             }, {
                 xtype: 'ia-datefield',
-                fieldLabel: 'Date',
+                fieldLabel: 'Date proposition',
                 name: 'date_proposition'
             }]
         }, {
