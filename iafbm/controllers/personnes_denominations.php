@@ -34,7 +34,11 @@ class PersonnesDenominationsController extends iaExtRestController {
         if (@$this->params['denomination_id']) {
             $denomination = xModel::load('personne_denomination', array(
                 'id' => $this->params['denomination_id'],
-                'xversion' => $this->params['xversion']
+                // FIXME: Because personne_denomination was implemented later,
+                //        denomination is empty for commission_membres that were last
+                //        updated before denomination implementation.
+                //        Therefore, the developer disabled denomination versioning.
+                //'xversion' => $this->params['xversion']
             ))->get(0);
             foreach ($denomination as $field => $value) {
                 $personne["personne_denomination_{$field}"] = $value;
