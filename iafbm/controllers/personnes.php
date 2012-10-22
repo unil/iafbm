@@ -185,29 +185,13 @@ class PersonnesController extends iaExtRestController {
                 $foreign_row = array_shift($foreign_row);
                 // Manages epicene 'personne_denomination_nom' (female/male):
                 // replaces 'denomination.nom' with female/male field
-                // FIXME: this should be factorized in personne_denomination model or controller
-                if ($model == 'personne_denomination' && @$row['personne_denomination_id']) {
-                    // Defines female/male terms to use
-                    if ($row['genre_initiale']=='F') {
-                        $determinant = 'la';
-                        $appellation = $row['genre_intitule'];
-                        $titre = $foreign_row['nom_feminin'];
-                        $abreviation = $foreign_row['abreviation_feminin'];
-                    } elseif ($row['genre_initiale']=='H') {
-                        $determinant = 'le';
-                        $appellation = $row['genre_intitule'];
-                        $titre = $foreign_row['nom_masculin'];
-                        $abreviation = $foreign_row['abreviation_masculin'];
-                    }
-                    // No $titre for Madame/Monsieur (avoids Madame la Madame)
-                    if ($row['personne_denomination_id'] == 3) {
-                        $determinant = null;
-                        $titre = null;
-                    }
-                    // Creates 'denomination' string
-                    $foreign_row['nom'] = trim("{$appellation} {$determinant} {$titre}");
-                    // Switches 'abreviation' row content
-                    $foreign_row['abreviation'] = $abreviation;
+                if ($model == 'personne_denomination') {
+                    $foreign_row = array_merge(
+                        $foreign_row ? $foreign_row : array(),
+                        xController::load('personnes_denominations', array(
+                            'personne_id' => $row['id']
+                        ))->_make_label()
+                    );
                 }
                 // If no foreign_row (eg. empty foreign id)
                 // simulates an empty row for data-structure consistency
