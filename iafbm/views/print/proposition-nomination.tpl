@@ -143,6 +143,6 @@ function row($label, $value, $value_suffix=null) {
 </table>
 
 <div style="margin-top:150px">
-    <div style="float:left;width:500px">Lausanne, le <?php echo xUtil::date($d['proposition']['date_proposition']) ?></div>
-    <div>Doyen/ne FBM</div>
+    <div>Lausanne, le <?php echo xUtil::date($d['proposition']['date_proposition']) ?></div>
+    <div style="text-align:right;padding:50px 75px 0 0">Doyen/Doyenne</div>
 </div>
