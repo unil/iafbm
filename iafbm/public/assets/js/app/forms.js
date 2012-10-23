@@ -788,7 +788,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             width: '100%',
             defaults: {
                 width: 400,
-                labelWidth: 120
+                labelWidth: 150
             }
         };
         // Form items
@@ -801,6 +801,9 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 name: 'candidat_id',
                 displayField: '_display', // TODO: Use template instead?
                 valueField: 'id',
+                labelAlign: 'right',
+                labelWidth: 160,
+                width: 500,
                 store: new iafbm.store.Candidat({
                     params: { commission_id: this.fetch.params.commission_id }
                 }),
@@ -896,7 +899,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
             }, {
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
-                fieldLabel: 'Taux d\'activité/Charge horaire',
+                fieldLabel: 'Taux d\'activité /<br> Charge horaire',
                 items: [{
                     xtype: 'numberfield',
                     name: 'charge_horaire',
@@ -906,7 +909,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                     xtype: 'ia-combo',
                     editable: false,
                     name: 'grandeur_id',
-                    width: 191,
+                    width: 161,
                     displayField: 'unite_symbole',
                     valueField: 'id',
                     store: Ext.create('iafbm.store.Grandeur', {
