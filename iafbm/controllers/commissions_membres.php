@@ -135,72 +135,81 @@ class CommissionsMembresController extends AbstractCommissionController {
     }
 
     function export() {
-        // TODO
-        // Fields: 'Dénomination', 'Fonction', 'Complément de fonction', 'Nom et prénom', 'Type adresse', 'Rue', 'NPA', 'Ville', 'Pays', 'Type téléphone', 'Indicatif', 'Numéro', 'Type email', 'Email'
+        // Export config: order and columns names
+        $export_fields = array(
+            'Fonction' => 'commission_fonction_nom',
+            'Dénomination' => 'personne_denomination_nom',
+            'Prénom' => 'personne_nom',
+            'Nom' => 'personne_prenom',
+            'Adresse' => 'adresse_rue',
+            'Code postal' => 'adresse_npa',
+            'Ville' => 'adresse_lieu',
+            'Téléphone' => 'telephone',
+            'Email' => 'email',
+        );
+        // Manages params
         $commission_id = @$this->params['id'];
         if (!$commission_id) throw new xException("id parameter missing, please provide a 'commission' id", 400);
         // Fetches 'commission_membre' rows
         $data = xModel::load('commission_membre', array(
             'commission_id' => $commission_id,
-            //'xjoin' => null
+            'xjoin' => 'personne,personne_denomination,commission_fonction'
         ))->get();
-        // Adds versioned 'adresse' model row for each 'commission_membre' row
+        // Adds 'epicene' denomination fields
         foreach ($data as &$d) {
-            $adresses = xModel::load('personne_adresse', array(
+            $d['personne_denomination_nom'] = xController::load('personnes_denominations', array(
                 'personne_id' => $d['personne_id'],
-                'xversion' => $d['version_id'],
-                'xjoin' => array('adresse', 'adresse_type', 'adresse_pays')
-            ))->get();
-            // Discards adresses that are not set as default
-            // This has to be done after retrieval because of xversion
-            foreach ($adresses as $i => $a) {
-                if (!$a['actif'] || !$a['defaut']) unset($adresses[$i]);
+                'denomination_id' => $d['personne_denomination_id'],
+                'xversion' => $d['version_id']
+            ))->_make_nom();
+        }
+        // Adds versioned 'adresse', 'telephone' and 'email' model rows
+        // for each 'commission_membre' row.
+        // Array structure: [modelname string] => [xjoin array]
+        $foreign = array(
+            'personne_adresse' => array('adresse', 'adresse_type', 'adresse_pays'),
+            'personne_telephone' => array(),
+            'personne_email' => array(),
+        );
+        foreach ($data as &$d) {
+            foreach ($foreign as $model => $join) {
+                $items = xModel::load($model, array(
+                    'personne_id' => $d['personne_id'],
+                    'xversion' => $d['version_id'],
+                    'xjoin' => $join
+                ))->get();
+                // Discards items that are not set as default
+                // This has to be done after retrieval because of xversion
+                foreach ($items as $i => $a) {
+                    if (!$a['actif'] || !$a['defaut']) unset($items[$i]);
+                }
+                // Checks that only one default item exists
+                if (count($items) > 1) throw new xException(
+                    "Personne id {$d['personne_id']} has multiple default {$model}"
+                );
+                // Adds item fields to 'commission_membre' model row
+                if ($item = array_shift($items)) {
+                    // Adds fields and values to personne row
+                    foreach ($item as $field => $value) $d[$field] = $value;
+                } else {
+                    // Adds fields with empty values to personne row
+                    // for data structure consistency
+                    $fields = array_merge(
+                        array_keys(xModel::load($model)->foreign_mapping($join)),
+                        array_keys(xModel::load($model)->mapping)
+                    );
+                    foreach ($fields as $field) if(@!$d[$field]) $d[$field] = null;
+                }
             }
-            // Checks that only one default adresse exists
-            if (count($adresses) > 1) throw new xException(
-                "Personne id {$d['personne_id']} has multiple default adresses"
-            );
-            // Adds adresse fields to 'commission_membre' model row
-            if($adresse = array_shift($adresses)) {
-                // Adds fields and values to personne row
-                foreach ($adresse as $field => $value) $d[$field] = $value;
-            } else {
-                // Adds fields with empty values to personne row
-                // for data structure consistency
-                $fields = xModel::load(
-                    'personne_adresse'
-                )->foreign_mapping(array('adresse', 'adresse_type', 'adresse_pays'));
-                foreach ($fields as $field => $dbfield) $d[$field] = null;
-            }
-            // Filters/renames/reorders fields to export
-            // (TODO: move this outside this foreach loop)
-            $fields = array('id',
-                'fonction_complement',
-                'personne_id_unil',
-                'personne_id_chuv',
-                'personne_id_adifac',
-                'personne_nom',
-                'personne_prenom',
-                'personne_date_naissance',
-                'personne_no_avs',
-                'personne_pays_nom',
-                'personne_pays_nom_en',
-                'commission_fonction_nom',
-                'commission_fonction_description',
-                'activite_nom_nom',
-                'activite_nom_abreviation',
-                'rattachement_nom',
-                'rattachement_abreviation',
-                'commission_nom',
-                'commission_commentaire',
-                'adresse_rue',
-                'adresse_npa',
-                'adresse_lieu',
-                'adresse_type_nom',
-                'adresse_pays_nom', // Should be translated to; 'adresse_pays_nom'
-                'adresse_pays_en'   // Should be translated to; 'adresse_pays_nom_en'
-            );
-            $d = xUtil::filter_keys($d, $fields);
+            // Merges 'countrycode'+'telephone' into 'telephone'
+            $d['telephone'] = $d['countrycode'] ? "+{$d['countrycode']} {$d['telephone']}" : null;
+            // Filters fields to export
+            $d = xUtil::filter_keys($d, $export_fields);
+            // Sorts fields
+            $sorter = array_values($export_fields);
+            $d = array_merge(array_flip($sorter), $d);
+            // Renames fields with readable-names
+            $d = array_combine(array_keys($export_fields), array_values($d));
         }
         return $data;
     }

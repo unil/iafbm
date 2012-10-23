@@ -5,6 +5,7 @@
         'nom',
         'prenom',
         'personne_denomination_nom',
+        'personne_type_nom',
         'adresse_adresse_type_nom',
         'adresse_rue',
         'adresse_npa',
