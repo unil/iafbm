@@ -117,7 +117,7 @@ class CommissionsMembresController extends AbstractCommissionController {
      */
     function getMembres() {
         $this->params = xUtil::array_merge($this->params, array(
-            'commission_fonction_id' => array(9, 11),
+            'commission_fonction_id' => array(3, 9, 11),
             'commission_fonction_id_comparator' => 'NOT IN',
         ));
         return $this->getAll();
@@ -129,7 +129,7 @@ class CommissionsMembresController extends AbstractCommissionController {
      */
     function getNonMembres() {
         $this->params = xUtil::array_merge($this->params, array(
-            'commission_fonction_id' => array(9, 11)
+            'commission_fonction_id' => array(3, 9, 11)
         ));
         return $this->getAll();
     }
