@@ -117,7 +117,7 @@ class CommissionsMembresController extends AbstractCommissionController {
      */
     function getMembres() {
         $this->params = xUtil::array_merge($this->params, array(
-            'commission_fonction_id' => array(9, 11),
+            'commission_fonction_id' => array(3, 9, 11),
             'commission_fonction_id_comparator' => 'NOT IN',
         ));
         return $this->getAll();
@@ -129,7 +129,7 @@ class CommissionsMembresController extends AbstractCommissionController {
      */
     function getNonMembres() {
         $this->params = xUtil::array_merge($this->params, array(
-            'commission_fonction_id' => array(9, 11)
+            'commission_fonction_id' => array(3, 9, 11)
         ));
         return $this->getAll();
     }
@@ -155,6 +155,14 @@ class CommissionsMembresController extends AbstractCommissionController {
             'commission_id' => $commission_id,
             'xjoin' => 'personne,personne_denomination,commission_fonction'
         ))->get();
+        // Adds 'epicene' denomination fields
+        foreach ($data as &$d) {
+            $d['personne_denomination_nom'] = xController::load('personnes_denominations', array(
+                'personne_id' => $d['personne_id'],
+                'denomination_id' => $d['personne_denomination_id'],
+                'xversion' => $d['version_id']
+            ))->_make_nom();
+        }
         // Adds versioned 'adresse', 'telephone' and 'email' model rows
         // for each 'commission_membre' row.
         // Array structure: [modelname string] => [xjoin array]
@@ -190,7 +198,7 @@ class CommissionsMembresController extends AbstractCommissionController {
                         array_keys(xModel::load($model)->foreign_mapping($join)),
                         array_keys(xModel::load($model)->mapping)
                     );
-                    foreach ($fields as $field) if(!$d[$field]) $d[$field] = null;
+                    foreach ($fields as $field) if(@!$d[$field]) $d[$field] = null;
                 }
             }
             // Merges 'countrycode'+'telephone' into 'telephone'
@@ -202,7 +210,6 @@ class CommissionsMembresController extends AbstractCommissionController {
             $d = array_merge(array_flip($sorter), $d);
             // Renames fields with readable-names
             $d = array_combine(array_keys($export_fields), array_values($d));
-
         }
         return $data;
     }
