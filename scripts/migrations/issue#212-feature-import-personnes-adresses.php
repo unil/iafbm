@@ -35,10 +35,6 @@ class iafbmIssue212 extends iafbmScript {
                 'lieu' => $item['adresse_lieu'],
                 'pays_id' => $item['adresse_pays_id'],
             )), 'post');
-            $t->execute(xModel::load('personne_adresse', array(
-                'id' => $item['id'],
-                'defaut' => $item['defaut'],
-            )), 'post');
         }
         $t->end();
         // Summary
