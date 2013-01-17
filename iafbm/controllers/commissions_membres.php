@@ -153,7 +153,9 @@ class CommissionsMembresController extends AbstractCommissionController {
         // Fetches 'commission_membre' rows
         $data = xModel::load('commission_membre', array(
             'commission_id' => $commission_id,
-            'xjoin' => 'personne,personne_denomination,commission_fonction'
+            'xjoin' => 'personne,personne_denomination,commission_fonction',
+            'xorder_by' => 'commission_fonction_position',
+            'xorder' => 'ASC'
         ))->get();
         // Adds 'epicene' denomination fields
         foreach ($data as &$d) {
