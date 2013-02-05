@@ -141,6 +141,33 @@ class iafbmImportScript extends iafbmScript {
     							),
     						),
     			),
+                'rattachement_ssf_addendum' => array(
+                    'source' => array(
+                        'type' => 'file',
+                        'name' => 'rattachement_ssf_addendum.csv',
+                        'params' => array (
+                            'fields' =>  array('code', 'nom', 'section'),
+                            'split_fields' => array(),
+                            'operation' => array(
+                                'primaryKey:id:166'),
+                        ),
+                    ),
+                    'destination' => array(
+                        'models' => array(
+                            'rattachement' => array(
+                                'mapping' => array(
+                                    'abreviation' => 'code',
+                                    'nom' => 'nom',
+                                    'section_id' => 'section',
+                                    'id' => 'id',
+                                ),
+                                'operation' => array(
+                                    'find:section:code=section_id:id:section_id'
+                                ),
+                            ),
+                        ),
+                     ),
+                ),
     			'activite_academique' => array(
     		    	'source' => array(
     		    		'type' => 'file',

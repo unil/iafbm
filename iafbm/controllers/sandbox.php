@@ -308,4 +308,10 @@ form = Ext.create('Ext.ia.Versioning', {
 </script>
 EOL;
     }
+
+    function denominationLabelAction() {
+        $personne_id = 1;
+        $denomination = xController::load('personnes_denominations', array('personne_id' => $personne_id))->_make_label();
+        xUtil::pre($denomination);
+    }
 }

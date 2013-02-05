@@ -245,7 +245,7 @@ class iaExtRestController extends xWebController {
             }
             // Uses 'query' where-template
             // if it is supported by the actual xModel and no 'xwhere' param is defined
-            if (@xModel::load($this->model)->wheres['query'] && !$this->params['xwhere']) {
+            if (@xModel::load($this->model)->wheres['query'] && !@$this->params['xwhere']) {
                 $params['xwhere'] = 'query';
             }
             // Removes query param
