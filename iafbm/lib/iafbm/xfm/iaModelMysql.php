@@ -439,8 +439,8 @@ abstract class iaModelMysql extends xModelMysql {
                     // according the $this->archive_foreign_models definition flavour
                     // FIXME: this code duplicates with self::archive_data(), please refactor.
                     if (is_array($foreign_field_info)) {
-                        $local_field_name = array_shift(array_keys($foreign_field_info));
-                        $foreign_field_name = array_shift(array_values($foreign_field_info));
+                        $local_field_name = @array_shift(array_keys($foreign_field_info));
+                        $foreign_field_name = @array_shift(array_values($foreign_field_info));
                     } else {
                         // The given foreign field equals the local primary key (id) value
                         $local_field_name = xModel::load($via_modelname)->primary();

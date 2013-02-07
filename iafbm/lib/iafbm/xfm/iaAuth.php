@@ -34,6 +34,38 @@ class iaAuth extends xAuth {
                 'archive_data' => 'CR'
             )
         ),
+        'fbm-iafbm-personnes-g' => array(
+            'models' => array(
+                'personne' => 'CRUD',
+                'personne_activite' => 'CRUD',
+                'personne_adresse' => 'CRUD',
+                'personne_denomination' => 'R',
+                'personne_email' => 'CRUD',
+                'personne_formation' => 'CRUD',
+                'personne_telephone' => 'CRUD',
+                'personne_type' => 'R',
+                'commission_membre' => 'R',
+                'commission' => 'R',
+                'activite' => 'R',
+                'activite_nom' => 'R',
+                'activite_type' => 'R',
+                'adresse' => 'CRUD',
+                'adresse_type' => 'R',
+                'canton' => 'R',
+                'etatcivil' => 'R',
+                'formation' => 'R',
+                'genre' => 'R',
+                'pays' => 'R',
+                'permis' => 'R',
+                'rattachement' => 'R',
+                'section' => 'R',
+                'version' => 'CR',
+                'version_data' => 'CR',
+                'version_relation' => 'CR',
+                'archive' => 'CR',
+                'archive_data' => 'CR'
+            )
+        ),
         'fbm-iafbm-releve-g, fbm-iafbm-admin-g' => array(
             'models' => array(
                 '*' => 'CRUD'
@@ -143,6 +175,12 @@ class iaAuth extends xAuth {
                         $m[$model] = $operations;
                     }
                 } else {
+                    // Ensures model exists
+                    try {
+                        xModel::load($model);
+                    } catch (Exception $e) {
+                        throw new xException("Cannot grant rights to unexisting model ({$model})");
+                    }
                     // Sets (or redifines) model operations
                     $m[$model] = $operations;
                 }

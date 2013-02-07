@@ -17,6 +17,24 @@ class PersonnesAdressesController extends iaExtRestController {
         )
     );
 
+    function exportAction() {
+        $filename = 'export-adresses.csv';
+        header('Content-Type: application/csv');
+        header("Content-Disposition: attachment; filename={$filename}");
+        print xFront::load('api', array(
+            'xformat' => 'csv',
+            'xmode' => @$this->params['mode']
+        ))->encode($this->export());
+        exit();
+    }
+
+    function export() {
+        $data = xModel::load('personne_adresse', array(
+            'xjoin' => 'personne,adresse'
+        ))->get();
+        return $data;
+    }
+
     function post() {
         $params = $this->params['items'];
         $personne_adresse = xModel::load($this->model, $params);

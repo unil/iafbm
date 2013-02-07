@@ -332,6 +332,11 @@ $catalogue_data = array(
 						'actif' => '1',
 						'nom' => 'Etudiant'
 				),
+                array(
+                        'id' => 4,
+                        'actif' => '1',
+                        'nom' => 'Inactif'
+                ),
 		),
 		'personne_denomination' => array(
 				array(
@@ -516,7 +521,7 @@ $catalogue_data = array(
                 ),
                 array(
                         'id' => '11',
-                        'actif' => '1',
+                        'actif' => '0',
                         'nom' => 'A entendre',
                         'description' => 'A entendre',
                         'position' => '11'
