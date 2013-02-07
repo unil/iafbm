@@ -249,7 +249,7 @@ class PersonnesController extends iaExtRestController {
         $model = xController::load('personnes_adresses',
             xUtil::array_merge(
                 $this->params,
-                array('xjoin' => 'personne,adresse_type,adresse,pays')
+                array('xjoin' => 'personne,adresse_type,adresse,adresse_pays')
             )
         );
         $model->query_fields = array(); // Make all fields queriable

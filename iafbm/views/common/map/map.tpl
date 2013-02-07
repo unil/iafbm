@@ -29,11 +29,11 @@
 
 <style>
     form input { border: 1px solid gray; height: 19px; }
-    #map_query_text { width: 830px }
+    #map_query_text { width: 820px }
     #map_query_button,
     #map_query_reset_button { width: 25px }
 </style>
-<form onsubmit="javascript:map_query();return false;" style="position:absolute;top:100px">
+<form onsubmit="javascript:map_query();return false;" style="position:absolute;top:135px">
     <label for="map_query_text">Recherche:</label>
     <input type="text" name="map_query_text" id="map_query_text"/>
     <input type="submit" name="map_query_button" id="map_query_button" value=">"/>
