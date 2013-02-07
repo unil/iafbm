@@ -11,6 +11,7 @@ class iafbmIssueGeoFields extends iafbmScript {
         }
         //
         $this->create_fields();
+        $this->geocode_existing_adresses();
     }
 
     function create_fields() {
@@ -24,13 +25,25 @@ class iafbmIssueGeoFields extends iafbmScript {
         $t->end();
     }
 
+    function geocode_existing_adresses() {
+        $ids = xModel::load('adresse', array(
+            'xreturn' => 'id',
+            'geo_x' => null,
+            'geo_y' => null,
+            'geo_y_operator' => 'OR'
+        ))->get();
+        foreach ($ids as $id) {
+            xModel::load('adresse', array('id' => $id))->post();
+        }
+    }
+
     /**
      * Returns true if the fields to create already exist.
      * This means the script has already been run on this instance.
      */
     function already_run() {
         $fields = array('geo_x', 'geo_y');
-        $r = xModel::q('DESCRIBE commissions_membres');
+        $r = xModel::q('DESCRIBE adresses');
         while ($row = mysql_fetch_assoc($r)) {
             $result[] = $row['Field'];
         }
