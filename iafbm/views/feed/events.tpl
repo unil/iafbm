@@ -1,6 +1,6 @@
 <style>
 .feed-list li {
-    padding: 10px 5px;
+    padding: 5px;
 }
 .feed-list li img {
     vertical-align: top;
