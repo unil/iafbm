@@ -12,7 +12,7 @@
             </a>
             &nbsp;
             <a href="<?php echo u('report/do/effectif-corps-enseignant?html') ?>" target="_blank">
-                <img style="vertical-align:top" src="<?php echo u('a/img/icons/page_white_put.png') ?>"/>
+                <img style="vertical-align:top" src="<?php echo u('a/img/ext/page_white_magnify.png') ?>"/>
                 HTML
             </a>
         </td>
