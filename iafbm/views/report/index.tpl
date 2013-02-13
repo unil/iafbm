@@ -6,7 +6,7 @@
             Effectif corps enseignant
         </th>
         <td>
-            <a href="<?php echo u('report/do/effectif-corps-enseignant') ?>">
+            <a href="<?php echo u('report/do/effectif-corps-enseignant') ?>" target="_blank">
                 <img style="vertical-align:top" src="<?php echo u('a/img/icons/page_white_put.png') ?>"/>
                 PDF
             </a>
