@@ -21,6 +21,12 @@ $navigation = array(
             'label' => 'Type de commissions'
         ),
     ),
+    'Evaluations' => array(
+         'evaluations' => array(
+            'url' => u('evaluations'),
+            'label' => 'Evaluations'
+         ),
+    ),
     'Autres' => array(
         'personnes-export' => array(
             'url' => u('personnes/do/export'),
