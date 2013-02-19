@@ -117,7 +117,7 @@ class CommissionsMembresController extends AbstractCommissionController {
      */
     function getMembres() {
         $this->params = xUtil::array_merge($this->params, array(
-            'commission_fonction_id' => array(9, 11),
+            'commission_fonction_id' => array(3, 9, 11),
             'commission_fonction_id_comparator' => 'NOT IN',
         ));
         return $this->getAll();
@@ -129,7 +129,7 @@ class CommissionsMembresController extends AbstractCommissionController {
      */
     function getNonMembres() {
         $this->params = xUtil::array_merge($this->params, array(
-            'commission_fonction_id' => array(9, 11)
+            'commission_fonction_id' => array(3, 9, 11)
         ));
         return $this->getAll();
     }
@@ -153,7 +153,9 @@ class CommissionsMembresController extends AbstractCommissionController {
         // Fetches 'commission_membre' rows
         $data = xModel::load('commission_membre', array(
             'commission_id' => $commission_id,
-            'xjoin' => 'personne,personne_denomination,commission_fonction'
+            'xjoin' => 'personne,personne_denomination,commission_fonction',
+            'xorder_by' => 'commission_fonction_position',
+            'xorder' => 'ASC'
         ))->get();
         // Adds 'epicene' denomination fields
         foreach ($data as &$d) {

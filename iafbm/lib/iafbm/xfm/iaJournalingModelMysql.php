@@ -12,7 +12,7 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
      * Checks that the requested model_name or table_name is allowed.
      * @see iaModelMysql::check_allowed()
      */
-    function check_allowed($operation) {
+    function check_allowed($operation, $modelname=null) {
         $this->check_allowed_model($operation);
     }
 
