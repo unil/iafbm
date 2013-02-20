@@ -16,7 +16,7 @@ Ext.onReady(function() {
     ]
     });
 
-    var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+    form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         /*store: Ext.create('iafbm.store.Commission'),
         fetch: {
             model: iafbm.model.Commission,
@@ -50,17 +50,45 @@ Ext.onReady(function() {
                     },{
                         xtype: 'ia-combo',
                         store: new iafbm.store.Personne(),
+                        //queryMode: 'remote',
+                        //queryParam: 'xquery',
                         valueField: 'id',
                         displayField: 'nomPrenom',
                         fieldLabel: 'Evaluateur 1',
                         emptyText: 'Evaluateur 1',
                         name: 'evaluateur1',
-                        labelWidth: '175'
+                        minChars: 1,
+                        labelWidth: '175',
+                        width: '500',
+                        matchFieldWidth: '500',
+                        columnWidth: '500',
+                        minWidth: '500',
+                        typeAhead: true,
+                        hideTrigger:true,
+                        anchor: '100%',
+                        listConfig: {
+                            loadingText: 'Recherche...',
+                            emptyText: 'Aucun résultat.',
+                            // Custom rendering template for each item
+                            getInnerTpl: function() {
+                                var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                                return [
+                                    '<div>',
+                                    '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                                    '  <h3>{prenom} {nom}</h3>',
+                                    '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
+                                    '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
+                                    '</div>'
+                                ].join('');
+                            }
+                        }
                     },{
                         xtype: 'ia-combo',
-                        store: states,
+                        store: new iafbm.store.Personne(),
+                        queryMode: 'remote',
+                        queryParam: 'xquery',
                         valueField: 'id',
-                        displayField: 'name',
+                        displayField: 'nomPrenom',
                         fieldLabel: 'Evaluateur 2',
                         emptyText: 'Evaluateur 2',
                         name: 'evaluateur2',

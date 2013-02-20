@@ -1171,7 +1171,8 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             typeAhead: false,
             minChars: 1,
             hideTrigger: true,
-            width: 350,
+            width: '350',
+            //columnWidth:,
             listConfig: {
                 loadingText: 'Recherche...',
                 emptyText: 'Aucun résultat.',
