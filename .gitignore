@@ -1,1 +1,4 @@
 sql/merged.sql
+
+# OS files
+.DS_Store
