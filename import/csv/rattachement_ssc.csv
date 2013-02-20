@@ -1,0 +1,148 @@
+Code;Libellé court;Libellé long
+DGH;Direction générale;Direction générale
+DIM;Direction médicale;Direction médicale
+DRH;Direction des ressources humaines;Direction des ressources humaines
+DSO;Direction des soins;Direction des soins
+POS;Projets et organisation stratégiques;Service projets et organisation stratégiques
+CIT;Direction des constructions, ingénierie, technique et sécurité;Direction des constructions, ingénierie, technique et sécurité
+DAF;Direction administrative et financière;Direction administrative et financière
+GAP;Gestion administrative des patients;Service de gestion administrative des patients
+GEF;Gestion financière;Service de la gestion financière
+INH;Direction des systèmes d'information;Direction des systèmes d'information
+ACH;Achats;Centrale d'achats
+DLH;Direction DLOH;Direction du Département de la logistique hospitalière (DLOH)
+RST;Restauration;Service de la restauration
+SIB;Ingénierie biomédicale;Service d'ingénierie biomédicale
+SMM;Multisites et mobilité;Service multisites et mobilité
+SPH;Propreté et hygiène;Service propreté et hygiène
+TCA;Transports, communications et approvisionnements;Service des transports, communications et approvisionnements
+ADM;Charges et produits centraux;Charges et produits centraux
+RES;Finances-provision;Finances et provision
+REV;Revenus;Revenus
+BFM;Bibliothèque de médecine;Bibliothèques universitaires de médecine (BiUM)
+CEM;CEMCAV;Centre d'enseignement médical et de communication audioVisuelle (CEMCAV)
+DEC;Direction DFR;Direction du Dpt formation et recherche (DFR)
+ENS;Enseignement;Unité de l'enseignement
+PAC;Partenariat industriel PACTT;Bureau de transfert de technologie PACTT
+REC;Recherche;Unité de la recherche
+REL;Relève;Unité de la relève
+ANG;Angiologie;Service d'angiologie
+CAR;Cardiologie;Service de cardiologie
+DAM;Médecine préventive hospitalière;Service de médecine préventive hospitalière
+DER;Dermatologie;Service de dermatologie
+DMI;Direction DM;Direction du Département de médecine (DM)
+EDM;Endocrinologie, diabétologie et métabolisme;Service d'endocrinologie, diabétologie et métabolisme
+GLG;Gastro-entérologie;Service de gastro-entérologie
+HEM;Hématologie;Service d'hématologie
+IAL;Immunologie et allergie;Service d'immunologie et d'allergie
+MIA;Médecine interne;Service de médecine interne (SMI)
+MIN;Maladies infectieuses;Service des maladies infectieuses
+NEP;Néphrologie;Division spécialisée de néphrologie
+PNE;Pneumologie;Service de pneumologie
+PPA;Physiopathologie clinique;Division de physiopathologie clinique
+SPL;Soins palliatifs;Service des soins palliatifs
+SYL;Gériatrie et réadaptation gériatrique;Service de gériatrie et réadaptation gériatrique
+ALG;Anesthésiologie;Service d'anesthésiologie
+CCV;Chirurgie cardio-vasculaire;Service de chirurgie cardio-vasculaire
+CHT;Chirurgie thoracique et vasculaire;Service de chirurgie thoracique et vasculaire
+CHV;Chirurgie Viscérale;Service de chirurgie viscérale
+CHX;Recherche chirurgicale;Service de recherche chirurgicale
+CTO;Centre de transplantation d'organes;Centre de transplantation d'organes (CTO)
+DCH;Direction DSCA;Direction du Département des services de chirurgie et d'anesthésiologie (DSCA)
+ORL;Oto-rhino-laryngologie;Service d'oto-rhino-laryngologie
+SEP;Chirurgie septique;Centre de chirurgie septique
+URO;Urologie;Service d'urologie
+DGO;Direction et activ. com. DGOG;Direction et activités communes du Département de gynécologie-obstétrique et génétique médicale (DGOG)
+GEN;Génétique médicale;Service de génétique médicale
+GYN;Gynécologie;Service de gynécologie
+OBS;Obstétrique;Service d'obstétrique
+CHP;Chirurgie pédiatrique;Service de chirurgie pédiatrique
+ENF;Direction DMCP;Direction du Département médico-chirurgical de pédiatrie (DMCP)
+HEL;Hôpital de l'Enfance;Hôpital de l'Enfance
+MSA;Unité multidisciplinaire pour la santé des adolescents;Unité multidisciplinaire de santé des adolescents (UMSA)
+NAT;Néonatologie;Service de néonatologie
+PED;Pédiatrie;Service de pédiatrie
+PMO;Pédiatrie moléculaire (Division DE);Division de pédiatrie moléculaire
+SIP;Soins intensifs de pédiatrie;Unité de soins intensifs de pédiatrie
+IRP;Unités départementales du DP;Service des unités départementales du Département de psychiatrie
+MPP;Médecine et psychiatrie pénitentiaires (SMPP);Service de médecine et psychiatrie pénitentiaires (SMPP)
+PCD;Direction DP;Direction du Département de psychiatrie (DP)
+PCG;Psychiatrie de l'âge avancé (SUPAA) - Centre;Service universitaire de psychiatrie de l'âge avancé (SUPAA)
+PCN;Centre de Neurosciences Psychiatriques;Centre de neurosciences psychiatriques (CNP)
+PCO;Psychiatrie communautaire;Service de psychiatrie communautaire (PCO)
+PCP;Pédopsychiatrie - Centre;Service universitaire de psychiatrie de l'enfant et de l'adolescent (SUPEA)
+PGE;Psychiatrie générale;Service de psychiatrie générale (PGE)
+PLI;Psychiatrie de liaison;Service de psychiatrie de liaison (PLI)
+ASC;Direction DUMSC;Direction du Département universitaire de médecine et santé communautaires (DUMSC)
+CTA;Alcoologie;Service d'alcoologie
+IEM;Economie et management santé (IEMS);Institut d'économie et management de la santé (IEMS)
+IFS;Formation et recherche en sciences infirmières (IUFRSI);Institut universitaire de formation et recherche en soins (IUFRS)
+IHM;Histoire de la médecine (IUHMSP);Institut universitaire d'histoire de la médecine et de la santé publique (IUHMSP)
+IML;Médecine légale (CURML);Centre universitaire romand de médecine légale (CURML)
+IMS;Médecine sociale et préventive (IUMSP);Institut universitaire de médecine sociale et préventive (IUMSP)
+CPR;Chirurgie plastique et reconstructive;Service de chirurgie plastique et reconstructive
+DAL;Direction et activ. transv. DAL;Direction et activités transversales du Département de l'appareil locomoteur (DAL)
+OTR;Orthopédie et traumatologie;Service d'orthopédie et traumatologie
+RHU;Rhumatologie, médecine physique et réhabilitation;Service de rhumatologie, médecine physique et réhabilitation
+DDN;Direction et activ. transv. DNC;Direction et activités transversales du Dpt des neurosciences cliniques (DNC)
+NCH;Neurochirurgie;Service de neurochirurgie
+NLG;Neurologie;Service de neurologie
+NPR;Neuropsychologie et neuroréhabilitation;Service de neuropsychologie et de neuroréhabilitation
+BIO;Biomédecine;Service de biomédecine
+DLA;Direction DL;Direction du Département des laboratoires (DL)
+IMU;Microbiologie;Institut universitaire de microbiologie
+IPA;Pathologie;Institut universitaire de pathologie (IUPA)
+LAC;Laboratoires communs et plateformes;Laboratoires communs et plateformes
+LCH;Hématologie clinique;Laboratoire central d'hématologie
+LGE;Génétique;Laboratoires de génétique
+LIA;Labos Immunologie et allergie;Laboratoires d'immunologie et d'allergie
+PHA;Pharmacie;Service de pharmacie
+DRM;Direction DRM;Direction du Département de radiologie médicale (DRM)
+IRA;Radiophysique;Institut de radiophysique
+NUC;Médecine nucléaire;Service de médecine nucléaire
+RAD;Radiodiagnostic et radiologie interventionnelle;Service de radiodiagnostic et radiologie interventionnelle
+RTH;Radio-oncologie;Service de radio-oncologie
+DCI;Direction DCILM;Direction du Département des centres interdisciplinaires et logistique médicale (DCILM)
+END;Endoscopie;Centre d'endoscopie
+SDL;Stérilisation et désinfection;Centre de stérilisation et désinfection
+SIA;Médecine intensive adulte (SMIA);Service de médecine intensive adulte (SMIA)
+SOP;Sites opératoires;Sites opératoires
+URG;Urgences;Service des urgences
+UTO;Traitement oncologique;Unité de traitement oncologique (patients CHUV)
+ALN;Administration & logistique - Nord;Direction administration et logistique - Nord
+APG;Psychiatrie & psycho-gériatrie - Nord;Psychiatrie et psychogériatrie - Nord
+PEN;Pédopsychiatrie - Nord;Pédopsychiatrie - Nord
+HGI;Psychogériatrie Ouest (SPG-O);Psychogériatrie - Ouest
+HPP;Psychiatrie de l'adulte Ouest (SPA-O);Psychiatrie adulte - Ouest
+LAP;Direction administrative de la psychiatrie Ouest;Direction administrative de la psychiatrie Ouest
+PEO;Psychiatrie de l'enfant et de l'adolescent Ouest (SPEA-O);Psychiatrie de l'enfant et de l'adolescent - Ouest
+LAG;Administration et logistique EMS;Direction administration et logistique de l'EMS Soerensen-La Rosière
+PGC;Psychogériatrie chronique EMS;Psychogériatrie chronique de l'EMS Soerensen-La Rosière
+OC6;CePO - Centre coordonné d'oncologie (CCO);CePO - Centre coordonné d'oncologie (CCO)
+IST;Institut de santé au travail;Institut universitaire romand de santé au travail (IURST)
+1AG;PMU - Angiologie;Service d'angiologie ambulatoire (PMU)
+1AN;PMU - Consultation anonyme;Service de la consultation anonyme HIV (PMU)
+1CG;PMU - Consultation générale;Service de la consultation générale (PMU)
+1CR;PMU - Cardiologie;Service de cardiologie ambulatoire (PMU)
+1DA;PMU - Diabétologie;Service de diabétologie ambulatoire (PMU)
+1DI;PMU - Diététique;Service de diététique (PMU)
+1ED;PMU - Endocrinologie;Service d'endocrinologie ambulatoire (PMU)
+1EM;PMU - CEM;Centre d'expertises médicales (PMU)
+1FL;PMU - Permanence FLON;Permanence PMU-FLON
+1GA;PMU - Gastro-entérologie;Service de gastro-entérologie ambulatoire (PMU)
+1GE;PMU - Gériatrie;Service de gériatrie ambulatoire (PMU)
+1HE;PMU - Hématologie;Service d'hématologie ambulatoire (PMU)
+1IM;PMU - Immuno-allergologie;Service d'immuno-allergologie ambulatoire (PMU)
+1LP;PMU - Lipides;Service des lipides (PMU)
+1MA;PMU - CMA;Centre de médecine ambulatoire (PMU)
+1MD;PMU - SMD;Service de stomatologie et médecine dentaire (PMU)
+1MV;PMU - CVMV;Centre de vaccination et médecine des voyages (PMU)
+1OB;PMU - Obésité;Service d'obésité ambulatoire (PMU)
+1PN;PMU - Pneumologie;Service de pneumologie ambulatoire (PMU)
+1PP;PMU - Podologie;Service de podologie (PMU)
+1PY;PMU - Psychiatrie de liaison;Service de psychiatrie de liaison (PMU)
+1RC;PMU - Recherche;Recherche (PMU)
+1SI;PMU - CSI;Centre de santé infirmier (PMU)
+1SN;PMU - Chauffeurs professionnels;Service de la consultation pour chauffeurs professionnels (PMU)
+1TB;PMU - Tabacologie;Service de tabacologie (PMU)
+1UR;PMU - Urgences;Service des urgences (PMU)

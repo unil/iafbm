@@ -198,7 +198,9 @@ Ext.define('iafbm.model.Personne', {
         {name: 'pays_nom', type: 'string'},
         {name: 'pays_code', type: 'string'},
         // Ghost fields
-        {name: '_activites', type: 'string'}
+        {name: '_activites', type: 'string'},
+        // Concat fields
+        {name: 'nomPrenom', convert: function(v, r) { return r.get('nom') + ' ' + r.get('prenom');}}
     ],
     validations: [],
     proxy: {

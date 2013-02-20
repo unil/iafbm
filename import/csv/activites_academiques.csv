@@ -1,0 +1,25 @@
+ID UNIL;Nom;Abréviation;Fonction académique SSF;Fonction académique SSC;Titre académique SSC
+1;Professeur ordinaire;PO;x;x;x
+61;Professeur ordinaire ad personam;PO ad personam;x;x;x
+;Professeur honoraire;PH;x;x;x
+4;Professeur associé ad personam;PAS ad personam;x;x;x
+4;Professeur associé;PAS;x;x;x
+;Professeur assistant suppléant;PAST suppléant;x;x;x
+5;Professeur assistant en prétitularisation conditionnelle;PAST en PTC;x;x;x
+5;Professeur assistant boursier FNS;PAST boursier FNS;x;x;x
+;Professeur assistant ad personam;PAST ad personam;x;x;x
+5;Professeur assistant;PAST;x;x;x
+;Professeur titulaire;PTIT;x;x;x
+34;Professeur remplaçant;PR;x;x;x
+31;Professeur invité;PI;x;x;x
+29;Maître d'enseignement et de recherche type 1 suppléant;MER1 suppléant;x;x;x
+23;Maître d'enseignement et de recherche type 1;MER1;x;x;x
+;Maître d'enseignement et de recherche type 2 suppléant;MER2 suppléant;x;x;x
+27;Maître d'enseignement et de recherche type 2;MER2;x;x;x
+;Maître assistant suppléant;MA suppléant;x;x;x
+8;Maître assistant ambizione FNS;MA ambizione FNS;x;x;x
+8;Maître assistant;MA;x;x;x
+;Premier assistant;1er ASS;x;x;x
+990;Privat-docent;PD;x;x;x
+48;Chargé de cours;CC;x;x;x
+;Assistant;ASS;x;x;x

@@ -51,7 +51,7 @@ Ext.onReady(function() {
                         xtype: 'ia-combo',
                         store: new iafbm.store.Personne(),
                         valueField: 'id',
-                        displayField: 'nom',
+                        displayField: 'nomPrenom',
                         fieldLabel: 'Evaluateur 1',
                         emptyText: 'Evaluateur 1',
                         name: 'evaluateur1',
