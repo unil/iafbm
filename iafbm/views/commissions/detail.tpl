@@ -147,7 +147,7 @@ Ext.onReady(function() {
             width: 857,
             height: 200,
             toolbarButtons: ['add', 'delete'],
-            store: ss = new iafbm.store.CommissionMembreNonominatif({
+            store: new iafbm.store.CommissionMembreNonominatif({
                 params: { commission_id: <?php echo $d['id'] ?> },
                 sorters: [{
                     property : 'commission_fonction_position',

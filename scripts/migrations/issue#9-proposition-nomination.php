@@ -71,7 +71,7 @@ class iafbmIssue9 extends iafbmScript {
     }
 
     /**
-     * Adds fields to table 'candidats'
+     * Adds fields to table 'commissions'
      */
     function create_fields__commissions(xTransaction $t) {
         $t->execute_sql('ALTER TABLE commissions ADD COLUMN institut TEXT AFTER nom');

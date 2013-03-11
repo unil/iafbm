@@ -12,6 +12,7 @@ class CommissionPropositionNominationModel extends iaModelMysql {
         'commission_id' => 'commission_id',
         'candidat_id' => 'candidat_id',
         'objet' => 'objet',
+        'discipline_generale' => 'discipline_generale',
         'activite_id' => 'activite_id',
         'contrat_debut' => 'contrat_debut',
         'contrat_debut_au_plus_tot' => 'contrat_debut_au_plus_tot',

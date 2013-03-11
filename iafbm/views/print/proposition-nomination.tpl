@@ -17,6 +17,7 @@ function row($label, $value, $value_suffix=null) {
         return "<tr><th>{$label}{$label_suffix}</th><td>{$value}{$value_suffix}</td></tr>";
     }
 }
+//xUtil::pre($d);
 ?>
 
 
@@ -33,6 +34,7 @@ function row($label, $value, $value_suffix=null) {
   <?php echo row('Section', $d['commission']['section_code']) ?>
   <?php echo row('Institut', $d['commission']['institut']) ?>
   <?php echo row('Objet', $d['proposition']['objet']) ?>
+  <?php echo row('Discipline générale', $d['proposition']['discipline_generale']) ?>
   <?php echo row('&nbsp;', '&nbsp;') ?>
 
   <?php echo row('Titre proposé', implode(' / ', array_filter(array(
@@ -49,8 +51,8 @@ function row($label, $value, $value_suffix=null) {
                 $d['proposition']['charge_horaire'], $d['proposition']['grandeur_unite_symbole']
             )) : null);
   ?>
-  <?php echo row('Indemnité', $d['proposition']['indemnite'], ' CHF') ?>
-  <?php echo row('Primo loco', $d['candidat']['_primo_loco'] ? 'Oui' : 'Non') ?>
+  <?php echo row('Indemnité', $d['proposition']['indemnite'], is_numeric($d['proposition']['indemnite']) ? ' CHF' : '') ?>
+  <?php echo row('Primo loco', $d['candidat'] ? $d['candidat']['_primo_loco'] ? 'Oui' : 'Non' : '') ?>
   <?php
     echo row('Autres candidats', $d['candidat']['_primo_loco'] ?
         implode('<br/>', array_map(function($candidat) {

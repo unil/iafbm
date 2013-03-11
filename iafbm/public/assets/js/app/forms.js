@@ -805,9 +805,19 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 labelWidth: 160,
                 width: 500,
                 store: new iafbm.store.Candidat({
-                    params: { commission_id: this.fetch.params.commission_id }
+                    params: { commission_id: this.fetch.params.commission_id },
+                    listeners: {
+                        load: function(store, records) {
+                            store.add({id: null, nom: '(aucun)'});
+                        }
+                    }
                 }),
                 editable: false,
+                listeners: {
+                    select: function(combo, records) {
+                        if (!records[0].get('id')) this.setValue(null);
+                    }
+                }
             }, {
                 xtype: 'button',
                 text: 'Formulaire candidat',
@@ -849,6 +859,10 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                 xtype: 'textfield',
                 fieldLabel: 'Objet',
                 name: 'objet'
+            }, {
+                xtype: 'textfield',
+                fieldLabel: 'Discipline générale',
+                name: 'discipline_generale'
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Titre proposé',
@@ -917,7 +931,7 @@ Ext.define('iafbm.form.CommissionPropositionNomination', {
                     })
                 }]
             }, {
-                xtype: 'numberfield',
+                xtype: 'textfield',
                 fieldLabel: 'Indemnité (CHF)',
                 name: 'indemnite'
             }, {
