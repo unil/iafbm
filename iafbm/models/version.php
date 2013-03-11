@@ -33,7 +33,7 @@ class VersionModel extends iaJournalingModelMysql {
     function current($n=0) {
         // Raw SQL query to bypass mandatory 'model_name' parameter
         $r = xModel::q("SELECT `id` FROM `versions` ORDER BY id DESC LIMIT 1 OFFSET {$n};");
-        $v = array_shift(mysql_fetch_assoc($r));
+        $v = @array_shift(mysql_fetch_assoc($r));
         if (!$v) throw new xException('Could not retrieve current version', 500);
         return $v;
     }
