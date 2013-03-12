@@ -94,3 +94,7 @@
     </tr>
 </table>
 <?php } ?>
+
+<p style="text-align:right">
+Date: <?php echo date('d.m.Y') ?>
+</p>
