@@ -33,7 +33,7 @@ class ReportController extends iaExtRestController {
         // Defines output table contents, using structure
         // header => array(items)
         $grouping = array(
-            "Corps Professoral" => array(
+            "Corps professoral" => array(
                 'PO', 'PAS', 'PAST'
             ),
             "Corps intermédiaire" => array(
