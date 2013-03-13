@@ -50,7 +50,7 @@ class PersonnesAdressesController extends iaExtRestController {
         if ($adresse->params) $t->execute($adresse, 'post');
         // Finishes transaction
         $r = $t->end();
-        $r['items'] = array_shift(xModel::load($this->model, array('id' => $params['id']))->get());
+        $r['items'] = @array_shift(xModel::load($this->model, array('id' => $params['id']))->get());
         return $r;
     }
 
@@ -70,7 +70,7 @@ class PersonnesAdressesController extends iaExtRestController {
         ), $t);
         // Finishes transaction
         $r = $t->end();
-        $r['items'] = array_shift(xModel::load($this->model, array('id' => $t->insertid()))->get());
+        $r['items'] = @array_shift(xModel::load($this->model, array('id' => $t->insertid()))->get());
         return $r;
     }
 
@@ -111,7 +111,7 @@ class PersonnesAdressesController extends iaExtRestController {
 
     function delete() {
         $params = $this->params;
-        $personne_adresse = array_shift(xModel::load($this->model, array('id'=>$params['id']))->get());
+        $personne_adresse = @array_shift(xModel::load($this->model, array('id'=>$params['id']))->get());
         $adresse_id = $personne_adresse['adresse_id'];
         $t = new xTransaction();
         $t->start();

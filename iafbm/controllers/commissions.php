@@ -74,7 +74,7 @@ class CommissionsController extends AbstractCommissionController {
         $return = xModel::load($this->model, $this->params)->return;
         if (xUtil::in_array(array('*', '_president'), $return)) {
             foreach ($commissions['items'] as &$commission) {
-                $president = array_shift(xModel::load(
+                $president = @array_shift(xModel::load(
                     'commission_membre',
                     array(
                         'commission_id' => $commission['id'],
@@ -135,7 +135,7 @@ class CommissionsController extends AbstractCommissionController {
         );
         foreach ($items as $item) $t->execute($item, 'put');
         $r = $t->end();
-        $r['items'] = array_shift(xModel::load('commission', array('id' => $insertid))->get());
+        $r['items'] = @array_shift(xModel::load('commission', array('id' => $insertid))->get());
         return $r;
     }
 

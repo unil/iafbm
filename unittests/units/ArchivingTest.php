@@ -220,8 +220,8 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
     }
     protected function diff($array1, $array2) {
         return array_unique(array_merge(
-            array_diff($array1, $array2),
-            array_diff($array2, $array1)
+            @array_diff($array1, $array2),
+            @array_diff($array2, $array1)
         ));
     }
 }
