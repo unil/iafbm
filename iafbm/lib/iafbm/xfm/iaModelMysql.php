@@ -172,7 +172,7 @@ abstract class iaModelMysql extends xModelMysql {
             }
             // Applies joined models modifications
             foreach ($this->joins() as $model => $sql) {
-                $join_primary = array_shift(xUtil::arrize(xModel::load($model)->primary));
+                $join_primary = @array_shift(xUtil::arrize(xModel::load($model)->primary));
                 $join_id = @$result["{$model}_{$join_primary}"];
                 if (!$join_id) {
                     // If modified $result foreign key is empty,
@@ -584,8 +584,8 @@ abstract class iaModelMysql extends xModelMysql {
             // Determines foreign fields names and values
             // according the $this->archive_foreign_models definition flavour
             if (is_array($foreign_field_info)) {
-                $local_field_name = array_shift(array_keys($foreign_field_info));
-                $foreign_field_name = array_shift(array_values($foreign_field_info));
+                $local_field_name = @array_shift(array_keys($foreign_field_info));
+                $foreign_field_name = @array_shift(array_values($foreign_field_info));
             } else {
                 // The given foreign field equals the local primary key (id) value
                 $local_field_name = $this->primary();
