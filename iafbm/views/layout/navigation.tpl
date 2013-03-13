@@ -30,10 +30,6 @@ $navigation = array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'
         ),
-        'reporting' => array(
-            'url' => u('report'),
-            'label' => 'Reporting'
-        ),
     ),
     'Putz' => array(
         'putz-activites' => array(
