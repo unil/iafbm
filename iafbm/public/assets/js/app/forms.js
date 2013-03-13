@@ -673,7 +673,7 @@ Ext.define('iafbm.form.Personne', {
                 header: "En vigueur",
                 dataIndex: 'en_vigueur',
                 width: 65,
-                xtype: 'ia-radiocolumn',
+                xtype: 'checkcolumn',
                 editor: {
                     xtype: 'checkboxfield',
                     disabled: true
