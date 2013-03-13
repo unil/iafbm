@@ -11,7 +11,7 @@ class iaJournalingModelTestAuth extends iaAuth {
     protected $permissions = array(
         'allowed-1' => array(
             'models' => array(
-                'somemodel' => 'R'
+                'pays' => 'R'
             )
         ),
         'allowed-2' => array(
@@ -21,9 +21,9 @@ class iaJournalingModelTestAuth extends iaAuth {
         ),
         'disallowed-1' => array(
             'models' => array(
-                'allowed-model' => 'R',
-                'disallowed-model1' => 'C',
-                'disallowed-model2' => 'CUD',
+                'genre' => 'R',
+                'canton' => 'C',
+                'permis' => 'CUD',
                 '*' => 'CRUD'
             )
         )
@@ -44,17 +44,17 @@ class iaJournalingModelTest extends iaPHPUnit_Auth_Framework_TestCase {
     function test_auth_model_access() {
         // Must execute without exception
         $this->set_shibboleth('some', 'any', 'allowed-1');
-        xModel::load('version', array('model_name' => 'somemodel'))->get();
+        xModel::load('version', array('model_name' => 'pays'))->get();
         // Must execute without exception
         $this->set_shibboleth('some', 'any', 'allowed-2');
         xModel::load('version', array('model_name' => 'version'))->get();
         // Must execute without and with exceptions
         $this->set_shibboleth('some', 'any', 'disallowed-1');
-        xModel::load('version', array('model_name' => 'allowed-model'))->get();
+        xModel::load('version', array('model_name' => 'genre'))->get();
         xModel::load('version', array('model_name' => 'personne'))->get();
         try {
-            xModel::load('version', array('model_name' => 'disallowed-model1'))->get();
-            xModel::load('version', array('model_name' => 'disallowed-model2'))->get();
+            xModel::load('version', array('model_name' => 'canton'))->get();
+            xModel::load('version', array('model_name' => 'permis'))->get();
         } catch (Exception $e) {
             $this->assertTrue($e instanceof xException);
             $this->assertEquals($e->status, 403);
