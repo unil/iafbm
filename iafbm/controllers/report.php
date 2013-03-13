@@ -76,6 +76,7 @@ class ReportController extends iaExtRestController {
                 $result = xModel::load('personne_activite', array(
                     'personne_id' => $id,
                     'section_code' => $section,
+                    'en_vigueur' => true,
                     'xreturn' => 'section_code,activite_nom_abreviation'
                 ))->get();
                 // Creates a flat activites array
