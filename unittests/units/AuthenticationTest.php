@@ -11,7 +11,7 @@ class AuthenticationTestAuth extends iaAuth {
     protected $permissions = array(
         'multiple , roles, canonalization' => array(
             'models' => array(
-                'somemodel' => 'CRU'
+                'canton' => 'CRU'
             )
         ),
         'wildcards' => array(
@@ -57,7 +57,7 @@ class AuthenticationTest extends iaPHPUnit_Auth_Framework_TestCase {
         foreach ($permissions as $role => $info) {
             $models = $info['models'];
             foreach ($models as $model => $operations) {
-                $this->assertSame('somemodel', $model);
+                $this->assertSame('canton', $model);
                 $this->assertSame('CRU', $operations);
             }
         }
