@@ -576,7 +576,7 @@ Ext.define('iafbm.form.Personne', {
             },{
                 header: "Activité",
                 dataIndex: 'activite_id',
-                flex: 1,
+                width: 150,
                 xtype: 'ia-combocolumn',
                 editor: {
                     xtype: 'ia-combo',
@@ -668,6 +668,15 @@ Ext.define('iafbm.form.Personne', {
                             return 'La fin de mandat doit être utlérieure au début de mandat';
                         return true;
                     }
+                }
+            },{
+                header: "En vigueur",
+                dataIndex: 'en_vigueur',
+                width: 65,
+                xtype: 'ia-radiocolumn',
+                editor: {
+                    xtype: 'checkboxfield',
+                    disabled: true
                 }
             }]
         };

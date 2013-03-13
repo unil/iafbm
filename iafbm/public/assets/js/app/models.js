@@ -263,7 +263,8 @@ Ext.define('iafbm.model.PersonneActivite', {
         {name: 'section_id', type: 'int', useNull: true},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'debut', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'fin', type: 'date', dateFormat: 'Y-m-d'}
+        {name: 'fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'en_vigueur', type: 'boolean', defaultValue: true}
     ],
     validations: [],
     proxy: {
