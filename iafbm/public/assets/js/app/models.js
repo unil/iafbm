@@ -727,7 +727,25 @@ Ext.define('iafbm.model.VersionRelation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/versions_relations',
+        url: x.context.baseuri+'/api/evaluations_finalisations',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationRapport', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'relance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'rapport_recu', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'bibliometrie', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'entretien', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'transmis_evaluateurs', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_rapport',
     }
 });
 

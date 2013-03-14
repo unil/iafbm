@@ -1,9 +1,8 @@
-<h1><?php echo "Commission n° {$d['id']} - {$d['nom']}" ?></h1>
+<h1><?php echo "Evaluation n° {$d['id']}"?></h1>
 
 <div id="target"></div>
 
 <script type="text/javascript">
-
 Ext.onReady(function() {
     
     var states = Ext.create('Ext.data.Store', {
@@ -15,13 +14,14 @@ Ext.onReady(function() {
         //...
     ]
     });
-
-    form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.Commission'),
+    
+    var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+        /*store: Ext.create('iafbm.store.EvaluationRapport'),
         fetch: {
-            model: iafbm.model.Commission,
+            model: iafbm.model.EvaluationRapport,
             id: <?php echo $d['id'] ?>
         },*/
+        id: "toto",
         defaults: {
             anchor: '100%'
         },
@@ -34,18 +34,28 @@ Ext.onReady(function() {
                         fieldLabel: 'Relancé le',
                         emptyText: 'Relancé le',
                         name: 'relance_le',
+                        id: 'relance',
                         labelWidth: '175'
                     },{
                         xtype: 'ia-datefield',
                         fieldLabel: 'Rapport reçu le',
                         emptyText: 'Rapport reçu le',
                         name: 'rapport_recu_le',
+                        id: 'rapport_recu',
                         labelWidth: '175'
                     },{
                         xtype: 'ia-datefield',
                         fieldLabel: 'Demande bibliométrique le',
                         emptyText: 'Demande bibliométrique le',
                         name: 'demande_bibliometrique_le',
+                        id: 'bibliometrie',
+                        labelWidth: '175'
+                    },{
+                        xtype: 'ia-datefield',
+                        fieldLabel: 'Transmis à l\'évaluateur le',
+                        emptyText: 'Transmis à l\'évaluateur le',
+                        name: 'transmis_le',
+                        id: 'transmis_evaluateurs',
                         labelWidth: '175'
                     },{
                         xtype: 'ia-combo',
@@ -54,8 +64,8 @@ Ext.onReady(function() {
                         //queryParam: 'xquery',
                         valueField: 'id',
                         displayField: 'nomPrenom',
-                        fieldLabel: 'Evaluateur 1',
-                        emptyText: 'Evaluateur 1',
+                        fieldLabel: 'Evaluateur',
+                        emptyText: 'Evaluateur',
                         name: 'evaluateur1',
                         minChars: 1,
                         labelWidth: '175',
@@ -83,33 +93,18 @@ Ext.onReady(function() {
                             }
                         }
                     },{
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.Personne(),
-                        queryMode: 'remote',
-                        queryParam: 'xquery',
-                        valueField: 'id',
-                        displayField: 'nomPrenom',
-                        fieldLabel: 'Evaluateur 2',
-                        emptyText: 'Evaluateur 2',
-                        name: 'evaluateur2',
-                        labelWidth: '175'
-                    },{
                         xtype: 'ia-datefield',
                         fieldLabel: 'Date entretien',
                         emptyText: 'Date entretien',
                         name: 'date_entretien',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Transmis à l\'évaluateur le',
-                        emptyText: 'Transmis à l\'évaluateur le',
-                        name: 'transmis_le',
+                        id: 'entretien',
                         labelWidth: '175'
                     },{
                         xtype: 'ia-textarea',
                         fieldLabel: 'Commentaire',
                         emptyText: 'Commentaire',
                         name: 'commentaire',
+                        id: 'commentaire',
                         labelWidth: '175'
                     }
                 ]
@@ -136,13 +131,7 @@ Ext.onReady(function() {
                         fieldLabel: 'Rapport d\'évaluation OK le',
                         emptyText: 'Rapport d\'évaluation OK le',
                         name: 'rapport_evaluation_ok',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
-                        emptyText: 'Dossier transmis à la Direction de l\'UNIL le',
-                        name: 'dossier_transmis_direction',
-                        labelWidth: '175'
+                        labelWidth: '275'
                     },{
                         xtype: 'ia-combo',
                         store: states,
@@ -150,7 +139,7 @@ Ext.onReady(function() {
                         displayField: 'name',
                         fieldLabel: 'Préavis évaluateur',
                         name: 'preavis_evaluateur',
-                        labelWidth: '175'
+                        labelWidth: '275'
                     },{
                         xtype: 'ia-combo',
                         store: states,
@@ -158,13 +147,19 @@ Ext.onReady(function() {
                         displayField: 'name',
                         fieldLabel: 'Préavis Décanat',
                         name: 'preavis_decanat',
-                        labelWidth: '175'
+                        labelWidth: '275'
+                    },{
+                        xtype: 'ia-datefield',
+                        fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
+                        emptyText: 'Dossier transmis à la Direction de l\'UNIL le',
+                        name: 'dossier_transmis_direction',
+                        labelWidth: '275'
                     },{
                         xtype: 'ia-textarea',
                         fieldLabel: 'Commentaire',
                         emptyText: 'Commentaire',
                         name: 'commentaire',
-                        labelWidth: '175'
+                        labelWidth: '275'
                     }
                 ]
             }
