@@ -168,7 +168,7 @@ class iaExtRestController extends xWebController {
         $by_id = in_array($pk, array_keys($this->params)) && !array_intersect($this->params, $fields);
         if ($by_id && !$count) {
             $resource = xModel::load($this->model)->name;
-            throw new xException("The requested {$resource} does not exist", 404);
+            throw new xException("The requested {$resource} ({$pk}:{$this->params[$pk]}) does not exist", 404);
         }
         // Creates extjs compatible result
         return array(

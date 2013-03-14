@@ -4,6 +4,7 @@ CREATE TABLE commissions (
     actif BOOLEAN NOT NULL DEFAULT true,
     termine BOOLEAN DEFAULT false,
     nom VARCHAR(255) NOT NULL,
+    institut TEXT,
     commentaire TEXT,
     commission_type_id INT NOT NULL,
     commission_etat_id INT NOT NULL,
