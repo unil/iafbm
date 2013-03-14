@@ -64,7 +64,7 @@
 <?php foreach ($d['grouping'] as $corps => $activites): ?>
 <?php     foreach ($activites as $activite): ?>
         <td>
-            <?php echo isset($d['counts'][$section][$activite]) ? $d['counts'][$section][$activite] : '?' ?>
+            <?php echo (int)$d['counts'][$section][$activite] ?>
         </td>
 <?php     endforeach ?>
 <?php endforeach ?>
