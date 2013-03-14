@@ -440,6 +440,17 @@ Ext.define('Ext.ia.grid.RadioColumn', {
  * Extends Ext.grid.Column with
  * - remote store display workaround
  */
+Ext.define('Ext.grid.column.Template', {
+    extend:'Ext.grid.Column',
+    alias: 'widget.ia-percentcolumn',
+    format: '000',
+    tpl: '{taux_activite}<tpl if="taux_activite!=null">%</tpl>'
+});
+
+/**
+ * Extends Ext.grid.Column with
+ * - remote store display workaround
+ */
 Ext.define('Ext.ia.grid.ComboColumn', {
     extend:'Ext.grid.Column',
     alias: 'widget.ia-combocolumn',
@@ -492,7 +503,7 @@ Ext.define('Ext.ia.form.field.ComboBox', {
         me.callParent();
         // Manages store autoloading & exceptions
         this.on('afterrender', function() {
-            if (!store.autoLoad && !store.loaded && !store.isLoading()) {
+            if (store && !store.autoLoad && !store.loaded && !store.isLoading()) {
                 store.load(function(records, operation, success) {
                     // Masks the component
                     if (!success && operation.action == 'read') {
@@ -544,6 +555,17 @@ Ext.define('Ext.ia.form.field.Date', {
     format: 'd.m.Y',
     altFormats: 'd.m.Y|d-m-Y|d m Y',
     startDay: 1
+});
+
+/**
+ * Extends Ext.form.field.Number with
+ * - min/max values set to 0/100
+ */
+Ext.define('Ext.ia.form.field.Percentage', {
+    extend:'Ext.form.field.Number',
+    alias: 'widget.ia-percentfield',
+    maxValue: 100,
+    minValue: 0
 });
 
 /**
@@ -1620,14 +1642,15 @@ Ext.define('Ext.ia.form.Panel', {
     saveRecord: function() {
         if (this.fireEvent('beforesave', this, record) === false) return;
         var me = this,
-            record = this.getRecord();
+            record = this.getRecord(),
+            form = this.getForm();
         //TODO: would it be clever to reuse the record validation be used here?
-        if (!this.getForm().isValid()) return;
+        if (!form.isValid()) return;
         // Updates record from form values
         // FIXME: updateRecord() will trigger the save action
         //        if the record belongs to Store with autoSync,
         //        which will trigger the POST request twice :(
-        this.getForm().updateRecord(record);
+        form.updateRecord(record);
         record.save({ success: function(record, operation) {
             if (!operation.success) return;
             me.fireEvent('aftersave', me, record);
@@ -1647,6 +1670,8 @@ Ext.define('Ext.ia.form.Panel', {
         var record = this.record;
         if (!record) return false;
         this.form.getFields().each(function(f) {
+            //FIXME: For debugging issue 'unsaved changes dialog shows when not applicable'
+            //console.log('Field:', f.name, 'record:', record.get(f.name), 'field:', f.getValue());
             // Skips ia-version-combo fields
             if (f.isXType('ia-version-combo')) return;
             // Skips fields that do not exist in record
@@ -1753,7 +1778,7 @@ Ext.define('Ext.ia.form.Panel', {
         if (this.record || this.fetch.model) {
             var me = this;
             if (!this.tbar) this.tbar = [];
-            this.tbar.push({
+            this.tbar.unshift({
                 xtype: 'button',
                 text: 'Enregistrer',
                 iconCls: 'icon-save',
