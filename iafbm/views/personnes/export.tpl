@@ -21,7 +21,7 @@
     elseif(preg_match('/Mac/', $agent)) $os = 'mac';
     else $os = 'Unknown';
     $mode_detected = in_array($os, array_keys($d['modes'])) ?
-        $os : array_shift(array_keys($d['modes']));
+        $os : @array_shift(array_keys($d['modes']));
 ?>
 
 <h1>Exportation des personnes (CSV)</h1>
