@@ -30,6 +30,12 @@ $navigation = array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'
         ),
+    ),
+    'Putz' => array(
+        'putz-activites' => array(
+            'url' => u('putz/do/personnes-activites'),
+            'label' => 'Putz les activités échues'
+        ),
     )
 );
 

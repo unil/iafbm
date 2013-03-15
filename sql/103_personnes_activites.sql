@@ -10,6 +10,8 @@ CREATE TABLE personnes_activites (
     fin DATE DEFAULT NULL,
     taux_activite TINYINT,
 
+    en_vigueur BOOLEAN NOT NULL DEFAULT TRUE,
+
     PRIMARY KEY (id),
     FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (activite_id) REFERENCES activites(id),

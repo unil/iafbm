@@ -12,7 +12,8 @@ class PersonneActiviteModel extends iaModelMysql {
         'activite_id' => 'activite_id',
         'taux_activite' => 'taux_activite',
         'debut' => 'debut',
-        'fin' => 'fin'
+        'fin' => 'fin',
+        'en_vigueur' => 'en_vigueur'
     );
 
     var $primary = array('id');
