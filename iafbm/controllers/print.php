@@ -51,7 +51,7 @@ class printController extends iaExtRestController {
         $nonmembres = xController::load('commissions_membres', $params)->getNonMembres();
         // Renders view
         $data = array(
-            'commission' => array_shift($commission),
+            'commission' => $commission,
             'membres' => $membres,
             'non-membres' => $nonmembres
         );
@@ -67,7 +67,7 @@ class printController extends iaExtRestController {
             'commission_id' => $id
         ))->get();
         $data = array(
-            'commission' => array_shift($commission),
+            'commission' => $commission,
             'candidats' => $candidats['items']
         );
         $html = xView::load('print/candidats-commission', $data)->render();
