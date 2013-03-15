@@ -160,6 +160,7 @@ class PersonnesController extends iaExtRestController {
             '    LEFT JOIN personnes_activites',
             '       ON  personnes_activites.personne_id = personnes.id',
             '       AND personnes_activites.actif = 1',
+            '       AND personnes_activites.en_vigueur = 1',
             'WHERE personnes.actif = 1'
         ));
         // Creates 'personne' result array
@@ -249,6 +250,7 @@ class PersonnesController extends iaExtRestController {
                 // Fetches 'Fonction' for the current 'Personne'
                 $fonctions = xModel::load('personne_activite', array(
                     'personne_id' => $personne['id'],
+                    'en_vigueur' => true,
                     'xjoin' => 'activite,activite_nom',
                     'xorder_by' => 'activite_nom_abreviation',
                     'xorder' => 'ASC'
