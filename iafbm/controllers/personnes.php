@@ -250,11 +250,16 @@ class PersonnesController extends iaExtRestController {
                 // Fetches 'Fonction' for the current 'Personne'
                 $fonctions = xModel::load('personne_activite', array(
                     'personne_id' => $personne['id'],
-                    'en_vigueur' => true,
                     'xjoin' => 'activite,activite_nom',
                     'xorder_by' => 'activite_nom_abreviation',
-                    'xorder' => 'ASC'
+                    'xorder' => 'ASC',
+                    'xversion' => @$this->params['xversion'],
                 ))->get();
+                // Filters activites 'en_vigueur'
+                // because models cannot be quried with where clause when xversion
+                $fonctions = array_filter($fonctions, function($fonction) {
+                    return $fonction['en_vigueur'];
+                });
                 // Creates a CSV list of 'Fonction'
                 $f = array();
                 foreach($fonctions as $fonction) {
