@@ -2,7 +2,7 @@
 // Transforms members structure (this feels dirty, sorry)
 function concat($m) {
     $membres = array();
-    $fields_to_keep = array('id', 'personne_id', 'personne_denomination_abreviation', 'nom_prenom', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
+    $fields_to_keep = array('id', 'personne_id', 'personne_denomination_abreviation', 'nom_prenom', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement', 'version_id');
     $fields_to_concat = array('personne_denomination_abreviation', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
     foreach ($m as $membre) {
         $membre = xUtil::filter_keys($membre, $fields_to_keep);
@@ -34,8 +34,9 @@ function activite($membre) {
     // Retrieves personne._activite pseudo-field
     if ($membre['personne_id']) {
         $personne = xController::load('personnes', array(
-            'id' => $membre['personne_id'])
-        )->get();
+            'id' => $membre['personne_id'],
+            'xversion' => $membre['version_id']
+        ))->get();
         return @$personne['items'][0]['_activites'];
     }
     return '-';
