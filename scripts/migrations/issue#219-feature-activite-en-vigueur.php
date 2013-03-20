@@ -18,7 +18,7 @@ class iafbmIssue219 extends iafbmScript {
 
     function update_fields(xTransaction $t) {
         $statements = array(
-            'ALTER TABLE iafbm.personnes_activites ADD COLUMN en_vigueur BOOLEAN NOT NULL DEFAULT TRUE'
+            'ALTER TABLE personnes_activites ADD COLUMN en_vigueur BOOLEAN NOT NULL DEFAULT TRUE'
         );
         foreach ($statements as $statement) $t->execute_sql($statement);
     }
