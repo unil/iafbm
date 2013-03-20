@@ -26,9 +26,9 @@ CREATE TABLE activites (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT TRUE,
 
-    section_id INT,
-    activite_type_id INT,
-    activite_nom_id INT,
+    section_id INT NOT NULL,
+    activite_type_id INT NOT NULL,
+    activite_nom_id INT NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (section_id) REFERENCES sections(id),

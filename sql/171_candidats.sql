@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS candidats;
 CREATE TABLE candidats (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT true,
-    commission_id INT,
+    commission_id INT NOT NULL,
     nom VARCHAR(255),
     prenom VARCHAR(255),
     genre_id INT,

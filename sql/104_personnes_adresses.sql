@@ -3,8 +3,8 @@ CREATE TABLE personnes_adresses (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT true,
 
-    personne_id INT,
-    adresse_id INT,
+    personne_id INT NOT NULL,
+    adresse_id INT NOT NULL,
 
     defaut BOOLEAN NULL DEFAULT false,
 
