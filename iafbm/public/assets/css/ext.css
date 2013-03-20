@@ -39,6 +39,10 @@
     background-image: url(../img/ext/printer.png) !important;
 }
 
+.icon-email {
+    background-image: url(../img/controllers/user/email.png) !important;
+}
+
 /**********************************************************
  * Custom ext icons for Commission tabs & forms
  * - Ext.ia.tab.CommissionPanel

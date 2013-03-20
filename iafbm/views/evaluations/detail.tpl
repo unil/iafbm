@@ -5,13 +5,21 @@
 <script type="text/javascript">
 Ext.onReady(function() {
     
-    var states = Ext.create('Ext.data.Store', {
+    var preavis = Ext.create('Ext.data.Store', {
     fields: ['abbr', 'name'],
     data : [
-        {"abbr":"AL", "name":"Alabama"},
-        {"abbr":"AK", "name":"Alaska"},
-        {"abbr":"AZ", "name":"Arizona"}
-        //...
+        {"abbr":"AL", "name":"Renouveler"},
+        {"abbr":"AK", "name":"Ne pas renouveler"},
+        {"abbr":"AL", "name":"Confirmer"},
+        {"abbr":"AK", "name":"Ne pas confirmer"}
+    ]
+    });
+    
+    var ouiNon = Ext.create('Ext.data.Store', {
+    fields: ['abbr', 'name'],
+    data : [
+        {"abbr":"Y", "name":"Oui"},
+        {"abbr":"N", "name":"Non"},
     ]
     });
     
@@ -21,149 +29,147 @@ Ext.onReady(function() {
             model: iafbm.model.EvaluationRapport,
             id: <?php echo $d['id'] ?>
         },*/
-        id: "toto",
-        defaults: {
-            anchor: '100%'
-        },
+        id: "rapportActivite",
+        layout: 'column',
         items: [{
+            xtype: 'container',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelWidth: '165',
+                labelAlign: 'left',
+            },
+            items: [{
+                baseCls: 'title',
+                html: 'Suivi du rapport',
+                labelWidth: '250'
+            },{
                 xtype: 'fieldcontainer',
-                combineErrors: true,
-                defaults: { labelStyle: 'font-weight:bold' },
+                fieldLabel: 'Relancé le',
+                layout: 'column',
+                margin: '0',
                 items: [{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Relancé le',
-                        emptyText: 'Relancé le',
-                        name: 'relance_le',
-                        id: 'relance',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Rapport reçu le',
-                        emptyText: 'Rapport reçu le',
-                        name: 'rapport_recu_le',
-                        id: 'rapport_recu',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Demande bibliométrique le',
-                        emptyText: 'Demande bibliométrique le',
-                        name: 'demande_bibliometrique_le',
-                        id: 'bibliometrie',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Transmis à l\'évaluateur le',
-                        emptyText: 'Transmis à l\'évaluateur le',
-                        name: 'transmis_le',
-                        id: 'transmis_evaluateurs',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-combo',
-                        store: new iafbm.store.Personne(),
-                        //queryMode: 'remote',
-                        //queryParam: 'xquery',
-                        valueField: 'id',
-                        displayField: 'nomPrenom',
-                        fieldLabel: 'Evaluateur',
-                        emptyText: 'Evaluateur',
-                        name: 'evaluateur1',
-                        minChars: 1,
-                        labelWidth: '175',
-                        width: '500',
-                        matchFieldWidth: '500',
-                        columnWidth: '500',
-                        minWidth: '500',
-                        typeAhead: true,
-                        hideTrigger:true,
-                        anchor: '100%',
-                        listConfig: {
-                            loadingText: 'Recherche...',
-                            emptyText: 'Aucun résultat.',
-                            // Custom rendering template for each item
-                            getInnerTpl: function() {
-                                var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
-                                return [
-                                    '<div>',
-                                    '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
-                                    '  <h3>{prenom} {nom}</h3>',
-                                    '  <div>{pays_nom}{[values.pays_nom ? ",":"&nbsp;"]} {pays_code}</div>',
-                                    '  <div>{[values.date_naissance ? Ext.Date.format(values.date_naissance, "j M Y") : "&nbsp;"]}</div>',
-                                    '</div>'
-                                ].join('');
+                    xtype: 'ia-datefield',
+                    name: 'relance_le',
+                    emptyText: 'Relancé le',
+                },{
+                    xtype: 'button',
+                    text: 'Relancer',
+                    margin: '0 0 0 10',
+                    iconCls: 'icon-email',
+                }]
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Rapport reçu le',
+                emptyText: 'Rapport reçu le',
+                name: 'rapport_recu',
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Transmis à l\'évaluateur le',
+                emptyText: 'Transmis à l\'évaluateur le',
+                name: 'transmis_evaluateur'
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Date de l\'entretien',
+                emptyText: 'Date de l\'entretien',
+                name: 'date_entretien'
+            },{
+                xtype: 'ia-textarea',
+                fieldLabel: 'Commentaire',
+                emptyText: 'Commentaire',
+                name: 'commentaire',
+                grow: true,
+            }]
+        },{
+            xtype: 'container',
+            margin: '0 0 0 20',
+            items: [{
+                    baseCls: 'title',
+                    html: 'Evaluateurs'
+                },new Ext.ia.selectiongrid.Panel({
+                    //title: 'Membres nominatifs',
+                    width: 480,
+                    height: 250,
+                    combo: {
+                        store: new iafbm.store.Personne({
+                            params: {
+                                xjoin: 'pays',
+                                xreturn: 'id,nom,prenom,pays.nom AS pays_nom,pays.code AS pays_code'
                             }
+                        })
+                    },
+                    grid: {
+                        store: new iafbm.store.Personne(),
+                        columns: iafbm.columns.Candidat
+                    }/*,
+                    makeData: function(record) {
+                        return {
+                            personne_id: record.get('id'),
+                            commission_fonction_id: 1,
+                            commission_id: 1,
+                            personne_nom: record.get('nom'),
+                            personne_prenom: record.get('prenom')
                         }
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Date entretien',
-                        emptyText: 'Date entretien',
-                        name: 'date_entretien',
-                        id: 'entretien',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-textarea',
-                        fieldLabel: 'Commentaire',
-                        emptyText: 'Commentaire',
-                        name: 'commentaire',
-                        id: 'commentaire',
-                        labelWidth: '175'
-                    }
-                ]
-            }
-        ]
+                    }*/
+                }) 
+            ]
+        }]
     });
     
     var form_evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.Commission'),
+        /*store: Ext.create('iafbm.store.EvaluationRapport'),
         fetch: {
-            model: iafbm.model.Commission,
+            model: iafbm.model.EvaluationRapport,
             id: <?php echo $d['id'] ?>
         },*/
-        defaults: {
-            anchor: '100%'
-        },
+        layout: 'column',
         items: [{
-                xtype: 'fieldcontainer',
-                combineErrors: true,
-                //layout: 'hbox',
-                defaults: { labelStyle: 'font-weight:bold' },
-                items: [{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Rapport d\'évaluation OK le',
-                        emptyText: 'Rapport d\'évaluation OK le',
-                        name: 'rapport_evaluation_ok',
-                        labelWidth: '275'
-                    },{
-                        xtype: 'ia-combo',
-                        store: states,
-                        valueField: 'id',
-                        displayField: 'name',
-                        fieldLabel: 'Préavis évaluateur',
-                        name: 'preavis_evaluateur',
-                        labelWidth: '275'
-                    },{
-                        xtype: 'ia-combo',
-                        store: states,
-                        valueField: 'id',
-                        displayField: 'name',
-                        fieldLabel: 'Préavis Décanat',
-                        name: 'preavis_decanat',
-                        labelWidth: '275'
-                    },{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
-                        emptyText: 'Dossier transmis à la Direction de l\'UNIL le',
-                        name: 'dossier_transmis_direction',
-                        labelWidth: '275'
-                    },{
-                        xtype: 'ia-textarea',
-                        fieldLabel: 'Commentaire',
-                        emptyText: 'Commentaire',
-                        name: 'commentaire',
-                        labelWidth: '275'
-                    }
-                ]
-            }
-        ]
+            xtype: 'container',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelWidth: '275',
+                labelAlign: 'left',
+            },
+            items: [{
+                baseCls: 'title',
+                html: 'Evaluation',
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Rapport d\'évaluation - OJ Décanat du',
+                emptyText: 'Rapport d\'évaluation - OJ Décanat du',
+                name: 'rapport_recu',
+            },{
+                xtype: 'ia-combo',
+                store: preavis,
+                valueField: 'id',
+                displayField: 'name',
+                fieldLabel: 'Préavis Décanat',
+                name: 'preavis_decanat',
+                editable: false
+            },{
+                xtype: 'ia-combo',
+                store: preavis,
+                valueField: 'id',
+                displayField: 'name',
+                fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
+                name: 'preavis_decanat',
+                editable: false
+            }]
+        },{
+            xtype: 'container',
+            margin: '20 0 0 20',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelWidth: '100',
+                labelAlign: 'left',
+            },
+            items: [{
+                xtype: 'ia-textarea',
+                fieldLabel: 'Commentaire',
+                emptyText: 'Commentaire',
+                name: 'commentaire',
+                grow: true,
+            }]
+        }]
     });
     
     var form_cdir = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -172,46 +178,54 @@ Ext.onReady(function() {
             model: iafbm.model.Commission,
             id: <?php echo $d['id'] ?>
         },*/
-        defaults: {
-            anchor: '100%'
-        },
+        layout: 'column',
         items: [{
-                xtype: 'fieldcontainer',
-                combineErrors: true,
-                //layout: 'hbox',
-                defaults: { labelStyle: 'font-weight:bold' },
-                items: [{
-                        xtype: 'ia-datefield',
-                        fieldLabel: 'Séance du CDir du',
-                        emptyText: 'Séance du CDir du',
-                        name: 'seance_cdir',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-combo',
-                        store: states,
-                        valueField: 'id',
-                        displayField: 'name',
-                        fieldLabel: 'Renouvellement',
-                        name: 'renouvellement',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-combo',
-                        store: states,
-                        valueField: 'id',
-                        displayField: 'name',
-                        fieldLabel: 'Confirmation',
-                        name: 'confirmation',
-                        labelWidth: '175'
-                    },{
-                        xtype: 'ia-textarea',
-                        fieldLabel: 'Commentaire',
-                        emptyText: 'Commentaire',
-                        name: 'commentaire',
-                        labelWidth: '175'
-                    }
-                ]
-            }
-        ]
+            xtype: 'container',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelWidth: '150',
+                labelAlign: 'left',
+            },
+            items: [{
+                    baseCls: 'title',
+                    html: 'Cdir'
+                },{
+                    xtype: 'ia-datefield',
+                    fieldLabel: 'Séance du CDir du',
+                    emptyText: 'Séance du CDir du',
+                    name: 'seance_cdir',
+                },{
+                    xtype: 'ia-combo',
+                    store: ouiNon,
+                    valueField: 'id',
+                    displayField: 'name',
+                    fieldLabel: 'Renouvellement',
+                    name: 'renouvellement',
+                    editable: false
+                },{
+                    xtype: 'ia-combo',
+                    store: ouiNon,
+                    valueField: 'id',
+                    displayField: 'name',
+                    fieldLabel: 'Confirmation',
+                    name: 'confirmation',
+                    editable: false
+            }]
+        },{
+            xtype: 'container',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelWidth: '100',
+                labelAlign: 'left',
+            },
+            margin: '20 0 0 40',
+            items: [{
+                xtype: 'ia-textarea',
+                fieldLabel: 'Commentaire',
+                emptyText: 'Commentaire',
+                name: 'commentaire',
+            }]
+        }]
     });
     
     var form_contrat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -220,32 +234,93 @@ Ext.onReady(function() {
             model: iafbm.model.Commission,
             id: <?php echo $d['id'] ?>
         },*/
-        defaults: {
-            anchor: '100%'
-        },
+        layout: 'fit',
         items: [{
-                xtype: 'fieldcontainer',
-                combineErrors: true,
-                //layout: 'hbox',
-                defaults: { labelStyle: 'font-weight:bold' },
+            xtype: 'container',
+            layout: 'column',
+            items: [{
+                xtype: 'container',
+                defaults: {
+                    labelStyle: 'font-weight:bold',
+                    labelWidth: '100',
+                    labelAlign: 'left',
+                },
                 items: [{
+                        baseCls: 'title',
+                        html: 'Contrat'
+                    },{
                         xtype: 'ia-combo',
-                        store: states,
+                        store: ouiNon,
                         valueField: 'id',
                         displayField: 'name',
-                        fieldLabel: 'Prolongation contrat reçue',
-                        //name: 'prolongation_contrat',
-                        labelWidth: '175'
-                    },{
+                        fieldLabel: 'Copie nouveau contrat reçue',
+                        labelWidth: '190',
+                        editable: false
+                    }]
+            },{
+                xtype: 'container',
+                defaults: {
+                    labelStyle: 'font-weight:bold',
+                    labelWidth: '100',
+                    labelAlign: 'left',
+                },
+                margin: '35 0 0 40',
+                items: [{
                         xtype: 'ia-textarea',
                         fieldLabel: 'Commentaire',
                         emptyText: 'Commentaire',
                         name: 'commentaire',
-                        labelWidth: '175'
+                }]
+            }]
+        },{
+            xtype: 'container',
+            items: [{
+                xtype: 'button',
+                text: '<span style="font-weight:bold;font-size:18px">Clôturer</span>',
+                height: 50,
+                width: 906,
+                // Disables button if commission is already 'closed'
+                /*listeners: {
+                    afterrender: function() {
+                        var me = this,
+                            form = Ext.getCmp('apercu').down('form');
+                        if (form.record) {
+                            me.disableIf(form.getRecord());
+                        }
+                        form.on('load', function() {
+                            me.disableIf(this.getRecord(), form.store);
+                        });
                     }
-                ]
-            }
-        ]
+                },
+                disableIf: function(record, store) {
+                    // Disables 'close' button
+                    // if commission not already closed & form is not versioned
+                    var versioned = store && store.params.xversion;
+                    var enable = record.get('commission_etat_id')!=3 && !versioned;
+                    this.setDisabled(!enable);
+                },
+                // Click logic
+                handler: function() {
+                    var me = this;
+                    Ext.Msg.confirm(
+                        'Clôturer la commission',
+                        'Une fois clôturée, la commission ne peut plus être modifiée. \
+                        Cette action est irreversible. <br/><br/> \
+                        Voulez-vous clôturer la commission ?',
+                        function(is) {
+                            if (is=='yes') me.archiveCommission()
+                        }
+                    );
+                },
+                archiveCommission: function() {
+                    var form = Ext.getCmp('apercu').down('form'),
+                        record = form.getRecord();
+                    record.set('commission_etat_id', 3);
+                    record.save();
+                    form.loadRecord();
+                }*/
+            }]
+        }]
     });
     
 
