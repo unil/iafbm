@@ -76,6 +76,9 @@ class iafbmIssue9 extends iafbmScript {
             $this->log("ids: {$in}", 2);
             $t->execute_sql($sql);
             // Retrives impacted versions ids
+            // Disabled for peace of mind: it is better to have versions that belong to no record
+            //                             that record that have lost their versions.
+            /*
             $sql = "SELECT id FROM versions WHERE table_name = '{$table}' AND id_field_value in ({$in})";
             $versions = xModel::load('pays')->query($sql);
             $ids = array();
@@ -92,6 +95,7 @@ class iafbmIssue9 extends iafbmScript {
             // Deletes versioning
             $sql = "DELETE FROM versions WHERE id in ({$in})";
             $t->execute_sql($sql);
+            */
         }
         //
         //
