@@ -2,7 +2,6 @@ Ext.define('iafbm.form.Personne.Coordonnees', {
     extend: 'Ext.ia.form.Panel',
     alias: 'widget.ia-form-personne-coordonnees',
     store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
-    frame: true,
     initComponent: function() {
         this.items = [{
             xtype: 'ia-versioning',
@@ -267,7 +266,6 @@ Ext.define('iafbm.form.Personne.Activites', {
     extend: 'Ext.ia.form.Panel',
     alias: 'widget.ia-form-personne-activites',
     store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
-    frame: true,
     initComponent: function() {
         this.items = [
             this._createFormations(),
@@ -457,7 +455,6 @@ Ext.define('iafbm.form.Personne.Commissions', {
     extend: 'Ext.ia.form.Panel',
     alias: 'widget.ia-form-personne-commissions',
     store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
-    frame: true,
     initComponent: function() {
         this.items = [
             this._createCommissions()
