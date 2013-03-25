@@ -29,7 +29,7 @@ $navigation = array(
         'activites' => array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'
-        )
+        ),
     )
 );
 

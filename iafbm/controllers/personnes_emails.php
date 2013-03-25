@@ -26,7 +26,7 @@ class PersonnesEmailsController extends iaExtRestController {
         $t->execute($model, 'post');
         // Finishes transaction
         $r = $t->end();
-        $r['items'] = array_shift(xModel::load($this->model, array('id' => $params['id']))->get());
+        $r['items'] = @array_shift(xModel::load($this->model, array('id' => $params['id']))->get());
         return $r;
     }
 
@@ -43,7 +43,7 @@ class PersonnesEmailsController extends iaExtRestController {
         ), $t);
         // Finishes transaction
         $r = $t->end();
-        $r['items'] = array_shift(xModel::load($this->model, array('id' => $t->insertid()))->get());
+        $r['items'] = @array_shift(xModel::load($this->model, array('id' => $t->insertid()))->get());
         return $r;
     }
 

@@ -25,6 +25,8 @@ class CandidatFormationModel extends iaModelMysql {
         'formation' => 'LEFT JOIN formations ON (candidats_formations.formation_id = formations.id)'
     );
 
+    var $join = array('formation');
+
     var $archive_foreign_models = array(
         'formation' => array('formation_id' => 'id')
     );

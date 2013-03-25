@@ -3,6 +3,23 @@
 **/
 
 // Models
+Ext.define('iafbm.model.Grandeur', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'},
+        {name: 'dimsension_symbole', type: 'string'},
+        {name: 'unite', type: 'string'},
+        {name: 'unite_singulier', type: 'string'},
+        {name: 'unite_pluriel', type: 'string'},
+        {name: 'unite_symbole', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/grandeurs',
+    }
+});
 Ext.define('iafbm.model.Etatcivil', {
     extend: 'Ext.data.Model',
     fields: [
@@ -127,6 +144,7 @@ Ext.define('iafbm.model.Activite', {
         {name: 'section_id', type: 'int', useNull: true},
         {name: 'activite_nom_id', type: 'int', useNull: true},
         {name: 'activite_type_id', type: 'int', useNull: true},
+        {name: 'section_code', type: 'string'},
         {name: 'section_nom', type: 'string'},
         {name: 'activite_type_nom', type: 'string'},
         {name: 'activite_nom_nom', type: 'string'},
@@ -222,7 +240,12 @@ Ext.define('iafbm.model.PersonneDenomination', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'nom', type: 'string'}
+        {name: 'nom', type: 'string'},
+        {name: 'nom_masculin', type: 'string'},
+        {name: 'nom_feminin', type: 'string'},
+        {name: 'abreviation', type: 'string'},
+        {name: 'abreviation_masculin', type: 'string'},
+        {name: 'abreviation_feminin', type: 'string'},
     ],
     validations: [],
     proxy: {
@@ -389,8 +412,12 @@ Ext.define('iafbm.model.Candidat', {
         {name: 'nom', type: 'string'},
         {name: 'prenom', type: 'string'},
         {name: 'genre_id', type: 'int', useNull: true},
+        {name: 'personne_denomination_id', type: 'int', useNull: true},
         {name: 'etatcivil_id', type: 'int', useNull: true},
         {name: 'pays_id', type: 'int', useNull: true},
+        {name: 'canton_id', type: 'int', useNull: true},
+        {name: 'pays_id', type: 'int', useNull: true},
+        {name: 'permis_id', type: 'int', useNull: true},
         {name: 'date_naissance', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'nombre_enfants', type: 'int', useNull: true},
         {name: 'no_avs', type: 'string'},
@@ -414,11 +441,19 @@ Ext.define('iafbm.model.Candidat', {
         // Foreign fields
         {name: 'commission_nom', type: 'string'},
         // Ghost fields
+        {name: '_adresse_defaut', type: 'string'},
+        {name: '_npa_defaut', type: 'string'},
+        {name: '_lieu_defaut', type: 'string'},
+        {name: '_pays_defaut_id', type: 'int', useName: true},
+        {name: '_telephone_defaut_countrycode', type: 'string'},
+        {name: '_telephone_defaut', type: 'string'},
+        {name: '_email_defaut', type: 'string'},
         {name: '_display', mapping: 0, convert: function(value, record) {
             return [
                 record.get('prenom'),
                 record.get('nom'),
-                record.get('genre_initiale')].join(' ');
+                record.get('genre_initiale')
+            ].join(' ');
         }},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
@@ -456,6 +491,7 @@ Ext.define('iafbm.model.Commission', {
         {name: 'id', type: 'int'},
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'nom', type: 'string'},
+        {name: 'institut', type: 'string'},
         {name: 'commentaire', type: 'string'},
         {name: 'commission_type_id', type: 'int'},
         {name: 'commission_type_nom', type: 'string'},
@@ -655,6 +691,42 @@ Ext.define('iafbm.model.CommissionFinalisation', {
         url: x.context.baseuri+'/api/commissions_finalisations',
     }
 });
+Ext.define('iafbm.model.CommissionPropositionNomination', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'commission_id', type: 'int'},
+        {name: 'candidat_id', type: 'int', useNull: true},
+        {name: 'activite_id', type: 'int', useNull: true},
+        {name: 'objet', type: 'string'},
+        {name: 'discipline_generale', type: 'string'},
+        {name: 'contrat_debut', type: 'date', dateFormat: 'Y-m-d', useNull: true},
+        {name: 'contrat_debut_au_plus_tot', type: 'boolean'},
+        {name: 'contrat_fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'charge_horaire', type: 'int', useNull: true},
+        {name: 'grandeur_id', type: 'int', useNull: true},
+        {name: 'indemnite', type: 'string'},
+        {name: 'titre_cours', type: 'string'},
+        {name: 'grade_obtention_lieu', type: 'string'},
+        {name: 'grade_obtention_date', type: 'date', dateFormat: 'Y-m-d', useNull: true},
+        {name: 'observations', type: 'string'},
+        {name: 'date_preavis_champs', type: 'string'},
+        {name: 'date_proposition', type: 'date', dateFormat: 'Y-m-d', useNull: true},
+        {name: 'annexe_rapport_commission', type: 'boolean'},
+        {name: 'annexe_cahier_des_charges', type: 'boolean'},
+        {name: 'annexe_cv_publications', type: 'boolean'},
+        {name: 'annexe_declaration_sante', type: 'boolean'},
+        {name: 'imputation_fonds', type: 'string'},
+        {name: 'imputation_centre_financier', type: 'string'},
+        {name: 'imputation_unite_structurelle', type: 'string'},
+        {name: 'imputation_numero_projet', type: 'string'},
+        {name: 'actif', type: 'boolean', defaultValue: true}
+    ],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions_propositions_nominations',
+    }
+});
 Ext.define('iafbm.model.Version', {
     extend: 'Ext.data.Model',
     fields: [
@@ -702,7 +774,6 @@ Ext.define('iafbm.model.VersionData', {
         url: x.context.baseuri+'/api/versions_data',
     }
 });
-
 Ext.define('iafbm.model.VersionRelation', {
     extend: 'Ext.data.Model',
     fields: [

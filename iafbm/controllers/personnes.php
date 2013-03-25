@@ -107,7 +107,10 @@ class PersonnesController extends iaExtRestController {
             exit;
         } else {
             // Export configuration page
-            $data['modes'] = xFront::load('api')->modes;
+            $data['modes'] = xFront::load('api', array(
+                'xformat' => 'html',
+                'xencoding' => 'UTF-8'
+            ))->modes;
             return xView::load('personnes/export', $data, $this->meta);
         }
     }
