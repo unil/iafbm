@@ -452,6 +452,84 @@ Ext.define('iafbm.form.Personne.Activites', {
     }
 });
 
+
+Ext.define('iafbm.form.Personne.Commissions', {
+    extend: 'Ext.ia.form.Panel',
+    alias: 'widget.ia-form-personne-commissions',
+    store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
+    frame: true,
+    initComponent: function() {
+        this.items = [
+            this._createCommissions()
+        ]
+        this.callParent();
+    },
+    _createCommissions: function() {
+        var personne_id = this.getRecordId();
+        // Adds specific column
+        var store = new iafbm.store.CommissionMembre({
+            params: {
+                personne_id: personne_id,
+                xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
+                // TODO: FIXME: Default sort should be specified on the ExtJS column definition
+                xorder_by: 'commission_etat_id',
+                xorder: 'ASC'
+            }
+        });
+        return {
+            xtype: 'fieldset',
+            title: 'Participation à des commissions',
+            items: [{
+                xtype: 'ia-editgrid',
+                editable: false,
+                toolbarButtons: ['search'],
+                height: 150,
+                bbar: null,
+                store: store,
+                searchParams: { xwhere: 'query' },
+                iaDisableFor: [],
+                columns: [{
+                    xtype: 'ia-actioncolumn-redirect',
+                    width: 25,
+                    text: 'Détails commission',
+                    tooltip: 'Détails commission',
+                    getLocation: function(grid, record, id) {
+                        return [
+                            x.context.baseuri,
+                            'commissions',
+                            record.get('commission_id')
+                        ].join('/');
+                    }
+                },{
+                    header: "Fonction occupée",
+                    dataIndex: 'commission_fonction_nom',
+                    width: 210
+                },{
+                    header: "Type",
+                    dataIndex: 'commission_type_racine',
+                    width: 100
+                },{
+                    header: "N°",
+                    dataIndex: 'commission_id',
+                    width: 35
+                },{
+                    header: "Nom",
+                    dataIndex: 'commission_nom',
+                    flex: 1
+                },{
+                    header: "Section",
+                    dataIndex: 'section_code',
+                    width: 50
+                },{
+                    header: "Etat",
+                    dataIndex: 'commission_etat_nom',
+                    width: 75
+                }]
+            }]
+        }
+    }
+});
+
 Ext.define('iafbm.form.Personne', {
     extend: 'Ext.tab.Panel',
     activeTab: 0,
@@ -475,9 +553,10 @@ Ext.define('iafbm.form.Personne', {
             }]
         },{
             title: 'Commission',
-            items: [
-                //this._createCommissionsCurrent()
-            ]
+            items: [{
+                xtype: 'ia-form-personne-commissions',
+                fetch: this.fetch
+            }]
         },{
             title: 'Evaluations',
             items: [
