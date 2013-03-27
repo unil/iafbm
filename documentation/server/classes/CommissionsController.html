@@ -1,0 +1,565 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>iafbm » \CommissionsController</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">iafbm</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="../packages/iafbm-library.html"><i class="icon-folder-open"></i> iafbm-library</a></li>
+<li><a href="../packages/scripts.html"><i class="icon-folder-open"></i> scripts</a></li>
+<li><a href="../packages/scripts-migration.html"><i class="icon-folder-open"></i> scripts-migration</a></li>
+<li><a href="../packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+<li><a href="../packages/unittests-library.html"><i class="icon-folder-open"></i> unittests-library</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">942</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul>
+<li>todo 
+                <span class="label label-info">14</span>
+</li>
+<li>fixme 
+                <span class="label label-info">18</span>
+</li>
+</ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public inherited"><a href="#method_defaultAction" title="defaultAction :: Manages action redirection
+according the received params and the available controller actions."><span class="description">Manages action redirection
+according the received params and the available controller actions.</span><pre>defaultAction()</pre></a></li>
+<li class="method public "><a href="#method_delete" title="delete :: API Method."><span class="description">API Method.</span><pre>delete()</pre></a></li>
+<li class="method public "><a href="#method_detailAction" title="detailAction :: "><span class="description">detailAction()
+        </span><pre>detailAction()</pre></a></li>
+<li class="method public "><a href="#method_get" title="get :: API Method."><span class="description">API Method.</span><pre>get()</pre></a></li>
+<li class="method public inherited"><a href="#method_history" title="history :: API Method."><span class="description">API Method.</span><pre>history()</pre></a></li>
+<li class="method public "><a href="#method_indexAction" title="indexAction :: "><span class="description">indexAction()
+        </span><pre>indexAction()</pre></a></li>
+<li class="method public inherited"><a href="#method_is_allowed" title="is_allowed :: "><span class="description">is_allowed()
+        </span><pre>is_allowed()</pre></a></li>
+<li class="method public "><a href="#method_post" title="post :: Manages commission 'closed-lock' and archiving:
+- Prevents from modifying a 'closed' commission
+- Archives commission when commission_etat becomes 'closed'"><span class="description">Manages commission 'closed-lock' and archiving:
+- Prevents from modifying a 'closed' commission
+- Archives commission when commission_etat becomes 'closed'</span><pre>post()</pre></a></li>
+<li class="method public "><a href="#method_put" title="put :: Depending on the type of the commission,
+different types of database entities have to be created."><span class="description">Depending on the type of the commission,
+different types of database entities have to be created.</span><pre>put()</pre></a></li>
+<li class="method public inherited"><a href="#method_tag" title="tag :: API Method."><span class="description">API Method.</span><pre>tag()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected inherited"><a href="#method___construct" title="__construct :: Sets auth information"><span class="description">Sets auth information</span><pre>__construct()</pre></a></li>
+<li class="method protected inherited"><a href="#method_check_closed" title="check_closed :: Prevents modifications if commission status is 'closed'
+by throwing an exection if the given commission id is closed"><span class="description">Prevents modifications if commission status is 'closed'
+by throwing an exection if the given commission id is closed</span><pre>check_closed()</pre></a></li>
+<li class="method protected inherited"><a href="#method_get_name" title="get_name :: Returns controller name"><span class="description">Returns controller name</span><pre>get_name()</pre></a></li>
+<li class="method protected inherited"><a href="#method_handle_query" title="handle_query :: Handles query case (eg."><span class="description">Handles query case (eg.</span><pre>handle_query()</pre></a></li>
+<li class="method protected inherited"><a href="#method_handle_sort" title="handle_sort :: Handles sort case (eg."><span class="description">Handles sort case (eg.</span><pre>handle_sort()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul>
+<li class="property public inherited"><a href="#property_allow" title="$allow :: Allowed CRUD operations."><span class="description"></span><pre>$allow</pre></a></li>
+<li class="property public "><a href="#property_model" title="$model :: "><span class="description"></span><pre>$model</pre></a></li>
+<li class="property public "><a href="#property_query_fields" title="$query_fields :: Fields to query on (for model parameters creation on xquery)."><span class="description"></span><pre>$query_fields</pre></a></li>
+<li class="property public inherited"><a href="#property_query_fields_transform" title="$query_fields_transform :: Fields to transforme before querying."><span class="description"></span><pre>$query_fields_transform</pre></a></li>
+<li class="property public inherited"><a href="#property_query_fields_transformers" title="$query_fields_transformers :: "><span class="description"></span><pre>$query_fields_transformers</pre></a></li>
+<li class="property public inherited"><a href="#property_query_join" title="$query_join :: Joins to activate when query is active."><span class="description"></span><pre>$query_join</pre></a></li>
+<li class="property public "><a href="#property_sort_fields_substitutions" title="$sort_fields_substitutions :: Fields to substitute on sort (for model parameters creation on xsort)."><span class="description"></span><pre>$sort_fields_substitutions</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\CommissionsController"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/CommissionsController.html">CommissionsController</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">This abstract controller should be extended
+by every controller that relates to a commission.</p>
+<div class="details">
+<div class="long_description"><p>It implements:
+- a check that prevents a closed commission to be modified</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/iafbm.controller.html">iafbm</a></td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>controller</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_defaultAction"></a><div class="element clickable method public method_defaultAction" data-toggle="collapse" data-target=".method_defaultAction .collapse">
+<h2>Manages action redirection
+according the received params and the available controller actions.</h2>
+<pre>defaultAction() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::defaultAction()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::defaultAction()</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="method_delete"></a><div class="element clickable method public method_delete" data-toggle="collapse" data-target=".method_delete .collapse">
+<h2>API Method.</h2>
+<pre>delete() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Generic delete method for API calls.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>An ExtJS compatible resultset structure.</div>
+</div></div>
+</div>
+<a id="method_detailAction"></a><div class="element clickable method public method_detailAction" data-toggle="collapse" data-target=".method_detailAction .collapse">
+<h2>detailAction()
+        </h2>
+<pre>detailAction() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_get"></a><div class="element clickable method public method_get" data-toggle="collapse" data-target=".method_get .collapse">
+<h2>API Method.</h2>
+<pre>get() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Generic get method for API calls.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>An ExtJS compatible resultset structure.</div>
+</div></div>
+</div>
+<a id="method_history"></a><div class="element clickable method public method_history" data-toggle="collapse" data-target=".method_history .collapse">
+<h2>API Method.</h2>
+<pre>history() : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns history for a given record.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::history()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::history()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>An array containing the record history</div>
+</div></div>
+</div>
+<a id="method_indexAction"></a><div class="element clickable method public method_indexAction" data-toggle="collapse" data-target=".method_indexAction .collapse">
+<h2>indexAction()
+        </h2>
+<pre>indexAction() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_is_allowed"></a><div class="element clickable method public method_is_allowed" data-toggle="collapse" data-target=".method_is_allowed .collapse">
+<h2>is_allowed()
+        </h2>
+<pre>is_allowed() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::is_allowed()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::is_allowed()</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="method_post"></a><div class="element clickable method public method_post" data-toggle="collapse" data-target=".method_post .collapse">
+<h2>Manages commission 'closed-lock' and archiving:
+- Prevents from modifying a 'closed' commission
+- Archives commission when commission_etat becomes 'closed'</h2>
+<pre>post() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Generic post method for API calls.</p></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="iafbm.controllers.commissions.html#%5CAbstractCommissionController">\AbstractCommissionController</a></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>An ExtJS compatible resultset structure.</div>
+</div></div>
+</div>
+<a id="method_put"></a><div class="element clickable method public method_put" data-toggle="collapse" data-target=".method_put .collapse">
+<h2>Depending on the type of the commission,
+different types of database entities have to be created.</h2>
+<pre>put() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Generic put method for API calls.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>An ExtJS compatible resultset structure.</div>
+</div></div>
+</div>
+<a id="method_tag"></a><div class="element clickable method public method_tag" data-toggle="collapse" data-target=".method_tag .collapse">
+<h2>API Method.</h2>
+<pre>tag() : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Creates a tag.
+A tag consists in a version generated by the user.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::tag()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::tag()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>An ExtJS compatible resultset structure.</div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method protected method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Sets auth information</h2>
+<pre>__construct($params) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::__construct()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::__construct()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$params</h4></div>
+</div></div>
+</div>
+<a id="method_check_closed"></a><div class="element clickable method protected method_check_closed" data-toggle="collapse" data-target=".method_check_closed .collapse">
+<h2>Prevents modifications if commission status is 'closed'
+by throwing an exection if the given commission id is closed</h2>
+<pre>check_closed() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::check_closed()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_get_name"></a><div class="element clickable method protected method_get_name" data-toggle="collapse" data-target=".method_get_name .collapse">
+<h2>Returns controller name</h2>
+<pre>get_name() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::get_name()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::get_name()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Controller name</div>
+</div></div>
+</div>
+<a id="method_handle_query"></a><div class="element clickable method protected method_handle_query" data-toggle="collapse" data-target=".method_handle_query .collapse">
+<h2>Handles query case (eg.</h2>
+<pre>handle_query() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>'xquery' parameter is present in parameters).
+Transforms existing parameters to induce search behaviour within models.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::handle_query()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::handle_query()</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="method_handle_sort"></a><div class="element clickable method protected method_handle_sort" data-toggle="collapse" data-target=".method_handle_sort .collapse">
+<h2>Handles sort case (eg.</h2>
+<pre>handle_sort() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>'xsort' parameter is present in parameters).
+Transforms existing parameters to change sort parameters within models.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::handle_sort()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::handle_sort()</td>
+</tr>
+</table>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_allow"> </a><div class="element clickable property public property_allow" data-toggle="collapse" data-target=".property_allow .collapse">
+<h2></h2>
+<pre>$allow : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Possible values: 'get', 'post', 'put', 'delete'</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\get()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\post()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\put()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\delete()</a></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::$$allow</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::$$allow</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="property_model"> </a><div class="element clickable property public property_model" data-toggle="collapse" data-target=".property_model .collapse">
+<h2></h2>
+<pre>$model </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_query_fields"> </a><div class="element clickable property public property_query_fields" data-toggle="collapse" data-target=".property_query_fields .collapse">
+<h2></h2>
+<pre>$query_fields : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Eg. when the xquery parameter is provided with a GET method.</p></div></div></div>
+</div>
+<a id="property_query_fields_transform"> </a><div class="element clickable property public property_query_fields_transform" data-toggle="collapse" data-target=".property_query_fields_transform .collapse">
+<h2></h2>
+<pre>$query_fields_transform : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>For each model field name, the array describes
+- either the search AND replace regular expressions
+- or the name of one or more transformaers
+  (as defined in $query_field_transformers).</p>
+
+<p>Note that multiple transformers can be specified (see example below).</p>
+
+<p>Array structure:</p>
+
+<p>&lt;</p>
+
+<p>pre><code>array(
+    'fieldname1' => array('/search-regexp/' => '/replace-regexp/'),
+    'fieldname2' => 'date-full',
+    'fieldname3' => 'date-full,date-binomial'
+    ...
+)</p>
+
+<p>&lt;</p>
+
+<p>pre><code></p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\get()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\$query_fields</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\$query_fields_transformers</a></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::$$query_fields_transform</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::$$query_fields_transform</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="property_query_fields_transformers"> </a><div class="element clickable property public property_query_fields_transformers" data-toggle="collapse" data-target=".property_query_fields_transformers .collapse">
+<h2></h2>
+<pre>$query_fields_transformers </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::$$query_fields_transformers</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::$$query_fields_transformers</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="property_query_join"> </a><div class="element clickable property public property_query_join" data-toggle="collapse" data-target=".property_query_join .collapse">
+<h2></h2>
+<pre>$query_join : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\xModel::$join</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\$query_fields</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="">\get()</a></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\iaExtRestController::$$query_join</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\AbstractCommissionController::$$query_join</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="property_sort_fields_substitutions"> </a><div class="element clickable property public property_sort_fields_substitutions" data-toggle="collapse" data-target=".property_sort_fields_substitutions .collapse">
+<h2></h2>
+<pre>$sort_fields_substitutions </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Useful for substituing foreign keys (containing numeric ids)
+with the foreign field name (containing actual text values).</p>
+
+<p>For each model field name, the array describes
+- either the other_fieldname to be used as substitute
+- or the name of the other_fieldname AND the related join to activate</p>
+
+<p>Array structure:</p>
+
+<pre><code>array(
+    'fieldname1' => 'other_fieldname1',
+    'fieldname2' => array(
+        'field' => 'other_fieldname2',
+        'join' => 'other_model'
+    ),
+    ...
+)
+</code></pre></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-03-27T17:03:33+01:00.<br></footer></div>
+</div>
+</body>
+</html>
