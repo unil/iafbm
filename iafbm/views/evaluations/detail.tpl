@@ -5,15 +5,7 @@
 <script type="text/javascript">
 Ext.onReady(function() {
     
-    var preavis = Ext.create('Ext.data.Store', {
-    fields: ['abbr', 'name'],
-    data : [
-        {"abbr":"AL", "name":"Renouveler"},
-        {"abbr":"AK", "name":"Ne pas renouveler"},
-        {"abbr":"AL", "name":"Confirmer"},
-        {"abbr":"AK", "name":"Ne pas confirmer"}
-    ]
-    });
+    var preavis = new iafbm.store.EvaluationPreavis();
     
     var ouiNon = Ext.create('Ext.data.Store', {
     fields: ['abbr', 'name'],
@@ -149,17 +141,17 @@ Ext.onReady(function() {
                 name: 'rapport_recu',
             },{
                 xtype: 'ia-combo',
-                store: preavis,
+                store: new iafbm.store.EvaluationPreavis(),
                 valueField: 'id',
-                displayField: 'name',
+                displayField: 'preavis',
                 fieldLabel: 'Préavis Evaluateur',
                 name: 'preavis_evaluateur',
                 editable: false
             },{
                 xtype: 'ia-combo',
-                store: preavis,
+                store: new iafbm.store.EvaluationPreavis(),
                 valueField: 'id',
-                displayField: 'name',
+                displayField: 'preavis',
                 fieldLabel: 'Préavis Décanat',
                 name: 'preavis_decanat',
                 editable: false
@@ -411,7 +403,6 @@ Ext.onReady(function() {
             tabPanel
         ]
     });
-
 });
 
 var form_test = Ext.create('Ext.ia.form.CommissionPhasePanel', {

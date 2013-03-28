@@ -9,5 +9,6 @@ CREATE  TABLE evaluations (
     activite_id INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (evaluation_type_id) REFERENCES evaluations_types (id),
+    FOREIGN KEY (personne_id) REFERENCES personnes(id),
     FOREIGN KEY (activite_id) REFERENCES activite(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -731,7 +731,145 @@ Ext.define('iafbm.model.VersionRelation', {
     }
 });
 
+Ext.define('iafbm.model.EvaluationPreavis', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'preavis', type: 'string'},
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_preavis',
+    }
+});
 
+Ext.define('iafbm.model.EvaluationType', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'type', type: 'string'},
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_types',
+    }
+});
+
+Ext.define('iafbm.model.Evaluation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'evaluation_type_id', type: 'int'},
+        {name: 'date_periode_debut', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_periode_fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'personne_id', type: 'int'},
+        {name: 'activite_id', type: 'int'},
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationEvaluateur', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'personne_id', type: 'int'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_evaluateurs',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationRapport', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'termine', type: 'boolean', defaultValue: false},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'date_biblio_demandee', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_biblio_recue', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_relance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_rapport_recu', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_transmis_evaluateur', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_entretien', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_rapports',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationEvaluation', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'termine', type: 'boolean', defaultValue: false},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'date_rapport_evaluation', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'preavis_evaluateur_id', type: 'type'},
+        {name: 'preavis_decanat_id', type: 'type'},
+        {name: 'date_liste_transmise', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_dossier_transmis', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_evaluations',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationCdir', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'termine', type: 'boolean', defaultValue: false},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'seance_cdir', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'confirmation', type: 'boolean', useNull: true},
+        {name: 'renouvellement', type: 'boolean', useNull: true},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_cdirs',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationContrat', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'termine', type: 'boolean', defaultValue: false},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'actif', type: 'boolean', useNull: true},
+        {name: 'commentaire', type: 'string'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_contrats',
+    }
+});
 
 // Stores: creates one store per existing model
 for (model in iafbm.model) {
