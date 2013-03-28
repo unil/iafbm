@@ -1,28 +1,26 @@
 <?php
 
-class EvaluationRapportModel extends iaModelMysql {
+class EvaluationEvaluationModel extends iaModelMysql {
     
-    var $table = 'evaluations_rapports';
+    var $table = 'evaluations_evaluations';
 
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
         'termine' => 'termine',
         'evaluation_id' => 'evaluation_id',
-        'date_biblio_demandee' => 'date_biblio_demandee',
-        'date_biblio_recue' => 'date_biblio_recue',
-        'date_relance' => 'date_relance',
-        'date_rapport_recu' => 'date_rapport_recu',
-        'date_transmis_evaluateur' => 'date_transmis_evaluateur',
-        'date_entretien' => 'date_entretien',
+        'date_rapport_evaluation' => 'date_rapport_evaluation',
+        'preavis_evaluateur_id' => 'preavis_evaluateur_id',
+        'preavis_decanat_id' => 'preavis_decanat_id',
+        'date_liste_transmise' => 'date_liste_transmise',
+        'date_dossier_transmis' => 'date_dossier_transmis',
         'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');
 
     var $joins = array(
-        'evaluation' => 'JOIN evaluations ON (evaluations_rapports.evaluation_id = evaluations.id)'
-        
+        'evaluation' => 'JOIN evaluations ON (evaluations_evaluations.evaluation_id = evaluations.id)',        
     );
 
     //var $join = array('evaluation');

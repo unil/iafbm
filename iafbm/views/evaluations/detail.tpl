@@ -43,6 +43,16 @@ Ext.onReady(function() {
                 html: 'Suivi du rapport',
                 labelWidth: '250'
             },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Biblio. demandée le',
+                emptyText: 'Biblio. demandée le',
+                name: 'biblio_demandee',
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Biblio reçue le',
+                emptyText: 'Biblio reçue le',
+                name: 'biblio_recue',
+            },{
                 xtype: 'fieldcontainer',
                 fieldLabel: 'Relancé le',
                 layout: 'column',
@@ -74,9 +84,9 @@ Ext.onReady(function() {
                 name: 'date_entretien'
             },{
                 xtype: 'ia-textarea',
-                fieldLabel: 'Commentaire',
-                emptyText: 'Commentaire',
-                name: 'commentaire',
+                fieldLabel: 'Remarques diveres',
+                emptyText: 'Remarques diverses',
+                name: 'remarques_diverses',
                 grow: true,
             }]
         },{
@@ -142,17 +152,27 @@ Ext.onReady(function() {
                 store: preavis,
                 valueField: 'id',
                 displayField: 'name',
-                fieldLabel: 'Préavis Décanat',
-                name: 'preavis_decanat',
+                fieldLabel: 'Préavis Evaluateur',
+                name: 'preavis_evaluateur',
                 editable: false
             },{
                 xtype: 'ia-combo',
                 store: preavis,
                 valueField: 'id',
                 displayField: 'name',
-                fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
+                fieldLabel: 'Préavis Décanat',
                 name: 'preavis_decanat',
                 editable: false
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Liste transmise à la Direction de l\'UNIL le',
+                emptyText: 'Liste transmis à la Direction de l\'UNIL le',
+                name: 'liste_transmise'
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
+                emptyText: 'Dossier transmis à la Direction de l\'UNIL le',
+                name: 'dossier_transmis'
             }]
         },{
             xtype: 'container',
@@ -164,9 +184,9 @@ Ext.onReady(function() {
             },
             items: [{
                 xtype: 'ia-textarea',
-                fieldLabel: 'Commentaire',
-                emptyText: 'Commentaire',
-                name: 'commentaire',
+                fieldLabel: 'Remarques diverses',
+                emptyText: 'Remarques diverses',
+                name: 'remarques_diverses',
                 grow: true,
             }]
         }]
@@ -199,18 +219,18 @@ Ext.onReady(function() {
                     store: ouiNon,
                     valueField: 'id',
                     displayField: 'name',
-                    fieldLabel: 'Renouvellement',
-                    name: 'renouvellement',
+                    fieldLabel: 'Confirmation',
+                    name: 'confirmation',
                     editable: false
-                },{
+            },{
                     xtype: 'ia-combo',
                     store: ouiNon,
                     valueField: 'id',
                     displayField: 'name',
-                    fieldLabel: 'Confirmation',
-                    name: 'confirmation',
+                    fieldLabel: 'Renouvellement',
+                    name: 'renouvellement',
                     editable: false
-            }]
+                }]
         },{
             xtype: 'container',
             defaults: {
@@ -221,9 +241,9 @@ Ext.onReady(function() {
             margin: '20 0 0 40',
             items: [{
                 xtype: 'ia-textarea',
-                fieldLabel: 'Commentaire',
-                emptyText: 'Commentaire',
-                name: 'commentaire',
+                fieldLabel: 'Remarques diverses',
+                emptyText: 'Remarques diverses',
+                name: 'remarques_diverses'
             }]
         }]
     });
@@ -351,6 +371,10 @@ Ext.onReady(function() {
                 title: 'Contrat',
                 items: form_contrat,
                 iconCls: 'tab-icon-unknown'
+            },{
+                id: 'test',
+                title: 'History',
+                items: form_test,
         }],
         /*listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {
@@ -389,5 +413,17 @@ Ext.onReady(function() {
     });
 
 });
+
+var form_test = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+        /*store: Ext.create('iafbm.store.EvaluationRapport'),
+        fetch: {
+            model: iafbm.model.EvaluationRapport,
+            id: <?php echo $d['id'] ?>
+        },*/
+        id: "rapportTest",
+        layout: 'fit',
+        items: [new iafbm.grid.common.EvaluationHistory()]
+});
+
 
 </script>

@@ -1,7 +1,7 @@
 <?php
-class EvaluationsController extends iaExtRestController {
+class EvaluationsRapportsController extends iaExtRestController {
     
-    public $model = 'evaluation';
+    public $model = 'evaluation_rapport';
     
     function indexAction() {
         return $this->EvaluationAction();

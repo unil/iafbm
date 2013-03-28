@@ -263,3 +263,86 @@ Ext.define('iafbm.grid.common.Emails', {
         }
     }]
 });
+
+Ext.define('iafbm.grid.common.EvaluationHistory', {
+    extend: 'Ext.ia.grid.EditPanel',
+    height: 200,
+    bbar: null,
+    newRecordValues: {},
+    //store: null,
+    iaDisableFor: [],
+    columns: [{
+        xtype: 'ia-actioncolumn-detailform',
+        form: iafbm.form.Candidat,
+        getRecord: function(gridView, rowIndex, colIndex, item) {
+            return null
+        },
+        getFetch: function(gridView, rowIndex, colIndex, item) {
+            var store = gridView.getStore(),
+                candidat = store.getAt(rowIndex),
+                version = store.params.xversion;
+            // Loads versioned record (if applicable, eg. xversion > 0)
+            return {
+                model: iafbm.model.Candidat,
+                id: candidat.get('id'),
+                xversion: version
+            };
+        }
+    },{
+        header: "Nom",
+        dataIndex: 'nom',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    },{
+        header: "Prénom",
+        dataIndex: 'prenom',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    },{
+        header: "Type",
+        dataIndex: 'type',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    },{
+        header: "Mandat",
+        dataIndex: 'mandat',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    },{
+        header: "Section",
+        dataIndex: 'section',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    },{
+        header: "Période évaluée",
+        dataIndex: 'periode_evaluee',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    },{
+        header: "Evaluateurs",
+        dataIndex: 'evaluateurs',
+        flex: 1,
+        field: {
+            xtype: 'textfield',
+            allowBlank: false
+        }
+    }]
+});
