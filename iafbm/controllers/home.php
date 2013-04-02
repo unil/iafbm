@@ -7,6 +7,7 @@ class HomeController extends xWebController {
     }
 
     function defaultAction() {
-        return xView::load('home/home')->render();
+        $data['feed'] = xController::load('feed')->defaultAction();
+        return xView::load('home/home', $data)->render();
     }
 }
