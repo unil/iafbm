@@ -2,7 +2,3 @@
 <div>
     Cette application permet la gestion administrative de la Faculté.
 </div>
-
-<br/>
-
-<?php echo $d['feed'] ?>

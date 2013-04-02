@@ -30,6 +30,10 @@ $navigation = array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'
         ),
+        'versions' => array(
+            'url' => u('versions/do/history'),
+            'label' => 'Historique'
+        ),
     )
 );
 
