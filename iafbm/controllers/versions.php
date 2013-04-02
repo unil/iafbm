@@ -32,7 +32,7 @@ class VersionsController extends iaExtRestController {
             ))->get();
             $record = @array_shift(xModel::load($model, array(
                 'id' => $id,
-                'xjoin' => '',
+                'xjoin' => @$this->params['xjoin'] ? $this->params['xjoin'] : '',
                 'xversion' => $version
             ))->get());
             $all_versions = xModel::load('version', array(

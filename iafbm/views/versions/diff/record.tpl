@@ -35,7 +35,9 @@
 <?php endforeach ?>
 
 <h2>Informations sur la version</h2>
-Version créée le <?php echo xUtil::datetime($d['version']['created']) ?> par <?php echo $d['version']['creator'] ?>
+Version <?php echo $d['version']['id'] ?>
+ du <?php echo xUtil::datetime($d['version']['created']) ?>
+ par <?php echo $d['version']['creator'] ?>
 
 <h2>Champs modifiés</h2>
 <table>
