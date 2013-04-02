@@ -35,9 +35,17 @@
 <?php endforeach ?>
 
 <h2>Informations sur la version</h2>
-Version <?php echo $d['version']['id'] ?>
- du <?php echo xUtil::datetime($d['version']['created']) ?>
- par <?php echo $d['version']['creator'] ?>
+<p>
+    Version <?php echo $d['version']['id'] ?>
+    du <?php echo xUtil::datetime($d['version']['created']) ?>
+    par <?php echo $d['version']['creator'] ?>
+</p>
+<p>
+    Type de version: <?php echo $d['version']['operation'] ?>
+<?php if ($d['version']['commentaire']): ?>
+    (<?php echo $d['version']['commentaire'] ?>)
+<?php endif ?>
+</p>
 
 <h2>Champs modifiés</h2>
 <table>
