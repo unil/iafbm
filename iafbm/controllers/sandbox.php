@@ -2,7 +2,7 @@
 
 /**
  * @package iafbm
- * @subpackage controller
+ * @subpackage sandbox
  */
 class SandboxController extends xWebController {
 

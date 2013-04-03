@@ -66,7 +66,7 @@
         ))->get()
     ));
     $interesting_field = @array_shift(array_diff(
-        $model->mapping, array('id', 'id_unil', 'id_chuv', 'actif')
+        $model->mapping, array('id', 'actif', 'id_unil', 'id_chuv', 'id_adifac', 'actif')
     ));
     $interesting_value = @array_shift(array_shift(
         xModel::load($modelname, array(

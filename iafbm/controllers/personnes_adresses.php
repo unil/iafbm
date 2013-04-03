@@ -21,6 +21,9 @@ class PersonnesAdressesController extends iaExtRestController {
         )
     );
 
+    /**
+     * Enables the user to download an export of personnes_adresses.
+     */
     function exportAction() {
         $filename = 'export-adresses.csv';
         header('Content-Type: application/csv');
@@ -32,6 +35,9 @@ class PersonnesAdressesController extends iaExtRestController {
         exit();
     }
 
+    /**
+     * Returns a flat array of personnes_adresses.
+     */
     function export() {
         $data = xModel::load('personne_adresse', array(
             'xjoin' => 'personne,adresse'
@@ -39,6 +45,10 @@ class PersonnesAdressesController extends iaExtRestController {
         return $data;
     }
 
+    /**
+     * Modifies both adresse and personne_adresse records
+     * and ensures there is only one default adresse.
+     */
     function post() {
         $params = $this->params['items'];
         $personne_adresse = xModel::load($this->model, $params);
@@ -58,6 +68,10 @@ class PersonnesAdressesController extends iaExtRestController {
         return $r;
     }
 
+    /**
+     * Creates both adresse and personne_adresse records
+     * and ensures there is only one default adresse.
+     */
     function put() {
         $params = $this->params['items'];
         $personne_adresse = xModel::load($this->model, $params);
@@ -113,6 +127,10 @@ class PersonnesAdressesController extends iaExtRestController {
         }
     }
 
+    /**
+     * Deletes both adresse and personne_adresse records (soft-delete)
+     * and ensures there is only one default adresse.
+     */
     function delete() {
         $params = $this->params;
         $personne_adresse = @array_shift(xModel::load($this->model, array('id'=>$params['id']))->get());

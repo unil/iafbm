@@ -8,11 +8,17 @@ class PersonnesDenominationsController extends iaExtRestController {
     var $model = 'personne_denomination';
     var $allow = array('get');
 
+    /**
+     * Returns an epicene (gender-aware) nom.
+     */
     function _make_nom() {
         $info = $this->_make_label();
         return $info['nom'];
     }
 
+    /**
+     * Returns an epicene (gender-aware) abreviation.
+     */
     function _make_abreviation() {
         $info = $this->_make_label();
         return $info['abreviation'];

@@ -64,6 +64,9 @@ class CommissionsController extends AbstractCommissionController {
         'commission_etat_id' => 'commission_etat_id'
     );
 
+    /**
+     * Displays a grid of commissions.
+     */
     function indexAction() {
         $data = array(
             'title' => 'Gestion des commissions',
@@ -73,6 +76,9 @@ class CommissionsController extends AbstractCommissionController {
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
 
+    /**
+     * Displays the commission form.
+     */
     function detailAction() {
         $id = @$this->params['id'];
         if (!$id) throw new xException("Le numéro de commission fourni n'est pas valide", 400);
@@ -81,6 +87,9 @@ class CommissionsController extends AbstractCommissionController {
         return xView::load('commissions/detail', $commission, $this->meta)->render();
     }
 
+    /**
+     * Adds '_president' ghost field.
+     */
     function get() {
         $commissions = parent::get();
         // Adds '_president' ghost field (if applicable)
@@ -153,6 +162,9 @@ class CommissionsController extends AbstractCommissionController {
         return $r;
     }
 
+    /**
+     * Deletes related entities (cascade).
+     */
     function delete() {
         if (!in_array('delete', $this->allow)) throw new xException("Method not allowed", 403);
         $t = new xTransaction();

@@ -6,6 +6,9 @@
  */
 class ErrorDisplayView extends xView {
 
+    /**
+     * Creates an error page according the HTTP status and setups previous url.
+     */
     function init() {
         // Messages definition
         $this->msgs = array(

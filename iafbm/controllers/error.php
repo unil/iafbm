@@ -11,6 +11,9 @@ class ErrorController extends xWebController {
         return null;
     }
 
+    /**
+     * Displays error page.
+     */
     function defaultAction() {
         // Error message display
         $html = xView::load('error/display', $this->params, $this->meta)->render();
@@ -20,6 +23,10 @@ class ErrorController extends xWebController {
         return $this->error_contents();
     }
 
+    /**
+     * Allows the user to automagicaly report an error.
+     * This is not used.
+     */
     function reportAction() {
         $this->meta = xUtil::array_merge($this->meta, array(
             'title' => _('Report error')

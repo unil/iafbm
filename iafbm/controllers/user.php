@@ -6,10 +6,16 @@
  */
 class UserController extends iaExtRestController {
 
+    /**
+     * User entry page.
+     */
     function defaultAction() {
         return $this->detailAction();
     }
 
+    /**
+     * Display the user details.
+     */
     function detailAction() {
         // User authentication information
         $auth = array(

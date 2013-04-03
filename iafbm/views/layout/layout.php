@@ -6,6 +6,9 @@
  */
 class LayoutLayoutView extends xView {
 
+    /**
+     * Defines default resources to load.
+     */
     function init() {
         $this->meta = xUtil::array_merge($this->meta, array(
             'js' => array(

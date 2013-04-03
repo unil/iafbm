@@ -6,6 +6,10 @@
  */
 class iaExtRestController extends xWebController {
 
+    /**
+     * Name of the underlying model.
+     * @var string
+     */
     var $model = null;
 
     /**
@@ -53,6 +57,11 @@ class iaExtRestController extends xWebController {
      */
     var $query_fields_transform = array();
 
+    /**
+     * Defines generic transformators.
+     * This allows search keywords to be transformed before being given to certain fields.
+     * @var array
+     */
     var $query_fields_transformers = array(
         'date' => array('/^(\d*)\.(\d*)\.(\d*)$/' => '$3-$2-$1'),
         'date-binomial' => array('/^(\d*)\.(\d*)$/' => '$2-$1')
@@ -89,12 +98,13 @@ class iaExtRestController extends xWebController {
      * )
      * </code>
      * @see get()
+     * @var array
      */
     var $sort_fields_substitutions = array();
 
 
     /**
-     * Sets auth information
+     * Sets auth information.
      */
     protected function __construct($params = null) {
         parent::__construct($params);

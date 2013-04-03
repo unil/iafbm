@@ -10,6 +10,9 @@ class HomeController extends xWebController {
         $this->add_meta('navigation/highlight', 'home');
     }
 
+    /**
+     * Displays the application homepage.
+     */
     function defaultAction() {
         return xView::load('home/home')->render();
     }

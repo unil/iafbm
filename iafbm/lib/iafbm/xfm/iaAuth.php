@@ -78,6 +78,10 @@ class iaAuth extends xAuth {
         )
     );
 
+    /**
+     * D
+     *
+     */
     protected $role_separator = ';';
 
 
@@ -86,6 +90,10 @@ class iaAuth extends xAuth {
         $this->canonicalize();
     }
 
+    /**
+     * Sets authentication from Switch-AAI data.
+     * (eg. Shibboleth cookie data)
+     */
     function set_from_aai() {
         // Retrives 'username' and 'roles' data from Shibboleth
         $authenticated = isset(
@@ -115,7 +123,7 @@ class iaAuth extends xAuth {
             throw new xException('You must be authenticated to continue', 403);
         }
         // Determines wether 'roles' have changed since last request
-        $roles_have_changed = (implode(';', $this->roles()) != $roles);
+        $roles_have_changed = (implode($this->role_separator, $this->roles()) != $roles);
         // Sets auth information
         $this->set($username, $roles, $this->info());
         // Updates and stores user permissions (only if Shibboleth roles have changed)
@@ -226,6 +234,10 @@ class iaAuth extends xAuth {
         return $p;
     }
 
+    /**
+     * Returns a list of permissions for the currently authenticated user.
+     * @return array List of permissions.
+     */
     function get_permissions() {
         return $this->info('permissions') ? $this->info('permissions') : array();
     }
