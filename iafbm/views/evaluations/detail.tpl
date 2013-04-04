@@ -5,16 +5,6 @@
 <script type="text/javascript">
 Ext.onReady(function() {
     
-    //var preavis = new iafbm.store.EvaluationPreavis();
-    
-    /*var ouiNon = Ext.create('Ext.data.Store', {
-    fields: ['abbr', 'name'],
-    data : [
-        {"abbr":"Y", "name":"Oui"},
-        {"abbr":"N", "name":"Non"},
-    ]
-    });*/
-    
     var trueFalse = Ext.create('Ext.data.Store', {
         fields: ['value', 'name'],
         data : [

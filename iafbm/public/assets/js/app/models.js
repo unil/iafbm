@@ -865,8 +865,12 @@ Ext.define('iafbm.model.EvaluationCdir', {
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
         {name: 'seance_cdir', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'confirmation', type: 'boolean', useNull: true},
-        {name: 'renouvellement', type: 'boolean', useNull: true},
+        // Confirmation and renouvellement fields types are boolean in database
+        // but they are declared as int in Ext Model
+        // in order to allow the value 0. With a boolean field,
+        // is converted to false by Ext and stored as null by Xfm.
+        {name: 'confirmation', type: 'int', useNull: true},
+        {name: 'renouvellement', type: 'int', useNull: true},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],
@@ -883,7 +887,11 @@ Ext.define('iafbm.model.EvaluationContrat', {
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
-        {name: 'copie_nouveau_contrat', type: 'boolean', useNull: true},
+        // Confirmation and renouvellement fields types are boolean in database
+        // but they are declared as int in Ext Model
+        // in order to allow the value 0. With a boolean field,
+        // is converted to false by Ext and stored as null by Xfm.
+        {name: 'copie_nouveau_contrat', type: 'int', useNull: true},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],
