@@ -3,9 +3,9 @@ CREATE TABLE personnes_activites (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT TRUE,
 
-    personne_id INT,
-    activite_id INT,
-    rattachement_id INT,
+    personne_id INT NOT NULL,
+    activite_id INT NOT NULL,
+    rattachement_id INT NOT NULL,
     debut DATE NULL DEFAULT NULL,
     fin DATE DEFAULT NULL,
     taux_activite TINYINT,

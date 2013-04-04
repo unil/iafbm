@@ -34,7 +34,7 @@ class ApiFront extends xApiFront {
         // Setups mode (uses 1st mode if 'xmode' is not defined or invalid)
         // by merging $modeparams to $params (the latter has priority)
         $modeparams = @$this->modes[$params['xmode']];
-        if (!$modeparams) $modeparams = $this->modes[array_shift(array_keys($this->modes))];
+        if (!$modeparams) $modeparams = $this->modes[@array_shift(array_keys($this->modes))];
         $params = xUtil::array_merge($modeparams, xUtil::arrize($params));
         // Parent class constructor logic
         parent::__construct($params);

@@ -58,5 +58,6 @@ table.noborder td {
 
 /* DOMPDF 0.5.2 Fixes */
 th, td {
+    vertical-align: top;
     padding-bottom: 0.8em;
 }

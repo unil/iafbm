@@ -4,7 +4,7 @@ CREATE TABLE rattachements (
     id_unil VARCHAR(255),
     id_chuv VARCHAR(255),
     actif BOOLEAN NOT NULL DEFAULT true,
-    section_id INT,
+    section_id INT NOT NULL,
     nom VARCHAR(255) NOT NULL,
     abreviation VARCHAR(255),
     PRIMARY KEY (id),

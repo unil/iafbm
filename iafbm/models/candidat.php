@@ -11,8 +11,11 @@ class CandidatModel extends iaModelMysql {
         'nom' => 'nom',
         'prenom' => 'prenom',
         'genre_id' => 'genre_id',
+        'personne_denomination_id' => 'personne_denomination_id',
         'etatcivil_id' => 'etatcivil_id',
         'pays_id' => 'pays_id',
+        'canton_id' => 'canton_id',
+        'permis_id' => 'permis_id',
         'date_naissance' => 'date_naissance',
         'nombre_enfants' => 'nombre_enfants',
         'no_avs' => 'no_avs',
@@ -42,10 +45,13 @@ class CandidatModel extends iaModelMysql {
     //                 create a PaysProModel + PaysPriModel extends PaysModel {}
     var $joins = array(
         'genre' => 'LEFT JOIN genres ON (candidats.genre_id = genres.id)',
+        'personne_denomination' => 'LEFT JOIN personnes_denominations ON (candidats.personne_denomination_id = personnes_denominations.id)',
         'etatcivil' => 'LEFT JOIN etatscivils ON (candidats.etatcivil_id = etatscivils.id)',
         //'pays' => 'LEFT JOIN pays ON (candidats.pays_pro_id = pays.id)',
         //'pays' => 'LEFT JOIN pays ON (candidats.pays_pri_id = pays.id)',
         'pays' => 'LEFT JOIN pays ON (candidats.pays_id = pays.id)',
+        'canton' => 'LEFT JOIN cantons ON (candidats.canton_id = cantons.id)',
+        'permis' => 'LEFT JOIN permis ON (candidats.permis_id = permis.id)',
         'commission' => 'LEFT JOIN commissions ON (candidats.commission_id = commissions.id)'
     );
 

@@ -33,6 +33,30 @@ class CandidatsController extends AbstractCommissionController {
     }
 
     /**
+     * Adds default adress ghost fields
+     */
+    function get() {
+        $result = parent::get();
+        // Adds ghost fields
+        foreach ($result['items'] as &$item) {
+            // Creates default 'adresse' fields
+            $default = $item['adresse_defaut'];
+            $fields = array('adresse_#', 'npa_#', 'lieu_#', 'pays_#_id', 'telephone_#_countrycode', 'telephone_#', 'email_#');
+            foreach ($fields as $field) {
+                $field_source = str_replace('#', $default, $field);
+                $field_dest = str_replace('#', 'defaut', $field);
+                $item["_{$field_dest}"] = @$item[$field_source];
+            }
+            // Creates 'primo loco' field
+            $commission_travail = xModel::load('commission_travail', array(
+                'commission_id' => $item['commission_id']
+            ))->get(0);
+            $item['_primo_loco'] = ($item['id'] == $commission_travail['primo_loco']);
+        }
+        return $result;
+    }
+
+    /**
      * Ensures 'nom' + 'prenom' fields begin with capitals.
      * @see PersonnesController
      * @see transform_params()

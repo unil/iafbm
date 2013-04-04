@@ -121,6 +121,18 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
         $ids['commission_travail_evenement_type'] = $r['items']['commission_travail_evenement_type_id'];
         // - Leave commission 'validation' unchanged
         $ids['commission_validation'] = $this->insertid($commission_result, 'commission_validation');
+        // - Updates commission 'proposition_nomination'
+        $r = xController::load('commissions_propositions_nominations', array(
+            'id' => $this->insertid($commission_result, 'commission_proposition_nomination'),
+            'items' => array(
+                'id' => $this->insertid($commission_result, 'commission_proposition_nomination'),
+                'observations' => 'Une observation',
+                'grandeur_id' => 2,
+                'charge_horaire' => 10
+            )
+        ))->post();
+        $ids['commission_proposition_nomination'] = $r['items']['id'];
+        $ids['grandeur'] = $r['items']['grandeur_id'];
         // - Leave commission 'finalisation' unchanged
         $ids['commission_finalisation'] = $this->insertid($commission_result, 'commission_finalisation');
         // Archives commission (by 'closing' it)
@@ -178,7 +190,7 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
             array_keys($data_stored),
             array_keys($data_archive)
         );
-        $this->assertEmpty($diff_models);
+        $this->assertEquals(array(), $diff_models);
         $models = array_keys($data_archive);
         foreach($models as $model) {
             // - Checks that both data contain the same records ids
@@ -220,8 +232,8 @@ class ArchivingTest extends iaPHPUnit_Framework_TestCase {
     }
     protected function diff($array1, $array2) {
         return array_unique(array_merge(
-            array_diff($array1, $array2),
-            array_diff($array2, $array1)
+            @array_diff($array1, $array2),
+            @array_diff($array2, $array1)
         ));
     }
 }

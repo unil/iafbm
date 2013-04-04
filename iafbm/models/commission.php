@@ -11,6 +11,7 @@ class CommissionModel extends iaModelMysql {
         'section_id' => 'section_id',
         'termine' => 'termine',
         'nom' => 'nom',
+        'institut' => 'institut',
         'commentaire' => 'commentaire',
         'actif' => 'actif',
     );
@@ -25,7 +26,7 @@ class CommissionModel extends iaModelMysql {
         'commission_fonction' => 'LEFT JOIN commissions_fonctions ON (commissions_membres.commission_fonction_id = commissions_fonctions.id)'
     );
 
-    var $join = array('commission_type');
+    var $join = array('commission_type', 'section');
 
     var $validation = array(
         'nom' => array('mandatory')
@@ -41,6 +42,7 @@ class CommissionModel extends iaModelMysql {
          'commission_travail' => 'commission_id',
          'commission_travail_evenement' => 'commission_id',
          'commission_validation' => 'commission_id',
+         'commission_proposition_nomination' => 'commission_id',
          'commission_finalisation' => 'commission_id',
          'commission_type' => array('commission_type_id' => 'id'),
          'commission_etat' => array('commission_etat_id' => 'id'),

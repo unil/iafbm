@@ -3,7 +3,7 @@ CREATE TABLE personnes_emails (
     id INT NOT NULL AUTO_INCREMENT,
     actif BOOLEAN NOT NULL DEFAULT true,
 
-    personne_id INT,
+    personne_id INT NOT NULL,
     adresse_type_id INT NOT NULL,
     email VARCHAR(200) NOT NULL,
     defaut BOOLEAN NULL DEFAULT false,

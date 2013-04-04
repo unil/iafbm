@@ -19,14 +19,21 @@ abstract class AbstractCommissionController extends iaExtRestController {
      * by throwing an exection if the given commission id is closed
      */
     protected function check_closed() {
+        // Merges item data with params with priority to params
+        // to ensure 'commission_id' param exists if applicable
+        $params = xUtil::array_merge(
+            array('id' => $this->params['items']['id']),
+            array('commission_id' => @$this->params['items']['commission_id']),
+            $this->params
+        );
         // Depending on child class using this method,
         // the 'id' or 'commission_id' parameter is to be used
-        $id = @$this->params['commission_id'] ? @$this->params['commission_id'] : @$this->params['id'];
+        $id = @$params['commission_id'] ? @$params['commission_id'] : @$params['id'];
         if (!$id) throw new xException('Missing id parameter');
         $commission = xModel::load('commission', array(
             'id' => $id
         ))->get(0);
-        if (!$commission) throw new xException("Commission does not exist (id: {$id})");
+        if (!$commission) throw new xException("Commission does not exist (id: {$id})", 500, $params);
         if ($commission['commission_etat_id'] == 3) {
             throw new xException('Cannot modify a closed commission', 403, $commission);
         }
@@ -74,7 +81,7 @@ class CommissionsController extends AbstractCommissionController {
         $return = xModel::load($this->model, $this->params)->return;
         if (xUtil::in_array(array('*', '_president'), $return)) {
             foreach ($commissions['items'] as &$commission) {
-                $president = array_shift(xModel::load(
+                $president = @array_shift(xModel::load(
                     'commission_membre',
                     array(
                         'commission_id' => $commission['id'],
@@ -131,11 +138,12 @@ class CommissionsController extends AbstractCommissionController {
             xModel::load('commission_candidat_commentaire', array('commission_id'=>$insertid)),
             xModel::load('commission_travail', array('commission_id'=>$insertid)),
             xModel::load('commission_validation', array('commission_id'=>$insertid)),
-            xModel::load('commission_finalisation', array('commission_id'=>$insertid))
+            xModel::load('commission_finalisation', array('commission_id'=>$insertid)),
+            xModel::load('commission_proposition_nomination', array('commission_id'=>$insertid))
         );
         foreach ($items as $item) $t->execute($item, 'put');
         $r = $t->end();
-        $r['items'] = array_shift(xModel::load('commission', array('id' => $insertid))->get());
+        $r['items'] = @array_shift(xModel::load('commission', array('id' => $insertid))->get());
         return $r;
     }
 
@@ -150,6 +158,7 @@ class CommissionsController extends AbstractCommissionController {
         $t->execute(xModel::load('commission_creation', $params), 'delete');
         $t->execute(xModel::load('commission_membre', $params), 'delete');
         $t->execute(xModel::load('commission_candidat_commentaire', $params), 'delete');
+        $t->execute(xModel::load('commission_proposition_nomination', $params), 'delete');
         $t->execute(xModel::load('candidat', $params), 'delete');
         $t->execute(xModel::load('commission', $this->params), 'delete');
         return $t->end();
