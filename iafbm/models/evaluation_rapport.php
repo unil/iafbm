@@ -30,7 +30,6 @@ class EvaluationRapportModel extends iaModelMysql {
     var $validation = array(
         'id' => array('mandatory'),
         'actif' => array('mandatory'),
-        'termine' => array('mandatory'),
         'evaluation_id' => array('mandatory')
     );
     

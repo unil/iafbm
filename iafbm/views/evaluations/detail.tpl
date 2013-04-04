@@ -5,22 +5,31 @@
 <script type="text/javascript">
 Ext.onReady(function() {
     
-    var preavis = new iafbm.store.EvaluationPreavis();
+    //var preavis = new iafbm.store.EvaluationPreavis();
     
-    var ouiNon = Ext.create('Ext.data.Store', {
+    /*var ouiNon = Ext.create('Ext.data.Store', {
     fields: ['abbr', 'name'],
     data : [
         {"abbr":"Y", "name":"Oui"},
         {"abbr":"N", "name":"Non"},
     ]
+    });*/
+    
+    var trueFalse = Ext.create('Ext.data.Store', {
+        fields: ['value', 'name'],
+        data : [
+            {'value':'1', "name":"Oui"},
+            {"value":'0', "name":"Non"},
+            {"value":'null', "name":"-"}
+        ]
     });
     
     var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.EvaluationRapport'),
+        store: Ext.create('iafbm.store.EvaluationRapport'),
         fetch: {
             model: iafbm.model.EvaluationRapport,
             id: <?php echo $d['id'] ?>
-        },*/
+        },
         id: "rapportActivite",
         layout: 'column',
         items: [{
@@ -38,12 +47,12 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Biblio. demandée le',
                 emptyText: 'Biblio. demandée le',
-                name: 'biblio_demandee',
+                name: 'date_biblio_demandee',
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Biblio reçue le',
                 emptyText: 'Biblio reçue le',
-                name: 'biblio_recue',
+                name: 'date_biblio_recue',
             },{
                 xtype: 'fieldcontainer',
                 fieldLabel: 'Relancé le',
@@ -51,7 +60,7 @@ Ext.onReady(function() {
                 margin: '0',
                 items: [{
                     xtype: 'ia-datefield',
-                    name: 'relance_le',
+                    name: 'date_relance',
                     emptyText: 'Relancé le',
                 },{
                     xtype: 'button',
@@ -63,12 +72,12 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Rapport reçu le',
                 emptyText: 'Rapport reçu le',
-                name: 'rapport_recu',
+                name: 'date_rapport_recu',
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Transmis à l\'évaluateur le',
                 emptyText: 'Transmis à l\'évaluateur le',
-                name: 'transmis_evaluateur'
+                name: 'date_transmis_evaluateur'
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de l\'entretien',
@@ -78,7 +87,7 @@ Ext.onReady(function() {
                 xtype: 'ia-textarea',
                 fieldLabel: 'Remarques diveres',
                 emptyText: 'Remarques diverses',
-                name: 'remarques_diverses',
+                name: 'commentaire',
                 grow: true,
             }]
         },{
@@ -95,34 +104,34 @@ Ext.onReady(function() {
                         store: new iafbm.store.Personne({
                             params: {
                                 xjoin: 'pays',
-                                xreturn: 'id,nom,prenom,pays.nom AS pays_nom,pays.code AS pays_code'
+                                xreturn: 'id,nom,prenom,date_naissance,pays.nom AS pays_nom,pays.code AS pays_code'
                             }
                         })
                     },
                     grid: {
-                        store: new iafbm.store.Personne(),
-                        columns: iafbm.columns.Candidat
-                    }/*,
+                        store: new iafbm.store.EvaluationEvaluateur(),
+                        columns: iafbm.columns.Evaluateur
+                    },
                     makeData: function(record) {
                         return {
                             personne_id: record.get('id'),
-                            commission_fonction_id: 1,
-                            commission_id: 1,
+                            evaluation_id: <?php echo $d['id']; ?>,
                             personne_nom: record.get('nom'),
-                            personne_prenom: record.get('prenom')
+                            personne_prenom: record.get('prenom'),
+                            personne_date_naissance: record.get('date_naissance')
                         }
-                    }*/
+                    }
                 }) 
             ]
         }]
     });
     
     var form_evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.EvaluationRapport'),
+        store: Ext.create('iafbm.store.EvaluationEvaluation'),
         fetch: {
-            model: iafbm.model.EvaluationRapport,
-            id: <?php echo $d['id'] ?>
-        },*/
+            model: iafbm.model.EvaluationEvaluation,
+            evaluation_id: <?php echo $d['id'] ?>
+        },
         layout: 'column',
         items: [{
             xtype: 'container',
@@ -138,14 +147,14 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Rapport d\'évaluation - OJ Décanat du',
                 emptyText: 'Rapport d\'évaluation - OJ Décanat du',
-                name: 'rapport_recu',
+                name: 'date_rapport_evaluation',
             },{
                 xtype: 'ia-combo',
                 store: new iafbm.store.EvaluationPreavis(),
                 valueField: 'id',
                 displayField: 'preavis',
                 fieldLabel: 'Préavis Evaluateur',
-                name: 'preavis_evaluateur',
+                name: 'preavis_evaluateur_id',
                 editable: false
             },{
                 xtype: 'ia-combo',
@@ -153,18 +162,18 @@ Ext.onReady(function() {
                 valueField: 'id',
                 displayField: 'preavis',
                 fieldLabel: 'Préavis Décanat',
-                name: 'preavis_decanat',
+                name: 'preavis_decanat_id',
                 editable: false
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Liste transmise à la Direction de l\'UNIL le',
                 emptyText: 'Liste transmis à la Direction de l\'UNIL le',
-                name: 'liste_transmise'
+                name: 'date_liste_transmise'
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
                 emptyText: 'Dossier transmis à la Direction de l\'UNIL le',
-                name: 'dossier_transmis'
+                name: 'date_dossier_transmis'
             }]
         },{
             xtype: 'container',
@@ -178,18 +187,18 @@ Ext.onReady(function() {
                 xtype: 'ia-textarea',
                 fieldLabel: 'Remarques diverses',
                 emptyText: 'Remarques diverses',
-                name: 'remarques_diverses',
+                name: 'commentaire',
                 grow: true,
             }]
         }]
     });
     
     var form_cdir = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.Commission'),
+        store: Ext.create('iafbm.store.EvaluationCdir'),
         fetch: {
-            model: iafbm.model.Commission,
+            model: iafbm.model.EvaluationCdir,
             id: <?php echo $d['id'] ?>
-        },*/
+        },
         layout: 'column',
         items: [{
             xtype: 'container',
@@ -208,16 +217,16 @@ Ext.onReady(function() {
                     name: 'seance_cdir',
                 },{
                     xtype: 'ia-combo',
-                    store: ouiNon,
-                    valueField: 'id',
+                    store: trueFalse,
+                    valueField: 'value',
                     displayField: 'name',
                     fieldLabel: 'Confirmation',
                     name: 'confirmation',
                     editable: false
             },{
                     xtype: 'ia-combo',
-                    store: ouiNon,
-                    valueField: 'id',
+                    store: trueFalse,
+                    valueField: 'value',
                     displayField: 'name',
                     fieldLabel: 'Renouvellement',
                     name: 'renouvellement',
@@ -235,17 +244,17 @@ Ext.onReady(function() {
                 xtype: 'ia-textarea',
                 fieldLabel: 'Remarques diverses',
                 emptyText: 'Remarques diverses',
-                name: 'remarques_diverses'
+                name: 'commentaire'
             }]
         }]
     });
     
     var form_contrat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.Commission'),
+        store: Ext.create('iafbm.store.EvaluationContrat'),
         fetch: {
-            model: iafbm.model.Commission,
+            model: iafbm.model.EvaluationContrat,
             id: <?php echo $d['id'] ?>
-        },*/
+        },
         layout: 'fit',
         items: [{
             xtype: 'container',
@@ -262,12 +271,13 @@ Ext.onReady(function() {
                         html: 'Contrat'
                     },{
                         xtype: 'ia-combo',
-                        store: ouiNon,
-                        valueField: 'id',
+                        store: trueFalse,
+                        valueField: 'value',
                         displayField: 'name',
                         fieldLabel: 'Copie nouveau contrat reçue',
                         labelWidth: '190',
-                        editable: false
+                        editable: false,
+                        name: 'copie_nouveau_contrat'
                     }]
             },{
                 xtype: 'container',
@@ -363,10 +373,6 @@ Ext.onReady(function() {
                 title: 'Contrat',
                 items: form_contrat,
                 iconCls: 'tab-icon-unknown'
-            },{
-                id: 'test',
-                title: 'History',
-                items: form_test,
         }],
         /*listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {
@@ -388,7 +394,7 @@ Ext.onReady(function() {
         items: [{
             xtype: 'ia-versioning',
             comboConfig: {
-                modelname: 'commission',
+                modelname: 'evaluation',
                 modelid: <?php echo $d['id'] ?>,
                 getTopLevelComponent: function() {
                     return this.up('panel').down('tabpanel');
@@ -404,17 +410,5 @@ Ext.onReady(function() {
         ]
     });
 });
-
-var form_test = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        /*store: Ext.create('iafbm.store.EvaluationRapport'),
-        fetch: {
-            model: iafbm.model.EvaluationRapport,
-            id: <?php echo $d['id'] ?>
-        },*/
-        id: "rapportTest",
-        layout: 'fit',
-        items: [new iafbm.grid.common.EvaluationHistory()]
-});
-
 
 </script>

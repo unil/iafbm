@@ -783,7 +783,29 @@ Ext.define('iafbm.model.EvaluationEvaluateur', {
         {name: 'id', type: 'int'},
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'evaluation_id', type: 'int'},
-        {name: 'personne_id', type: 'int'}
+        {name: 'personne_id', type: 'int'},
+        // Foreign 'Personne' fields
+        {name: 'personne_id_unil', type: 'int'},
+        {name: 'personne_id_chuv', type: 'int'},
+        {name: 'personne_id_adifac', type: 'int'},
+        {name: 'personne_actif', type: 'int'},
+        {name: 'personne_personne_type_id', type: 'int'},
+        {name: 'personne_nom', type: 'string'},
+        {name: 'personne_prenom', type: 'string'},
+        {name: 'personne_personne_denomination_id', type: 'int'},
+        {name: 'personne_etatcivil_id', type: 'int'},
+        {name: 'personne_date_naissance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'personne_no_avs', type: 'int'},
+        {name: 'personne_canton_id', type: 'int'},
+        {name: 'personne_pays_id', type: 'int'},
+        {name: 'personne_permis_id', type: 'int'},
+        // Foreign 'Evaluation' fields
+        {name: 'evaluation_actif', type: 'int'},
+        {name: 'evaluation_evaluation_type_id', type: 'int'},
+        {name: 'evaluation_date_periode_debut', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'evaluation_date_periode_fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'evaluation_personne_id', type: 'int'},
+        {name: 'evaluation_activite_id', type: 'int'}    
     ],
     validations: [],
     proxy:{
@@ -822,8 +844,8 @@ Ext.define('iafbm.model.EvaluationEvaluation', {
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
         {name: 'date_rapport_evaluation', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'preavis_evaluateur_id', type: 'type'},
-        {name: 'preavis_decanat_id', type: 'type'},
+        {name: 'preavis_evaluateur_id', type: 'int'},
+        {name: 'preavis_decanat_id', type: 'int'},
         {name: 'date_liste_transmise', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_dossier_transmis', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'commentaire', type: 'string'}
@@ -861,7 +883,7 @@ Ext.define('iafbm.model.EvaluationContrat', {
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
-        {name: 'actif', type: 'boolean', useNull: true},
+        {name: 'copie_nouveau_contrat', type: 'boolean', useNull: true},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],

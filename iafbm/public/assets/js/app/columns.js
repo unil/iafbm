@@ -497,3 +497,32 @@ iafbm.columns.Rattachement = [{
         allowBlank: false
     }
 }];
+
+iafbm.columns.Evaluateur = [{
+    xtype: 'ia-actioncolumn-detailform',
+    form: iafbm.form.Personne
+}, {
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+},{
+    header: "Date de naissance",
+    dataIndex: 'personne_date_naissance',
+    flex: 1,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
+}];
