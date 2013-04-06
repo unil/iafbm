@@ -21,4 +21,13 @@ class CommissionEtatModel extends iaModelMysql {
             'mandatory'
         )
     );
+
+    // Self-documentation
+    var $description = 'catalogue des états de commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom de l\'état',
+        'description' => 'description de l\'état'
+    );
 }

@@ -48,4 +48,18 @@ class CommissionModel extends iaModelMysql {
          'commission_etat' => array('commission_etat_id' => 'id'),
          'section' => array('section_id' => 'id')
     );
+
+    // Self-documentation
+    var $description = 'informations générales des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'commission_type_id' => 'identifiant du type de commission',
+        'commission_etat_id' => 'identifiant de l\'etat de la commission',
+        'section_id' => 'identifiant de section',
+        'termine' => 'phase terminée',
+        'nom' => 'nom de la commission',
+        'institut' => 'institut',
+        'commentaire' => 'commentaire'
+    );
 }

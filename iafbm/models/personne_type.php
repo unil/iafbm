@@ -13,4 +13,12 @@ class PersonneTypeModel extends iaModelMysql {
     var $order_by = array('nom');
 
     var $primary = array('id');
+
+    // Self-documentation
+    var $description = 'Catalogue des type de personnes';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom du type de personne'
+    );
 }

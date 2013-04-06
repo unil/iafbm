@@ -29,4 +29,18 @@ class PersonneDenominationModel extends iaModelMysql {
         'abreviation_feminin' => 'mandatory',
         'poids' => 'mandatory'
     );
+
+    // Self-documentation
+    var $description = 'catalogue des dénominations';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom de la dénomination',
+        'nom_masculin' => 'nom au masculin',
+        'nom_feminin' => 'nom au feminin',
+        'abreviation' => 'abréviation',
+        'abreviation_masculin' => 'abréviation au masculin',
+        'abreviation_feminin' => 'abréviation au feminin',
+        'poids' => 'poids'
+    );
 }

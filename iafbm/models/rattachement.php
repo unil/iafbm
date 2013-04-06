@@ -29,4 +29,16 @@ class RattachementModel extends iaModelMysql {
     var $archive_foreign_models = array(
         'section' => array('section_id' => 'id')
     );
+
+    // Self-documentation
+    var $description = 'Catalogue des rattachements organisationnels';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'id_unil' => 'identifiant UNIL',
+        'id_chuv' => 'identifiant CHUV',
+        'actif' => 'enregistrement actif',
+        'section_id' => 'identifiant de section organisationnelle',
+        'nom' => 'nom du rattachement',
+        'abreviation' => 'abréviation du rattachement'
+    );
 }

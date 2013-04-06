@@ -17,4 +17,14 @@ class CommissionCandidatCommentaireModel extends iaModelMysql {
 
     var $validation = array(
     );
+
+    // Self-documentation
+    var $description = 'commentaires liés aux candidats des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'commission_id' => 'identifiant de commission',
+        'termine' => 'phase terminée',
+        'commentaire' => 'commentaire'
+    );
 }

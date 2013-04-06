@@ -30,6 +30,12 @@ $navigation = array(
             'url' => u('activites'),
             'label' => 'Catalogue des fonctions'
         ),
+    ),
+    'Documentation' => array(
+        'web-service' => array(
+            'url' => u('doc/do/ressources'),
+            'label' => 'Ressources (web-service)'
+        ),
     )
 );
 

@@ -14,4 +14,12 @@ class CommissionTravailEvenementTypeModel extends iaModelMysql {
 
     var $validation = array(
     );
+
+    // Self-documentation
+    var $description = 'catalogue des types d\'événements de la phase de travail des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom du type d\'événement'
+    );
 }

@@ -30,4 +30,16 @@ class CandidatFormationModel extends iaModelMysql {
     var $archive_foreign_models = array(
         'formation' => array('formation_id' => 'id')
     );
+
+    // Self-documentation
+    var $description = 'formation des candidats';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'candidat_id' => 'identifiant du candidat',
+        'formation_id' => 'identifiant de la formation',
+        'date_these' => 'date de la thèse',
+        'lieu_these' => 'lieu de la thèse',
+        'commentaire' => 'commentaire'
+    );
 }

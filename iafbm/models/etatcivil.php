@@ -13,4 +13,12 @@ class EtatCivilModel extends iaModelMysql {
     var $order_by = array('id');
 
     var $primary = array('id');
+
+    // Self-documentation
+    var $description = 'catalogue des états civils';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom'
+    );
 }

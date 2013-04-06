@@ -76,4 +76,40 @@ class CandidatModel extends iaModelMysql {
         // FIXME: 'pays' => array('pays_pri_id' => 'id'),
         'candidat_formation' => 'candidat_id'
     );
+
+    // Self-documentation
+    var $description = 'candidats aux commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'commission_id' => 'identifiant de la commission liée',
+        'nom' => 'nom du candidat',
+        'prenom' => 'prénom du candidat',
+        'genre_id' => 'identifiant du genre',
+        'personne_denomination_id' => 'identifiant de la dénomination',
+        'etatcivil_id' => 'identifiant de l\'état civil',
+        'pays_id' => 'identifiant du pays',
+        'canton_id' => 'identifiant du canton',
+        'permis_id' => 'identifiant du permis de séjour',
+        'date_naissance' => 'date de naissance',
+        'nombre_enfants' => 'nombre d\'enfants',
+        'no_avs' => 'numéro AVS',
+        'adresse_pro' => 'adresse (professionnelle)',
+        'npa_pro' => 'code postal (professionnel)',
+        'lieu_pro' => 'lieu (professionnel)',
+        'pays_pro_id' => 'identifiant du pays (professionnel)',
+        'telephone_pro_countrycode' => 'code pays téléphonique (professionnel)',
+        'telephone_pro' => 'numéro de téléphone (professionnel)',
+        'email_pro' => 'email (professionnel)',
+        'adresse_pri' => 'adresse (privé)',
+        'npa_pri' => 'code postal (privé)',
+        'lieu_pri' => 'lieu (privé)',
+        'pays_pri_id' => 'identifiant du pays (privé)',
+        'telephone_pri_countrycode' => 'code pays téléphonique (privé)',
+        'telephone_pri' => 'numéro de téléphone (privé)',
+        'email_pri' => 'email (privé)',
+        'adresse_defaut' => 'adresse par défaut (privée/professionnelle)',
+        'position_actuelle_fonction' => 'position actuelle',
+        'position_actuelle_lieu' => 'lieu de la position actuelle'
+    );
 }

@@ -21,4 +21,14 @@ class CommissionFonctionModel extends iaModelMysql {
             'mandatory'
         )
     );
+
+    // Self-documentation
+    var $description = 'catalogue des fonctions des membres de commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom de la fonction',
+        'description' => 'description de la fonction',
+        'position' => 'position relative'
+    );
 }

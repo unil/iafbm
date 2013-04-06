@@ -17,4 +17,12 @@ class CommissionValidationEtatModel extends iaModelMysql {
     var $validation = array(
         'nom' => array('mandatory'),
     );
+
+    // Self-documentation
+    var $description = 'catalogue des états de la phase de validation des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom de l\'état'
+    );
 }

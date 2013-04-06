@@ -14,4 +14,13 @@ class SectionModel extends iaModelMysql {
     var $order_by = array('nom');
 
     var $primary = array('id');
+
+    // Self-documentation
+    var $description = 'catalogue des sections organisationnelles';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'code' => 'code de la section',
+        'nom' => 'nom de la section'
+    );
 }

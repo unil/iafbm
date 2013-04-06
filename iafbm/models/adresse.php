@@ -28,4 +28,16 @@ class AdresseModel extends iaModelMysql {
     var $archive_foreign_models = array(
         'adresse_type' => array('adresse_type_id' => 'id')
     );
+
+    // Self-documentation
+    var $description = 'adresses';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'adresse_type_id' => 'identifiant interne du type d\'adresse',
+        'rue' => 'rue',
+        'npa' => 'code postal',
+        'lieu' => 'lieu',
+        'pays_id' => 'identifiant interne du pays'
+    );
 }

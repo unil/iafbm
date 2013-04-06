@@ -28,4 +28,16 @@ class PersonneFormationModel extends iaModelMysql {
     var $archive_foreign_models = array(
         'formation' => array('formation_id' => 'id')
     );
+
+    // Self-documentation
+    var $description = 'formation des personnes';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'personne_id' => 'identifiant de la personne',
+        'formation_id' => 'formation de la personne',
+        'date_these' => 'date de thèse',
+        'lieu_these' => 'lieu de la thèse',
+        'commentaire' => 'commentaire'
+    );
 }
