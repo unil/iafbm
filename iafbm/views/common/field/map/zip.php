@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class AllFieldMapZipView extends xView {
 
     function init() {

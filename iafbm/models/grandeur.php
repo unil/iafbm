@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class GrandeurModel extends iaModelMysql {
 
     var $table = 'grandeurs';

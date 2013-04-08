@@ -4,7 +4,7 @@
  * Specific iaModelMysql implementation for managing journaling models.
  * - Prevents 'post' and 'delete' opertations.
  * - Checks that the accessed row(s) relate to an allowed model.
- * @package iafbm
+ * @package iafbm-library
  */
 abstract class iaJournalingModelMysql extends iaModelMysql {
 

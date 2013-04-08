@@ -2,6 +2,10 @@
 
 require_once('commissions.php');
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CandidatsController extends AbstractCommissionController {
 
     var $model = 'candidat';

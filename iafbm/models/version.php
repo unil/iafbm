@@ -2,6 +2,10 @@
 /**
  * This model stores tables write activity.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class VersionModel extends iaJournalingModelMysql {
 
     var $versioning = false;

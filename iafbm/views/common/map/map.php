@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class AllMapMapView extends xView {
 
     function init() {

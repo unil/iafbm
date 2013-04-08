@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class LayoutPrintView extends xView {
 
     function init() {

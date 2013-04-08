@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class LayoutLayoutView extends xView {
 
     function init() {
@@ -13,7 +17,6 @@ class LayoutLayoutView extends xView {
                 xUtil::url('a/js/ext-ux/native/CheckColumn.js'),
                 xUtil::url('a/js/ext-ux/notification/Notification.js'),
                 // App ExtJS logic
-                xUtil::url('a/js/ext-custom/custom.js'),
                 xUtil::url('a/js/app/locales.js'),
                 xUtil::url('a/js/app/classes.js'),
                 xUtil::url('a/js/app/models.js'),

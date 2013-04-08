@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class GenreModel extends iaModelMysql {
 
     var $table = 'genres';

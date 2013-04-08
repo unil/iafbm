@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionMembreNonominatifModel extends iaModelMysql {
 
     var $table = 'commissions_membres_nonominatifs';

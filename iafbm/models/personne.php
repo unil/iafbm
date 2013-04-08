@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class PersonneModel extends iaModelMysql {
 
     var $table = 'personnes';

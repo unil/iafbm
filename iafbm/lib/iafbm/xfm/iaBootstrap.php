@@ -4,7 +4,7 @@ require_once(dirname(__file__).'/../../xfm/lib/Core/Bootstrap.php');
 /**
  * Project specific bootsrap extension.
  * Includes custom iafbm-specific xfreemwork classes extensions.
- * @package iafbm
+ * @package iafbm-library
  */
 class iaBootstrap extends xBootstrap {
 

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class ErrorDisplayView extends xView {
 
     function init() {

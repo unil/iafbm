@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class CommonExtjsBaseView extends xView {
 
     function defaults($items) {

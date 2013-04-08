@@ -2,6 +2,10 @@
 /**
  * This model stores version relations between models.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class VersionRelationModel extends iaJournalingModelMysql {
 
     var $versioning = false;

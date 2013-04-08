@@ -2,6 +2,7 @@
 
 /**
  * Project specific xWebController
+ * @package iafbm-library
  */
 class iaExtRestController extends xWebController {
 

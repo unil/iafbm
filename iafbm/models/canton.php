@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CantonModel extends iaModelMysql {
 
     var $table = 'cantons';

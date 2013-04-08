@@ -2,6 +2,10 @@
 
 require_once('commissions.php');
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CommissionsTravailsEvenementsController extends AbstractCommissionController {
 
     var $model = 'commission_travail_evenement';

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionPropositionNominationModel extends iaModelMysql {
 
     var $versioning = false;

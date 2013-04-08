@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class EtatCivilModel extends iaModelMysql {
 
     var $table = 'etatscivils';

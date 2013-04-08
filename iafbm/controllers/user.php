@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class UserController extends iaExtRestController {
 
     function defaultAction() {

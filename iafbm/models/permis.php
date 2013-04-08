@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class PermisModel extends iaModelMysql {
 
     var $table = 'permis';

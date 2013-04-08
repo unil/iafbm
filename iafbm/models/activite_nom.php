@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class ActiviteNomModel extends iaModelMysql {
 
     var $table = 'activites_noms';

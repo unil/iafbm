@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class AdresseTypeModel extends iaModelMysql {
 
     var $table = 'adresses_types';

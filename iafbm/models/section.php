@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class SectionModel extends iaModelMysql {
 
     var $table = 'sections';

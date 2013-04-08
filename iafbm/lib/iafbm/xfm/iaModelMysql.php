@@ -6,7 +6,7 @@
  * - Manages versioning
  * - Manages archive
  * - Manages soft-delete
- * @package iafbm
+ * @package iafbm-library
  */
 abstract class iaModelMysql extends xModelMysql {
 
@@ -28,6 +28,20 @@ abstract class iaModelMysql extends xModelMysql {
      * @var bool
      */
     var $archivable = false;
+
+    /**
+     * Model description for web-service resources documentation.
+     * The description first letter should be lower-case.
+     * @var string
+     */
+    var $description = 'description unavailable';
+
+    /**
+     * Fields labels descriptions for web-service documentation.
+     * The labels first letter should be lower-case.
+     * @var array
+     */
+    var $labels = array();
 
     /**
      * Specifies the foreign models to include in archive.

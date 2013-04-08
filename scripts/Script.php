@@ -2,6 +2,11 @@
 
 require_once(dirname(__file__).'/../iafbm/lib/xfm/lib/Util/Script.php');
 
+/**
+ * Base class for iafbm scripts.
+ * @package scripts
+ * @abstract
+ */
 abstract class iafbmScript extends xScript {
 
     function setup_bootstrap() {

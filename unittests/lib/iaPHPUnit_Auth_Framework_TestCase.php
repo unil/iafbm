@@ -5,12 +5,10 @@ require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/iaAuth.php');
 require_once(__DIR__.'/../../iafbm/lib/xfm/lib/Core/Bootstrap.php');
 require_once(__DIR__.'/../../iafbm/lib/iafbm/xfm/iaBootstrap.php');
 
-// See iaPHPUnit_Auth_Framework_TestCase docblock below for instructions
-
 /**
  * Unittesing-specific Bootstrap.
  * Instanciates your custom Auth class as xContext::$auth.
- * @internal
+ * @package unittests-library
  * @see iaPHPUnit_Auth_Framework_TestCase
  */
 class iaTestAuthBootstrap extends iaBootstrap {
@@ -53,10 +51,11 @@ class iaTestAuthBootstrap extends iaBootstrap {
  * Your iaPHPUnit_Auth_Framework_TestCase child classname is "MyAwesomeTest":
  * <code>
  * class MyAwesomeTestAuth extends iaAuth {
- *    // Refine test specific things here,
+ *     // Refine test specific things here,
  *     // eg. the $permissions property.
  * }
  * </code>
+ * @package unittests-library
  */
 class iaPHPUnit_Auth_Framework_TestCase extends iaPHPUnit_Framework_TestCase {
 

@@ -2,6 +2,10 @@
 
 xView::load('common/extjs/base');
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class CommonExtjsGridView extends CommonExtjsBaseView {
 
     function init() {

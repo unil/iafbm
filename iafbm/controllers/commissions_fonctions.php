@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CommissionsFonctionsController extends iaExtRestController {
     var $model = 'commission_fonction';
     var $allow = array('get');

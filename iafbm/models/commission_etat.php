@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionEtatModel extends iaModelMysql {
 
     var $table = 'commissions_etats';

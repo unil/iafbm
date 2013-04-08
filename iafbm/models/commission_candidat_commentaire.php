@@ -1,6 +1,10 @@
 <?php
 
 // This model name feels ugly
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionCandidatCommentaireModel extends iaModelMysql {
 
     var $table = 'commissions_candidats_commentaires';

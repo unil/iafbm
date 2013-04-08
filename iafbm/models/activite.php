@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class ActiviteModel extends iaModelMysql {
 
     var $table = 'activites';

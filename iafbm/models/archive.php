@@ -4,6 +4,10 @@
  * @note No need to extend iaJournalingModelMysql for security reasons
  *       because 'archive' tables are not exposed through a model.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class ArchiveModel extends iaModelMysql {
 
     var $table = 'archives';

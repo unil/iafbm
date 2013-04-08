@@ -6,7 +6,9 @@
  *
  * It implements:
  * - a check that prevents a closed commission to be modified
-*/
+ * @package iafbm
+ * @subpackage controller
+ */
 abstract class AbstractCommissionController extends iaExtRestController {
 
     function post() {
@@ -40,6 +42,10 @@ abstract class AbstractCommissionController extends iaExtRestController {
     }
 }
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CommissionsController extends AbstractCommissionController {
 
     var $model = 'commission';

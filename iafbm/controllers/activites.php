@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class ActivitesController extends iaExtRestController {
 
     var $model = 'activite';

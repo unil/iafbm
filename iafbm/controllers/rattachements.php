@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class RattachementsController extends iaExtRestController {
 
     var $model = 'rattachement';

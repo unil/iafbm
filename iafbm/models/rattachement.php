@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class RattachementModel extends iaModelMysql {
 
     var $table = 'rattachements';

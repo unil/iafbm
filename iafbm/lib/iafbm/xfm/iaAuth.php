@@ -3,7 +3,7 @@
 /**
  * Project specific Auth.
  * Uses Shibboleth information to automatically authenticate the user.
- * @package iafbm
+ * @package iafbm-library
  */
 class iaAuth extends xAuth {
    /**

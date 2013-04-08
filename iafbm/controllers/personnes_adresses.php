@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class PersonnesAdressesController extends iaExtRestController {
 
     var $model = 'personne_adresse';

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionTravailEvenementTypeModel extends iaModelMysql {
 
     var $table = 'commissions_travails_evenements_types';

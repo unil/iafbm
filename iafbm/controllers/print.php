@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class printController extends iaExtRestController {
 
     function defaultAction() {

@@ -2,6 +2,10 @@
 
 require_once('commissions.php');
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CommissionsTypesController extends AbstractCommissionController {
 
     var $model = 'commission_type';

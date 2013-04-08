@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class PersonnesDenominationsController extends iaExtRestController {
     var $model = 'personne_denomination';
     var $allow = array('get');

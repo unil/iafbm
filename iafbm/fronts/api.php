@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Project-specific API Front.
+ * - Manages modes (encoding, new-lines flavour, separator for csv encoder)
+ * @package iafbm
+ * @subpackage front
+ */
 class ApiFront extends xApiFront {
 
     /**
