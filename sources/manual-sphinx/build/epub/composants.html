@@ -1,0 +1,105 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Composants</title>
+    
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="#" title="Composants"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="architecture.html" title="Architecture"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">iafbm current documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="composants">
+<h1>Composants</h1>
+<p>L&#8217;application <strong>iafbm</strong> comporte des composants qui lui sont propres.</p>
+<div class="section" id="table-des-matieres">
+<h2>Table des matières</h2>
+<div class="toctree-wrapper compound">
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Composants</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#table-des-matieres">Table des matières</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#securite">Sécurité</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authentification">Authentification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#versioning">Versioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#archivage">Archivage</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="securite">
+<h2>Sécurité</h2>
+<p>La sécurité est <strong>orientée ressources</strong>. Pour chaque rôle sont définies quelles sont les opérations CRUD autorisée sur les différentes ressources.</p>
+</div>
+<div class="section" id="authentification">
+<h2>Authentification</h2>
+<p>L&#8217;authentification dans l&#8217;application iafbm se fait par un connecteur de type <a class="reference external" href="http://fr.wikipedia.org/wiki/Shibboleth">shibboleth</a><span class="link-target"> [http://fr.wikipedia.org/wiki/Shibboleth]</span> qui récupère les données d&#8217;authentification fournies par le système <a class="reference external" href="http://www.switch.ch/fr/aai/">Switch-AAI</a><span class="link-target"> [http://www.switch.ch/fr/aai/]</span>.</p>
+<p>Les données d&#8217;authentification récupérées sont:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><strong>Identité</strong></dt>
+<dd><ul class="first last simple">
+<li>PERSON_UID</li>
+<li>SWISSEP_HOMEORGANIZATION</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Rôle</strong></dt>
+<dd><ul class="first last simple">
+<li>CUSTOM_UNILMEMBEROF</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="versioning">
+<h2>Versioning</h2>
+<p>Le versioning des données est fait au <strong>niveau logiciel</strong>. La logique implémentée est de <strong>type différentielle</strong>: pour chaque modification, le système conserve le <strong>delta</strong> modifié.
+Les versions antérieures peuvent alors est recomposées en appliquant les deltas successifs sur la version à jour stockée.</p>
+<p>Le système de versioning permet aussi la création de <strong>tags</strong> utilisateur associés à un label. Ceci permet de créer jalons nominatifs pour une version donnée d&#8217;une ressource.</p>
+</div>
+<div class="section" id="archivage">
+<h2>Archivage</h2>
+<p>L&#8217;archivage des données fonctionne par applatissement des structures de données. Lorsqu&#8217;une ressource est archivée, tous les champs qu&#8217;elle contient ainsi que les champs des ressources associées sont stockée de manière plate dans une table de la base de données.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, UNIL.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

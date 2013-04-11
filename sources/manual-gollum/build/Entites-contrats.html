@@ -1,0 +1,110 @@
+<h2>Terminologie</h2>
+
+<ul>
+<li>
+<strong>Section</strong>: SSF ou SSC</li>
+<li>
+<strong>Activité Type</strong>: Type de contrat (Fonction administrative SSF, fonction hospitalière SSC, ...)</li>
+<li>
+<strong>Activité Nom</strong>: PO, PAS, PAST... Fonction administrative 1, fonction administrative 2... etc</li>
+<li>
+<strong>Activité</strong>: Activité d'un type donnée, exercée au sein d'une section donnée</li>
+</ul><h2>Structure organisationnelle</h2>
+
+<ul>
+<li>
+<p>Types d'activité:</p>
+
+<ul>
+<li>
+<strong>SSC</strong>: Fonction administrative, fonction académique, autre mandat.</li>
+<li>
+<strong>SSF</strong>: Fonction administrative, fonction académique, autre mandat, fonction hospitalière, titre académique.</li>
+</ul>
+</li>
+<li>
+<p>Listes communes</p>
+
+<ul>
+<li>Activités du type <strong>Fonction académique</strong>: commune entre SSF et SSC.</li>
+</ul>
+</li>
+</ul><h2>Structure relationnelle</h2>
+
+<p>Cette structure permet d'allouer une <strong>activité</strong> (p.ex. PO) à un <strong>type</strong> (p.ex. fonction académique) et une <strong>section</strong> (p.ex. SSC).</p>
+
+<pre><code>                                   +---------+
++-------------------+    +---------| section |
+| Activité          |    |         +---------+
++-------------------+    |
+| id                |    |         +---------------+
+| section_id        |----+     +---| activite_type |
+| activite_type_id  |----------+   +---------------+
+| activite_nom_id   |-------+
++-------------------+       |      +--------------+
+                            +------| activite_nom |
+                                   +--------------+
+</code></pre>
+
+<hr><h1>Réflexion (archive)</h1>
+
+<h2>Relations section, type, activité</h2>
+
+<h3>Alternative 0</h3>
+
+<pre><code>+---------+        +------+        +----------+
+| Section |--------| Type |--------| Activite |
++---------+  1..1  +------+  1..n  +----------+
+</code></pre>
+
+<ul>
+<li><strong>Abandonnée: Equivalences des Types impossible</strong></li>
+<li>Equivalences <strong>Type</strong> entre les <strong>Sections</strong> (p.ex. Mandat)</li>
+<li>Doublons <strong>Activité</strong> (p.ex. PO)</li>
+</ul><h3>Alternative 1</h3>
+
+<pre><code>+---------+        +------+        +----------+
+| Section |--------| Type |--------| Activite |
++---------+  1..n  +------+  1..n  +----------+
+</code></pre>
+
+<ul>
+<li>Doublons <strong>Type</strong> (p.ex. Mandat)</li>
+<li>Doublons <strong>Activité</strong> (p.ex. PO)</li>
+</ul><h3>Alternative 2</h3>
+
+<pre><code>+---------+        +------+        +----------+
+| Section |--------| Type |--------| Activite |
++---------+  1..n  +------+  n..n  +----------+
+</code></pre>
+
+<ul>
+<li>Doublons <strong>Type</strong> (p.ex. Mandat)</li>
+<li>
+<strong>Activité</strong> commune à plusieurs <strong>Types</strong> (p.ex. PO)</li>
+</ul><h3>Alternative 3</h3>
+
+<pre><code>+---------+        +------+        +----------+
+| Section |--------| Type |--------| Activite |
++---------+  n..n  +------+  n..n  +----------+
+</code></pre>
+
+<ul>
+<li>
+<strong>Type</strong> commun à plusieurs <strong>Activités</strong> (p.ex. Mandat)</li>
+<li>
+<strong>Activité</strong> commune à plusieurs <strong>Types</strong> (p.ex. PO)</li>
+</ul><h2>Résumé des données structurées</h2>
+
+<pre><code>Section | Type                        | Activite 
+--------+-----------------------------+-------------------------------
+SSF     | Fonction administrative     | ?
+SSF     | Fonction académique         | PO, PAS, PAST, ...
+SSF     | Mandat                      | MF1, MF2, MFx
+--------+-----------------------------+-------------------------------
+SSC     | Fonction administrative     | ?
+SSC     | Fonction hospitalière       | ?
+SSC     | Titre académique            | PO, PAS, PAST, ...
+SSC     | Mandat                      | MC1, MC2, MCx
+--------+-----------------------------+-------------------------------
+</code></pre>

@@ -1,0 +1,94 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Architecture</title>
+    
+    <link rel="stylesheet" href="_static/epub.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="composants.html" title="Composants"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation technique iafbm"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">iafbm current documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="architecture">
+<h1>Architecture</h1>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="generalites">
+<h2>Généralités</h2>
+<p>L&#8217;application <strong>iafbm</strong> est une application de type client léger.</p>
+</div>
+<div class="section" id="briques-logicielles">
+<h2>Briques logicielles</h2>
+<p>L&#8217;application s&#8217;appuie sur les <strong>briques logicielles principales</strong> suivantes:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/damiencorpataux/xfm-php">Socle PHP xfm</a><span class="link-target"> [https://github.com/damiencorpataux/xfm-php]</span></li>
+<li><a class="reference external" href="http://www.sencha.com/products/extjs/">Socle Javascript ExtJS</a><span class="link-target"> [http://www.sencha.com/products/extjs/]</span></li>
+</ul>
+<p>Les <strong>briques logicielles secondaires</strong> suivantes sont également utilisées:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://code.google.com/p/dompdf/">DomPDF</a><span class="link-target"> [http://code.google.com/p/dompdf/]</span></li>
+<li><a class="reference external" href="http://code.google.com/p/minify/">Minify</a><span class="link-target"> [http://code.google.com/p/minify/]</span></li>
+<li><a class="reference external" href="http://code.google.com/p/parsecsv-for-php/">ParseCSV</a><span class="link-target"> [http://code.google.com/p/parsecsv-for-php/]</span></li>
+<li><a class="reference external" href="http://www.phpunit.de/">PHP Unit</a><span class="link-target"> [http://www.phpunit.de/]</span></li>
+</ul>
+<p>Systèmes d&#8217;information <strong>connexes</strong>:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.switch.ch/fr/aai/">Switch-AAI</a><span class="link-target"> [http://www.switch.ch/fr/aai/]</span> (protocole <a class="reference external" href="http://fr.wikipedia.org/wiki/Shibboleth">shibboleth</a><span class="link-target"> [http://fr.wikipedia.org/wiki/Shibboleth]</span>) pour l&#8217;authentification centralisée.</li>
+</ul>
+</div>
+<div class="section" id="typologie">
+<h2>Typologie</h2>
+<div class="section" id="partie-serveur">
+<h3>Partie serveur</h3>
+<p>La partie serveur de l&#8217;application, implémentée à l&#8217;aide le socle logiciel <a class="reference external" href="https://github.com/damiencorpataux/xfm-php">xfm</a><span class="link-target"> [https://github.com/damiencorpataux/xfm-php]</span>, respecte la forme architecturale dite <a class="reference external" href="http://fr.wikipedia.org/wiki/Mod%C3%A8le-Vue-Contr%C3%B4leur">MVC</a><span class="link-target"> [http://fr.wikipedia.org/wiki/Mod%C3%A8le-Vue-Contr%C3%B4leur]</span>.</p>
+</div>
+<div class="section" id="partie-client">
+<h3>Partie client</h3>
+<p>La partie client de l&#8217;application, implémentée à l&#8217;aide du socle logiciel <a class="reference external" href="http://www.sencha.com/products/extjs/">ExtJS</a><span class="link-target"> [http://www.sencha.com/products/extjs/]</span>, respecte la forme de conception orientée widgets (similaire à <a class="reference external" href="http://fr.wikipedia.org/wiki/Qt">Qt</a><span class="link-target"> [http://fr.wikipedia.org/wiki/Qt]</span>) et est basée sur le principe dit <a class="reference external" href="http://fr.wikipedia.org/wiki/Signaux_et_slots">signaux et slots</a><span class="link-target"> [http://fr.wikipedia.org/wiki/Signaux_et_slots]</span>.</p>
+</div>
+<div class="section" id="communication-client-serveur">
+<h3>Communication client-serveur</h3>
+<p>La communication client-serveur est implémentée selon le principe d&#8217;architecture <a class="reference external" href="http://fr.wikipedia.org/wiki/Representational_State_Transfer">ReST</a><span class="link-target"> [http://fr.wikipedia.org/wiki/Representational_State_Transfer]</span>.
+Les socles logiciels <a class="reference external" href="https://github.com/damiencorpataux/xfm-php">xfm</a><span class="link-target"> [https://github.com/damiencorpataux/xfm-php]</span> et <a class="reference external" href="http://www.sencha.com/products/extjs/">ExtJS</a><span class="link-target"> [http://www.sencha.com/products/extjs/]</span> implémentent déjà ce principe demanière native.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, UNIL.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
