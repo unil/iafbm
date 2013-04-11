@@ -1,3 +1,4 @@
 sql/merged.sql
 *.DS_Store
-
+iafbm/config/instances/DEC20474.local.ini
+iafbm/config/instances/wl3s-246-7.unil.ch.ini

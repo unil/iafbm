@@ -498,9 +498,24 @@ iafbm.columns.Rattachement = [{
     }
 }];
 
+// TODO versions
 iafbm.columns.Evaluateur = [{
     xtype: 'ia-actioncolumn-detailform',
-    form: iafbm.form.Personne
+    form: iafbm.form.Personne,
+    getRecord: function(gridView, rowIndex, colIndex, item) {
+        return null;
+    },
+    getFetch: function(gridView, rowIndex, colIndex, item) {
+        var commission_membre = gridView.getStore().getAt(rowIndex),
+            personne_id = commission_membre.get('personne_id');
+            //version = commission_membre.get('version_id');
+        // Loads versioned record (if applicable, eg. xversion > 0)
+        return {
+            model: iafbm.model.Personne,
+            id: personne_id,
+            //xversion: version
+        };
+    }
 }, {
     header: "Nom",
     dataIndex: 'personne_nom',
@@ -525,4 +540,42 @@ iafbm.columns.Evaluateur = [{
     field: {
         xtype: 'ia-datefield'
     }
+}];
+
+iafbm.columns.Evaluation = [{
+    xtype: 'ia-actioncolumn-redirect',
+    width: 25,
+    text: 'Détails évaluation',
+    tooltip: 'Détails évaluation',
+    getLocation: function(grid, record, id) {
+        return [
+            x.context.baseuri,
+            'evaluations',
+            record.get('id')
+        ].join('/');
+    }
+},{
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    width: 150
+},{
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    width: 150
+},{
+    header: "Type",
+    dataIndex: 'evaluation_type_type',
+    width: 80
+},{
+    header: "Mandat",
+    dataIndex: 'activite_nom_abreviation',
+    flex: 50
+},{
+    header: "Section",
+    dataIndex: 'section_code',
+    width: 50
+},{
+    header: "Evaluateur(s)",
+    dataIndex: '_evaluateurs',
+    width: 350
 }];

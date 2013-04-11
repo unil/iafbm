@@ -830,6 +830,7 @@ Ext.define('iafbm.model.EvaluationType', {
     }
 });
 
+//Normally unuseful if EvaluationMembre works. Delete the model and controller too
 Ext.define('iafbm.model.Evaluation', {
     extend: 'Ext.data.Model',
     fields: [
@@ -845,6 +846,34 @@ Ext.define('iafbm.model.Evaluation', {
     proxy:{
         type: 'ia-rest',
         url: x.context.baseuri+'/api/evaluations',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationMembre', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        //{name: 'actif', type: 'boolean', defaultValue: true},
+        //{name: 'evaluation_type_id', type: 'int'},
+        //{name: 'date_periode_debut', type: 'date', dateFormat: 'Y-m-d'},
+        //{name: 'date_periode_fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'personne_id', type: 'int'},
+        // Foreign 'Activite_nom' fields
+        {name: 'activite_nom_abreviation', type: 'string'},
+        // Foreign 'Personne' fields
+        {name: 'evaluation_type_type', type: 'string'},
+        // Foreign 'Personne' fields
+        {name: 'personne_nom', type: 'string'},
+        {name: 'personne_prenom', type: 'string'},
+        // Foreign 'Section' fields
+        {name: 'section_code', type: 'string'},
+        // Foreign 'Section' fields
+        {name: '_evaluateurs', type: 'string'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_membres',
     }
 });
 
@@ -876,7 +905,7 @@ Ext.define('iafbm.model.EvaluationEvaluateur', {
         {name: 'evaluation_date_periode_debut', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'evaluation_date_periode_fin', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'evaluation_personne_id', type: 'int'},
-        {name: 'evaluation_activite_id', type: 'int'}    
+        {name: 'evaluation_activite_id', type: 'int'}
     ],
     validations: [],
     proxy:{

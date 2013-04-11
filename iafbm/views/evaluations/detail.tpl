@@ -1,5 +1,4 @@
-<h1><?php echo "Evaluation n° {$d['id']}"?></h1>
-
+<h1><?php echo "Evaluation - {$d['personne_prenom']} {$d['personne_nom']}"?></h1>
 <div id="target"></div>
 
 <script type="text/javascript">
@@ -60,8 +59,8 @@ Ext.onReady(function() {
                 }]
             },{
                 xtype: 'ia-datefield',
-                fieldLabel: 'Rapport reçu le',
-                emptyText: 'Rapport reçu le',
+                fieldLabel: 'Rapport et annexes reçus le',
+                emptyText: 'Rapport et annexes reçus le',
                 name: 'date_rapport_recu',
             },{
                 xtype: 'ia-datefield',

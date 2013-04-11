@@ -527,6 +527,83 @@ Ext.define('iafbm.form.Personne.Commissions', {
     }
 });
 
+Ext.define('iafbm.form.Personne.Evaluations', {
+    extend: 'Ext.ia.form.Panel',
+    alias: 'widget.ia-form-personne-evaluations',
+    //store: Ext.create('iafbm.store.EvaluationMembre'), // FIXME: this should not be necessary
+    initComponent: function() {
+        this.items = [
+            this._createEvaluations()
+        ]
+        this.callParent();
+    },
+    _createEvaluations: function() {
+        var personne_id = this.getRecordId();
+        // Adds specific column
+        store = new iafbm.store.EvaluationMembre({
+            params: {
+                personne_id: personne_id,
+                //xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
+                // TODO: FIXME: Default sort should be specified on the ExtJS column definition
+                //xorder_by: 'commission_etat_id',
+                //xorder: 'ASC'
+            }
+        });
+        
+        return {
+            xtype: 'fieldset',
+            title: 'Historique des évaluations',
+            items: [{
+                xtype: 'ia-editgrid',
+                editable: false,
+                toolbarButtons: ['search'],
+                height: 150,
+                bbar: null,
+                store: store,
+                searchParams: { xwhere: 'query' },
+                iaDisableFor: [],
+                columns: [{
+                    xtype: 'ia-actioncolumn-redirect',
+                    width: 25,
+                    text: 'Détails évaluation',
+                    tooltip: 'Détails évaluation',
+                    getLocation: function(grid, record, id) {
+                        return [
+                            x.context.baseuri,
+                            'evaluations',
+                            record.get('id')
+                        ].join('/');
+                    }
+                },{
+                    header: "Nom",
+                    dataIndex: 'personne_nom',
+                    width: 150
+                },{
+                    header: "Prénom",
+                    dataIndex: 'personne_prenom',
+                    width: 150
+                },{
+                    header: "Type",
+                    dataIndex: 'evaluation_type_type',
+                    width: 80
+                },{
+                    header: "Mandat",
+                    dataIndex: 'activite_nom_abreviation',
+                    flex: 50
+                },{
+                    header: "Section",
+                    dataIndex: 'section_code',
+                    width: 50
+                },{
+                    header: "Evaluateur(s)",
+                    dataIndex: '_evaluateurs',
+                    width: 350
+                }]
+            }]
+        }
+    }
+});
+
 Ext.define('iafbm.form.Personne', {
     extend: 'Ext.tab.Panel',
     activeTab: 0,
@@ -556,9 +633,10 @@ Ext.define('iafbm.form.Personne', {
             }]
         },{
             title: 'Evaluations',
-            items: [
-                //this._evaluations()
-            ]
+            items: [{
+                xtype: 'ia-form-personne-evaluations',
+                fetch: this.fetch
+            }]
         }];
 
         this.callParent();

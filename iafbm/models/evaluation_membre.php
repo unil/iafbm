@@ -1,6 +1,6 @@
 <?php
 
-class EvaluationModel extends iaModelMysql {
+class EvaluationMembreModel extends iaModelMysql {
 
     var $table = 'evaluations';
 
@@ -18,11 +18,13 @@ class EvaluationModel extends iaModelMysql {
 
     var $joins = array(
         'activite' => 'LEFT JOIN activites ON (evaluations.activite_id = activites.id)',
+        'activite_nom' => 'LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)',
         'evaluation_type' => 'LEFT JOIN evaluations_types ON (evaluations.evaluation_type_id = evaluations_types.id)',
-        'personne' => 'LEFT JOIN personnes ON (evaluations.personne_id = personnes.id)'
+        'personne' => 'LEFT JOIN personnes ON (evaluations.personne_id = personnes.id)',
+        'section' => 'LEFT JOIN sections ON (activites.section_id = sections.id)',
     );
 
-    var $join = array('activite', 'evaluation_type', 'personne');
+    var $join = array('activite', 'evaluation_type', 'personne', 'activite_nom', 'section');
 
     var $validation = array(
         'id' => array('mandatory'),
