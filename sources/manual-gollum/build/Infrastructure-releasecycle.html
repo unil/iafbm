@@ -1,0 +1,109 @@
+<h1>Methodology</h1>
+
+<h2>Application versions structure</h2>
+
+<p>Scheme: 1.0.0: <strong>x.y.z</strong></p>
+
+<ul>
+<li>
+<strong>x</strong>: Major version: Updated on: Major architecture/conceptual change leading to incompatibilities</li>
+<li>
+<strong>y</strong>: Minor version: Updated on: Feature addition, modification, removal</li>
+<li>
+<strong>z</strong>: Subminor version: Updated on: Hotfixes</li>
+</ul><h2>Git branches</h2>
+
+<ul>
+<li>
+<strong>Master</strong> branch is never use to commit directly.<br>Any development (new feature, modification or bugfix) has to be made in a dedicated branch.</li>
+<li>
+<strong>Releases</strong> are made by tagging the master branch with a release tag.</li>
+</ul><p><img src="http://nvie.com/img/2009/12/Screen-shot-2009-12-24-at-11.32.03.png" alt="Branch model"></p>
+
+<p>Source: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
+
+<h2>Use cases</h2>
+
+<h3>Feature development (new feature, modification or bugfix)</h3>
+
+<ul>
+<li>Create a branch for the feature
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">new_feature</span>
+</pre>
+</div>
+</li>
+<li>Develop, add/move/remove files, commit files, ...
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">add</span><span class="o">/</span><span class="n">mv</span><span class="o">/</span><span class="n">rm</span> <span class="p">[</span><span class="n">files</span><span class="p">]</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span>"<span class="n">Message</span>" <span class="p">[</span><span class="n">files</span><span class="p">]</span>
+</pre>
+</div>
+</li>
+<li>Pull <strong>master</strong> branch modifications into <strong>development</strong> branch
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+<span class="n">git</span> <span class="n">pull</span>
+</pre>
+</div>
+</li>
+<li>Rebase to <strong>master</strong> branch to merge <strong>master</strong> commits with <strong>development</strong> branch,<br>resolving potentially arising conflicts
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_feature</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</pre>
+</div>
+</li>
+<li>Merge <strong>development</strong> branch into <strong>master</strong> branch (locally)
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">new_feature</span>
+</pre>
+</div>
+</li>
+<li>Push the (locally) merged <strong>master</strong> branch into remote repository
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+</pre>
+</div>
+
+Source: <a href="http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle">http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle</a>
+</li>
+</ul><h3>Creating a production Release</h3>
+
+<ul>
+<li>Update the project in <strong>iafbm_test</strong> environment
+<div class="highlight">
+<pre><span class="n">cd</span> <span class="n">iafbm_test</span><span class="o">/</span><span class="n">iafbm</span><span class="o">/</span><span class="n">scripts</span>
+<span class="n">php</span> <span class="n">update</span><span class="p">.</span><span class="n">php</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">x</span>
+</pre>
+</div>
+</li>
+<li>Run the UnitTests
+<div class="highlight">
+<pre><span class="n">cd</span> <span class="n">iafbm_test</span><span class="o">/</span><span class="n">iafbm</span><span class="o">/</span><span class="n">tests</span>
+<span class="n">php</span> <span class="n">phpunit</span><span class="p">.</span><span class="n">php</span> <span class="p">.</span>
+</pre>
+</div>
+</li>
+<li>Validate the application quality</li>
+<li>Create a tag in the <strong>master</strong> branch with the release version
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> 1<span class="p">.</span>0<span class="p">.</span>0
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">tags</span>
+</pre>
+</div>
+</li>
+<li>Update the project in <strong>iafbm_prod</strong> environment</li>
+</ul><h1>Bibliography</h1>
+
+<ul>
+<li>Simple Workflow: Best practices<br><a href="http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle">http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle</a>
+</li>
+<li>Simple Workflow: The GitHub worlflow<br><a href="http://scottchacon.com/2011/08/31/github-flow.html">http://scottchacon.com/2011/08/31/github-flow.html</a>
+</li>
+<li>Complex Workflow: Sucessful branching model<br><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a>
+</li>
+<li>Git book<br><a href="http://alx.github.com/gitbook/">http://alx.github.com/gitbook/</a>
+</li>
+</ul>

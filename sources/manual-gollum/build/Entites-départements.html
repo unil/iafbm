@@ -1,0 +1,44 @@
+<p>Afin de ne pas introduire toute la complexité liée à la hiérarchie des unités organisationelles (entités juridiques, facultés, départements, services, etc), nous utilisons un stockage plat pour les données de travails.</p>
+
+<p>Les informations relatives à la hiérarchie sont stockées dans une table connexe. Ces informations sont utilisées uniquement en mode interrogation et ne necessitent ni versionning, ni archivage.</p>
+
+<p>Cela permet d'isoler le risque technique lié à une grande complexité du modèle de données, tout en garantissant les fonctionnalités nécessaire au système.</p>
+
+<h2>Structure</h2>
+
+<ol>
+<li>Les <strong>tables de travail</strong> contiennent une liste plate des <strong>rattachements</strong> (nom générique d'une unité organisationnelle, c-à-dire entité juridique, faculté, département, service, etc) ainsi que la <strong>section</strong> (SSF, SSC) y relative.</li>
+<li>Une <strong>table hiérarchique</strong> contient les informations sur la structure des <strong>rattachements</strong>. Cette table est utilisée uniquement pour l'impression (sortie le département contenant un service SSC donné) la recherche (sortir tous les <strong>rattachements</strong> d'une faculté, département, etc, ainsi que toutes les personnes, commissions, etc y relatives)</li>
+</ol><h2>Responsabilités</h2>
+
+<ol>
+<li>Les <strong>tables de travail</strong> sont utilisées pour stocker l'information utile dont l'iafbm est responsable. La structure simple de ces tables garanti un fonctionnement optimal.</li>
+<li>La <strong>table hiérarchique</strong> est cloisonnée. Elle est utilisée uniquement à titre d'interrogation (recherche, récupération d'informations connexes pour l'impression/reporting). La structure complexe de cette table inclut un risque; ce risque est cloisonné par l'utilisation restreinte de cette table.</li>
+</ol><h2>Schéma</h2>
+
+<p><strong>Tables de travail (critiques)</strong></p>
+
+<pre><code>+---------+           +--------------+
+| Section |-----------| Rattachement |
++---------+   1..n    +--------------+
+</code></pre>
+
+<p><strong>Table hiérarchique (ad-hoc)</strong></p>
+
+<pre><code>              +----------+
+              |          |
++-----------------+      | 1..n
+| Hierarchie      |------+
++-----------------+
+| id              |
+| parent_id       |
+| rattachement_id | (p.ex. FBM, SSF, SSC, ...,etc)
+| type            | (p.ex. 'Faculté', 'Département', 'Service', 'Groupe' etc)
++-----------------+
+</code></pre>
+
+<h2>Questions</h2>
+
+<ul>
+<li>Mettre 'type' dans 'Rattachement' ?</li>
+</ul>

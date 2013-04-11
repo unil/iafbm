@@ -1,0 +1,54 @@
+<h1>Prérequis</h1>
+
+<ol>
+<li><p>MySQL avec utilisateur existant (username et password selon <a href="https://github.com/unil/iafbm/blob/master/iafbm/config/default.ini#L51">config/default.ini</a>)</p></li>
+<li><p>PHP-CLI</p></li>
+<li><p>wget ou curl</p></li>
+</ol><h1>Procédure de déployement</h1>
+
+<ol>
+<li>Aller dans le répertoire choisi pour l'installation (le répertoire racine de l'application sera créé ici)
+<div class="highlight">
+<pre><span class="nb">cd</span> /var/www/chemin/vers/la/racine/du/projet
+</pre>
+</div>
+</li>
+<li>
+<p>Lancer le script de déployement:
+</p>
+<div class="highlight">
+<pre>wget -O - https://raw.github.com/unil/iafbm/master/scripts/deploy.sh | sh
+</pre>
+</div>
+
+ou
+<div class="highlight">
+<pre>curl https://raw.github.com/unil/iafbm/master/scripts/deploy.sh | sh
+</pre>
+</div>
+</li>
+<li>
+<p>Si la création de la base de donnée échoue, l'opération peut être relancée:
+</p>
+<div class="highlight">
+<pre><span class="nb">cd</span> /chemin/vers/iafbm/scripts
+php update.php -x
+</pre>
+</div>
+</li>
+<li>
+<p>Import des données</p>
+
+<ul>
+<li>Copier le répertoire <strong>import</strong> (contenant le(s) fichier(s) CSV) dans le répertoire <strong>/chemin/vers/iafbm</strong>
+</li>
+<li>Lancer le script d'import
+<div class="highlight">
+<pre><span class="nb">cd</span> /chemin/vers/iafbm/scripts
+php import.php
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ol>
