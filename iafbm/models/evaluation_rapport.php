@@ -15,6 +15,8 @@ class EvaluationRapportModel extends iaModelMysql {
         'date_rapport_recu' => 'date_rapport_recu',
         'date_transmis_evaluateur' => 'date_transmis_evaluateur',
         'date_entretien' => 'date_entretien',
+        'date_accuse_lettre' => 'date_accuse_lettre',
+        'date_accuse_email' => 'date_accuse_email',
         'commentaire' => 'commentaire'
     );
 

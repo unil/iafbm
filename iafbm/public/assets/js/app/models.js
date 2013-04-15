@@ -927,6 +927,8 @@ Ext.define('iafbm.model.EvaluationRapport', {
         {name: 'date_rapport_recu', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_transmis_evaluateur', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_entretien', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_accuse_lettre', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_accuse_email', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],

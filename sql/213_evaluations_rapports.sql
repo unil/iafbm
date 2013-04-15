@@ -10,6 +10,8 @@ CREATE  TABLE evaluations_rapports (
     date_rapport_recu DATE DEFAULT NULL,
     date_transmis_evaluateur DATE DEFAULT NULL,
     date_entretien DATE DEFAULT NULL,
+    date_accuse_lettre DATE DEFAULT NULL,
+    date_accuse_email DATE DEFAULT NULL,
     commentaire TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (evaluation_id) REFERENCES evaluations(id)

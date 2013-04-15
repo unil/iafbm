@@ -25,7 +25,7 @@ Ext.onReady(function() {
             xtype: 'container',
             defaults: {
                 labelStyle: 'font-weight:bold',
-                labelWidth: '165',
+                labelWidth: '190',
                 labelAlign: 'left',
             },
             items: [{
@@ -43,20 +43,10 @@ Ext.onReady(function() {
                 emptyText: 'Biblio reçue le',
                 name: 'date_biblio_recue',
             },{
-                xtype: 'fieldcontainer',
+                xtype: 'ia-datefield',
                 fieldLabel: 'Relancé le',
-                layout: 'column',
-                margin: '0',
-                items: [{
-                    xtype: 'ia-datefield',
-                    name: 'date_relance',
-                    emptyText: 'Relancé le',
-                },{
-                    xtype: 'button',
-                    text: 'Relancer',
-                    margin: '0 0 0 10',
-                    iconCls: 'icon-email',
-                }]
+                name: 'date_relance',
+                emptyText: 'Relancé le',
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Rapport et annexes reçus le',
@@ -72,6 +62,16 @@ Ext.onReady(function() {
                 fieldLabel: 'Date de l\'entretien',
                 emptyText: 'Date de l\'entretien',
                 name: 'date_entretien'
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'Lettre d\'accusé de réception',
+                emptyText: 'Lettre d\'accusé de réception',
+                name: 'date_accuse_lettre'
+            },{
+                xtype: 'ia-datefield',
+                fieldLabel: 'E-mail d\'accusé de réception',
+                emptyText: 'E-mail d\'accusé de réception',
+                name: 'date_accuse_email'
             },{
                 xtype: 'ia-textarea',
                 fieldLabel: 'Remarques diveres',
