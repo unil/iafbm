@@ -1851,6 +1851,43 @@ Ext.define('Ext.ia.tab.Panel', {
             // to access the actual tab card panel
             c.down().lockFields(lock);
         });
+    },
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+        // Displays a changes-not-saved message
+        this.on('tabchange', function(tabPanel, newCard, oldCard) {
+            if (oldCard.down('form').isDirtyWhole()) {
+                var me = this,
+                    title = "Modifications non enregistrées",
+                    message = "L'onglet contient des modifications non enregistrées. \
+                        Enregistrer ces modifications? \
+                        <br/><br/> \
+                        <b>Oui:</b> Enregistrer les modifications <br/> \
+                        <b>Non:</b> Abondonner les modifications <br/> \
+                        <b>Annuler:</b> Rester sur cet onglet";
+                Ext.Msg.show({
+                    title: title,
+                    msg: message,
+                    buttons: Ext.Msg.YESNOCANCEL,
+                    icon: Ext.Msg.QUESTION,
+                    fn: function(is) {
+                        switch (is) {
+                            case 'yes':
+                                oldCard.down('ia-form').saveRecord();
+                                break;
+                            case 'no':
+                                oldCard.down('ia-form').loadRecord();
+                                break;
+                            case 'cancel':
+                            default:
+                                me.setActiveTab(oldCard);
+                                break;
+                        }
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -1904,39 +1941,6 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                 }});
                 form.makeRecord();
             });
-        });
-        // Displays a changes-not-saved message
-        this.on('tabchange', function(tabPanel, newCard, oldCard) {
-            if (oldCard.down('form').isDirtyWhole()) {
-                var me = this,
-                    title = "Modifications non enregistrées",
-                    message = "L'onglet contient des modifications non enregistrées. \
-                        Enregistrer ces modifications? \
-                        <br/><br/> \
-                        <b>Oui:</b> Enregistrer les modifications <br/> \
-                        <b>Non:</b> Abondonner les modifications <br/> \
-                        <b>Annuler:</b> Rester sur cet onglet";
-                Ext.Msg.show({
-                    title: title,
-                    msg: message,
-                    buttons: Ext.Msg.YESNOCANCEL,
-                    icon: Ext.Msg.QUESTION,
-                    fn: function(is) {
-                        switch (is) {
-                            case 'yes':
-                                oldCard.down('ia-form').saveRecord();
-                                break;
-                            case 'no':
-                                oldCard.down('ia-form').loadRecord();
-                                break;
-                            case 'cancel':
-                            default:
-                                me.setActiveTab(oldCard);
-                                break;
-                        }
-                    }
-                });
-            }
         });
     }
 });
