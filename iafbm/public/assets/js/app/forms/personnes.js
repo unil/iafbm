@@ -4,12 +4,6 @@ Ext.define('iafbm.form.Personne.Coordonnees', {
     store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
     initComponent: function() {
         this.items = [{
-            xtype: 'ia-versioning',
-            comboConfig: {
-                modelname: 'personne',
-                modelid: this.getRecordId()
-            }
-        }, {
             xtype: 'fieldcontainer',
             layout: 'hbox',
             items: [{
@@ -21,7 +15,7 @@ Ext.define('iafbm.form.Personne.Coordonnees', {
                 ],
             }, {
                 xtype: 'splitter',
-                flex: 0
+                width: 15
             }, {
                 xtype: 'fieldcontainer',
                 flex: 1,
@@ -31,16 +25,14 @@ Ext.define('iafbm.form.Personne.Coordonnees', {
                     this._createEmails()
                 ]
             }]
-        },
-//            this._createCommissionsCurrent()
-        ];
+        }];
         //
         var me = this;
         me.callParent();
     },
     switchType: function() {
         var type = this.getValue();
-        this.up('panel').cascade(function(c) {
+        this.up('tabpanel').cascade(function(c) {
             if (!c.iaDisableFor) return;
             var disabled = type==null || Ext.Array.contains(c.iaDisableFor, type);
             c.setDisabled(disabled);
@@ -527,11 +519,12 @@ Ext.define('iafbm.form.Personne.Commissions', {
     }
 });
 
-Ext.define('iafbm.form.Personne', {
-    extend: 'Ext.tab.Panel',
+Ext.define('iafbm.form.Personne.TabPanel', {
+    extend: 'Ext.ia.tab.Panel',
+    alias: 'widget.ia-form-personne-tabpanel',
     activeTab: 0,
     plain: true,
-    title: 'Personne',
+    deferredRender: false,
     defaults :{
         autoScroll: true,
     },
@@ -549,18 +542,41 @@ Ext.define('iafbm.form.Personne', {
                 fetch: this.fetch
             }]
         },{
-            title: 'Commission',
+            title: 'Commissions',
             items: [{
                 xtype: 'ia-form-personne-commissions',
                 fetch: this.fetch
             }]
-        },{
-            title: 'Evaluations',
-            items: [
-                //this._evaluations()
-            ]
         }];
+        var me = this;
+        me.callParent();
+    }
+});
 
-        this.callParent();
+Ext.define('iafbm.form.Personne', {
+    extend: 'Ext.panel.Panel',
+    border: false,
+    bodyStyle: 'background-color: transparent',
+    initComponent: function() {
+        this.items = [{
+            xtype: 'ia-versioning',
+            comboConfig: {
+                modelname: 'personne',
+                modelid: this.fetch.id,
+                getTopLevelComponent: function() {
+                    return this.up('panel').down('tabpanel');
+                }
+            },
+            formConfig: {
+                getForm: function() {
+                    return this.up('panel').down('tabpanel').getActiveTab().down('form');
+                }
+            }
+        }, {
+            xtype: 'ia-form-personne-tabpanel',
+            fetch: this.fetch
+        }]
+        var me = this;
+        me.callParent();
     }
 });
