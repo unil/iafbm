@@ -556,7 +556,6 @@ Ext.define('iafbm.form.Personne.TabPanel', {
 Ext.define('iafbm.form.Personne', {
     extend: 'Ext.panel.Panel',
     border: false,
-    bodyStyle: 'background-color: transparent',
     initComponent: function() {
         this.items = [{
             xtype: 'ia-versioning',
@@ -571,7 +570,8 @@ Ext.define('iafbm.form.Personne', {
                 getForm: function() {
                     return this.up('panel').down('tabpanel').getActiveTab().down('form');
                 }
-            }
+            },
+            padding: 5
         }, {
             xtype: 'ia-form-personne-tabpanel',
             fetch: this.fetch

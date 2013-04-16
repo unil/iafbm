@@ -4,8 +4,6 @@ Ext.ns('iafbm.form');
 Ext.define('iafbm.form.Candidat', {
     extend: 'Ext.ia.form.Panel',
     store: Ext.create('iafbm.store.Candidat'), // FIXME: this should not be necessary
-    title: 'Candidat',
-    frame: true,
     fieldDefaults: {
         labelWidth: 110
     },
