@@ -1966,6 +1966,21 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         for (var i in this.phasesCls) toolbar.removeCls(this.phasesCls[i]);
         toolbar.addCls(cls);
     },
+    /**
+     * FIXME: Move this into ia-tabpanel-commission ?
+     * FIXME: Rename this method to smth like updateDisabledFields()
+     */
+    disableFields: function() {
+        // Fetches commission type id
+        var type = this.up('tabpanel').items.get(0).down('ia-form-commission').record.get('commission_type_id');
+        // Updates field disable state according commission type
+        this.cascade(function(c) {
+            if (!c.iaDisableFor) return;
+            var disabled = type==null || Ext.Array.contains(c.iaDisableFor, type);
+console.log('- Disable field:', c.$className, 'name:', c.name, 'disabled:', disabled);
+            c.setDisabled(disabled);
+        });
+    },
     makeDockedItems: function() {
         var me = this;
         return ['->', {
@@ -1996,6 +2011,16 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
         me.callParent();
         // Updates form state on record load
         this.on({load: this.updateCheckboxState});
+        // Updates fields disablement
+        // Waits for Commission records to load (for it contains type information)
+        // and runs disableFields() on each tab form
+        if (this.fetch.model.$className == 'iafbm.model.Commission') this.on({load: function() {
+            this.up('tabpanel').items.each(function(tab) {
+console.log('Panel', tab.title);
+                tab.down('form').disableFields();
+
+            })
+        }});
     }
 });
 

@@ -7,7 +7,8 @@
 Ext.onReady(function() {
 
     var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.Commission'),
+        // FIXME: remove this unused store if no bugs are dectected
+        //store: Ext.create('iafbm.store.Commission'),
         fetch: {
             model: iafbm.model.Commission,
             id: <?php echo $d['id'] ?>
@@ -157,13 +158,12 @@ Ext.onReady(function() {
             newRecordValues: { commission_id: '<?php echo $d['id'] ?>' },
             columns: iafbm.columns.CommissionMembreNonominatif,
             bbar: null
-        }/*, {
-            xtype: 'ia-history'
-        }*/]
+        }]
     });
 
     var form_creation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.CommissionCreation'),
+        // FIXME: remove this unused store if no bugs are dectected
+        //store: Ext.create('iafbm.store.CommissionCreation'),
         fetch: {
             model: iafbm.model.CommissionCreation,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -182,28 +182,31 @@ Ext.onReady(function() {
                 border: false,
                 flex: 1,
                 defaults: {
-                    labelWidth: 180
+                    labelWidth: 190
                 }
             },
             items: [{
                 items: [{
                     xtype:'ia-datefield',
-                    fieldLabel: 'Date de décision du Décanat',
-                    name: 'decision'
-                }, {
-                    xtype:'ia-datefield',
                     fieldLabel: 'Préavis positif CPA',
-                    name: 'preavis'
+                    name: 'preavis',
+                    iaDisableFor: [4, 5]
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Autorisation du CDir',
-                    name: 'autorisation'
+                    name: 'autorisation',
+                    iaDisableFor: [2, 4, 5]
+                }, {
+                    xtype:'ia-datefield',
+                    fieldLabel: 'Choix composition par Décanat',
+                    name: 'decision'
                 }]
             }, {
                 items: [{
                     xtype:'ia-datefield',
                     fieldLabel: 'Annonce journaux OK le',
-                    name: 'annonce'
+                    name: 'annonce',
+                    iaDisableFor: [2, 3, 4, 5, 6]
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Composition OK le',
@@ -211,7 +214,8 @@ Ext.onReady(function() {
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Validation de la composition par le vice-recteur',
-                    name: 'composition_validation'
+                    name: 'composition_validation',
+                    iaDisableFor: [2]
                 }]
             }]
         }, {
@@ -222,13 +226,12 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }/*, {
-            xtype: 'ia-history'
-        }*/]
+        }]
     });
 
     var form_candidat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
+        // FIXME: remove this unused store if no bugs are dectected
+        //store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
         fetch: {
             model: iafbm.model.CommissionCandidatCommentaire,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -241,6 +244,7 @@ Ext.onReady(function() {
             html: 'Candidats'
         }, {
             xtype:'ia-editgrid',
+            iaDisableFor: [2, 3, 4, 5],
             width: 858,
             height: 289,
             toolbarButtons: ['add', 'delete', 'search'],
@@ -273,13 +277,12 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }/*, {
-            xtype: 'ia-history'
-        }*/]
+        }]
     });
 
     var form_travail = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.CommissionTravail'),
+        // FIXME: remove this unused store if no bugs are dectected
+        //store: Ext.create('iafbm.store.CommissionTravail'),
         fetch: {
             model: iafbm.model.CommissionTravail,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -375,6 +378,7 @@ Ext.onReady(function() {
                         params: { commission_id: <?php echo $d['id'] ?> }
                     }),
                     name: 'primo_loco',
+                    iaDisableFor: [2]
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secundo loco',
@@ -383,7 +387,8 @@ Ext.onReady(function() {
                     store: new iafbm.store.Candidat({
                         params: { commission_id: <?php echo $d['id'] ?> }
                     }),
-                    name: 'secondo_loco'
+                    name: 'secondo_loco',
+                    iaDisableFor: [2]
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio loco',
@@ -392,7 +397,8 @@ Ext.onReady(function() {
                     store: new iafbm.store.Candidat({
                         params: { commission_id: <?php echo $d['id'] ?> }
                     }),
-                    name: 'tertio_loco'
+                    name: 'tertio_loco',
+                    iaDisableFor: [2]
                 }]
             }]
         }, {
@@ -403,14 +409,13 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }/*, {
-            xtype: 'ia-history'
-        }*/]
+        }]
     });
 
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
     var form_validation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.CommissionValidation'),
+        // FIXME: remove this unused store if no bugs are dectected
+        //store: Ext.create('iafbm.store.CommissionValidation'),
         fetch: {
             model: iafbm.model.CommissionValidation,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -573,13 +578,12 @@ Ext.onReady(function() {
             name: 'commentaire',
             growMin: 21,
             grow: true
-        }/*, {
-            xtype: 'ia-history'
-        }*/]
+        }]
     });
 
     var form_finalisation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.CommissionFinalisation'),
+        // FIXME: remove this unused store if no bugs are dectected
+        //store: Ext.create('iafbm.store.CommissionFinalisation'),
         fetch: {
             model: iafbm.model.CommissionFinalisation,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -589,7 +593,7 @@ Ext.onReady(function() {
             layout: 'hbox',
             combineErrors: true,
             msgTarget: 'under',
-            labelWidth: 130,
+            labelWidth: 170,
             defaults: {
                 margin: '0 3 0 0'
             },
@@ -599,7 +603,8 @@ Ext.onReady(function() {
             html: 'Finalisation'
         }, {
             xtype: 'fieldcontainer',
-            fieldLabel: 'Candidat retenu',
+            fieldLabel: 'Candidat retenu par le CDir',
+            iaDisableFor: [2],
             items: [{
                 xtype: 'ia-combo',
                 width: 567,
@@ -615,6 +620,7 @@ Ext.onReady(function() {
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Réception du contrat',
+            iaDisableFor: [2],
             items: [{
                 xtype: 'ia-datefield',
                 name: 'reception_contrat_date',
@@ -629,6 +635,7 @@ Ext.onReady(function() {
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: "Début d'activité",
+            iaDisableFor: [2],
             items: [{
                 xtype: 'ia-datefield',
                 name: 'debut_activite'
@@ -688,15 +695,15 @@ Ext.onReady(function() {
                 record.save();
                 form.loadRecord();
             }
-        }/*, {
-            xtype: 'ia-history'
-        }*/]
+        }]
     });
 
     // Panels ids are used for URL hash
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
         activeTab: 0,
         plain: true,
+        // Disabling deferredRender avoids sizing glitches (mostly on firefox)
+        deferredRender: false,
         defaults: {
             autoScroll: true,
         },

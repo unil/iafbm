@@ -374,6 +374,13 @@ Ext.define('iafbm.form.Personne', {
         var me = this;
         me.callParent();
     },
+    /**
+     * Manages fields disablement according the personne type.
+     * Field is disabled if:
+     * - personne type is null
+     * - field does not contain a iaDisableFor property
+     * - field is set to be disabled for the given type
+     */
     switchType: function() {
         var type = this.getValue();
         this.up('panel').cascade(function(c) {
@@ -433,26 +440,22 @@ Ext.define('iafbm.form.Personne', {
                 displayField: 'nom',
                 valueField: 'id',
                 store: Ext.create('iafbm.store.Genre'),
-                iaDisableFor: []
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Dénomination',
                 name: 'personne_denomination_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.PersonneDenomination'),
-                iaDisableFor: []
+                store: Ext.create('iafbm.store.PersonneDenomination')
             }, {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Date de naissance',
-                name: 'date_naissance',
-                iaDisableFor: []
+                name: 'date_naissance'
             }, {
                 fieldLabel: 'N° AVS',
                 emptyText: 'N° AVS',
                 name: 'no_avs',
-                vtype: 'avs',
-                iaDisableFor: []
+                vtype: 'avs'
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Etat civil',
@@ -466,24 +469,21 @@ Ext.define('iafbm.form.Personne', {
                 name: 'canton_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Canton'),
-                iaDisableFor: []
+                store: Ext.create('iafbm.store.Canton')
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Pays d\'origine',
                 name: 'pays_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Pays'),
-                iaDisableFor: []
+                store: Ext.create('iafbm.store.Pays')
             }, {
                 xtype: 'ia-combo',
                 fieldLabel: 'Permis de séjour',
                 name: 'permis_id',
                 displayField: 'nom',
                 valueField: 'id',
-                store: Ext.create('iafbm.store.Permis'),
-                iaDisableFor: []
+                store: Ext.create('iafbm.store.Permis')
             }]
         };
     },
@@ -496,8 +496,7 @@ Ext.define('iafbm.form.Personne', {
                     store: new iafbm.store.PersonneAdresse({
                         params: { personne_id: this.getRecordId() },
                     }),
-                    newRecordValues: { personne_id: this.getRecordId() },
-                    iaDisableFor: []
+                    newRecordValues: { personne_id: this.getRecordId() }
                 })
             ]
         };
@@ -511,8 +510,7 @@ Ext.define('iafbm.form.Personne', {
                     store: new iafbm.store.PersonneTelephone({
                         params: { personne_id: this.getRecordId() },
                     }),
-                    newRecordValues: { personne_id: this.getRecordId() },
-                    iaDisableFor: []
+                    newRecordValues: { personne_id: this.getRecordId() }
                 })
             ]
         };
@@ -526,8 +524,7 @@ Ext.define('iafbm.form.Personne', {
                     store: new iafbm.store.PersonneEmail({
                         params: { personne_id: this.getRecordId() },
                     }),
-                    newRecordValues: { personne_id: this.getRecordId() },
-                    iaDisableFor: []
+                    newRecordValues: { personne_id: this.getRecordId() }
                 })
             ]
         };
@@ -713,7 +710,6 @@ Ext.define('iafbm.form.Personne', {
                 bbar: null,
                 store: store,
                 searchParams: { xwhere: 'query' },
-                iaDisableFor: [],
                 columns: [{
                     xtype: 'ia-actioncolumn-redirect',
                     width: 25,
