@@ -32,5 +32,14 @@ class EvaluationModel extends iaModelMysql {
         'activite_id' => array('mandatory')
     );
     
-    //TODO: Archivable infos 
+    var $archive_foreign_models = array(
+        'evaluation_rapport' => 'evaluation_id',
+        'evaluation_evaluation' => 'evaluation_id',
+        'evaluation_cdir' => 'evaluation_id',
+        'evaluation_contrat' => 'evaluation_id',
+        'activite' => 'evaluation_id',
+        'evaluation_type' => array('evaluation_type_id' => 'id'),
+        'personne' => array('personne_id' => 'id')
+    );
+
 }

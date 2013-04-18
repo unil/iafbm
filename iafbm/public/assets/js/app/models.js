@@ -798,7 +798,7 @@ Ext.define('iafbm.model.VersionRelation', {
     validations: [],
     proxy: {
         type: 'ia-rest',
-        url: x.context.baseuri+'/api/evaluations_finalisations',
+        url: x.context.baseuri+'/api/versions_relations',
     }
 });
 

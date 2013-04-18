@@ -18,5 +18,6 @@ class EvaluationPreavisModel extends iaModelMysql {
         'preavis' => array('mandatory')
     );
     
-    //TODO: Archivable infos 
+    var $archive_foreign_models = array(
+    );
 }

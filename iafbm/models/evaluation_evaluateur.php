@@ -27,5 +27,8 @@ class EvaluationEvaluateurModel extends iaModelMysql {
         'personne_id' => array('mandatory')
     );
     
-    //TODO: Archivable infos 
+    var $archive_foreign_models = array(
+        'evaluation' => 'evaluation_id',
+        'personne' => 'personne_id'
+    );
 }

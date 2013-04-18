@@ -27,5 +27,6 @@ class EvaluationContratModel extends iaModelMysql {
         'evaluation_id' => array('mandatory')
     );
     
-    //TODO: Archivable infos 
+    var $archive_foreign_models = array(
+    );
 }
