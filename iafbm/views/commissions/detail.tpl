@@ -7,8 +7,8 @@
 Ext.onReady(function() {
 
     var form_apercu = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        // FIXME: remove this unused store if no bugs are dectected
-        //store: Ext.create('iafbm.store.Commission'),
+        // FIXME: remove this after store=null bug source has been discovered
+        store: Ext.create('iafbm.store.Commission'),
         fetch: {
             model: iafbm.model.Commission,
             id: <?php echo $d['id'] ?>
@@ -163,7 +163,7 @@ Ext.onReady(function() {
 
     var form_creation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         // FIXME: remove this unused store if no bugs are dectected
-        //store: Ext.create('iafbm.store.CommissionCreation'),
+        store: Ext.create('iafbm.store.CommissionCreation'),
         fetch: {
             model: iafbm.model.CommissionCreation,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -230,8 +230,8 @@ Ext.onReady(function() {
     });
 
     var form_candidat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        // FIXME: remove this unused store if no bugs are dectected
-        //store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
+        // FIXME: remove this after store=null bug source has been discovered
+        store: Ext.create('iafbm.store.CommissionCandidatCommentaire'),
         fetch: {
             model: iafbm.model.CommissionCandidatCommentaire,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -281,8 +281,8 @@ Ext.onReady(function() {
     });
 
     var form_travail = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        // FIXME: remove this unused store if no bugs are dectected
-        //store: Ext.create('iafbm.store.CommissionTravail'),
+        // FIXME: remove this after store=null bug source has been discovered
+        store: Ext.create('iafbm.store.CommissionTravail'),
         fetch: {
             model: iafbm.model.CommissionTravail,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -414,8 +414,8 @@ Ext.onReady(function() {
 
     var store_validation_etat = new iafbm.store.CommissionValidationEtat();
     var form_validation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        // FIXME: remove this unused store if no bugs are dectected
-        //store: Ext.create('iafbm.store.CommissionValidation'),
+        // FIXME: remove this after store=null bug source has been discovered
+        store: Ext.create('iafbm.store.CommissionValidation'),
         fetch: {
             model: iafbm.model.CommissionValidation,
             params: { commission_id: <?php echo $d['id'] ?> }
@@ -582,8 +582,8 @@ Ext.onReady(function() {
     });
 
     var form_finalisation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        // FIXME: remove this unused store if no bugs are dectected
-        //store: Ext.create('iafbm.store.CommissionFinalisation'),
+        // FIXME: remove this after store=null bug source has been discovered
+        store: Ext.create('iafbm.store.CommissionFinalisation'),
         fetch: {
             model: iafbm.model.CommissionFinalisation,
             params: { commission_id: <?php echo $d['id'] ?> }
