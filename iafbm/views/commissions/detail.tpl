@@ -188,21 +188,32 @@ Ext.onReady(function() {
             items: [{
                 items: [{
                     xtype:'ia-datefield',
+                    fieldLabel: 'Préavis du Décanat',
+                    name: 'preavis_decanat',
+                    iaDisableFor: [4, 5]
+                }, {
+                    xtype:'ia-datefield',
+                    fieldLabel: 'Préavis de la CCP',
+                    name: 'preavis_ccp',
+                    iaDisableFor: [1, 2, 4, 5, 6],
+                }, {
+                    xtype:'ia-datefield',
                     fieldLabel: 'Préavis positif CPA',
-                    name: 'preavis',
+                    name: 'preavis_cpa',
                     iaDisableFor: [4, 5]
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Autorisation du CDir',
                     name: 'autorisation',
                     iaDisableFor: [2, 4, 5]
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Choix composition par Décanat',
-                    name: 'decision'
                 }]
             }, {
                 items: [{
+                    xtype:'ia-datefield',
+                    fieldLabel: 'Choix composition par Décanat',
+                    name: 'decision',
+                    iaDisableFor: []
+                }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Annonce journaux OK le',
                     name: 'annonce',
@@ -210,7 +221,8 @@ Ext.onReady(function() {
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Composition OK le',
-                    name: 'composition'
+                    name: 'composition',
+                    iaDisableFor: []
                 }, {
                     xtype:'ia-datefield',
                     fieldLabel: 'Validation de la composition par le vice-recteur',
@@ -244,7 +256,7 @@ Ext.onReady(function() {
             html: 'Candidats'
         }, {
             xtype:'ia-editgrid',
-            iaDisableFor: [2, 3, 4, 5],
+            iaDisableFor: [2],
             width: 858,
             height: 289,
             toolbarButtons: ['add', 'delete', 'search'],
@@ -269,6 +281,16 @@ Ext.onReady(function() {
                     }}
                 });
             },
+        }, {
+            html: '&nbsp;',
+            border: false
+        }, {
+            xtype:'ia-datefield',
+            labelWidth: 200,
+            labelAlign: 'left',
+            fieldLabel: 'Date de clôture des candidatures',
+            name: 'date_cloture',
+            iaDisableFor: [2, 3, 4, 5, 6]
         }, {
             baseCls: 'title',
             html: 'Commentaire'
@@ -310,6 +332,7 @@ Ext.onReady(function() {
                     value: '<b>Séances</b>'
                 }, {
                     xtype:'ia-editgrid',
+                    iaDisableFor: [],
                     frame: false,
                     width: 400,
                     height: 150,
@@ -370,6 +393,13 @@ Ext.onReady(function() {
                     xtype: 'displayfield',
                     value: '<b>Choix des candidats</b>',
                 }, {
+                    xtype: 'checkbox',
+                    hideLabel: true,
+                    boxLabel: 'Aucun, pas de proposition de nomination',
+                    padding: '5 0 15 0',
+                    name: 'aucun_candidat',
+                    iaDisableFor: [2]
+                }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Primo loco',
                     displayField: '_display',
@@ -378,7 +408,7 @@ Ext.onReady(function() {
                         params: { commission_id: <?php echo $d['id'] ?> }
                     }),
                     name: 'primo_loco',
-                    iaDisableFor: [2]
+                    iaDisableFor: [2, 3, 4, 5]
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Secundo loco',
@@ -388,7 +418,7 @@ Ext.onReady(function() {
                         params: { commission_id: <?php echo $d['id'] ?> }
                     }),
                     name: 'secondo_loco',
-                    iaDisableFor: [2]
+                    iaDisableFor: [2, 3, 4, 5]
                 }, {
                     xtype: 'ia-combo',
                     fieldLabel: 'Tertio loco',
@@ -398,7 +428,12 @@ Ext.onReady(function() {
                         params: { commission_id: <?php echo $d['id'] ?> }
                     }),
                     name: 'tertio_loco',
-                    iaDisableFor: [2]
+                    iaDisableFor: [2, 3, 4, 5]
+                }, {
+                    xtype: 'ia-datefield',
+                    fieldLabel: 'Délai donné<br>pour envoi rapport',
+                    name: 'delai_envoi_rapport',
+                    iaDisableFor: []
                 }]
             }]
         }, {
@@ -459,68 +494,115 @@ Ext.onReady(function() {
             items: [{
                 xtype: 'ia-datefield',
                 name: 'reception_rapport',
-            }]
+            }],
+            iaDisableFor: []
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Validation par le Décanat',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'decanat_date',
+                name: 'decanat_validation_date',
             }, {
                 xtype: 'ia-combo',
                 displayField: 'nom',
                 valueField: 'id',
                 store: store_validation_etat,
-                name: 'decanat_etat'
+                name: 'decanat_validation_etat'
             }, {
                 xtype: 'ia-textarea',
-                name: 'decanat_commentaire',
+                name: 'decanat_validation_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
                 grow: true
-            }]
+            }],
+            iaDisableFor: []
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Commentaire DG-CHUV',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'dg_date'
+                name: 'dg_commentaire_date'
             }, {
                 xtype: 'combo',
                 disabled: 'true',
                 store: Ext.create('Ext.data.Store', {fields:[], data: []})
             }, {
                 xtype: 'ia-textarea',
-                name: 'dg_commentaire',
+                name: 'dg_commentaire_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
                 grow: true
-            }]
+            }],
+            iaDisableFor: []
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Validation par le CF',
             items: [{
                 xtype: 'ia-datefield',
-                name: 'cf_date'
+                name: 'cf_validation_date'
             }, {
                 xtype: 'ia-combo',
                 displayField: 'nom',
                 valueField: 'id',
                 store: store_validation_etat,
-                name: 'cf_etat'
+                name: 'cf_validation_etat'
             }, {
                 xtype: 'ia-textarea',
-                name: 'cf_commentaire',
+                name: 'cf_validation_commentaire',
                 anchor: '100%',
                 width: 381,
                 growMin: 21,
                 grow: true
-            }]
+            }],
+            iaDisableFor: []
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Validation par le CDir',
+            items: [{
+                xtype: 'ia-datefield',
+                name: 'cdir_validation_date'
+            }, {
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_validation_etat,
+                name: 'cdir_validation_etat'
+            }, {
+                xtype: 'ia-textarea',
+                name: 'cdir_validation_commentaire',
+                anchor: '100%',
+                width: 381,
+                growMin: 21,
+                grow: true
+            }],
+            iaDisableFor: []
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Nomination par le CDir',
+            items: [{
+                xtype: 'ia-datefield',
+                name: 'cdir_nomination_date'
+            }, {
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_validation_etat,
+                name: 'cdir_nomination_etat'
+            }, {
+                xtype: 'ia-textarea',
+                name: 'cdir_nomination_commentaire',
+                anchor: '100%',
+                width: 381,
+                growMin: 21,
+                grow: true
+            }],
+            iaDisableFor: [2]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Proposition de nomination',
+            iaDisableFor: [2],
             items: function() {
                 var items = [{
                     xtype: 'ia-datefield',
@@ -543,33 +625,20 @@ Ext.onReady(function() {
                         });
                     }
                 }];
-                items.push(
+                // Reuses Proposition Nomination form toolbar buttons
+                items = items.concat(
                     iafbm.form.CommissionPropositionNomination.prototype.getToobarButtons(
                         <?php echo $d['id'] ?>
                     )
                 );
+                // Applies iaDisableFor to buttons
+                // (dirty but easy solution to prevent button from being clicked)
+                items.map(function(e) {
+                    e.iaDisableFor = [2];
+                    return e;
+                });
                 return items;
             }()
-        }, {
-            xtype: 'fieldcontainer',
-            fieldLabel: 'Validation par le CDir',
-            items: [{
-                xtype: 'ia-datefield',
-                name: 'cdir_date'
-            }, {
-                xtype: 'ia-combo',
-                displayField: 'nom',
-                valueField: 'id',
-                store: store_validation_etat,
-                name: 'cdir_etat'
-            }, {
-                xtype: 'ia-textarea',
-                name: 'cdir_commentaire',
-                anchor: '100%',
-                width: 381,
-                growMin: 21,
-                grow: true
-            }]
         }, {
             baseCls: 'title',
             html: 'Commentaire'
@@ -604,7 +673,6 @@ Ext.onReady(function() {
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Candidat retenu par le CDir',
-            iaDisableFor: [2],
             items: [{
                 xtype: 'ia-combo',
                 width: 567,
@@ -616,11 +684,11 @@ Ext.onReady(function() {
                 }),
                 // Reloads candidats on drowndown expand because it is subject to change
                 listeners: { expand: function() { this.store.load() } }
-            }]
+            }],
+            iaDisableFor: [2]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Réception du contrat',
-            iaDisableFor: [2],
             items: [{
                 xtype: 'ia-datefield',
                 name: 'reception_contrat_date',
@@ -631,15 +699,16 @@ Ext.onReady(function() {
                 width: 411,
                 growMin: 21,
                 grow: true
-            }]
+            }],
+            iaDisableFor: [2]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: "Début d'activité",
-            iaDisableFor: [2],
             items: [{
                 xtype: 'ia-datefield',
                 name: 'debut_activite'
-            }]
+            }],
+            iaDisableFor: [2]
         }, {
             baseCls: 'title',
             html: 'Commentaire'
