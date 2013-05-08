@@ -4,6 +4,7 @@ CREATE TABLE commissions_candidats_commentaires (
     actif BOOLEAN NOT NULL DEFAULT true,
     termine BOOLEAN NOT NULL DEFAULT false,
     commission_id INT NOT NULL,
+    date_cloture DATE DEFAULT NULL,
     commentaire TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (commission_id) REFERENCES commissions(id)

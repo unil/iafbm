@@ -10,6 +10,7 @@ class CommissionCandidatCommentaireModel extends iaModelMysql {
         'actif' => 'actif',
         'commission_id' => 'commission_id',
         'termine' => 'termine',
+        'date_cloture' => 'date_cloture',
         'commentaire' => 'commentaire'
     );
 

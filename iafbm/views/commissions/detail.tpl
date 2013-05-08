@@ -187,11 +187,13 @@ Ext.onReady(function() {
             },
             items: [{
                 items: [{
+                    // FIXME: date or combo or both (cf. commentaire demande wiki)?
                     xtype:'ia-datefield',
                     fieldLabel: 'Préavis du Décanat',
                     name: 'preavis_decanat',
                     iaDisableFor: [4, 5]
                 }, {
+                    // FIXME: date or combo or both (cf. commentaire demande wiki)?
                     xtype:'ia-datefield',
                     fieldLabel: 'Préavis de la CCP',
                     name: 'preavis_ccp',

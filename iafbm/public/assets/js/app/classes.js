@@ -297,7 +297,7 @@ Ext.define('Ext.ia.grid.column.ActionRedirect', {
         if (record.phantom) {
             Ext.Msg.show({
                 title: 'Erreur',
-                msg: "Veuillez d'abord remplir tous les champs",
+                msg: "Veuillez d'abord enregistrer la ligne",
                 buttons: Ext.Msg.OK,
                 icon: Ext.window.MessageBox.WARNING,
                 fn: function() {
