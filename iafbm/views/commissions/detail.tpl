@@ -161,6 +161,7 @@ Ext.onReady(function() {
         }]
     });
 
+    var store_creation_etat = new iafbm.store.CommissionCreationEtat();
     var form_creation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         // FIXME: remove this unused store if no bugs are dectected
         store: Ext.create('iafbm.store.CommissionCreation'),
@@ -169,75 +170,98 @@ Ext.onReady(function() {
             params: { commission_id: <?php echo $d['id'] ?> }
         },
         defaults: {
-            anchor: '100%'
+            layout: 'hbox',
+            labelWidth: 190,
+            defaults: {
+                margin: '0 3 0 0'
+            }
         },
         items: [{
             baseCls: 'title',
             html: 'Phase de création'
         }, {
             xtype: 'fieldcontainer',
-            combineErrors: true,
-            layout: 'hbox',
-            defaults: {
-                border: false,
-                flex: 1,
-                defaults: {
-                    labelWidth: 190
-                }
-            },
+            fieldLabel: 'Préavis du Décanat',
+            iaDisableFor: [4, 5],
             items: [{
-                items: [{
-                    // FIXME: date or combo or both (cf. commentaire demande wiki)?
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Préavis du Décanat',
-                    name: 'preavis_decanat',
-                    iaDisableFor: [4, 5]
-                }, {
-                    // FIXME: date or combo or both (cf. commentaire demande wiki)?
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Préavis de la CCP',
-                    name: 'preavis_ccp',
-                    iaDisableFor: [1, 2, 4, 5, 6],
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Préavis positif CPA',
-                    name: 'preavis_cpa',
-                    iaDisableFor: [4, 5]
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Autorisation du CDir',
-                    name: 'autorisation',
-                    iaDisableFor: [2, 4, 5]
-                }]
+                xtype:'ia-datefield',
+                name: 'preavis_decanat',
             }, {
-                items: [{
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Choix composition par Décanat',
-                    name: 'decision',
-                    iaDisableFor: []
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Annonce journaux OK le',
-                    name: 'annonce',
-                    iaDisableFor: [2, 3, 4, 5, 6]
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Composition OK le',
-                    name: 'composition',
-                    iaDisableFor: []
-                }, {
-                    xtype:'ia-datefield',
-                    fieldLabel: 'Validation de la composition par le vice-recteur',
-                    name: 'composition_validation',
-                    iaDisableFor: [2]
-                }]
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_creation_etat,
+                name: 'etat_preavis_decanat',
             }]
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Préavis CCP',
+            iaDisableFor: [1, 2, 4, 5, 6],
+            items: [{
+                xtype:'ia-datefield',
+                name: 'preavis_ccp'
+            }, {
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_creation_etat,
+                name: 'etat_preavis_ccp'
+            }]
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Préavis CPA',
+            iaDisableFor: [4, 5],
+            items: [{
+                xtype:'ia-datefield',
+                name: 'preavis_cpa'
+            }, {
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_creation_etat,
+                name: 'etat_preavis_cpa'
+            }]
+        }, {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Autorisation du CDir',
+            iaDisableFor: [2, 4, 5],
+            items: [{
+                xtype:'ia-datefield',
+                name: 'autorisation'
+            }, {
+                xtype: 'ia-combo',
+                displayField: 'nom',
+                valueField: 'id',
+                store: store_creation_etat,
+                name: 'etat_autorisation'
+            }]
+        }, {
+            xtype:'ia-datefield',
+            fieldLabel: 'Choix composition par Décanat',
+            name: 'decision',
+            iaDisableFor: []
+        }, {
+            xtype:'ia-datefield',
+            fieldLabel: 'Annonce journaux OK le',
+            name: 'annonce',
+            iaDisableFor: [2, 3, 4, 5, 6]
+        }, {
+            xtype:'ia-datefield',
+            fieldLabel: 'Composition OK le',
+            name: 'composition',
+            iaDisableFor: []
+        }, {
+            xtype:'ia-datefield',
+            fieldLabel: 'Validation de la composition par le vice-recteur',
+            name: 'composition_validation',
+            iaDisableFor: [2]
         }, {
             baseCls: 'title',
             html: 'Commentaire'
         }, {
             xtype: 'ia-textarea',
             name: 'commentaire',
+            anchor: '100%',
             growMin: 21,
             grow: true
         }]
@@ -290,6 +314,7 @@ Ext.onReady(function() {
             xtype:'ia-datefield',
             labelWidth: 200,
             labelAlign: 'left',
+            anchor: null,
             fieldLabel: 'Date de clôture des candidatures',
             name: 'date_cloture',
             iaDisableFor: [2, 3, 4, 5, 6]
@@ -460,8 +485,6 @@ Ext.onReady(function() {
         defaults: {
             anchor: '100%',
             layout: 'hbox',
-            combineErrors: true,
-            msgTarget: 'under',
             labelWidth: 160,
             defaults: {
                 margin: '0 3 0 0'
