@@ -55,46 +55,46 @@ class iafbmIssue226 extends iafbmScript {
         // Creates and executes tables modification queries
         $statements = array(
             // Updates and adds commissions_creations preavis fields
-            'ALTER TABLE iafbm.commissions_creations CHANGE date_preavis date_preavis_cpa DATE DEFAULT NULL',
-            'ALTER TABLE iafbm.commissions_creations ADD COLUMN date_preavis_ccp DATE DEFAULT NULL AFTER date_decision',
-            'ALTER TABLE iafbm.commissions_creations ADD COLUMN date_preavis_decanat DATE DEFAULT NULL AFTER date_decision',
+            'ALTER TABLE commissions_creations CHANGE date_preavis date_preavis_cpa DATE DEFAULT NULL',
+            'ALTER TABLE commissions_creations ADD COLUMN date_preavis_ccp DATE DEFAULT NULL AFTER date_decision',
+            'ALTER TABLE commissions_creations ADD COLUMN date_preavis_decanat DATE DEFAULT NULL AFTER date_decision',
             // Adds commissions_creations etats fields
-            'ALTER TABLE iafbm.commissions_creations ADD COLUMN etat_preavis_decanat INT DEFAULT NULL AFTER date_preavis_decanat',
-            'ALTER TABLE iafbm.commissions_creations ADD FOREIGN KEY (etat_preavis_decanat) REFERENCES commissions_creations_etats(id)',
-            'ALTER TABLE iafbm.commissions_creations ADD COLUMN etat_preavis_ccp INT DEFAULT NULL AFTER date_preavis_ccp',
-            'ALTER TABLE iafbm.commissions_creations ADD FOREIGN KEY (etat_preavis_ccp) REFERENCES commissions_creations_etats(id)',
-            'ALTER TABLE iafbm.commissions_creations ADD COLUMN etat_preavis_cpa INT DEFAULT NULL AFTER date_preavis_cpa',
-            'ALTER TABLE iafbm.commissions_creations ADD FOREIGN KEY (etat_preavis_cpa) REFERENCES commissions_creations_etats(id)',
-            'ALTER TABLE iafbm.commissions_creations ADD COLUMN etat_autorisation INT DEFAULT NULL AFTER date_autorisation',
-            'ALTER TABLE iafbm.commissions_creations ADD FOREIGN KEY (etat_autorisation) REFERENCES commissions_creations_etats(id)',
+            'ALTER TABLE commissions_creations ADD COLUMN etat_preavis_decanat INT DEFAULT NULL AFTER date_preavis_decanat',
+            'ALTER TABLE commissions_creations ADD FOREIGN KEY (etat_preavis_decanat) REFERENCES commissions_creations_etats(id)',
+            'ALTER TABLE commissions_creations ADD COLUMN etat_preavis_ccp INT DEFAULT NULL AFTER date_preavis_ccp',
+            'ALTER TABLE commissions_creations ADD FOREIGN KEY (etat_preavis_ccp) REFERENCES commissions_creations_etats(id)',
+            'ALTER TABLE commissions_creations ADD COLUMN etat_preavis_cpa INT DEFAULT NULL AFTER date_preavis_cpa',
+            'ALTER TABLE commissions_creations ADD FOREIGN KEY (etat_preavis_cpa) REFERENCES commissions_creations_etats(id)',
+            'ALTER TABLE commissions_creations ADD COLUMN etat_autorisation INT DEFAULT NULL AFTER date_autorisation',
+            'ALTER TABLE commissions_creations ADD FOREIGN KEY (etat_autorisation) REFERENCES commissions_creations_etats(id)',
             // Adds commissions_candidats date_cloture field
-            'ALTER TABLE iafbm.commissions_candidats_commentaires ADD COLUMN date_cloture DATE DEFAULT NULL AFTER commission_id',
+            'ALTER TABLE commissions_candidats_commentaires ADD COLUMN date_cloture DATE DEFAULT NULL AFTER commission_id',
             // Adds commissions_travails aucun_candidat, delai_envoi_rapport fields
-            'ALTER TABLE iafbm.commissions_travails ADD COLUMN aucun_candidat BOOLEAN NOT NULL DEFAULT false AFTER termine',
-            'ALTER TABLE iafbm.commissions_travails ADD COLUMN delai_envoi_rapport DATE DEFAULT NULL AFTER loco_tertio',
+            'ALTER TABLE commissions_travails ADD COLUMN aucun_candidat BOOLEAN NOT NULL DEFAULT false AFTER termine',
+            'ALTER TABLE commissions_travails ADD COLUMN delai_envoi_rapport DATE DEFAULT NULL AFTER loco_tertio',
             // Adds commissions_validations validations cdir_nomination_* fields
-            'ALTER TABLE iafbm.commissions_validations ADD COLUMN cdir_nomination_date DATE DEFAULT NULL AFTER cdir_commentaire',
-            'ALTER TABLE iafbm.commissions_validations ADD COLUMN cdir_nomination_etat INT DEFAULT 1 AFTER cdir_nomination_date',
-            'ALTER TABLE iafbm.commissions_validations ADD COLUMN cdir_nomination_commentaire TEXT AFTER cdir_nomination_etat',
-            'ALTER TABLE iafbm.commissions_validations ADD FOREIGN KEY (cdir_nomination_etat) REFERENCES commissions_validations_etats(id)',
+            'ALTER TABLE commissions_validations ADD COLUMN cdir_nomination_date DATE DEFAULT NULL AFTER cdir_commentaire',
+            'ALTER TABLE commissions_validations ADD COLUMN cdir_nomination_etat INT DEFAULT 1 AFTER cdir_nomination_date',
+            'ALTER TABLE commissions_validations ADD COLUMN cdir_nomination_commentaire TEXT AFTER cdir_nomination_etat',
+            'ALTER TABLE commissions_validations ADD FOREIGN KEY (cdir_nomination_etat) REFERENCES commissions_validations_etats(id)',
             // Updates commissions_validations fields names
-            "ALTER TABLE iafbm.commissions_validations DROP FOREIGN KEY {$keys['decanat_etat']}",
-            'ALTER TABLE iafbm.commissions_validations CHANGE decanat_date decanat_validation_date DATE DEFAULT NULL',
-            'ALTER TABLE iafbm.commissions_validations CHANGE decanat_etat decanat_validation_etat INT DEFAULT 1',
-            'ALTER TABLE iafbm.commissions_validations CHANGE decanat_commentaire decanat_validation_commentaire TEXT',
-            'ALTER TABLE iafbm.commissions_validations ADD FOREIGN KEY (decanat_validation_etat) REFERENCES commissions_validations_etats(id)',
-            "ALTER TABLE iafbm.commissions_validations DROP FOREIGN KEY {$keys['cf_etat']}",
-            'ALTER TABLE iafbm.commissions_validations CHANGE cf_date cf_validation_date DATE DEFAULT NULL',
-            'ALTER TABLE iafbm.commissions_validations CHANGE cf_etat cf_validation_etat INT DEFAULT 1',
-            'ALTER TABLE iafbm.commissions_validations CHANGE cf_commentaire cf_validation_commentaire TEXT',
-            'ALTER TABLE iafbm.commissions_validations ADD FOREIGN KEY (cf_validation_etat) REFERENCES commissions_validations_etats(id)',
-            "ALTER TABLE iafbm.commissions_validations DROP FOREIGN KEY {$keys['cdir_etat']}",
-            'ALTER TABLE iafbm.commissions_validations CHANGE cdir_date cdir_validation_date DATE DEFAULT NULL',
-            'ALTER TABLE iafbm.commissions_validations CHANGE cdir_etat cdir_validation_etat INT DEFAULT 1',
-            'ALTER TABLE iafbm.commissions_validations CHANGE cdir_commentaire cdir_validation_commentaire TEXT',
-            'ALTER TABLE iafbm.commissions_validations ADD FOREIGN KEY (cdir_validation_etat) REFERENCES commissions_validations_etats(id)',
-            'ALTER TABLE iafbm.commissions_validations CHANGE dg_date dg_commentaire_date DATE DEFAULT NULL',
-            'ALTER TABLE iafbm.commissions_validations CHANGE dg_commentaire dg_commentaire_commentaire TEXT',
+            "ALTER TABLE commissions_validations DROP FOREIGN KEY {$keys['decanat_etat']}",
+            'ALTER TABLE commissions_validations CHANGE decanat_date decanat_validation_date DATE DEFAULT NULL',
+            'ALTER TABLE commissions_validations CHANGE decanat_etat decanat_validation_etat INT DEFAULT 1',
+            'ALTER TABLE commissions_validations CHANGE decanat_commentaire decanat_validation_commentaire TEXT',
+            'ALTER TABLE commissions_validations ADD FOREIGN KEY (decanat_validation_etat) REFERENCES commissions_validations_etats(id)',
+            "ALTER TABLE commissions_validations DROP FOREIGN KEY {$keys['cf_etat']}",
+            'ALTER TABLE commissions_validations CHANGE cf_date cf_validation_date DATE DEFAULT NULL',
+            'ALTER TABLE commissions_validations CHANGE cf_etat cf_validation_etat INT DEFAULT 1',
+            'ALTER TABLE commissions_validations CHANGE cf_commentaire cf_validation_commentaire TEXT',
+            'ALTER TABLE commissions_validations ADD FOREIGN KEY (cf_validation_etat) REFERENCES commissions_validations_etats(id)',
+            "ALTER TABLE commissions_validations DROP FOREIGN KEY {$keys['cdir_etat']}",
+            'ALTER TABLE commissions_validations CHANGE cdir_date cdir_validation_date DATE DEFAULT NULL',
+            'ALTER TABLE commissions_validations CHANGE cdir_etat cdir_validation_etat INT DEFAULT 1',
+            'ALTER TABLE commissions_validations CHANGE cdir_commentaire cdir_validation_commentaire TEXT',
+            'ALTER TABLE commissions_validations ADD FOREIGN KEY (cdir_validation_etat) REFERENCES commissions_validations_etats(id)',
+            'ALTER TABLE commissions_validations CHANGE dg_date dg_commentaire_date DATE DEFAULT NULL',
+            'ALTER TABLE commissions_validations CHANGE dg_commentaire dg_commentaire_commentaire TEXT',
         );
         // Updates versioning and archive tables entries (model_name and table_name)
         $fields = array(
@@ -126,7 +126,6 @@ class iafbmIssue226 extends iafbmScript {
      * This means the script has already been run on this instance.
      */
     function already_run() {
-return false;
         $fields = array('dg_commentaire_commentaire');  // Last field added
         $r = xModel::q('DESCRIBE commissions_validations');
         while ($row = mysql_fetch_assoc($r)) {
