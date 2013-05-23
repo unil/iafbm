@@ -74,6 +74,7 @@ Ext.get('do-export').on('mouseup', function() {
         children: [{
             tag: 'img',
             src: '<?php echo u('a/img/icons/spinner-32x32.gif') ?>',
+            style: 'width:32px;height:32px'
         }, {
             tag: 'span',
             style: 'position:relative; left:15px; bottom:12px',
