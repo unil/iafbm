@@ -67,7 +67,6 @@ Ext.get('select-all-fields').on('click', function() {
 });
 // Shows spinner on form submit
 Ext.get('do-export').on('mouseup', function() {
-    Ext.get('export-form').dom.submit();
     Ext.get('do-export').replaceWith({
         tag: 'div',
         style: 'font-weight:bold',
@@ -81,5 +80,6 @@ Ext.get('do-export').on('mouseup', function() {
             html: 'Patientez pendant la préparation des données'
         }]
     })
+    Ext.get('export-form').dom.submit();
 });
 </script>
