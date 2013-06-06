@@ -13,6 +13,22 @@ Ext.onReady(function() {
         ]
     });
     
+    var evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+        store: Ext.create('iafbm.store.Evaluation'),
+        fetch: {
+            model: iafbm.model.Evaluation,
+            id: <?php echo $d['id'] ?>
+        },
+        id: "evaluation",
+        layout: 'column',
+        items: [{
+            xtype: 'textfield',
+            name: 'evaluation_etat_id',
+            id: 'evaluation_etat_id',
+            dataIndex: 'evaluation_etat_id',
+        }]
+    });
+    
     var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.EvaluationRapport'),
         fetch: {
@@ -245,6 +261,7 @@ Ext.onReady(function() {
             id: <?php echo $d['id'] ?>
         },
         layout: 'fit',
+        id: 'form_contrat',
         items: [{
             xtype: 'container',
             layout: 'column',
@@ -289,12 +306,12 @@ Ext.onReady(function() {
                 xtype: 'button',
                 text: '<span style="font-weight:bold;font-size:18px">Clôturer</span>',
                 height: 50,
-                width: 906,
+                width: 906,               
                 // Disables button if commission is already 'closed'
-                /*listeners: {
+                listeners: {
                     afterrender: function() {
                         var me = this,
-                            form = Ext.getCmp('apercu').down('form');
+                            form = Ext.getCmp('evaluation');
                         if (form.record) {
                             me.disableIf(form.getRecord());
                         }
@@ -307,29 +324,29 @@ Ext.onReady(function() {
                     // Disables 'close' button
                     // if commission not already closed & form is not versioned
                     var versioned = store && store.params.xversion;
-                    var enable = record.get('commission_etat_id')!=3 && !versioned;
+                    var enable = record.get('evaluation_etat_id')!=3 && !versioned;
                     this.setDisabled(!enable);
                 },
                 // Click logic
                 handler: function() {
                     var me = this;
                     Ext.Msg.confirm(
-                        'Clôturer la commission',
-                        'Une fois clôturée, la commission ne peut plus être modifiée. \
+                        'Clôturer l\'évaluation',
+                        'Une fois clôturée, l\'évaluation ne peut plus être modifiée. \
                         Cette action est irreversible. <br/><br/> \
-                        Voulez-vous clôturer la commission ?',
+                        Voulez-vous clôturer l\'évaluation ?',
                         function(is) {
-                            if (is=='yes') me.archiveCommission()
+                            if (is=='yes') me.archiveEvaluation()
                         }
                     );
                 },
-                archiveCommission: function() {
-                    var form = Ext.getCmp('apercu').down('form'),
+                archiveEvaluation: function() {
+                    var form = Ext.getCmp('evaluation'),
                         record = form.getRecord();
-                    record.set('commission_etat_id', 3);
+                    record.set('evaluation_etat_id', 3);
                     record.save();
                     form.loadRecord();
-                }*/
+                }
             }]
         }]
     });
@@ -348,7 +365,7 @@ Ext.onReady(function() {
                 items: form_rapportActivite,
                 iconCls: 'tab-icon-unknown'
             },{
-                id: 'evaluation',
+                id: 'evaluation_tab',
                 title: 'Evaluation',
                 items: form_evaluation,
                 iconCls: 'tab-icon-unknown'
@@ -362,8 +379,13 @@ Ext.onReady(function() {
                 title: 'Contrat',
                 items: form_contrat,
                 iconCls: 'tab-icon-unknown'
+            },{
+                id: 'dd',
+                title: 'ttt',
+                items: evaluation,
+                iconCls: 'tab-icon-unknown'
         }],
-        /*listeners: {
+        listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {
                 // Automatic url hash (#) update on tab selection
                 document.location.hash = tabPanel.getActiveTab().id;
@@ -373,7 +395,7 @@ Ext.onReady(function() {
                 var tabId = document.location.hash.replace("#", "");
                 this.setActiveTab(tabId);
             }
-        }*/
+        }        
     });
 
     var panel = Ext.createWidget('panel', {

@@ -12,6 +12,7 @@ class EvaluationModel extends iaModelMysql {
         'date_periode_fin' => 'date_periode_fin',
         'personne_id' => 'personne_id',
         'activite_id' => 'activite_id',
+        'evaluation_etat_id' => 'evaluation_etat_id'
     );
 
     var $primary = array('id');
@@ -29,8 +30,11 @@ class EvaluationModel extends iaModelMysql {
         'actif' => array('mandatory'),
         'evaluation_type_id' => array('mandatory'),
         'personne_id' => array('mandatory'),
-        'activite_id' => array('mandatory')
+        'activite_id' => array('mandatory'),
+        'evaluation_etat_id' => array('mandatory'),
     );
+    
+    var $archivable = true;
     
     var $archive_foreign_models = array(
         'evaluation_rapport' => 'evaluation_id',

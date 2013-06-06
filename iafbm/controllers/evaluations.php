@@ -62,5 +62,28 @@ class EvaluationsController extends AbstractEvaluationController {
         if (!$commission) throw new xException("L'évaluaion demandée est introuvable", 404);
         return xView::load('evaluations/detail', $commission, $this->meta)->render();
     }
+    
+    /**
+     * Manages evaluation 'closed-lock' and archiving:
+     * - Prevents from modifying a 'closed' commission
+     * - Archives commission when commission_etat becomes 'closed'
+     * @see AbstractCommissionController
+     */
+    function post() {
+        $this->check_closed();
+        // Actual commission modification
+        $t = new xTransaction();
+        $t->start();
+        $result = parent::post();
+        // Archives evaluation if state becomes 'closed'
+        if (@$this->params['items']['evaluation_etat_id'] == 3) {
+            xModel::load('evaluation', array(
+                'id' => $this->params['id']
+            ))->archive();
+        }
+        $t->end();
+        // Returns operation result
+        return $result;
+    }
 }
 ?>

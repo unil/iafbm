@@ -841,6 +841,7 @@ Ext.define('iafbm.model.Evaluation', {
         {name: 'date_periode_fin', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'personne_id', type: 'int'},
         {name: 'activite_id', type: 'int'},
+        {name: 'evaluation_etat_id', type: 'int'},
     ],
     validations: [],
     proxy:{
