@@ -1,5 +1,7 @@
 <?php
-class EvaluationsCdirsController extends iaExtRestController {
+require_once('evaluations.php');
+
+class EvaluationsCdirsController extends AbstractEvaluationController {
     
     public $model = 'evaluation_cdir';
     
@@ -10,6 +12,11 @@ class EvaluationsCdirsController extends iaExtRestController {
     function EvaluationAction() {
         $data['id'] = 1;
         return xView::load('evaluations/detail', $data)->render();
+    }
+    
+    function post(){
+        $this->check_closed();
+        parent::post();
     }
 
 }

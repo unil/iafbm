@@ -1,5 +1,7 @@
 <?php
-class EvaluationsMembresController extends iaExtRestController {
+require_once('evaluations.php');
+
+class EvaluationsMembresController extends AbstractEvaluationController {
     
     public $model = 'evaluation_membre';
     

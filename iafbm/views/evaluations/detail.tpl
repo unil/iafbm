@@ -13,6 +13,46 @@ Ext.onReady(function() {
         ]
     });
     
+    Ext.define('Ext.ia.tab.EvaluationPanel',{
+        extend: 'Ext.ia.tab.CommissionPanel',
+        alias: 'widget.ia-tabpanel-evaluation',       
+        dockedItems: [{
+            xtype: 'toolbar',
+            dock: 'top',
+            items: {
+                xtype: 'panel',
+                bodyStyle: {
+                    padding: '15px',
+                    background: '#dfd',
+                    color: '#030',
+                    'text-align': 'center',
+                },
+                hidden: true,
+                listeners: {afterRender: function() {
+                    // Variables init
+                    me = this,
+                    toolbar = me.up(),
+                    tabpanel = toolbar.up(),
+                    modelName = tabpanel.modelName,
+                    fieldModelName = modelName + '_etat_id';
+                    // Search every field form to found the field {model}_etat_id, like evaluation_etat_id
+                    // and display the warning                   
+                    me.body.dom.innerHTML = "<b>Cette " + modelName + " est clôturée et ne peut être modifiée</b>";
+                    tabpanel.items.each(function(el){
+                        form = el.down('form');
+                        form.on('load', function() {    
+                            fields = form.getValues();
+                            if (fields[fieldModelName] == 3){// 3 means clôturé
+                                me.show();
+                                //this.lockFields(true);
+                            }
+                        });
+                    });                    
+                }},
+            }
+        }]
+    });
+    
     var evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Evaluation'),
         fetch: {
@@ -353,7 +393,9 @@ Ext.onReady(function() {
     
 
     // Panels ids are used for URL hash
-    var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
+    tabPanel = Ext.createWidget('ia-tabpanel-evaluation', {
+        id: 'tabPanelEvaluation',
+        modelName: 'evaluation',
         activeTab: 0,
         plain: true,
         defaults: {
@@ -380,9 +422,10 @@ Ext.onReady(function() {
                 items: form_contrat,
                 iconCls: 'tab-icon-unknown'
             },{
-                id: 'dd',
-                title: 'ttt',
+                id: 'archiveForm',
+                title: 'archiveMode',
                 items: evaluation,
+                hidden: true,
                 iconCls: 'tab-icon-unknown'
         }],
         listeners: {

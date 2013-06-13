@@ -65,8 +65,8 @@ class EvaluationsController extends AbstractEvaluationController {
     
     /**
      * Manages evaluation 'closed-lock' and archiving:
-     * - Prevents from modifying a 'closed' commission
-     * - Archives commission when commission_etat becomes 'closed'
+     * - Prevents from modifying a 'closed' evaluation
+     * - Archives evaluation when evaluation_etat becomes 'closed'
      * @see AbstractCommissionController
      */
     function post() {
