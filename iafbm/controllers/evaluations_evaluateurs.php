@@ -9,11 +9,6 @@ class EvaluationsEvaluateursController extends AbstractEvaluationController {
         return $this->EvaluationAction();
     }
     
-    function EvaluationAction() {
-        $data['id'] = 1;
-        return xView::load('evaluations/detail', $data)->render();
-    }
-    
     function post(){
         $this->check_closed();
         parent::post();

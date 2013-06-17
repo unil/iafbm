@@ -11,11 +11,14 @@ Ext.onReady(function() {
             {"value":'0', "name":"Non"},
             {"value":'null', "name":"-"}
         ]
-    });
+    });    
     
-    Ext.define('Ext.ia.tab.EvaluationPanel',{
+    /*
+     * Adding lock field feature when form is archived.
+     */
+    Ext.define('Ext.ia.tab.Panel',{
         extend: 'Ext.ia.tab.CommissionPanel',
-        alias: 'widget.ia-tabpanel-evaluation',       
+        alias: 'widget.ia-tabpanel',       
         dockedItems: [{
             xtype: 'toolbar',
             dock: 'top',
@@ -34,20 +37,29 @@ Ext.onReady(function() {
                     toolbar = me.up(),
                     tabpanel = toolbar.up(),
                     modelName = tabpanel.modelName,
-                    fieldModelName = modelName + '_etat_id';
+                    fieldModelName = modelName + '_etat_id',
+                    formFields = new Array();
                     // Search every field form to found the field {model}_etat_id, like evaluation_etat_id
                     // and display the warning                   
                     me.body.dom.innerHTML = "<b>Cette " + modelName + " est clôturée et ne peut être modifiée</b>";
                     tabpanel.items.each(function(el){
+                        //get form
                         form = el.down('form');
+                        //get all fields from the form
+                        f = form.getForm().getFields();
+                        f.each(function(a){
+                            formFields.push(a);
+                        });
                         form.on('load', function() {    
                             fields = form.getValues();
                             if (fields[fieldModelName] == 3){// 3 means clôturé
+                                Ext.each(formFields, function(c){
+                                    c.setReadOnly(true);
+                                });
                                 me.show();
-                                //this.lockFields(true);
                             }
                         });
-                    });                    
+                    });
                 }},
             }
         }]
@@ -393,7 +405,7 @@ Ext.onReady(function() {
     
 
     // Panels ids are used for URL hash
-    tabPanel = Ext.createWidget('ia-tabpanel-evaluation', {
+    tabPanel = Ext.createWidget('ia-tabpanel', {
         id: 'tabPanelEvaluation',
         modelName: 'evaluation',
         activeTab: 0,
