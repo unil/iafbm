@@ -11,17 +11,17 @@ class EvaluationsEvaluateursController extends AbstractEvaluationController {
     
     function post(){
         $this->check_closed();
-        parent::post();
+        return parent::post();
     }
     
     function delete(){
         $this->check_closed();
-        parent::delete();
+        return parent::delete();
     }
     
     function put(){
         $this->check_closed();
-        parent::put();
+        return parent::put();
     }
 
 }

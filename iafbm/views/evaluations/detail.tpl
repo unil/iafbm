@@ -12,7 +12,7 @@ Ext.onReady(function() {
             {"value":'null', "name":"-"}
         ]
     });    
-    
+
     /*
      * Adding lock field feature when form is archived.
      */
@@ -64,7 +64,7 @@ Ext.onReady(function() {
             }
         }]
     });
-    
+
     var evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Evaluation'),
         fetch: {
@@ -85,7 +85,7 @@ Ext.onReady(function() {
         store: Ext.create('iafbm.store.EvaluationRapport'),
         fetch: {
             model: iafbm.model.EvaluationRapport,
-            id: <?php echo $d['id'] ?>
+            params: { evaluation_id:<?php echo $d['id'] ?> }
         },
         id: "rapportActivite",
         layout: 'column',
@@ -154,7 +154,6 @@ Ext.onReady(function() {
                     baseCls: 'title',
                     html: 'Evaluateurs'
                 },new Ext.ia.selectiongrid.Panel({
-                    //title: 'Membres nominatifs',
                     width: 480,
                     height: 250,
                     combo: {
@@ -166,7 +165,9 @@ Ext.onReady(function() {
                         })
                     },
                     grid: {
-                        store: new iafbm.store.EvaluationEvaluateur(),
+                        store: new iafbm.store.EvaluationEvaluateur({
+                            params: { evaluation_id: <?php echo $d['id'] ?> }
+                        }),
                         columns: iafbm.columns.Evaluateur
                     },
                     makeData: function(record) {
@@ -187,7 +188,7 @@ Ext.onReady(function() {
         store: Ext.create('iafbm.store.EvaluationEvaluation'),
         fetch: {
             model: iafbm.model.EvaluationEvaluation,
-            evaluation_id: <?php echo $d['id'] ?>
+            params: { evaluation_id:<?php echo $d['id'] ?> }
         },
         layout: 'column',
         items: [{
@@ -254,7 +255,7 @@ Ext.onReady(function() {
         store: Ext.create('iafbm.store.EvaluationCdir'),
         fetch: {
             model: iafbm.model.EvaluationCdir,
-            id: <?php echo $d['id'] ?>
+            params: { evaluation_id:<?php echo $d['id'] ?> }
         },
         layout: 'column',
         items: [{
@@ -310,7 +311,7 @@ Ext.onReady(function() {
         store: Ext.create('iafbm.store.EvaluationContrat'),
         fetch: {
             model: iafbm.model.EvaluationContrat,
-            id: <?php echo $d['id'] ?>
+            params: { evaluation_id:<?php echo $d['id'] ?> }
         },
         layout: 'fit',
         id: 'form_contrat',
