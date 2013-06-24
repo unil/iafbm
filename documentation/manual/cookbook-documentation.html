@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <div class="actions">
-        <a href="/Home.html">Home</a>
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
       </div>
       <div class="content wikistyle gollum markdown">
         <h1>Générer la documentation technique</h1>
@@ -146,7 +146,7 @@ ou
 
 <h3> Doc update script</h3>
 
-<p>Un script de mise-à-jour automatique de la [documentation online|<a href="http://unil.github.io/iafbm/%5D">http://unil.github.io/iafbm/]</a>] pourrait être créé. Voici un draft:
+<p>Un script de mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation online</a> pourrait être créé. Voici <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">un draft</a>:
 </p><div class="highlight">
 <pre><span class="c">#!/bin/sh</span>
 
@@ -194,7 +194,7 @@ You might want to <code>ssh-add</code> to avoid typing your ssh passphrase every
 
 <p>Running
 </p><div class="highlight">
-<pre>find iafbm/views/ -iname *.php -exec sed -i <span class="s1">'s/<img src="/_tex.png?type=inline&data=Y2xhc3MuKg==" alt="class.*">/\/\*\*\n \* @package iafbm\n \* @subpackage view\n \*\/\n/g'</span> <span class="o">{}</span> <span class="se">\;</span>
+<pre>find iafbm/views/ -iname *.php -exec sed -i <span class="s1">'s/<img src="http://unil.github.io/iafbm/documentation/manual/_tex.png?type=inline&data=Y2xhc3MuKg==" alt="class.*">/\/\*\*\n \* @package iafbm\n \* @subpackage view\n \*\/\n/g'</span> <span class="o">{}</span> <span class="se">\;</span>
 </pre>
 </div>
 
@@ -220,7 +220,7 @@ for all *.php files in the working directory and subdirectories.
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 16:11:36</small>
         </footer>
       </div>
     </div>
