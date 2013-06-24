@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Cycle de développement</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Cycle de développement</h1>
+
+<h2> Itération</h2>
+
+<p>Le <strong>cycle de développement</strong> est formé de multiples <strong>itérations</strong>. Une itération se compose elle-même de 3 processus <strong>communicants</strong> et <strong>autonomes</strong>:</p>
+
+<ul>
+<li>
+<strong>Demande de fonctionnalités</strong> (feature request)</li>
+<li>
+<strong>Développement des fonctionnalités</strong> (feature development)</li>
+<li>
+<strong>Mise en production</strong> (migration)</li>
+</ul><p>Les processus techniques sont décrits en détail dans la <a class="internal present" href="/Cookbook-release-cycle.html">recette</a> relative.</p>
+
+<h3>Demande de fonctionnalités</h3>
+
+<p>Phase administrative composée des étapes</p>
+
+<ul>
+<li>
+<strong>L'utilisateur écrit une demande</strong> en forme de commentaire sur la page wiki (fixme: wiki page link)</li>
+<li>
+<strong>La demande est validée</strong> lors de la prochaine séance</li>
+<li>
+<strong>Une demande wiki est créée</strong> (example, création d'une nouvelle demande) (fixme: example wiki page link)</li>
+</ul><h3>Développement des fonctionnalités</h3>
+
+<p>Phase technique composée des étapes</p>
+
+<ul>
+<li><strong>La demande wiki passe en état "A implémenter"</strong></li>
+<li>
+<strong>Un ou plusieurs ticket(s) github sont créé</strong>, avec réf. vers la demande wiki</li>
+<li>
+<strong>La fonctionnalité est développée</strong> et testée par le développeur</li>
+</ul><h3>Mise en production</h3>
+
+<ul>
+<li>
+<strong>La migration est effectuée</strong> sur <a href="http://wwwfbm.unil.ch/iafbm_release/">l'instance de release</a> - <br>
+la migration des données est également testée par le développeur
+avec une copie des données de production</li>
+<li>
+<strong>La fonctionnalité est testée</strong> et validée par les utilisateurs - <br>
+en cas d'anomalie (bug), la fonctionnalité est corrigée et le processus de <em>mise en production</em> est recommencé - <br>
+après validation, aucune modification ne peut plus être apportée à la fonctionnalité</li>
+<li>
+<strong>La migration est effectuée</strong> sur <a href="http://wwwfbm.unil.ch/iafbm/">l'instance de production</a> - <br>
+les données de production ont été préalablement sauvegardées</li>
+<li>
+<strong>La demande wiki est archivée</strong> et les tickets github fermés - <br>
+en cas d'une détection d'anomalie (bug) à posteriori, une nouvelle itération est mise en place.</li>
+</ul><h3>Versioning</h3>
+
+<p>Structure du système de version: <strong>x.y.z</strong> (eg. 1.0.0)</p>
+
+<ul>
+<li>
+<strong>x</strong>: Major version: Updated on: Major architecture/conceptual change leading to incompatibilities</li>
+<li>
+<strong>y</strong>: Minor version: Updated on: Feature addition, modification, removal</li>
+<li>
+<strong>z</strong>: Subminor version: Updated on: Hotfixes</li>
+</ul><h2>Migrations</h2>
+
+<p><strong>Une migration est effectuée lorsqu'il faut <a class="internal absent" href="/cookbook-migration.html">modifier une partie de la base de données</a></strong> (structure ou données) et s'effectue généralement lors de <a href="https://github.com/unil/iafbm/wiki/Cookbook-release-cycle">l'implémentation de fonctionnalités</a>.</p>
+
+<p>Par exemple, une fonctionnalité demandant d'ajouter un champs de type liste déroulante nécessite de modifier la base de données en créant un catalogue contenant les options de la liste.</p>
+
+<h3>Création d'une migration</h3>
+
+<p>Une partie de ces étapes est commune avec le <a class="internal present" href="/Cookbook-release-cycle.html">déroulement d'une mise en production</a>.</p>
+
+<h4>Création de la migration</h4>
+
+<ol>
+<li>Créer le ticket sur <a href="https://github.com/unil/iafbm/issues">github</a> pour la fonctionnalité ou la migration</li>
+<li>Créer la branche git et développer</li>
+<li>Lancer les tests unitaires</li>
+<li>Créer le script de migration nommé <code>issue#{numero}-nom-de-la-branche-git</code> dans <code>scripts/migrations/</code>. <br>
+La migration doit se faire à partir du tag git correspondant à la version de production.<br>
+</li>
+</ol><h4>Test de la migration</h4>
+
+<ol>
+<li>Se positionner sur le <a href="https://github.com/unil/iafbm/tags">tag git</a> correspondant à la version de production actuelle</li>
+<li>(Re)déployer la base de données de l'application <em>from scratch</em> et tester le bon fonctionnement de l'application</li>
+<li>Exécuter le script de migration et tester le bon fonctionnement de l'application</li>
+<li>Lancer les tests unitaires</li>
+</ol><h2>Git branching model</h2>
+
+<p>Lors du développement de fonctionnalités, nous utilisons le modèle de branchage git suivant.</p>
+
+<h4>Principes</h4>
+
+<ul>
+<li>
+<strong>Master</strong> branch is never use to commit directly.<br>Any development (new feature, modification or bugfix) has to be made in a dedicated branch.</li>
+<li>
+<strong>Releases</strong> are made by tagging the master branch with a release tag.</li>
+</ul><h4>Schéma</h4>
+
+<p><img src="images/git-branching-model.png" alt="Branching model schema"></p>
+
+<p>Source: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

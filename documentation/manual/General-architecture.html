@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Architecture</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Architecture</h1>
+
+<h2> Technologies</h2>
+
+<p>L'application est de <a href="http://en.wikipedia.org/wiki/Web_application">type web</a>, elle s'appuie sur la <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle)">pile LAMP</a> et utilise les technologies suivantes:</p>
+
+<ul>
+<li>
+<strong>Languages:</strong> HTML, CSS, Javascript, PHP, SQL, JSON, Bash</li>
+<li>
+<strong>Frameworks:</strong> ExtJS, xfm-php</li>
+<li>
+<strong>Moteurs:</strong> Apache, MySQL, PHP</li>
+<li>
+<strong>Système:</strong> Linux</li>
+</ul><h2>Généralités</h2>
+
+<ul>
+<li>
+<strong>L'interface utilisateur</strong> est construite avec le framework javascript <a href="http://www.sencha.com/products/extjs">ExtJS</a>
+</li>
+<li>
+<strong>La base de données</strong> est exposée via HTTP à l'arôme <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>, en utilisant le framework <a href="https://github.com/damiencorpataux/xfm-php#xfm-php">xfm-php</a>
+</li>
+<li>
+<strong>L'authentification</strong> utilise le système Shibboleth de l'UNIL, en utilisant <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">une implémentation spécifique</a>
+</li>
+</ul><p><img src="images/architecture-workflow.png" alt=""></p>
+
+<h2>Librairies</h2>
+
+<p>(components schema)</p>
+
+<h3>Librairies généralistes</h3>
+
+<ul>
+<li>
+<a href="https://github.com/damiencorpataux/xfm-php#xfm-php">xfm</a>
+est le composant serveur PHP pour créer les pages de l'application et exposer les données</li>
+<li>
+<a href="http://www.sencha.com/products/extjs">ExtJS</a>
+est le composant client Javascript pour construire l'interface utilisateur</li>
+<li>
+<a href="https://github.com/sebastianbergmann/phpunit/#phpunit">PHPUnit</a>
+est le composant PHP pour écrire les tests unitaires</li>
+<li>
+<a href="https://code.google.com/p/dompdf/">DomPDF</a>
+est le composant PHP pour générer les fichiers PDF</li>
+<li>
+<a href="https://code.google.com/p/parsecsv-for-php/">ParseCSV</a>
+est le composant PHP d'interprétation de fichiers CSV, utilisé dans l'import des adresses fournies par Françine.</li>
+</ul><h3>Librairies de projet</h3>
+
+<p>Ces librairies sont écrites spécifiquement pour le projet et nous les appelons <a href="https://github.com/unil/iafbm/wiki#modules">des modules</a>.</p>
+
+<h3>Outils</h3>
+
+<p>Les outils utilisés dans le cadre du projet sont:</p>
+
+<ul>
+<li>
+<strong>Source code management system:</strong> <a href="http://git-scm.com/">git</a>
+</li>
+<li>
+<strong>Dépôt de code git:</strong> <a href="https://github.com/unil/iafbm/">github</a>
+</li>
+<li>
+<strong>Système de ticket:</strong> <a href="https://github.com/unil/iafbm/issues/">github ticketing</a>
+</li>
+<li>
+<strong>Wiki:</strong> documentation technique: <a href="https://github.com/unil/iafbm/wiki/">github wiki</a>
+</li>
+<li>
+<strong>Wiki:</strong> administratif: <a href="https://wwwfbm.unil.ch/wiki/iafbm/">iafbm wiki</a>
+</li>
+</ul><h3>Infrastructure</h3>
+
+<p>The following infrastructure components versions are used in production:</p>
+
+<ul>
+<li>Linux RHEL (fixme version) </li>
+<li>Apache 2.2</li>
+<li>MySQL 5.1</li>
+<li>PHP 5.3</li>
+</ul><h2>Architecture client-serveur</h2>
+
+<h3>Partie serveur (xfm)</h3>
+
+<h4>Packaging</h4>
+
+<p>L'application se trouve sous forme d'un <a class="internal absent" href="/projet-xfm.html">projet xfm</a> dans le répertoire <a href="https://github.com/unil/iafbm/tree/master/iafbm">iafbm/iafbm/</a>.</p>
+
+<h4> EXécution</h4>
+
+<h3>Partie client (HTML/CSS + ExtJS)</h3>
+
+<p>L'application se trouve sous forme </p>
+
+<h4>Packaging</h4>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

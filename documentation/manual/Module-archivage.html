@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Module Archivage</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Module Archivage</h1>
+
+<p>L'archivage permet de stocker une <em>photo</em> des données d'une ressources, en incluant toutes les données des ressources liées - c'est-à-dire la table liée à la resource ainsi que toutes les tables référencées, et ceci de manière récursive.</p>
+
+<p>Le stockage est fait sous forme plate, c'est-à-dire dans une structure contenant les champs <strong>nom de table</strong>, <strong>nom de champs</strong> et <strong>valeur de champs</strong>. Il est possible de reconstituer une ressource à partir de ces informations aplaties, dites sérialisées.</p>
+
+<p>Ce système constitue un stockage permanent et autonome. Permanent car contient les données d'une ressources telles qu'elles étaient au moment de son l'archivage. Autonome car il n'a pas besoin du système pour être consulté.</p>
+
+<p>L'archivage est utilisé pour la resource commission principalement.</p>
+
+<h2>Implémentation</h2>
+
+<p>L'archivage est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
+
+<ul>
+<li>La méthode <a class="internal absent" href="/iaModelMysql%3A%3Aarchive%28%29.html">iaModelMysql::archive()</a> est le point d'entrée et effectue l'opération d'archivage récursif</li>
+<li>La méthode <a class="internal absent" href="/iaModelMysql%3A%3Aarchive_data%28%29.html">iaModelMysql::archive_data()</a> prends en charge l'opération unitaire d'écriture des données d'un modèle</li>
+<li>La propriété <a class="internal absent" href="/iaModelMysql%3A%3A%24archivable.html">iaModelMysql::$archivable</a> permet d'autoriser un modèle à être archivé</li>
+<li>La propriété <a class="internal absent" href="/iaModelMysql%3A%3A%24archive_foreign_models.html">iaModelMysql::$archive_foreign_models</a> décrit les relations possibles du modèle afin de stocker l'entièreté des données liées à la au tuple à archiver</li>
+</ul><h3> Définition des relations</h3>
+
+<p>Il est nécessaire de stocker l'entièreté des données liées à une ressource (modèle) - c'est-à-dire la ressource elle-même et toutes les ressources référencées par cette-dernière, de <em>manière récursive</em>.</p>
+
+<p>Pour ce faire, la propriété <a class="internal absent" href="/iaModelMysql%3A%3A%24archive_foreign_models.html">iaModelMysql::$archive_foreign_models</a> contient les informations permettant de décrire les liens étrangers: tables et champs.</p>
+
+<pre><code></code></pre>
+<p><strong>Note:</strong> le nom de cette propriété est obsolète et devenu trompeur car il est également utilisé par le <a class="internal present" href="/Module-versioning.html">module Versioning</a>. Il faut le renommer en p.ex. <em>relations</em> - refactoring à l'horizon.</p>
+
+<h3> Stockage des données</h3>
+
+<p>Le stockage est effectué dans les tables <a class="internal absent" href="/archives.html">archives</a> et <a class="internal absent" href="/archives_data.html">archives_data</a>.</p>
+
+<p><strong>La table <em>archive</em> contient</strong> une tuple pour chaque archive:</p>
+
+<ul>
+<li>informations sur le modèle archivé</li>
+<li>identifiant d'archive et date d'archivage</li>
+</ul><p><strong>La table <em>archive_data</em> contient</strong> les données à proprement parler, un tuple par champs à stocker:</p>
+
+<ul>
+<li>id archive</li>
+<li>nom de modèle et table concerné</li>
+<li>nom du champs primaire de la table</li>
+<li>nom et valeur de champs (le nom de décline en nom de modèle et de table)</li>
+</ul><p>Une archive est donc composée d'un <em>tuple archive</em> et plusieurs <em>tuples archives_data</em>.</p>
+
+<p><em>Non, ne pensez pas à archiver la table d'archivage. Oui, ça ouvre un trou noir.</em></p>
+
+<h3>Processus d'archivage</h3>
+
+<p>Lors de l'archivage, deux opérations sont effectuées:</p>
+
+<ul>
+<li>
+<strong>Création du tuple dans la table *archive</strong>*</li>
+<li>
+<strong>Création des tuples contenant les données dans la table *archive_data</strong>* <br>
+Un tuple par colonne pour chaque modèle à stocker.<br>
+Les tuples de toutes les tables liées sont stockés et ceci de manière récursive, selon l'implémentation de la méthode <a class="internal absent" href="/iaModelMysql%3A%3Aarchive%28%29.html">iaModelMysql::archive()</a>.</li>
+</ul><p>Toutes les opérations sont effectués au sein d'une <em>transaction SQL</em> et sont donc garanties pérennes.</p>
+
+<h2>Récupération des données</h2>
+
+<p>La reconstruction d'une archive n'est pas encore implémentée. Pour mémoire, le processus de base recommendé est:</p>
+
+<ul>
+<li>Reconstituer une base de données vide à partir des fichiers <code>iafbm/sql/</code> ou du script <code>update -x</code>
+</li>
+<li>Sélectionner un tuples d'*archive*</li>
+<li>Sélectionner tous les tuples de <em>archive_data</em> correspondant à <em>archive</em>, ordonnés par table_name, id_field_value</li>
+<li>Pour chaque groupe de tuples <em>table_name,id_field_value</em>,
+
+<ul>
+<li>constituer le tuple complet (clé-valeur: <em>nom-du-champs =&gt; valeur-du-champs</em>)</li>
+<li>insérer le tuple en base de données dans la table correspondante à <em>table_name</em>
+</li>
+</ul>
+</li>
+<li>Ignorer silencieusement les exceptions SQL (eg. <em>tuple référencé non trouvé</em>)</li>
+<li>Tourner le script entier en boucle jusqu'à ce que tous les tuples soit présents en base de données (eg. toutes les insertions renvoient l'erreur <em>clé primaire déjà existante</em>).</li>
+</ul><p>Ceci est facilement <a href="http://vimeo.com/7857877">scriptable</a>.</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

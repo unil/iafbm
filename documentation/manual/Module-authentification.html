@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Authentification et gestion des d'accès</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Authentification et gestion des d'accès</h1>
+
+<p><strong>Le module d'authentification</strong> prends en charge <strong>l'authentification de l'utilisateur</strong> à partir du système centralisé Shibboleth et <strong>la gestion des droits d'accès</strong> par une implémentation spécifique au projet, basée rôles.
+</p><pre><code>                                        iaAuth
+&lt;----------------------------------------------------------------------------------&gt;
+  Permissions ---&gt; Role 1 ----+
+                              |                          | PERSON_UID                          | SwitchAAI
+  Permissions ---&gt; Role 2 ----+-----&gt; Utilisateur &lt;------| HOMEORGANIZATION &lt;------------------| Shibboleth
+                              |                          | UNILMEMBEROF                        | Apache mod
+  Permissions ---&gt; Role n ----+                          | ...                            
+
+&lt;-----------------------------------&gt;             &lt;--------------------------------&gt;    &lt;---------------------
+        Gestion d'accès                                   Authentification                Composants externes</code></pre>
+
+<h2>Authentification</h2>
+
+<p>L'authentification utilise le protocole <a href="http://shibboleth.net/">Shibboleth</a> mis à disposition par l'infrastructure <a href="http://www.switch.ch/aai/index.html">SwitchAAI</a> et s'appuie sur le <a href="https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig">module apache Shibboleth</a>.</p>
+
+<h3> Implémentation</h3>
+
+<p>L'authentification est implémentée dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">classe iaAuth</a>, spécifique au projet iafbm. Sa méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_set_from_aai">iaAuth::set_from_aai()</a> interprète les <a href="http://php.net/manual/en/reserved.variables.server.php">variables d'environnement serveur</a> fournies par Shibboleth:</p>
+
+<ul>
+<li>
+<strong>HTTP_SHIB_PERSON_UID</strong> contient l'identifiant unique de la personne</li>
+<li>
+<strong>HTTP_SHIB_SWISSEP_HOMEORGANIZATION</strong> contient l'organisation de rattachement</li>
+<li>
+<strong>HTTP_SHIB_CUSTOM_UNILMEMBEROF</strong> contient la liste des rôles sous forme CSV</li>
+</ul><p>La logique d'authentification génères les informations suivantes:</p>
+
+<ul>
+<li>
+<strong>l'identifiant utilisateur</strong>
+composé de <strong>{HTTP_SHIB_PERSON_UID}@{HTTP_SHIB_SWISSEP_HOMEORGANIZATION}</strong>
+est stocké et géré dans <strong>iaAuth</strong>
+</li>
+<li>
+<strong>la liste des rôles utilisateur</strong> contenue dans <strong>HTTP_SHIB_CUSTOM_UNILMEMBEROF</strong>
+est stocké et géré dans <strong>iaAuth</strong>
+</li>
+</ul><h3> Utilisation</h3>
+
+<p><strong>L'authentification se fait de manière transparente</strong> dans le <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">constructeur iaExtRestController</a>, appelé à chaque requête reçue par l'application.</p>
+
+<h2>Gestion d'accès</h2>
+
+<p>La gestion d'accès est <a href="https://en.wikipedia.org/wiki/Role-based_access_control">basée rôles</a>. Un rôle donnant accès à certaines resources, chaque utilisateur se voit attribué un ou plusieurs rôles.</p>
+
+<h3>Attribution des permissions</h3>
+
+<p>L'attribution des permissions se fait par la modification <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">des permissions</a> du fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">iaAuth.php</a>.
+</p><pre><code>&lt;?php
+protected $permissions = array(
+    'role1' =&gt; array(
+        'models' =&gt; array(
+            '*' =&gt; 'R',
+            'personne' =&gt; 'RU',
+            'candidat' =&gt; null,
+            'version' =&gt; 'CR',
+            'version_data' =&gt; 'CR',
+            'version_relation' =&gt; 'CR',
+            'archive' =&gt; 'CR',
+            'archive_data' =&gt; 'CR'
+        )
+    )
+);</code></pre>
+Cette propriété contient un tableau PHP de définition des rôles. Cette définition comprend les conventions suivantes:
+
+<ul>
+<li>
+<strong>le tableau contient des couples clé-valeur</strong> tels que <strong><code>model =&gt; droits</code></strong>
+</li>
+<li>
+<strong>les <em>droits</em> sont une combinaison de symboles CRUD</strong>, par exemple <em>'R'</em>, <em>'RU'</em> ou <em>'CRUD'</em> <em>(où C:reate, R:ead, U:pdate, D:elete)</em> <br>
+</li>
+<li>
+<strong>l'astérisque (<code>*</code>) peut être utilisée</strong> pour désigner l'ensemble des <em>modèles</em>
+</li>
+<li>
+<strong><em>null</em> peut être utilisé</strong> pour désigner <em>aucun droit</em>
+</li>
+</ul><p>Selon l' <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php#L10">API</a> (<a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">documentation</a>), la définition des droits pour le rôle <em>role1</em> est interprétée comme suit:</p>
+
+<ul>
+<li>
+<strong>autoriser la lecture</strong> de <strong>toutes les ressources</strong>
+</li>
+<li>
+<strong>autoriser la lecture et modification</strong> des <strong>ressources version, version_data, archive et archive_data</strong> <br>
+</li>
+<li>
+<strong>interdire tout accès</strong> à la <strong>resource candidat</strong>
+</li>
+<li>
+<strong>autoriser la création et lecture</strong> de la <strong>ressource version, version_data, archive et archive_data</strong> <br>
+Il faut cependant attribuer les droits en lecture et création à ces ressources de manière à ce que
+les modifications sur les ressources autorisées puissent être versionnées.</li>
+</ul><h3>Attribution des rôles</h3>
+
+<p>L'attribution des rôles aux utilisateurs se fait par l'interface de gestion <em>SwitchAAI</em>. L'information fournie par <em>Shibboleth</em> est simplement stockée dans la classe <em>iaAuth</em>.</p>
+
+<h3>Implémentation</h3>
+
+<p>La gestion des droits est implémentée dans les classes <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">iaAuth</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>. Elle se compose comme suit:</p>
+
+<ul>
+<li>
+<strong>Définition des droits d'accès</strong> dans la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">iaAuth::$permissions</a>
+</li>
+<li>
+<strong>Logique de contrôle d'accès</strong> dans la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_is_allowed_model">iaAuth::check_model_allowed()</a>
+</li>
+<li>
+<strong>Contrôle effectif</strong> des droits dans la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_check_allowed">iaModelMysql::check_allowed()</a> et <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaJournalingModelMysql.html#method_check_allowed_model">iaJournalingModel::check_allowed_model()</a> </li>
+</ul><p>Actuellement, l'implémentation des permissions se limite à l'accès aux modèles; elle est prévue pour s'étendre à tout composant du système (controllers, views, etc).</p>
+
+<h3>Versioning</h3>
+
+<p>Le <a class="internal present" href="/Module-versioning.html">module Versioning</a> implémenté dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">classe iaModelMysql</a> tient compte des droits d'accès. Sa logique garantit que l'utilisateur n'a accès qu'aux tuples liés aux modèles pour lesquels il détient les permissions.</p>
+
+<h3> Fonctionnement</h3>
+
+<p>Lorsqu'un utilisateur <a class="internal present" href="/Module-authentification.html#authentification">s'authentifie</a>, le mécanisme suivant est lancé:</p>
+
+<ul>
+<li>
+<strong><a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_canonicalize">Canonicalization</a> des permissions</strong> <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">définies</a> par le système</li>
+<li>
+<strong><a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_compute_permissions">Fusion</a> des permissions</strong> correspondant aux rôles fournis par Shibboleth</li>
+<li>
+<strong><a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_set_from_aai">Stockage</a> des permissions résultantes</strong> en session pour l'utilisateur courant</li>
+</ul><h3>Modification des droits d'accès</h3>
+
+<p><strong>Note:</strong> lors d'une modification des droits d'accès, il faut supprimer les cookies sur le navigateur de l'utilisateur afin qu'ils soient pris en compte. En effet, les droits sont stockés <a href="http://php.net/manual/en/features.sessions.php">en session</a> pour améliorer les performances.</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

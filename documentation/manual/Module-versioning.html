@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title> Module Versioning</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1> Module Versioning</h1>
+
+<p>Description ala Archivage.</p>
+
+<p>Le versioning permet de stocker les différences à chaque modification d'un enregistrement en base de données. Il a les caractéristiques suivantes:</p>
+
+<ul>
+<li>
+<strong>En lecture seule</strong> par nature</li>
+<li>
+<strong>Table de stockage à clé primaire BIGINT</strong> pour supporter un grand nombre d'enregistrements</li>
+<li>
+<strong>Implémente la gestion d'accès</strong>, l'utilisateur ne peut accéder qu'à l'historique des ressources auxquelles il a accès</li>
+<li>
+<strong>Une version</strong> correspond à une et une seule opération CRUD sur un tuple</li>
+</ul><p>Par défaut, <strong>chaque action de modification d'une table en base de données</strong> (*read*, <em>update</em> ou <em>delete</em>) <strong>donne lieu à la création d'une version</strong>.</p>
+
+<p>La création d'une version est <strong>réalisée par le stockage des différences</strong> lors de la modification d'un tuple. Ces différences sont stockées sous forme de clé-valeur consignant la valeur d'avant et d'après la modification pour chaque champs modifié du tuple en question.</p>
+
+<p>Le versioning stocke <strong>une liste des tuples concernés pour chaque version</strong>, dans la table <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql#L37">versions_relations</a>. La liste des tuples concernés désigne l'ensemble des <strong>tuples d'autres tables référencés</strong> par le tuple en cours de versionnage - et ceci <strong>de manière récursive</strong>.</p>
+
+<p>Chaque différence étant stockée sous forme de version, <strong>n'importe quelle version d'un tuple peut être reconstituée</strong> - en prenant la version courante d'un tuple et en y appliquant successivement et dans l'ordre déchronologique les différences de chaque version.</p>
+
+<h2>Implémentation</h2>
+
+<p>L'archivage est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
+
+<ul>
+<li>La méthode <a class="internal absent" href="/iaModelMysql%3A%3Aversion%28%29.html">iaModelMysql::version()</a> effectue l'opération de versioning, c'est-à-dire le stockage des différences</li>
+<li>La méthode <a class="internal absent" href="/iaModelMysql%3A%3Aget_version%28%29.html">iaModelMysql::get_version()</a> prends en charge la reconstruction des données pour fournir une version donnée d'un tuple</li>
+<li>La méthode <a class="internal absent" href="/iaModelMysql%3A%3Aversion_store_relations%28%29.html">iaModelMysql::version_store_relations()</a> consigne les tuple concernés par la version en cours de stockage - par exemple, une modification dans un tuple d'une <em>table adresses</em>, liée à une <em>table personnes</em>, concerne également le tuple de <em>cette table personnes</em>
+</li>
+<li>La propriété <a class="internal absent" href="/iaModelMysql%3A%3A%24archive_foreign_models.html">iaModelMysql::$archive_foreign_models</a> est utiliser pour calculer les tuple concernés par une version</li>
+<li>La propriété <a class="internal absent" href="/iaModelMysql%3A%3A%24versionable.html">iaModelMysql::$versionable</a> permet d'autoriser un modèle à être versionné</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

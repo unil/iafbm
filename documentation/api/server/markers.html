@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>iafbm</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="css/template.css" rel="stylesheet" media="all">
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="js/bootstrap.js" type="text/javascript"></script><script src="js/template.js" type="text/javascript"></script><script src="js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="img/favicon.ico">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="index.html">iafbm</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">840</span></a></li>
+<li><a href="markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul>
+<li>todo 
+                <span class="label label-info">12</span>
+</li>
+<li>fixme 
+                <span class="label label-info">16</span>
+</li>
+</ul></a></li>
+<li><a href="deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4"><ul class="side-nav nav nav-list">
+<li class="nav-header">Navigation</li>
+<li><a href="#unittests/units/ArchivingTest.php"><i class="icon-file"></i>unittests/units/ArchivingTest.php</a></li>
+<li><a href="#unittests/units/VersioningTest.php"><i class="icon-file"></i>unittests/units/VersioningTest.php</a></li>
+<li><a href="#unittests/units/iaJournalingModelTest.php"><i class="icon-file"></i>unittests/units/iaJournalingModelTest.php</a></li>
+<li><a href="#unittests/units/xTransactionTest.php"><i class="icon-file"></i>unittests/units/xTransactionTest.php</a></li>
+<li><a href="#scripts/migrations/issue#212-feature-import-personnes-adresses.php"><i class="icon-file"></i>scripts/migrations/issue#212-feature-import-personnes-adresses.php</a></li>
+<li><a href="#scripts/migrations/issue#222-fix-null-foreign-fields.php"><i class="icon-file"></i>scripts/migrations/issue#222-fix-null-foreign-fields.php</a></li>
+<li><a href="#iafbm/controllers/personnes_emails.php"><i class="icon-file"></i>iafbm/controllers/personnes_emails.php</a></li>
+<li><a href="#iafbm/controllers/report.php"><i class="icon-file"></i>iafbm/controllers/report.php</a></li>
+<li><a href="#iafbm/controllers/personnes_denominations.php"><i class="icon-file"></i>iafbm/controllers/personnes_denominations.php</a></li>
+<li><a href="#iafbm/controllers/personnes_telephones.php"><i class="icon-file"></i>iafbm/controllers/personnes_telephones.php</a></li>
+<li><a href="#iafbm/controllers/commissions_membres.php"><i class="icon-file"></i>iafbm/controllers/commissions_membres.php</a></li>
+<li><a href="#iafbm/controllers/personnes_adresses.php"><i class="icon-file"></i>iafbm/controllers/personnes_adresses.php</a></li>
+<li><a href="#iafbm/controllers/personnes.php"><i class="icon-file"></i>iafbm/controllers/personnes.php</a></li>
+<li><a href="#iafbm/models/personne_email.php"><i class="icon-file"></i>iafbm/models/personne_email.php</a></li>
+<li><a href="#iafbm/models/candidat.php"><i class="icon-file"></i>iafbm/models/candidat.php</a></li>
+<li><a href="#iafbm/lib/iafbm/xfm/iaModelMysql.php"><i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaModelMysql.php</a></li>
+<li><a href="#iafbm/lib/iafbm/xfm/iaExtRestController.php"><i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaExtRestController.php</a></li>
+</ul></div>
+<div class="span8">
+<ul class="breadcrumb">
+<li>
+<a href=""><i class="icon-map-marker"></i></a><span class="divider">\</span>
+</li>
+<li>Markers</li>
+</ul>
+<div class="alert alert-info">
+                        The following markers were found:
+                        <ul>
+<li>todo 
+                <span class="label label-info">12</span>
+</li>
+<li>fixme 
+                <span class="label label-info">16</span>
+</li>
+</ul>
+</div>
+<div id="marker-accordion">
+<div class="package-contents">
+<a name="unittests/units/ArchivingTest.php" id="unittests/units/ArchivingTest.php"></a><h3>
+<i class="icon-file"></i>unittests/units/ArchivingTest.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>156</td>
+<td>//</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="unittests/units/VersioningTest.php" id="unittests/units/VersioningTest.php"></a><h3>
+<i class="icon-file"></i>unittests/units/VersioningTest.php<small style="float: right;padding-right: 10px;">7</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>136</td>
+<td>xcount is not correct for now (BUG)</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>212</td>
+<td>xcount is not correct for now (BUG)</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>223</td>
+<td>shall all not-null fields be logged in version_data?</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>488</td>
+<td>xcount is not correct for now (BUG)</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>561</td>
+<td>xcount is not correct for now (BUG)</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>572</td>
+<td>shall all not-null fields be logged in version_data?</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>663</td>
+<td>xcount is not correct for now (BUG)</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="unittests/units/iaJournalingModelTest.php" id="unittests/units/iaJournalingModelTest.php"></a><h3>
+<i class="icon-file"></i>unittests/units/iaJournalingModelTest.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>65</td>
+<td>: FIXME: Cannot be run in testing server:
+       iaWebController::__construct() calls iaAuth::set_from_aai()
+       which throws 'You must be authenticated to continue'.
+       Test disabled for now.</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="unittests/units/xTransactionTest.php" id="unittests/units/xTransactionTest.php"></a><h3>
+<i class="icon-file"></i>unittests/units/xTransactionTest.php<small style="float: right;padding-right: 10px;">2</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>3</td>
+<td>Move this in xfreemwork unittests.</td>
+</tr>
+<tr>
+<td>todo</td>
+<td>258</td>
+<td></td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="scripts/migrations/issue#212-feature-import-personnes-adresses.php" id="scripts/migrations/issue#212-feature-import-personnes-adresses.php"></a><h3>
+<i class="icon-file"></i>scripts/migrations/issue#212-feature-import-personnes-adresses.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>68</td>
+<td></td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="scripts/migrations/issue#222-fix-null-foreign-fields.php" id="scripts/migrations/issue#222-fix-null-foreign-fields.php"></a><h3>
+<i class="icon-file"></i>scripts/migrations/issue#222-fix-null-foreign-fields.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>118</td>
+<td></td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/personnes_emails.php" id="iafbm/controllers/personnes_emails.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/personnes_emails.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>50</td>
+<td>Factorize this between personnes_adresses, personnes_emails, personnes_telephones</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/report.php" id="iafbm/controllers/report.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/report.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>91</td>
+<td>Cellule "Autres" dans le(s) tableaux de report?</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/personnes_denominations.php" id="iafbm/controllers/personnes_denominations.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/personnes_denominations.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>37</td>
+<td>Because personne_denomination was implemented later,</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/personnes_telephones.php" id="iafbm/controllers/personnes_telephones.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/personnes_telephones.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>50</td>
+<td>Factorize this between personnes_adresses, personnes_emails, personnes_telephones</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/commissions_membres.php" id="iafbm/controllers/commissions_membres.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/commissions_membres.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>25</td>
+<td>Create a common (and factorized) export controller (as for print)</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/personnes_adresses.php" id="iafbm/controllers/personnes_adresses.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/personnes_adresses.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>77</td>
+<td>Factorize this between personnes_adresses, personnes_emails, personnes_telephones</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/personnes.php" id="iafbm/controllers/personnes.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/personnes.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>239</td>
+<td>order fields according $fields_labels order</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/personne_email.php" id="iafbm/models/personne_email.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/personne_email.php<small style="float: right;padding-right: 10px;">1</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>28</td>
+<td>missing 'personne' relation here?</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/candidat.php" id="iafbm/models/candidat.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/candidat.php<small style="float: right;padding-right: 10px;">3</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>43</td>
+<td>pays model is referenced by two different columns, but can only be specified once as a key indice in $joins array :(</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>75</td>
+<td>'pays' => array('pays_pro_id' => 'id'),</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>76</td>
+<td>'pays' => array('pays_pri_id' => 'id'),</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/lib/iafbm/xfm/iaModelMysql.php" id="iafbm/lib/iafbm/xfm/iaModelMysql.php"></a><h3>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaModelMysql.php<small style="float: right;padding-right: 10px;">2</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>fixme</td>
+<td>199</td>
+<td>This results in a wrong 'count' property in JSON result</td>
+</tr>
+<tr>
+<td>fixme</td>
+<td>441</td>
+<td>this code duplicates with self::archive_data(), please refactor.</td>
+</tr>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/lib/iafbm/xfm/iaExtRestController.php" id="iafbm/lib/iafbm/xfm/iaExtRestController.php"></a><h3>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaExtRestController.php<small style="float: right;padding-right: 10px;">2</small>
+</h3>
+<div><table class="table markers table-bordered">
+<tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>todo</td>
+<td>105</td>
+<td>Return true if the method is allowed.
+Checks for:
+- $this->allow rights
+- authenticated role</td>
+</tr>
+<tr>
+<td>todo</td>
+<td>214</td>
+<td></td>
+</tr>
+</table></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-06-24T15:57:16+02:00.<br></footer></div>
+</div>
+</body>
+</html>

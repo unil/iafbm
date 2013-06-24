@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Structure des répertoires</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Structure des répertoires</h1>
+
+<h1>TODO</h1>
+
+<p>Prendre chaque lien rouge ci-dessous et trouver ou créer la recette correspondante (ca devrait couvrir 90% du de l'application)</p>
+
+<h2>Structure</h2>
+
+<p>Les répertoires sont structurés en oignon:</p>
+
+<ul>
+<li>Le répertoire dit <strong>racine</strong> <code>iafbm/</code> contient les éléments d'infrastructure (<a class="internal absent" href="/d%C3%A9ployement.html">déployement</a>, <a class="internal absent" href="/maintenance.html">maintenance</a>, <a class="internal absent" href="/migration.html">migration</a>, <a class="internal absent" href="/tests-unitaires.html">tests unitaires</a>, etc)</li>
+<li>Le sous-répertoire dit <strong>de projet</strong> <code>iafbm/iafbm/</code> contient les éléments de projet (structurés selon les conventions du framework <a href="https://github.com/damiencorpataux/xfm-php/wiki/Conceptual-project-directory-structure">xfm-php</a>)</li>
+</ul><p>Voici les 2 premiers niveaux de la structure des répertoires de l'application:
+</p><pre><code>iafbm
+├── iafbm
+│   ├── config
+│   ├── controllers
+│   ├── fronts
+│   ├── i18n
+│   ├── lib
+│   ├── models
+│   ├── public
+│   └── views
+├── import
+├── scripts
+├── sql
+└── unittests</code></pre>
+
+<h3>Typologie générale</h3>
+
+<p>La structure des répertoires compartimente les principaux composants de l'application:</p>
+
+<ul>
+<li>
+<strong>L'infrastructure de l'application</strong> dans le répertoire <strong><a class="internal present" href="/General-structure-repertoires.html#iafbm-infrastructure">iafbm/</a></strong>
+</li>
+<li>
+<strong>Le projet applicatif xfm-php</strong> dans le répertoire <strong><a class="internal present" href="/General-structure-repertoires.html#iafbmiafbm-projet-xfm">iafbm/iafbm/</a></strong>
+</li>
+<li>
+<strong>Les composants applicatifs extjs</strong> dans le répertoire <strong><a class="internal present" href="/General-structure-repertoires.html#iafbmiafbmpublicassetsjsapp">iafbm/iafbm/public/assets/js/app/</a></strong>
+</li>
+<li>
+<strong>Les librairies:</strong> <br><ul>
+<li>
+<strong>php</strong> dans le répertoire <strong><a class="internal present" href="/General-structure-repertoires.html#iafbmiafbmlib">iafbm/iafbm/lib/</a></strong> <br>
+</li>
+<li>
+<strong>javascript</strong> dans le répertoire <strong><a class="internal present" href="/General-structure-repertoires.html#iafbmiafbmpublicassetsjs">iafbm/iafbm/public/assets/js/</a></strong>
+</li>
+</ul>
+</li>
+<li>
+<strong>La partie publique</strong>, accessible en lecture via le web, dans le répertoire <strong><a class="internal present" href="/General-structure-repertoires.html#iafbmiafbmpublic-web-world-readable">iafbm/iafbm/public/</a></strong>
+</li>
+</ul><h3>Détail des répertoires</h3>
+
+<h4> <a href="https://github.com/unil/iafbm/tree/master">iafbm/</a> (infrastructure)</h4>
+
+<p>Il s'agit du <strong>répertoire d'infrastructure</strong>, contenant les composants supportant le fonctionnement de l'application xfm.</p>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/sql">iafbm/sql/</a></h5>
+
+<p>Le répertoire <code>sql/</code> contient les fichiers SQL pour la <a class="internal absent" href="/cr%C3%A9ation-de-la-base-de-donn%C3%A9es-et-des-tables.html">création de la base de données et des tables</a>. Ils sont exécutés par le <a href="https://github.com/unil/iafbm/blob/master/scripts/deploy.sh">script de déploiement</a>.
+</p><pre><code>iafbm
+├── ...
+├── sql
+│   ├── 000_database.sql
+│   ├── 001_versions.sql
+│   ├── 002_archives.sql
+│   ├── 005_grandeurs.sql
+│   ├── 010_cantons.sql
+│   ├── ...
+:   :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/">iafbm/import/</a></h5>
+
+<p>Le répertoire <code>sql/</code> contient les fichiers CSV des <a class="internal absent" href="/donn%C3%A9es-externes-%C3%A0-importer.html">données externes à importer</a> (UNIL et CHUV) et des catalogues à peupler. Elles sont exécutées par le <a href="https://github.com/unil/iafbm/blob/master/scripts/import.sh">script d'import</a>.
+</p><pre><code>iafbm
+├── ...
+├── import
+│   └── csv
+│   │   ├── activites_academiques.csv
+│   │   ├── adresses.csv
+│   │   ├── autre_mandats.csv
+│   │   ├── ...
+:   :   :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/scripts">iafbm/scripts/</a></h5>
+
+<p>Le répertoire <code>scripts/</code> contient les scripts PHP permettant le <a class="internal absent" href="/d%C3%A9ployement.html">déployement</a> et la <a class="internal absent" href="/maintenance.html">maintenance</a> de l'application.
+Le répertoire <code>scripts/migrations</code> contient l'archive des scripts de <a class="internal absent" href="/migration.html">migration</a>.
+</p><pre><code>iafbm
+├── ...
+├── scripts
+│   ├── deploy.sh
+│   ├── import.php
+│   ├── migrations
+│   │   ├── issue#178-commission-membre.php
+│   │   ├── issue#181-personne-denomination.php
+│   │   ├── issue#191-commission-fonction-add.php
+│   │   ├── ...
+│   │   └── vendors
+│   │       └── parsecsv-0.3.2
+│   ├── Script.php
+│   └── update.php
+:</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/unittest">iafbm/unittests/</a></h5>
+
+<p>Le répertoire <code>unittests/</code> contient les scripts PHP permettant la <a class="internal absent" href="/non-r%C3%A9gression-du-syst%C3%A8me.html">non-régression du système</a>.
+Le répertoire <code>unittests/units</code> contient les tests unitaires à proprement parler.</p>
+
+<pre><code>iafbm
+├── ...
+├── unittests
+│   ├── lib
+│   │   ├── iaPHPUnit_Auth_Framework_TestCase.php
+│   │   └── iaPHPUnit_Framework_TestCase.php
+│   ├── phpunit.php
+│   ├── suites
+│   │   └── All.php
+│   └── units
+│       ├── ArchivingTest.php
+│       ├── AuthenticationTest.php
+│       ├── IafbmRolesTest.php
+│       ├── ...
+:       :</code></pre>
+
+<h4> <a href="https://github.com/unil/iafbm/tree/master/iafbm">iafbm/iafbm/</a> (projet xfm)</h4>
+
+<p>Il s'agit du <strong>répertoire de projet</strong>, dont la structure suit les <a href="https://github.com/damiencorpataux/xfm-php/wiki/Conceptual-project-directory-structure">conventions xfm-php</a>:
+</p><pre><code>iafbm
+├── iafbm
+│   ├── config
+│   ├── controllers
+│   ├── fronts
+│   ├── i18n
+│   ├── lib
+│   ├── models
+│   ├── public
+│   └── views
+:</code></pre>
+Cette structure contient quelques éléments remarquables.
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/lib">iafbm/iafbm/lib/</a></h5>
+
+<pre><code>iafbm
+├── iafbm
+│   ├── lib
+│   │   ├── dompdf -&gt; dompdf-0.5.1
+│   │   ├── dompdf-0.5.1
+│   │   ├── iafbm
+│   │   ├── Minify
+│   │   └── xfm
+:   :</code></pre>
+
+<h5>iafbm/iafbm/lib/iafbm/|<a href="https://github.com/unil/iafbm/tree/master/iafbm/lib/iafbm%5D">https://github.com/unil/iafbm/tree/master/iafbm/lib/iafbm]</a>]</h5>
+
+<pre><code>!!!</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/lib/xfm">iafbm/iafbm/lib/xfm/</a></h5>
+
+<p>Contient la <a href="https://github.com/damiencorpataux/xfm-php">librairie du framework xfm-php</a>.</p>
+
+<h5> <a href="https://github.com/unil/iafbm/tree/master/iafbm/views/common">iafbm/iafbm/views/common/</a>
+</h5>
+
+<pre><code>iafbm
+├── iafbm
+│   └── views
+│       ├── common
+│       │   ├── extjs
+│       │   ├── field
+│       │   ├── map
+│       │   └── model
+:       :</code></pre>
+
+<h5> <a href="https://github.com/unil/iafbm/tree/master/iafbm/i18n">iafbm/iafbm/i18n/</a>
+</h5>
+
+<p>Ce répertoire sert au multilinguisme et n'est pas utilisé. Il doit être supprimé.</p>
+
+<h4>
+<a href="https://github.com/unil/iafbm/tree/master/iafbm/public">iafbm/iafbm/public/</a> (web world readable)</h4>
+
+<pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── a -&gt; assets/
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   ├── img
+│   │   │   └── js
+│   │   ├── favicon.ico
+│   │   └── index.php
+:   :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets">iafbm/iafbm/public/assets/</a></h5>
+
+<pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   │   ├── layout.css
+│   │   │   │   └── ...
+│   │   │   ├── img
+│   │   │   │   ├── icons
+│   │   │   │   ├── ...
+│   │   │   └── js
+│   │   │       ├── app
+│   │   │       ├── ext-4.0.7-gpl
+│   │   │       └── ...
+:   :   :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/assets/js">iafbm/iafbm/public/assets/js/</a></h5>
+
+<pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   └── js
+│   │   │       ├── app
+│   │   │       ├── ext -&gt; ext-4.0.7-gpl
+│   │   │       ├── ext-4.0.7-gpl
+│   │   │       ├── ext-custom
+│   │   │       └── ext-ux
+:   :   :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/js/app">iafbm/iafbm/public/assets/js/app/</a></h5>
+
+<pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   └── js
+│   │   │       ├── app
+│   │   │       │   ├── classes.js
+│   │   │       │   ├── columns.js
+│   │   │       │   ├── forms.js
+│   │   │       │   ├── grids.js
+│   │   │       │   ├── locales.js
+│   │   │       │   └── models.js
+:   :   :       :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/img">iafbm/iafbm/public/assets/img/</a></h5>
+
+<pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   ├── img
+│   │   │   │   ├── controllers
+│   │   │   │   │   ├── personnes
+│   │   │   │   │   │   └── export
+│   │   │   │   │   └── user
+│   │   │   │   │       ├── email.png
+│   │   │   │   │       └── ...
+│   │   │   │   ├── ext
+│   │   │   │   │   ├── add.png
+│   │   │   │   │   └── ...
+│   │   │   │   ├── icons
+│   │   │   │   │   ├── icon-warning-small.gif
+│   │   │   │   │   └── ...
+│   │   │   │   ├── id
+│   │   │   │   │   ├── favicon.ico
+│   │   │   │   │   └── ...
+│   │   │   │   └── layout
+│   │   │   │       └── ...
+:   :   :   :</code></pre>
+
+<h5><a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/css">iafbm/iafbm/public/assets/css/</a></h5>
+
+<p>This directory simply contains the application CSS files.</p>
+
+<h2>Résumé des répertoires principaux</h2>
+
+<p>fixme: créer une liste à puce avec les principaux <strong>repertoire:</strong> description</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

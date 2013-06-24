@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>How to apply release cycle</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>How to apply release cycle</h1>
+
+<h2> Version management</h2>
+
+<p>Scheme: <strong>x.y.z</strong> (eg. 1.0.0)</p>
+
+<ul>
+<li>
+<strong>x</strong>: Major version: Updated on: Major architecture/conceptual change leading to incompatibilities</li>
+<li>
+<strong>y</strong>: Minor version: Updated on: Feature addition, modification, removal</li>
+<li>
+<strong>z</strong>: Subminor version: Updated on: Hotfixes</li>
+</ul><h2>Release steps</h2>
+
+<ol>
+<li>
+<strong>Create git branches for features</strong>, eg <code>feature-#128-reporting</code>
+</li>
+<li><strong>Develop</strong></li>
+<li>
+<strong>Create a git branch</strong> named <code>release-x.y.z</code>
+</li>
+<li>
+<strong>Merge the feature branches</strong> into the release branch</li>
+<li>
+<strong>Test your release branch (with migration)</strong> on <a href="http://wwwfbm/iafbm_release">http://wwwfbm/iafbm_release</a>
+</li>
+<li>
+<strong>Notify users</strong> to test the release and <strong>wait for validation</strong>
+</li>
+<li>
+<strong>Test one last time the features and migration</strong> on <a href="http://wwwfbm/iafbm_release">http://wwwfbm/iafbm_release</a> with production</li>
+<li>
+<strong>Merge release branch</strong> into master</li>
+<li>
+<strong>Tag the master branch</strong> with actual version as label: <code>x.y.z</code>
+</li>
+<li>
+<strong>Migrate and update production</strong> instance <a href="http://wwwfbm/iafbm">http://wwwfbm/iafbm</a>
+</li>
+<li><strong>Delete features and release branches</strong></li>
+</ol><h2>Command-line details</h2>
+
+<h3>Feature development (new feature, modification or bugfix)</h3>
+
+<ul>
+<li>Create a branch for the feature
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">new_feature</span>
+</pre>
+</div>
+</li>
+<li>Develop, add/move/remove files, commit files, ...
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">add</span><span class="o">/</span><span class="n">mv</span><span class="o">/</span><span class="n">rm</span> <span class="p">[</span><span class="n">files</span><span class="p">]</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span>"<span class="n">Message</span>" <span class="p">[</span><span class="n">files</span><span class="p">]</span>
+</pre>
+</div>
+</li>
+<li>Pull <strong>master</strong> branch modifications into <strong>development</strong> branch
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+<span class="n">git</span> <span class="n">pull</span>
+</pre>
+</div>
+</li>
+<li>Rebase to <strong>master</strong> branch to merge <strong>master</strong> commits with <strong>development</strong> branch,<br>resolving potentially arising conflicts
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="n">new_feature</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">master</span>
+</pre>
+</div>
+</li>
+<li>Merge <strong>development</strong> branch into <strong>master</strong> branch (locally)
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">checkout</span> <span class="n">master</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">new_feature</span>
+</pre>
+</div>
+</li>
+<li>Push the (locally) merged <strong>master</strong> branch into remote repository
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">master</span>
+</pre>
+</div>
+
+Source: <a href="http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle">http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle</a>
+</li>
+</ul><h3>Creating a production Release</h3>
+
+<ul>
+<li>Update the project in <strong>iafbm_test</strong> environment
+<div class="highlight">
+<pre><span class="n">cd</span> <span class="n">iafbm_test</span><span class="o">/</span><span class="n">iafbm</span><span class="o">/</span><span class="n">scripts</span>
+<span class="n">php</span> <span class="n">update</span><span class="p">.</span><span class="n">php</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">x</span>
+</pre>
+</div>
+</li>
+<li>Run the UnitTests
+<div class="highlight">
+<pre><span class="n">cd</span> <span class="n">iafbm_test</span><span class="o">/</span><span class="n">iafbm</span><span class="o">/</span><span class="n">tests</span>
+<span class="n">php</span> <span class="n">phpunit</span><span class="p">.</span><span class="n">php</span> <span class="p">.</span>
+</pre>
+</div>
+</li>
+<li>Validate the application quality</li>
+<li>Create a tag in the <strong>master</strong> branch with the release version
+<div class="highlight">
+<pre><span class="n">git</span> <span class="n">tag</span> <span class="o">-</span><span class="n">a</span> 1<span class="p">.</span>0<span class="p">.</span>0
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">tags</span>
+</pre>
+</div>
+</li>
+<li>Update the project in <strong>iafbm_prod</strong> environment</li>
+</ul><h2>Bibliography</h2>
+
+<ul>
+<li>Simple Workflow: Best practices<br><a href="http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle">http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle</a>
+</li>
+<li>Simple Workflow: The GitHub worlflow<br><a href="http://scottchacon.com/2011/08/31/github-flow.html">http://scottchacon.com/2011/08/31/github-flow.html</a>
+</li>
+<li>Complex Workflow: Sucessful branching model<br><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a>
+</li>
+<li>Git book<br><a href="http://alx.github.com/gitbook/">http://alx.github.com/gitbook/</a>
+</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

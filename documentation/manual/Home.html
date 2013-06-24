@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Bienvenue sur le wiki du projet</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Bienvenue sur le wiki du projet</h1>
+
+<p><strong>iafbm</strong> est une <strong>application de gestion basée web</strong> réalisant la <strong>gestion des commissions</strong> de la Relève au Décanat de la FBM.</p>
+
+<p><strong>FIXMEs</strong> <br>
+Incorporer le contenu de la documentation sphinx (<a href="http://unil.github.io/iafbm/documentation/manual-sphinx/">http://unil.github.io/iafbm/documentation/manual-sphinx/</a>)</p>
+
+<p>Cette documentation technique s'adresse à un développeur et consigne les informations suivantes:</p>
+
+<ul>
+<li>
+<a class="internal present" href="/Home.html#gnralits">Architecture</a> de l'application</li>
+<li>
+<a class="internal present" href="/Home.html#modules">Description des composants</a> développés</li>
+<li>
+<a class="internal present" href="/Home.html#cookbook">Recettes</a> pour les pratiques routinières</li>
+<li>
+<a class="internal present" href="/Home.html#rfrence-api">Référence API</a> pour les parties serveur et client, ainsi que la documentation des composants tiers</li>
+</ul><p>Pour un système bien conçu, la documentation ne fait qu'articuler les composants afin d'augmenter leur compréhension. Une documentation efficace favorise les références judicieuses aux longues explications.</p>
+
+<h1>Généralités</h1>
+
+<ul>
+<li><a class="internal present" href="/General-architecture.html">Architecture</a></li>
+<li><a class="internal present" href="/General-structure-repertoires.html">Structure des répertoires</a></li>
+<li>
+<a class="internal present" href="/General-release-cycle.html">Processus de développement</a> (Release Cycle)</li>
+<li><a class="internal present" href="/General-migration.html">Migrations</a></li>
+</ul><h1> Modules</h1>
+
+<ul>
+<li><a class="internal present" href="/Module-versioning.html">Versioning</a></li>
+<li><a class="internal present" href="/Module-archivage.html">Archivage</a></li>
+<li><a class="internal present" href="/Module-authentification.html">Authentification et gestion d'accès</a></li>
+<li>Sécurité et contrôle d'accès</li>
+<li>Printing (PDF)</li>
+<li>Export (CSV)</li>
+<li>Import (external data)</li>
+<li>XFM extensions (existing)
+
+<ul>
+<li>Bootstrap</li>
+<li>Fronts</li>
+<li>Controllers</li>
+<li>Models</li>
+</ul>
+</li>
+<li>ExtJS extensions (existing)
+
+<ul>
+<li>Widgets</li>
+<li>Models</li>
+</ul>
+</li>
+<li>Subtilités
+
+<ul>
+<li>Versioned members models</li>
+<li>...</li>
+</ul>
+</li>
+</ul><h1>Cookbook</h1>
+
+<ul>
+<li><a class="internal present" href="/Cookbook-release-cycle.html">Implémenter une nouvelle fonctionnalité</a></li>
+<li><a class="internal absent" href="/cookbook-migration.html">Migration et modification de la base de données</a></li>
+<li><a class="internal absent" href="/cookbook-ecrire-unittest.html">Ecrire un test unitaire</a></li>
+<li><a class="internal absent" href="/cookbook-lancer-tests-unitaires.html">Lancer tests unitaires</a></li>
+<li>Intégrer une nouvelle librairie dans le projet</li>
+<li>How to create/extend an XFM front/controller/model</li>
+<li>How to create/extend an ExtJS widget/model</li>
+<li>...</li>
+<li><a class="internal present" href="/Cookbook-deploy.html">Déploiement de l'application</a></li>
+<li>
+<a class="internal present" href="/cookbook-documentation.html">Générer la documentation</a> (fixme)</li>
+</ul><h1>Référence API</h1>
+
+<h4> Références et index iafbm (projet)</h4>
+
+<ul>
+<li>
+<a href="http://unil.github.io/iafbm/documentation/api/server/">API partie serveur</a> (xfm-php)</li>
+<li>
+<a href="http://unil.github.io/iafbm/documentation/api/client/">API partie client</a> (ExtJS)</li>
+<li>
+<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> du Web-service (fixme: #224 to production)</li>
+</ul><h4>Références et documentation tiers</h4>
+
+<ul>
+<li>
+<a href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-yum.html">Installation de logiciels</a> sur Red Hat Linux</li>
+<li>
+<a href="http://www.php.net/manual/en/index.php">PHP</a>, son <a href="http://www.php.net/manual/en/langref.php">API</a> et la configuration du <a href="http://www.php.net/manual/en/configuration.file.php">Module apache PHP</a>
+</li>
+<li>
+<a href="http://dev.mysql.com/doc/refman/5.1/en/">MySQL</a>, son <a href="http://dev.mysql.com/doc/refman/5.1/en/sql-syntax.html">language SQL</a> et sa <a href="http://dev.mysql.com/doc/refman/5.1/en/server-administration.html">configuration</a>
+</li>
+<li>
+<a href="https://github.com/damiencorpataux/xfm-php/wiki">xfm-php</a> et son <a href="http://damiencorpataux.github.io/xfm-php/doc/api/master/">API</a>
+</li>
+<li>
+<a href="http://docs.sencha.com/extjs/">ExtJS</a>, son <a href="http://docs.sencha.com/extjs/#!/api">API</a>, ses <a href="http://docs.sencha.com/extjs/#!/guide">guides</a> et ses <a href="http://docs.sencha.com/extjs/#!/example">tutoriels en forme d'exemples</a>
+</li>
+<li>Composant d'export pdf <a href="https://github.com/dompdf/dompdf/blob/master/README.md">dompdf</a> utilisé pour l'impression</li>
+</ul><h1>Lost &amp; found | Archives</h1>
+
+<ul>
+<li><a class="internal present" href="/Entites-contrats.html">Entites-Contrats</a></li>
+<li><a class="internal present" href="/Entites-d%C3%A9partements.html">Entites-Départements</a></li>
+<li><a class="internal present" href="/Processus-contrats.html">Processus-Contrats</a></li>
+<li><a class="internal present" href="/Processus-personne-candidat.html">Processus-Personne-Candidat</a></li>
+<li><a class="internal present" href="/Technical-UnitTesting.html">Technical-UnitTesting</a></li>
+</ul><hr><p>Cette documentation se trouve sur <a href="http://unil.github.io/iafbm/">gh-pages</a> et devrait être nettoyée et mise à jour (supprimer la partie Sphinx, fixer la partie gollum:generation static du wiki iafbm).</p>
+
+<hr><h1>Old content (to be incorporated in new content)</h1>
+
+<p><a class="internal present" href="/Development-tips.html">Development-Tips</a></p>
+
+<h2>Concepts</h2>
+
+<ul>
+<li><a class="internal present" href="/Concept-versioning.html">Concept-Versioning</a></li>
+<li><a class="internal present" href="/Concept-archive.html">Concept-Archive</a></li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

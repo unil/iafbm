@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Générer la documentation technique</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Générer la documentation technique</h1>
+
+<p>Cette recette décrit la génération de documentation sous debian. Sous Redhat, utiliser <em>yum</em> à la place de <em>apt-get</em> et utiliser <em>les noms de paquets yum</em>.</p>
+
+<h2>Typologie et hébergement</h2>
+
+<p>La documentation se décline en:</p>
+
+<ul>
+<li>
+<strong>Une documentation API</strong> serveur et client</li>
+<li>
+<strong>Un manuel</strong> contenant une description de l'architecture et des modules ainsi qu'un cookbook</li>
+</ul><p>Le manuel est hébergé sur <a href="https://github.com/unil/iafbm/wiki">GitHub Wiki</a> et <a href="http://unil.github.io/iafbm/">GitHub Pages</a> (miroir HTML). La documentation API est hébergée sur <a href="http://unil.github.io/iafbm/">GitHub Pages</a>.</p>
+
+<h2>Documentation API</h2>
+
+<h3>Partie serveur (PHP)</h3>
+
+<ol>
+<li>
+<a href="https://github.com/phpDocumentor/phpDocumentor2/tree/v2.0.0a10#pear-recommended">Installer</a> de PhpDocumentor2
+<div class="highlight">
+<pre>sudo apt-get install php-pear
+sudo pear channel-discover pear.phpdoc.org
+sudo pear install phpdoc/phpDocumentor-alpha
+</pre>
+</div>
+</li>
+<li>Lancer la génération
+<div class="highlight">
+<pre><span class="nb">cd</span> /path/to/iafbm
+phpdoc --directory<span class="o">=</span><span class="s2">"."</span> --ignore<span class="o">=</span><span class="s2">"iafbm/lib/xfm/,iafbm/lib/Minify/,iafbm/lib/dompdf-0.5.1/,iafbm/public/,scripts/migrations/vendors/,documentation/"</span> --sourcecode --title<span class="o">=</span><span class="s2">"iafbm"</span> --target<span class="o">=</span><span class="s2">"documentation/server/."</span>
+</pre>
+</div>
+</li>
+</ol><h3>Partie client (Javascript)</h3>
+
+<ol>
+<li>
+<a href="https://github.com/senchalabs/jsduck#getting-it">Installer</a> JsDuck
+<div class="highlight">
+<pre>sudo apt-get install ruby1.9.1-dev 
+sudo gem install jsduck
+</pre>
+</div>
+</li>
+<li>Lancer la génération
+<div class="highlight">
+<pre><span class="nb">cd</span> /path/to/iafbm
+jsduck iafbm/public/assets/js/app iafbm/public/assets/js/ext-custom/ --builtin-classes --title<span class="o">=</span><span class="s2">"iafbm - Developer documentation"</span> --output documentation/client/.
+</pre>
+</div>
+</li>
+</ol><h3>Mise en ligne</h3>
+
+<p>La documentation API est en ligne sur <a href="http://pages.github.com/">GitHub Pages</a>, dans les répertoires <code>documentation/api/server/</code> et <code>documentation/api/server/</code>. Cet exemple illustre la mise en ligne de la <em>documentation serveur</em>:
+</p><div class="highlight">
+<pre><span class="nb">cd</span> /path/to/iafbm
+git checkout gh-pages
+<span class="nb">cd </span>documentation/api/server/
+rm -rf *
+cp -r /path/to/locally/generated/documentation/server/* .
+git add .
+git commit -m<span class="s2">"Updated api documentation"</span>
+git push
+</pre>
+</div>
+
+
+<h2>Documentation wiki</h2>
+
+<h3>Générer une version statique</h3>
+
+<p>Il est possible de générer une version statique de la documentation wiki hébergée par github. Le composant <strong>gollum-site</strong> est utilisé: <a href="https://github.com/dreverri/gollum-site">https://github.com/dreverri/gollum-site</a></p>
+
+<ol>
+<li>
+<strong>Installation de gollum-site</strong> <br>
+Selon <a href="https://github.com/dreverri/gollum-site#installation">la documentation</a>:
+<div class="highlight">
+<pre><span class="c"># installer ruby et gem (sudo apt-get/yum install ruby rubygems, under debian/redhat)</span>
+gem install gollum-site
+</pre>
+</div>
+</li>
+<li>
+<strong>Génération de la documentaion</strong> <br>
+Récupération de la <a href="https://github.com/unil/iafbm/wiki/_access">source</a>, puis <a href="https://github.com/dreverri/gollum-site#usage">génération</a> la documentation HTML dans le répertoire <code>_site</code> (utiliser l'argument <code>--output_path</code> pour modifier le répertoire cible):
+<div class="highlight">
+<pre><span class="nb">cd</span> /tmp
+git clone https://github.com/unil/iafbm.wiki.git
+<span class="nb">cd </span>iafbm.wiki
+gollum-site generate
+</pre>
+</div>
+</li>
+</ol><h3>Mise en ligne</h3>
+
+<p>Similairement à la documentation
+La documentation HTML est en ligne sur <a href="http://pages.github.com/">GitHub Pages</a>, dans le répertoire <code>documentation/manual/</code>. Cet exemple illuste la mise en ligne de la documentation HTML:
+</p><div class="highlight">
+<pre><span class="nb">cd</span> /path/to/iafbm
+git checkout gh-pages
+<span class="nb">cd </span>documentation/manual
+rm -rf *
+cp -r /path/to/locally/generated/documentation/manual/* .
+git add .
+git commit -m<span class="s2">"Updated documentation manual"</span>
+git push
+</pre>
+</div>
+
+
+<h3> Tables des matières</h3>
+
+<p>Le <a href="https://raw.github.com/wiki/damiencorpataux/xfm-php/scripts/toc.py">script toc.py</a> permet de générer et d'inclure une TOC par fichier markdown.
+</p><div class="highlight">
+<pre>python toc.py file.md
+</pre>
+</div>
+
+ou
+<div class="highlight">
+<pre>toc.py <span class="s2">"*.md"</span>
+</pre>
+</div>
+
+
+<h2>Tips</h2>
+
+<h3> Doc update script</h3>
+
+<p>Un script de mise-à-jour automatique de la [documentation online|<a href="http://unil.github.io/iafbm/%5D">http://unil.github.io/iafbm/]</a>] pourrait être créé. Voici un draft:
+</p><div class="highlight">
+<pre><span class="c">#!/bin/sh</span>
+
+<span class="nv">CURRENT_DIR</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+<span class="nv">TMP_ROOT</span><span class="o">=</span>/tmp/iafbm-doc-generator
+<span class="nv">DOC_ROOT</span><span class="o">=</span>generated
+mkdir -p <span class="nv">$TMP_ROOT</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> !<span class="err">$</span>
+
+git clone https://github.com/unil/iafbm.wiki.git
+<span class="nb">cd </span>iafbm.wiki
+mkdir -p <span class="nv">$TMP_ROOT</span>/<span class="nv">$GENERATED</span>/manual
+gollum-site generate --output_path <span class="nv">$TMPROOT</span>/<span class="nv">$DOC_ROOT</span>/manual/
+<span class="nb">cd</span> -
+
+git clone https://github.com/unil/iafbm.git
+<span class="nb">cd </span>iafbm
+mkdir -p <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/api/server
+phpdoc --directory<span class="o">=</span><span class="s2">"."</span> --ignore<span class="o">=</span><span class="s2">"iafbm/lib/xfm/,iafbm/lib/Minify/,iafbm/lib/dompdf-0.5.1/,iafbm/public/,scripts/migrations/vendors/,documentation/"</span> --sourcecode --title<span class="o">=</span><span class="s2">"iafbm"</span> --target<span class="o">=</span><span class="s2">"$TMP_ROOT/$DOC_ROOT/api/server"</span>
+
+mkdir <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/api/client
+jsduck iafbm/public/assets/js/app iafbm/public/assets/js/ext-custom/ --builtin-classes --title<span class="o">=</span><span class="s2">"iafbm - Developer documentation"</span> --output <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/api/client/.
+
+git checkout gh-pages
+<span class="nb">cd </span>documentation
+<span class="k">for </span>path in manual api/server api/client
+<span class="k">do</span>
+<span class="k">    </span>rm -rf <span class="nv">$path</span>/* <span class="o">&amp;&amp;</span> cp -r <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/<span class="nv">$path</span>/.
+<span class="k">done</span>
+git add . <span class="o">&amp;&amp;</span> git commit -m<span class="s2">"Generated documentation automatic update"</span>
+git push
+
+<span class="nb">cd</span> <span class="nv">$CURRENT_DIR</span>
+rm -rf <span class="nv">$TMP_ROOT</span>
+</pre>
+</div>
+
+You might want to <code>ssh-add</code> to avoid typing your ssh passphrase every now and then:
+<div class="highlight">
+<pre><span class="nb">eval</span> <span class="s2">"$(ssh-agent)"</span> <span class="o">&amp;&amp;</span> ssh-add
+</pre>
+</div>
+
+
+<h3> Mass-add docblocks</h3>
+
+<p>Running
+</p><div class="highlight">
+<pre>find iafbm/views/ -iname *.php -exec sed -i <span class="s1">'s/<img src="/_tex.png?type=inline&data=Y2xhc3MuKg==" alt="class.*">/\/\*\*\n \* @package iafbm\n \* @subpackage view\n \*\/\n/g'</span> <span class="o">{}</span> <span class="se">\;</span>
+</pre>
+</div>
+
+will transform
+<div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{}</span>
+</pre>
+</div>
+
+into
+<div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * @package iafbm</span>
+<span class="sd"> * @subpackage view</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{}</span>
+</pre>
+</div>
+
+for all *.php files in the working directory and subdirectories.
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

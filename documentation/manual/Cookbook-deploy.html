@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Déploiement de l'application</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Déploiement de l'application</h1>
+
+<h2>Prérequis</h2>
+
+<ol>
+<li>MySQL avec utilisateur existant (username et password selon la <a href="https://github.com/unil/iafbm/blob/master/iafbm/config/">configuration</a>)</li>
+<li>PHP-CLI</li>
+<li>wget ou curl</li>
+</ol><h2>Procédure de déployement</h2>
+
+<ol>
+<li>Aller dans le répertoire choisi pour l'installation (le répertoire racine de l'application sera créé ici)
+<div class="highlight">
+<pre><span class="nb">cd</span> /var/www/chemin/vers/la/racine/du/projet
+</pre>
+</div>
+</li>
+<li>Lancer le script de déployement:
+<div class="highlight">
+<pre>wget -O - https://raw.github.com/unil/iafbm/master/scripts/deploy.sh | sh
+</pre>
+</div>
+
+ou
+<div class="highlight">
+<pre>curl https://raw.github.com/unil/iafbm/master/scripts/deploy.sh | sh
+</pre>
+</div>
+</li>
+<li>Si la création de la base de donnée échoue, l'opération peut être relancée:
+<div class="highlight">
+<pre><span class="nb">cd</span> /chemin/vers/iafbm/scripts
+php update.php -x
+</pre>
+</div>
+</li>
+<li>Import des données
+
+<ul>
+<li>Copier le répertoire <strong>import</strong> (contenant le(s) fichier(s) CSV) dans le répertoire <strong>/chemin/vers/iafbm</strong>
+</li>
+<li>Lancer le script d'import
+<div class="highlight">
+<pre><span class="nb">cd</span> /chemin/vers/iafbm/scripts
+php import.php
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Concept versioning</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Concept versioning</h1>
+
+<h2>Aspect technique</h2>
+
+<p>A chaque modification, une version est créée.</p>
+
+<h3>Métadonnées sur les versions</h3>
+
+<p>Les métadonnées permettent faire le lien entre une version et toutes les entités (modèles) impactés via une ou plusieurs jointures.</p>
+
+<p>Par exemple, si je cherche toutes le modifications sur une personne, je veux également pouvoir retrouver toutes les modifications sur les entités liées à cette personnes: personne_adresse, adresse, personne_email, 
+personne_formation, personne_activite, ...</p>
+
+<h2>Aspect ergonomique</h2>
+
+<h3>Versions mineures/majeures</h3>
+
+<p>La plupart des versions ne sont pas significatives. Seules certaines versions le sont.
+<em>Exemples?</em></p>
+
+<p><strong>Solution</strong>
+Système de tags (ala SVN, GIT): l'utilisateur peut créer un <strong>jalon</strong> (tag) sur une entité à n'importe quel moment. Cela crée une version (virtuelle car vide: ne contenant pas de jeu de modifications), qui permet de marquer l'état de l'entité au temps <strong>t</strong> de la création du <strong>jalon</strong> (tag).</p>
+
+<h2>Implémentation</h2>
+
+<p>Lorsqu'un model est créé ou modifié, une version est créée en selon les étapes suivantes:</p>
+
+<ul>
+<li>[todo]</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

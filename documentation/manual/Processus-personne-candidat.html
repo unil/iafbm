@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Processus personne candidat</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h3>Définition</h3>
+
+<p>Personne : entité correspondant à une personne réutilisable dans le système (p.ex. pour la composition d'une commission). Il est possible de gérer des contrats et suivre les évolutions de sa fiche administrative (contrats, formations, etc.).</p>
+
+<p>Candidat: entité utilisée en principe qu'une fois dans une commission en tant que candidat.</p>
+
+<h3>Problème</h3>
+
+<p>Dans le système, les membres d'une commission sont de type 'personne', les candidats sont de type 'candidat'. Elles ne sont pas liées de manière forte, c'est-à-dire qu'il n'est à priori pas possible de savoir quelle personne a été candidate dans quelle commission. </p>
+
+<h3>Raisons de ce choix</h3>
+
+<p>90% des candidats ne sont pas retenus.  La séparation en deux entités différentes permet des meilleures performances d'accès à la base de données. Dans le cas où toutes les informations sont réunions, pour chaque recherche les résultats non pertinentes sont écartés par le système. Plus il y a d'éléments à trier, plus l'accès est lent.</p>
+
+<h3>Solution</h3>
+
+<ul>
+<li>Dans le cas où une personne existante dans la gestion des personnes devient candidat dans une commissions, il est possible d'envisager la possibilité de créer un nouveau candidat en copiant les informations existantes. Un lien existerait donc à ce moment-là.</li>
+<li>Il est possible qu'un candidat qui accepte une proposition d'engagement devienne une personne. Les informations seront donc recopiées dans ce cas-là.</li>
+<li>Il est possible de rechercher une personne parmi une liste de tous les candidats de toutes les commissions pour trouver une ou plusieurs occurrences.</li>
+</ul><p>Dans tous les cas, le lien se fait manuellement et volontairement par l'utilisateur. Le système ne garantit pas la justesse de l'information à 100%.</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
