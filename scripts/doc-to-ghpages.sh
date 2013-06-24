@@ -3,6 +3,7 @@
 # Configuration
 TMP_ROOT=/tmp/iafbm-doc-generator
 DOC_ROOT=generated
+URL_BASE="http://unil.github.io/iafbm/documentation/manual/"
 
 # Adds ssh passphrase
 eval "$(ssh-agent)" && ssh-add
@@ -16,8 +17,8 @@ cd $TMP_ROOT
 git clone https://github.com/unil/iafbm.wiki.git
 cd iafbm.wiki
 mkdir -p $TMP_ROOT/$DOC_ROOT/manual
-gollum-site generate --output_path $TMP_ROOT/$DOC_ROOT/manual/
-echo "<html><head><meta http-equiv="refresh" content="0; url=Home.html"></head><body></body></html>" > $TMP_ROOT/$DOC_ROOT/manual/index.html
+gollum-site generate --base_path "$URL_BASE" --output_path $TMP_ROOT/$DOC_ROOT/manual/
+echo '<html><head><meta http-equiv="refresh" content="0; url=Home.html"></head><body></body></html>' > $TMP_ROOT/$DOC_ROOT/manual/index.html
 
 # Generates: API server
 cd $TMP_ROOT
