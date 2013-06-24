@@ -146,46 +146,11 @@ ou
 
 <h3> Doc update script</h3>
 
-<p>Un script de mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation online</a> pourrait être créé. Voici <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">un draft</a>:
+<p>Un script de mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation</a> online <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">existe</a>. Son utilisation simple:
 </p><div class="highlight">
-<pre><span class="c">#!/bin/sh</span>
-
-<span class="nv">CURRENT_DIR</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
-<span class="nv">TMP_ROOT</span><span class="o">=</span>/tmp/iafbm-doc-generator
-<span class="nv">DOC_ROOT</span><span class="o">=</span>generated
-mkdir -p <span class="nv">$TMP_ROOT</span> <span class="o">&amp;&amp;</span> <span class="nb">cd</span> !<span class="err">$</span>
-
-git clone https://github.com/unil/iafbm.wiki.git
-<span class="nb">cd </span>iafbm.wiki
-mkdir -p <span class="nv">$TMP_ROOT</span>/<span class="nv">$GENERATED</span>/manual
-gollum-site generate --output_path <span class="nv">$TMPROOT</span>/<span class="nv">$DOC_ROOT</span>/manual/
-<span class="nb">cd</span> -
-
-git clone https://github.com/unil/iafbm.git
-<span class="nb">cd </span>iafbm
-mkdir -p <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/api/server
-phpdoc --directory<span class="o">=</span><span class="s2">"."</span> --ignore<span class="o">=</span><span class="s2">"iafbm/lib/xfm/,iafbm/lib/Minify/,iafbm/lib/dompdf-0.5.1/,iafbm/public/,scripts/migrations/vendors/,documentation/"</span> --sourcecode --title<span class="o">=</span><span class="s2">"iafbm"</span> --target<span class="o">=</span><span class="s2">"$TMP_ROOT/$DOC_ROOT/api/server"</span>
-
-mkdir <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/api/client
-jsduck iafbm/public/assets/js/app iafbm/public/assets/js/ext-custom/ --builtin-classes --title<span class="o">=</span><span class="s2">"iafbm - Developer documentation"</span> --output <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/api/client/.
-
-git checkout gh-pages
-<span class="nb">cd </span>documentation
-<span class="k">for </span>path in manual api/server api/client
-<span class="k">do</span>
-<span class="k">    </span>rm -rf <span class="nv">$path</span>/* <span class="o">&amp;&amp;</span> cp -r <span class="nv">$TMP_ROOT</span>/<span class="nv">$DOC_ROOT</span>/<span class="nv">$path</span>/.
-<span class="k">done</span>
-git add . <span class="o">&amp;&amp;</span> git commit -m<span class="s2">"Generated documentation automatic update"</span>
-git push
-
-<span class="nb">cd</span> <span class="nv">$CURRENT_DIR</span>
-rm -rf <span class="nv">$TMP_ROOT</span>
-</pre>
-</div>
-
-You might want to <code>ssh-add</code> to avoid typing your ssh passphrase every now and then:
-<div class="highlight">
-<pre><span class="nb">eval</span> <span class="s2">"$(ssh-agent)"</span> <span class="o">&amp;&amp;</span> ssh-add
+<pre>git clone --branch gh-pages https://github.com/unil/iafbm.git /tmp/gh-pages
+./tmp/gh-pages/scripts/doc-to-ghpages.sh
+rm -rf /tmp/gh-pages
 </pre>
 </div>
 
@@ -220,7 +185,7 @@ for all *.php files in the working directory and subdirectories.
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 16:11:36</small>
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 16:37:46</small>
         </footer>
       </div>
     </div>
