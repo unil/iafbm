@@ -156,6 +156,7 @@ Ext.onReady(function() {
                 },new Ext.ia.selectiongrid.Panel({
                     width: 480,
                     height: 250,
+                    editable: false,
                     combo: {
                         store: new iafbm.store.Personne({
                             params: {
