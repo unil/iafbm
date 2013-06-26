@@ -25,7 +25,7 @@ cd $TMP_ROOT
 git clone https://github.com/unil/iafbm.git
 cd iafbm
 mkdir -p $TMP_ROOT/$DOC_ROOT/api/server
-phpdoc --directory="." --ignore="iafbm/lib/xfm/,iafbm/lib/Minify/,iafbm/lib/dompdf-0.5.1/,iafbm/public/,scripts/migrations/vendors/,documentation/" --sourcecode --title="iafbm" --target="$TMP_ROOT/$DOC_ROOT/api/server"
+phpdoc --directory="." --ignore="iafbm/lib/xfm/,iafbm/lib/Minify/,iafbm/lib/dompdf-0.5.1/,iafbm/public/,scripts/migrations/vendors/,documentation/" --sourcecode --visibility="public,protected,private" --title="iafbm" --target="$TMP_ROOT/$DOC_ROOT/api/server"
 
 # Generates: API client
 cd $TMP_ROOT
