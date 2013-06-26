@@ -1,6 +1,6 @@
 <?php
 
-class printController extends iaExtRestController {
+class PrintController extends iaExtRestController {
 
     /**
      * Calls the print_{controller} method if it exists, throws an exception otherwise.
