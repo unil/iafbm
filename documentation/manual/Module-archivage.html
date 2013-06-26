@@ -28,22 +28,40 @@
 <p>L'archivage est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
 
 <ul>
-<li>La méthode <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3Aarchive%28%29.html">iaModelMysql::archive()</a> est le point d'entrée et effectue l'opération d'archivage récursif</li>
-<li>La méthode <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3Aarchive_data%28%29.html">iaModelMysql::archive_data()</a> prends en charge l'opération unitaire d'écriture des données d'un modèle</li>
-<li>La propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3A%24archivable.html">iaModelMysql::$archivable</a> permet d'autoriser un modèle à être archivé</li>
-<li>La propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3A%24archive_foreign_models.html">iaModelMysql::$archive_foreign_models</a> décrit les relations possibles du modèle afin de stocker l'entièreté des données liées à la au tuple à archiver</li>
-</ul><h3> Définition des relations</h3>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_archive">iaModelMysql::archive()</a> est le point d'entrée et effectue l'opération d'archivage récursif</li>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_archive_data">iaModelMysql::archive_data()</a> prends en charge l'opération unitaire d'écriture des données d'un modèle</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archivable">iaModelMysql::$archivable</a> permet d'autoriser un modèle à être archivé</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">iaModelMysql::$archive_foreign_models</a> décrit les relations possibles du modèle afin de stocker l'entièreté des données liées à la au tuple à archiver</li>
+</ul><h3>Définition des relations</h3>
 
 <p>Il est nécessaire de stocker l'entièreté des données liées à une ressource (modèle) - c'est-à-dire la ressource elle-même et toutes les ressources référencées par cette-dernière, de <em>manière récursive</em>.</p>
 
-<p>Pour ce faire, la propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3A%24archive_foreign_models.html">iaModelMysql::$archive_foreign_models</a> contient les informations permettant de décrire les liens étrangers: tables et champs.</p>
+<p>Pour ce faire, la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">iaModelMysql::$archive_foreign_models</a> contient les informations permettant de décrire les liens étrangers: tables et champs.
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+    <span class="k">public</span> <span class="nv">$archive_foreign_models</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+         <span class="s1">'commission_creation'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_membre'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_candidat_commentaire'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'candidat'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_travail'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_travail_evenement'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_validation'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_proposition_nomination'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_finalisation'</span> <span class="o">=&gt;</span> <span class="s1">'commission_id'</span><span class="p">,</span>
+         <span class="s1">'commission_type'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'commission_type_id'</span> <span class="o">=&gt;</span> <span class="s1">'id'</span><span class="p">),</span>
+         <span class="s1">'commission_etat'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'commission_etat_id'</span> <span class="o">=&gt;</span> <span class="s1">'id'</span><span class="p">),</span>
+         <span class="s1">'section'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'section_id'</span> <span class="o">=&gt;</span> <span class="s1">'id'</span><span class="p">)</span>
+    <span class="p">);</span>
+</pre>
+</div>
 
-<pre><code></code></pre>
+
 <p><strong>Note:</strong> le nom de cette propriété est obsolète et devenu trompeur car il est également utilisé par le <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-versioning.html">module Versioning</a>. Il faut le renommer en p.ex. <em>relations</em> - refactoring à l'horizon.</p>
 
-<h3> Stockage des données</h3>
+<h3>Stockage des données</h3>
 
-<p>Le stockage est effectué dans les tables <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/archives.html">archives</a> et <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/archives_data.html">archives_data</a>.</p>
+<p>Le stockage est effectué dans les tables <a href="https://github.com/unil/iafbm/blob/master/sql/002_archives.sql">archives</a> et <a href="https://github.com/unil/iafbm/blob/master/sql/002_archives.sql">archives_data</a>.</p>
 
 <p><strong>La table <em>archive</em> contient</strong> une tuple pour chaque archive:</p>
 
@@ -71,7 +89,7 @@
 <li>
 <strong>Création des tuples contenant les données dans la table *archive_data</strong>* <br>
 Un tuple par colonne pour chaque modèle à stocker.<br>
-Les tuples de toutes les tables liées sont stockés et ceci de manière récursive, selon l'implémentation de la méthode <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3Aarchive%28%29.html">iaModelMysql::archive()</a>.</li>
+Les tuples de toutes les tables liées sont stockés et ceci de manière récursive, selon l'implémentation de la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_archive">iaModelMysql::archive()</a>.</li>
 </ul><p>Toutes les opérations sont effectués au sein d'une <em>transaction SQL</em> et sont donc garanties pérennes.</p>
 
 <h2>Récupération des données</h2>
@@ -97,7 +115,7 @@ Les tuples de toutes les tables liées sont stockés et ceci de manière récurs
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 16:37:46</small>
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-26 11:51:21</small>
         </footer>
       </div>
     </div>

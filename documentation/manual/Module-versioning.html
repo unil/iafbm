@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title> Module Versioning</title>
+    <title>Module Versioning</title>
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
   </head>
 
@@ -13,9 +13,7 @@
         <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
       </div>
       <div class="content wikistyle gollum markdown">
-        <h1> Module Versioning</h1>
-
-<p>Description ala Archivage.</p>
+        <h1>Module Versioning</h1>
 
 <p>Le versioning permet de stocker les différences à chaque modification d'un enregistrement en base de données. Il a les caractéristiques suivantes:</p>
 
@@ -32,26 +30,82 @@
 
 <p>La création d'une version est <strong>réalisée par le stockage des différences</strong> lors de la modification d'un tuple. Ces différences sont stockées sous forme de clé-valeur consignant la valeur d'avant et d'après la modification pour chaque champs modifié du tuple en question.</p>
 
-<p>Le versioning stocke <strong>une liste des tuples concernés pour chaque version</strong>, dans la table <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql#L37">versions_relations</a>. La liste des tuples concernés désigne l'ensemble des <strong>tuples d'autres tables référencés</strong> par le tuple en cours de versionnage - et ceci <strong>de manière récursive</strong>.</p>
+<p>Le versioning stocke <strong>une liste des tuples concernés pour chaque version</strong>, dans la table <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql#L37">versions_relations</a>. La liste des tuples concernés désigne l'ensemble des <strong>tuples d'autres tables référencés</strong> par le tuple en cours de versionnage - et ceci <strong>de manière récursive</strong>. Par exemple, la modification d'une <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/adresse.php">adresse</a> impacte <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/personne_adresse.php">personne_adresse</a>, <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/personne.php">personne</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/commission.php">commission</a> si la personne est dans la commission.</p>
 
 <p>Chaque différence étant stockée sous forme de version, <strong>n'importe quelle version d'un tuple peut être reconstituée</strong> - en prenant la version courante d'un tuple et en y appliquant successivement et dans l'ordre déchronologique les différences de chaque version.</p>
 
 <h2>Implémentation</h2>
 
-<p>L'archivage est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
+<p>Le versionning est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
 
 <ul>
-<li>La méthode <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3Aversion%28%29.html">iaModelMysql::version()</a> effectue l'opération de versioning, c'est-à-dire le stockage des différences</li>
-<li>La méthode <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3Aget_version%28%29.html">iaModelMysql::get_version()</a> prends en charge la reconstruction des données pour fournir une version donnée d'un tuple</li>
-<li>La méthode <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3Aversion_store_relations%28%29.html">iaModelMysql::version_store_relations()</a> consigne les tuple concernés par la version en cours de stockage - par exemple, une modification dans un tuple d'une <em>table adresses</em>, liée à une <em>table personnes</em>, concerne également le tuple de <em>cette table personnes</em>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_version">iaModelMysql::version()</a> effectue l'opération de versioning, c'est-à-dire le stockage des différences</li>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_get_version">iaModelMysql::get_version()</a> prends en charge la reconstruction des données pour fournir une version donnée d'un tuple</li>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_version_store_relations">iaModelMysql::version_store_relations()</a> consigne les tuple concernés par la version en cours de stockage - par exemple, une modification dans un tuple d'une <em>table adresses</em>, liée à une <em>table personnes</em>, concerne également le tuple de <em>cette table personnes</em>
 </li>
-<li>La propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3A%24archive_foreign_models.html">iaModelMysql::$archive_foreign_models</a> est utiliser pour calculer les tuple concernés par une version</li>
-<li>La propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/iaModelMysql%3A%3A%24versionable.html">iaModelMysql::$versionable</a> permet d'autoriser un modèle à être versionné</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">iaModelMysql::$archive_foreign_models</a> est utiliser pour calculer les tuple concernés par une version</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_versioning">iaModelMysql::$versioning</a> permet d'autoriser un modèle à être versionné</li>
+</ul><h3>Stockage des données</h3>
+
+<p>Le stockage des versions est effectué dans les tables <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql">versions</a>, <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql">versions_data</a>, et <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql">versions_relations</a>.</p>
+
+<p><strong>La table <em>version</em> contient</strong> un tuple pour chaque version</p>
+
+<ul>
+<li>information sur le modèle relatif</li>
+<li>identifiant de version et date de création</li>
+<li>operation ayant donnée lieu à la version (put, post, delete, tag)</li>
+</ul><p><strong>La table <em>version_data</em> contient</strong> les données de version à proprement parler, un tuple par champs modifié:</p>
+
+<ul>
+<li>id version</li>
+<li>nom du champs modifié</li>
+<li>ancienne valeur et nouvelle valeur du champs</li>
+</ul><p><strong>La table <em>versions_relations</em> contient</strong> référence les tuples impacté par la version, un tuple par tuple impacté:</p>
+
+<ul>
+<li>id version</li>
+<li>nom de modèle et de table</li>
+<li>nom du champs de clé primaire</li>
+<li>id du champs clé primaire</li>
+</ul><h4>Signification des types de versions</h4>
+
+<p>Chaque version est associée à une opération:</p>
+
+<ul>
+<li>
+<strong>put:</strong> ajout d'un tuple</li>
+<li>
+<strong>post:</strong> modification d'un tuple</li>
+<li>
+<strong>delete:</strong> suppression d'un tuple</li>
+</ul><h3>Processus de versioning</h3>
+
+<p>(fixme)</p>
+
+<h3>Récupération des données</h3>
+
+<p>Un modèle versionné doit obligatoirement comporter un champs <strong>actif</strong> de type booléen. Ce champs indique si l'enregistrement est supprimé <em>(actif=false)</em> ou non. De ce fait, les tuples d'un modèle versionné ne sont jamais supprimés de la base de données.</p>
+
+<p>Il est possible de récupérer une version voulue à partir des informations suivantes:</p>
+
+<ul>
+<li>le tuple tel qu'il existe en base de données (version actuelle)</li>
+<li>les données de versions jusqu'à la version voulue</li>
+</ul><p>Le <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_get_version">processus</a> est le suivant:</p>
+
+<ul>
+<li>Récupération de l'enregistrement tel qu'il existe en base de données</li>
+<li>Application de toutes les modifications jusqu'à la version voulu</li>
+</ul><p>Dans le cas d'un enregistrement supprimé:</p>
+
+<ul>
+<li>Le champs actif passe à false et l'enregistrement est considéré comme supprimé</li>
 </ul>
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 16:37:46</small>
+          <small>Last edited by <b>damiencorpataux</b>, 2013-06-26 11:51:21</small>
         </footer>
       </div>
     </div>
