@@ -156,12 +156,22 @@ Ext.onReady(function() {
                 },new Ext.ia.selectiongrid.Panel({
                     width: 480,
                     height: 250,
-                    editable: false,
+                    id: 'mmm',
+                    //editable: false,
                     combo: {
                         store: new iafbm.store.Personne({
                             params: {
                                 xjoin: 'pays',
-                                xreturn: 'id,nom,prenom,date_naissance,pays.nom AS pays_nom,pays.code AS pays_code'
+                                xreturn: 'id,nom,prenom,date_naissance,pays.nom AS pays_nom,pays.code AS pays_code',
+                                personne_id: Array(27, 28, 51),
+                                personne_id_comparator: 'NOT IN'
+                                <?php
+                                    $params = array(
+                                        'evaluation_id' => $this->params['evaluation_id']
+                                    );
+                                    $evaluators = xModel::load('evaluation_evaluateur', $params)->get();
+                                    
+                                ?>
                             }
                         })
                     },
@@ -172,6 +182,7 @@ Ext.onReady(function() {
                         columns: iafbm.columns.Evaluateur
                     },
                     makeData: function(record) {
+                        console.log(record);
                         return {
                             personne_id: record.get('id'),
                             evaluation_id: <?php echo $d['id']; ?>,
