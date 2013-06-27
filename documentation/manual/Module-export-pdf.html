@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Module d'export PDF (impression)</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Module d'export PDF (impression)</h1>
+
+<p>L'application est capable de fournir des impressions PDF de certaines informations, comme <a href="https://wwwfbm.unil.ch/iafbm/print/commissions_membres/1">la liste des membres d'une commission</a> ou <a href="https://wwwfbm.unil.ch/iafbm/print/proposition_nomination/1">un formulaire de nomination</a>.</p>
+
+<p>Pour ce faire, la <a href="https://github.com/dompdf/dompdf">librairie dompdf</a> est <a href="https://github.com/unil/iafbm/tree/master/iafbm/lib/dompdf-0.5.1">utilisée</a>.</p>
+
+<h2>Implémentation</h2>
+
+<p>La logique d'impression se trouve dans le <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/print.php">controller print</a> et le point d'entrée est la méthode d'action par défaut <a href="http://unil.github.io/iafbm/documentation/api/server/classes/printController.html#method_defaultAction">PrintController::defaultAction()</a>. Une <a href="https://github.com/unil/iafbm/blob/master/iafbm/config/conf.d/routes.ini">route spécifique</a> à l'impression est configurée.</p>
+
+<h3>Controller</h3>
+
+<div class="highlight">
+<pre><span class="cp">&lt;?</span>
+<span class="k">class</span> <span class="nc">printController</span> <span class="k">extends</span> <span class="nx">iaExtRestController</span> <span class="p">{</span>
+
+    <span class="k">function</span> <span class="nf">defaultAction</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$controller</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'controller'</span><span class="p">];</span>
+        <span class="nv">$method</span> <span class="o">=</span> <span class="s2">"print_</span><span class="si">{</span><span class="nv">$controller</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">method_exists</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="nv">$method</span><span class="p">))</span> <span class="k">throw</span> <span class="k">new</span> <span class="nx">xException</span><span class="p">(</span><span class="s2">"This entity is not printable (</span><span class="si">{</span><span class="nv">$controller</span><span class="si">}</span><span class="s2">)"</span><span class="p">,</span> <span class="mi">404</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$method</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+    <span class="k">function</span> <span class="nf">_print</span><span class="p">(</span><span class="nv">$html</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// PDF formatting parameters</span>
+        <span class="nv">$orientation</span> <span class="o">=</span> <span class="o">@</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'xorientation'</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$orientation</span><span class="p">)</span> <span class="nv">$orientation</span> <span class="o">=</span> <span class="s1">'portrait'</span><span class="p">;</span>
+        <span class="nv">$paper</span> <span class="o">=</span> <span class="nx">strtolower</span><span class="p">(</span><span class="o">@</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'xpaper'</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$paper</span><span class="p">)</span> <span class="nv">$paper</span> <span class="o">=</span> <span class="s1">'a4'</span><span class="p">;</span>
+        <span class="c1">// Renders $html within print template</span>
+        <span class="nv">$html</span> <span class="o">=</span> <span class="nx">xView</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'layout/print'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'content'</span> <span class="o">=&gt;</span> <span class="nv">$html</span>
+        <span class="p">))</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">();</span>
+        <span class="c1">// Returns HTML if required</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">[</span><span class="s1">'html'</span><span class="p">]))</span> <span class="k">die</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+        <span class="c1">// Creates PDF file</span>
+        <span class="k">require_once</span><span class="p">(</span><span class="nx">xContext</span><span class="o">::</span><span class="nv">$basepath</span><span class="o">.</span><span class="s1">'/lib/dompdf/dompdf_config.inc.php'</span><span class="p">);</span>
+        <span class="nv">$dompdf</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DOMPDF</span><span class="p">();</span>
+        <span class="nv">$dompdf</span><span class="o">-&gt;</span><span class="na">set_paper</span><span class="p">(</span><span class="nv">$paper</span><span class="p">,</span> <span class="nv">$orientation</span><span class="p">);</span>
+        <span class="nv">$dompdf</span><span class="o">-&gt;</span><span class="na">set_base_path</span><span class="p">(</span><span class="nx">xContext</span><span class="o">::</span><span class="nv">$baseurl</span><span class="p">);</span>
+        <span class="nv">$dompdf</span><span class="o">-&gt;</span><span class="na">load_html</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+        <span class="nv">$dompdf</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">();</span>
+        <span class="nv">$dompdf</span><span class="o">-&gt;</span><span class="na">stream</span><span class="p">(</span><span class="s2">"print.pdf"</span><span class="p">);</span>
+        <span class="k">exit</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>Views</h3>
+
+<p>L'impression par l'utilisation de vues, conventionnellement contenues dans le répertoire <a href="https://github.com/unil/iafbm/tree/master/iafbm/views/print">iafbm/iafbm/views/print/</a>.</p>
+
+<p>Il est possible de visualiser, dans le navigateur, le HTML produit: ajouter le paramètre html à la vue. Par exemple: <code>https://wwwfbm.unil.ch/iafbm/print/commissions?html</code></p>
+
+<h3>Layout</h3>
+
+<p>Lors de l'impression, le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-webfront-view">template de layout</a> est utilisé pour décorer le contenu avec le <a href="https://github.com/unil/iafbm/blob/master/iafbm/views/layout/print.tpl">layout print</a>.</p>
+
+<h3>Le cas du reporting</h3>
+
+<p>Dans le cas des fonctionnalités de reporting, l'impression PDF est effectuée via le <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/report.php">controller report</a> et ses <a href="https://github.com/unil/iafbm/tree/master/iafbm/views/report">vues</a>.</p>
+
+<p>La logique d'impression contenue dans le controller <em>print</em> est réutilisée:
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">ReportController</span> <span class="k">extends</span> <span class="nx">iaExtRestController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">function</span> <span class="nf">_print</span><span class="p">(</span><span class="nv">$html</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">xController</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'print'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">params</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">_print</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Création d'un nouveau type d'impression</h2>
+
+<p>Le cas d'utilisation standard est d'implémenter la logique d'impression d'une resource dans ce controller <em>print</em>. Par exemple: 
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">printController</span> <span class="k">extends</span> <span class="nx">iaExtRestController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">print_commissions</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$commissions</span> <span class="o">=</span> <span class="nx">xController</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'commissions'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'xjoin'</span> <span class="o">=&gt;</span> <span class="s1">'commission_type,commission_etat,section'</span>
+        <span class="p">))</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+        <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$commissions</span><span class="p">[</span><span class="s1">'items'</span><span class="p">];</span>
+        <span class="nv">$html</span> <span class="o">=</span> <span class="nx">xView</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'print/commissions'</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">_print</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="o">&lt;?</span>
+</pre>
+</div>
+
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

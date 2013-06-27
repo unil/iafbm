@@ -716,15 +716,15 @@
 <path fill="none" stroke="black" d="M742.632,-1139.94C724.727,-1144.3 707.084,-1150.97 692,-1161 642.415,-1193.98 668.914,-1240.03 620,-1274 613.611,-1278.44 606.501,-1282.01 599.087,-1284.87"/>
 <polygon fill="none" stroke="black" points="597.884,-1281.59 589.563,-1288.14 600.158,-1288.21 597.884,-1281.59"/>
 </g>
-<!-- \\printController -->
-<g id="node58" class="node"><title>\\printController</title>
-<a xlink:href="iafbm.controllers.print.html" xlink:title="printController" target="_parent">
+<!-- \\PrintController -->
+<g id="node58" class="node"><title>\\PrintController</title>
+<a xlink:href="iafbm.controllers.print.html" xlink:title="PrintController" target="_parent">
 <polygon fill="none" stroke="black" points="908,-1098 790,-1098 790,-1062 908,-1062 908,-1098"/>
-<text text-anchor="middle" x="849" y="-1077.1" font-family="Courier,monospace" font-size="11.00">printController</text>
+<text text-anchor="middle" x="849" y="-1077.1" font-family="Courier,monospace" font-size="11.00">PrintController</text>
 </a>
 </g>
-<!-- \\printController&#45;&gt;\\iaExtRestController -->
-<g id="edge117" class="edge"><title>\\printController&#45;&gt;\\iaExtRestController</title>
+<!-- \\PrintController&#45;&gt;\\iaExtRestController -->
+<g id="edge117" class="edge"><title>\\PrintController&#45;&gt;\\iaExtRestController</title>
 <path fill="none" stroke="black" d="M789.841,-1077.14C757.84,-1078.56 719.379,-1085.44 692,-1107 628.497,-1157 682.487,-1222.73 620,-1274 613.837,-1279.06 606.787,-1283.03 599.33,-1286.14"/>
 <polygon fill="none" stroke="black" points="597.907,-1282.93 589.702,-1289.63 600.296,-1289.51 597.907,-1282.93"/>
 </g>

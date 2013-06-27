@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Extension du Controller (xfm)</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Extension du Controller (xfm)</h1>
+
+<p>Le <a href="https://github.com/damiencorpataux/xfm-php/blob/master/lib/Core/Controller.php">composant WebController</a> du framework <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">est étendu</a> pour:</p>
+
+<ul>
+<li><p><strong>fournir un binding standard avec le modèle</strong><br>
+en définissant la propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/model.html">model</a> avec le nom du modèle à lier, le controller est à même d'effectuer directement les opérations CRUD sur le modèle défini</p></li>
+<li><p><strong>gérer les interrogations fulltext</strong> (<a href="https://github.com/unil/iafbm/wiki/module-model-query">query</a>)<br>
+lorsque le paramètre <em>xquery</em> est fourni avec une requête, le controller procède automatiquement à une interrogation de type fulltext sur le modèle lié - à condition que celui-ci définission le <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/xwhere.html">xwhere</a> <em>query</em></p></li>
+<li><p><strong>gérer l'ordering des résultats de requêtes</strong><br>
+...</p></li>
+<li><p><strong>gérer l'accès aux opération CRUD</strong><br>
+Pour chaque controller, on peut définir quelles opérations CRUD sont acceptées sur le modèle lié</p></li>
+<li><p><strong>fournir une réponse compatible ExtJS</strong>
+Pour les requêtes sur le modèle lié, le composant fournit une structure réponse correspondante à celle attendue par les modèles ExtJS</p></li>
+<li><p><strong>fournir la méthode tag()</strong> permettant de créer une <a href="https://github.com/unil/iafbm/wiki/Module-versioning#signification-des-types-de-versions">version de type tag</a></p></li>
+<li><p><strong>fournit la méthode history()</strong> permettant de récupérer l'historique de versionning du modèle lié</p></li>
+<li>
+<p><strong>Effectuer les contrôles nécessaires</strong> tels que:</p>
+
+<ul>
+<li>Empêcher l'écriture d'un modèle versionné (paramètre <em>xversion</em> présent)</li>
+<li>Vérifier la cohérence des valeurs de clé primaire présentes dans l'url et les données fournies avec la requête</li>
+</ul>
+</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

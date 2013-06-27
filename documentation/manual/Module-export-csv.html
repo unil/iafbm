@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Module d'export CSV</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Module d'export CSV</h1>
+
+<p>L'application est capable d'exporter des données au format CSV (Windows ou Mac).</p>
+
+<h2>Implémentation</h2>
+
+<p>L'implémentation du module d'export CSV se trouve dans</p>
+
+<ul>
+<li>le <a href="https://github.com/unil/iafbm/blob/master/iafbm/fronts/api.php">ApiFront</a> spécifique au projet pour la <a href="http://unil.github.io/iafbm/documentation/api/server/classes/ApiFront.html#property_modes">définition</a> et la <a href="http://unil.github.io/iafbm/documentation/api/server/classes/ApiFront.html#method___construct">sélection</a> du mode d'export (Mac/Windows)</li>
+<li>le controller lié au modèle exporté, par exemple <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/personnes.php">personnes</a>, <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/personnes_adresses.php">personnes_adresses</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/commissions_membres.php">commissions_membres</a>.</li>
+</ul><h3>Controller</h3>
+
+<p>L'implémentation d'un export CSV pour un modèle donné se fait dans la classe du controller relatif. La manière standards d'implémenter l'export est la suivante:</p>
+
+<ul>
+<li>
+<strong>Création d'une méthode exportAction()</strong> pour l'écran de configuration et/ou le trigger pour le téléchargement (headers HTTP)</li>
+<li>
+<strong>Création d'une méthode export()</strong> pour la génération des données tabluaires (cette méthode retourne un tableau PHP)</li>
+</ul><h3>Amélioration</h3>
+
+<p>Un <em>Front</em> de type <em>UploadFront</em> pourrait être implémenté pour prendre en charge la génération des headers HTTP déclenchant le téléchargement.</p>
+
+<p>Dans ce cas, le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Manual#onion-representation">flux d'exécution</a> imbriquerait 2 Fronts: le front Upload et le front Api (pour la sérialialisation des données).</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Import de données externes</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Import de données externes</h1>
+
+<p>L'application utilise des données UNIL et CHUV fournies au format CSV. Un <a href="https://github.com/unil/iafbm/blob/master/scripts/import.php">script d'import</a> permet d'intégrer ces informations dans la base de données iafbm.</p>
+
+<p>Ces données sont conservées par Stefan Meier.</p>
+
+<h2>Utilisation</h2>
+
+<ol>
+<li>Placer les fichiers CSV d'import dans le répertoire <code>iafbm/import/</code>
+</li>
+<li>Lancer le script d'import
+<div class="highlight">
+<pre><span class="nb">cd </span>iafbm/scripts
+php import.php
+</pre>
+</div>
+</li>
+</ol><p><strong>Notez que</strong> cette étape est effectuée automatiquement par le <a href="https://github.com/unil/iafbm/blob/master/scripts/update.php">script de mise-à-jour</a> de l'application, cf <a href="https://github.com/unil/iafbm/wiki/Cookbook-deploy">recette de déploiement</a>.</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

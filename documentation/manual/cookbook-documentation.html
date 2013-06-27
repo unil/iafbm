@@ -28,9 +28,28 @@
 <strong>Un manuel</strong> contenant une description de l'architecture et des modules ainsi qu'un cookbook</li>
 </ul><p>Le manuel est hébergé sur <a href="https://github.com/unil/iafbm/wiki">GitHub Wiki</a> et <a href="http://unil.github.io/iafbm/">GitHub Pages</a> (miroir HTML). La documentation API est hébergée sur <a href="http://unil.github.io/iafbm/">GitHub Pages</a>.</p>
 
-<h2>Documentation API</h2>
+<h2>La manière simple</h2>
 
-<h3>Partie serveur (PHP)</h3>
+<p>Le script <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">doc-to-ghpages.sh</a> permet mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation HTML</a> en-ligne. Son utilisation est simple:
+</p><div class="highlight">
+<pre>git clone --branch gh-pages https://github.com/unil/iafbm.git /tmp/gh-pages
+. /tmp/gh-pages/scripts/doc-to-ghpages.sh
+rm -rf /tmp/gh-pages
+</pre>
+</div>
+
+<strong>Prérequis:</strong> les composants suivants doivent être installés sur la machine exécutant ce script:
+
+<ul>
+<li>phpdoc (<a href="http://www.phpdoc.org/">http://www.phpdoc.org/</a>)</li>
+<li>jsduck (<a href="https://github.com/senchalabs/jsduck">https://github.com/senchalabs/jsduck</a>)</li>
+<li>gollum-site (<a href="https://github.com/dreverri/gollum-site">https://github.com/dreverri/gollum-site</a>)</li>
+<li>git (<a href="http://git-scm.com/">http://git-scm.com/</a>)</li>
+</ul><h2>Détail</h2>
+
+<h3>Documentation API</h3>
+
+<h4>Partie serveur (PHP)</h4>
 
 <ol>
 <li>
@@ -49,7 +68,7 @@ phpdoc --directory<span class="o">=</span><span class="s2">"."</span> --ignore<s
 </pre>
 </div>
 </li>
-</ol><h3>Partie client (Javascript)</h3>
+</ol><h4>Partie client (Javascript)</h4>
 
 <ol>
 <li>
@@ -67,7 +86,7 @@ jsduck iafbm/public/assets/js/app iafbm/public/assets/js/ext-custom/ --builtin-c
 </pre>
 </div>
 </li>
-</ol><h3>Mise en ligne</h3>
+</ol><h4>Mise en ligne</h4>
 
 <p>La documentation API est en ligne sur <a href="http://pages.github.com/">GitHub Pages</a>, dans les répertoires <code>documentation/api/server/</code> et <code>documentation/api/server/</code>. Cet exemple illustre la mise en ligne de la <em>documentation serveur</em>:
 </p><div class="highlight">
@@ -83,9 +102,9 @@ git push
 </div>
 
 
-<h2>Documentation wiki</h2>
+<h3>Documentation wiki</h3>
 
-<h3>Générer une version statique</h3>
+<h4>Générer une version statique</h4>
 
 <p>Il est possible de générer une version statique de la documentation wiki hébergée par github. Le composant <strong>gollum-site</strong> est utilisé: <a href="https://github.com/dreverri/gollum-site">https://github.com/dreverri/gollum-site</a></p>
 
@@ -110,7 +129,7 @@ gollum-site generate
 </pre>
 </div>
 </li>
-</ol><h3>Mise en ligne</h3>
+</ol><h4>Mise en ligne</h4>
 
 <p>Similairement à la documentation
 La documentation HTML est en ligne sur <a href="http://pages.github.com/">GitHub Pages</a>, dans le répertoire <code>documentation/manual/</code>. Cet exemple illuste la mise en ligne de la documentation HTML:
@@ -127,7 +146,7 @@ git push
 </div>
 
 
-<h3>Tables des matières</h3>
+<h4>Tables des matières</h4>
 
 <p>Le <a href="https://raw.github.com/wiki/damiencorpataux/xfm-php/scripts/toc.py">script toc.py</a> permet de générer et d'inclure une TOC par fichier markdown.
 </p><div class="highlight">
@@ -141,16 +160,22 @@ ou
 </pre>
 </div>
 
+ou
+<div class="highlight">
+<pre>toc.py <span class="s2">"Manual.md,Cookbook*.md"</span>
+</pre>
+</div>
+
 
 <h2>Tips</h2>
 
-<h3>Doc update script</h3>
+<h3>Script de compilation du wiki en un seul fichier .md</h3>
 
-<p>Un script de mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation HTML</a> en-ligne <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">existe</a>. Son utilisation simple:
-</p><div class="highlight">
-<pre>git clone --branch gh-pages https://github.com/unil/iafbm.git /tmp/gh-pages
-./tmp/gh-pages/scripts/doc-to-ghpages.sh
-rm -rf /tmp/gh-pages
+<div class="highlight">
+<pre>git clone --branch gh-pages https://github.com/damiencorpataux/xfm-php.wiki.git /tmp/xfm-php.wiki
+<span class="nb">cd</span> /tmp/xfm-php.wiki
+python scripts/one.py <span class="s2">"Home.md,Manual.md,Conceptual*.md,Cookbook*.md"</span> &gt; ONE.md
+rm -rf /tmp/xfm-php.wiki
 </pre>
 </div>
 
@@ -185,7 +210,7 @@ for all *.php files in the working directory and subdirectories.
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-26 11:51:21</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
         </footer>
       </div>
     </div>
