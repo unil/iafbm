@@ -163,6 +163,14 @@ Ext.define('Ext.ia.data.Store', {
         this.callParent(arguments);
         // Ensures store.params is a hashtable
         this.params = this.params || {};
+        // ExtJS 3.0 Store.params simulation
+        this.on({
+            beforeload: function() { this.applyParamsToProxy() },
+            beforesync: function() { this.applyParamsToProxy() },
+            beforeprefetch: function() { this.applyParamsToProxy() },
+            // Loaded flag (TODO: is it used/necessary ?)
+            load: function() { this.loaded = true }            
+        });
     },
     applyParamsToProxy: function() {
         // Fix: this.proxy.extraParams is sometimes set to undefined,
@@ -178,14 +186,6 @@ Ext.define('Ext.ia.data.Store', {
             this.getUpdatedRecords(),
             this.getRemovedRecords()
         );
-    },
-    listeners: {
-        // ExtJS 3.0 Store.params simulation
-        beforeload: function() { this.applyParamsToProxy() },
-        beforesync: function() { this.applyParamsToProxy() },
-        beforeprefetch: function() { this.applyParamsToProxy() },
-        // Loaded flag (TODO: is it used/necessary ?)
-        load: function() { this.loaded = true }
     }
 });
 
