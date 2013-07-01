@@ -1,7 +1,0 @@
-Sécurité
-========
-
-Concept
--------
-
-La sécurité est implémentée au niveau des **modèles**.
