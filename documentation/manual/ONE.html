@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Bienvenue sur le wiki du projet</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Bienvenue sur le wiki du projet</h1>
+
+<p><strong>iafbm</strong> est une <strong>application de gestion basée web</strong> réalisant la <strong>gestion des commissions</strong> de la Relève au Décanat de la FBM.</p>
+
+<p><strong>FIXMEs</strong> <br>
+Incorporer le contenu de la documentation sphinx (<a href="http://unil.github.io/iafbm/documentation/manual-sphinx/">http://unil.github.io/iafbm/documentation/manual-sphinx/</a>)</p>
+
+<p>Cette documentation technique s'adresse à un développeur et consigne les informations suivantes:</p>
+
+<ul>
+<li>
+<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#gnralits">Architecture</a> de l'application</li>
+<li>
+<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#modules">Description des composants</a> développés</li>
+<li>
+<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#cookbook">Recettes</a> pour les pratiques routinières</li>
+<li>
+<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#rfrence-api">Référence API</a> pour les parties serveur et client, ainsi que la documentation des composants tiers</li>
+<li>
+<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> disponibles (fixme: #224 to production)</li>
+</ul><p>Pour un système bien conçu, la documentation ne fait qu'articuler les composants afin d'augmenter leur compréhension. Une documentation efficace favorise les références judicieuses aux longues explications.</p>
+
+<h1>Généralités</h1>
+
+<ul>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-architecture.html">Architecture</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html">Structure des répertoires</a></li>
+<li>
+<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-release-cycle.html">Processus de développement</a> (Release Cycle)</li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-migration.html">Migrations</a></li>
+</ul><h1>Modules</h1>
+
+<ul>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-versioning.html">Versioning</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-archivage.html">Archivage</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-authentification.html">Authentification et gestion d'accès</a></li>
+<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/module-model-query.html">Model query</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-export-pdf.html">Printing (PDF)</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-export-csv.html">Export (CSV)</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Import.html">Import (données externes)</a></li>
+<li>Extensions XFM
+
+<ul>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-xfm-bootstrap.html">Bootstrap</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-xfm-fronts.html">Fronts</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-xfm-controllers.html">Controllers</a></li>
+<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/module-xfm-models.html">Models</a></li>
+<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/module-xfm-auth.html">Auth</a></li>
+</ul>
+</li>
+<li>Extensions ExtJS
+
+<ul>
+<li>
+<a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/module-extjs-widgets.html">Widgets</a> (each extjs widgets)</li>
+<li>
+<a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/module-extjs-models.html">Models</a> (avec proxy et gestion d'exceptions)</li>
+</ul>
+</li>
+<li>Subtilités
+
+<ul>
+<li>Versioned members models</li>
+<li>Champs calculés</li>
+</ul>
+</li>
+</ul><h1>Cookbook</h1>
+
+<ul>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-release-cycle.html">Implémenter une nouvelle fonctionnalité</a></li>
+<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cookbook-migration.html">Migration et modification de la base de données</a></li>
+<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cookbook-ecrire-unittest.html">Ecrire un test unitaire</a></li>
+<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cookbook-lancer-tests-unitaires.html">Lancer tests unitaires</a></li>
+<li>Intégrer une nouvelle librairie dans le projet</li>
+<li>How to create/extend an XFM front/controller/model</li>
+<li>How to create/extend an ExtJS widget/model</li>
+<li>...</li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-deploy.html">Déploiement de l'application</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/cookbook-documentation.html">Générer la documentation</a></li>
+</ul><h1>Référence API</h1>
+
+<h4>Références et index iafbm (projet)</h4>
+
+<ul>
+<li>
+<a href="http://unil.github.io/iafbm/documentation/api/server/">API partie serveur</a> (xfm-php)</li>
+<li>
+<a href="http://unil.github.io/iafbm/documentation/api/client/">API partie client</a> (ExtJS)</li>
+<li>
+<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> du Web-service (fixme: #224 to production)</li>
+</ul><h4>Références et documentation tiers</h4>
+
+<ul>
+<li>
+<a href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-yum.html">Installation de logiciels</a> sur Red Hat Linux</li>
+<li>
+<a href="http://www.php.net/manual/en/index.php">PHP</a>, son <a href="http://www.php.net/manual/en/langref.php">API</a> et la configuration du <a href="http://www.php.net/manual/en/configuration.file.php">Module apache PHP</a>
+</li>
+<li>
+<a href="http://dev.mysql.com/doc/refman/5.1/en/">MySQL</a>, son <a href="http://dev.mysql.com/doc/refman/5.1/en/sql-syntax.html">language SQL</a> et sa <a href="http://dev.mysql.com/doc/refman/5.1/en/server-administration.html">configuration</a>
+</li>
+<li>
+<a href="https://github.com/damiencorpataux/xfm-php/wiki">xfm-php</a> et son <a href="http://damiencorpataux.github.io/xfm-php/doc/api/master/">API</a>
+</li>
+<li>
+<a href="http://docs.sencha.com/extjs/">ExtJS</a>, son <a href="http://docs.sencha.com/extjs/#!/api">API</a>, ses <a href="http://docs.sencha.com/extjs/#!/guide">guides</a> et ses <a href="http://docs.sencha.com/extjs/#!/example">tutoriels en forme d'exemples</a>
+</li>
+<li>Composant d'export pdf <a href="https://github.com/dompdf/dompdf/blob/master/README.md">dompdf</a> utilisé pour l'impression</li>
+</ul><h1>Lost &amp; found | Archives</h1>
+
+<ul>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Entites-contrats.html">Entites-Contrats</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Entites-d%C3%A9partements.html">Entites-Départements</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Processus-contrats.html">Processus-Contrats</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Processus-personne-candidat.html">Processus-Personne-Candidat</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Technical-UnitTesting.html">Technical-UnitTesting</a></li>
+</ul><hr><p>Cette documentation se trouve sur <a href="http://unil.github.io/iafbm/">gh-pages</a> et devrait être nettoyée et mise à jour (supprimer la partie Sphinx, fixer la partie gollum:generation static du wiki iafbm).</p>
+
+<hr><p>Le contenu a été déplacé dans <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-release-cycle.html#migrations">general-release-cycle#migrations</a>. To be deleted.</p>
+
+<hr><h1>Structure des répertoires</h1>
+
+<h1>TODO</h1>
+
+<p>Prendre chaque lien rouge ci-dessous et trouver ou créer la recette correspondante (ca devrait couvrir 90% du de l'application)</p>
+
+<h2>Structure</h2>
+
+<p>Les répertoires sont structurés en oignon:</p>
+
+<ul>
+<li>Le répertoire dit <strong>racine</strong> <code>iafbm/</code> contient les éléments d'infrastructure (déployement, maintenance, migration, tests unitaires, etc)</li>
+<li>Le sous-répertoire dit <strong>de projet</strong> <code>iafbm/iafbm/</code> contient les éléments de projet (structurés selon les conventions du framework <a href="https://github.com/damiencorpataux/xfm-php/wiki/Conceptual-project-directory-structure">xfm-php</a>)</li>
+</ul><p>Voici les 2 premiers niveaux de la structure des répertoires de l'application:
+</p><pre><code>iafbm
+├── iafbm
+│   ├── config
+│   ├── controllers
+│   ├── fronts
+│   ├── lib
+│   ├── models
+│   ├── public
+│   └── views
+├── import
+├── scripts
+├── sql
+└── unittests</code></pre>
+
+<h3>Typologie générale</h3>
+
+<p>La structure des répertoires compartimente les principaux composants de l'application:</p>
+
+<ul>
+<li>
+<strong>L'infrastructure de l'application</strong> dans le répertoire <strong><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html#iafbm-infrastructure">iafbm/</a></strong>
+</li>
+<li>
+<strong>Le projet applicatif xfm-php</strong> dans le répertoire <strong><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html#iafbmiafbm-projet-xfm">iafbm/iafbm/</a></strong>
+</li>
+<li>
+<strong>Les composants applicatifs extjs</strong> dans le répertoire <strong><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html#iafbmiafbmpublicassetsjsapp">iafbm/iafbm/public/assets/js/app/</a></strong>
+</li>
+<li>
+<strong>Les librairies:</strong> <br><ul>
+<li>
+<strong>php</strong> dans le répertoire <strong><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html#iafbmiafbmlib">iafbm/iafbm/lib/</a></strong> <br>
+</li>
+<li>
+<strong>javascript</strong> dans le répertoire <strong><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html#iafbmiafbmpublicassetsjs">iafbm/iafbm/public/assets/js/</a></strong>
+</li>
+</ul>
+</li>
+<li>
+<strong>La partie publique</strong>, accessible en lecture via le web, dans le répertoire <strong><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-structure-repertoires.html#iafbmiafbmpublic-web-world-readable">iafbm/iafbm/public/</a></strong>
+</li>
+</ul><h2>Détail des répertoires</h2>
+
+<h3>
+<a href="https://github.com/unil/iafbm/tree/master">iafbm/</a> (infrastructure)</h3>
+
+<p>Il s'agit du <strong>répertoire d'infrastructure</strong>, contenant les composants supportant le fonctionnement de l'application xfm.</p>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/sql">iafbm/sql/</a></h4>
+
+<p>Le répertoire <code>sql/</code> contient les fichiers SQL pour la <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cr%C3%A9ation-de-la-base-de-donn%C3%A9es-et-des-tables.html">création de la base de données et des tables</a>. Ils sont exécutés par le <a href="https://github.com/unil/iafbm/blob/master/scripts/deploy.sh">script de déploiement</a>.
+</p><pre><code>iafbm
+├── ...
+├── sql
+│   ├── 000_database.sql
+│   ├── 001_versions.sql
+│   ├── 002_archives.sql
+│   ├── 005_grandeurs.sql
+│   ├── 010_cantons.sql
+│   ├── ...
+:   :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/">iafbm/import/</a></h4>
+
+<p>Le répertoire <code>sql/</code> contient les fichiers CSV des <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/donn%C3%A9es-externes-%C3%A0-importer.html">données externes à importer</a> (UNIL et CHUV) et des catalogues à peupler. Elles sont exécutées par le <a href="https://github.com/unil/iafbm/blob/master/scripts/import.sh">script d'import</a>.
+</p><pre><code>iafbm
+├── ...
+├── import
+│   └── csv
+│   │   ├── activites_academiques.csv
+│   │   ├── adresses.csv
+│   │   ├── autre_mandats.csv
+│   │   ├── ...
+:   :   :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/scripts">iafbm/scripts/</a></h4>
+
+<p>Le répertoire <code>scripts/</code> contient les scripts PHP permettant le <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/d%C3%A9ployement.html">déployement</a> et la <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/maintenance.html">maintenance</a> de l'application.
+Le répertoire <code>scripts/migrations</code> contient l'archive des scripts de <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/migration.html">migration</a>.
+</p><pre><code>iafbm
+├── ...
+├── scripts
+│   ├── deploy.sh
+│   ├── import.php
+│   ├── migrations
+│   │   ├── issue#178-commission-membre.php
+│   │   ├── issue#181-personne-denomination.php
+│   │   ├── issue#191-commission-fonction-add.php
+│   │   ├── ...
+│   │   └── vendors
+│   │       └── parsecsv-0.3.2
+│   ├── Script.php
+│   └── update.php
+:</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/unittest">iafbm/unittests/</a></h4>
+
+<p>Le répertoire <code>unittests/</code> contient les scripts PHP permettant la <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/non-r%C3%A9gression-du-syst%C3%A8me.html">non-régression du système</a>.
+Le répertoire <code>unittests/units</code> contient les tests unitaires à proprement parler.
+</p><pre><code>iafbm
+├── ...
+├── unittests
+│   ├── lib
+│   │   ├── iaPHPUnit_Auth_Framework_TestCase.php
+│   │   └── iaPHPUnit_Framework_TestCase.php
+│   ├── phpunit.php
+│   ├── suites
+│   │   └── All.php
+│   └── units
+│       ├── ArchivingTest.php
+│       ├── AuthenticationTest.php
+│       ├── IafbmRolesTest.php
+│       ├── ...
+:       :</code></pre>
+
+<hr><h3>
+<a href="https://github.com/unil/iafbm/tree/master/iafbm">iafbm/iafbm/</a> (projet xfm)</h3>
+
+<p>Il s'agit du <strong>répertoire de projet</strong>, dont la structure suit les <a href="https://github.com/damiencorpataux/xfm-php/wiki/Conceptual-project-directory-structure">conventions xfm-php</a>:
+</p><pre><code>iafbm
+├── iafbm
+│   ├── config
+│   ├── controllers
+│   ├── fronts
+│   ├── lib
+│   ├── models
+│   ├── public
+│   └── views
+:</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/lib">iafbm/iafbm/lib/</a></h4>
+
+<p>Ce répertoire contient les librairies utilisées au sein du projet - notamment la librairie du framework xfm, dompdf pour la génération de documents PDF ainsi que les librairies spécifiques au projet iafbm.
+</p><pre><code>iafbm
+├── iafbm
+│   ├── lib
+│   │   ├── dompdf -&gt; dompdf-0.5.1
+│   │   ├── dompdf-0.5.1
+│   │   ├── iafbm
+│   │   ├── Minify
+│   │   └── xfm
+:   :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/lib/iafbm">iafbm/iafbm/lib/iafbm/</a></h4>
+
+<p>Ce répertoire contient les librairies sécifiques au projet iafbm. Notamment, les extensions des composants du framework xfm.
+</p><pre><code>iafbm
+├── iafbm
+│   ├── lib
+│   │   ├── iafbm
+│   │   │   └── xfm
+│   │   │       ├── iaAuth.php
+│   │   │       ├── iaBootstrap.php
+│   │   │       ├── iaExtRestController.php
+│   │   │       ├── iaJournalingModelMysql.php
+:   :   :       └── iaModelMysql.php</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/lib/xfm">iafbm/iafbm/lib/xfm/</a></h4>
+
+<p>Contient la <a href="https://github.com/damiencorpataux/xfm-php">librairie du framework xfm-php</a>.</p>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/views/common">iafbm/iafbm/views/common/</a></h4>
+
+<p>Contient les vues réutilisables, notamment les vues <code>model/</code> utilisées pour <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-model-xwhere">les clauses wheres scriptables</a>.
+</p><pre><code>iafbm
+├── iafbm
+│   └── views
+│       ├── common
+│       │   ├── extjs
+│       │   ├── field
+│       │   ├── map
+│       │   └── model
+:       :</code></pre>
+
+<hr><h3>
+<a href="https://github.com/unil/iafbm/tree/master/iafbm/public">iafbm/iafbm/public/</a> (web world readable)</h3>
+
+<p>Ce répertoire est le répertoire racine du serveur web, il contient les fichiers devant être accessibles par le web (index.php, fichiers js et css, etc).
+</p><pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── a -&gt; assets/
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   ├── img
+│   │   │   └── js
+│   │   ├── favicon.ico
+│   │   └── index.php
+:   :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets">iafbm/iafbm/public/assets/</a></h4>
+
+<p>Ce répertoire contient les composants du projet devant être accessibles au web:.
+</p><pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   │   ├── layout.css
+│   │   │   │   └── ...
+│   │   │   ├── img
+│   │   │   │   ├── icons
+│   │   │   │   ├── ...
+│   │   │   └── js
+│   │   │       ├── app
+│   │   │       ├── ext-4.0.7-gpl
+│   │   │       └── ...
+:   :   :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/assets/js">iafbm/iafbm/public/assets/js/</a></h4>
+
+<p>Ce répertoire contient les librairies javascript utilisées au sein du projet.
+</p><pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   └── js
+│   │   │       ├── app
+│   │   │       ├── ext -&gt; ext-4.0.7-gpl
+│   │   │       ├── ext-4.0.7-gpl
+│   │   │       ├── ext-custom
+│   │   │       └── ext-ux
+:   :   :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/js/app">iafbm/iafbm/public/assets/js/app/</a></h4>
+
+<p>Ce répertoire contient la partie javascript de l'application.
+</p><pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   └── js
+│   │   │       ├── app
+│   │   │       │   ├── classes.js
+│   │   │       │   ├── columns.js
+│   │   │       │   ├── forms.js
+│   │   │       │   ├── grids.js
+│   │   │       │   ├── locales.js
+│   │   │       │   └── models.js
+:   :   :       :</code></pre>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/img">iafbm/iafbm/public/assets/img/</a></h4>
+
+<p>Ce répertoire contient les images utilisées au sein de l'application. Il est organisé en plusieurs sous-répertoires:</p>
+
+<ul>
+<li>
+<strong>controllers:</strong> contient les images propres à chaque controller</li>
+<li>
+<strong>ext:</strong> les images utilisées par les composants ExtJs</li>
+<li>
+<strong>icons:</strong> icônes utilisées par tous les composants du projet</li>
+<li>
+<strong>id:</strong> images relatives à l'identité de l'application (logos, etc.)</li>
+<li>
+<strong>layout:</strong> images utilisées pour la mise en page de l'application
+<pre><code>iafbm
+├── iafbm
+│   ├── public
+│   │   ├── assets
+│   │   │   ├── img
+│   │   │   │   ├── controllers
+│   │   │   │   │   ├── personnes
+│   │   │   │   │   │   └── export
+│   │   │   │   │   └── user
+│   │   │   │   │       ├── email.png
+│   │   │   │   │       └── ...
+│   │   │   │   ├── ext
+│   │   │   │   │   ├── add.png
+│   │   │   │   │   └── ...
+│   │   │   │   ├── icons
+│   │   │   │   │   ├── icon-warning-small.gif
+│   │   │   │   │   └── ...
+│   │   │   │   ├── id
+│   │   │   │   │   ├── favicon.ico
+│   │   │   │   │   └── ...
+│   │   │   │   └── layout
+│   │   │   │       └── ...
+:   :   :   :</code></pre>
+#### <a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/css">iafbm/iafbm/public/assets/css/</a>
+Ce répertoire contient les fichiers CSS spécifiques à l'application.</li>
+</ul><hr><h1>Cycle de développement</h1>
+
+<h2>Itération</h2>
+
+<p>Le <strong>cycle de développement</strong> est formé de multiples <strong>itérations</strong>. Une itération se compose elle-même de 3 processus <strong>communicants</strong> et <strong>autonomes</strong>:</p>
+
+<ul>
+<li>
+<strong>Demande de fonctionnalités</strong> (feature request)</li>
+<li>
+<strong>Développement des fonctionnalités</strong> (feature development)</li>
+<li>
+<strong>Mise en production</strong> (migration)</li>
+</ul><p>Les processus techniques sont décrits en détail dans la <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-release-cycle.html">recette</a> relative.</p>
+
+<h3>Demande de fonctionnalités</h3>
+
+<p>Phase administrative composée des étapes</p>
+
+<ul>
+<li>
+<strong>L'utilisateur écrit une demande</strong> en forme de commentaire sur la page wiki (fixme: wiki page link)</li>
+<li>
+<strong>La demande est validée</strong> lors de la prochaine séance</li>
+<li>
+<strong>Une demande wiki est créée</strong> (example, création d'une nouvelle demande) (fixme: example wiki page link)</li>
+</ul><h3>Développement des fonctionnalités</h3>
+
+<p>Phase technique composée des étapes</p>
+
+<ul>
+<li><strong>La demande wiki passe en état "A implémenter"</strong></li>
+<li>
+<strong>Un ou plusieurs ticket(s) github sont créé</strong>, avec réf. vers la demande wiki</li>
+<li>
+<strong>La fonctionnalité est développée</strong> et testée par le développeur</li>
+</ul><h3>Mise en production</h3>
+
+<ul>
+<li>
+<strong>La migration est effectuée</strong> sur <a href="http://wwwfbm.unil.ch/iafbm_release/">l'instance de release</a> - <br>
+la migration des données est également testée par le développeur
+avec une copie des données de production</li>
+<li>
+<strong>La fonctionnalité est testée</strong> et validée par les utilisateurs - <br>
+en cas d'anomalie (bug), la fonctionnalité est corrigée et le processus de <em>mise en production</em> est recommencé - <br>
+après validation, aucune modification ne peut plus être apportée à la fonctionnalité</li>
+<li>
+<strong>La migration est effectuée</strong> sur <a href="http://wwwfbm.unil.ch/iafbm/">l'instance de production</a> - <br>
+les données de production ont été préalablement sauvegardées</li>
+<li>
+<strong>La demande wiki est archivée</strong> et les tickets github fermés - <br>
+en cas d'une détection d'anomalie (bug) à posteriori, une nouvelle itération est mise en place.</li>
+</ul><h3>Versioning</h3>
+
+<p>Structure du système de version: <strong>x.y.z</strong> (eg. 1.0.0)</p>
+
+<ul>
+<li>
+<strong>x</strong>: Major version: Updated on: Major architecture/conceptual change leading to incompatibilities</li>
+<li>
+<strong>y</strong>: Minor version: Updated on: Feature addition, modification, removal</li>
+<li>
+<strong>z</strong>: Subminor version: Updated on: Hotfixes</li>
+</ul><h2>Migrations</h2>
+
+<p><strong>Une migration est effectuée lorsqu'il faut <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cookbook-migration.html">modifier une partie de la base de données</a></strong> (structure ou données) et s'effectue généralement lors de <a href="https://github.com/unil/iafbm/wiki/Cookbook-release-cycle">l'implémentation de fonctionnalités</a>.</p>
+
+<p>Par exemple, une fonctionnalité demandant d'ajouter un champs de type liste déroulante nécessite de modifier la base de données en créant un catalogue contenant les options de la liste.</p>
+
+<h3>Création d'une migration</h3>
+
+<p>Une partie de ces étapes est commune avec le <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-release-cycle.html">déroulement d'une mise en production</a>.</p>
+
+<h4>Création de la migration</h4>
+
+<ol>
+<li>Créer le ticket sur <a href="https://github.com/unil/iafbm/issues">github</a> pour la fonctionnalité ou la migration</li>
+<li>Créer la branche git et développer</li>
+<li>Lancer les tests unitaires</li>
+<li>Créer le script de migration nommé <code>issue#{numero}-nom-de-la-branche-git</code> dans <code>scripts/migrations/</code>. <br>
+La migration doit se faire à partir du tag git correspondant à la version de production.<br>
+</li>
+</ol><h4>Test de la migration</h4>
+
+<ol>
+<li>Se positionner sur le <a href="https://github.com/unil/iafbm/tags">tag git</a> correspondant à la version de production actuelle</li>
+<li>(Re)déployer la base de données de l'application <em>from scratch</em> et tester le bon fonctionnement de l'application</li>
+<li>Exécuter le script de migration et tester le bon fonctionnement de l'application</li>
+<li>Lancer les tests unitaires</li>
+</ol><h2>Git branching model</h2>
+
+<p>Lors du développement de fonctionnalités, nous utilisons le modèle de branchage git suivant.</p>
+
+<h4>Principes</h4>
+
+<ul>
+<li>
+<strong>Master</strong> branch is never use to commit directly.<br>Any development (new feature, modification or bugfix) has to be made in a dedicated branch.</li>
+<li>
+<strong>Releases</strong> are made by tagging the master branch with a release tag.</li>
+</ul><h4>Schéma</h4>
+
+<p><img src="images/git-branching-model.png" alt="Branching model schema"></p>
+
+<p>Source: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
+
+<hr><h1>Architecture</h1>
+
+<h2>Technologies</h2>
+
+<p>L'application est de <a href="http://en.wikipedia.org/wiki/Web_application">type web</a>, elle s'appuie sur la <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle)">pile LAMP</a> et utilise les technologies suivantes:</p>
+
+<ul>
+<li>
+<strong>Languages:</strong> HTML, CSS, Javascript, PHP, SQL, JSON, Bash</li>
+<li>
+<strong>Frameworks:</strong> ExtJS, xfm-php</li>
+<li>
+<strong>Moteurs:</strong> Apache, MySQL, PHP</li>
+<li>
+<strong>Système:</strong> Linux</li>
+<li>
+<strong>Documentation:</strong> PhpDocumentor2, JsDuck, GitHub Wiki, Gollum-site, GitHub Pages, toc.py</li>
+</ul><h2>Généralités</h2>
+
+<ul>
+<li>
+<strong>L'interface utilisateur</strong> est construite avec le framework javascript <a href="http://www.sencha.com/products/extjs">ExtJS</a>
+</li>
+<li>
+<strong>La base de données</strong> est exposée via HTTP à l'arôme <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>, en utilisant le framework <a href="https://github.com/damiencorpataux/xfm-php#xfm-php">xfm-php</a>
+</li>
+<li>
+<strong>L'authentification</strong> utilise le système Shibboleth de l'UNIL, en utilisant <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">une implémentation spécifique</a>
+</li>
+</ul><p><img src="images/architecture-workflow.png" alt=""></p>
+
+<h2>Librairies</h2>
+
+<p>(components schema)</p>
+
+<h3>Librairies généralistes</h3>
+
+<ul>
+<li>
+<a href="https://github.com/damiencorpataux/xfm-php#xfm-php">xfm</a>
+est le composant serveur PHP pour créer les pages de l'application et exposer les données</li>
+<li>
+<a href="http://www.sencha.com/products/extjs">ExtJS</a>
+est le composant client Javascript pour construire l'interface utilisateur</li>
+<li>
+<a href="https://github.com/sebastianbergmann/phpunit/#phpunit">PHPUnit</a>
+est le composant PHP pour écrire les tests unitaires</li>
+<li>
+<a href="https://code.google.com/p/dompdf/">DomPDF</a>
+est le composant PHP pour générer les fichiers PDF</li>
+<li>
+<a href="https://code.google.com/p/parsecsv-for-php/">ParseCSV</a>
+est le composant PHP d'interprétation de fichiers CSV, utilisé dans l'import des adresses fournies par Françine.</li>
+</ul><h3>Librairies de projet</h3>
+
+<p>Ces librairies sont écrites spécifiquement pour le projet et nous les appelons <a href="https://github.com/unil/iafbm/wiki#modules">des modules</a>.</p>
+
+<h3>Outils</h3>
+
+<p>Les outils utilisés dans le cadre du projet sont:</p>
+
+<ul>
+<li>
+<strong>Source code management system:</strong> <a href="http://git-scm.com/">git</a>
+</li>
+<li>
+<strong>Dépôt de code git:</strong> <a href="https://github.com/unil/iafbm/">github</a>
+</li>
+<li>
+<strong>Système de ticket:</strong> <a href="https://github.com/unil/iafbm/issues/">github ticketing</a>
+</li>
+<li>
+<strong>Wiki:</strong> documentation technique: <a href="https://github.com/unil/iafbm/wiki/">github wiki</a>
+</li>
+<li>
+<strong>Wiki:</strong> administratif: <a href="https://wwwfbm.unil.ch/wiki/iafbm/">iafbm wiki</a>
+</li>
+</ul><h3>Infrastructure</h3>
+
+<p>The following infrastructure components versions are used in production:</p>
+
+<ul>
+<li>Linux RHEL (fixme version) </li>
+<li>Apache 2.2</li>
+<li>MySQL 5.1</li>
+<li>PHP 5.3</li>
+</ul><hr><h1>Extension du Bootstrap (xfm)</h1>
+
+<p>Le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-custom-bootstrap">composant Bootstrap</a> du framework <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaBootstrap.php">est étendu</a> pour:</p>
+
+<ul>
+<li>charger les librairies spécifiques au projet</li>
+<li>charger le composant d'autentification spécifique au projet</li>
+</ul><hr><h1>Extension du Front API (xfm)</h1>
+
+<p>Le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-extend-front">composant ApiFront</a> du framework <a href="https://github.com/unil/iafbm/blob/master/iafbm/fronts/api.php">est étendu</a> pour:</p>
+
+<ul>
+<li>définir le binding des méthodes HTTP utilisées par les modèles ExtJS</li>
+<li>permettre la génération de flux CSV au format Windows et Mac (encoding, separateur et caractère <em>newline</em> spécifiques aux deux systèmes d'exploitation)</li>
+</ul><hr><h1>Extension du Controller (xfm)</h1>
+
+<p>Le <a href="https://github.com/damiencorpataux/xfm-php/blob/master/lib/Core/Controller.php">composant WebController</a> du framework <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">est étendu</a> pour:</p>
+
+<ul>
+<li><p><strong>fournir un binding standard avec le modèle</strong><br>
+en définissant la propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/model.html">model</a> avec le nom du modèle à lier, le controller est à même d'effectuer directement les opérations CRUD sur le modèle défini</p></li>
+<li><p><strong>gérer les interrogations fulltext</strong> (<a href="https://github.com/unil/iafbm/wiki/module-model-query">query</a>)<br>
+lorsque le paramètre <em>xquery</em> est fourni avec une requête, le controller procède automatiquement à une interrogation de type fulltext sur le modèle lié - à condition que celui-ci définission le <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/xwhere.html">xwhere</a> <em>query</em></p></li>
+<li><p><strong>gérer l'ordering des résultats de requêtes</strong><br>
+...</p></li>
+<li><p><strong>gérer l'accès aux opération CRUD</strong><br>
+Pour chaque controller, on peut définir quelles opérations CRUD sont acceptées sur le modèle lié</p></li>
+<li><p><strong>fournir une réponse compatible ExtJS</strong>
+Pour les requêtes sur le modèle lié, le composant fournit une structure réponse correspondante à celle attendue par les modèles ExtJS</p></li>
+<li><p><strong>fournir la méthode tag()</strong> permettant de créer une <a href="https://github.com/unil/iafbm/wiki/Module-versioning#signification-des-types-de-versions">version de type tag</a></p></li>
+<li><p><strong>fournit la méthode history()</strong> permettant de récupérer l'historique de versionning du modèle lié</p></li>
+<li>
+<p><strong>Effectuer les contrôles nécessaires</strong> tels que:</p>
+
+<ul>
+<li>Empêcher l'écriture d'un modèle versionné (paramètre <em>xversion</em> présent)</li>
+<li>Vérifier la cohérence des valeurs de clé primaire présentes dans l'url et les données fournies avec la requête</li>
+</ul>
+</li>
+</ul><hr><h1>Module Versioning</h1>
+
+<p>Le versioning permet de stocker les différences à chaque modification d'un enregistrement en base de données. Il a les caractéristiques suivantes:</p>
+
+<ul>
+<li>
+<strong>En lecture seule</strong> par nature</li>
+<li>
+<strong>Table de stockage à clé primaire BIGINT</strong> pour supporter un grand nombre d'enregistrements</li>
+<li>
+<strong>Implémente la gestion d'accès</strong>, l'utilisateur ne peut accéder qu'à l'historique des ressources auxquelles il a accès</li>
+<li>
+<strong>Une version</strong> correspond à une et une seule opération CRUD sur un tuple</li>
+</ul><p>Par défaut, <strong>chaque action de modification d'une table en base de données</strong> (*read*, <em>update</em> ou <em>delete</em>) <strong>donne lieu à la création d'une version</strong>.</p>
+
+<p>La création d'une version est <strong>réalisée par le stockage des différences</strong> lors de la modification d'un tuple. Ces différences sont stockées sous forme de clé-valeur consignant la valeur d'avant et d'après la modification pour chaque champs modifié du tuple en question.</p>
+
+<p>Le versioning stocke <strong>une liste des tuples concernés pour chaque version</strong>, dans la table <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql#L37">versions_relations</a>. La liste des tuples concernés désigne l'ensemble des <strong>tuples d'autres tables référencés</strong> par le tuple en cours de versionnage - et ceci <strong>de manière récursive</strong>. Par exemple, la modification d'une <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/adresse.php">adresse</a> impacte <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/personne_adresse.php">personne_adresse</a>, <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/personne.php">personne</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/models/commission.php">commission</a> si la personne est dans la commission.</p>
+
+<p>Chaque différence étant stockée sous forme de version, <strong>n'importe quelle version d'un tuple peut être reconstituée</strong> - en prenant la version courante d'un tuple et en y appliquant successivement et dans l'ordre déchronologique les différences de chaque version.</p>
+
+<h2>Implémentation</h2>
+
+<p>Le versionning est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
+
+<ul>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_version">iaModelMysql::version()</a> effectue l'opération de versioning, c'est-à-dire le stockage des différences</li>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_get_version">iaModelMysql::get_version()</a> prends en charge la reconstruction des données pour fournir une version donnée d'un tuple</li>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_version_store_relations">iaModelMysql::version_store_relations()</a> consigne les tuple concernés par la version en cours de stockage - par exemple, une modification dans un tuple d'une <em>table adresses</em>, liée à une <em>table personnes</em>, concerne également le tuple de <em>cette table personnes</em>
+</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">iaModelMysql::$archive_foreign_models</a> est utiliser pour calculer les tuple concernés par une version</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_versioning">iaModelMysql::$versioning</a> permet d'autoriser un modèle à être versionné</li>
+</ul><h3>Stockage des données</h3>
+
+<p>Le stockage des versions est effectué dans les tables <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql">versions</a>, <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql">versions_data</a>, et <a href="https://github.com/unil/iafbm/blob/master/sql/001_versions.sql">versions_relations</a>.</p>
+
+<p><strong>La table <em>version</em> contient</strong> un tuple pour chaque version</p>
+
+<ul>
+<li>information sur le modèle relatif</li>
+<li>identifiant de version et date de création</li>
+<li>operation ayant donnée lieu à la version (put, post, delete, tag)</li>
+</ul><p><strong>La table <em>version_data</em> contient</strong> les données de version à proprement parler, un tuple par champs modifié:</p>
+
+<ul>
+<li>id version</li>
+<li>nom du champs modifié</li>
+<li>ancienne valeur et nouvelle valeur du champs</li>
+</ul><p><strong>La table <em>versions_relations</em> contient</strong> référence les tuples impacté par la version, un tuple par tuple impacté:</p>
+
+<ul>
+<li>id version</li>
+<li>nom de modèle et de table</li>
+<li>nom du champs de clé primaire</li>
+<li>id du champs clé primaire</li>
+</ul><h4>Signification des types de versions</h4>
+
+<p>Chaque version est associée à une opération:</p>
+
+<ul>
+<li>
+<strong>put:</strong> ajout d'un tuple</li>
+<li>
+<strong>post:</strong> modification d'un tuple</li>
+<li>
+<strong>delete:</strong> suppression d'un tuple</li>
+<li>
+<strong>tag:</strong> aucune modification de donées, mais stockage d'un <em>jalon</em> associé à <em>un libellé</em>
+</li>
+</ul><h3>Processus de versioning</h3>
+
+<p>Lors de la création d'une version, les opérations suivantes sont effectuées:</p>
+
+<ul>
+<li><strong>Création du tuple dans la table versions</strong></li>
+<li>
+<strong>Création des tuples contenant les valeurs modifiées dans la table versions_data</strong><br>
+Un tuple par champs modifié<br>
+Les valeurs anciennes et nouvelles sont stockées</li>
+<li>
+<strong>Création des tuples référençant les tuples implactés dans la table versions_relations</strong>
+Les tuples référençant le tuple modifié sont stockés</li>
+</ul><p>Dans le cas de la création d'un <strong>tag</strong>, aucun information n'est stockée dans la table <em>versions_data</em>.</p>
+
+<h3>Récupération des données</h3>
+
+<p>Un modèle versionné doit obligatoirement comporter un champs <strong>actif</strong> de type booléen. Ce champs indique si l'enregistrement est supprimé <em>(actif=false)</em> ou non. De ce fait, les tuples d'un modèle versionné ne sont jamais supprimés de la base de données.</p>
+
+<p>Il est possible de récupérer une version voulue à partir des informations suivantes:</p>
+
+<ul>
+<li>le tuple tel qu'il existe en base de données (version actuelle)</li>
+<li>les données de versions jusqu'à la version voulue</li>
+</ul><p>Le <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_get_version">processus</a> est le suivant:</p>
+
+<ul>
+<li>Récupération de l'enregistrement tel qu'il existe en base de données</li>
+<li>Application de toutes les modifications jusqu'à la version voulu</li>
+</ul><p>Dans le cas d'un enregistrement supprimé:</p>
+
+<ul>
+<li>Le champs actif passe à false et l'enregistrement est considéré comme supprimé</li>
+</ul><hr><h1>Module Archivage</h1>
+
+<p>L'archivage permet de stocker une <em>photo</em> des données d'une ressources, en incluant toutes les données des ressources liées - c'est-à-dire la table liée à la resource ainsi que toutes les tables référencées, et ceci de manière récursive.</p>
+
+<p>Le stockage est fait sous forme plate, c'est-à-dire dans une structure contenant les champs <strong>nom de table</strong>, <strong>nom de champs</strong> et <strong>valeur de champs</strong>. Il est possible de reconstituer une ressource à partir de ces informations aplaties, dites sérialisées.</p>
+
+<p>Ce système constitue un stockage permanent et autonome. Permanent car contient les données d'une ressources telles qu'elles étaient au moment de son l'archivage. Autonome car il n'a pas besoin du système pour être consulté.</p>
+
+<p>L'archivage est utilisé pour la resource commission principalement.</p>
+
+<h2>Implémentation</h2>
+
+<p>L'archivage est implementé dans la classe <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
+
+<ul>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_archive">iaModelMysql::archive()</a> est le point d'entrée et effectue l'opération d'archivage récursif</li>
+<li>La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_archive_data">iaModelMysql::archive_data()</a> prends en charge l'opération unitaire d'écriture des données d'un modèle</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archivable">iaModelMysql::$archivable</a> permet d'autoriser un modèle à être archivé</li>
+<li>La propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">iaModelMysql::$archive_foreign_models</a> décrit les relations possibles du modèle afin de stocker l'entièreté des données liées à la au tuple à archiver</li>
+</ul><h3>Définition des relations</h3>
+
+<p>Il est nécessaire de stocker l'entièreté des données liées à une ressource (modèle) - c'est-à-dire la ressource elle-même et toutes les ressources référencées par cette-dernière, de <em>manière récursive</em>.</p>
+
+<p>Pour ce faire, la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">iaModelMysql::$archive_foreign_models</a> contient les informations permettant de décrire les liens étrangers: tables et champs.
+</p><pre><code>&lt;?php
+    public $archive_foreign_models = array(
+         'commission_creation' =&gt; 'commission_id',
+         'commission_membre' =&gt; 'commission_id',
+         'commission_candidat_commentaire' =&gt; 'commission_id',
+         'candidat' =&gt; 'commission_id',
+         'commission_travail' =&gt; 'commission_id',
+         'commission_travail_evenement' =&gt; 'commission_id',
+         'commission_validation' =&gt; 'commission_id',
+         'commission_proposition_nomination' =&gt; 'commission_id',
+         'commission_finalisation' =&gt; 'commission_id',
+         'commission_type' =&gt; array('commission_type_id' =&gt; 'id'),
+         'commission_etat' =&gt; array('commission_etat_id' =&gt; 'id'),
+         'section' =&gt; array('section_id' =&gt; 'id')
+    );</code></pre>
+
+<p><strong>Note:</strong> le nom de cette propriété est obsolète et devenu trompeur car il est également utilisé par le <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-versioning.html">module Versioning</a>. Il faut le renommer en p.ex. <em>relations</em> - refactoring à l'horizon.</p>
+
+<h3>Stockage des données</h3>
+
+<p>Le stockage est effectué dans les tables <a href="https://github.com/unil/iafbm/blob/master/sql/002_archives.sql">archives</a> et <a href="https://github.com/unil/iafbm/blob/master/sql/002_archives.sql">archives_data</a>.</p>
+
+<p><strong>La table <em>archive</em> contient</strong> une tuple pour chaque archive:</p>
+
+<ul>
+<li>informations sur le modèle archivé</li>
+<li>identifiant d'archive et date d'archivage</li>
+</ul><p><strong>La table <em>archive_data</em> contient</strong> les données à proprement parler, un tuple par champs à stocker:</p>
+
+<ul>
+<li>id archive</li>
+<li>nom de modèle et table concerné</li>
+<li>nom du champs primaire de la table</li>
+<li>nom et valeur de champs (le nom de décline en nom de modèle et de table)</li>
+</ul><p>Une archive est donc composée d'un <em>tuple archive</em> et plusieurs <em>tuples archives_data</em>.</p>
+
+<p><em>Non, ne pensez pas à archiver la table d'archivage. Oui, ça ouvre un trou noir.</em></p>
+
+<h3>Processus d'archivage</h3>
+
+<p>Lors de l'archivage, deux opérations sont effectuées:</p>
+
+<ul>
+<li>
+<strong>Création du tuple dans la table *archive</strong>*</li>
+<li>
+<strong>Création des tuples contenant les données dans la table *archive_data</strong>* <br>
+Un tuple par colonne pour chaque modèle à stocker.<br>
+Les tuples de toutes les tables liées sont stockés et ceci de manière récursive, selon l'implémentation de la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_archive">iaModelMysql::archive()</a>.</li>
+</ul><p>Toutes les opérations sont effectués au sein d'une <em>transaction SQL</em> et sont donc garanties pérennes.</p>
+
+<h2>Récupération des données</h2>
+
+<p>La reconstruction d'une archive n'est pas encore implémentée. Pour mémoire, le processus de base recommendé est:</p>
+
+<ul>
+<li>Reconstituer une base de données vide à partir des fichiers <code>iafbm/sql/</code> ou du script <code>update -x</code>
+</li>
+<li>Sélectionner un tuples d'*archive*</li>
+<li>Sélectionner tous les tuples de <em>archive_data</em> correspondant à <em>archive</em>, ordonnés par table_name, id_field_value</li>
+<li>Pour chaque groupe de tuples <em>table_name,id_field_value</em>,
+
+<ul>
+<li>constituer le tuple complet (clé-valeur: <em>nom-du-champs =&gt; valeur-du-champs</em>)</li>
+<li>insérer le tuple en base de données dans la table correspondante à <em>table_name</em>
+</li>
+</ul>
+</li>
+<li>Ignorer silencieusement les exceptions SQL (eg. <em>tuple référencé non trouvé</em>)</li>
+<li>Tourner le script entier en boucle jusqu'à ce que tous les tuples soit présents en base de données (eg. toutes les insertions renvoient l'erreur <em>clé primaire déjà existante</em>).</li>
+</ul><p>Ceci est facilement <a href="http://vimeo.com/7857877">scriptable</a>.</p>
+
+<hr><h1>Module d'export CSV</h1>
+
+<p>L'application est capable d'exporter des données au format CSV (Windows ou Mac).</p>
+
+<h2>Implémentation</h2>
+
+<p>L'implémentation du module d'export CSV se trouve dans</p>
+
+<ul>
+<li>le <a href="https://github.com/unil/iafbm/blob/master/iafbm/fronts/api.php">ApiFront</a> spécifique au projet pour la <a href="http://unil.github.io/iafbm/documentation/api/server/classes/ApiFront.html#property_modes">définition</a> et la <a href="http://unil.github.io/iafbm/documentation/api/server/classes/ApiFront.html#method___construct">sélection</a> du mode d'export (Mac/Windows)</li>
+<li>le controller lié au modèle exporté, par exemple <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/personnes.php">personnes</a>, <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/personnes_adresses.php">personnes_adresses</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/commissions_membres.php">commissions_membres</a>.</li>
+</ul><h3>Controller</h3>
+
+<p>L'implémentation d'un export CSV pour un modèle donné se fait dans la classe du controller relatif. La manière standards d'implémenter l'export est la suivante:</p>
+
+<ul>
+<li>
+<strong>Création d'une méthode exportAction()</strong> pour l'écran de configuration et/ou le trigger pour le téléchargement (headers HTTP)</li>
+<li>
+<strong>Création d'une méthode export()</strong> pour la génération des données tabluaires (cette méthode retourne un tableau PHP)</li>
+</ul><h3>Amélioration</h3>
+
+<p>Un <em>Front</em> de type <em>UploadFront</em> pourrait être implémenté pour prendre en charge la génération des headers HTTP déclenchant le téléchargement.</p>
+
+<p>Dans ce cas, le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Manual#onion-representation">flux d'exécution</a> imbriquerait 2 Fronts: le front Upload et le front Api (pour la sérialialisation des données).</p>
+
+<hr><h1>Module d'export PDF (impression)</h1>
+
+<p>L'application est capable de fournir des impressions PDF de certaines informations, comme <a href="https://wwwfbm.unil.ch/iafbm/print/commissions_membres/1">la liste des membres d'une commission</a> ou <a href="https://wwwfbm.unil.ch/iafbm/print/proposition_nomination/1">un formulaire de nomination</a>.</p>
+
+<p>Pour ce faire, la <a href="https://github.com/dompdf/dompdf">librairie dompdf</a> est <a href="https://github.com/unil/iafbm/tree/master/iafbm/lib/dompdf-0.5.1">utilisée</a>.</p>
+
+<h2>Implémentation</h2>
+
+<p>La logique d'impression se trouve dans le <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/print.php">controller print</a> et le point d'entrée est la méthode d'action par défaut <a href="http://unil.github.io/iafbm/documentation/api/server/classes/printController.html#method_defaultAction">PrintController::defaultAction()</a>. Une <a href="https://github.com/unil/iafbm/blob/master/iafbm/config/conf.d/routes.ini">route spécifique</a> à l'impression est configurée.</p>
+
+<h3>Controller</h3>
+
+<pre><code>&lt;?
+class printController extends iaExtRestController {
+
+    function defaultAction() {
+        $controller = $this-&gt;params['controller'];
+        $method = "print_{$controller}";
+        if (!method_exists($this, $method)) throw new xException("This entity is not printable ({$controller})", 404);
+        return $this-&gt;$method();
+    }
+    // ...
+    function _print($html) {
+        // PDF formatting parameters
+        $orientation = @$this-&gt;params['xorientation'];
+        if (!$orientation) $orientation = 'portrait';
+        $paper = strtolower(@$this-&gt;params['xpaper']);
+        if (!$paper) $paper = 'a4';
+        // Renders $html within print template
+        $html = xView::load('layout/print', array(
+            'content' =&gt; $html
+        ))-&gt;render();
+        // Returns HTML if required
+        if (isset($this-&gt;params['html'])) die($html);
+        // Creates PDF file
+        require_once(xContext::$basepath.'/lib/dompdf/dompdf_config.inc.php');
+        $dompdf = new DOMPDF();
+        $dompdf-&gt;set_paper($paper, $orientation);
+        $dompdf-&gt;set_base_path(xContext::$baseurl);
+        $dompdf-&gt;load_html($html);
+        $dompdf-&gt;render();
+        $dompdf-&gt;stream("print.pdf");
+        exit();
+    }
+}</code></pre>
+
+<h3>Views</h3>
+
+<p>L'impression par l'utilisation de vues, conventionnellement contenues dans le répertoire <a href="https://github.com/unil/iafbm/tree/master/iafbm/views/print">iafbm/iafbm/views/print/</a>.</p>
+
+<p>Il est possible de visualiser, dans le navigateur, le HTML produit: ajouter le paramètre html à la vue. Par exemple: <code>https://wwwfbm.unil.ch/iafbm/print/commissions?html</code></p>
+
+<h3>Layout</h3>
+
+<p>Lors de l'impression, le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-webfront-view">template de layout</a> est utilisé pour décorer le contenu avec le <a href="https://github.com/unil/iafbm/blob/master/iafbm/views/layout/print.tpl">layout print</a>.</p>
+
+<h3>Le cas du reporting</h3>
+
+<p>Dans le cas des fonctionnalités de reporting, l'impression PDF est effectuée via le <a href="https://github.com/unil/iafbm/blob/master/iafbm/controllers/report.php">controller report</a> et ses <a href="https://github.com/unil/iafbm/tree/master/iafbm/views/report">vues</a>.</p>
+
+<p>La logique d'impression contenue dans le controller <em>print</em> est réutilisée:
+</p><pre><code>&lt;?php
+class ReportController extends iaExtRestController {
+    // ...
+    function _print($html) {
+        return xController::load('print', $this-&gt;params)-&gt;_print($html);
+    }
+}</code></pre>
+
+<h2>Création d'un nouveau type d'impression</h2>
+
+<p>Le cas d'utilisation standard est d'implémenter la logique d'impression d'une resource dans ce controller <em>print</em>. Par exemple: 
+</p><pre><code>&lt;?php
+class printController extends iaExtRestController {
+    // ...
+    protected function print_commissions() {
+        $commissions = xController::load('commissions', array(
+            'xjoin' =&gt; 'commission_type,commission_etat,section'
+        ))-&gt;get();
+        $data = $commissions['items'];
+        $html = xView::load('print/commissions', $data)-&gt;render();
+        return $this-&gt;_print($html);
+    }
+    // ...
+&lt;?</code></pre>
+
+<hr><h1>Authentification et gestion des d'accès</h1>
+
+<p><strong>Le module d'authentification</strong> prends en charge <strong>l'authentification de l'utilisateur</strong> à partir du système centralisé Shibboleth et <strong>la gestion des droits d'accès</strong> par une implémentation spécifique au projet, basée rôles.
+</p><pre><code>                                        iaAuth
+&lt;----------------------------------------------------------------------------------&gt;
+  Permissions ---&gt; Role 1 ----+
+                              |                          | PERSON_UID                          | SwitchAAI
+  Permissions ---&gt; Role 2 ----+-----&gt; Utilisateur &lt;------| HOMEORGANIZATION &lt;------------------| Shibboleth
+                              |                          | UNILMEMBEROF                        | Apache mod
+  Permissions ---&gt; Role n ----+                          | ...                            
+
+&lt;-----------------------------------&gt;             &lt;--------------------------------&gt;    &lt;---------------------
+        Gestion d'accès                                   Authentification                Composants externes</code></pre>
+
+<h2>Authentification</h2>
+
+<p>L'authentification utilise le protocole <a href="http://shibboleth.net/">Shibboleth</a> mis à disposition par l'infrastructure <a href="http://www.switch.ch/aai/index.html">SwitchAAI</a> et s'appuie sur le <a href="https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig">module apache Shibboleth</a>.</p>
+
+<h3>Implémentation</h3>
+
+<p>L'authentification est implémentée dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">classe iaAuth</a>, spécifique au projet iafbm. Sa méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_set_from_aai">iaAuth::set_from_aai()</a> interprète les <a href="http://php.net/manual/en/reserved.variables.server.php">variables d'environnement serveur</a> fournies par Shibboleth:</p>
+
+<ul>
+<li>
+<strong>HTTP_SHIB_PERSON_UID</strong> contient l'identifiant unique de la personne</li>
+<li>
+<strong>HTTP_SHIB_SWISSEP_HOMEORGANIZATION</strong> contient l'organisation de rattachement</li>
+<li>
+<strong>HTTP_SHIB_CUSTOM_UNILMEMBEROF</strong> contient la liste des rôles sous forme CSV</li>
+</ul><p>La logique d'authentification génères les informations suivantes:</p>
+
+<ul>
+<li>
+<strong>l'identifiant utilisateur</strong>
+composé de <strong>{HTTP_SHIB_PERSON_UID}@{HTTP_SHIB_SWISSEP_HOMEORGANIZATION}</strong>
+est stocké et géré dans <strong>iaAuth</strong>
+</li>
+<li>
+<strong>la liste des rôles utilisateur</strong> contenue dans <strong>HTTP_SHIB_CUSTOM_UNILMEMBEROF</strong>
+est stocké et géré dans <strong>iaAuth</strong>
+</li>
+</ul><h3>Utilisation</h3>
+
+<p><strong>L'authentification se fait de manière transparente</strong> dans le <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">constructeur iaExtRestController</a>, appelé à chaque requête reçue par l'application.</p>
+
+<h2>Gestion d'accès</h2>
+
+<p>La gestion d'accès est <a href="https://en.wikipedia.org/wiki/Role-based_access_control">basée rôles</a>. Un rôle donnant accès à certaines resources, chaque utilisateur se voit attribué un ou plusieurs rôles.</p>
+
+<h3>Attribution des permissions</h3>
+
+<p>L'attribution des permissions se fait par la modification <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">des permissions</a> du fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">iaAuth.php</a>.
+</p><pre><code>&lt;?php
+protected $permissions = array(
+    'role1' =&gt; array(
+        'models' =&gt; array(
+            '*' =&gt; 'R',
+            'personne' =&gt; 'RU',
+            'candidat' =&gt; null,
+            'version' =&gt; 'CR',
+            'version_data' =&gt; 'CR',
+            'version_relation' =&gt; 'CR',
+            'archive' =&gt; 'CR',
+            'archive_data' =&gt; 'CR'
+        )
+    )
+);</code></pre>
+Cette propriété contient un tableau PHP de définition des rôles. Cette définition comprend les conventions suivantes:
+
+<ul>
+<li>
+<strong>le tableau contient des couples clé-valeur</strong> tels que <strong><code>model =&gt; droits</code></strong>
+</li>
+<li>
+<strong>les <em>droits</em> sont une combinaison de symboles CRUD</strong>, par exemple <em>'R'</em>, <em>'RU'</em> ou <em>'CRUD'</em> <em>(où C:reate, R:ead, U:pdate, D:elete)</em> <br>
+</li>
+<li>
+<strong>l'astérisque (<code>*</code>) peut être utilisée</strong> pour désigner l'ensemble des <em>modèles</em>
+</li>
+<li>
+<strong><em>null</em> peut être utilisé</strong> pour désigner <em>aucun droit</em>
+</li>
+</ul><p>Selon l' <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php#L10">API</a> (<a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">documentation</a>), la définition des droits pour le rôle <em>role1</em> est interprétée comme suit:</p>
+
+<ul>
+<li>
+<strong>autoriser la lecture</strong> de <strong>toutes les ressources</strong>
+</li>
+<li>
+<strong>autoriser la lecture et modification</strong> des <strong>ressources version, version_data, archive et archive_data</strong> <br>
+</li>
+<li>
+<strong>interdire tout accès</strong> à la <strong>resource candidat</strong>
+</li>
+<li>
+<strong>autoriser la création et lecture</strong> de la <strong>ressource version, version_data, archive et archive_data</strong> <br>
+Il faut cependant attribuer les droits en lecture et création à ces ressources de manière à ce que
+les modifications sur les ressources autorisées puissent être versionnées.</li>
+</ul><h3>Attribution des rôles</h3>
+
+<p>L'attribution des rôles aux utilisateurs se fait par l'interface de gestion <em>SwitchAAI</em>. L'information fournie par <em>Shibboleth</em> est simplement stockée dans la classe <em>iaAuth</em>.</p>
+
+<h3>Implémentation</h3>
+
+<p>La gestion des droits est implémentée dans les classes <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">iaAuth</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>. Elle se compose comme suit:</p>
+
+<ul>
+<li>
+<strong>Définition des droits d'accès</strong> dans la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">iaAuth::$permissions</a>
+</li>
+<li>
+<strong>Logique de contrôle d'accès</strong> dans la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_is_allowed_model">iaAuth::check_model_allowed()</a>
+</li>
+<li>
+<strong>Contrôle effectif</strong> des droits dans la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_check_allowed">iaModelMysql::check_allowed()</a> et <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaJournalingModelMysql.html#method_check_allowed_model">iaJournalingModel::check_allowed_model()</a> </li>
+</ul><p>Actuellement, l'implémentation des permissions se limite à l'accès aux modèles; elle est prévue pour s'étendre à tout composant du système (controllers, views, etc).</p>
+
+<h3>Versioning</h3>
+
+<p>Le <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-versioning.html">module Versioning</a> implémenté dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">classe iaModelMysql</a> tient compte des droits d'accès. Sa logique garantit que l'utilisateur n'a accès qu'aux tuples liés aux modèles pour lesquels il détient les permissions.</p>
+
+<h3>Fonctionnement</h3>
+
+<p>Lorsqu'un utilisateur <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-authentification.html#authentification">s'authentifie</a>, le mécanisme suivant est lancé:</p>
+
+<ul>
+<li>
+<strong><a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_canonicalize">Canonicalization</a> des permissions</strong> <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#property_permissions">définies</a> par le système</li>
+<li>
+<strong><a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_compute_permissions">Fusion</a> des permissions</strong> correspondant aux rôles fournis par Shibboleth</li>
+<li>
+<strong><a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_set_from_aai">Stockage</a> des permissions résultantes</strong> en session pour l'utilisateur courant</li>
+</ul><h3>Modification des droits d'accès</h3>
+
+<p><strong>Note:</strong> lors d'une modification des droits d'accès, il faut supprimer les cookies sur le navigateur de l'utilisateur afin qu'ils soient pris en compte. En effet, les droits sont stockés <a href="http://php.net/manual/en/features.sessions.php">en session</a> pour améliorer les performances.</p>
+
+<hr><h1>How to apply release cycle</h1>
+
+<h2>Version management</h2>
+
+<p>Scheme: <strong>x.y.z</strong> (eg. 1.0.0)</p>
+
+<ul>
+<li>
+<strong>x</strong>: Major version: Updated on: Major architecture/conceptual change leading to incompatibilities</li>
+<li>
+<strong>y</strong>: Minor version: Updated on: Feature addition, modification, removal</li>
+<li>
+<strong>z</strong>: Subminor version: Updated on: Hotfixes</li>
+</ul><h2>Release steps</h2>
+
+<ol>
+<li>
+<strong>Create git branches for features</strong>, eg <code>feature-#128-reporting</code>
+</li>
+<li><strong>Develop</strong></li>
+<li>
+<strong>Create a git branch</strong> named <code>release-x.y.z</code>
+</li>
+<li>
+<strong>Merge the feature branches</strong> into the release branch</li>
+<li>
+<strong>Test your release branch (with migration)</strong> on <a href="http://wwwfbm/iafbm_release">http://wwwfbm/iafbm_release</a>
+</li>
+<li>
+<strong>Notify users</strong> to test the release and <strong>wait for validation</strong>
+</li>
+<li>
+<strong>Test one last time the features and migration</strong> on <a href="http://wwwfbm/iafbm_release">http://wwwfbm/iafbm_release</a> with production</li>
+<li>
+<strong>Merge release branch</strong> into master</li>
+<li>
+<strong>Tag the master branch</strong> with actual version as label: <code>x.y.z</code>
+</li>
+<li>
+<strong>Migrate and update production</strong> instance <a href="http://wwwfbm/iafbm">http://wwwfbm/iafbm</a>
+</li>
+<li><strong>Delete features and release branches</strong></li>
+</ol><h2>Command-line details</h2>
+
+<h3>Feature development (new feature, modification or bugfix)</h3>
+
+<ul>
+<li>Create a branch for the feature
+<pre><code>git checkout -b new_feature</code></pre>
+</li>
+<li>Develop, add/move/remove files, commit files, ...
+<pre><code>git add/mv/rm [files]
+git commit -m"Message" [files]</code></pre>
+</li>
+<li>Pull <strong>master</strong> branch modifications into <strong>development</strong> branch
+<pre><code>git checkout master
+git pull</code></pre>
+</li>
+<li>Rebase to <strong>master</strong> branch to merge <strong>master</strong> commits with <strong>development</strong> branch,<br>resolving potentially arising conflicts
+<pre><code>git checkout new_feature
+git rebase master</code></pre>
+</li>
+<li>Merge <strong>development</strong> branch into <strong>master</strong> branch (locally)
+<pre><code>git checkout master
+git merge new_feature</code></pre>
+</li>
+<li>Push the (locally) merged <strong>master</strong> branch into remote repository
+<pre><code>git push origin master</code></pre>
+Source: <a href="http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle">http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle</a>
+</li>
+</ul><h3>Creating a production Release</h3>
+
+<ul>
+<li>Update the project in <strong>iafbm_test</strong> environment
+<pre><code>cd iafbm_test/iafbm/scripts
+php update.php -u -x</code></pre>
+</li>
+<li>Run the UnitTests
+<pre><code>cd iafbm_test/iafbm/tests
+php phpunit.php .</code></pre>
+</li>
+<li>Validate the application quality</li>
+<li>Create a tag in the <strong>master</strong> branch with the release version
+<pre><code>git tag -a 1.0.0
+git push --tags</code></pre>
+</li>
+<li>Update the project in <strong>iafbm_prod</strong> environment</li>
+</ul><h3>Migrating the database</h3>
+
+<ul>
+<li>Once your SQL files are updated and your migration(s) script(s) are created</li>
+<li>Change directory to a the instance of the application<br>
+(eg. your local instance or release instance for testing, or the production instance when testing is complete)
+<pre><code>cd /var/www/iafbm</code></pre>
+</li>
+<li>Make sure you are on the up-to-date master branch (eg. the production branch)
+<pre><code>git checkout master
+git pull</code></pre>
+</li>
+<li>Test the migration using the basic database:
+<pre><code># Rebuild the database according the master branch structure
+cd scripts
+php update -x
+# Checkout your release branch
+git checkout release-{x}.{y}.{z}
+# Run the migration script
+cd migration
+php {your-migration-script-here}.php</code></pre>
+</li>
+<li>Test the application and run the unittests
+<pre><code>cd /path/to/iafbm
+cd unittests
+php phpunit.php units</code></pre>
+</li>
+<li>Now test the migration using the production data
+<pre><code># Retrieve a production database dump
+# Dump production database into file
+ssh iafbm@wwwfbm mysqldump -uiafbm_prod -p iafbm_prod &gt; iafbm_prod.sql
+# Import production database into testing database
+mysql -u{user} -p iafbm_prod &lt; iafbm_prod.sql
+# Delete dump for privacy concerns
+rm iafbm_prod.sql</code></pre>
+</li>
+<li>Test the application again and run the unittests
+<pre><code>cd /path/to/iafbm
+cd unittests
+php phpunit.php units</code></pre>
+</li>
+<li>Update the production instance<br><strong>/!\</strong> Make sure you have thoroughfully tested the deployment on the release instance first
+<pre><code># Merge your release branch into the master branch first
+git checkout master
+git pull
+git merge release-{x}.{y}.{z}
+git tag -a {x}.{y}.{z} -m '{your release message}'
+git push
+git push origin --tags
+
+# Update the production instance
+ssh iafbm@wwwfbm
+# Backup the data first
+mysqldump -uiafbm_prod -p iafbm_prod &gt; iafbm_prod-`date +"%Y-%m-%d"`.sql
+# Update and migrate
+cd prod/iafbm
+git pull
+cd scripts/migrations
+php {your-migration-script}.php # you might have multiple migration scripts to run</code></pre>
+</li>
+<li>Test the production application again and run the unittests
+<pre><code>cd ~
+cd prod/iafbm/unittests
+php phpunit.php units</code></pre>
+</li>
+</ul><h2>Bibliography</h2>
+
+<ul>
+<li>Simple Workflow: Best practices<br><a href="http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle">http://ariejan.net/2009/06/08/best-practice-the-git-development-cycle</a>
+</li>
+<li>Simple Workflow: The GitHub worlflow<br><a href="http://scottchacon.com/2011/08/31/github-flow.html">http://scottchacon.com/2011/08/31/github-flow.html</a>
+</li>
+<li>Complex Workflow: Sucessful branching model<br><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a>
+</li>
+<li>Git book<br><a href="http://alx.github.com/gitbook/">http://alx.github.com/gitbook/</a>
+</li>
+</ul><hr><h1>Déploiement de l'application</h1>
+
+<h2>Prérequis</h2>
+
+<ol>
+<li>MySQL avec utilisateur existant (username et password selon la <a href="https://github.com/unil/iafbm/blob/master/iafbm/config/">configuration</a>)</li>
+<li>PHP-CLI</li>
+<li>wget ou curl</li>
+</ol><h2>Procédure de déployement</h2>
+
+<ol>
+<li>Aller dans le répertoire choisi pour l'installation (le répertoire racine de l'application sera créé ici)
+<pre><code>cd /var/www/chemin/vers/la/racine/du/projet</code></pre>
+</li>
+<li>Lancer le script de déployement:
+<pre><code>wget -O - https://raw.github.com/unil/iafbm/master/scripts/deploy.sh | sh</code></pre>
+ou
+<pre><code>curl https://raw.github.com/unil/iafbm/master/scripts/deploy.sh | sh</code></pre>
+</li>
+<li>Si la création de la base de donnée échoue, l'opération peut être relancée:
+<pre><code>cd /chemin/vers/iafbm/scripts
+php update.php -x</code></pre>
+</li>
+<li>Import des données
+
+<ul>
+<li>Copier le répertoire <strong>import</strong> (contenant le(s) fichier(s) CSV) dans le répertoire <strong>/chemin/vers/iafbm</strong>
+</li>
+<li>Lancer le script d'import
+<pre><code>cd /chemin/vers/iafbm/scripts
+php import.php</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

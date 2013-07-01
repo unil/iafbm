@@ -10,12 +10,12 @@
   <body>
     <div class="container">
       <div class="actions">
-        <a href="/Home.html">Home</a>
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
       </div>
       <div class="content wikistyle gollum markdown">
         <h1>How to apply release cycle</h1>
 
-<h2> Version management</h2>
+<h2>Version management</h2>
 
 <p>Scheme: <strong>x.y.z</strong> (eg. 1.0.0)</p>
 
@@ -128,6 +128,95 @@ Source: <a href="http://ariejan.net/2009/06/08/best-practice-the-git-development
 </div>
 </li>
 <li>Update the project in <strong>iafbm_prod</strong> environment</li>
+</ul><h3>Migrating the database</h3>
+
+<ul>
+<li>Once your SQL files are updated and your migration(s) script(s) are created</li>
+<li>Change directory to a the instance of the application<br>
+(eg. your local instance or release instance for testing, or the production instance when testing is complete)
+<div class="highlight">
+<pre><span class="nb">cd</span> /var/www/iafbm
+</pre>
+</div>
+</li>
+<li>Make sure you are on the up-to-date master branch (eg. the production branch)
+<div class="highlight">
+<pre>git checkout master
+git pull
+</pre>
+</div>
+</li>
+<li>Test the migration using the basic database:
+<div class="highlight">
+<pre><span class="c"># Rebuild the database according the master branch structure</span>
+<span class="nb">cd </span>scripts
+php update -x
+<span class="c"># Checkout your release branch</span>
+git checkout release-<span class="o">{</span>x<span class="o">}</span>.<span class="o">{</span>y<span class="o">}</span>.<span class="o">{</span>z<span class="o">}</span>
+<span class="c"># Run the migration script</span>
+<span class="nb">cd </span>migration
+php <span class="o">{</span>your-migration-script-here<span class="o">}</span>.php
+</pre>
+</div>
+</li>
+<li>Test the application and run the unittests
+<div class="highlight">
+<pre><span class="nb">cd</span> /path/to/iafbm
+<span class="nb">cd </span>unittests
+php phpunit.php units
+</pre>
+</div>
+</li>
+<li>Now test the migration using the production data
+<div class="highlight">
+<pre><span class="c"># Retrieve a production database dump</span>
+<span class="c"># Dump production database into file</span>
+ssh iafbm@wwwfbm mysqldump -uiafbm_prod -p iafbm_prod &gt; iafbm_prod.sql
+<span class="c"># Import production database into testing database</span>
+mysql -u<span class="o">{</span>user<span class="o">}</span> -p iafbm_prod &lt; iafbm_prod.sql
+<span class="c"># Delete dump for privacy concerns</span>
+rm iafbm_prod.sql
+</pre>
+</div>
+</li>
+<li>Test the application again and run the unittests
+<div class="highlight">
+<pre><span class="nb">cd</span> /path/to/iafbm
+<span class="nb">cd </span>unittests
+php phpunit.php units
+</pre>
+</div>
+</li>
+<li>Update the production instance<br><strong>/!\</strong> Make sure you have thoroughfully tested the deployment on the release instance first
+<div class="highlight">
+<pre><span class="c"># Merge your release branch into the master branch first</span>
+git checkout master
+git pull
+git merge release-<span class="o">{</span>x<span class="o">}</span>.<span class="o">{</span>y<span class="o">}</span>.<span class="o">{</span>z<span class="o">}</span>
+git tag -a <span class="o">{</span>x<span class="o">}</span>.<span class="o">{</span>y<span class="o">}</span>.<span class="o">{</span>z<span class="o">}</span> -m <span class="s1">'{your release message}'</span>
+git push
+git push origin --tags
+
+<span class="c"># Update the production instance</span>
+ssh iafbm@wwwfbm
+<span class="c"># Backup the data first</span>
+mysqldump -uiafbm_prod -p iafbm_prod &gt; iafbm_prod-<span class="sb">`</span>date +<span class="s2">"%Y-%m-%d"</span><span class="sb">`</span>.sql
+<span class="c"># Update and migrate</span>
+<span class="nb">cd </span>prod/iafbm
+git pull
+<span class="nb">cd </span>scripts/migrations
+php <span class="o">{</span>your-migration-script<span class="o">}</span>.php <span class="c"># you might have multiple migration scripts to run</span>
+</pre>
+</div>
+</li>
+<li>Test the production application again and run the unittests
+<div class="highlight">
+<pre><span class="nb">cd</span> ~
+<span class="nb">cd </span>prod/iafbm/unittests
+php phpunit.php units
+</pre>
+</div>
+</li>
 </ul><h2>Bibliography</h2>
 
 <ul>
@@ -143,7 +232,7 @@ Source: <a href="http://ariejan.net/2009/06/08/best-practice-the-git-development
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
         </footer>
       </div>
     </div>

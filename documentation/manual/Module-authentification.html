@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <div class="actions">
-        <a href="/Home.html">Home</a>
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
       </div>
       <div class="content wikistyle gollum markdown">
         <h1>Authentification et gestion des d'accès</h1>
@@ -31,7 +31,7 @@
 
 <p>L'authentification utilise le protocole <a href="http://shibboleth.net/">Shibboleth</a> mis à disposition par l'infrastructure <a href="http://www.switch.ch/aai/index.html">SwitchAAI</a> et s'appuie sur le <a href="https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig">module apache Shibboleth</a>.</p>
 
-<h3> Implémentation</h3>
+<h3>Implémentation</h3>
 
 <p>L'authentification est implémentée dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaAuth.php">classe iaAuth</a>, spécifique au projet iafbm. Sa méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaAuth.html#method_set_from_aai">iaAuth::set_from_aai()</a> interprète les <a href="http://php.net/manual/en/reserved.variables.server.php">variables d'environnement serveur</a> fournies par Shibboleth:</p>
 
@@ -54,7 +54,7 @@ est stocké et géré dans <strong>iaAuth</strong>
 <strong>la liste des rôles utilisateur</strong> contenue dans <strong>HTTP_SHIB_CUSTOM_UNILMEMBEROF</strong>
 est stocké et géré dans <strong>iaAuth</strong>
 </li>
-</ul><h3> Utilisation</h3>
+</ul><h3>Utilisation</h3>
 
 <p><strong>L'authentification se fait de manière transparente</strong> dans le <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">constructeur iaExtRestController</a>, appelé à chaque requête reçue par l'application.</p>
 
@@ -132,11 +132,11 @@ les modifications sur les ressources autorisées puissent être versionnées.</l
 
 <h3>Versioning</h3>
 
-<p>Le <a class="internal present" href="/Module-versioning.html">module Versioning</a> implémenté dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">classe iaModelMysql</a> tient compte des droits d'accès. Sa logique garantit que l'utilisateur n'a accès qu'aux tuples liés aux modèles pour lesquels il détient les permissions.</p>
+<p>Le <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-versioning.html">module Versioning</a> implémenté dans la <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">classe iaModelMysql</a> tient compte des droits d'accès. Sa logique garantit que l'utilisateur n'a accès qu'aux tuples liés aux modèles pour lesquels il détient les permissions.</p>
 
-<h3> Fonctionnement</h3>
+<h3>Fonctionnement</h3>
 
-<p>Lorsqu'un utilisateur <a class="internal present" href="/Module-authentification.html#authentification">s'authentifie</a>, le mécanisme suivant est lancé:</p>
+<p>Lorsqu'un utilisateur <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Module-authentification.html#authentification">s'authentifie</a>, le mécanisme suivant est lancé:</p>
 
 <ul>
 <li>
@@ -151,7 +151,7 @@ les modifications sur les ressources autorisées puissent être versionnées.</l
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-06-24 14:52:40</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
         </footer>
       </div>
     </div>
