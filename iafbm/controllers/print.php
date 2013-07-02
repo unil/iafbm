@@ -1,7 +1,10 @@
 <?php
 
-class printController extends iaExtRestController {
+class PrintController extends iaExtRestController {
 
+    /**
+     * Calls the print_{controller} method if it exists, throws an exception otherwise.
+     */
     function defaultAction() {
         $controller = $this->params['controller'];
         $method = "print_{$controller}";
