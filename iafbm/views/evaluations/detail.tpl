@@ -156,22 +156,24 @@ Ext.onReady(function() {
                 },new Ext.ia.selectiongrid.Panel({
                     width: 480,
                     height: 250,
-                    id: 'mmm',
+                    id: 'evaluateur-gridpanel',
                     //editable: false,
                     combo: {
                         store: new iafbm.store.Personne({
                             params: {
                                 xjoin: 'pays',
                                 xreturn: 'id,nom,prenom,date_naissance,pays.nom AS pays_nom,pays.code AS pays_code',
-                                personne_id: Array(27, 28, 51),
-                                personne_id_comparator: 'NOT IN'
-                                <?php
-                                    $params = array(
-                                        'evaluation_id' => $this->params['evaluation_id']
-                                    );
-                                    $evaluators = xModel::load('evaluation_evaluateur', $params)->get();
-                                    
-                                ?>
+                                xwhere: 'onlyUnchoosedPerson'
+                            },
+                            listeners: {
+                                beforeload: function(s, operation, eOpts) {
+                                    var grid = Ext.getCmp('evaluateur-gridpanel'),
+                                        idsToAvoid = Array();
+                                    Ext.each(grid.store.data.items,function(name){
+                                        idsToAvoid.push(name.data.personne_id);
+                                    });
+                                    s.params.idsToAvoid = idsToAvoid.join();
+                                }
                             }
                         })
                     },

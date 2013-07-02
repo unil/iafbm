@@ -41,7 +41,8 @@ class PersonneModel extends iaModelMysql {
     var $join = 'pays';
 
     var $wheres = array(
-        'query' => 'common/model/query'
+        'query' => 'common/model/query',
+        'onlyUnchoosedPerson' => 'xmodel/onlyUnchoosedPerson'
     );
 
     var $validation = array(
