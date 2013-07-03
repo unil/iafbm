@@ -562,8 +562,14 @@ Ext.define('iafbm.model.CommissionCreation', {
         {name: 'termine', type: 'boolean'},
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'decision', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'preavis', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'preavis_decanat', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'etat_preavis_decanat', type: 'int', useNull: true},
+        {name: 'preavis_ccp', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'etat_preavis_ccp', type: 'int', useNull: true},
+        {name: 'preavis_cpa', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'etat_preavis_cpa', type: 'int', useNull: true},
         {name: 'autorisation', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'etat_autorisation', type: 'int', useNull: true},
         {name: 'annonce', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'composition', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'composition_validation', type: 'date', dateFormat: 'Y-m-d'},
@@ -575,6 +581,18 @@ Ext.define('iafbm.model.CommissionCreation', {
         url: x.context.baseuri+'/api/commissions_creations',
     }
 });
+Ext.define('iafbm.model.CommissionCreationEtat', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'nom', type: 'string'}
+    ],
+    validations: [],
+    proxy: {
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/commissions_creations_etats',
+    }
+});
 Ext.define('iafbm.model.CommissionCandidatCommentaire', {
     extend: 'Ext.data.Model',
     fields: [
@@ -582,6 +600,7 @@ Ext.define('iafbm.model.CommissionCandidatCommentaire', {
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'commission_id', type: 'int'},
         {name: 'termine', type: 'boolean'},
+        {name: 'date_cloture', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'commentaire', type: 'string'}
     ],
     validations: [],
@@ -595,9 +614,11 @@ Ext.define('iafbm.model.CommissionTravail', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'termine', type: 'boolean'},
+        {name: 'aucun_candidat', type: 'boolean'},
         {name: 'primo_loco', type: 'int', useNull: true},
         {name: 'secondo_loco', type: 'int', useNull: true},
         {name: 'tertio_loco', type: 'int', useNull: true},
+        {name: 'delai_envoi_rapport', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'commentaire', type: 'string'},
         {name: 'actif', type: 'boolean', defaultValue: true}
     ],
@@ -642,17 +663,20 @@ Ext.define('iafbm.model.CommissionValidation', {
         {name: 'id', type: 'int'},
         {name: 'commission_id', type: 'int'},
         {name: 'termine', type: 'boolean'},
-        {name: 'decanat_date', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'decanat_etat', type: 'int'},
-        {name: 'decanat_commentaire', type: 'string'},
-        {name: 'dg_date', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'dg_commentaire', type: 'string'},
-        {name: 'cf_date', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'cf_etat', type: 'int'},
-        {name: 'cf_commentaire', type: 'string'},
-        {name: 'cdir_date', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'cdir_etat', type: 'int'},
-        {name: 'cdir_commentaire', type: 'string'},
+        {name: 'decanat_validation_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'decanat_validation_etat', type: 'int', useNull: true},
+        {name: 'decanat_validation_commentaire', type: 'string'},
+        {name: 'dg_commentaire_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'dg_commentaire_commentaire', type: 'string'},
+        {name: 'cf_validation_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'cf_validation_etat', type: 'int', useNull: true},
+        {name: 'cf_validation_commentaire', type: 'string'},
+        {name: 'cdir_validation_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'cdir_validation_etat', type: 'int', useNull: true},
+        {name: 'cdir_validation_commentaire', type: 'string'},
+        {name: 'cdir_nomination_date', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'cdir_nomination_etat', type: 'int', useNull: true},
+        {name: 'cdir_nomination_commentaire', type: 'string'},
         {name: 'reception_rapport', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'envoi_proposition_nomination', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'commentaire', type: 'string'}

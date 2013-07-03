@@ -297,7 +297,7 @@ Ext.define('Ext.ia.grid.column.ActionRedirect', {
         if (record.phantom) {
             Ext.Msg.show({
                 title: 'Erreur',
-                msg: "Veuillez d'abord remplir tous les champs",
+                msg: "Veuillez d'abord enregistrer la ligne",
                 buttons: Ext.Msg.OK,
                 icon: Ext.window.MessageBox.WARNING,
                 fn: function() {
@@ -1926,6 +1926,16 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                 });
             }
         });
+        // Updates fields disablement
+        // Waits for Commission records to load (for it contains type information)
+        // and runs disableFields() on each tab form
+        this.items.get(0).down('form').on({load: function() {
+            // Fetches commission type id
+            var type = this.record.get('commission_type_id');
+            this.up('tabpanel').items.each(function(tab) {
+                tab.down('form').disableFields(type);
+            })
+        }});
     }
 });
 
@@ -1944,6 +1954,14 @@ Ext.define('Ext.ia.form.CommissionPhasePanel', {
     phasesCls: {
         pending: 'x-ia-toolbar-pending',
         finished: 'x-ia-toolbar-done'
+    },
+    disableFields: function(type) {
+        // Updates field disable state according commission type
+        this.cascade(function(c) {
+            if (!c.iaDisableFor) return;
+            var disabled = type==null || Ext.Array.contains(c.iaDisableFor, type);
+            c.setDisabled(disabled);
+        });
     },
     onCheckboxClick: function(checkbox) {
         // Updates dans saves record
