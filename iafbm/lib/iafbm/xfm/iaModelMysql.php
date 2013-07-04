@@ -30,20 +30,21 @@ abstract class iaModelMysql extends xModelMysql {
     var $archivable = false;
 
     /**
-     * Specifies the foreign models to include in archive.
+     * Specifies the foreign models to include in archive and versioning-relations.
+     * This property must contain all foreign-models that impact this model.
      * Ignores foreign models if array is empty.
-     * The array form is:
+     * The "forward relation" form is: (used for 1..1 and 1..n relations)
      * <code>
      * array(
-     *     'foreign_model_name' => 'foreign_model_field_value_to_match_with_this_model_primary_key'
-     *     'foreign_model_name' => 'this_model_foreign_field_name'
+     *     'foreign_model_name' => 'foreign_model_field_name_to_match_with_this_model_primary_key'
+     *     'foreign_model_name' => array('local_model_field_name_to_match_with' => 'foreign_model_field_name')
      * )
      * </code>
-     * or
+     * The "backwards relation" form is: (mostly used for n..1, eg. foreign catalogs)
      * <code>
      * array(
      *     'foreign_model_name' => array(
-     *         'local_model_field_name_to_match_value_with' => 'foreign_model_field_name'
+     *         'local_model_field_name_to_match_with' => 'foreign_model_field_name'
      *     )
      * )
      * </code>

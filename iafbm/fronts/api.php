@@ -30,6 +30,9 @@ class ApiFront extends xApiFront {
         )
     );
 
+    /**
+     * Manages CSV export mode selection
+     */
     function __construct($params = null) {
         // Setups mode (uses 1st mode if 'xmode' is not defined or invalid)
         // by merging $modeparams to $params (the latter has priority)

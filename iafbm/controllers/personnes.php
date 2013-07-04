@@ -116,6 +116,7 @@ class PersonnesController extends iaExtRestController {
     }
 
     function export() {
+        ini_set('max_execution_time', 600);
         // Models joins to traverse (1..1 or n..1 joins)
         $models_joins = array(
             //'model-name|join-name, join-name-2' => 'foreign-table-field-name',
