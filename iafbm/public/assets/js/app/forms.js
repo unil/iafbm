@@ -323,7 +323,7 @@ Ext.define('iafbm.form.Candidat', {
 });
 
 // TODO supprimer plus nécaissaire
-/*Ext.define('iafbm.form.Personne', {
+Ext.define('iafbm.form.Personne', {
     extend: 'Ext.ia.form.Panel',
     store: Ext.create('iafbm.store.Personne'), // FIXME: this should not be necessary
     title:'Personne',
@@ -751,7 +751,7 @@ Ext.define('iafbm.form.Candidat', {
             }]
         }
     }
-});*/
+});
 
 Ext.define('iafbm.form.CommissionPropositionNomination', {
     extend: 'Ext.ia.form.Panel',

@@ -946,6 +946,7 @@ Ext.define('iafbm.model.EvaluationRapport', {
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
+        {name: 'evaluation_evaluation_type_id', type: 'int'},
         {name: 'date_biblio_demandee', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_biblio_recue', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_relance', type: 'date', dateFormat: 'Y-m-d'},

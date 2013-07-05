@@ -27,7 +27,7 @@ class EvaluationRapportModel extends iaModelMysql {
         
     );
 
-    //var $join = array('evaluation');
+    var $join = array('evaluation');
     
     var $validation = array(
         'id' => array('mandatory'),

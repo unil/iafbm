@@ -65,7 +65,7 @@ Ext.onReady(function() {
         }]
     });
 
-    var evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+    /*var evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Evaluation'),
         fetch: {
             model: iafbm.model.Evaluation,
@@ -79,7 +79,7 @@ Ext.onReady(function() {
             id: 'evaluation_etat_id',
             dataIndex: 'evaluation_etat_id',
         }]
-    });
+    });*/
     
     var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.EvaluationRapport'),
@@ -105,11 +105,13 @@ Ext.onReady(function() {
                 fieldLabel: 'Biblio. demandée le',
                 emptyText: 'Biblio. demandée le',
                 name: 'date_biblio_demandee',
+                iaDisableFor: [1]
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Biblio reçue le',
                 emptyText: 'Biblio reçue le',
                 name: 'date_biblio_recue',
+                iaDisableFor: [2]
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Relancé le',
@@ -146,6 +148,10 @@ Ext.onReady(function() {
                 emptyText: 'Remarques diverses',
                 name: 'commentaire',
                 grow: true,
+            },{
+                xtype: 'textfield',
+                name: 'evaluation_type_id',
+                hidden: true
             }]
         },{
             xtype: 'container',
@@ -448,13 +454,13 @@ Ext.onReady(function() {
                 title: 'Contrat',
                 items: form_contrat,
                 iconCls: 'tab-icon-unknown'
-            },{
+            }/*,{
                 id: 'archiveForm',
                 title: 'archiveMode',
                 items: evaluation,
                 hidden: true,
                 iconCls: 'tab-icon-unknown'
-        }],
+        }*/],
         listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {
                 // Automatic url hash (#) update on tab selection

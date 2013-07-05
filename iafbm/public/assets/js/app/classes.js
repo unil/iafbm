@@ -1931,7 +1931,8 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         // and runs disableFields() on each tab form
         this.items.get(0).down('form').on({load: function() {
             // Fetches commission type id
-            var type = this.record.get('commission_type_id');
+            var type = this.record.get('evaluation_evaluation_type_id');
+            a = this;
             this.up('tabpanel').items.each(function(tab) {
                 tab.down('form').disableFields(type);
             })
