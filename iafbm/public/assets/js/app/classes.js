@@ -1836,6 +1836,7 @@ Ext.define('Ext.ia.form.Panel', {
 Ext.define('Ext.ia.tab.CommissionPanel', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.ia-tabpanel-commission',
+    type_id: 'evaluation_type_id',
     updateTabState: function(tab) {
         var tab = tab || this.getActiveTab(),
             finished = tab.down('ia-form-commission').record.get('termine');
@@ -1929,14 +1930,16 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         // Updates fields disablement
         // Waits for Commission records to load (for it contains type information)
         // and runs disableFields() on each tab form
-        this.items.get(0).down('form').on({load: function() {
+        me.items.get(0).down('form').on({load: function() {
             // Fetches commission type id
-            var type = this.record.get('evaluation_evaluation_type_id');
-            a = this;
+            var type = this.record.get(this.up().up().getTypeId());
             this.up('tabpanel').items.each(function(tab) {
                 tab.down('form').disableFields(type);
             })
         }});
+    },
+    getTypeId: function(){
+        return this.type_id;
     }
 });
 

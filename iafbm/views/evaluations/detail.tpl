@@ -51,7 +51,6 @@ Ext.onReady(function() {
                         f.each(function(a){
                             formFields.push(a);
                         });
-                        console.log(formFields);
                         // TODO: Effectué plusieurs fois, certains à double, tester avec des console.log(form)
                         form.on('load', function() {
                             fields = form.getValues();
@@ -60,7 +59,6 @@ Ext.onReady(function() {
                                     c.setReadOnly(true);
                                 });
                                 me.show();
-                                console.log('me.show()');
                             }
                         });
                     });
@@ -93,7 +91,7 @@ Ext.onReady(function() {
                 fieldLabel: 'Biblio. demandée le',
                 emptyText: 'Biblio. demandée le',
                 name: 'date_biblio_demandee',
-                iaDisableFor: [1]
+                iaDisableFor: [1,2]
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Biblio reçue le',
