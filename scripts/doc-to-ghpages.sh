@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# FIXME: commit & push will ask ssh passphrase on production server, find a workaround
+
 # Configuration
 TMP_ROOT=/tmp/iafbm-doc-generator
 DOC_ROOT=generated
@@ -14,11 +16,11 @@ mkdir -p $TMP_ROOT
 
 # Generates: One-page-wiki and HTML-wiki
 cd $TMP_ROOT
-git clone --recursive https://github.com/unil/iafbm.wiki.git
+git clone --recursive git@github.com:unil/iafbm.wiki.git
 cd iafbm.wiki
 # One-page-wiki
-# (FIXME: commit&push would ask ssh passphrase on production server, find a workaround)
 python tools/wiki/one.py "Home.md, General*.md, Module*.md, Cookbook*.md"  > ONE.md
+git add ONE.md && git commit -m"Generated ONE.md automatic update" && git push
 # HTML-wiki
 mkdir -p $TMP_ROOT/$DOC_ROOT/manual
 gollum-site generate --base_path "$URL_BASE" --output_path $TMP_ROOT/$DOC_ROOT/manual/
