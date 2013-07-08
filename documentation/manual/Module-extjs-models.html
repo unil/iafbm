@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Modèles ExtJS</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Modèles ExtJS</h1>
+
+<p>La partie client de l'application <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/classes.js">implémente</a> pour la partie données les composants suivants:</p>
+
+<ul>
+<li><strong>Ext.ia.data.proxy.Rest</strong></li>
+<li><strong>Ext.ia.data.Store</strong></li>
+</ul><h2>Implémentation</h2>
+
+<h3>Proxy</h3>
+
+<p><strong>Le proxy est étendu pour fournir une configuration standard</strong> où les sous-composants tels que le <em>reader</em>, le <em>writer</em> et la configuration de base sont automatiquement paramétrés pour être compatible avec l'interface de la partie serveur.</p>
+
+<p><strong>Un système de gestion des erreurs</strong> y est implémenté (utilise <em>Ext.ia.window.Notification</em>). Il affiche un message d'erreur générique contenant les informations suivantes:</p>
+
+<ul>
+<li>type d'opération en erreur (lecture, écriture, etc.)</li>
+<li>nom du modèle ayant provoqué l'erreur</li>
+<li>le type d'erreur survenu (erreur inattendue, permission refusée, etc.)</li>
+</ul><h3>Store</h3>
+
+<p><strong>Le store est étendu pour fournir une configuration standard</strong> compatible avec l'interface de la partie serveur.</p>
+
+<p><strong>Une simulation de la propriété <em>params</em>,</strong> <a href="http://docs.sencha.com/extjs/3.4.0/#!/api/Ext.data.Store-cfg-baseParams">backportée</a> depuis la version 3 de ExtJS, permet d'utiliser l'option de configuration <em>params</em> à l'instanciation des modèles afin d'incorporer ces paramètres avec chaque requête.</p>
+
+<h3>Modèles</h3>
+
+<p><strong>Chaque modèle xfm a <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/models.js">son pendant ExtJS</a>.</strong> La définition d'un modèle ExtJS consiste en:</p>
+
+<ul>
+<li>
+<strong>une définition de model</strong><br>
+Contient les informations sur les champs (noms, types et valeur par défaut), le proxy et l'url serveur</li>
+<li>
+<strong>une définition de store</strong><br>
+Etend le <em>store</em> spécifique au projet en y référencant le modèle associé</li>
+</ul><p>Les éléments suivants sont à prendre en compte lors de la définition ou de la modification d'un modèle.</p>
+
+<ul>
+<li>Le format de date (<code>dateFormat</code>) standard, compatible avec la partie serveur est <code>Y-m-d</code>
+</li>
+<li>Dans le cas des champs de type clé étrangère pouvant contenir la valeur <code>null</code>, la propriété <code>useNull: true</code>doit être définie</li>
+<li>Le champs conventionnel <code>actif</code> doit définir la propriété <code>defaultValue: true</code>
+</li>
+<li>Il est possible de générer des champs calculés au sein d'un modèle à l'aide de la propriété <a href="http://docs.sencha.com/extjs/4.2.1/#!/api/Ext.data.Field-cfg-convert">convert</a>
+</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

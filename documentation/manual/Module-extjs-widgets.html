@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Widgets ExtJS</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Widgets ExtJS</h1>
+
+<p>D'une manière générale, les <a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/js/app">extensions des widgets</a> ExtJS sont documentés dans la partie <a href="http://unil.github.io/iafbm/documentation/api/client/">documentation API</a>.</p>
+
+<h2>Implémentation</h2>
+
+<p>Les widgets se décomposent en plusieurs catégories</p>
+
+<ul>
+<li>Types de colonnes et champs</li>
+<li>Grilles et formulaires</li>
+<li>Popups et notifications</li>
+<li>Widgets standalone</li>
+<li>Widgets propres aux commissions</li>
+</ul><h3>Types de colonnes et champs</h3>
+
+<p>Plusieurs types de colonnes et de champs afin de standardiser et adapter le comportement et le visuel aux besoins du projet. Voici les éléments remarquables:</p>
+
+<ul>
+<li>
+<strong>Ext.ia.grid.column.ActionForm</strong> <br>
+permet de charger les données d'une ligne de grille au sein du formulaire correspondant et de l'afficher dans une fenêtre de type popup (utilise <em>Ext.ia.window.Popup</em>)</li>
+<li>
+<strong>Ext.ia.grid.RadioColumn</strong> <br>
+simule un champs de grille de <em>type radio</em>, inexistant dans le framework ExtJs</li>
+<li>
+<strong>Ext.ia.form.field.Percentage</strong> <br>
+permettent de formatter les données de type pourcentage au sein d'une colonne de grille ou d'un champs de formulaire</li>
+<li>
+<strong>Ext.ia.form.SearchField</strong> <br>
+permet d'afficher un champs de recherche type <strong>fulltext</strong> avec gestion automatique du paramètre d'interrogation <em>xquery</em>
+</li>
+</ul><h3>Grilles et formulaires</h3>
+
+<ul>
+<li>
+<strong>Ext.ia.grid.EditBasePanel</strong> et <strong>Ext.ia.grid.EditPanel</strong> <br>
+est un grille éditable prête à l'emploi fournissant les fonctionnalités suivantes:
+
+<ul>
+<li>boutons d'ajout/suppression de lignes (enregistrements) et enregistrement des modifications</li>
+<li>champs de recherche de type <em>fulltext</em>
+</li>
+<li>paging</li>
+<li>basculement en mode éditable/non-éditable du formulaire</li>
+</ul>
+</li>
+<li>
+<strong>Ext.ia.form.Panel</strong> <br>
+fournit les fonctionnalités suivantes:
+
+<ul>
+<li>chargement de données à partir <em>d'un nom de modèle et une valeur de clé primaire</em> ou à partir <em>d'une instance de modèle ExtJS</em>
+</li>
+<li>affichage d'une version antérieur d'un enregistrement (versioning)</li>
+<li>détecter globale des modifications non-enregistrées</li>
+<li>basculement en mode éditable/non-éditable du formulaire</li>
+</ul>
+</li>
+</ul><h3>Popups et notifications</h3>
+
+<ul>
+<li>
+<strong>Ext.ia.window.Popup</strong> <br>
+fournit une fenêtre modale de dimension standard permettant de contenir un composant ExtJS arbitraire, avec système de notification de modifications non-enregistrées pour les composants de type form</li>
+<li>
+<strong>Ext.ia.window.Notification</strong> <br>
+fournit un système de notification standard</li>
+</ul><h3>Widgets standalone</h3>
+
+<ul>
+<li>
+<strong>Ext.ia.Versioning</strong> <br>
+fournit un widget pour le versioning, permettant
+
+<ul>
+<li>la visualisation des versions</li>
+<li>la sélection d'une version</li>
+<li>l'ajout de versions (*type tag*)</li>
+</ul>
+</li>
+</ul><h3>Widgets propres aux commissions</h3>
+
+<ul>
+<li>
+<strong>Ext.ia.tab.CommissionPanel</strong> <br>
+est une extension du widget <em>tab</em> ExtJS fournissant les fonctionnalités suivantes:
+
+<ul>
+<li>indicateur d'état de phase (terminé) sous forme de pastille</li>
+<li>indicateur de commission clôturée sous forme de message utilisateur</li>
+<li>notification de modifications non-enregistrées</li>
+</ul>
+</li>
+<li>
+<strong>Ext.ia.form.CommissionPhasePanel</strong> <br>
+est une extension du widget <em>formulaire</em> spécifique au projet fournissant les fonctionnalités suivantes:
+
+<ul>
+<li>case à cocher pour l'indicateur d'état de phase (terminé)</li>
+</ul>
+</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

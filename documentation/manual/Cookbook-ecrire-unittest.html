@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Ecrire un test unitaire</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Ecrire un test unitaire</h1>
+
+<p>Les tests unitaires sont basés sur le framework <a href="https://github.com/sebastianbergmann/phpunit/">PHPUnit</a> et sont contenus dans le répertoire <a href="https://github.com/unil/iafbm/tree/master/unittests">iafbm/unittests</a>.</p>
+
+<h3>Classes de base</h3>
+
+<p>Pour le projet iafbm, il existe deux extensions de la classe TestCase PHPUnit:</p>
+
+<ul>
+<li>
+<p><strong><a href="https://github.com/unil/iafbm/blob/master/unittests/lib/iaPHPUnit_Framework_TestCase.php">iaPHPUnit_Framework_TestCase</a></strong></p>
+
+<ul>
+<li>fournit
+
+<ul>
+<li>la mise en place de l'environnement applicatif (chargement du Bootstrap)</li>
+<li>l'authentification automatique (user/role:unit-tests@localhost/local-superuser)</li>
+</ul>
+</li>
+<li>exemples
+
+<ul>
+<li><a href="https://github.com/unil/iafbm/blob/master/unittests/units/ArchivingTest.php">https://github.com/unil/iafbm/blob/master/unittests/units/ArchivingTest.php</a></li>
+<li><a href="https://github.com/unil/iafbm/blob/master/unittests/units/VersioningTest.php">https://github.com/unil/iafbm/blob/master/unittests/units/VersioningTest.php</a></li>
+<li>en principe, tous les test unitaire effectuant des opérations en base de données étendant cette classe</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><a href="https://github.com/unil/iafbm/blob/master/unittests/lib/iaPHPUnit_Auth_Framework_TestCase.php">iaPHPUnit_Auth_Framework_TestCase</a></strong></p>
+
+<ul>
+<li>fournit
+
+<ul>
+<li>les fonctionnalités fournies par iaPHPUnit_Framework_TestCase</li>
+<li>une classe d'authentification redéfinissable permettant de générer un jeu de permissions arbitaires</li>
+</ul>
+</li>
+<li>exemples
+
+<ul>
+<li><a href="https://github.com/unil/iafbm/blob/master/unittests/units/AuthenticationTest.php">https://github.com/unil/iafbm/blob/master/unittests/units/AuthenticationTest.php</a></li>
+<li>en principe, cette classes est utilisée uniquement pour tester la logique propre à la classe <em>iaAuth</em>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h2>Ecrire un test unitaire</h2>
+
+<h3>Anatomie</h3>
+
+<ul>
+<li>
+<strong>Le nom de fichier</strong> se termine par Test.php</li>
+<li>
+<strong>Nom de classe:</strong> se termine par Test</li>
+<li>
+<strong>Nom des méthodes:</strong> commence par test</li>
+</ul><h3>Etapes</h3>
+
+<ol>
+<li>Créer un nouveau fichier <code>DummyTest.php</code> dans le répertoire <code>iafbm/unittests/units/</code>
+</li>
+<li>Se baser sur la structure suivante:
+<div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Tests nothing, just used to test that the unit-testing infrastructure works.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DummyTest</span> <span class="k">extends</span> <span class="nx">iaPHPUnit_Framework_TestCase</span> <span class="p">{</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Tests that a true boolean is a true boolean</span>
+<span class="sd">     */</span>
+    <span class="k">function</span> <span class="nf">test_boolean</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertSame</span><span class="p">(</span><span class="k">true</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+</li>
+</ol><h3>Exemple avec base de données</h3>
+
+<div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="sd">/**</span>
+<span class="sd"> * Tests nothing, just used to test that the unit-testing infrastructure works.</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">ExampleText</span> <span class="k">extends</span> <span class="nx">iaPHPUnit_Framework_TestCase</span> <span class="p">{</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Tests that a record is inserted in database</span>
+<span class="sd">     */</span>
+    <span class="k">function</span> <span class="nf">test_put</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$a</span> <span class="o">=</span> <span class="nx">xModel</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'personne'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'nom'</span> <span class="o">=&gt;</span> <span class="s1">'Doe'</span><span class="p">,</span>
+            <span class="s1">'prenom'</span> <span class="o">=&gt;</span> <span class="s1">'John'</span>
+        <span class="p">))</span><span class="o">-&gt;</span><span class="na">put</span><span class="p">();</span>
+        <span class="nv">$b</span> <span class="o">=</span> <span class="nx">xModel</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'personne'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">'xinsertid'</span><span class="p">]</span>
+        <span class="p">))</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertNotEmpty</span><span class="p">(</span><span class="nv">$b</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Tester le test unitaire</h2>
+
+<div class="highlight">
+<pre><span class="n">cd</span> <span class="n">iafbm</span><span class="o">/</span><span class="n">unittests</span>
+<span class="n">php</span> <span class="n">phpunit</span><span class="p">.</span><span class="n">php</span> <span class="n">unites</span><span class="o">/</span><span class="p">{</span><span class="n">MonTest</span><span class="p">}.</span><span class="n">php</span>
+</pre>
+</div>
+
+permet de lancer un seul test unitaire à la fois.
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
