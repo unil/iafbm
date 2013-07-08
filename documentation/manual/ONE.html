@@ -75,7 +75,7 @@
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-migration-script.html">Créer un script de migration</a></li>
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-ecrire-unittest.html">Ecrire un test unitaire</a></li>
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-lancer-tests-unitaires.html">Lancer les tests unitaires</a></li>
-<li><a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cookbook-creer-composant-extjs.html">Créer un composant ExtJS</a></li>
+<li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-creer-composant-extjs.html">Créer un composant ExtJS</a></li>
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-deploy.html">Déploiement de l'application</a></li>
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-documentation.html">Générer la documentation</a></li>
 </ul><h1>Référence API</h1>
@@ -118,10 +118,6 @@
 </ul><hr><p>Cette documentation est disponible en <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/ONE.html">single-page</a> et au <a href="http://unil.github.io/iafbm/">format HTML</a>.</p>
 
 <hr><h1>Structure des répertoires</h1>
-
-<h1>TODO</h1>
-
-<p>Prendre chaque lien rouge ci-dessous et trouver ou créer la recette correspondante (ca devrait couvrir 90% du de l'application)</p>
 
 <h2>Structure</h2>
 
@@ -181,7 +177,7 @@
 
 <h4><a href="https://github.com/unil/iafbm/tree/master/sql">iafbm/sql/</a></h4>
 
-<p>Le répertoire <code>sql/</code> contient les fichiers SQL pour la <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/cr%C3%A9ation-de-la-base-de-donn%C3%A9es-et-des-tables.html">création de la base de données et des tables</a>. Ils sont exécutés par le <a href="https://github.com/unil/iafbm/blob/master/scripts/deploy.sh">script de déploiement</a>.
+<p>Le répertoire <code>sql/</code> contient les fichiers SQL pour la <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-database-deployment">création de la base de données et des tables</a>. Ils sont exécutés par le <a href="https://github.com/unil/iafbm/blob/master/scripts/deploy.sh">script de déploiement</a>.
 </p><pre><code>iafbm
 ├── ...
 ├── sql
@@ -195,7 +191,7 @@
 
 <h4><a href="https://github.com/unil/iafbm/tree/master/">iafbm/import/</a></h4>
 
-<p>Le répertoire <code>sql/</code> contient les fichiers CSV des <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/donn%C3%A9es-externes-%C3%A0-importer.html">données externes à importer</a> (UNIL et CHUV) et des catalogues à peupler. Elles sont exécutées par le <a href="https://github.com/unil/iafbm/blob/master/scripts/import.sh">script d'import</a>.
+<p>Le répertoire <code>sql/</code> contient les fichiers CSV des <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Import.html">données externes à importer</a> (UNIL et CHUV) et des catalogues à peupler. Elles sont exécutées par le <a href="https://github.com/unil/iafbm/blob/master/scripts/import.sh">script d'import</a>.
 </p><pre><code>iafbm
 ├── ...
 ├── import
@@ -208,8 +204,8 @@
 
 <h4><a href="https://github.com/unil/iafbm/tree/master/scripts">iafbm/scripts/</a></h4>
 
-<p>Le répertoire <code>scripts/</code> contient les scripts PHP permettant le <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/d%C3%A9ployement.html">déployement</a> et la <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/maintenance.html">maintenance</a> de l'application.
-Le répertoire <code>scripts/migrations</code> contient l'archive des scripts de <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/migration.html">migration</a>.
+<p>Le répertoire <code>scripts/</code> contient les scripts PHP permettant le <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-deploy.html">déployement</a> et la maintenance de l'application.
+Le répertoire <code>scripts/migrations</code> contient l'archive des scripts de <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-migration-script.html">migration</a>.
 </p><pre><code>iafbm
 ├── ...
 ├── scripts
@@ -228,7 +224,7 @@ Le répertoire <code>scripts/migrations</code> contient l'archive des scripts de
 
 <h4><a href="https://github.com/unil/iafbm/tree/master/unittest">iafbm/unittests/</a></h4>
 
-<p>Le répertoire <code>unittests/</code> contient les scripts PHP permettant la <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/non-r%C3%A9gression-du-syst%C3%A8me.html">non-régression du système</a>.
+<p>Le répertoire <code>unittests/</code> contient les scripts PHP permettant la <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Cookbook-ecrire-unittest.html">non-régression du système</a>.
 Le répertoire <code>unittests/units</code> contient les tests unitaires à proprement parler.
 </p><pre><code>iafbm
 ├── ...
@@ -386,8 +382,8 @@ Le répertoire <code>unittests/units</code> contient les tests unitaires à prop
 <li>
 <strong>id:</strong> images relatives à l'identité de l'application (logos, etc.)</li>
 <li>
-<strong>layout:</strong> images utilisées pour la mise en page de l'application
-<pre><code>iafbm
+<strong>layout:</strong> images utilisées pour la mise en page de l'application</li>
+</ul><pre><code>iafbm
 ├── iafbm
 │   ├── public
 │   │   ├── assets
@@ -410,9 +406,12 @@ Le répertoire <code>unittests/units</code> contient les tests unitaires à prop
 │   │   │   │   └── layout
 │   │   │   │       └── ...
 :   :   :   :</code></pre>
-#### <a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/css">iafbm/iafbm/public/assets/css/</a>
-Ce répertoire contient les fichiers CSS spécifiques à l'application.</li>
-</ul><hr><h1>Cycle de développement</h1>
+
+<h4><a href="https://github.com/unil/iafbm/tree/master/iafbm/public/assets/css">iafbm/iafbm/public/assets/css/</a></h4>
+
+<p>Ce répertoire contient les fichiers CSS spécifiques à l'application.</p>
+
+<hr><h1>Cycle de développement</h1>
 
 <h2>Itération</h2>
 
@@ -1377,7 +1376,33 @@ $model = xModel::load('my', array(
     'commentaire' =&gt; "Rose-Marie s'est mariée"
 ))-&gt;tag();</code></pre>
 
-<hr><h1>Ecrire un test unitaire</h1>
+<hr><h1>Créer un composant ExtJS</h1>
+
+<h2>Principes</h2>
+
+<h3>Composants</h3>
+
+<p><strong>Les composants ExtJS propres au projet iafbm</strong> se regroupent sous le namespace <code>Ext.ia</code> et leur alias prennent le prefix <code>ia-</code>. Ils utilisent la nommenclature standard ExtJS; par exemple, l'extension du Ext.data.Store se nomme <code>Ext.ia.data.Store</code> et son alias est <code>store.ia-store</code>. <strong>Ces composants sont stockés</strong> dans le fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/classes.js">classes.js</a>.</p>
+
+<h3>Modèles et stores</h3>
+
+<p>Les modèles ExtJS <strong>se regroupent</strong> sous le namespace <code>iafbm.model</code> et les stores y relatifs sous le namespace <code>iafbm.store</code>. Tous ces éléments <strong>sont stockés</strong> dans le fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/classes.js">models.js</a>.</p>
+
+<h3>Grilles et formulaires</h3>
+
+<p>Les formulaires réutilisables <strong>se regroupent</strong> sous le namespace <code>iafbm.form</code> et <strong>sont stockés</strong> dans le fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/forms.js">forms.js</a>. Idem pour les grilles, qui <strong>se regroupent</strong> sous le namespace <code>iafbm.grid.common</code> et <strong>sont stockés</strong> dans le fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/grids.js">grids.js</a>.</p>
+
+<h3>Colonnes</h3>
+
+<p>Les définitions de colonnes réutilisables <strong>se regroupent</strong> sous le namespace <code>iafbm.columns</code> et <strong>sont stockés</strong> dans le fichier <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/columns.js">columns.js</a>.</p>
+
+<h2>Exemple</h2>
+
+<p>L'écriture d'un nouveau composant passe par les étapes suivantes:</p>
+
+<ul>
+<li>(fixme)</li>
+</ul><hr><h1>Ecrire un test unitaire</h1>
 
 <p>Les tests unitaires sont basés sur le framework <a href="https://github.com/sebastianbergmann/phpunit/">PHPUnit</a> et sont contenus dans le répertoire <a href="https://github.com/unil/iafbm/tree/master/unittests">iafbm/unittests</a>.</p>
 
@@ -1952,7 +1977,7 @@ php import.php</code></pre>
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 16:05:31</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 18:08:08</small>
         </footer>
       </div>
     </div>
