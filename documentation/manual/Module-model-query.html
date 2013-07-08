@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Module d'interrogation</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Module d'interrogation</h1>
+
+<p><strong>Le module d'interrogation</strong> permet d'effectuer des requêtes simulant une interrogation <strong>de type fulltext</strong> sur les modèles.</p>
+
+<h2>Implémentation</h2>
+
+<p>L'interrogation est implémentée dans les classes <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">iaExtRestController</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a>.</p>
+
+<p><strong>Le pendant controller</strong> effectue:</p>
+
+<ul>
+<li>le basculement au mode d'interrogation par la détection de la présence du paramètre <strong>xquery</strong>
+</li>
+<li>la création des paramètres destinés au modèle, contenant les champs, comparateurs, opérateurs et valeurs pour l'interrogation</li>
+</ul><p><strong>Le pendant modèle</strong> effectue:</p>
+
+<ul>
+<li>la mise à disposition du template d'interrogation <em>query</em> (commun ou redéfini)</li>
+<li>l'interrogation SQL en utilisation le <a href="https://github.com/damiencorpataux/xfm-php/wiki/Cookbook-model-xwhere">système de templating</a>
+</li>
+</ul><h3>Processus d'interrogation</h3>
+
+<p>Lorsque le paramètre <em>xquery</em> est présent dans une requête, le processus suivant est effectué:</p>
+
+<ul>
+<li>construction des paramètres d'interrogation</li>
+<li>application du template d'interrogation <em>query</em>
+</li>
+<li>exécution de la requête SQL d'interrogation</li>
+<li>envoi des résultats</li>
+</ul>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

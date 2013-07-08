@@ -18,18 +18,18 @@
 <p>Le <a href="https://github.com/damiencorpataux/xfm-php/blob/master/lib/Core/Controller.php">composant WebController</a> du framework <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaExtRestController.php">est étendu</a> pour:</p>
 
 <ul>
-<li><p><strong>fournir un binding standard avec le modèle</strong><br>
-en définissant la propriété <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/model.html">model</a> avec le nom du modèle à lier, le controller est à même d'effectuer directement les opérations CRUD sur le modèle défini</p></li>
-<li><p><strong>gérer les interrogations fulltext</strong> (<a href="https://github.com/unil/iafbm/wiki/module-model-query">query</a>)<br>
-lorsque le paramètre <em>xquery</em> est fourni avec une requête, le controller procède automatiquement à une interrogation de type fulltext sur le modèle lié - à condition que celui-ci définission le <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/xwhere.html">xwhere</a> <em>query</em></p></li>
-<li><p><strong>gérer l'ordering des résultats de requêtes</strong><br>
-...</p></li>
-<li><p><strong>gérer l'accès aux opération CRUD</strong><br>
-Pour chaque controller, on peut définir quelles opérations CRUD sont acceptées sur le modèle lié</p></li>
-<li><p><strong>fournir une réponse compatible ExtJS</strong>
+<li><p><strong>Fournir un binding standard avec le modèle</strong><br>
+En définissant la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaExtRestController.html#property_model">model</a> avec le nom du modèle à lier, le controller est à même d'effectuer directement les opérations CRUD sur le modèle défini</p></li>
+<li><p><strong>Gérer les interrogations fulltext</strong> (<a href="https://github.com/unil/iafbm/wiki/module-model-query">query</a>)<br>
+Lorsque le paramètre <em>xquery</em> est fourni avec une requête, le controller procède automatiquement à une interrogation de type fulltext sur le modèle lié - à condition que celui-ci définission le <a href="http://damiencorpataux.github.io/xfm-php/doc/api/master/classes/xModel.html#property_wheres">xwhere</a> <em>query</em></p></li>
+<li><p><strong>Gérer l'ordonnancement des résultats de requêtes</strong><br>
+Possibilité de <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaExtRestController.html#property_sort_fields_substitutions">basculer le(s) champs</a> sur le(s)quel l'ordonnancement est calculé. Par exemple dans le cas où l'utilisateur ordre une grille ExtJS par un champs catalogue (c-à-d identifiant étranger) il faut basculer le champs d'identifiant en champs de valeur (par exemple <em>pays_nom</em>)</p></li>
+<li><p><strong>Gérer l'accès aux opération CRUD</strong><br>
+Pour chaque controller, on peut <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaExtRestController.html#property_allow">définir</a> quelles opérations CRUD sont acceptées sur le modèle lié</p></li>
+<li><p><strong>Fournir une réponse compatible ExtJS</strong><br>
 Pour les requêtes sur le modèle lié, le composant fournit une structure réponse correspondante à celle attendue par les modèles ExtJS</p></li>
-<li><p><strong>fournir la méthode tag()</strong> permettant de créer une <a href="https://github.com/unil/iafbm/wiki/Module-versioning#signification-des-types-de-versions">version de type tag</a></p></li>
-<li><p><strong>fournit la méthode history()</strong> permettant de récupérer l'historique de versionning du modèle lié</p></li>
+<li><p><strong>Fournir la méthode tag()</strong> permettant de créer une <a href="https://github.com/unil/iafbm/wiki/Module-versioning#signification-des-types-de-versions">version de type tag</a></p></li>
+<li><p><strong>Fournit la méthode history()</strong> permettant de récupérer l'historique de versionning du modèle lié</p></li>
 <li>
 <p><strong>Effectuer les contrôles nécessaires</strong> tels que:</p>
 
@@ -42,7 +42,7 @@ Pour les requêtes sur le modèle lié, le composant fournit une structure répo
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>Damien Corpataux</b>, 2013-06-27 18:00:30</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
         </footer>
       </div>
     </div>

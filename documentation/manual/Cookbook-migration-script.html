@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Créer un script de migration</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Créer un script de migration</h1>
+
+<p>Lorsque l'implémentation d'une fonctionnalité nécessite une modification de la structure de base de données, il faut</p>
+
+<ul>
+<li>mettre à jour les <a href="https://github.com/damiencorpataux/xfm-project-skeleton/blob/database-mysql/README.md">fichiers SQL de déploiement</a>
+</li>
+<li>créer un script de migration</li>
+</ul><h2>Création du script de migration</h2>
+
+<ol>
+<li>Prérequis: le <a href="https://github.com/unil/iafbm/issues">ticket GitHub</a> existe</li>
+<li>Créer fichier nommé <strong>iafbm/scripts/migrations/issue#{ticket-number}-some-description.php</strong>
+</li>
+<li>Squelette de script:
+<div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">require_once</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__file__</span><span class="p">)</span><span class="o">.</span><span class="s1">'/../Script.php'</span><span class="p">);</span>
+
+<span class="k">class</span> <span class="nc">iafbmIssue178</span> <span class="k">extends</span> <span class="nx">iafbmScript</span> <span class="p">{</span>
+
+    <span class="k">function</span> <span class="nf">run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Single run test</span>
+        <span class="c1">// It is a good idea to prevent your script from running twice</span>
+        <span class="c1">// by testing the work has not yet been done</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">already_run</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">'This script has already run'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="c1">// Migration processing</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">create_fields</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Creates new columns in the commission_membres table</span>
+<span class="sd">     */</span>
+    <span class="k">function</span> <span class="nf">create_fields</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$statements</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'ALTER TABLE iafbm.commissions_membres ADD COLUMN fonction_complement TEXT AFTER commission_fonction_id'</span><span class="p">,</span>
+            <span class="s1">'ALTER TABLE iafbm.commissions_membres ADD COLUMN personne_denomination_id INT AFTER fonction_complement'</span><span class="p">,</span>
+            <span class="s1">'ALTER TABLE iafbm.commissions_membres ADD FOREIGN KEY (personne_denomination_id) REFERENCES personnes_denominations(id)'</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="nv">$t</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">xTransaction</span><span class="p">();</span>
+        <span class="nv">$t</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">();</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$statements</span> <span class="k">as</span> <span class="nv">$statement</span><span class="p">)</span> <span class="nx">xModel</span><span class="o">::</span><span class="na">q</span><span class="p">(</span><span class="nv">$statement</span><span class="p">);</span>
+        <span class="nv">$t</span><span class="o">-&gt;</span><span class="na">end</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Returns true if the fields to create already exist.</span>
+<span class="sd">     * This means the script has already been run on this instance.</span>
+<span class="sd">     */</span>
+    <span class="k">function</span> <span class="nf">already_run</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nv">$fields</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'fonction_complement'</span><span class="p">,</span> <span class="s1">'personne_denomination_id'</span><span class="p">);</span>
+        <span class="nv">$r</span> <span class="o">=</span> <span class="nx">xModel</span><span class="o">::</span><span class="na">q</span><span class="p">(</span><span class="s1">'DESCRIBE commissions_membres'</span><span class="p">);</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nv">$row</span> <span class="o">=</span> <span class="nb">mysql_fetch_assoc</span><span class="p">(</span><span class="nv">$r</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$result</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">'Field'</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="o">!!</span><span class="nb">array_intersect</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span> <span class="nv">$fields</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Instanciating the script automatically calls its run() method</span>
+<span class="k">new</span> <span class="nx">iafbmIssue178</span><span class="p">();</span>
+</pre>
+</div>
+</li>
+</ol><h2>Test du script de migration</h2>
+
+<ol>
+<li>Checkout master branch
+<div class="highlight">
+<pre><span class="nb">cd </span>iafbm
+git checkout master
+git pull
+</pre>
+</div>
+</li>
+<li>Deploy database from scratch (or <a class="internal absent" href="http://unil.github.io/iafbm/documentation/manual/release-cycle-chapter%3F.html">import a production data dump</a>)
+<div class="highlight">
+<pre><span class="nb">cd </span>scripts
+php update -x
+</pre>
+</div>
+</li>
+<li>Checkout your feature branch
+<div class="highlight">
+<pre>checkout my-feature-branch
+git pull
+</pre>
+</div>
+</li>
+<li>Run the migration script
+<div class="highlight">
+<pre><span class="nb">cd </span>migrations
+php issue#123-my-feature.php
+</pre>
+</div>
+</li>
+<li>Run the unittests
+<div class="highlight">
+<pre><span class="nb">cd</span> ../../unittests
+php phpunit.php units
+</pre>
+</div>
+</li>
+<li>Test the application in your browser</li>
+</ol><h3>Ne pas oublier</h3>
+
+<p>Les fichiers SQL de l'application doivent aussi être mis à jour de manière à ce qu'un déployement <em>from scratch</em> de l'application aboutisse à la même structure de données que l'état après migration.</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

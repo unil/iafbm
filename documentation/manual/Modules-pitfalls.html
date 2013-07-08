@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Subtilités</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Subtilités</h1>
+
+<h2>Membres de commission versionés</h2>
+
+<p>Les commissions_membres <a href="https://github.com/unil/iafbm/blob/master/sql/150_commissions_membres.sql">sont</a> des personnes associées à une fonction de commission et à <em>une version</em>.</p>
+
+<p>L'identifiant de version stocké avec le commission_membre représente la version courante du système au moment de l'ajout de la personne comme membre de commission. Ceci permet de figer l'état d'une personne et d'en ignorer les modifications successives.</p>
+
+<p>Pour ce faire, la méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/CommissionMembreModel.html#method_get">CommissionMembreModel::get()</a> tient compte du champs <em>commissions_membres.xversion</em> et popule les informations versionnées de la personne référencée. De plus, un champs fantôme <em>_uptodate</em> indique à l'aide d'une valeur booléenne si la personne référencée a subi des modification depuis son ajout en tant que membre.</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

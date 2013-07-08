@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Implémenter l'archivage</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Implémenter l'archivage</h1>
+
+<p>L'archivage est désactivé par défaut pour tous les modèles étendant <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a> car la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archivable">archivable</a> vaut <em>false</em> par défaut.</p>
+
+<p>L'archivage nécessite dans le modèle l'existence de la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">archive_foreign_models</a>. Cette propriété définit le relations et permet de déterminer les tuples à inclure dans l'archive (sauf si le modèle n'a aucune relation). Ceci permet de créer une archive <em>stand-alone</em> incluant <em>toutes</em> les information nécessaires à sa reconstruction (données de catalogues comprises). L'information nécessaire pour renseigner cette propriété se trouve dans son <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_archive_foreign_models">docblock</a>.</p>
+
+<h2>Mise en place</h2>
+
+<h3>Activation de l'archivage</h3>
+
+<p>Le versioning peut être activé/désactivé en modifiant la valeur de la propriété <em>versioning</em>:
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">MyModel</span> <span class="k">extends</span> <span class="nx">iaModelMysql</span> <span class="p">{</span>
+
+    <span class="k">public</span> <span class="nv">$archivable</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span> <span class="c1">// or false</span>
+
+    <span class="k">public</span> <span class="nv">$archive_foreign_fields</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="c1">// ...</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>...</p>
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

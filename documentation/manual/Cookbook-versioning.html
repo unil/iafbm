@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Implémenter le versioning</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="actions">
+        <a href="http://unil.github.io/iafbm/documentation/manual/Home.html">Home</a>
+      </div>
+      <div class="content wikistyle gollum markdown">
+        <h1>Implémenter le versioning</h1>
+
+<p>Le versioning est activé par défaut pour tous les modèles étendant <a href="https://github.com/unil/iafbm/blob/master/iafbm/lib/iafbm/xfm/iaModelMysql.php">iaModelMysql</a> car la propriété <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#property_versioning">versioning</a> vaut <em>true</em> par défaut.</p>
+
+<p>Le versioning nécessite dans le modèle l'existence d'un champs <em>actif</em> de type booléen. Ce champs est nécessaire pour la gestion des tuples supprimés.</p>
+
+<h2>Mise en place</h2>
+
+<h3>Activation du versioning</h3>
+
+<p>Le versioning peut être activé/désactivé en modifiant la valeur de la propriété <em>versioning</em>:
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">MyModel</span> <span class="k">extends</span> <span class="nx">iaModelMysql</span> <span class="p">{</span>
+
+    <span class="k">public</span> <span class="nv">$versioning</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span> <span class="c1">// or false</span>
+
+    <span class="k">public</span> <span class="nv">$mapping</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="s1">'id'</span><span class="p">,</span>
+        <span class="c1">// ...</span>
+        <span class="s1">'actif'</span> <span class="o">=&gt;</span> <span class="s1">'actif'</span><span class="p">,</span>
+        <span class="c1">// ...</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h3>Clé primaire</h3>
+
+<p>Dans le cas où le champs de clé primaire ne s'appelle pas <em>id</em>, le modèle doit impérativement redéfinir la propriété <a href="http://damiencorpataux.github.io/xfm-php/doc/api/master/classes/xModel.html#property_primary">primary</a> avec le nom du champs de clé primaire.
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="k">class</span> <span class="nc">MyModel</span> <span class="k">extends</span> <span class="nx">iaModelMysql</span> <span class="p">{</span>
+
+    <span class="k">public</span> <span class="nv">$versioning</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span> <span class="c1">// or false</span>
+
+    <span class="k">public</span> <span class="nv">$primary</span> <span class="o">=</span> <span class="s1">'identifiant'</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nv">$mapping</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'identifiant'</span> <span class="o">=&gt;</span> <span class="s1">'identifiant'</span><span class="p">,</span>
+        <span class="c1">// ...</span>
+        <span class="s1">'actif'</span> <span class="o">=&gt;</span> <span class="s1">'actif'</span><span class="p">,</span>
+        <span class="c1">// ...</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<h2>Utilisation</h2>
+
+<h3>Créer une version</h3>
+
+<p>En principe, la création de version n'est pas gérée manuellement. En effet, un modèle avec versioning activé crée automatiquement une version à chaque modification de données. La méthode <a href="http://unil.github.io/iafbm/documentation/api/server/classes/iaModelMysql.html#method_version">iaMysqlModel::version()</a> est d'ailleurs <em>protected</em>.</p>
+
+<h3>Récupérer une version</h3>
+
+<p>Il est possible de récupérer n'importe quelle version (existante) pour un enregistrement, en spécifiant le paramètre <em>xversion</em>.
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="nv">$model</span> <span class="o">=</span> <span class="nx">xModel</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'my'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="s1">'xversion'</span> <span class="o">=&gt;</span> <span class="mi">4964</span>
+<span class="p">))</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<h3>Créer un tag</h3>
+
+<p>Le système de versioning conserve l'opération ayant créé une version (get, put, post, delete). En plus de cela, une opération spéciale, <em>tag</em> permet de créer une version intermédiaire.</p>
+
+<p>Les <em>tags</em> ne contienne aucune modification, ils servent uniquement de jallon:
+</p><div class="highlight">
+<pre><span class="cp">&lt;?php</span>
+<span class="nv">$model</span> <span class="o">=</span> <span class="nx">xModel</span><span class="o">::</span><span class="na">load</span><span class="p">(</span><span class="s1">'my'</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'id'</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="s1">'commentaire'</span> <span class="o">=&gt;</span> <span class="s2">"Rose-Marie s'est mariée"</span>
+<span class="p">))</span><span class="o">-&gt;</span><span class="na">tag</span><span class="p">();</span>
+</pre>
+</div>
+
+      </div>
+      <div class="admin">
+        <footer class="footer">
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
