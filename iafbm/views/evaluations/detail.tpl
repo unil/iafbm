@@ -44,19 +44,23 @@ Ext.onReady(function() {
                     me.body.dom.innerHTML = "<b>Cette " + modelName + " est clôturée et ne peut être modifiée</b>";
                     tabpanel.items.each(function(el){
                         //get form
-                        form = el.down('form');
+                        var form = el.down('form');
+                        
                         //get all fields from the form
-                        f = form.getForm().getFields();
+                        var f = form.getForm().getFields();
                         f.each(function(a){
                             formFields.push(a);
                         });
-                        form.on('load', function() {    
+                        console.log(formFields);
+                        // TODO: Effectué plusieurs fois, certains à double, tester avec des console.log(form)
+                        form.on('load', function() {
                             fields = form.getValues();
                             if (fields[fieldModelName] == 3){// 3 means clôturé
                                 Ext.each(formFields, function(c){
                                     c.setReadOnly(true);
                                 });
                                 me.show();
+                                console.log('me.show()');
                             }
                         });
                     });
@@ -64,28 +68,12 @@ Ext.onReady(function() {
             }
         }]
     });
-
-    /*var evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+    
+    var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.Evaluation'),
         fetch: {
             model: iafbm.model.Evaluation,
-            id: <?php echo $d['id'] ?>
-        },
-        id: "evaluation",
-        layout: 'column',
-        items: [{
-            xtype: 'textfield',
-            name: 'evaluation_etat_id',
-            id: 'evaluation_etat_id',
-            dataIndex: 'evaluation_etat_id',
-        }]
-    });*/
-    
-    var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.EvaluationRapport'),
-        fetch: {
-            model: iafbm.model.EvaluationRapport,
-            params: { evaluation_id:<?php echo $d['id'] ?> }
+            params: { id:<?php echo $d['id'] ?> }
         },
         id: "rapportActivite",
         layout: 'column',
@@ -150,7 +138,7 @@ Ext.onReady(function() {
                 grow: true,
             },{
                 xtype: 'textfield',
-                name: 'evaluation_type_id',
+                name: 'evaluation_etat_id',
                 hidden: true
             }]
         },{
@@ -206,6 +194,7 @@ Ext.onReady(function() {
     
     var form_evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.EvaluationEvaluation'),
+        id: "formEvaluation",
         fetch: {
             model: iafbm.model.EvaluationEvaluation,
             params: { evaluation_id:<?php echo $d['id'] ?> }
@@ -273,6 +262,7 @@ Ext.onReady(function() {
     
     var form_cdir = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.EvaluationCdir'),
+        id: "formCdir",
         fetch: {
             model: iafbm.model.EvaluationCdir,
             params: { evaluation_id:<?php echo $d['id'] ?> }
@@ -384,7 +374,7 @@ Ext.onReady(function() {
                 listeners: {
                     afterrender: function() {
                         var me = this,
-                            form = Ext.getCmp('evaluation');
+                            form = Ext.getCmp('tabPanelEvaluation').down('form');
                         if (form.record) {
                             me.disableIf(form.getRecord());
                         }
@@ -414,9 +404,9 @@ Ext.onReady(function() {
                     );
                 },
                 archiveEvaluation: function() {
-                    var form = Ext.getCmp('evaluation'),
+                    form = Ext.getCmp('tabPanelEvaluation').down('form'),
                         record = form.getRecord();
-                    record.set('evaluation_etat_id', 3);
+                    record.set('evaluation_etat_id', 0);
                     record.save();
                     form.loadRecord();
                 }

@@ -7,12 +7,22 @@ class EvaluationModel extends iaModelMysql {
     var $mapping = array(
         'id' => 'id',
         'actif' => 'actif',
+        'termine' => 'termine',
         'evaluation_type_id' => 'evaluation_type_id',
         'date_periode_debut' => 'date_periode_debut',
         'date_periode_fin' => 'date_periode_fin',
         'personne_id' => 'personne_id',
         'activite_id' => 'activite_id',
-        'evaluation_etat_id' => 'evaluation_etat_id'
+        'evaluation_etat_id' => 'evaluation_etat_id',
+        'date_biblio_demandee' => 'date_biblio_demandee',
+        'date_biblio_recue' => 'date_biblio_recue',
+        'date_relance' => 'date_relance',
+        'date_rapport_recu' => 'date_rapport_recu',
+        'date_transmis_evaluateur' => 'date_transmis_evaluateur',
+        'date_entretien' => 'date_entretien',
+        'date_accuse_lettre' => 'date_accuse_lettre',
+        'date_accuse_email' => 'date_accuse_email',
+        'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');
