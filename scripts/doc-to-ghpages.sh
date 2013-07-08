@@ -12,10 +12,14 @@ eval "$(ssh-agent)" && ssh-add
 rm -rf $TMP_ROOT
 mkdir -p $TMP_ROOT
 
-# Generates: manual
+# Generates: One-page-wiki and HTML-wiki
 cd $TMP_ROOT
 git clone https://github.com/unil/iafbm.wiki.git
 cd iafbm.wiki
+# One-page-wiki
+# (FIXME: commit&push would ask ssh passphrase on production server, find a workaround)
+python tools/wiki/one.py "Home.md, General*.md, Module*.md, Cookbook*.md"  > ONE.md
+# HTML-wiki
 mkdir -p $TMP_ROOT/$DOC_ROOT/manual
 gollum-site generate --base_path "$URL_BASE" --output_path $TMP_ROOT/$DOC_ROOT/manual/
 echo '<html><head><meta http-equiv="refresh" content="0; url=Home.html"></head><body></body></html>' > $TMP_ROOT/$DOC_ROOT/manual/index.html
