@@ -14,7 +14,7 @@ mkdir -p $TMP_ROOT
 
 # Generates: One-page-wiki and HTML-wiki
 cd $TMP_ROOT
-git clone https://github.com/unil/iafbm.wiki.git
+git clone --recursive https://github.com/unil/iafbm.wiki.git
 cd iafbm.wiki
 # One-page-wiki
 # (FIXME: commit&push would ask ssh passphrase on production server, find a workaround)
