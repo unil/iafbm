@@ -49,8 +49,7 @@ do
     mkdir -p $path
     cp -r $TMP_ROOT/$DOC_ROOT/$path/. $path/.
 done
-git add . && git commit -m"Generated documentation automatic update"
-git push
+git add . && git commit -m"Generated documentation automatic update" && git push
 
 # Cleans working directory
 rm -rf $TMP_ROOT
