@@ -115,9 +115,7 @@
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Processus-contrats.html">Processus-Contrats</a></li>
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Processus-personne-candidat.html">Processus-Personne-Candidat</a></li>
 <li><a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Technical-UnitTesting.html">Technical-UnitTesting</a></li>
-</ul><hr><p>Cette documentation se trouve sur <a href="http://unil.github.io/iafbm/">gh-pages</a> et devrait être nettoyée et mise à jour (supprimer la partie Sphinx, fixer la partie gollum:generation static du wiki iafbm).</p>
-
-<hr><p>Le contenu a été déplacé dans <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/General-release-cycle.html#migrations">general-release-cycle#migrations</a>. To be deleted.</p>
+</ul><hr><p>Cette documentation est disponible en <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/ONE.html">single-page</a> et au <a href="http://unil.github.io/iafbm/">format HTML</a>.</p>
 
 <hr><h1>Structure des répertoires</h1>
 
@@ -867,7 +865,7 @@ Pour les requêtes sur le modèle lié, le composant fournit une structure répo
 <li>
 <strong>delete:</strong> suppression d'un tuple</li>
 <li>
-<strong>tag:</strong> aucune modification de donées, mais stockage d'un <em>jalon</em> associé à <em>un libellé</em>
+<strong>tag:</strong> aucune modification de données, mais stockage d'un <em>jalon</em> associé à <em>un libellé</em>
 </li>
 </ul><h3>Processus de versioning</h3>
 
@@ -1025,7 +1023,7 @@ Les tuples de toutes les tables liées sont stockés et ceci de manière récurs
 
 <h2>Récupération des données</h2>
 
-<p>La reconstruction d'une archive n'est pas encore implémentée. Pour mémoire, le processus de base recommendé est:</p>
+<p>La reconstruction d'une archive n'est pas encore implémentée. Pour mémoire, le processus de base recommandé est:</p>
 
 <ul>
 <li>Reconstituer une base de données vide à partir des fichiers <code>iafbm/sql/</code> ou du script <code>update -x</code>
@@ -1042,9 +1040,7 @@ Les tuples de toutes les tables liées sont stockés et ceci de manière récurs
 </li>
 <li>Ignorer silencieusement les exceptions SQL (eg. <em>tuple référencé non trouvé</em>)</li>
 <li>Tourner le script entier en boucle jusqu'à ce que tous les tuples soit présents en base de données (eg. toutes les insertions renvoient l'erreur <em>clé primaire déjà existante</em>).</li>
-</ul><p>Ceci est facilement <a href="http://vimeo.com/7857877">scriptable</a>.</p>
-
-<hr><h1>Structures de données ExtJS</h1>
+</ul><hr><h1>Structures de données ExtJS</h1>
 
 <p>L'application fait usage de définitions factorisées pour le contenu réutilisable des <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/grids.js">grilles</a> et <a href="https://github.com/unil/iafbm/blob/master/iafbm/public/assets/js/app/forms.js">formulaires</a>.</p>
 
@@ -1670,7 +1666,9 @@ php phpunit.php units</code></pre>
 <strong>Un manuel</strong> contenant une description de l'architecture et des modules ainsi qu'un cookbook</li>
 </ul><p>Le manuel est hébergé sur <a href="https://github.com/unil/iafbm/wiki">GitHub Wiki</a> et <a href="http://unil.github.io/iafbm/">GitHub Pages</a> (miroir HTML). La documentation API est hébergée sur <a href="http://unil.github.io/iafbm/">GitHub Pages</a>.</p>
 
-<h2>La manière simple</h2>
+<h2>Génération</h2>
+
+<h3>La manière simple</h3>
 
 <p>Le script <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">doc-to-ghpages.sh</a> permet mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation HTML</a> en-ligne. Son utilisation est simple:
 </p><pre><code>git clone --branch gh-pages https://github.com/unil/iafbm.git /tmp/gh-pages
@@ -1683,7 +1681,11 @@ rm -rf /tmp/gh-pages</code></pre>
 <li>jsduck (<a href="https://github.com/senchalabs/jsduck">https://github.com/senchalabs/jsduck</a>)</li>
 <li>gollum-site (<a href="https://github.com/dreverri/gollum-site">https://github.com/dreverri/gollum-site</a>)</li>
 <li>git (<a href="http://git-scm.com/">http://git-scm.com/</a>)</li>
-</ul><h2>Détail</h2>
+</ul><h3>Le one-liner</h3>
+
+<pre><code>wget -O - https://raw.github.com/unil/iafbm/gh-pages/scripts/doc-to-ghpages.sh | sh</code></pre>
+
+<h2>Détail</h2>
 
 <h3>Documentation API</h3>
 
@@ -1950,7 +1952,7 @@ php import.php</code></pre>
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>damiencorpataux</b>, 2013-07-08 15:22:45</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 16:05:31</small>
         </footer>
       </div>
     </div>
