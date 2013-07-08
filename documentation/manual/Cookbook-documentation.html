@@ -28,7 +28,9 @@
 <strong>Un manuel</strong> contenant une description de l'architecture et des modules ainsi qu'un cookbook</li>
 </ul><p>Le manuel est hébergé sur <a href="https://github.com/unil/iafbm/wiki">GitHub Wiki</a> et <a href="http://unil.github.io/iafbm/">GitHub Pages</a> (miroir HTML). La documentation API est hébergée sur <a href="http://unil.github.io/iafbm/">GitHub Pages</a>.</p>
 
-<h2>La manière simple</h2>
+<h2>Génération</h2>
+
+<h3>La manière simple</h3>
 
 <p>Le script <a href="https://github.com/unil/iafbm/blob/gh-pages/scripts/doc-to-ghpages.sh">doc-to-ghpages.sh</a> permet mise-à-jour automatique de la <a href="http://unil.github.io/iafbm/">documentation HTML</a> en-ligne. Son utilisation est simple:
 </p><div class="highlight">
@@ -45,7 +47,15 @@ rm -rf /tmp/gh-pages
 <li>jsduck (<a href="https://github.com/senchalabs/jsduck">https://github.com/senchalabs/jsduck</a>)</li>
 <li>gollum-site (<a href="https://github.com/dreverri/gollum-site">https://github.com/dreverri/gollum-site</a>)</li>
 <li>git (<a href="http://git-scm.com/">http://git-scm.com/</a>)</li>
-</ul><h2>Détail</h2>
+</ul><h3>Le one-liner</h3>
+
+<div class="highlight">
+<pre>wget -O - https://raw.github.com/unil/iafbm/gh-pages/scripts/doc-to-ghpages.sh | sh
+</pre>
+</div>
+
+
+<h2>Détail</h2>
 
 <h3>Documentation API</h3>
 
@@ -210,7 +220,7 @@ for all *.php files in the working directory and subdirectories.
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 13:12:14</small>
+          <small>Last edited by <b>damiencorpataux</b>, 2013-07-08 13:35:38</small>
         </footer>
       </div>
     </div>
