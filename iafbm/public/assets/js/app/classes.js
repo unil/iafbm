@@ -1836,7 +1836,6 @@ Ext.define('Ext.ia.form.Panel', {
 Ext.define('Ext.ia.tab.CommissionPanel', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.ia-tabpanel-commission',
-    type_id: 'evaluation_type_id',
     updateTabState: function(tab) {
         var tab = tab || this.getActiveTab(),
             finished = tab.down('ia-form-commission').record.get('termine');

@@ -11,7 +11,22 @@ Ext.onReady(function() {
             {"value":'0', "name":"Non"},
             {"value":'null', "name":"-"}
         ]
-    });    
+    });
+    
+    // Tableau des valeurs des champs à cacher en fonction du type_id de l'évaluation
+    // relatif au champs "id" de la table "activite" ou du champs "activite_id" de iafbm.store.Evaluation
+    var typeId_Po           = Array(1,2,3),
+        typeId_PoAdPersonam = Array(4,5,6),
+        typeId_Pas          = Array(13,14,15),
+        typeId_PasAdPersonam= Array(10,11,12),
+        typeId_Ptit         = Array(31,32,33),
+        typeId_Mer1Ssf      = Array(43),
+        typeId_Mer1Ssc      = Array(44,45),
+        typeId_Mer2Ssf      = Array(49),
+        typeId_Mer2Ssc      = Array(50,51),
+        typeId_Pd           = Array(64,65,66),
+        typeId_Grp_PoPas    = [].concat(typeId_Po, typeId_PoAdPersonam, typeId_Pas, typeId_PasAdPersonam);
+        
 
     /*
      * Adding lock field feature when form is archived.
@@ -91,13 +106,13 @@ Ext.onReady(function() {
                 fieldLabel: 'Biblio. demandée le',
                 emptyText: 'Biblio. demandée le',
                 name: 'date_biblio_demandee',
-                iaDisableFor: [1,2]
+                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Biblio reçue le',
                 emptyText: 'Biblio reçue le',
                 name: 'date_biblio_recue',
-                iaDisableFor: [2]
+                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Relancé le',
@@ -122,12 +137,14 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Lettre d\'accusé de réception',
                 emptyText: 'Lettre d\'accusé de réception',
-                name: 'date_accuse_lettre'
+                name: 'date_accuse_lettre',
+                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc, typeId_Pd)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'E-mail d\'accusé de réception',
                 emptyText: 'E-mail d\'accusé de réception',
-                name: 'date_accuse_email'
+                name: 'date_accuse_email',
+                iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-textarea',
                 fieldLabel: 'Remarques diveres',
@@ -213,6 +230,7 @@ Ext.onReady(function() {
                 fieldLabel: 'Rapport d\'évaluation - OJ Décanat du',
                 emptyText: 'Rapport d\'évaluation - OJ Décanat du',
                 name: 'date_rapport_evaluation',
+                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc, typeId_Pd)
             },{
                 xtype: 'ia-combo',
                 store: new iafbm.store.EvaluationPreavis(),
@@ -220,7 +238,8 @@ Ext.onReady(function() {
                 displayField: 'preavis',
                 fieldLabel: 'Préavis Evaluateur',
                 name: 'preavis_evaluateur_id',
-                editable: false
+                editable: false,
+                iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-combo',
                 store: new iafbm.store.EvaluationPreavis(),
@@ -233,12 +252,14 @@ Ext.onReady(function() {
                 xtype: 'ia-datefield',
                 fieldLabel: 'Liste transmise à la Direction de l\'UNIL le',
                 emptyText: 'Liste transmis à la Direction de l\'UNIL le',
-                name: 'date_liste_transmise'
+                name: 'date_liste_transmise',
+                iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
                 emptyText: 'Dossier transmis à la Direction de l\'UNIL le',
-                name: 'date_dossier_transmis'
+                name: 'date_dossier_transmis',
+                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc, typeId_Pd)
             }]
         },{
             xtype: 'container',
@@ -275,12 +296,15 @@ Ext.onReady(function() {
             },
             items: [{
                     baseCls: 'title',
-                    html: 'Cdir'
+                    html: 'Cdir',
+                    id: 'fieldset-title-cdir'
                 },{
                     xtype: 'ia-datefield',
+                    id: 'field-cdir-seance',
                     fieldLabel: 'Séance du CDir du',
                     emptyText: 'Séance du CDir du',
                     name: 'seance_cdir',
+                    iaDisableFor: typeId_Pd
                 },{
                     xtype: 'ia-combo',
                     store: trueFalse,
@@ -288,7 +312,8 @@ Ext.onReady(function() {
                     displayField: 'name',
                     fieldLabel: 'Confirmation',
                     name: 'confirmation',
-                    editable: false
+                    editable: false,
+                    iaDisableFor: [].concat(typeId_Ptit, typeId_Pd)
             },{
                     xtype: 'ia-combo',
                     store: trueFalse,
@@ -312,7 +337,30 @@ Ext.onReady(function() {
                 emptyText: 'Remarques diverses',
                 name: 'commentaire'
             }]
-        }]
+        }],
+        /*
+         *
+         * Renomme l'onglet "Cdir" en "Décision de la Direction de l'UNIL"
+         * Renomme le champ "Séance Cdir du" en "Sécance Direction du"
+         * Renomme le titre du formulaire (fieldSet) en Décision de la Direction de l'UNIL
+         *
+         * TODO: L'événemenent déclanché n'est pas correcte (déclanche aléatoirement). Cela créer des erreurs javascript.
+         */
+        renameFields: function(){
+            
+            Ext.getCmp('formCdir').on('load', function() {
+                var activite_id = Ext.getCmp('rapportActivite').record.get('activite_id');
+                
+                var arrayToRename = [].concat(typeId_Mer1Ssf, typeId_Mer1Ssc, typeId_Mer2Ssf, typeId_Mer2Ssc, typeId_Pd);
+                var needToRename = Ext.Array.contains(arrayToRename, activite_id);
+                
+                if(needToRename){
+                    Ext.getCmp('cdir').setTitle("Décision de la Direction de l'UNIL");
+                    Ext.getCmp('fieldset-title-cdir').el.dom.innerText = "Décision de la Direction de l'UNIL";
+                    Ext.getCmp('field-cdir-seance').labelEl.update('Séance Direction du');
+                }
+            });
+        }
     });
     
     var form_contrat = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -402,7 +450,7 @@ Ext.onReady(function() {
                     );
                 },
                 archiveEvaluation: function() {
-                    form = Ext.getCmp('tabPanelEvaluation').down('form'),
+                    var form = Ext.getCmp('tabPanelEvaluation').down('form'),
                         record = form.getRecord();
                     record.set('evaluation_etat_id', 0);
                     record.save();
@@ -419,6 +467,7 @@ Ext.onReady(function() {
         modelName: 'evaluation',
         activeTab: 0,
         plain: true,
+        type_id: 'activite_id',
         defaults: {
             autoScroll: true,
         },
@@ -442,13 +491,7 @@ Ext.onReady(function() {
                 title: 'Contrat',
                 items: form_contrat,
                 iconCls: 'tab-icon-unknown'
-            }/*,{
-                id: 'archiveForm',
-                title: 'archiveMode',
-                items: evaluation,
-                hidden: true,
-                iconCls: 'tab-icon-unknown'
-        }*/],
+        }],
         listeners: {
             tabchange: function(tabPanel, newCard, oldCard, options) {
                 // Automatic url hash (#) update on tab selection
@@ -458,8 +501,9 @@ Ext.onReady(function() {
                 // Automatic tab selection according url hash (#)
                 var tabId = document.location.hash.replace("#", "");
                 this.setActiveTab(tabId);
+                Ext.getCmp('formCdir').renameFields();
             }
-        }        
+        }
     });
 
     var panel = Ext.createWidget('panel', {

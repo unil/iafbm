@@ -957,8 +957,8 @@ Ext.define('iafbm.model.EvaluationEvaluation', {
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
         {name: 'date_rapport_evaluation', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'preavis_evaluateur_id', type: 'int'},
-        {name: 'preavis_decanat_id', type: 'int'},
+        {name: 'preavis_evaluateur_id', type: 'int', useNull: true},
+        {name: 'preavis_decanat_id', type: 'int', useNull: true},
         {name: 'date_liste_transmise', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_dossier_transmis', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'commentaire', type: 'string'}
