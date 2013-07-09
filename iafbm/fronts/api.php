@@ -37,7 +37,7 @@ class ApiFront extends xApiFront {
     );
 
     /**
-     * Manages output mode (encoding, new lines and separator)
+     * Manages CSV output mode (encoding, new lines and separator)
      * and defines 'xmethod' parameter according the HTTP request verb.
      */
     function __construct($params = null) {
@@ -83,6 +83,4 @@ class ApiFront extends xApiFront {
         $result = $this->call_method();
         print $this->encode($result);
     }
-
-
 }
