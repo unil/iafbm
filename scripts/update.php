@@ -2,6 +2,11 @@
 
 require_once(dirname(__file__).'/Script.php');
 
+/**
+ * iafbm update script.
+ * Updates code and/or database.
+ * @package scripts
+ */
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {

@@ -1,11 +1,21 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class ReportController extends iaExtRestController {
 
+    /**
+     * Displays the available reports.
+     */
     function indexAction() {
         return xView::load('report/index', array(), $this->meta);
     }
 
+    /**
+     * Allows the user to download a report of corps enseignant.
+     */
     function effectifCorpsEnseignantAction() {
         // If all regexps are present in array,
         // returns true and deletes matching cells,

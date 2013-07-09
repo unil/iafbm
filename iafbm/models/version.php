@@ -2,6 +2,10 @@
 /**
  * This model stores tables write activity.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class VersionModel extends iaJournalingModelMysql {
 
     var $versioning = false;
@@ -37,4 +41,19 @@ class VersionModel extends iaJournalingModelMysql {
         if (!$v) throw new xException('Could not retrieve current version', 500);
         return $v;
     }
+
+    // Self-documentation
+    var $description = 'versions des enregistrement (historique)';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'created' => 'date de création',
+        'creator' => 'identifiant Switch-AAI du créateur',
+        'table_name' => 'nom de la table',
+        'id_field_name' => 'nom du champs identifiant',
+        'id_field_value' => 'valeur du champs identifiant',
+        'model_name' => 'nom du modèle',
+        'operation' => 'operation effectuée',
+        'commentaire' => 'commentaire'
+    );
 }

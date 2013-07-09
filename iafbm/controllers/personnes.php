@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class PersonnesController extends iaExtRestController {
 
     var $model = 'personne';
@@ -53,6 +57,9 @@ class PersonnesController extends iaExtRestController {
         'activite_activite_nom_abreviation' => 'Activité (abrév)'
     );
 
+    /**
+     * Displays a grid of personnes.
+     */
     function indexAction() {
         $data = array(
             'title' => 'Personnes',
@@ -62,6 +69,9 @@ class PersonnesController extends iaExtRestController {
         return xView::load('common/extjs/grid', $data, $this->meta);
     }
 
+    /**
+     * Displays the personne form.
+     */
     function detailAction() {
         $data = array(
             'id' => $this->params['id'],
@@ -69,6 +79,9 @@ class PersonnesController extends iaExtRestController {
         return xView::load('personnes/detail', $data, $this->meta);
     }
 
+    /**
+     * Enables the user to download an export of personnes.
+     */
     function exportAction() {
         // Config
         $export_dir = '/tmp';
@@ -115,6 +128,10 @@ class PersonnesController extends iaExtRestController {
         }
     }
 
+    /**
+     * Returns a flat array of personnes.
+     * @return array
+     */
     function export() {
         ini_set('max_execution_time', 600);
         // Models joins to traverse (1..1 or n..1 joins)
@@ -241,6 +258,9 @@ class PersonnesController extends iaExtRestController {
         return $rows;
     }
 
+    /**
+     * Adds _activites ghost field.
+     */
     function get() {
         $personnes = parent::get();
         // Adds '_activites' ghost field (if applicable)
@@ -284,6 +304,9 @@ class PersonnesController extends iaExtRestController {
         return parent::put();
     }
 
+    /**
+     * Ensures nom and prenom field values begin with an uppercase.
+     */
     protected function transform_params() {
         foreach (array('nom', 'prenom') as $p) {
             $param = &$this->params['items'][$p];

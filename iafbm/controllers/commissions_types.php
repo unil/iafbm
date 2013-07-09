@@ -2,11 +2,18 @@
 
 require_once('commissions.php');
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CommissionsTypesController extends AbstractCommissionController {
 
     var $model = 'commission_type';
     var $allow = array('get');
 
+    /**
+     * Displays a grid of type de commissions.
+     */
     function indexAction() {
         $data = array(
             'title' => 'Types de commissions',

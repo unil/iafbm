@@ -2,9 +2,10 @@
 
 /**
  * Specific iaModelMysql implementation for managing journaling models.
- * - Prevents 'post' and 'delete' opertations.
+ * Eg. versioning and archive data tables.
+ * - Prevents 'post' and 'delete' operations.
  * - Checks that the accessed row(s) relate to an allowed model.
- * @package iafbm
+ * @package iafbm-library
  */
 abstract class iaJournalingModelMysql extends iaModelMysql {
 
@@ -71,10 +72,16 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
         }
     }
 
+    /**
+     * Prevents journaling data modification.
+     */
     function post() {
         throw new xException("{{$this->name} model cannot be modified because it is of type 'journaling'", 403);
     }
 
+    /**
+     * Prevents journaling data deletion.
+     */
     function delete() {
         throw new xException("{{$this->name} model cannot be deleted because it is of type 'journaling'", 403);
     }

@@ -5,9 +5,8 @@ require_once(__dir__.'/../../iafbm/lib/xfm/unittests/lib/PHPUnit_Framework_TestC
 /**
  * Custom PHPUnit_Framework_TestCase.
  * Sets up custom authentication information with 'local-superuser' role.
- * @package unittests
+ * @package unittests-library
  */
-
 class iaPHPUnit_Framework_TestCase extends xPHPUnit_Framework_TestCase
 {
 

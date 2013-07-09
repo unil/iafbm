@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionTypeModel extends iaModelMysql {
 
     var $table = 'commissions_types';
@@ -24,5 +28,14 @@ class CommissionTypeModel extends iaModelMysql {
             'mandatory',
             'maxlength' => array('length'=>32)
         )
+    );
+
+    // Self-documentation
+    var $description = 'catalogue des types de commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom du type de commissions',
+        'racine' => 'racine du type du type'
     );
 }
