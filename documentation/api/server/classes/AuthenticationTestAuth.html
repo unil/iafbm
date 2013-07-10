@@ -22,7 +22,11 @@
 <li><a>Packages</a></li>
 <li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
 <li><a href="../packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="../packages/iafbm-library.html"><i class="icon-folder-open"></i> iafbm-library</a></li>
+<li><a href="../packages/scripts.html"><i class="icon-folder-open"></i> scripts</a></li>
+<li><a href="../packages/scripts-migration.html"><i class="icon-folder-open"></i> scripts-migration</a></li>
 <li><a href="../packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+<li><a href="../packages/unittests-library.html"><i class="icon-folder-open"></i> unittests-library</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -33,11 +37,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">839</span></a></li>
+                <span class="label label-info">850</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul>
 <li>todo 
-                <span class="label label-info">12</span>
+                <span class="label label-info">13</span>
 </li>
 <li>fixme 
                 <span class="label label-info">16</span>
@@ -68,15 +72,13 @@
 <li class="method public inherited"><a href="#method___construct" title="__construct :: "><span class="description">__construct()
         </span><pre>__construct()</pre></a></li>
 <li class="method public inherited"><a href="#method_canonicalize" title="canonicalize :: Canonicalizes $this-&gt;permissions."><span class="description">Canonicalizes $this-&gt;permissions.</span><pre>canonicalize()</pre></a></li>
-<li class="method public inherited"><a href="#method_get_permissions" title="get_permissions :: "><span class="description">get_permissions()
-        </span><pre>get_permissions()</pre></a></li>
+<li class="method public inherited"><a href="#method_get_permissions" title="get_permissions :: Returns a list of permissions for the currently authenticated user."><span class="description">Returns a list of permissions for the currently authenticated user.</span><pre>get_permissions()</pre></a></li>
 <li class="method public "><a href="#method_get_permissions_property" title="get_permissions_property :: "><span class="description">get_permissions_property()
         </span><pre>get_permissions_property()</pre></a></li>
 <li class="method public inherited"><a href="#method_is_allowed_model" title="is_allowed_model :: Returns true if user is allowed to execute $operation on $model,
 false otherwise."><span class="description">Returns true if user is allowed to execute $operation on $model,
 false otherwise.</span><pre>is_allowed_model()</pre></a></li>
-<li class="method public inherited"><a href="#method_set_from_aai" title="set_from_aai :: "><span class="description">set_from_aai()
-        </span><pre>set_from_aai()</pre></a></li>
+<li class="method public inherited"><a href="#method_set_from_aai" title="set_from_aai :: Sets authentication from Switch-AAI data."><span class="description">Sets authentication from Switch-AAI data.</span><pre>set_from_aai()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header protected">» Protected
@@ -89,7 +91,7 @@ false otherwise.</span><pre>is_allowed_model()</pre></a></li>
 <li class="nav-header protected">» Protected
                     <ul>
 <li class="property protected "><a href="#property_permissions" title="$permissions :: Roles &lt;-&gt; Persmissions configuration."><span class="description"></span><pre>$permissions</pre></a></li>
-<li class="property protected inherited"><a href="#property_role_separator" title="$role_separator :: "><span class="description"></span><pre>$role_separator</pre></a></li>
+<li class="property protected inherited"><a href="#property_role_separator" title="$role_separator :: D"><span class="description"></span><pre>$role_separator</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -140,9 +142,8 @@ false otherwise.</span><pre>is_allowed_model()</pre></a></li>
 </div></div>
 </div>
 <a id="method_get_permissions"></a><div class="element clickable method public method_get_permissions" data-toggle="collapse" data-target=".method_get_permissions .collapse">
-<h2>get_permissions()
-        </h2>
-<pre>get_permissions() </pre>
+<h2>Returns a list of permissions for the currently authenticated user.</h2>
+<pre>get_permissions() : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -150,6 +151,9 @@ false otherwise.</span><pre>is_allowed_model()</pre></a></li>
 <th>inherited_from</th>
 <td>\iaAuth::get_permissions()</td>
 </tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>List of permissions.</div>
 </div></div>
 </div>
 <a id="method_get_permissions_property"></a><div class="element clickable method public method_get_permissions_property" data-toggle="collapse" data-target=".method_get_permissions_property .collapse">
@@ -181,12 +185,11 @@ false otherwise.</h2>
 </div></div>
 </div>
 <a id="method_set_from_aai"></a><div class="element clickable method public method_set_from_aai" data-toggle="collapse" data-target=".method_set_from_aai .collapse">
-<h2>set_from_aai()
-        </h2>
+<h2>Sets authentication from Switch-AAI data.</h2>
 <pre>set_from_aai() </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>(eg. Shibboleth cookie data)</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\iaAuth::set_from_aai()</td>
@@ -261,7 +264,7 @@ false otherwise.</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-07-09T13:42:32+02:00.<br></footer></div>
+            generated on 2013-07-10T12:11:00+02:00.<br></footer></div>
 </div>
 </body>
 </html>

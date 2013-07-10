@@ -22,7 +22,11 @@
 <li><a>Packages</a></li>
 <li><a href="packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
 <li><a href="packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="packages/iafbm-library.html"><i class="icon-folder-open"></i> iafbm-library</a></li>
+<li><a href="packages/scripts.html"><i class="icon-folder-open"></i> scripts</a></li>
+<li><a href="packages/scripts-migration.html"><i class="icon-folder-open"></i> scripts-migration</a></li>
 <li><a href="packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+<li><a href="packages/unittests-library.html"><i class="icon-folder-open"></i> unittests-library</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -33,11 +37,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">839</span></a></li>
+                <span class="label label-info">850</span></a></li>
 <li><a href="markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul>
 <li>todo 
-                <span class="label label-info">12</span>
+                <span class="label label-info">13</span>
 </li>
 <li>fixme 
                 <span class="label label-info">16</span>
@@ -88,7 +92,7 @@
                         The following markers were found:
                         <ul>
 <li>todo 
-                <span class="label label-info">12</span>
+                <span class="label label-info">13</span>
 </li>
 <li>fixme 
                 <span class="label label-info">16</span>
@@ -214,7 +218,7 @@
 </tr>
 <tr>
 <td>fixme</td>
-<td>68</td>
+<td>71</td>
 <td></td>
 </tr>
 </table></div>
@@ -231,7 +235,7 @@
 </tr>
 <tr>
 <td>fixme</td>
-<td>118</td>
+<td>121</td>
 <td></td>
 </tr>
 </table></div>
@@ -248,7 +252,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>50</td>
+<td>60</td>
 <td>Factorize this between personnes_adresses, personnes_emails, personnes_telephones</td>
 </tr>
 </table></div>
@@ -265,7 +269,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>91</td>
+<td>101</td>
 <td>Cellule "Autres" dans le(s) tableaux de report?</td>
 </tr>
 </table></div>
@@ -282,7 +286,7 @@
 </tr>
 <tr>
 <td>fixme</td>
-<td>37</td>
+<td>47</td>
 <td>Because personne_denomination was implemented later,</td>
 </tr>
 </table></div>
@@ -299,7 +303,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>50</td>
+<td>60</td>
 <td>Factorize this between personnes_adresses, personnes_emails, personnes_telephones</td>
 </tr>
 </table></div>
@@ -316,7 +320,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>25</td>
+<td>32</td>
 <td>Create a common (and factorized) export controller (as for print)</td>
 </tr>
 </table></div>
@@ -333,7 +337,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>77</td>
+<td>95</td>
 <td>Factorize this between personnes_adresses, personnes_emails, personnes_telephones</td>
 </tr>
 </table></div>
@@ -350,7 +354,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>239</td>
+<td>256</td>
 <td>order fields according $fields_labels order</td>
 </tr>
 </table></div>
@@ -367,7 +371,7 @@
 </tr>
 <tr>
 <td>fixme</td>
-<td>28</td>
+<td>32</td>
 <td>missing 'personne' relation here?</td>
 </tr>
 </table></div>
@@ -384,24 +388,24 @@
 </tr>
 <tr>
 <td>fixme</td>
-<td>43</td>
+<td>47</td>
 <td>pays model is referenced by two different columns, but can only be specified once as a key indice in $joins array :(</td>
 </tr>
 <tr>
 <td>fixme</td>
-<td>75</td>
+<td>79</td>
 <td>'pays' => array('pays_pro_id' => 'id'),</td>
 </tr>
 <tr>
 <td>fixme</td>
-<td>76</td>
+<td>80</td>
 <td>'pays' => array('pays_pri_id' => 'id'),</td>
 </tr>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/lib/iafbm/xfm/iaModelMysql.php" id="iafbm/lib/iafbm/xfm/iaModelMysql.php"></a><h3>
-<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaModelMysql.php<small style="float: right;padding-right: 10px;">2</small>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaModelMysql.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <tr>
@@ -410,13 +414,22 @@
 <th>Description</th>
 </tr>
 <tr>
+<td>todo</td>
+<td>72</td>
+<td>Enhanced invalids method:
+      if xmethod=='post', first load the existing record,
+      then apply modification ($this->params),
+      then validate
+      => this will enable the web service calls that contain only the field-to-be-changed as parameters</td>
+</tr>
+<tr>
 <td>fixme</td>
-<td>199</td>
+<td>215</td>
 <td>This results in a wrong 'count' property in JSON result</td>
 </tr>
 <tr>
 <td>fixme</td>
-<td>441</td>
+<td>471</td>
 <td>this code duplicates with self::archive_data(), please refactor.</td>
 </tr>
 </table></div>
@@ -433,7 +446,7 @@
 </tr>
 <tr>
 <td>todo</td>
-<td>105</td>
+<td>116</td>
 <td>Return true if the method is allowed.
 Checks for:
 - $this->allow rights
@@ -441,7 +454,7 @@ Checks for:
 </tr>
 <tr>
 <td>todo</td>
-<td>214</td>
+<td>225</td>
 <td></td>
 </tr>
 </table></div>
@@ -452,7 +465,7 @@ Checks for:
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-07-09T13:42:33+02:00.<br></footer></div>
+            generated on 2013-07-10T12:11:02+02:00.<br></footer></div>
 </div>
 </body>
 </html>

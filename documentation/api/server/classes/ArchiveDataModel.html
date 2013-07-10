@@ -22,7 +22,11 @@
 <li><a>Packages</a></li>
 <li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
 <li><a href="../packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="../packages/iafbm-library.html"><i class="icon-folder-open"></i> iafbm-library</a></li>
+<li><a href="../packages/scripts.html"><i class="icon-folder-open"></i> scripts</a></li>
+<li><a href="../packages/scripts-migration.html"><i class="icon-folder-open"></i> scripts-migration</a></li>
 <li><a href="../packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+<li><a href="../packages/unittests-library.html"><i class="icon-folder-open"></i> unittests-library</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -33,11 +37,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">839</span></a></li>
+                <span class="label label-info">850</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul>
 <li>todo 
-                <span class="label label-info">12</span>
+                <span class="label label-info">13</span>
 </li>
 <li>fixme 
                 <span class="label label-info">16</span>
@@ -65,25 +69,15 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public inherited"><a href="#method__delete_soft" title="_delete_soft :: "><span class="description">_delete_soft()
-        </span><pre>_delete_soft()</pre></a></li>
+<li class="method public inherited"><a href="#method__delete_soft" title="_delete_soft :: Soft-deletes a record by setting its 'actif' field to 0."><span class="description">Soft-deletes a record by setting its 'actif' field to 0.</span><pre>_delete_soft()</pre></a></li>
 <li class="method public inherited"><a href="#method__is_deletable" title="_is_deletable :: Performs a unconditionally ROLLBACKed DELETE statements to test contraints."><span class="description">Performs a unconditionally ROLLBACKed DELETE statements to test contraints.</span><pre>_is_deletable()</pre></a></li>
 <li class="method public inherited"><a href="#method_archive" title="archive :: Creates an archive of a record."><span class="description">Creates an archive of a record.</span><pre>archive()</pre></a></li>
 <li class="method public inherited"><a href="#method_check_allowed" title="check_allowed :: Checks that the model is allowed for the given $operation."><span class="description">Checks that the model is allowed for the given $operation.</span><pre>check_allowed()</pre></a></li>
 <li class="method public inherited"><a href="#method_count" title="count :: Enhanced count method."><span class="description">Enhanced count method.</span><pre>count()</pre></a></li>
 <li class="method public inherited"><a href="#method_delete" title="delete :: Enhanced delete method."><span class="description">Enhanced delete method.</span><pre>delete()</pre></a></li>
 <li class="method public inherited"><a href="#method_get" title="get :: Enhanced get method."><span class="description">Enhanced get method.</span><pre>get()</pre></a></li>
-<li class="method public inherited"><a href="#method_invalids" title="invalids :: TODO:
-Enhanced invalids method:
-if xmethod=='post', first load the existing record,
-then apply modification ($this-&gt;params),
-then validate
-=&gt; this will enable the web service calls that contain only the field-to-be-changed as parameters"><span class="description">TODO:
-Enhanced invalids method:
-if xmethod=='post', first load the existing record,
-then apply modification ($this-&gt;params),
-then validate
-=&gt; this will enable the web service calls that contain only the field-to-be-changed as parameters</span><pre>invalids()</pre></a></li>
+<li class="method public inherited"><a href="#method_invalids" title="invalids :: "><span class="description">invalids()
+        </span><pre>invalids()</pre></a></li>
 <li class="method public inherited"><a href="#method_post" title="post :: Enhanced post method."><span class="description">Enhanced post method.</span><pre>post()</pre></a></li>
 <li class="method public inherited"><a href="#method_put" title="put :: Enhanced put method."><span class="description">Enhanced put method.</span><pre>put()</pre></a></li>
 <li class="method public inherited"><a href="#method_sql_join" title="sql_join :: Enhances parent method with permissions check."><span class="description">Enhances parent method with permissions check.</span><pre>sql_join()</pre></a></li>
@@ -107,16 +101,14 @@ array(
         array(row_1),
         array(row_2),
         .</span><pre>archive_data()</pre></a></li>
-<li class="method protected inherited"><a href="#method_get_version" title="get_version :: "><span class="description">get_version()
-        </span><pre>get_version()</pre></a></li>
+<li class="method protected inherited"><a href="#method_get_version" title="get_version :: Returns a versioned record."><span class="description">Returns a versioned record.</span><pre>get_version()</pre></a></li>
 <li class="method protected inherited"><a href="#method_is_versionable" title="is_versionable :: Returns true if the specified field is versionnable."><span class="description">Returns true if the specified field is versionnable.</span><pre>is_versionable()</pre></a></li>
 <li class="method protected inherited"><a href="#method_version" title="version :: Creates a version of a record, returning the created version id."><span class="description">Creates a version of a record, returning the created version id.</span><pre>version()</pre></a></li>
-<li class="method protected inherited"><a href="#method_version_get_impacted_records" title="version_get_impacted_records :: "><span class="description">version_get_impacted_records()
-        </span><pre>version_get_impacted_records()</pre></a></li>
-<li class="method protected inherited"><a href="#method_version_get_relations" title="version_get_relations :: "><span class="description">version_get_relations()
-        </span><pre>version_get_relations()</pre></a></li>
-<li class="method protected inherited"><a href="#method_version_store_relations" title="version_store_relations :: "><span class="description">version_store_relations()
-        </span><pre>version_store_relations()</pre></a></li>
+<li class="method protected inherited"><a href="#method_version_get_impacted_records" title="version_get_impacted_records :: Determines which records are impacted by the modification of a specific record,
+and returns a list of models/ids."><span class="description">Determines which records are impacted by the modification of a specific record,
+and returns a list of models/ids.</span><pre>version_get_impacted_records()</pre></a></li>
+<li class="method protected inherited"><a href="#method_version_get_relations" title="version_get_relations :: Returns related a list of related models names."><span class="description">Returns related a list of related models names.</span><pre>version_get_relations()</pre></a></li>
+<li class="method protected inherited"><a href="#method_version_store_relations" title="version_store_relations :: Stores a list of impacted records into the database."><span class="description">Stores a list of impacted records into the database.</span><pre>version_store_relations()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -124,8 +116,10 @@ array(
                     <ul>
 <li class="property public inherited"><a href="#property_archivable" title="$archivable :: True to allow archive."><span class="description"></span><pre>$archivable</pre></a></li>
 <li class="property public inherited"><a href="#property_archive_foreign_models" title="$archive_foreign_models :: Specifies the foreign models to include in archive and versioning-relations."><span class="description"></span><pre>$archive_foreign_models</pre></a></li>
+<li class="property public "><a href="#property_description" title="$description :: Model description for web-service resources documentation."><span class="description"></span><pre>$description</pre></a></li>
 <li class="property public "><a href="#property_join" title="$join :: "><span class="description"></span><pre>$join</pre></a></li>
 <li class="property public "><a href="#property_joins" title="$joins :: "><span class="description"></span><pre>$joins</pre></a></li>
+<li class="property public "><a href="#property_labels" title="$labels :: Fields labels descriptions for web-service documentation."><span class="description"></span><pre>$labels</pre></a></li>
 <li class="property public "><a href="#property_mapping" title="$mapping :: "><span class="description"></span><pre>$mapping</pre></a></li>
 <li class="property public "><a href="#property_primary" title="$primary :: "><span class="description"></span><pre>$primary</pre></a></li>
 <li class="property public "><a href="#property_table" title="$table :: "><span class="description"></span><pre>$table</pre></a></li>
@@ -147,7 +141,7 @@ array(
 </li>
 </ul>
 <div class="element class">
-<p class="short_description">This model stores tables row archives data.</p>
+<p class="short_description">Project specific xModelMysql.</p>
 <div class="details">
 <div class="long_description"><ul>
 <li>Manages model-level permissions</li>
@@ -157,20 +151,18 @@ array(
 </ul></div>
 <table class="table table-bordered">
 <tr>
-<th>note</th>
-<td>No need to extend iaJournalingModelMysql for security reasons
-      because 'archive' tables are not exposed through a model.</td>
+<th>package</th>
+<td><a href="../packages/iafbm.model.html">iafbm</a></td>
 </tr>
 <tr>
-<th>package</th>
-<td><a href="../packages/Default.html">iafbm</a></td>
+<th>subpackage</th>
+<td>model</td>
 </tr>
 </table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method__delete_soft"></a><div class="element clickable method public method__delete_soft" data-toggle="collapse" data-target=".method__delete_soft .collapse">
-<h2>_delete_soft()
-        </h2>
+<h2>Soft-deletes a record by setting its 'actif' field to 0.</h2>
 <pre>_delete_soft() </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -282,12 +274,8 @@ array(
 </div></div>
 </div>
 <a id="method_invalids"></a><div class="element clickable method public method_invalids" data-toggle="collapse" data-target=".method_invalids .collapse">
-<h2>TODO:
-Enhanced invalids method:
-if xmethod=='post', first load the existing record,
-then apply modification ($this-&gt;params),
-then validate
-=&gt; this will enable the web service calls that contain only the field-to-be-changed as parameters</h2>
+<h2>invalids()
+        </h2>
 <pre>invalids($fields) </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -393,8 +381,7 @@ array(
 </div></div>
 </div>
 <a id="method_get_version"></a><div class="element clickable method protected method_get_version" data-toggle="collapse" data-target=".method_get_version .collapse">
-<h2>get_version()
-        </h2>
+<h2>Returns a versioned record.</h2>
 <pre>get_version($rownum) </pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
@@ -469,22 +456,24 @@ and saves the modified fields as a version.</p></div>
 </div></div>
 </div>
 <a id="method_version_get_impacted_records"></a><div class="element clickable method protected method_version_get_impacted_records" data-toggle="collapse" data-target=".method_version_get_impacted_records .collapse">
-<h2>version_get_impacted_records()
-        </h2>
-<pre>version_get_impacted_records() </pre>
+<h2>Determines which records are impacted by the modification of a specific record,
+and returns a list of models/ids.</h2>
+<pre>version_get_impacted_records() : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This is useful for versioning.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\iaModelMysql::version_get_impacted_records()</td>
 </tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>List of models/ids of impacted records.</div>
 </div></div>
 </div>
 <a id="method_version_get_relations"></a><div class="element clickable method protected method_version_get_relations" data-toggle="collapse" data-target=".method_version_get_relations .collapse">
-<h2>version_get_relations()
-        </h2>
-<pre>version_get_relations($relations) </pre>
+<h2>Returns related a list of related models names.</h2>
+<pre>version_get_relations(array $relations) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -493,22 +482,30 @@ and saves the modified fields as a version.</p></div>
 <td>\iaModelMysql::version_get_relations()</td>
 </tr></table>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$relations</h4></div>
+<div class="subelement argument">
+<h4>$relations</h4>
+<code>array</code><p>Inital relations (for recursivity).</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>List of related models names.</div>
 </div></div>
 </div>
 <a id="method_version_store_relations"></a><div class="element clickable method protected method_version_store_relations" data-toggle="collapse" data-target=".method_version_store_relations .collapse">
-<h2>version_store_relations()
-        </h2>
-<pre>version_store_relations($version_id) </pre>
+<h2>Stores a list of impacted records into the database.</h2>
+<pre>version_store_relations($version_id) : array</pre>
 <div class="labels"><span class="label">Inherited</span></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
+<div class="long_description"><p>This is useful for versioning.</p></div>
 <table class="table table-bordered"><tr>
 <th>inherited_from</th>
 <td>\iaModelMysql::version_store_relations()</td>
 </tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument"><h4>$version_id</h4></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Transaction summary.</div>
 </div></div>
 </div>
 <h3>
@@ -554,6 +551,12 @@ The "forward relation" form is: (used for 1..1 and 1..n relations)</p>
 </tr></table>
 </div></div>
 </div>
+<a id="property_description"> </a><div class="element clickable property public property_description" data-toggle="collapse" data-target=".property_description .collapse">
+<h2></h2>
+<pre>$description : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>The description first letter should be lower-case.</p></div></div></div>
+</div>
 <a id="property_join"> </a><div class="element clickable property public property_join" data-toggle="collapse" data-target=".property_join .collapse">
 <h2></h2>
 <pre>$join </pre>
@@ -565,6 +568,12 @@ The "forward relation" form is: (used for 1..1 and 1..n relations)</p>
 <pre>$joins </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_labels"> </a><div class="element clickable property public property_labels" data-toggle="collapse" data-target=".property_labels .collapse">
+<h2></h2>
+<pre>$labels : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>The labels first letter should be lower-case.</p></div></div></div>
 </div>
 <a id="property_mapping"> </a><div class="element clickable property public property_mapping" data-toggle="collapse" data-target=".property_mapping .collapse">
 <h2></h2>
@@ -615,7 +624,7 @@ The "forward relation" form is: (used for 1..1 and 1..n relations)</p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-07-09T13:42:33+02:00.<br></footer></div>
+            generated on 2013-07-10T12:11:00+02:00.<br></footer></div>
 </div>
 </body>
 </html>

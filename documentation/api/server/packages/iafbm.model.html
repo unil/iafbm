@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>iafbm » iafbm\model</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">iafbm</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="../packages/iafbm-library.html"><i class="icon-folder-open"></i> iafbm-library</a></li>
+<li><a href="../packages/scripts.html"><i class="icon-folder-open"></i> scripts</a></li>
+<li><a href="../packages/scripts-migration.html"><i class="icon-folder-open"></i> scripts-migration</a></li>
+<li><a href="../packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+<li><a href="../packages/unittests-library.html"><i class="icon-folder-open"></i> unittests-library</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">850</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul>
+<li>todo 
+                <span class="label label-info">13</span>
+</li>
+<li>fixme 
+                <span class="label label-info">16</span>
+</li>
+</ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-map-marker"></i> Packages</li>
+<li>
+<a href="../packages/iafbm.model.html" title="model"><i class="icon-folder-open"></i>model</a><ul class="nav nav-list nav-packages"></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-class"></i> Classes</li>
+<li><a href="#CommissionPropositionNominationModel" title="Project specific xModelMysql.">CommissionPropositionNominationModel</a></li>
+<li><a href="#ArchiveDataModel" title="Project specific xModelMysql.">ArchiveDataModel</a></li>
+<li><a href="#PersonneModel" title="Project specific xModelMysql.">PersonneModel</a></li>
+<li><a href="#ArchiveModel" title="Project specific xModelMysql.">ArchiveModel</a></li>
+<li><a href="#CommissionTypeModel" title="Project specific xModelMysql.">CommissionTypeModel</a></li>
+<li><a href="#AdressePaysModel" title="Project specific xModelMysql.">AdressePaysModel</a></li>
+<li><a href="#PersonneDenominationModel" title="Project specific xModelMysql.">PersonneDenominationModel</a></li>
+<li><a href="#GenreModel" title="Project specific xModelMysql.">GenreModel</a></li>
+<li><a href="#CommissionValidationEtatModel" title="Project specific xModelMysql.">CommissionValidationEtatModel</a></li>
+<li><a href="#VersionRelationModel" title="Specific iaModelMysql implementation for managing journaling models.">VersionRelationModel</a></li>
+<li><a href="#SectionModel" title="Project specific xModelMysql.">SectionModel</a></li>
+<li><a href="#CandidatFormationModel" title="Project specific xModelMysql.">CandidatFormationModel</a></li>
+<li><a href="#CommissionMembreNonominatifModel" title="Project specific xModelMysql.">CommissionMembreNonominatifModel</a></li>
+<li><a href="#CommissionTravailEvenementModel" title="Project specific xModelMysql.">CommissionTravailEvenementModel</a></li>
+<li><a href="#CommissionMembreModel" title="Project specific xModelMysql.">CommissionMembreModel</a></li>
+<li><a href="#CommissionTravailModel" title="Project specific xModelMysql.">CommissionTravailModel</a></li>
+<li><a href="#VersionDataModel" title="Specific iaModelMysql implementation for managing journaling models.">VersionDataModel</a></li>
+<li><a href="#PersonneEmailModel" title="Project specific xModelMysql.">PersonneEmailModel</a></li>
+<li><a href="#ActiviteTypeModel" title="Project specific xModelMysql.">ActiviteTypeModel</a></li>
+<li><a href="#VersionModel" title="Specific iaModelMysql implementation for managing journaling models.">VersionModel</a></li>
+<li><a href="#CommissionFinalisationModel" title="Project specific xModelMysql.">CommissionFinalisationModel</a></li>
+<li><a href="#CommissionModel" title="Project specific xModelMysql.">CommissionModel</a></li>
+<li><a href="#ActiviteModel" title="Project specific xModelMysql.">ActiviteModel</a></li>
+<li><a href="#AdresseModel" title="Project specific xModelMysql.">AdresseModel</a></li>
+<li><a href="#RattachementModel" title="Project specific xModelMysql.">RattachementModel</a></li>
+<li><a href="#FormationModel" title="Project specific xModelMysql.">FormationModel</a></li>
+<li><a href="#GrandeurModel" title="Project specific xModelMysql.">GrandeurModel</a></li>
+<li><a href="#PersonneTypeModel" title="Project specific xModelMysql.">PersonneTypeModel</a></li>
+<li><a href="#CommissionCreationModel" title="Project specific xModelMysql.">CommissionCreationModel</a></li>
+<li><a href="#AdresseTypeModel" title="Project specific xModelMysql.">AdresseTypeModel</a></li>
+<li><a href="#CantonModel" title="Project specific xModelMysql.">CantonModel</a></li>
+<li><a href="#PersonneActiviteModel" title="Project specific xModelMysql.">PersonneActiviteModel</a></li>
+<li><a href="#EtatCivilModel" title="Project specific xModelMysql.">EtatCivilModel</a></li>
+<li><a href="#PersonneTelephoneModel" title="Project specific xModelMysql.">PersonneTelephoneModel</a></li>
+<li><a href="#PaysModel" title="Project specific xModelMysql.">PaysModel</a></li>
+<li><a href="#PermisModel" title="Project specific xModelMysql.">PermisModel</a></li>
+<li><a href="#ActiviteNomModel" title="Project specific xModelMysql.">ActiviteNomModel</a></li>
+<li><a href="#CommissionTravailEvenementTypeModel" title="Project specific xModelMysql.">CommissionTravailEvenementTypeModel</a></li>
+<li><a href="#CommissionCandidatCommentaireModel" title="Project specific xModelMysql.">CommissionCandidatCommentaireModel</a></li>
+<li><a href="#CandidatModel" title="Project specific xModelMysql.">CandidatModel</a></li>
+<li><a href="#PersonneFormationModel" title="Project specific xModelMysql.">PersonneFormationModel</a></li>
+<li><a href="#CommissionValidationModel" title="Project specific xModelMysql.">CommissionValidationModel</a></li>
+<li><a href="#CommissionEtatModel" title="Project specific xModelMysql.">CommissionEtatModel</a></li>
+<li><a href="#PersonneAdresseModel" title="Project specific xModelMysql.">PersonneAdresseModel</a></li>
+<li><a href="#CommissionFonctionModel" title="Project specific xModelMysql.">CommissionFonctionModel</a></li>
+</ul>
+</div>
+<div class="span8 package-contents">
+<ul class="breadcrumb"><li>
+<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span><li><a href="../packages/iafbm.html">iafbm</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../packages/iafbm.model.html">model</a>
+</li>
+</li></ul>
+<div class="package-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="ActiviteModel" class="element ajax clickable class">
+<h1>ActiviteModel<a href="../classes/ActiviteModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/ActiviteModel.html" class="more">« More »</a>
+</div>
+<div id="ActiviteNomModel" class="element ajax clickable class">
+<h1>ActiviteNomModel<a href="../classes/ActiviteNomModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/ActiviteNomModel.html" class="more">« More »</a>
+</div>
+<div id="ActiviteTypeModel" class="element ajax clickable class">
+<h1>ActiviteTypeModel<a href="../classes/ActiviteTypeModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/ActiviteTypeModel.html" class="more">« More »</a>
+</div>
+<div id="AdresseModel" class="element ajax clickable class">
+<h1>AdresseModel<a href="../classes/AdresseModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/AdresseModel.html" class="more">« More »</a>
+</div>
+<div id="AdressePaysModel" class="element ajax clickable class">
+<h1>AdressePaysModel<a href="../classes/AdressePaysModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/AdressePaysModel.html" class="more">« More »</a>
+</div>
+<div id="AdresseTypeModel" class="element ajax clickable class">
+<h1>AdresseTypeModel<a href="../classes/AdresseTypeModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/AdresseTypeModel.html" class="more">« More »</a>
+</div>
+<div id="ArchiveDataModel" class="element ajax clickable class">
+<h1>ArchiveDataModel<a href="../classes/ArchiveDataModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/ArchiveDataModel.html" class="more">« More »</a>
+</div>
+<div id="ArchiveModel" class="element ajax clickable class">
+<h1>ArchiveModel<a href="../classes/ArchiveModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/ArchiveModel.html" class="more">« More »</a>
+</div>
+<div id="CandidatFormationModel" class="element ajax clickable class">
+<h1>CandidatFormationModel<a href="../classes/CandidatFormationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CandidatFormationModel.html" class="more">« More »</a>
+</div>
+<div id="CandidatModel" class="element ajax clickable class">
+<h1>CandidatModel<a href="../classes/CandidatModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CandidatModel.html" class="more">« More »</a>
+</div>
+<div id="CantonModel" class="element ajax clickable class">
+<h1>CantonModel<a href="../classes/CantonModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CantonModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionCandidatCommentaireModel" class="element ajax clickable class">
+<h1>CommissionCandidatCommentaireModel<a href="../classes/CommissionCandidatCommentaireModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionCandidatCommentaireModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionCreationModel" class="element ajax clickable class">
+<h1>CommissionCreationModel<a href="../classes/CommissionCreationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionCreationModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionEtatModel" class="element ajax clickable class">
+<h1>CommissionEtatModel<a href="../classes/CommissionEtatModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionEtatModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionFinalisationModel" class="element ajax clickable class">
+<h1>CommissionFinalisationModel<a href="../classes/CommissionFinalisationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionFinalisationModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionFonctionModel" class="element ajax clickable class">
+<h1>CommissionFonctionModel<a href="../classes/CommissionFonctionModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionFonctionModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionMembreModel" class="element ajax clickable class">
+<h1>CommissionMembreModel<a href="../classes/CommissionMembreModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionMembreModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionMembreNonominatifModel" class="element ajax clickable class">
+<h1>CommissionMembreNonominatifModel<a href="../classes/CommissionMembreNonominatifModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionMembreNonominatifModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionModel" class="element ajax clickable class">
+<h1>CommissionModel<a href="../classes/CommissionModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionPropositionNominationModel" class="element ajax clickable class">
+<h1>CommissionPropositionNominationModel<a href="../classes/CommissionPropositionNominationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionPropositionNominationModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionTravailEvenementModel" class="element ajax clickable class">
+<h1>CommissionTravailEvenementModel<a href="../classes/CommissionTravailEvenementModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionTravailEvenementModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionTravailEvenementTypeModel" class="element ajax clickable class">
+<h1>CommissionTravailEvenementTypeModel<a href="../classes/CommissionTravailEvenementTypeModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionTravailEvenementTypeModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionTravailModel" class="element ajax clickable class">
+<h1>CommissionTravailModel<a href="../classes/CommissionTravailModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionTravailModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionTypeModel" class="element ajax clickable class">
+<h1>CommissionTypeModel<a href="../classes/CommissionTypeModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionTypeModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionValidationEtatModel" class="element ajax clickable class">
+<h1>CommissionValidationEtatModel<a href="../classes/CommissionValidationEtatModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionValidationEtatModel.html" class="more">« More »</a>
+</div>
+<div id="CommissionValidationModel" class="element ajax clickable class">
+<h1>CommissionValidationModel<a href="../classes/CommissionValidationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/CommissionValidationModel.html" class="more">« More »</a>
+</div>
+<div id="EtatCivilModel" class="element ajax clickable class">
+<h1>EtatCivilModel<a href="../classes/EtatCivilModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/EtatCivilModel.html" class="more">« More »</a>
+</div>
+<div id="FormationModel" class="element ajax clickable class">
+<h1>FormationModel<a href="../classes/FormationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/FormationModel.html" class="more">« More »</a>
+</div>
+<div id="GenreModel" class="element ajax clickable class">
+<h1>GenreModel<a href="../classes/GenreModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/GenreModel.html" class="more">« More »</a>
+</div>
+<div id="GrandeurModel" class="element ajax clickable class">
+<h1>GrandeurModel<a href="../classes/GrandeurModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/GrandeurModel.html" class="more">« More »</a>
+</div>
+<div id="PaysModel" class="element ajax clickable class">
+<h1>PaysModel<a href="../classes/PaysModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PaysModel.html" class="more">« More »</a>
+</div>
+<div id="PermisModel" class="element ajax clickable class">
+<h1>PermisModel<a href="../classes/PermisModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PermisModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneActiviteModel" class="element ajax clickable class">
+<h1>PersonneActiviteModel<a href="../classes/PersonneActiviteModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneActiviteModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneAdresseModel" class="element ajax clickable class">
+<h1>PersonneAdresseModel<a href="../classes/PersonneAdresseModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneAdresseModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneDenominationModel" class="element ajax clickable class">
+<h1>PersonneDenominationModel<a href="../classes/PersonneDenominationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneDenominationModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneEmailModel" class="element ajax clickable class">
+<h1>PersonneEmailModel<a href="../classes/PersonneEmailModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneEmailModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneFormationModel" class="element ajax clickable class">
+<h1>PersonneFormationModel<a href="../classes/PersonneFormationModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneFormationModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneModel" class="element ajax clickable class">
+<h1>PersonneModel<a href="../classes/PersonneModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneTelephoneModel" class="element ajax clickable class">
+<h1>PersonneTelephoneModel<a href="../classes/PersonneTelephoneModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneTelephoneModel.html" class="more">« More »</a>
+</div>
+<div id="PersonneTypeModel" class="element ajax clickable class">
+<h1>PersonneTypeModel<a href="../classes/PersonneTypeModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/PersonneTypeModel.html" class="more">« More »</a>
+</div>
+<div id="RattachementModel" class="element ajax clickable class">
+<h1>RattachementModel<a href="../classes/RattachementModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/RattachementModel.html" class="more">« More »</a>
+</div>
+<div id="SectionModel" class="element ajax clickable class">
+<h1>SectionModel<a href="../classes/SectionModel.html">¶</a>
+</h1>
+<p class="short_description">Project specific xModelMysql.</p>
+<div class="details collapse"></div>
+<a href="../classes/SectionModel.html" class="more">« More »</a>
+</div>
+<div id="VersionDataModel" class="element ajax clickable class">
+<h1>VersionDataModel<a href="../classes/VersionDataModel.html">¶</a>
+</h1>
+<p class="short_description">Specific iaModelMysql implementation for managing journaling models.</p>
+<div class="details collapse"></div>
+<a href="../classes/VersionDataModel.html" class="more">« More »</a>
+</div>
+<div id="VersionModel" class="element ajax clickable class">
+<h1>VersionModel<a href="../classes/VersionModel.html">¶</a>
+</h1>
+<p class="short_description">Specific iaModelMysql implementation for managing journaling models.</p>
+<div class="details collapse"></div>
+<a href="../classes/VersionModel.html" class="more">« More »</a>
+</div>
+<div id="VersionRelationModel" class="element ajax clickable class">
+<h1>VersionRelationModel<a href="../classes/VersionRelationModel.html">¶</a>
+</h1>
+<p class="short_description">Specific iaModelMysql implementation for managing journaling models.</p>
+<div class="details collapse"></div>
+<a href="../classes/VersionRelationModel.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-07-10T12:11:00+02:00.<br></footer></div>
+</div>
+</body>
+</html>

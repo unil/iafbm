@@ -22,7 +22,11 @@
 <li><a>Packages</a></li>
 <li><a href="packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
 <li><a href="packages/iafbm.html"><i class="icon-folder-open"></i> iafbm</a></li>
+<li><a href="packages/iafbm-library.html"><i class="icon-folder-open"></i> iafbm-library</a></li>
+<li><a href="packages/scripts.html"><i class="icon-folder-open"></i> scripts</a></li>
+<li><a href="packages/scripts-migration.html"><i class="icon-folder-open"></i> scripts-migration</a></li>
 <li><a href="packages/unittests.html"><i class="icon-folder-open"></i> unittests</a></li>
+<li><a href="packages/unittests-library.html"><i class="icon-folder-open"></i> unittests-library</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -33,11 +37,11 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">839</span></a></li>
+                <span class="label label-info">850</span></a></li>
 <li><a href="markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul>
 <li>todo 
-                <span class="label label-info">12</span>
+                <span class="label label-info">13</span>
 </li>
 <li>fixme 
                 <span class="label label-info">16</span>
@@ -89,12 +93,10 @@
 <li><a href="#scripts/migrations/issue#205-denomination-auto.php"><i class="icon-file"></i>scripts/migrations/issue#205-denomination-auto.php</a></li>
 <li><a href="#scripts/Script.php"><i class="icon-file"></i>scripts/Script.php</a></li>
 <li><a href="#iafbm/controllers/genres.php"><i class="icon-file"></i>iafbm/controllers/genres.php</a></li>
-<li><a href="#iafbm/controllers/personnes_titres.php"><i class="icon-file"></i>iafbm/controllers/personnes_titres.php</a></li>
 <li><a href="#iafbm/controllers/candidats.php"><i class="icon-file"></i>iafbm/controllers/candidats.php</a></li>
 <li><a href="#iafbm/controllers/personnes_emails.php"><i class="icon-file"></i>iafbm/controllers/personnes_emails.php</a></li>
 <li><a href="#iafbm/controllers/grandeurs.php"><i class="icon-file"></i>iafbm/controllers/grandeurs.php</a></li>
 <li><a href="#iafbm/controllers/activites.php"><i class="icon-file"></i>iafbm/controllers/activites.php</a></li>
-<li><a href="#iafbm/controllers/employes.php"><i class="icon-file"></i>iafbm/controllers/employes.php</a></li>
 <li><a href="#iafbm/controllers/commissions_validations.php"><i class="icon-file"></i>iafbm/controllers/commissions_validations.php</a></li>
 <li><a href="#iafbm/controllers/error.php"><i class="icon-file"></i>iafbm/controllers/error.php</a></li>
 <li><a href="#iafbm/controllers/commissions_travails.php"><i class="icon-file"></i>iafbm/controllers/commissions_travails.php</a></li>
@@ -117,10 +119,10 @@
 <li><a href="#iafbm/controllers/commissions_membres.php"><i class="icon-file"></i>iafbm/controllers/commissions_membres.php</a></li>
 <li><a href="#iafbm/controllers/personnes_adresses.php"><i class="icon-file"></i>iafbm/controllers/personnes_adresses.php</a></li>
 <li><a href="#iafbm/controllers/rattachements.php"><i class="icon-file"></i>iafbm/controllers/rattachements.php</a></li>
+<li><a href="#iafbm/controllers/doc.php"><i class="icon-file"></i>iafbm/controllers/doc.php</a></li>
 <li><a href="#iafbm/controllers/sections.php"><i class="icon-file"></i>iafbm/controllers/sections.php</a></li>
 <li><a href="#iafbm/controllers/candidats_formations.php"><i class="icon-file"></i>iafbm/controllers/candidats_formations.php</a></li>
 <li><a href="#iafbm/controllers/print.php"><i class="icon-file"></i>iafbm/controllers/print.php</a></li>
-<li><a href="#iafbm/controllers/etudiants.php"><i class="icon-file"></i>iafbm/controllers/etudiants.php</a></li>
 <li><a href="#iafbm/controllers/cantons.php"><i class="icon-file"></i>iafbm/controllers/cantons.php</a></li>
 <li><a href="#iafbm/controllers/commissions_creations.php"><i class="icon-file"></i>iafbm/controllers/commissions_creations.php</a></li>
 <li><a href="#iafbm/controllers/personnes_formations.php"><i class="icon-file"></i>iafbm/controllers/personnes_formations.php</a></li>
@@ -649,32 +651,32 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>14</td>
+<td>13</td>
 <td>No DocBlock was found for method setup_bootstrap()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>18</td>
 <td>No DocBlock was found for method setUp()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>28</td>
+<td>27</td>
 <td>No DocBlock was found for method tearDown()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>30</td>
+<td>29</td>
 <td>No DocBlock was found for method create()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>35</td>
+<td>34</td>
 <td>No DocBlock was found for method get()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>40</td>
+<td>39</td>
 <td>No DocBlock was found for method dump()</td>
 </tr>
 </tbody>
@@ -698,12 +700,12 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>35</td>
+<td>33</td>
 <td>No DocBlock was found for method setup_auth()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>71</td>
+<td>70</td>
 <td>No DocBlock was found for method setUp()</td>
 </tr>
 </tbody>
@@ -725,94 +727,94 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/import.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmImportScript</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $import_path</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>8</td>
-<td>No DocBlock was found for property $local_models</td>
+<td>No short description for class \iafbmImportScript</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>10</td>
+<td>No DocBlock was found for property $import_path</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $local_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>48</td>
+<td>51</td>
 <td>No DocBlock was found for method insert()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>56</td>
+<td>59</td>
 <td>No DocBlock was found for method init_catalog_structures()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>408</td>
+<td>411</td>
 <td>No DocBlock was found for method load_catalog()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>418</td>
+<td>421</td>
 <td>No DocBlock was found for method replace_char()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>425</td>
+<td>428</td>
 <td>No DocBlock was found for method write_catalog()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>472</td>
+<td>475</td>
 <td>No DocBlock was found for method person_relation_hack()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>595</td>
+<td>598</td>
 <td>Argument $filename is missing from the Docblock of read_file()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>605</td>
+<td>608</td>
 <td>Argument $filename is missing from the Docblock of read_csv()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>605</td>
+<td>608</td>
 <td>Argument $fields is missing from the Docblock of read_csv()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>710</td>
+<td>713</td>
 <td>No DocBlock was found for method do_merge()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>740</td>
+<td>743</td>
 <td>No DocBlock was found for method do_find()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>779</td>
+<td>782</td>
 <td>Argument $operation is missing from the Docblock of do_operation()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>779</td>
+<td>782</td>
 <td>Argument $data is missing from the Docblock of do_operation()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>958</td>
+<td>961</td>
 <td>No DocBlock was found for method do_merge_with_model()</td>
 </tr>
 </tbody>
@@ -820,7 +822,7 @@
 </div>
 <div class="package-contents">
 <a name="scripts/update.php" id="scripts/update.php"></a><h3>
-<i class="icon-file"></i>scripts/update.php<small style="float: right;padding-right: 10px;">8</small>
+<i class="icon-file"></i>scripts/update.php<small style="float: right;padding-right: 10px;">7</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -836,37 +838,32 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
-<td>No DocBlock was found for \iafbmUpdateScript</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
+<td>12</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>23</td>
+<td>28</td>
 <td>No DocBlock was found for method help()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>43</td>
+<td>48</td>
 <td>No DocBlock was found for method update_project()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>51</td>
+<td>56</td>
 <td>No DocBlock was found for method update_libs()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>60</td>
+<td>65</td>
 <td>No DocBlock was found for method create_database_structure()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>96</td>
+<td>101</td>
 <td>No DocBlock was found for method create_database_catalogs()</td>
 </tr>
 </tbody>
@@ -888,19 +885,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#191-commission-fonction-add.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue191</td>
+<td>No short description for class \iafbmIssue191</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>22</td>
 <td>No DocBlock was found for method update_records()</td>
 </tr>
 </tbody>
@@ -922,19 +919,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#212-feature-import-personnes-adresses.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>6</td>
-<td>No DocBlock was found for \iafbmIssue212</td>
+<td>No short description for class \iafbmIssue212</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>8</td>
+<td>11</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>20</td>
 <td>No DocBlock was found for method update_adresses()</td>
 </tr>
 </tbody>
@@ -956,19 +953,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#191-commission-membres-nonominatifs.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue191b</td>
+<td>No short description for class \iafbmIssue191b</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>22</td>
 <td>No DocBlock was found for method create_table()</td>
 </tr>
 </tbody>
@@ -990,19 +987,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#206-commission-fonction-fusion.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue206</td>
+<td>No short description for class \iafbmIssue206</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>8</td>
+<td>11</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>22</td>
+<td>25</td>
 <td>No DocBlock was found for method update_records()</td>
 </tr>
 </tbody>
@@ -1024,24 +1021,24 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#181-personne-denomination.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue181</td>
+<td>No short description for class \iafbmIssue181</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>20</td>
+<td>23</td>
 <td>No DocBlock was found for method update_fields()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>32</td>
+<td>35</td>
 <td>No DocBlock was found for method update_records()</td>
 </tr>
 </tbody>
@@ -1063,44 +1060,44 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#9-proposition-nomination.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue9</td>
+<td>No short description for class \iafbmIssue9</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>31</td>
+<td>34</td>
 <td>Argument $t is missing from the Docblock of create_table__grandeurs()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>38</td>
+<td>41</td>
 <td>Argument $t is missing from the Docblock of populate_table__grandeurs()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>50</td>
+<td>53</td>
 <td>Argument $t is missing from the Docblock of create_table__commissions_propositions_nominations()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>57</td>
+<td>60</td>
 <td>Argument $t is missing from the Docblock of populate_table__commissions_propositions_nominations()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>73</td>
+<td>76</td>
 <td>Argument $t is missing from the Docblock of create_fields__commissions()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>80</td>
+<td>83</td>
 <td>Argument $t is missing from the Docblock of create_fields__candidats()</td>
 </tr>
 </tbody>
@@ -1122,19 +1119,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#194-definir-adresses-par-defaut.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue191a</td>
+<td>No short description for class \iafbmIssue191a</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>22</td>
 <td>Argument $t is missing from the Docblock of update_records()</td>
 </tr>
 </tbody>
@@ -1156,19 +1153,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#222-fix-null-foreign-fields.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue9</td>
+<td>No short description for class \iafbmIssue9</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>20</td>
+<td>23</td>
 <td>Argument $t is missing from the Docblock of fix_null_foreign_fields()</td>
 </tr>
 </tbody>
@@ -1190,19 +1187,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#178-commission-membre.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue178</td>
+<td>No short description for class \iafbmIssue178</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
+<td>19</td>
 <td>No DocBlock was found for method create_fields()</td>
 </tr>
 </tbody>
@@ -1224,19 +1221,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#196-rattachement-alter-data.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue196</td>
+<td>No short description for class \iafbmIssue196</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>22</td>
 <td>No DocBlock was found for method update_records()</td>
 </tr>
 </tbody>
@@ -1258,19 +1255,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#209-personne-type-add.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue191</td>
+<td>No short description for class \iafbmIssue191</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>10</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>22</td>
 <td>No DocBlock was found for method update_records()</td>
 </tr>
 </tbody>
@@ -1292,24 +1289,24 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file scripts/migrations/issue#205-denomination-auto.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \iafbmIssue205</td>
+<td>No short description for class \iafbmIssue205</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>26</td>
+<td>29</td>
 <td>No DocBlock was found for property $unprocessed</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>31</td>
+<td>34</td>
 <td>No DocBlock was found for method run()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>53</td>
+<td>56</td>
 <td>No DocBlock was found for method update_records()</td>
 </tr>
 </tbody>
@@ -1317,7 +1314,7 @@
 </div>
 <div class="package-contents">
 <a name="scripts/Script.php" id="scripts/Script.php"></a><h3>
-<i class="icon-file"></i>scripts/Script.php<small style="float: right;padding-right: 10px;">3</small>
+<i class="icon-file"></i>scripts/Script.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1333,12 +1330,7 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
-<td>No DocBlock was found for \iafbmScript</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
+<td>12</td>
 <td>No DocBlock was found for method setup_bootstrap()</td>
 </tr>
 </tbody>
@@ -1360,53 +1352,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/genres.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \GenresController</td>
+<td>No short description for class \GenresController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $allow</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/controllers/personnes_titres.php" id="iafbm/controllers/personnes_titres.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/personnes_titres.php<small style="float: right;padding-right: 10px;">4</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/controllers/personnes_titres.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PersonnesTitresController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>4</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -1414,7 +1372,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/candidats.php" id="iafbm/controllers/candidats.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/candidats.php<small style="float: right;padding-right: 10px;">13</small>
+<i class="icon-file"></i>iafbm/controllers/candidats.php<small style="float: right;padding-right: 10px;">11</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1428,64 +1386,54 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/candidats.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CandidatsController</td>
+<td>No short description for class \CandidatsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>9</td>
+<td>13</td>
 <td>No DocBlock was found for property $query_fields</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>12</td>
+<td>16</td>
 <td>No DocBlock was found for property $query_fields_transform</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>15</td>
+<td>19</td>
 <td>No DocBlock was found for property $query_join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>24</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>28</td>
-<td>No DocBlock was found for method detailAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>119</td>
+<td>129</td>
 <td>No DocBlock was found for method _get_ids()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>126</td>
+<td>136</td>
 <td>No short description for method transform_params()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>136</td>
+<td>146</td>
 <td>No short description for method ucnames()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>136</td>
+<td>146</td>
 <td>Argument $str is missing from the Docblock of ucnames()</td>
 </tr>
 </tbody>
@@ -1493,7 +1441,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/personnes_emails.php" id="iafbm/controllers/personnes_emails.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/personnes_emails.php<small style="float: right;padding-right: 10px;">9</small>
+<i class="icon-file"></i>iafbm/controllers/personnes_emails.php<small style="float: right;padding-right: 10px;">7</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1507,44 +1455,34 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_emails.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesEmailsController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $query_fields</td>
+<td>No short description for class \PersonnesEmailsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>9</td>
+<td>No DocBlock was found for property $model</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $query_fields</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>33</td>
-<td>No DocBlock was found for method put()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>50</td>
+<td>60</td>
 <td>Argument $params is missing from the Docblock of _unique_defaut()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>50</td>
+<td>60</td>
 <td>Argument $transaction is missing from the Docblock of _unique_defaut()</td>
 </tr>
 </tbody>
@@ -1566,14 +1504,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/grandeurs.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \GrandeursController</td>
+<td>No short description for class \GrandeursController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -1581,7 +1519,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/activites.php" id="iafbm/controllers/activites.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/activites.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/controllers/activites.php<small style="float: right;padding-right: 10px;">4</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1595,74 +1533,20 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/activites.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ActivitesController</td>
+<td>No short description for class \ActivitesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>22</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/controllers/employes.php" id="iafbm/controllers/employes.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/employes.php<small style="float: right;padding-right: 10px;">7</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/controllers/employes.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \EmployesController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>36</td>
-<td>No DocBlock was found for method put()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>50</td>
-<td>No DocBlock was found for method delete()</td>
 </tr>
 </tbody>
 </table></div>
@@ -1683,14 +1567,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_validations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsValidationsController</td>
+<td>No short description for class \CommissionsValidationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>6</td>
+<td>10</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -1698,7 +1582,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/error.php" id="iafbm/controllers/error.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/error.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/controllers/error.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1712,25 +1596,15 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/error.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ErrorController</td>
+<td>No short description for class \ErrorController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for method error_contents()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>10</td>
-<td>No DocBlock was found for method defaultAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>19</td>
-<td>No DocBlock was found for method reportAction()</td>
 </tr>
 </tbody>
 </table></div>
@@ -1751,14 +1625,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_travails.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsTravailsController</td>
+<td>No short description for class \CommissionsTravailsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>6</td>
+<td>10</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -1766,7 +1640,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/report.php" id="iafbm/controllers/report.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/report.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/controllers/report.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1780,24 +1654,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/report.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ReportController</td>
+<td>No short description for class \ReportController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>9</td>
-<td>No DocBlock was found for method effectifCorpsEnseignantAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>110</td>
+<td>120</td>
 <td>No DocBlock was found for method _print()</td>
 </tr>
 </tbody>
@@ -1819,14 +1683,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/adresses.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \AdressesController</td>
+<td>No short description for class \AdressesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -1848,14 +1712,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_candidats_commentaires.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsCandidatsCommentairesController</td>
+<td>No short description for class \CommissionsCandidatsCommentairesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>6</td>
+<td>10</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -1877,19 +1741,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/versions.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \VersionsController</td>
+<td>No short description for class \VersionsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -1911,19 +1775,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/activites_types.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ActivitesTypesController</td>
+<td>No short description for class \ActivitesTypesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -1945,19 +1809,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/etatscivils.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \EtatsCivilsController</td>
+<td>No short description for class \EtatsCivilsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -1965,7 +1829,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/commissions.php" id="iafbm/controllers/commissions.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/commissions.php<small style="float: right;padding-right: 10px;">10</small>
+<i class="icon-file"></i>iafbm/controllers/commissions.php<small style="float: right;padding-right: 10px;">6</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -1981,55 +1845,35 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>12</td>
+<td>14</td>
 <td>No DocBlock was found for method post()</td>
 </tr>
-<tr class="error">
-<td>error</td>
-<td>43</td>
-<td>No DocBlock was found for \CommissionsController</td>
+<tr class="critical">
+<td>critical</td>
+<td>45</td>
+<td>No short description for class \CommissionsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>45</td>
+<td>51</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>47</td>
+<td>53</td>
 <td>No DocBlock was found for property $query_fields</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>49</td>
+<td>55</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>61</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>70</td>
-<td>No DocBlock was found for method detailAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>78</td>
-<td>No DocBlock was found for method get()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>150</td>
-<td>No DocBlock was found for method delete()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/personnes_denominations.php" id="iafbm/controllers/personnes_denominations.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/personnes_denominations.php<small style="float: right;padding-right: 10px;">6</small>
+<i class="icon-file"></i>iafbm/controllers/personnes_denominations.php<small style="float: right;padding-right: 10px;">4</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2043,30 +1887,20 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_denominations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesDenominationsController</td>
+<td>No short description for class \PersonnesDenominationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for method _make_nom()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>12</td>
-<td>No DocBlock was found for method _make_abreviation()</td>
 </tr>
 </tbody>
 </table></div>
@@ -2087,19 +1921,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/versions_data.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \VersionsDataController</td>
+<td>No short description for class \VersionsDataController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -2107,7 +1941,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/home.php" id="iafbm/controllers/home.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/home.php<small style="float: right;padding-right: 10px;">4</small>
+<i class="icon-file"></i>iafbm/controllers/home.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2121,20 +1955,15 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/home.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \HomeController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method init()</td>
+<td>No short description for class \HomeController</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>9</td>
-<td>No DocBlock was found for method defaultAction()</td>
+<td>No DocBlock was found for method init()</td>
 </tr>
 </tbody>
 </table></div>
@@ -2155,14 +1984,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/formations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \FormationsController</td>
+<td>No short description for class \FormationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -2184,14 +2013,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/activites_noms.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ActivitesNomsController</td>
+<td>No short description for class \ActivitesNomsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -2199,7 +2028,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/user.php" id="iafbm/controllers/user.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/user.php<small style="float: right;padding-right: 10px;">4</small>
+<i class="icon-file"></i>iafbm/controllers/user.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2213,20 +2042,10 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/user.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \UserController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method defaultAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>9</td>
-<td>No DocBlock was found for method detailAction()</td>
+<td>No short description for class \UserController</td>
 </tr>
 </tbody>
 </table></div>
@@ -2247,14 +2066,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_propositions_nominations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsPropositionsNominationsController</td>
+<td>No short description for class \CommissionsPropositionsNominationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -2262,7 +2081,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/personnes_telephones.php" id="iafbm/controllers/personnes_telephones.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/personnes_telephones.php<small style="float: right;padding-right: 10px;">9</small>
+<i class="icon-file"></i>iafbm/controllers/personnes_telephones.php<small style="float: right;padding-right: 10px;">7</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2276,44 +2095,34 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_telephones.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesTelephonesController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $query_fields</td>
+<td>No short description for class \PersonnesTelephonesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>9</td>
+<td>No DocBlock was found for property $model</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $query_fields</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>33</td>
-<td>No DocBlock was found for method put()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>50</td>
+<td>60</td>
 <td>Argument $params is missing from the Docblock of _unique_defaut()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>50</td>
+<td>60</td>
 <td>Argument $transaction is missing from the Docblock of _unique_defaut()</td>
 </tr>
 </tbody>
@@ -2335,19 +2144,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/versions_relations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \VersionsRelationsController</td>
+<td>No short description for class \VersionsRelationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -2355,7 +2164,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/commissions_membres.php" id="iafbm/controllers/commissions_membres.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/commissions_membres.php<small style="float: right;padding-right: 10px;">6</small>
+<i class="icon-file"></i>iafbm/controllers/commissions_membres.php<small style="float: right;padding-right: 10px;">4</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2369,37 +2178,27 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_membres.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsMembresController</td>
+<td>No short description for class \CommissionsMembresController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>9</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>24</td>
-<td>No DocBlock was found for method exportAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>137</td>
-<td>No DocBlock was found for method export()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/personnes_adresses.php" id="iafbm/controllers/personnes_adresses.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/personnes_adresses.php<small style="float: right;padding-right: 10px;">12</small>
+<i class="icon-file"></i>iafbm/controllers/personnes_adresses.php<small style="float: right;padding-right: 10px;">7</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2413,67 +2212,42 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_adresses.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesAdressesController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $query_fields</td>
+<td>No short description for class \PersonnesAdressesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>9</td>
+<td>No DocBlock was found for property $model</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $query_fields</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>20</td>
-<td>No DocBlock was found for method exportAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>31</td>
-<td>No DocBlock was found for method export()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>38</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>57</td>
-<td>No DocBlock was found for method put()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>77</td>
+<td>95</td>
 <td>Argument $params is missing from the Docblock of _unique_defaut()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>77</td>
+<td>95</td>
 <td>Argument $transaction is missing from the Docblock of _unique_defaut()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>112</td>
-<td>No DocBlock was found for method delete()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/rattachements.php" id="iafbm/controllers/rattachements.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/rattachements.php<small style="float: right;padding-right: 10px;">4</small>
+<i class="icon-file"></i>iafbm/controllers/rattachements.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2487,20 +2261,39 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/rattachements.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \RattachementsController</td>
+<td>No short description for class \RattachementsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/controllers/doc.php" id="iafbm/controllers/doc.php"></a><h3>
+<i class="icon-file"></i>iafbm/controllers/doc.php<small style="float: right;padding-right: 10px;">2</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
 <tr class="error">
 <td>error</td>
-<td>7</td>
-<td>No DocBlock was found for method indexAction()</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/controllers/doc.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \DocController</td>
 </tr>
 </tbody>
 </table></div>
@@ -2521,19 +2314,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/sections.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \SectionsController</td>
+<td>No short description for class \SectionsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -2555,19 +2348,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/candidats_formations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CandidatsFormationsController</td>
+<td>No short description for class \CandidatsFormationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 </tbody>
@@ -2575,7 +2368,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/print.php" id="iafbm/controllers/print.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/print.php<small style="float: right;padding-right: 10px;">7</small>
+<i class="icon-file"></i>iafbm/controllers/print.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2589,84 +2382,15 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/print.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PrintController</td>
+<td>No short description for class \printController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>30</td>
-<td>No DocBlock was found for method print_commissions()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>39</td>
-<td>No DocBlock was found for method print_commissions_membres()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>65</td>
-<td>No DocBlock was found for method print_candidats()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>80</td>
-<td>No DocBlock was found for method print_proposition_nomination()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>145</td>
-<td>No DocBlock was found for method _print()</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/controllers/etudiants.php" id="iafbm/controllers/etudiants.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/etudiants.php<small style="float: right;padding-right: 10px;">7</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/controllers/etudiants.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \EtudiantsController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>36</td>
-<td>No DocBlock was found for method put()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>50</td>
-<td>No DocBlock was found for method delete()</td>
+<td>161</td>
+<td>Argument $html is missing from the Docblock of _print()</td>
 </tr>
 </tbody>
 </table></div>
@@ -2687,19 +2411,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/cantons.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CantonsController</td>
+<td>No short description for class \CantonsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -2721,14 +2445,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_creations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsCreationsController</td>
+<td>No short description for class \CommissionsCreationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>6</td>
+<td>10</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -2750,24 +2474,24 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_formations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesFormationsController</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $query_fields</td>
+<td>No short description for class \PersonnesFormationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>9</td>
+<td>No DocBlock was found for property $model</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $query_fields</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 </tbody>
@@ -2775,7 +2499,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/personnes.php" id="iafbm/controllers/personnes.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/personnes.php<small style="float: right;padding-right: 10px;">15</small>
+<i class="icon-file"></i>iafbm/controllers/personnes.php<small style="float: right;padding-right: 10px;">9</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -2789,74 +2513,44 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesController</td>
+<td>No short description for class \PersonnesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $query_fields</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>10</td>
+<td>14</td>
 <td>No DocBlock was found for property $query_fields_transform</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>13</td>
+<td>17</td>
 <td>No DocBlock was found for property $query_join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>15</td>
+<td>19</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>22</td>
+<td>26</td>
 <td>No DocBlock was found for property $export_fields_labels</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>56</td>
-<td>No DocBlock was found for method indexAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>65</td>
-<td>No DocBlock was found for method detailAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>72</td>
-<td>No DocBlock was found for method exportAction()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>118</td>
-<td>No DocBlock was found for method export()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>244</td>
-<td>No DocBlock was found for method get()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>287</td>
-<td>No DocBlock was found for method transform_params()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>294</td>
+<td>317</td>
 <td>No DocBlock was found for method ucnames()</td>
 </tr>
 </tbody>
@@ -2878,19 +2572,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_travails_evenements_types.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionsTravailsEvenementsTypesController</td>
+<td>No short description for class \CommissionsTravailsEvenementsTypesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -2912,14 +2606,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/pays.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PaysController</td>
+<td>No short description for class \PaysController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -2941,14 +2635,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_finalisations.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsFinalisationsController</td>
+<td>No short description for class \CommissionsFinalisationsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>6</td>
+<td>10</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 </tbody>
@@ -2970,19 +2664,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/permis.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PermisController</td>
+<td>No short description for class \PermisController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -2990,7 +2684,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/commissions_fonctions.php" id="iafbm/controllers/commissions_fonctions.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/commissions_fonctions.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/controllers/commissions_fonctions.php<small style="float: right;padding-right: 10px;">4</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3004,25 +2698,20 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_fonctions.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionsFonctionsController</td>
+<td>No short description for class \CommissionsFonctionsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for method get()</td>
 </tr>
 </tbody>
 </table></div>
@@ -3043,19 +2732,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_travails_evenements.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsTravailsEvenementsController</td>
+<td>No short description for class \CommissionsTravailsEvenementsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>9</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 </tbody>
@@ -3077,24 +2766,24 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_activites.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesActivitesController</td>
+<td>No short description for class \PersonnesActivitesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $query_fields</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
+<td>20</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 </tbody>
@@ -3102,7 +2791,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/controllers/commissions_types.php" id="iafbm/controllers/commissions_types.php"></a><h3>
-<i class="icon-file"></i>iafbm/controllers/commissions_types.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/controllers/commissions_types.php<small style="float: right;padding-right: 10px;">4</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3116,25 +2805,20 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_types.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsTypesController</td>
+<td>No short description for class \CommissionsTypesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>8</td>
+<td>12</td>
 <td>No DocBlock was found for property $allow</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>10</td>
-<td>No DocBlock was found for method indexAction()</td>
 </tr>
 </tbody>
 </table></div>
@@ -3155,19 +2839,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_membres_nonominatifs.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsMembresNonominatifsController</td>
+<td>No short description for class \CommissionsMembresNonominatifsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>9</td>
+<td>13</td>
 <td>No DocBlock was found for property $sort_fields_substitutions</td>
 </tr>
 </tbody>
@@ -3189,19 +2873,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/adresses_types.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \AdressesTypesController</td>
+<td>No short description for class \AdressesTypesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -3223,19 +2907,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_etats.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommissionsEtatsController</td>
+<td>No short description for class \CommissionsEtatsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>6</td>
+<td>10</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -3257,74 +2941,74 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/sandbox.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \SandboxController</td>
+<td>No short description for class \SandboxController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for method defaultAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>14</td>
+<td>18</td>
 <td>No DocBlock was found for method selectiongridAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>40</td>
+<td>44</td>
 <td>No DocBlock was found for method editgridAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>61</td>
+<td>65</td>
 <td>No DocBlock was found for method dateformatAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>105</td>
+<td>109</td>
 <td>No DocBlock was found for method remoteComboFormAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>140</td>
+<td>144</td>
 <td>No DocBlock was found for method remoteComboGridAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>206</td>
+<td>210</td>
 <td>No DocBlock was found for method deleteCommissionAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>213</td>
+<td>217</td>
 <td>No DocBlock was found for method multiDateAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>237</td>
+<td>241</td>
 <td>No DocBlock was found for method windowAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>269</td>
+<td>273</td>
 <td>No DocBlock was found for method modelWhereAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>278</td>
+<td>282</td>
 <td>No DocBlock was found for method versionComboAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>295</td>
+<td>299</td>
 <td>No DocBlock was found for method formTogglableAction()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>312</td>
+<td>316</td>
 <td>No DocBlock was found for method denominationLabelAction()</td>
 </tr>
 </tbody>
@@ -3346,19 +3030,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/commissions_validations_etats.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionsValidationsEtatsController</td>
+<td>No short description for class \CommissionsValidationsEtatsController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -3380,19 +3064,19 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/controllers/personnes_types.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonnesTypesController</td>
+<td>No short description for class \PersonnesTypesController</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>4</td>
+<td>8</td>
 <td>No DocBlock was found for property $model</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $allow</td>
 </tr>
 </tbody>
@@ -3400,7 +3084,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_proposition_nomination.php" id="iafbm/models/commission_proposition_nomination.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_proposition_nomination.php<small style="float: right;padding-right: 10px;">10</small>
+<i class="icon-file"></i>iafbm/models/commission_proposition_nomination.php<small style="float: right;padding-right: 10px;">12</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3414,79 +3098,20 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_proposition_nomination.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionPropositionNominationModel</td>
+<td>No short description for class \CommissionPropositionNominationModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $versioning</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>9</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>37</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>39</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>48</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>50</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>54</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/archive_data.php" id="iafbm/models/archive_data.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/archive_data.php<small style="float: right;padding-right: 10px;">8</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/archive_data.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>9</td>
-<td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>11</td>
-<td>No DocBlock was found for property $versioning</td>
+<td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
@@ -3495,30 +3120,45 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>25</td>
+<td>41</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>27</td>
+<td>43</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>31</td>
+<td>52</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>33</td>
+<td>54</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>58</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>65</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>66</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
-<a name="iafbm/models/personne.php" id="iafbm/models/personne.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne.php<small style="float: right;padding-right: 10px;">10</small>
+<a name="iafbm/models/archive_data.php" id="iafbm/models/archive_data.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/archive_data.php<small style="float: right;padding-right: 10px;">10</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3527,24 +3167,24 @@
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/personne.php</td>
+<tr class="critical">
+<td>critical</td>
+<td>7</td>
+<td>No short description for class \ArchiveDataModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PersonneModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
+<td>13</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>15</td>
+<td>No DocBlock was found for property $versioning</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
@@ -3559,30 +3199,30 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>41</td>
+<td>35</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>43</td>
-<td>No DocBlock was found for property $wheres</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>47</td>
+<td>37</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>53</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
+<td>44</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>45</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
-<a name="iafbm/models/archive.php" id="iafbm/models/archive.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/archive.php<small style="float: right;padding-right: 10px;">6</small>
+<a name="iafbm/models/personne.php" id="iafbm/models/personne.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/personne.php<small style="float: right;padding-right: 10px;">12</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3594,7 +3234,12 @@
 <tr class="error">
 <td>error</td>
 <td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/archive.php</td>
+<td>No page-level DocBlock was found in file iafbm/models/personne.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \PersonneModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
@@ -3604,29 +3249,108 @@
 <tr class="error">
 <td>error</td>
 <td>11</td>
-<td>No DocBlock was found for property $versioning</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>23</td>
+<td>33</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>25</td>
+<td>35</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>45</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>47</td>
+<td>No DocBlock was found for property $wheres</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>51</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>57</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>71</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>72</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/archive.php" id="iafbm/models/archive.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/archive.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="critical">
+<td>critical</td>
+<td>7</td>
+<td>No short description for class \ArchiveModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>15</td>
+<td>No DocBlock was found for property $versioning</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>29</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>32</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>33</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_type.php" id="iafbm/models/commission_type.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_type.php<small style="float: right;padding-right: 10px;">7</small>
+<i class="icon-file"></i>iafbm/models/commission_type.php<small style="float: right;padding-right: 10px;">9</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3640,35 +3364,45 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_type.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionTypeModel</td>
+<td>No short description for class \CommissionTypeModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>14</td>
+<td>18</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
+<td>20</td>
 <td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>18</td>
+<td>22</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>34</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>35</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
@@ -3689,17 +3423,17 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/adresse_pays.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \AdressePaysModel</td>
+<td>No short description for class \AdressePaysModel</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/personne_denomination.php" id="iafbm/models/personne_denomination.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_denomination.php<small style="float: right;padding-right: 10px;">7</small>
+<i class="icon-file"></i>iafbm/models/personne_denomination.php<small style="float: right;padding-right: 10px;">9</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3713,42 +3447,52 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/personne_denomination.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonneDenominationModel</td>
+<td>No short description for class \PersonneDenominationModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>21</td>
+<td>25</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>23</td>
+<td>27</td>
 <td>No DocBlock was found for property $validations</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>39</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/genre.php" id="iafbm/models/genre.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/genre.php<small style="float: right;padding-right: 10px;">6</small>
+<i class="icon-file"></i>iafbm/models/genre.php<small style="float: right;padding-right: 10px;">8</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3762,37 +3506,47 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/genre.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \GenreModel</td>
+<td>No short description for class \GenreModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
+<td>20</td>
 <td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>18</td>
+<td>22</td>
 <td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>26</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_validation_etat.php" id="iafbm/models/commission_validation_etat.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_validation_etat.php<small style="float: right;padding-right: 10px;">7</small>
+<i class="icon-file"></i>iafbm/models/commission_validation_etat.php<small style="float: right;padding-right: 10px;">9</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3806,59 +3560,10 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_validation_etat.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionValidationEtatModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>17</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/version_relation.php" id="iafbm/models/version_relation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/version_relation.php<small style="float: right;padding-right: 10px;">8</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/version_relation.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $versioning</td>
+<td>No short description for class \CommissionValidationEtatModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
@@ -3872,30 +3577,99 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>20</td>
+<td>17</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>22</td>
-<td>No DocBlock was found for property $joins</td>
+<td>19</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>21</td>
+<td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>26</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/version_relation.php" id="iafbm/models/version_relation.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/version_relation.php<small style="float: right;padding-right: 10px;">10</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="critical">
+<td>critical</td>
+<td>5</td>
+<td>No short description for class \VersionRelationModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $versioning</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>15</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>26</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>30</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>28</td>
+<td>32</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>41</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>42</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/section.php" id="iafbm/models/section.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/section.php<small style="float: right;padding-right: 10px;">6</small>
+<i class="icon-file"></i>iafbm/models/section.php<small style="float: right;padding-right: 10px;">8</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3909,37 +3683,47 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/section.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \SectionModel</td>
+<td>No short description for class \SectionModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>14</td>
+<td>18</td>
 <td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
+<td>20</td>
 <td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/candidat_formation.php" id="iafbm/models/candidat_formation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/candidat_formation.php<small style="float: right;padding-right: 10px;">9</small>
+<i class="icon-file"></i>iafbm/models/candidat_formation.php<small style="float: right;padding-right: 10px;">11</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -3953,52 +3737,62 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/candidat_formation.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CandidatFormationModel</td>
+<td>No short description for class \CandidatFormationModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>24</td>
+<td>28</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>28</td>
+<td>32</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>30</td>
+<td>34</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>39</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>40</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_membre_nonominatif.php" id="iafbm/models/commission_membre_nonominatif.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_membre_nonominatif.php<small style="float: right;padding-right: 10px;">10</small>
+<i class="icon-file"></i>iafbm/models/commission_membre_nonominatif.php<small style="float: right;padding-right: 10px;">12</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4012,57 +3806,67 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_membre_nonominatif.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionMembreNonominatifModel</td>
+<td>No short description for class \CommissionMembreNonominatifModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>21</td>
+<td>25</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>33</td>
+<td>37</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>35</td>
+<td>39</td>
 <td>No DocBlock was found for property $wheres</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>39</td>
+<td>43</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>43</td>
+<td>47</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>54</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>55</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_travail_evenement.php" id="iafbm/models/commission_travail_evenement.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_travail_evenement.php<small style="float: right;padding-right: 10px;">8</small>
+<i class="icon-file"></i>iafbm/models/commission_travail_evenement.php<small style="float: right;padding-right: 10px;">10</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4076,47 +3880,57 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_travail_evenement.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionTravailEvenementModel</td>
+<td>No short description for class \CommissionTravailEvenementModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>23</td>
+<td>27</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>26</td>
+<td>30</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>35</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>36</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_membre.php" id="iafbm/models/commission_membre.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_membre.php<small style="float: right;padding-right: 10px;">14</small>
+<i class="icon-file"></i>iafbm/models/commission_membre.php<small style="float: right;padding-right: 10px;">16</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4130,69 +3944,79 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_membre.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionMembreModel</td>
+<td>No short description for class \CommissionMembreModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>20</td>
+<td>24</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>22</td>
+<td>26</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>35</td>
+<td>39</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>37</td>
+<td>41</td>
 <td>No DocBlock was found for property $wheres</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>41</td>
+<td>45</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>45</td>
+<td>49</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>52</td>
+<td>57</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>58</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>71</td>
 <td>No DocBlock was found for method put()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>96</td>
+<td>115</td>
 <td>No DocBlock was found for method post()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>129</td>
+<td>148</td>
 <td>Argument $rownum is missing from the Docblock of get()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>187</td>
+<td>206</td>
 <td>No DocBlock was found for method _sort_results()</td>
 </tr>
 </tbody>
@@ -4200,7 +4024,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_travail.php" id="iafbm/models/commission_travail.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_travail.php<small style="float: right;padding-right: 10px;">6</small>
+<i class="icon-file"></i>iafbm/models/commission_travail.php<small style="float: right;padding-right: 10px;">8</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4214,37 +4038,111 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_travail.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionTravailModel</td>
+<td>No short description for class \CommissionTravailModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>18</td>
+<td>22</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>20</td>
+<td>24</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>29</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>30</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/version_data.php" id="iafbm/models/version_data.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/version_data.php<small style="float: right;padding-right: 10px;">8</small>
+<i class="icon-file"></i>iafbm/models/version_data.php<small style="float: right;padding-right: 10px;">10</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="critical">
+<td>critical</td>
+<td>5</td>
+<td>No short description for class \VersionDataModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $versioning</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>15</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>29</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>31</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>34</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>35</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/personne_email.php" id="iafbm/models/personne_email.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/personne_email.php<small style="float: right;padding-right: 10px;">10</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4256,12 +4154,1045 @@
 <tr class="error">
 <td>error</td>
 <td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/version_data.php</td>
+<td>No page-level DocBlock was found in file iafbm/models/personne_email.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \PersonneEmailModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>20</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>31</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>37</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/activite_type.php" id="iafbm/models/activite_type.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/activite_type.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/activite_type.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \ActiviteTypeModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/version.php" id="iafbm/models/version.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/version.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="critical">
+<td>critical</td>
+<td>5</td>
+<td>No short description for class \VersionModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
 <td>No DocBlock was found for property $versioning</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>15</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>29</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>46</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>47</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/commission_finalisation.php" id="iafbm/models/commission_finalisation.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/commission_finalisation.php<small style="float: right;padding-right: 10px;">9</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/commission_finalisation.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \CommissionFinalisationModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>26</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>30</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>35</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>36</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/commission.php" id="iafbm/models/commission.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/commission.php<small style="float: right;padding-right: 10px;">12</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/commission.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \CommissionModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>33</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>35</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>39</td>
+<td>No DocBlock was found for property $archivable</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>41</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>57</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>58</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/activite.php" id="iafbm/models/activite.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/activite.php<small style="float: right;padding-right: 10px;">11</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for file iafbm/models/activite.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>7</td>
+<td>No short description for class \ActiviteModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>13</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>15</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>31</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>33</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>39</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>46</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>47</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/adresse.php" id="iafbm/models/adresse.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/adresse.php<small style="float: right;padding-right: 10px;">10</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/adresse.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \AdresseModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>21</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>28</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>32</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>37</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/rattachement.php" id="iafbm/models/rattachement.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/rattachement.php<small style="float: right;padding-right: 10px;">11</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/rattachement.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \RattachementModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>21</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>29</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>33</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>39</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/formation.php" id="iafbm/models/formation.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/formation.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/formation.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \FormationModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/grandeur.php" id="iafbm/models/grandeur.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/grandeur.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/grandeur.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \GrandeurModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>28</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/personne_type.php" id="iafbm/models/personne_type.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/personne_type.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/personne_type.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \PersonneTypeModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/commission_creation.php" id="iafbm/models/commission_creation.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/commission_creation.php<small style="float: right;padding-right: 10px;">10</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/commission_creation.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \CommissionCreationModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>31</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>33</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>36</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>37</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/adresse_type.php" id="iafbm/models/adresse_type.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/adresse_type.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/adresse_type.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \AdresseTypeModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/canton.php" id="iafbm/models/canton.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/canton.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/canton.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \CantonModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>18</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>20</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/personne_activite.php" id="iafbm/models/personne_activite.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/personne_activite.php<small style="float: right;padding-right: 10px;">12</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/personne_activite.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \PersonneActiviteModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>25</td>
+<td>No DocBlock was found for property $order</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>27</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>36</td>
+<td>No DocBlock was found for property $join</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>44</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>45</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/etatcivil.php" id="iafbm/models/etatcivil.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/etatcivil.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/etatcivil.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \EtatCivilModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/personne_telephone.php" id="iafbm/models/personne_telephone.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/personne_telephone.php<small style="float: right;padding-right: 10px;">10</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/personne_telephone.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \PersonneTelephoneModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>21</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>28</td>
+<td>No DocBlock was found for property $joins</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>32</td>
+<td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>37</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/pays.php" id="iafbm/models/pays.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/pays.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/pays.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \PaysModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
@@ -4276,29 +5207,29 @@
 <tr class="error">
 <td>error</td>
 <td>19</td>
-<td>No DocBlock was found for property $primary</td>
+<td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>21</td>
-<td>No DocBlock was found for property $joins</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $description</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>25</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>27</td>
-<td>No DocBlock was found for property $validation</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
-<a name="iafbm/models/personne_email.php" id="iafbm/models/personne_email.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_email.php<small style="float: right;padding-right: 10px;">8</small>
+<a name="iafbm/models/permis.php" id="iafbm/models/permis.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/permis.php<small style="float: right;padding-right: 10px;">8</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4310,110 +5241,12 @@
 <tr class="error">
 <td>error</td>
 <td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/personne_email.php</td>
+<td>No page-level DocBlock was found in file iafbm/models/permis.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonneEmailModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>16</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>18</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>27</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/activite_type.php" id="iafbm/models/activite_type.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/activite_type.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/activite_type.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \ActiviteTypeModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/version.php" id="iafbm/models/version.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/version.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/version.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $versioning</td>
+<td>No short description for class \PermisModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
@@ -4427,20 +5260,30 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>23</td>
+<td>17</td>
+<td>No DocBlock was found for property $order_by</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>25</td>
-<td>No DocBlock was found for property $validation</td>
+<td>22</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
-<a name="iafbm/models/commission_finalisation.php" id="iafbm/models/commission_finalisation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_finalisation.php<small style="float: right;padding-right: 10px;">7</small>
+<a name="iafbm/models/activite_nom.php" id="iafbm/models/activite_nom.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/activite_nom.php<small style="float: right;padding-right: 10px;">8</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -4452,21 +5295,129 @@
 <tr class="error">
 <td>error</td>
 <td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/commission_finalisation.php</td>
+<td>No page-level DocBlock was found in file iafbm/models/activite_nom.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionFinalisationModel</td>
+<td>No short description for class \ActiviteNomModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>20</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>22</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>28</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>29</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/commission_travail_evenement_type.php" id="iafbm/models/commission_travail_evenement_type.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/commission_travail_evenement_type.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/commission_travail_evenement_type.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>3</td>
+<td>No short description for class \CommissionTravailEvenementTypeModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>9</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>11</td>
+<td>No DocBlock was found for property $mapping</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>17</td>
+<td>No DocBlock was found for property $primary</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>19</td>
+<td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>23</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>24</td>
+<td>No DocBlock was found for property $labels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="package-contents">
+<a name="iafbm/models/commission_candidat_commentaire.php" id="iafbm/models/commission_candidat_commentaire.php"></a><h3>
+<i class="icon-file"></i>iafbm/models/commission_candidat_commentaire.php<small style="float: right;padding-right: 10px;">8</small>
+</h3>
+<div><table class="table markers table-bordered">
+<thead><tr>
+<th>Type</th>
+<th>Line</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="error">
+<td>error</td>
+<td>0</td>
+<td>No page-level DocBlock was found in file iafbm/models/commission_candidat_commentaire.php</td>
+</tr>
+<tr class="critical">
+<td>critical</td>
+<td>4</td>
+<td>No short description for class \CommissionCandidatCommentaireModel</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>10</td>
+<td>No DocBlock was found for property $table</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>12</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
@@ -4482,906 +5433,19 @@
 <tr class="error">
 <td>error</td>
 <td>26</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/commission.php" id="iafbm/models/commission.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission.php<small style="float: right;padding-right: 10px;">10</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/commission.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \CommissionModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>19</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>21</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>29</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>31</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>35</td>
-<td>No DocBlock was found for property $archivable</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>37</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/activite.php" id="iafbm/models/activite.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/activite.php<small style="float: right;padding-right: 10px;">9</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/activite.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \ActiviteModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>17</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>25</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>31</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/adresse.php" id="iafbm/models/adresse.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/adresse.php<small style="float: right;padding-right: 10px;">8</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/adresse.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \AdresseModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>17</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>19</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>24</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>28</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/rattachement.php" id="iafbm/models/rattachement.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/rattachement.php<small style="float: right;padding-right: 10px;">9</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/rattachement.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \RattachementModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>17</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>19</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>25</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>29</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/formation.php" id="iafbm/models/formation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/formation.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/formation.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \FormationModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/grandeur.php" id="iafbm/models/grandeur.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/grandeur.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/grandeur.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \GrandeurModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>18</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>20</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/personne_type.php" id="iafbm/models/personne_type.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_type.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/personne_type.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PersonneTypeModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/commission_creation.php" id="iafbm/models/commission_creation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_creation.php<small style="float: right;padding-right: 10px;">8</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/commission_creation.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \CommissionCreationModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>21</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for property $joins</td>
+<td>No DocBlock was found for property $description</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>27</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>29</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/adresse_type.php" id="iafbm/models/adresse_type.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/adresse_type.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/adresse_type.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \AdresseTypeModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/canton.php" id="iafbm/models/canton.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/canton.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/canton.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \CantonModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>14</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>16</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/personne_activite.php" id="iafbm/models/personne_activite.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_activite.php<small style="float: right;padding-right: 10px;">10</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/personne_activite.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PersonneActiviteModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>18</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>20</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>21</td>
-<td>No DocBlock was found for property $order</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>23</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>32</td>
-<td>No DocBlock was found for property $join</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>34</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/etatcivil.php" id="iafbm/models/etatcivil.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/etatcivil.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/etatcivil.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \EtatCivilModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/personne_telephone.php" id="iafbm/models/personne_telephone.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_telephone.php<small style="float: right;padding-right: 10px;">8</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/personne_telephone.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PersonneTelephoneModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>17</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>19</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>24</td>
-<td>No DocBlock was found for property $joins</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>28</td>
-<td>No DocBlock was found for property $archive_foreign_models</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/pays.php" id="iafbm/models/pays.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/pays.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/pays.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PaysModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>17</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/permis.php" id="iafbm/models/permis.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/permis.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/permis.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \PermisModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $order_by</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/activite_nom.php" id="iafbm/models/activite_nom.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/activite_nom.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/activite_nom.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \ActiviteNomModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>16</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>18</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/commission_travail_evenement_type.php" id="iafbm/models/commission_travail_evenement_type.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_travail_evenement_type.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/commission_travail_evenement_type.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \CommissionTravailEvenementTypeModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>13</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>15</td>
-<td>No DocBlock was found for property $validation</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div class="package-contents">
-<a name="iafbm/models/commission_candidat_commentaire.php" id="iafbm/models/commission_candidat_commentaire.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_candidat_commentaire.php<small style="float: right;padding-right: 10px;">6</small>
-</h3>
-<div><table class="table markers table-bordered">
-<thead><tr>
-<th>Type</th>
-<th>Line</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/models/commission_candidat_commentaire.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>4</td>
-<td>No DocBlock was found for \CommissionCandidatCommentaireModel</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>6</td>
-<td>No DocBlock was found for property $table</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>8</td>
-<td>No DocBlock was found for property $mapping</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>16</td>
-<td>No DocBlock was found for property $primary</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>18</td>
-<td>No DocBlock was found for property $validation</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/candidat.php" id="iafbm/models/candidat.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/candidat.php<small style="float: right;padding-right: 10px;">10</small>
+<i class="icon-file"></i>iafbm/models/candidat.php<small style="float: right;padding-right: 10px;">12</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5395,57 +5459,67 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/candidat.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CandidatModel</td>
+<td>No short description for class \CandidatModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>41</td>
+<td>45</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>46</td>
+<td>50</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>58</td>
+<td>62</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>60</td>
+<td>64</td>
 <td>No DocBlock was found for property $wheres</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>64</td>
+<td>68</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>71</td>
+<td>75</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>85</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>86</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/personne_formation.php" id="iafbm/models/personne_formation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_formation.php<small style="float: right;padding-right: 10px;">8</small>
+<i class="icon-file"></i>iafbm/models/personne_formation.php<small style="float: right;padding-right: 10px;">10</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5459,47 +5533,57 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/personne_formation.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonneFormationModel</td>
+<td>No short description for class \PersonneFormationModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>24</td>
+<td>28</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>28</td>
+<td>32</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>37</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>38</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_validation.php" id="iafbm/models/commission_validation.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_validation.php<small style="float: right;padding-right: 10px;">6</small>
+<i class="icon-file"></i>iafbm/models/commission_validation.php<small style="float: right;padding-right: 10px;">8</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5513,37 +5597,47 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_validation.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionValidationModel</td>
+<td>No short description for class \CommissionValidationModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>28</td>
+<td>32</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>30</td>
+<td>34</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>39</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>40</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_etat.php" id="iafbm/models/commission_etat.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_etat.php<small style="float: right;padding-right: 10px;">8</small>
+<i class="icon-file"></i>iafbm/models/commission_etat.php<small style="float: right;padding-right: 10px;">10</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5557,47 +5651,57 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_etat.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionEtatModel</td>
+<td>No short description for class \CommissionEtatModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>14</td>
+<td>18</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>16</td>
+<td>20</td>
 <td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $order</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>30</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>31</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/personne_adresse.php" id="iafbm/models/personne_adresse.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/personne_adresse.php<small style="float: right;padding-right: 10px;">9</small>
+<i class="icon-file"></i>iafbm/models/personne_adresse.php<small style="float: right;padding-right: 10px;">11</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5611,52 +5715,62 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/personne_adresse.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \PersonneAdresseModel</td>
+<td>No short description for class \PersonneAdresseModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>15</td>
+<td>19</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $validation</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>22</td>
+<td>26</td>
 <td>No DocBlock was found for property $joins</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>30</td>
+<td>34</td>
 <td>No DocBlock was found for property $join</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>32</td>
+<td>36</td>
 <td>No DocBlock was found for property $archive_foreign_models</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>41</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>42</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/models/commission_fonction.php" id="iafbm/models/commission_fonction.php"></a><h3>
-<i class="icon-file"></i>iafbm/models/commission_fonction.php<small style="float: right;padding-right: 10px;">7</small>
+<i class="icon-file"></i>iafbm/models/commission_fonction.php<small style="float: right;padding-right: 10px;">9</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5670,42 +5784,52 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/models/commission_fonction.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommissionFonctionModel</td>
+<td>No short description for class \CommissionFonctionModel</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for property $table</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>7</td>
+<td>11</td>
 <td>No DocBlock was found for property $mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>15</td>
+<td>19</td>
 <td>No DocBlock was found for property $primary</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for property $order_by</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>19</td>
+<td>23</td>
 <td>No DocBlock was found for property $validation</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>30</td>
+<td>No DocBlock was found for property $description</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>31</td>
+<td>No DocBlock was found for property $labels</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/fronts/api.php" id="iafbm/fronts/api.php"></a><h3>
-<i class="icon-file"></i>iafbm/fronts/api.php<small style="float: right;padding-right: 10px;">8</small>
+<i class="icon-file"></i>iafbm/fronts/api.php<small style="float: right;padding-right: 10px;">7</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5719,47 +5843,42 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/fronts/api.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
-<td>3</td>
-<td>No DocBlock was found for \ApiFront</td>
-</tr>
 <tr class="critical">
 <td>critical</td>
-<td>5</td>
+<td>11</td>
 <td>No short description for property $method_mapping</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>33</td>
+<td>39</td>
 <td>Argument $params is missing from the Docblock of __construct()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>48</td>
-<td>No DocBlock was found for method get()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>53</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>58</td>
-<td>No DocBlock was found for method put()</td>
+<td>55</td>
+<td>No short description for method get()</td>
 </tr>
 <tr class="error">
 <td>error</td>
 <td>63</td>
-<td>No DocBlock was found for method delete()</td>
+<td>No short description for method post()</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>71</td>
+<td>No short description for method put()</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>79</td>
+<td>No short description for method delete()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/views/layout/messages.php" id="iafbm/views/layout/messages.php"></a><h3>
-<i class="icon-file"></i>iafbm/views/layout/messages.php<small style="float: right;padding-right: 10px;">3</small>
+<i class="icon-file"></i>iafbm/views/layout/messages.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5773,15 +5892,10 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/layout/messages.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \LayoutMessagesView</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method render()</td>
+<td>No short description for class \LayoutMessagesView</td>
 </tr>
 </tbody>
 </table></div>
@@ -5802,24 +5916,24 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/layout/mail.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \LayoutMailView</td>
+<td>No short description for class \LayoutMailView</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for method init()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>12</td>
+<td>16</td>
 <td>No DocBlock was found for method unhtmlentities()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>17</td>
+<td>21</td>
 <td>No DocBlock was found for method render()</td>
 </tr>
 </tbody>
@@ -5827,7 +5941,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/views/layout/layout.php" id="iafbm/views/layout/layout.php"></a><h3>
-<i class="icon-file"></i>iafbm/views/layout/layout.php<small style="float: right;padding-right: 10px;">4</small>
+<i class="icon-file"></i>iafbm/views/layout/layout.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5841,19 +5955,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/layout/layout.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \LayoutLayoutView</td>
+<td>No short description for class \LayoutLayoutView</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method init()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>41</td>
+<td>47</td>
 <td>No DocBlock was found for method render()</td>
 </tr>
 </tbody>
@@ -5861,7 +5970,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/views/layout/print.php" id="iafbm/views/layout/print.php"></a><h3>
-<i class="icon-file"></i>iafbm/views/layout/print.php<small style="float: right;padding-right: 10px;">3</small>
+<i class="icon-file"></i>iafbm/views/layout/print.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -5875,15 +5984,10 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/layout/print.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \LayoutPrintView</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method init()</td>
+<td>No short description for class \LayoutPrintView</td>
 </tr>
 </tbody>
 </table></div>
@@ -5899,14 +6003,14 @@
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="error">
-<td>error</td>
-<td>0</td>
-<td>No page-level DocBlock was found in file iafbm/views/common/field/date/picker.php</td>
+<tr class="critical">
+<td>critical</td>
+<td>7</td>
+<td>No short description for class \AllFieldDatePickerView</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>9</td>
+<td>13</td>
 <td>No DocBlock was found for method init()</td>
 </tr>
 </tbody>
@@ -5945,14 +6049,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/common/field/map/zip.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \AllFieldMapZipView</td>
+<td>No short description for class \AllFieldMapZipView</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for method init()</td>
 </tr>
 </tbody>
@@ -5974,14 +6078,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/common/map/map.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \AllMapMapView</td>
+<td>No short description for class \AllMapMapView</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for method init()</td>
 </tr>
 </tbody>
@@ -5989,7 +6093,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/views/common/extjs/base.php" id="iafbm/views/common/extjs/base.php"></a><h3>
-<i class="icon-file"></i>iafbm/views/common/extjs/base.php<small style="float: right;padding-right: 10px;">4</small>
+<i class="icon-file"></i>iafbm/views/common/extjs/base.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6003,27 +6107,17 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/common/extjs/base.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \CommonExtjsBaseView</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method defaults()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>11</td>
-<td>Argument $model is missing from the Docblock of ext_column_model()</td>
+<td>No short description for class \CommonExtjsBaseView</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/views/common/extjs/grid.php" id="iafbm/views/common/extjs/grid.php"></a><h3>
-<i class="icon-file"></i>iafbm/views/common/extjs/grid.php<small style="float: right;padding-right: 10px;">3</small>
+<i class="icon-file"></i>iafbm/views/common/extjs/grid.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6037,22 +6131,17 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/common/extjs/grid.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>5</td>
-<td>No DocBlock was found for \CommonExtjsGridView</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>7</td>
-<td>No DocBlock was found for method init()</td>
+<td>No short description for class \CommonExtjsGridView</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/views/error/display.php" id="iafbm/views/error/display.php"></a><h3>
-<i class="icon-file"></i>iafbm/views/error/display.php<small style="float: right;padding-right: 10px;">3</small>
+<i class="icon-file"></i>iafbm/views/error/display.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6066,15 +6155,10 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/error/display.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ErrorDisplayView</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>5</td>
-<td>No DocBlock was found for method init()</td>
+<td>No short description for class \ErrorDisplayView</td>
 </tr>
 </tbody>
 </table></div>
@@ -6095,14 +6179,14 @@
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/views/error/report.mail.php</td>
 </tr>
-<tr class="error">
-<td>error</td>
+<tr class="critical">
+<td>critical</td>
 <td>3</td>
-<td>No DocBlock was found for \ErrorReportMailView</td>
+<td>No short description for class \ErrorReportMailView</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>5</td>
+<td>9</td>
 <td>No DocBlock was found for method render()</td>
 </tr>
 </tbody>
@@ -6110,7 +6194,7 @@
 </div>
 <div class="package-contents">
 <a name="iafbm/lib/iafbm/xfm/iaAuth.php" id="iafbm/lib/iafbm/xfm/iaAuth.php"></a><h3>
-<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaAuth.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaAuth.php<small style="float: right;padding-right: 10px;">2</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6126,30 +6210,15 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>99</td>
-<td>No DocBlock was found for property $role_separator</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>102</td>
+<td>106</td>
 <td>No DocBlock was found for method __construct()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>107</td>
-<td>No DocBlock was found for method set_from_aai()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>247</td>
-<td>No DocBlock was found for method get_permissions()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/lib/iafbm/xfm/iaBootstrap.php" id="iafbm/lib/iafbm/xfm/iaBootstrap.php"></a><h3>
-<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaBootstrap.php<small style="float: right;padding-right: 10px;">3</small>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaBootstrap.php<small style="float: right;padding-right: 10px;">1</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6157,28 +6226,16 @@
 <th>Line</th>
 <th>Description</th>
 </tr></thead>
-<tbody>
-<tr class="error">
+<tbody><tr class="error">
 <td>error</td>
 <td>0</td>
 <td>No page-level DocBlock was found in file iafbm/lib/iafbm/xfm/iaBootstrap.php</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>11</td>
-<td>No DocBlock was found for method setup_includes_externals()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>19</td>
-<td>No DocBlock was found for method setup_auth()</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/lib/iafbm/xfm/iaModelMysql.php" id="iafbm/lib/iafbm/xfm/iaModelMysql.php"></a><h3>
-<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaModelMysql.php<small style="float: right;padding-right: 10px;">9</small>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaModelMysql.php<small style="float: right;padding-right: 10px;">7</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6194,50 +6251,40 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>58</td>
+<td>72</td>
+<td>No short description for method invalids()</td>
+</tr>
+<tr class="error">
+<td>error</td>
+<td>72</td>
 <td>Argument $fields is missing from the Docblock of invalids()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>97</td>
+<td>110</td>
 <td>Argument $rownum is missing from the Docblock of get()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>135</td>
-<td>No DocBlock was found for method get_version()</td>
+<td>148</td>
+<td>Argument $rownum is missing from the Docblock of get_version()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>319</td>
-<td>No DocBlock was found for method _delete_soft()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>334</td>
+<td>353</td>
 <td>Argument $commentaire is missing from the Docblock of version()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>402</td>
-<td>No DocBlock was found for method version_get_relations()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>424</td>
-<td>No DocBlock was found for method version_get_impacted_records()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>502</td>
-<td>No DocBlock was found for method version_store_relations()</td>
+<td>532</td>
+<td>Argument $version_id is missing from the Docblock of version_store_relations()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/lib/iafbm/xfm/iaJournalingModelMysql.php" id="iafbm/lib/iafbm/xfm/iaJournalingModelMysql.php"></a><h3>
-<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaJournalingModelMysql.php<small style="float: right;padding-right: 10px;">5</small>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaJournalingModelMysql.php<small style="float: right;padding-right: 10px;">3</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6253,30 +6300,20 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>11</td>
+<td>12</td>
 <td>Argument $operation is missing from the Docblock of check_allowed()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>11</td>
+<td>12</td>
 <td>Argument $modelname is missing from the Docblock of check_allowed()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>74</td>
-<td>No DocBlock was found for method post()</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>78</td>
-<td>No DocBlock was found for method delete()</td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="package-contents">
 <a name="iafbm/lib/iafbm/xfm/iaExtRestController.php" id="iafbm/lib/iafbm/xfm/iaExtRestController.php"></a><h3>
-<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaExtRestController.php<small style="float: right;padding-right: 10px;">11</small>
+<i class="icon-file"></i>iafbm/lib/iafbm/xfm/iaExtRestController.php<small style="float: right;padding-right: 10px;">9</small>
 </h3>
 <div><table class="table markers table-bordered">
 <thead><tr>
@@ -6292,52 +6329,42 @@
 </tr>
 <tr class="error">
 <td>error</td>
-<td>8</td>
-<td>No DocBlock was found for property $model</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>55</td>
-<td>No DocBlock was found for property $query_fields_transformers</td>
-</tr>
-<tr class="error">
-<td>error</td>
-<td>95</td>
+<td>106</td>
 <td>Argument $params is missing from the Docblock of __construct()</td>
 </tr>
 <tr class="error">
 <td>error</td>
-<td>105</td>
+<td>116</td>
 <td>No short description for method is_allowed()</td>
 </tr>
 <tr class="notice">
 <td>notice</td>
-<td>144</td>
+<td>155</td>
 <td>Parameter  could not be found in get()</td>
 </tr>
 <tr class="notice">
 <td>notice</td>
-<td>300</td>
+<td>311</td>
 <td>Parameter  could not be found in post()</td>
 </tr>
 <tr class="notice">
 <td>notice</td>
-<td>325</td>
+<td>336</td>
 <td>Parameter  could not be found in put()</td>
 </tr>
 <tr class="notice">
 <td>notice</td>
-<td>350</td>
+<td>361</td>
 <td>Parameter  could not be found in delete()</td>
 </tr>
 <tr class="notice">
 <td>notice</td>
-<td>365</td>
+<td>376</td>
 <td>Parameter  could not be found in tag()</td>
 </tr>
 <tr class="notice">
 <td>notice</td>
-<td>379</td>
+<td>390</td>
 <td>Parameter  could not be found in history()</td>
 </tr>
 </tbody>
@@ -6365,7 +6392,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-07-09T13:42:33+02:00.<br></footer></div>
+            generated on 2013-07-10T12:11:02+02:00.<br></footer></div>
 </div>
 </body>
 </html>

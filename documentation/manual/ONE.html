@@ -29,7 +29,7 @@
 <li>
 <a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#rfrence-api">Référence API</a> pour les parties serveur et client, ainsi que la documentation des composants tiers</li>
 <li>
-<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> disponibles (fixme: #224 à mettre en production)</li>
+<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> disponibles</li>
 </ul><h1>Généralités</h1>
 
 <ul>
@@ -88,7 +88,7 @@
 <li>
 <a href="http://unil.github.io/iafbm/documentation/api/client/">API partie client</a> (ExtJS)</li>
 <li>
-<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> du Web-service (fixme: #224 to production)</li>
+<a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> du Web-service</li>
 </ul><h4>Références et documentation tiers</h4>
 
 <ul>
@@ -549,9 +549,12 @@ La migration doit se faire à partir du tag git correspondant à la version de p
 </li>
 </ul><p><img src="images/architecture-workflow.png" alt=""></p>
 
-<h2>Librairies</h2>
+<h2>Modules</h2>
 
-<p>(components schema)</p>
+<p>Les composants spécifiques à l'application iafbm sont architecturés en modules.
+<img src="images/iafbm-layers.png" alt=""></p>
+
+<h2>Librairies</h2>
 
 <h3>Librairies généralistes</h3>
 
@@ -590,17 +593,17 @@ est le composant PHP d'interprétation de fichiers CSV, utilisé dans l'import d
 <strong>Système de ticket:</strong> <a href="https://github.com/unil/iafbm/issues/">github ticketing</a>
 </li>
 <li>
-<strong>Wiki:</strong> documentation technique: <a href="https://github.com/unil/iafbm/wiki/">github wiki</a>
+<strong>Documentation technique:</strong> <a href="https://github.com/unil/iafbm/wiki/">github wiki</a>
 </li>
 <li>
-<strong>Wiki:</strong> administratif: <a href="https://wwwfbm.unil.ch/wiki/iafbm/">iafbm wiki</a>
+<strong>Administratif:</strong> <a href="https://wwwfbm.unil.ch/wiki/iafbm/">iafbm wiki</a>
 </li>
 </ul><h3>Infrastructure</h3>
 
 <p>The following infrastructure components versions are used in production:</p>
 
 <ul>
-<li>Linux RHEL (fixme version) </li>
+<li>Linux RHEL 5</li>
 <li>Apache 2.2</li>
 <li>MySQL 5.1</li>
 <li>PHP 5.3</li>
@@ -1977,7 +1980,7 @@ php import.php</code></pre>
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-08 18:08:08</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-10 12:10:17</small>
         </footer>
       </div>
     </div>
