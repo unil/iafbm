@@ -21,13 +21,13 @@
 
 <ul>
 <li>
-<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#gnralits">Architecture</a> de l'application</li>
+<a href="https://github.com/unil/iafbm/wiki#gnralits">Architecture</a> de l'application</li>
 <li>
-<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#modules">Description des composants</a> développés</li>
+<a href="https://github.com/unil/iafbm/wiki#modules">Description des composants</a> développés</li>
 <li>
-<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#cookbook">Recettes</a> pour les pratiques routinières</li>
+<a href="https://github.com/unil/iafbm/wiki#cookbook">Recettes</a> pour les pratiques routinières</li>
 <li>
-<a class="internal present" href="http://unil.github.io/iafbm/documentation/manual/Home.html#rfrence-api">Référence API</a> pour les parties serveur et client, ainsi que la documentation des composants tiers</li>
+<a href="https://github.com/unil/iafbm/wiki#rfrence-api">Référence API</a> pour les parties serveur et client, ainsi que la documentation des composants tiers</li>
 <li>
 <a href="http://wwwfbm.unil.ch/iafbm/doc/do/ressources">Index des Ressources</a> disponibles</li>
 </ul><h1>Généralités</h1>
@@ -552,7 +552,7 @@ La migration doit se faire à partir du tag git correspondant à la version de p
 <h2>Modules</h2>
 
 <p>Les composants spécifiques à l'application iafbm sont architecturés en modules.
-<img src="images/iafbm-layers.png" alt=""></p>
+<img src="images/functional-architecture.png" alt=""></p>
 
 <h2>Librairies</h2>
 
@@ -762,7 +762,11 @@ Pour les requêtes sur le modèle lié, le composant fournit une structure répo
 <li>Vérifier la cohérence des valeurs de clé primaire présentes dans l'url et les données fournies avec la requête</li>
 </ul>
 </li>
-</ul><hr><h1>Module d'interrogation</h1>
+</ul><h2>Controllers propres aux commissions</h2>
+
+<p>Les controllers liés aux commissions, étendent la classe <a href="http://unil.github.io/iafbm/documentation/api/server/classes/AbstractCommissionController.html">AbstractCommissionController</a> afin d'hériter de la fonctionnalité permettant de gérer les commissions clôturées: cette dernière empêche de modifier une commission clôturée. Dans le futur, d'autres fonctionnalités générales aux commissions pourront être implémentées au sein de cette classe.</p>
+
+<hr><h1>Module d'interrogation</h1>
 
 <p><strong>Le module d'interrogation</strong> permet d'effectuer des requêtes simulant une interrogation <strong>de type fulltext</strong> sur les modèles.</p>
 
@@ -1980,7 +1984,7 @@ php import.php</code></pre>
       </div>
       <div class="admin">
         <footer class="footer">
-          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-10 12:10:17</small>
+          <small>Last edited by <b>Damien Corpataux</b>, 2013-07-12 13:59:33</small>
         </footer>
       </div>
     </div>
