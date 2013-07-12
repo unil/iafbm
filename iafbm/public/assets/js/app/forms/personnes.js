@@ -540,7 +540,7 @@ Ext.define('iafbm.form.Personne.Evaluations', {
     _createEvaluations: function() {
         var personne_id = this.getRecordId();
         // Adds specific column
-        store = new iafbm.store.EvaluationMembre({
+        store = new iafbm.store.Evaluation({
             params: {
                 personne_id: personne_id,
                 //xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',

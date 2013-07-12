@@ -279,6 +279,8 @@ Ext.define('iafbm.model.PersonneActivite', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int', useNull: true},
+        {name: 'personne_nom', type: 'string'},
+        {name: 'personne_prenom', type: 'string'},
         {name: 'activite_id', type: 'int', useNull: true},
         {name: 'activite_type_id', type: 'int', useNull: true},
         {name: 'activite_nom_id', type: 'int', useNull: true},
@@ -286,9 +288,11 @@ Ext.define('iafbm.model.PersonneActivite', {
         {name: 'rattachement_id', type: 'int', useNull: true},
         {name: 'rattachement_nom', type: 'string'},
         {name: 'section_id', type: 'int', useNull: true},
+        {name: 'section_code', type: 'string'},
         {name: 'taux_activite', type: 'int', useNull: true},
         {name: 'debut', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'fin', type: 'date', dateFormat: 'Y-m-d'}
+        {name: 'fin', type: 'date', dateFormat: 'Y-m-d'},
+        {name: '_nomPrenom', type: 'string'},
     ],
     validations: [],
     proxy: {
@@ -875,40 +879,19 @@ Ext.define('iafbm.model.Evaluation', {
         {name: 'date_entretien', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_accuse_lettre', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_accuse_email', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'commentaire', type: 'string'}
+        {name: 'activite_nom_abreviation', type: 'string'},
+        {name: 'evaluation_type_type', type: 'string'},
+        {name: 'section_id', type: 'int'},
+        {name: 'section_code', type: 'string'},
+        {name: 'personne_prenom', type: 'string'},
+        {name: 'personne_nom', type: 'string'},
+        {name: '_prenom_nom', type: 'string'},
+        {name: '_evaluateurs', type: 'string'},
     ],
     validations: [],
     proxy:{
         type: 'ia-rest',
         url: x.context.baseuri+'/api/evaluations',
-    }
-});
-
-Ext.define('iafbm.model.EvaluationMembre', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'id', type: 'int'},
-        //{name: 'actif', type: 'boolean', defaultValue: true},
-        //{name: 'evaluation_type_id', type: 'int'},
-        //{name: 'date_periode_debut', type: 'date', dateFormat: 'Y-m-d'},
-        //{name: 'date_periode_fin', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'personne_id', type: 'int'},
-        // Foreign 'Activite_nom' fields
-        {name: 'activite_nom_abreviation', type: 'string'},
-        // Foreign 'Personne' fields
-        {name: 'evaluation_type_type', type: 'string'},
-        // Foreign 'Personne' fields
-        {name: 'personne_nom', type: 'string'},
-        {name: 'personne_prenom', type: 'string'},
-        // Foreign 'Section' fields
-        {name: 'section_code', type: 'string'},
-        // Foreign 'Section' fields
-        {name: '_evaluateurs', type: 'string'}
-    ],
-    validations: [],
-    proxy:{
-        type: 'ia-rest',
-        url: x.context.baseuri+'/api/evaluations_membres',
     }
 });
 
