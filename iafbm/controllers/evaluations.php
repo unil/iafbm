@@ -52,6 +52,12 @@ class EvaluationsController extends AbstractEvaluationController {
             'columns' => 'iafbm.columns.Evaluation',
             'store-params' => array('actif' => 1)
         );
+        
+        //Ajout de la fonctionnalité des filtres.
+        $this->meta['js'] = xUtil::array_merge($this->meta, array(
+            xUtil::url('a/js/app/combofilter.js')
+        ));
+        
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
     }
 

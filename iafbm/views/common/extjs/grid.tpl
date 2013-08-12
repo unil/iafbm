@@ -5,6 +5,13 @@
 <script type="text/javascript">
 
 Ext.onReady(function(){
+    
+    var filters = Ext.createWidget('ia-combofilter', {
+        gridId: 'editor-grid',
+        renderTo: 'editor-grid',
+        title: 'Filtres',
+        hideUnits: false
+    });
 
     ep = new Ext.ia.grid.EditPanel({
         id: '<?php echo $d['id'] ?>',
