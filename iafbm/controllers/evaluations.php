@@ -72,11 +72,16 @@ class EvaluationsController extends AbstractEvaluationController {
             //add '_prenom_nom' ghost field
             $evaluation['_prenom_nom'] = $evaluation['personne_prenom'].' '.$evaluation['personne_nom'];
             
+            
             //add '_evaluateurs' ghost field
             $evaluateurs = xModel::load('evaluation_evaluateur', array('evaluation_id' => $evaluation['id']))->get();
             foreach($evaluateurs as $e) $tabEvaluateurs[] = $e['personne_prenom'].' '.$e['personne_nom'];
             $evaluation['_evaluateurs'] = @implode(", ", $tabEvaluateurs);
             unset($tabEvaluateurs);
+            
+            //add '_mandat' ghost field
+            $personne_activite = xModel::load('personne_activite', array('personne_id' => $evaluation['personne_id'], 'activite_id' => $evaluation['activite_id']))->get();
+            $evaluation['_mandat'] = !@$personne_activite[0]['debut'] ? '-' : date("d.m.Y", strtotime(@$personne_activite[0]['debut'])).' - '.date("d.m.Y", strtotime(@$personne_activite[0]['fin']));
         }
         
         return $evaluations;

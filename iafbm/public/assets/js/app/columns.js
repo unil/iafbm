@@ -557,7 +557,7 @@ iafbm.columns.Evaluation = [{
 },{
     header: "Nom",
     dataIndex: 'personne_id',
-    width: 200,
+    width: 170,
     xtype: 'ia-combocolumn',
     editor: {
         xtype: 'ia-combo',
@@ -590,20 +590,25 @@ iafbm.columns.Evaluation = [{
             select: function(combo, records, eOpts) {
                 record = combo.up().getRecord();
                 personne = records[0].data;
+                field = combo.up().items;
+                mandat_timelapse = Ext.Date.format(personne.debut, 'd.m.Y') + ' - ' + Ext.Date.format(personne.fin, 'd.m.Y');
                 
                 record.set('activite_nom_abreviation', personne.activite_nom_abreviation);
                 record.set('activite_id', personne.activite_id);
                 record.set('section_code', personne.section_code);
                 record.set('section_id', personne.section_id);
-                combo.next().next().setValue(personne.activite_nom_abreviation);
-                combo.next().next().next().setValue(personne.section_code);
+                record.set('_mandat', mandat_timelapse);
+                
+                field.get(3).setValue(personne.activite_nom_abreviation);
+                field.get(4).setValue(mandat_timelapse);
+                field.get(7).setValue(personne.section_code);
             }
         }
     }
 },{
     header: "Type",
     dataIndex: 'evaluation_type_id',
-    width: 80,
+    width: 70,
     xtype: 'ia-combocolumn',
     field: {
         xtype: 'ia-combo',
@@ -615,13 +620,32 @@ iafbm.columns.Evaluation = [{
 },{
     header: "Mandat",
     dataIndex: 'activite_nom_abreviation',
-    flex: 50,
+},{
+    header: "Mandat",
+    dataIndex: '_mandat',
+    width: 130,
+},{
+    header: "Période début",
+    dataIndex: 'date_periode_debut',
+    width: 70,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
+},{
+    header: "Période fin",
+    dataIndex: 'date_periode_fin',
+    width: 70,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
 },{
     header: "Section",
     dataIndex: 'section_code',
-    width: 50
+    width: 45
 },{
     header: "Evaluateur(s)",
     dataIndex: '_evaluateurs',
-    width: 350
+    flex: true
 }];

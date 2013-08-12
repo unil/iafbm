@@ -887,6 +887,7 @@ Ext.define('iafbm.model.Evaluation', {
         {name: 'personne_nom', type: 'string'},
         {name: '_prenom_nom', type: 'string'},
         {name: '_evaluateurs', type: 'string'},
+        {name: '_mandat', type: 'string'},
     ],
     validations: [],
     proxy:{
