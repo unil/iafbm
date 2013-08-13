@@ -649,6 +649,7 @@ iafbm.columns.Evaluateur = [{
 
 iafbm.columns.Evaluation = [{
     header: "Informations personnelles",
+    flex: 1,
     columns: [{
             xtype: 'ia-actioncolumn-redirect',
             width: 25,
@@ -716,31 +717,35 @@ iafbm.columns.Evaluation = [{
             header: "Section",
             dataIndex: 'section_code',
             width: 45
-        },{
-            header: "Type",
-            dataIndex: 'evaluation_type_id',
-            width: 70,
-            //xtype: 'ia-combocolumn',
-            field: {
-                xtype: 'ia-combo',
-                displayField: 'type',
-                valueField: 'id',
-                allowBlank: false,
-                store: new iafbm.store.EvaluationType()
-            }
-        },{
-            header: "Evaluateur(s)",
-            dataIndex: '_evaluateurs',
-            flex: true,
-    }]
+        }]
 },{
     header: "Mandat",
+    flex: 1,
     columns: [{
+        header: "Titre",
+        dataIndex: 'activite_nom_abreviation',
+    },{
         header: "Mandat",
         dataIndex: '_mandat',
         width: 130,
+    }]
+},{
+    header: "Évaluation",
+    flex: 1,
+    columns: [{
+        header: "Type",
+        dataIndex: 'evaluation_type_id',
+        width: 70,
+        //xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            displayField: 'type',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationType()
+        }
     },{
-        header: "Période début",
+        header: "Début",
         dataIndex: 'date_periode_debut',
         width: 70,
         xtype: 'ia-datecolumn',
@@ -748,17 +753,19 @@ iafbm.columns.Evaluation = [{
             xtype: 'ia-datefield'
         }
     },{
-        header: "Période fin",
+        header: "Fin",
         dataIndex: 'date_periode_fin',
         width: 70,
         xtype: 'ia-datecolumn',
         field: {
             xtype: 'ia-datefield'
         }
-    }]
-},{
-    header: "Évaluation",
-    columns: [{
+    },{
+        header: "Evaluateur(s)",
+        dataIndex: '_evaluateurs',
+        width: 150
+    },{
+        header: "État",
         
     }]
 }];
