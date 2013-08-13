@@ -930,7 +930,7 @@ Ext.define('Ext.ia.grid.EditBasePanel', {
         });
         // Toggles dockedItems elements (eg. buttons)
         this.dockedItems.each(function(toolbar) {
-            toolbar.cascade(function(c) {
+            if (toolbar.cascade) toolbar.cascade(function(c) {
                 if (c.updateState) c.updateState();
             })
         });
@@ -1442,6 +1442,9 @@ Ext.define('Ext.ia.form.field.VersionComboBox', {
     },
     changeVersion: function(version) {
         var component = this.getTopLevelComponent();
+        if (!component.setVersion) Ext.Error.raise (
+            component.$className + ' does not have a setVersion() method'
+        );
         component.setVersion(version);
     },
     initComponent: function() {
@@ -1827,13 +1830,74 @@ Ext.define('Ext.ia.form.Panel', {
     }
 });
 
+/* This tabpanel is a generic tab panel:
+ * it manages:
+ * - setVersion feature
+ * - lockFields feature
+ */
+Ext.define('Ext.ia.tab.Panel', {
+    extend: 'Ext.tab.Panel',
+    alias: 'widget.ia-tabpanel',
+    setVersion: function(version) {
+        this.items.each(function(c) {
+            // We need to go down one nesting level
+            // to access the actual tab card panel
+            c.down().setVersion(version);
+        });
+    },
+    lockFields: function(lock) {
+        this.items.each(function(c) {
+            // We need to go down one nesting level
+            // to access the actual tab card panel
+            c.down().lockFields(lock);
+        });
+    },
+    initComponent: function() {
+        var me = this;
+        me.callParent();
+        // Displays a changes-not-saved message
+        this.on('tabchange', function(tabPanel, newCard, oldCard) {
+            if (oldCard.down('form').isDirtyWhole()) {
+                var me = this,
+                    title = "Modifications non enregistrées",
+                    message = "L'onglet contient des modifications non enregistrées. \
+                        Enregistrer ces modifications? \
+                        <br/><br/> \
+                        <b>Oui:</b> Enregistrer les modifications <br/> \
+                        <b>Non:</b> Abondonner les modifications <br/> \
+                        <b>Annuler:</b> Rester sur cet onglet";
+                Ext.Msg.show({
+                    title: title,
+                    msg: message,
+                    buttons: Ext.Msg.YESNOCANCEL,
+                    icon: Ext.Msg.QUESTION,
+                    fn: function(is) {
+                        switch (is) {
+                            case 'yes':
+                                oldCard.down('ia-form').saveRecord();
+                                break;
+                            case 'no':
+                                oldCard.down('ia-form').loadRecord();
+                                break;
+                            case 'cancel':
+                            default:
+                                me.setActiveTab(oldCard);
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+    }
+});
+
 /* This tabpanel is used for the Commission details:
  * it manages:
  * - styling its tabs according its contained form record 'termine' field value
  * - firing the loading of its contained forms records
  */
 Ext.define('Ext.ia.tab.CommissionPanel', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.ia.tab.Panel',
     alias: 'widget.ia-tabpanel-commission',
     updateTabState: function(tab) {
         var tab = tab || this.getActiveTab(),
@@ -1841,20 +1905,6 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
         // Determines tab CSS class
         var cls = finished ? 'tab-icon-done' : 'tab-icon-pending';
         tab.setIconCls(cls);
-    },
-    setVersion: function(version) {
-        this.items.each(function(c) {
-            // We need to go down one nesting level
-            // to access the actual tab content
-            c.down().setVersion(version);
-        });
-    },
-    lockFields: function(lock) {
-        this.items.each(function(c) {
-            // We need to go down one nesting level
-            // to access the actual tab content
-            c.down().lockFields(lock);
-        });
     },
     initComponent: function() {
         // 'Closed commission' information message display
@@ -1891,39 +1941,6 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                 }});
                 form.makeRecord();
             });
-        });
-        // Displays a changes-not-saved message
-        this.on('tabchange', function(tabPanel, newCard, oldCard) {
-            if (oldCard.down('form').isDirtyWhole()) {
-                var me = this,
-                    title = "Modifications non enregistrées",
-                    message = "L'onglet contient des modifications non enregistrées. \
-                        Enregistrer ces modifications? \
-                        <br/><br/> \
-                        <b>Oui:</b> Enregistrer les modifications <br/> \
-                        <b>Non:</b> Abondonner les modifications <br/> \
-                        <b>Annuler:</b> Rester sur cet onglet";
-                Ext.Msg.show({
-                    title: title,
-                    msg: message,
-                    buttons: Ext.Msg.YESNOCANCEL,
-                    icon: Ext.Msg.QUESTION,
-                    fn: function(is) {
-                        switch (is) {
-                            case 'yes':
-                                oldCard.down('ia-form').saveRecord();
-                                break;
-                            case 'no':
-                                oldCard.down('ia-form').loadRecord();
-                                break;
-                            case 'cancel':
-                            default:
-                                me.setActiveTab(oldCard);
-                                break;
-                        }
-                    }
-                });
-            }
         });
     }
 });
