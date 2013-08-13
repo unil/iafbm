@@ -428,15 +428,6 @@ Ext.define('iafbm.form.Personne.Activites', {
                         return true;
                     }
                 }
-            },{
-                header: "En vigueur",
-                dataIndex: 'en_vigueur',
-                width: 65,
-                xtype: 'checkcolumn',
-                editor: {
-                    xtype: 'checkboxfield',
-                    disabled: true
-                }
             }]
         };
     }
