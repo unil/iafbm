@@ -7,7 +7,7 @@
 Ext.onReady(function(){
     
     var filters = Ext.createWidget('ia-combofilter', {
-        gridId: 'editor-grid',
+        gridId: '<?php echo $d['id'] ?>',
         renderTo: 'editor-grid',
         title: 'Filtres',
         hideUnits: false
