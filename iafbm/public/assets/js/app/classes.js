@@ -1912,9 +1912,17 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                         switch (is) {
                             case 'yes':
                                 oldCard.down('ia-form').saveRecord();
+                                oldCard.cascade(function(c) {
+                                    if (!c.isXType('grid') || !c.store) return;
+                                    c.store.save();
+                                });
                                 break;
                             case 'no':
                                 oldCard.down('ia-form').loadRecord();
+                                oldCard.cascade(function(c) {
+                                    if (!c.isXType('grid') || !c.store) return;
+                                    c.store.load();
+                                });
                                 break;
                             case 'cancel':
                             default:
