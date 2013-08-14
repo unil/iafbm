@@ -345,21 +345,32 @@ Ext.onReady(function() {
          * Renomme le titre du formulaire (fieldSet) en Décision de la Direction de l'UNIL
          *
          * TODO: L'événemenent déclanché n'est pas correcte (déclanche aléatoirement). Cela créer des erreurs javascript.
+         * Thank you Damien !
          */
-        renameFields: function(){
-            
-            Ext.getCmp('formCdir').on('load', function() {
-                var activite_id = Ext.getCmp('rapportActivite').record.get('activite_id');
-                
+        renameFields: function() {
+            s = new iafbm.store.Evaluation({params:{id:<?php echo $d['id'] ?>}});
+            s.on('load', function(record) {
+                // Fetches activite_id
+                var activite_id = record.getAt(0).get('activite_id');
+                // Determines if fields have to be renamed
                 var arrayToRename = [].concat(typeId_Mer1Ssf, typeId_Mer1Ssc, typeId_Mer2Ssf, typeId_Mer2Ssc, typeId_Pd);
                 var needToRename = Ext.Array.contains(arrayToRename, activite_id);
-                
-                if(needToRename){
+                // Renames tab-title and fields-labels if applicable
+                if (needToRename) {
+                    // Renames tab title
                     Ext.getCmp('cdir').setTitle("Décision de la Direction de l'UNIL");
-                    Ext.getCmp('fieldset-title-cdir').el.dom.innerText = "Décision de la Direction de l'UNIL";
-                    Ext.getCmp('field-cdir-seance').labelEl.update('Séance Direction du');
-                }
+                    // Renames fields labels
+                    var rename = function() {
+                        Ext.getCmp('fieldset-title-cdir').el.dom.innerText = "Décision de la Direction de l'UNIL";
+                        Ext.getCmp('field-cdir-seance').labelEl.update('Séance Direction du');
+                    }
+                    // Depending on whether the tab is already rendered or not,
+                    // the rename() function is called directly or through the 'aterrender' event
+                    if (Ext.getCmp('formCdir').rendered) rename();
+                    else Ext.getCmp('formCdir').on('afterrender', rename);
+                }                    
             });
+            s.load();
         }
     });
     
