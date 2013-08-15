@@ -24,6 +24,7 @@ class LayoutLayoutView extends xView {
                 xUtil::url('a/js/app/classes.js'),
                 xUtil::url('a/js/app/models.js'),
                 xUtil::url('a/js/app/forms.js'),
+                xUtil::url('a/js/app/forms/personnes.js'),
                 xUtil::url('a/js/app/columns.js'),
                 xUtil::url('a/js/app/grids.js')
             ),
