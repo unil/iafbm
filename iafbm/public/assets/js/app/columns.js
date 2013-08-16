@@ -722,10 +722,10 @@ iafbm.columns.Evaluation = [{
     header: "Mandat",
     flex: 1,
     columns: [{
-        header: "Titre",
+        header: "Titre académique",
         dataIndex: 'activite_nom_abreviation',
     },{
-        header: "Mandat",
+        header: "Durée",
         dataIndex: '_mandat',
         width: 130,
     }]
