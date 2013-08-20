@@ -50,12 +50,48 @@ class EvaluationsController extends AbstractEvaluationController {
             'id' => 'évaluations',
             'model' => 'Evaluation',
             'columns' => 'iafbm.columns.Evaluation',
-            'store-params' => array('actif' => 1)
+            'store-params' => array('actif' => 1),
+            'filters' => array(
+                'gridId' => 'évaluation',
+                'items' => array(
+                    array(
+                        'itemId' => 'type',
+                        'fieldLabel' => 'Type',
+                        'store' => 'new iafbm.store.EvaluationType()',
+                        'displayField' => 'type',
+                        'valueField' => 'id',
+                        'filterColumn' => 'evaluation_type_id'
+                    ),
+                    array(
+                        'itemId' => 'titre',
+                        'fieldLabel' => 'Titre académique',
+                        'store' => "
+                                new iafbm.store.ActiviteNom({
+                                    params: {
+                                        'id[]': [1,2,4,5,11,14,15,16,17,22],
+                                    }
+                                })
+                        ",
+                        'displayField' => 'abreviation',
+                        'valueField' => 'id',
+                        'filterColumn' => 'activite_nom_id'
+                    ),
+                    array(
+                        'itemId' => 'section',
+                        'fieldLabel' => 'Section',
+                        'store' => 'new iafbm.store.Section()',
+                        'displayField' => 'code',
+                        'valueField' => 'id',
+                        'filterColumn' => 'section_id'
+                    )
+                )
+            )
         );
         
         //Ajout de la fonctionnalité des filtres.
         $this->meta['js'] = xUtil::array_merge($this->meta, array(
-            xUtil::url('a/js/app/combofilter.js')
+            xUtil::url('a/js/app/combofilter.js'),
+            xUtil::url('a/js/app/plugins/filters.js'),
         ));
         
         return xView::load('common/extjs/grid', $data, $this->meta)->render();
