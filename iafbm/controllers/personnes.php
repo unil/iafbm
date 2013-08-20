@@ -272,7 +272,8 @@ class PersonnesController extends iaExtRestController {
                     'personne_id' => $personne['id'],
                     'xjoin' => 'activite,activite_nom',
                     'xorder_by' => 'activite_nom_abreviation',
-                    'xorder' => 'ASC'
+                    'xorder' => 'ASC',
+                    'xversion' => @$this->params['xversion']
                 ))->get();
                 // Creates a CSV list of 'Fonction'
                 $f = array();
