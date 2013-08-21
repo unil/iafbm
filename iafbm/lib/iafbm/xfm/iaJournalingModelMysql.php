@@ -24,8 +24,13 @@ abstract class iaJournalingModelMysql extends iaModelMysql {
      * @param string Operation (get, putm post, delete).
      */
     protected function check_allowed_model($operation) {
-        $model_field_name = $this->model_field_name();
+        // Only performs the if the caller is a front (eg. api call)
+        $trace = debug_backtrace();
+        $caller_class = $trace[4]['class'];
+        if (is_a($caller_class, 'xApiFront', true)) return;
+        if (xContext::$router->params['xfront'] != 'api') return;
         // Prevents 'get' operation with unspecified 'model_name' parameters,
+        $model_field_name = $this->model_field_name();
         if ($operation == 'get' && !xUtil::filter_keys($this->params, $model_field_name)) {
             throw new xException (
                 "Please specify '{$model_field_name}' parameter",

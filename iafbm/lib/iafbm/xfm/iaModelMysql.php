@@ -149,11 +149,19 @@ abstract class iaModelMysql extends xModelMysql {
      * Returns a versioned record.
      */
     protected function get_version($rownum=null) {
+        if ($this->params['xquery']) throw new xException(
+            'Cannot mix xversion and xquery parameters', 400
+        );
+        // Useful params to keep as variables
         $primary = $this->primary();
         $version = @$this->params['xversion'];
         // Manages params for correct versions increments application
         $params_pristine = $this->params;
         unset($this->params['actif']); // Also retrive 'deleted' rows
+        // FIXME: Using filters on fields (eg. name LIKE 'Boris%')
+        //        may return wrong results; eg. if name has changed across versions.
+        //        The Solution is to filter fields programmatically after version
+        //        modifications application.
         $results = parent::get();
         // Checks if version exists
         // NOTE: Custom SQL query to bypass iaJournalingModel::check_allowed()
@@ -163,9 +171,9 @@ abstract class iaModelMysql extends xModelMysql {
         $version_count = mysql_num_rows(
             xModel::q("SELECT * FROM versions WHERE id = '{$version}';")
         );
-        if (!$version_count) {
-            throw new xException("Version {$version} does not exist", 404);
-        }
+        if (!$version_count) throw new xException(
+            "Version {$version} does not exist", 404
+        );
         // Creates versionned results
         foreach ($results as $position => &$result) {
             $record_id = @$result[$primary];
