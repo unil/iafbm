@@ -263,25 +263,39 @@ class PersonnesController extends iaExtRestController {
      */
     function get() {
         $personnes = parent::get();
-        // Adds '_activites' ghost field (if applicable)
         $return = xModel::load($this->model, $this->params)->return;
-        if (xUtil::in_array(array('*', '_activites'), $return)) {
-            foreach ($personnes['items'] as &$personne) {
-                // Fetches 'Fonction' for the current 'Personne'
-                $fonctions = xModel::load('personne_activite', array(
-                    'personne_id' => $personne['id'],
-                    'xjoin' => 'activite,activite_nom',
-                    'xorder_by' => 'activite_nom_abreviation',
-                    'xorder' => 'ASC'
-                ))->get();
-                // Creates a CSV list of 'Fonction'
-                $f = array();
-                foreach($fonctions as $fonction) {
-                    $f[] = $fonction['activite_nom_abreviation'];
-                }
-                // Adds it to the resultset
-                $personne['_activites'] = implode(', ', $f);
+        if (!xUtil::in_array(array('*', '_activites'), $return)) return $personnes;
+        // Adds '_activites' ghost field (if applicable)
+        $version = @$this->params['xversion'];
+        // Determines the date to be used for computing activites validity
+        if (!$version) $date = mktime();
+        else $date = xUtil::timestamp(array_pop(xModel::load('version', array(
+            'xreturn' => 'created',
+            'id' => $version,
+        ))->get(0)));
+        // Adds actual _activites field
+        foreach ($personnes['items'] as &$personne) {
+            // Fetches active 'Fonction' for the current 'Personne',
+            // at the given xversion
+            $activites = xModel::load('personne_activite', array(
+                'personne_id' => $personne['id'],
+                'xjoin' => 'activite,activite_nom',
+                'xorder_by' => 'activite_nom_abreviation',
+                'xorder' => 'ASC',
+                'xversion' => $version
+            ))->get();
+            // Creates a CSV list of activites,
+            // keeping current activites only (and activities with no dates).
+            // This can be put as 'personne_activite' query param when ticket #242 is resolved.
+            $csv = array();
+            foreach($activites as $a) {
+                $debut = xUtil::timestamp($a['debut']);
+                $fin = xUtil::timestamp($a['fin']);
+                if (($debut && $debut > $date) || ($fin && $fin < $date)) continue;
+                $csv[] = $a['activite_nom_abreviation'];
             }
+            // Adds it to the resultset
+            $personne['_activites'] = implode(', ', $csv);
         }
         return $personnes;
     }
