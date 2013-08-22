@@ -158,10 +158,13 @@ abstract class iaModelMysql extends xModelMysql {
         // Manages params for correct versions increments application
         $params_pristine = $this->params;
         unset($this->params['actif']); // Also retrive 'deleted' rows
-        // FIXME: Using filters on fields (eg. name LIKE 'Boris%')
-        //        may return wrong results; eg. if name has changed across versions.
-        //        The Solution is to filter fields programmatically after version
-        //        modifications application.
+        // TODO: Strips fields-related parameters (local & foreign, except primary key field),
+        // storing them for post-query and programatic filter
+        // NOTE: Using filters on fields (eg. name LIKE 'Boris%')
+        // may return wrong results; eg. if name has changed across versions.
+        // The Solution is to filter fields programmatically after version
+        // modifications application.
+        // (code...)
         $results = parent::get();
         // Checks if version exists
         // NOTE: Custom SQL query to bypass iaJournalingModel::check_allowed()
@@ -225,6 +228,8 @@ abstract class iaModelMysql extends xModelMysql {
             if (!$result[$primary] || (isset($result['actif']) && !$result['actif'])) {
                 unset($results[$position]);
             }
+            // TODO: Programatically filters result based on fields parameters
+            // (code...)
         }
         // Reverts modified params
         $this->params = $params_pristine;
