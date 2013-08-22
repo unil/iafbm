@@ -13,9 +13,11 @@ class CommissionTravailModel extends iaModelMysql {
         'actif' => 'actif',
         'commission_id' => 'commission_id',
         'termine' => 'termine',
+        'aucun_candidat' => 'aucun_candidat',
         'primo_loco' => 'loco_primo',
         'secondo_loco' => 'loco_secondo',
         'tertio_loco' => 'loco_tertio',
+        'delai_envoi_rapport' => 'delai_envoi_rapport',
         'commentaire' => 'commentaire'
     );
 
