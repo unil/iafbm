@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class PersonneTelephoneModel extends iaModelMysql {
 
     var $table = 'personnes_telephones';
@@ -27,5 +31,17 @@ class PersonneTelephoneModel extends iaModelMysql {
 
     var $archive_foreign_models = array(
         'adresse_type' => array('adresse_type_id' => 'id')
+    );
+
+    // Self-documentation
+    var $description = 'téléphones des personnes';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'personne_id' => 'identifiant de la personne',
+        'adresse_type_id' => 'identifiant du type de téléphone',
+        'countrycode' => 'code pays du numéro de téléphone',
+        'telephone' => 'numéro de téléphone',
+        'defaut' => 'téléphone par defaut'
     );
 }

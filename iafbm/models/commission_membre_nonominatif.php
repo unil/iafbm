@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionMembreNonominatifModel extends iaModelMysql {
 
     var $table = 'commissions_membres_nonominatifs';
@@ -44,5 +48,19 @@ class CommissionMembreNonominatifModel extends iaModelMysql {
         'commission_fonction' => array('commission_fonction_id' => 'id'),
         'activite' => array('activite_id' => 'id'),
         'rattachement' => array('rattachement_id' => 'id')
+    );
+
+    // Self-documentation
+    var $description = 'membres non nominatifs des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom_prenom' => 'nom et prénom',
+        'commission_id' => 'identifiant de la commission',
+        'commission_fonction_id' => 'identifiant de la fonction au sein de la commission',
+        'fonction_complement' => 'complément de fonction',
+        'personne_denomination_id' => 'identifiant de la dénomination du membre',
+        'activite_id' => 'identifiant de l\'activité du membre',
+        'rattachement_id' => 'identifiant du rattachement organisationel'
     );
 }

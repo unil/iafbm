@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class PersonnesTelephonesController extends iaExtRestController {
 
     var $model = 'personne_telephone';
@@ -13,6 +17,9 @@ class PersonnesTelephonesController extends iaExtRestController {
         )
     );
 
+    /**
+     * Ensures there is only one default telephone.
+     */
     function post() {
         $params = $this->params['items'];
         $t = new xTransaction();
@@ -30,6 +37,9 @@ class PersonnesTelephonesController extends iaExtRestController {
         return $r;
     }
 
+    /**
+     * Ensures there is only one default telephone.
+     */
     function put() {
         $params = $this->params['items'];
         $t = new xTransaction();

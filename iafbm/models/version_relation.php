@@ -2,6 +2,10 @@
 /**
  * This model stores version relations between models.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class VersionRelationModel extends iaJournalingModelMysql {
 
     var $versioning = false;
@@ -31,5 +35,16 @@ class VersionRelationModel extends iaJournalingModelMysql {
         'model_name' => 'mandatory',
         'id_field_name' => 'mandatory',
         'id_field_value' => 'mandatory'
+    );
+
+    // Self-documentation
+    var $description = 'versions des enregistrement (relations)';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'version_id' => 'identifiant de la version',
+        'table_name' => 'nom de la table',
+        'model_name' => 'nom du modèle',
+        'id_field_name' => 'nom du champs identifiant',
+        'id_field_value' => 'valeur du champs identifiant'
     );
 }

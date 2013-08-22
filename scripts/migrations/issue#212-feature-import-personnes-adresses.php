@@ -3,6 +3,9 @@
 require_once(dirname(__file__).'/../Script.php');
 require_once(dirname(__file__).'/vendors/parsecsv-0.3.2/parsecsv.lib.php');
 
+/**
+ * @package scripts-migration
+ */
 class iafbmIssue212 extends iafbmScript {
 
     function run() {

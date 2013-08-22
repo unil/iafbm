@@ -4,6 +4,10 @@
  * @note No need to extend iaJournalingModelMysql for security reasons
  *       because 'archive' tables are not exposed through a model.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class ArchiveDataModel extends iaModelMysql {
 
     var $table = 'archives_data';
@@ -34,5 +38,19 @@ class ArchiveDataModel extends iaModelMysql {
         'archive_id' => 'mandatory',
         'table_field_name' => 'mandatory',
         'model_field_name' => 'mandatory'
+    );
+
+    // Self-documentation
+    var $description = 'données des enregistrements archivés';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'archive_id' => 'identifiant interne d\'archive',
+        'table_name' => 'nom de la table',
+        'model_name' => 'nom du modèle',
+        'table_field_name' => 'nom du champs (au niveau base de données)',
+        'model_field_name' => 'nom du champs (au niveau du modèle)',
+        'id_field_name' => 'nom du champs identifiant',
+        'id_field_value' => 'valeur du champs identifiant',
+        'value' => 'valeur du champs archivé'
     );
 }

@@ -2,8 +2,15 @@
 
 xView::load('common/extjs/base');
 
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class CommonExtjsGridView extends CommonExtjsBaseView {
 
+    /**
+     * Defines default ExtJS grid properties.
+     */
     function init() {
         // Checks madatory data values
         if (!@$this->data['model']) throw new xException('model data missing: mandatory for Ext.grid.GridPanel');

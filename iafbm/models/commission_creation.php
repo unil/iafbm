@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionCreationModel extends iaModelMysql {
 
     var $table = 'commissions_creations';
@@ -33,4 +37,20 @@ class CommissionCreationModel extends iaModelMysql {
     var $join = 'commission';
 
     var $validation = array();
+
+    // Self-documentation
+    var $description = 'phase de création des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'commission_id' => 'identifiant de la commission',
+        'termine' => 'phase terminée',
+        'decision' => 'date de décision du Décanat',
+        'preavis' => 'date du préavis positif CPA',
+        'autorisation' => 'date de l\'autorisation du CDir',
+        'annonce' => 'date de l\'annonce dans les journaux',
+        'composition' => 'date de la composition',
+        'composition_validation' => 'date de validation de la composition par le vice recteur',
+        'commentaire' => 'commentaire'
+    );
 }

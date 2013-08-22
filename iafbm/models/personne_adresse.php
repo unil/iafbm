@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class PersonneAdresseModel extends iaModelMysql {
 
     var $table = 'personnes_adresses';
@@ -31,5 +35,15 @@ class PersonneAdresseModel extends iaModelMysql {
 
     var $archive_foreign_models = array(
         'adresse' => array('adresse_id' => 'id')
+    );
+
+    // Self-documentation
+    var $description = 'adresses des personnes';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'personne_id' => 'identifiant de la personne',
+        'adresse_id' => 'identifiant de l\'adresse',
+        'defaut' => 'adresse par défaut'
     );
 }

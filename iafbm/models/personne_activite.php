@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class PersonneActiviteModel extends iaModelMysql {
 
     var $table = 'personnes_activites';
@@ -34,5 +38,18 @@ class PersonneActiviteModel extends iaModelMysql {
     var $archive_foreign_models = array(
         'rattachement' => array('rattachement_id' => 'id'),
         'activite' => array('activite_id' => 'id'),
+    );
+
+    // Self-documentation
+    var $description = 'activité des personnes';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'personne_id' => 'identifiant de la personne',
+        'rattachement_id' => 'identifiant du rattachement organisationel',
+        'activite_id' => 'identifiant de l\'activité de la personne',
+        'taux_activite' => 'taux d\'activité de la personne',
+        'debut' => 'debut d\'activité',
+        'fin' => 'fin d\'activité'
     );
 }

@@ -2,6 +2,10 @@
 
 require_once('commissions.php');
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CandidatsController extends AbstractCommissionController {
 
     var $model = 'candidat';
@@ -21,10 +25,16 @@ class CandidatsController extends AbstractCommissionController {
         )
     );
 
+    /**
+     * Displays a grid of candidats.
+     */
     function indexAction() {
         return xView::load('candidats/list', array(), $this->meta)->render();
     }
 
+    /**
+     * Displays the candidat form.
+     */
     function detailAction() {
         $data = array(
             'id' => $this->params['id'],
@@ -33,7 +43,7 @@ class CandidatsController extends AbstractCommissionController {
     }
 
     /**
-     * Adds default adress ghost fields
+     * Adds default adress ghost fields.
      */
     function get() {
         $result = parent::get();

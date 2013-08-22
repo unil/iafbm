@@ -3,13 +3,26 @@
 /**
  * Project specific Auth.
  * Uses Shibboleth information to automatically authenticate the user.
- * @package iafbm
+ * @package iafbm-library
  */
 class iaAuth extends xAuth {
    /**
-    * Roles <-> Persmissions configuration:
+    * Roles <-> Persmissions configuration.
+    * This array defines the permissions associated with each role.
     * - Each group permission is read sequentially.
-    * - When a user is in multiple groups,
+    * - When a user is in multiple groups, the computed permission of each group is merged together.
+    * - This permission definition array is canonicalized into a pure model => permissions array, at construct time.
+    * 
+    * Model rights definitions:
+    * - is a 'model' => 'allowed-rights' array, eg. array('person' => 'CR').
+    * - use the conventional CRUD symbols (C:reate, R:ead, U:pdate, D:elete).
+    * - can be a combinaison on any of these, or null for no access.
+    * - accept wildcard (*) can be used to designate all models (and will be canonicalized in this way).
+    * - are canonicalized in their declaration order, eg. subsequent déclarations override existing models rights
+    *   (subsequent déclarations are not merged, they replace).
+    * 
+    * This example shows how to allow reading all resources, writing some and deny the 'email' resource.
+    * <code>
     * array(
     *     'role' => array(
     *         'models' => array(
@@ -20,6 +33,11 @@ class iaAuth extends xAuth {
     *         )
     *     )
     * )
+    * </code>
+    * Note that: currently, only model permissions are implemented.
+    *
+    * @see canonicalize()
+    * @see compute_permissions()
     * @var array
     */
     protected $permissions = array(
@@ -78,6 +96,10 @@ class iaAuth extends xAuth {
         )
     );
 
+    /**
+     * D
+     *
+     */
     protected $role_separator = ';';
 
 
@@ -86,6 +108,10 @@ class iaAuth extends xAuth {
         $this->canonicalize();
     }
 
+    /**
+     * Sets authentication from Switch-AAI data.
+     * (eg. Shibboleth cookie data)
+     */
     function set_from_aai() {
         // Retrives 'username' and 'roles' data from Shibboleth
         $authenticated = isset(
@@ -115,7 +141,7 @@ class iaAuth extends xAuth {
             throw new xException('You must be authenticated to continue', 403);
         }
         // Determines wether 'roles' have changed since last request
-        $roles_have_changed = (implode(';', $this->roles()) != $roles);
+        $roles_have_changed = (implode($this->role_separator, $this->roles()) != $roles);
         // Sets auth information
         $this->set($username, $roles, $this->info());
         // Updates and stores user permissions (only if Shibboleth roles have changed)
@@ -226,6 +252,10 @@ class iaAuth extends xAuth {
         return $p;
     }
 
+    /**
+     * Returns a list of permissions for the currently authenticated user.
+     * @return array List of permissions.
+     */
     function get_permissions() {
         return $this->info('permissions') ? $this->info('permissions') : array();
     }

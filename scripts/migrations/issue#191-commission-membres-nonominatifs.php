@@ -2,6 +2,9 @@
 
 require_once(dirname(__file__).'/../Script.php');
 
+/**
+ * @package scripts-migration
+ */
 class iafbmIssue191b extends iafbmScript {
 
     function run() {

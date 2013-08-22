@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class PersonneModel extends iaModelMysql {
 
     var $table = 'personnes';
@@ -61,5 +65,27 @@ class PersonneModel extends iaModelMysql {
         'personne_telephone' => 'personne_id',
         'personne_formation' => 'personne_id',
         'personne_activite' => 'personne_id'
+    );
+
+    // Self-documentation
+    var $description = 'personnes';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'id_unil' => 'identifiant UNIL',
+        'id_chuv' => 'identifiant CHUV',
+        'id_adifac' => 'identifiant ADIFAC',
+        'actif' => 'actif',
+        'personne_type_id' => 'identifiant du type de personne',
+        'nom' => 'nom de la personne',
+        'prenom' => 'prénom de la personne',
+        'genre_id' => 'identifiant du genre de la personne',
+        'personne_denomination_id' => 'identifiant de la denomination de la personne',
+        'etatcivil_id' => 'identifiant de l\'état civil de la personne',
+        'date_naissance' => 'date de naissance de la personne',
+        'no_avs' => 'no AVS',
+        'canton_id' => 'identifiant du canton',
+        'pays_id' => 'identifiant du pays',
+        'permis_id' => 'identifiant du permis de séjour'
     );
 }
