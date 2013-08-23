@@ -27,4 +27,18 @@ class PersonnesActivitesController extends iaExtRestController {
             'join' => 'rattachement'
         )
     );
+    
+    /**
+     * Add ghost field
+     */
+    function get() {
+        $results = parent::get();
+        
+        foreach($results['items'] as &$pa) {
+            $pa['_nomPrenom'] = $pa['personne_nom'].' '.$pa['personne_prenom'];
+            
+        }
+        
+        return $results;
+    }
 }

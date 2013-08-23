@@ -48,7 +48,7 @@ class EvaluationsController extends AbstractEvaluationController {
         $data = array(
             'title' => 'Gestion des évaluations',
             'id' => 'évaluations',
-            'model' => 'EvaluationMembre',
+            'model' => 'Evaluation',
             'columns' => 'iafbm.columns.Evaluation',
             'store-params' => array('actif' => 1)
         );
@@ -58,9 +58,33 @@ class EvaluationsController extends AbstractEvaluationController {
     function detailAction() {
         $id = @$this->params['id'];
         if (!$id) throw new xException("Le numéro d'évaluation fourni n'est pas valide", 400);
-        $commission = xModel::load('evaluation', array('id'=>$id))->get(0);
-        if (!$commission) throw new xException("L'évaluaion demandée est introuvable", 404);
-        return xView::load('evaluations/detail', $commission, $this->meta)->render();
+        $evaluation = xModel::load('evaluation', array('id'=>$id))->get(0);
+        if (!$evaluation) throw new xException("L'évaluaion demandée est introuvable", 404);
+        return xView::load('evaluations/detail', $evaluation, $this->meta)->render();
+    }
+    
+    /**
+     * Add ghosts fields
+     */
+    function get() {
+        $evaluations = parent::get();
+        foreach ($evaluations['items'] as &$evaluation) {
+            //add '_prenom_nom' ghost field
+            $evaluation['_prenom_nom'] = $evaluation['personne_prenom'].' '.$evaluation['personne_nom'];
+            
+            
+            //add '_evaluateurs' ghost field
+            $evaluateurs = xModel::load('evaluation_evaluateur', array('evaluation_id' => $evaluation['id']))->get();
+            foreach($evaluateurs as $e) $tabEvaluateurs[] = $e['personne_prenom'].' '.$e['personne_nom'];
+            $evaluation['_evaluateurs'] = @implode(", ", $tabEvaluateurs);
+            unset($tabEvaluateurs);
+            
+            //add '_mandat' ghost field
+            $personne_activite = xModel::load('personne_activite', array('personne_id' => $evaluation['personne_id'], 'activite_id' => $evaluation['activite_id']))->get();
+            $evaluation['_mandat'] = !@$personne_activite[0]['debut'] ? '-' : date("d.m.Y", strtotime(@$personne_activite[0]['debut'])).' - '.date("d.m.Y", strtotime(@$personne_activite[0]['fin']));
+        }
+        
+        return $evaluations;
     }
     
     /**
@@ -84,6 +108,26 @@ class EvaluationsController extends AbstractEvaluationController {
         $t->end();
         // Returns operation result
         return $result;
+    }
+    
+    function put() {
+        if (isset($this->params['id'])) return $this->post();
+        $params = $this->params['items'];
+        $t = new xTransaction();
+        $t->start();
+        // Inserts the evaluation model
+        $t->execute(xModel::load('evaluation', $params), 'put');
+        $insertid = $t->insertid();
+        // Inserts related items
+        $items = array(
+            xModel::load('evaluation_cdir', array('evaluation_id'=>$insertid)),
+            xModel::load('evaluation_evaluation', array('evaluation_id'=>$insertid)),
+            xModel::load('evaluation_contrat', array('evaluation_id'=>$insertid)),
+        );
+        foreach ($items as $item) $t->execute($item, 'put');
+        $r = $t->end();
+        $r['items'] = @array_shift(xModel::load('evaluation', array('id' => $insertid))->get());
+        return $r;
     }
 }
 ?>

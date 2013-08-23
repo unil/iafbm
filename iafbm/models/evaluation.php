@@ -29,25 +29,23 @@ class EvaluationModel extends iaModelMysql {
 
     var $joins = array(
         'activite' => 'LEFT JOIN activites ON (evaluations.activite_id = activites.id)',
+        'activite_nom' => 'LEFT JOIN activites_noms ON (activites.activite_nom_id = activites_noms.id)',
         'evaluation_type' => 'LEFT JOIN evaluations_types ON (evaluations.evaluation_type_id = evaluations_types.id)',
-        'personne' => 'LEFT JOIN personnes ON (evaluations.personne_id = personnes.id)'
+        'personne' => 'LEFT JOIN personnes ON (evaluations.personne_id = personnes.id)',
+        'section' => 'LEFT JOIN sections ON (activites.section_id = sections.id)',
     );
 
-    var $join = array('activite', 'evaluation_type', 'personne');
+    var $join = array('activite', 'activite_nom', 'evaluation_type', 'personne', 'section');
 
     var $validation = array(
-        'id' => array('mandatory'),
-        'actif' => array('mandatory'),
         'evaluation_type_id' => array('mandatory'),
         'personne_id' => array('mandatory'),
         'activite_id' => array('mandatory'),
-        'evaluation_etat_id' => array('mandatory'),
     );
     
     var $archivable = true;
     
     var $archive_foreign_models = array(
-        'evaluation_rapport' => 'evaluation_id',
         'evaluation_evaluation' => 'evaluation_id',
         'evaluation_cdir' => 'evaluation_id',
         'evaluation_contrat' => 'evaluation_id',

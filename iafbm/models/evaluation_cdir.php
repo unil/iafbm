@@ -24,8 +24,6 @@ class EvaluationCdirModel extends iaModelMysql {
     var $join = array('evaluation');
     
     var $validation = array(
-        'id' => array('mandatory'),
-        'actif' => array('mandatory'),
         'evaluation_id' => array('mandatory')
     );
     
