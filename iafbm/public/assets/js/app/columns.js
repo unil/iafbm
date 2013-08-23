@@ -138,12 +138,12 @@ iafbm.columns.CommissionMembre = [{
         }
     }
 },*/ {
-    header: "Nom",
-    dataIndex: 'personne_nom',
-    flex: 1
-}, {
     header: "Prénom",
     dataIndex: 'personne_prenom',
+    flex: 1
+}, {
+    header: "Nom",
+    dataIndex: 'personne_nom',
     flex: 1
 }, /* Disabled as of ticket #177 {
     // NOTE: This column implements *very* lazy data loading.
@@ -288,7 +288,7 @@ iafbm.columns.CommissionMembreNonominatif = [{
         displayField: 'nom'
     }
 }, {
-    header: "Nom et prénom",
+    header: "Prénom et nom",
     dataIndex: 'nom_prenom',
     width: 300,
     editor: {

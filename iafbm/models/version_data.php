@@ -2,6 +2,10 @@
 /**
  * This model stores tables write activity data.
  */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class VersionDataModel extends iaJournalingModelMysql {
 
     var $versioning = false;
@@ -25,4 +29,14 @@ class VersionDataModel extends iaJournalingModelMysql {
     var $join = array('version');
 
     var $validation = array();
+
+    // Self-documentation
+    var $description = 'versions des enregistrement (relations)';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'version_id' => 'identifiant de la version',
+        'field_name' => 'nom du champs',
+        'old_value' => 'ancienne valeur',
+        'new_value' => 'nouvelle valeur'
+    );
 }

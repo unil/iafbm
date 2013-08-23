@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Project-specific API Front.
+ * - Manages modes (encoding, new-lines flavour, separator for csv encoder)
+ * @package iafbm
+ * @subpackage front
+ */
 class ApiFront extends xApiFront {
 
     /**
@@ -31,7 +37,8 @@ class ApiFront extends xApiFront {
     );
 
     /**
-     * Manages CSV export mode selection
+     * Manages CSV output mode (encoding, new lines and separator)
+     * and defines 'xmethod' parameter according the HTTP request verb.
      */
     function __construct($params = null) {
         // Setups mode (uses 1st mode if 'xmode' is not defined or invalid)
@@ -45,25 +52,35 @@ class ApiFront extends xApiFront {
         if (!@$this->params['xmethod']) $this->params['xmethod'] = @$this->http['method'];
     }
 
+    /**
+     * @see xApiFront::get()
+     */
     function get() {
         $result = $this->call_method();
         print $this->encode($result);
     }
 
+    /**
+     * @see xApiFront::post()
+     */
     function post() {
         $result = $this->call_method();
         print $this->encode($result);
     }
 
+    /**
+     * @see xApiFront::put()
+     */
     function put() {
         $result = $this->call_method();
         print $this->encode($result);
     }
 
+    /**
+     * @see xApiFront::delete()
+     */
     function delete() {
         $result = $this->call_method();
         print $this->encode($result);
     }
-
-
 }

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionFonctionModel extends iaModelMysql {
 
     var $table = 'commissions_fonctions';
@@ -20,5 +24,15 @@ class CommissionFonctionModel extends iaModelMysql {
         'nom' => array(
             'mandatory'
         )
+    );
+
+    // Self-documentation
+    var $description = 'catalogue des fonctions des membres de commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'nom' => 'nom de la fonction',
+        'description' => 'description de la fonction',
+        'position' => 'position relative'
     );
 }

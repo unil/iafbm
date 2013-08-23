@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class ActiviteModel extends iaModelMysql {
 
     var $table = 'activites';
@@ -32,5 +40,15 @@ class ActiviteModel extends iaModelMysql {
         'section' => array('section_id' => 'id'),
         'activite_type' => array('activite_type_id' => 'id'),
         'activite_nom' => array('activite_nom_id' => 'id')
+    );
+
+    // Self-documentation
+    var $description = 'catalogue d\'activités académiques et cliniques';
+    var $labels = array(
+        'id' => 'identifian interne',
+        'actif' => 'enregistrement actif',
+        'section_id' => 'identifiant interne de section',
+        'activite_type_id' => 'identifiant interne du type d\'activité',
+        'activite_nom_id' => 'identifiant interne du nom d\'activité'
     );
 }

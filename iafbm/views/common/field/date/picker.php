@@ -4,6 +4,10 @@
  * Uses http://www.monkeyphysics.com/mootools/script/2/datepicker
  *
  */
+/**
+ * @package iafbm
+ * @subpackage view
+ */
 class AllFieldDatePickerView extends xView {
 
     function init() {

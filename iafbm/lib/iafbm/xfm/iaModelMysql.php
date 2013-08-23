@@ -6,7 +6,7 @@
  * - Manages versioning
  * - Manages archive
  * - Manages soft-delete
- * @package iafbm
+ * @package iafbm-library
  */
 abstract class iaModelMysql extends xModelMysql {
 
@@ -28,6 +28,20 @@ abstract class iaModelMysql extends xModelMysql {
      * @var bool
      */
     var $archivable = false;
+
+    /**
+     * Model description for web-service resources documentation.
+     * The description first letter should be lower-case.
+     * @var string
+     */
+    var $description = 'description unavailable';
+
+    /**
+     * Fields labels descriptions for web-service documentation.
+     * The labels first letter should be lower-case.
+     * @var array
+     */
+    var $labels = array();
 
     /**
      * Specifies the foreign models to include in archive and versioning-relations.
@@ -56,12 +70,11 @@ abstract class iaModelMysql extends xModelMysql {
     var $archive_foreign_models = array();
 
     /**
-     * TODO:
-     * Enhanced invalids method:
-     * if xmethod=='post', first load the existing record,
-     * then apply modification ($this->params),
-     * then validate
-     * => this will enable the web service calls that contain only the field-to-be-changed as parameters
+     * @todo Enhanced invalids method:
+     *       if xmethod=='post', first load the existing record,
+     *       then apply modification ($this->params),
+     *       then validate
+     *       => this will enable the web service calls that contain only the field-to-be-changed as parameters
      */
     function invalids($fields = array()) {
         return parent::invalids($fields);
@@ -132,12 +145,23 @@ abstract class iaModelMysql extends xModelMysql {
         return parent::count();
     }
 
+    /**
+     * Returns a versioned record.
+     */
     protected function get_version($rownum=null) {
+        if ($this->params['xquery']) throw new xException(
+            'Cannot mix xversion and xquery parameters', 400
+        );
+        // Useful params to keep as variables
         $primary = $this->primary();
         $version = @$this->params['xversion'];
         // Manages params for correct versions increments application
         $params_pristine = $this->params;
         unset($this->params['actif']); // Also retrive 'deleted' rows
+        // FIXME: Using filters on fields (eg. name LIKE 'Boris%')
+        //        may return wrong results; eg. if name has changed across versions.
+        //        The Solution is to filter fields programmatically after version
+        //        modifications application.
         $results = parent::get();
         // Checks if version exists
         // NOTE: Custom SQL query to bypass iaJournalingModel::check_allowed()
@@ -147,9 +171,9 @@ abstract class iaModelMysql extends xModelMysql {
         $version_count = mysql_num_rows(
             xModel::q("SELECT * FROM versions WHERE id = '{$version}';")
         );
-        if (!$version_count) {
-            throw new xException("Version {$version} does not exist", 404);
-        }
+        if (!$version_count) throw new xException(
+            "Version {$version} does not exist", 404
+        );
         // Creates versionned results
         foreach ($results as $position => &$result) {
             $record_id = @$result[$primary];
@@ -316,6 +340,9 @@ abstract class iaModelMysql extends xModelMysql {
         //
         return (bool)$r;
     }
+    /**
+     * Soft-deletes a record by setting its 'actif' field to 0.
+     */
     function _delete_soft() {
         // Sets record as deleted (actif=0)
         $this->params['actif'] = '0';
@@ -399,6 +426,11 @@ abstract class iaModelMysql extends xModelMysql {
         return $version_result;
     }
 
+    /**
+     * Returns related a list of related models names.
+     * @param array Inital relations (for recursivity).
+     * @return array List of related models names.
+     */
     protected function version_get_relations($relations=array()) {
         // Parses all models in and keeps the ones with a
         // $archive_foreign_models that relates to this one
@@ -421,6 +453,12 @@ abstract class iaModelMysql extends xModelMysql {
         }
         return $relations;
     }
+    /**
+     * Determines which records are impacted by the modification of a specific record,
+     * and returns a list of models/ids.
+     * This is useful for versioning.
+     * @return array List of models/ids of impacted records.
+     */
     protected function version_get_impacted_records() {
         $id = @$this->params[$this->primary()];
         if (!$id) throw new xException("Missing id parameter");
@@ -499,6 +537,11 @@ abstract class iaModelMysql extends xModelMysql {
         // Returns data structure
         return $data;
     }
+    /**
+     * Stores a list of impacted records into the database.
+     * This is useful for versioning.
+     * @return array Transaction summary.
+     */
     protected function version_store_relations($version_id=null) {
         $t = new xTransaction();
         $t->start();

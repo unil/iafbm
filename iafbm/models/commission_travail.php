@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionTravailModel extends iaModelMysql {
 
     var $table = 'commissions_travails';
@@ -9,9 +13,11 @@ class CommissionTravailModel extends iaModelMysql {
         'actif' => 'actif',
         'commission_id' => 'commission_id',
         'termine' => 'termine',
+        'aucun_candidat' => 'aucun_candidat',
         'primo_loco' => 'loco_primo',
         'secondo_loco' => 'loco_secondo',
         'tertio_loco' => 'loco_tertio',
+        'delai_envoi_rapport' => 'delai_envoi_rapport',
         'commentaire' => 'commentaire'
     );
 
@@ -19,5 +25,18 @@ class CommissionTravailModel extends iaModelMysql {
 
     var $validation = array(
         'commission_id' => 'mandatory'
+    );
+
+    // Self-documentation
+    var $description = 'phase de travail des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'commission_id' => 'identifiant de la commission',
+        'termine' => 'phase terminée',
+        'primo_loco' => 'identifiant du candidat primo loco',
+        'secondo_loco' => 'identifiant du candidat secundo loco',
+        'tertio_loco' => 'identifiant du candidat tertio loco',
+        'commentaire' => 'commentaire'
     );
 }

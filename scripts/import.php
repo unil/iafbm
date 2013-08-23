@@ -2,6 +2,9 @@
 setlocale(LC_ALL, 'fr_CH');
 require_once(dirname(__file__).'/Script.php');
 
+/**
+ * @package scripts
+ */
 class iafbmImportScript extends iafbmScript {
 
 	private $import_path = "../import/csv";

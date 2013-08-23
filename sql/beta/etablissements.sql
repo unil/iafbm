@@ -1,2 +1,0 @@
-INSERT INTO etablissements VALUES(1062, 'Université de Lausanne', 'UNIL', 1, '2010-07-23', '2010-07-23', 'smeier6', 'smeier6');
-INSERT INTO etablissements VALUES(1041, 'Centre Hospitalier Universitaire Vaudois', 'CHUV', 1, '2010-07-23', '2010-07-23', 'smeier6', 'smeier6');

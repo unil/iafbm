@@ -1,9 +1,16 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class RattachementsController extends iaExtRestController {
 
     var $model = 'rattachement';
 
+    /**
+     * Displays a grid of rattachements.
+     */
     function indexAction() {
         $data = array(
             'title' => 'Rattachements',

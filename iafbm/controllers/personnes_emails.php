@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class PersonnesEmailsController extends iaExtRestController {
 
     var $model = 'personne_email';
@@ -13,6 +17,9 @@ class PersonnesEmailsController extends iaExtRestController {
         )
     );
 
+    /**
+     * Ensures there is only one default email.
+     */
     function post() {
         $params = $this->params['items'];
         $t = new xTransaction();
@@ -30,6 +37,9 @@ class PersonnesEmailsController extends iaExtRestController {
         return $r;
     }
 
+    /**
+     * Ensures there is only one default email.
+     */
     function put() {
         $params = $this->params['items'];
         $t = new xTransaction();

@@ -1,3 +1,4 @@
+<h1>Détail personne</h1>
 <div id="target"></div>
 
 

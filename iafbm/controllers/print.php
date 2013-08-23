@@ -1,6 +1,10 @@
 <?php
 
-class PrintController extends iaExtRestController {
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
+class printController extends iaExtRestController {
 
     /**
      * Calls the print_{controller} method if it exists, throws an exception otherwise.
@@ -27,6 +31,9 @@ class PrintController extends iaExtRestController {
         return $commission;
     }
 
+    /**
+     * Outputs a binary PDF stream of the commission.
+     */
     protected function print_commissions() {
         $commissions = xController::load('commissions', array(
             'xjoin' => 'commission_type,commission_etat,section'
@@ -36,6 +43,9 @@ class PrintController extends iaExtRestController {
         return $this->_print($html);
     }
 
+    /**
+     * Outputs a binary PDF stream of the commission membres.
+     */
     protected function print_commissions_membres() {
         $this->params['xorientation'] = 'landscape';
         // Fetches related records
@@ -62,6 +72,9 @@ class PrintController extends iaExtRestController {
         return $this->_print($html);
     }
 
+    /**
+     * Outputs a binary PDF stream of the commission candidats.
+     */
     protected function print_candidats() {
         $id = @$this->params['id'];
         if (!$id) throw new xException("Commission 'id' parameter missing");
@@ -77,6 +90,9 @@ class PrintController extends iaExtRestController {
         return $this->_print($html);
     }
 
+    /**
+     * Outputs a binary PDF stream of the proposition de nomination.
+     */
     protected function print_proposition_nomination() {
         // Manages params
         $id = @$this->params['id'];
@@ -142,6 +158,9 @@ class PrintController extends iaExtRestController {
         return $this->_print($html);
     }
 
+    /**
+     * Binary PDF output logic.
+     */
     function _print($html) {
         // PDF formatting parameters
         $orientation = @$this->params['xorientation'];

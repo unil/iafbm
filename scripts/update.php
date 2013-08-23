@@ -2,6 +2,11 @@
 
 require_once(dirname(__file__).'/Script.php');
 
+/**
+ * iafbm update script.
+ * Updates code and/or database.
+ * @package scripts
+ */
 class iafbmUpdateScript extends iafbmScript {
 
     function run() {
@@ -43,7 +48,7 @@ class iafbmUpdateScript extends iafbmScript {
     protected function update_project() {
         $this->log('Updating project...');
         // Updates git project
-        exec('git pull git@github.com:unil/iafbm.git > /dev/null 2>&1', $output, $status);
+        exec('git pull', $output, $status);
         if ($status) throw new xException('Error updating project', $output);
         $this->log('OK', 1);
     }

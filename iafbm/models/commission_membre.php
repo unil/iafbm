@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionMembreModel extends iaModelMysql {
 
     var $table = 'commissions_membres';
@@ -47,6 +51,21 @@ class CommissionMembreModel extends iaModelMysql {
         'commission_fonction' => array('commission_fonction_id' => 'id'),
         'activite' => array('activite_id' => 'id'),
         'rattachement' => array('rattachement_id' => 'id')
+    );
+
+    // Self-documentation
+    var $description = 'membres des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'personne_id' => 'identifiant de la personne',
+        'commission_id' => 'identifiant de la commission',
+        'commission_fonction_id' => 'identifiant de la fonction au sein de la commission',
+        'fonction_complement' => 'complément de fonction',
+        'personne_denomination_id' => 'identifiant de la dénomination du membre',
+        'activite_id' => 'identifiant de l\'activité du membre',
+        'rattachement_id' => 'identifiant du rattachement organisationel',
+        'version_id' => 'version de la personne'
     );
 
     function put() {

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage model
+ */
 class CommissionFinalisationModel extends iaModelMysql {
 
     var $table = 'commissions_finalisations';
@@ -25,5 +29,20 @@ class CommissionFinalisationModel extends iaModelMysql {
 
     var $archive_foreign_models = array(
         'candidat' => array('candidat_id' => 'id')
+    );
+
+    // Self-documentation
+    var $description = 'phase de finalisations des commissions';
+    var $labels = array(
+        'id' => 'identifiant interne',
+        'actif' => 'enregistrement actif',
+        'commission_id' => 'identifiant de la commission',
+        'candidat_id' => 'identifiant du candidat retenu',
+        'termine' => 'phase terminée',
+        'reception_contrat_date' => 'date de réception du contrat',
+        'reception_contrat_etat' => 'etat de réception du contrat (obsolète)',
+        'reception_contrat_commentaire' => 'reception_contrat_commentaire',
+        'debut_activite' => 'date de début d\'activité',
+        'commentaire' => 'commentaire'
     );
 }

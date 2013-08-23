@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package iafbm
+ * @subpackage sandbox
+ */
 class SandboxController extends xWebController {
 
     function defaultAction() {

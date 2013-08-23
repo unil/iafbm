@@ -2,6 +2,10 @@
 
 require_once('commissions.php');
 
+/**
+ * @package iafbm
+ * @subpackage controller
+ */
 class CommissionsMembresController extends AbstractCommissionController {
 
     var $model = 'commission_membre';
@@ -21,6 +25,9 @@ class CommissionsMembresController extends AbstractCommissionController {
         'commission_etat_nom' => 'commission_etat_id'
     );
 
+    /**
+     * Enables the user to download an export.
+     */
     function exportAction() {
         // TODO: Create a common (and factorized) export controller (as for print)
         //       The export controller MUST factorize export "modes"
@@ -134,6 +141,10 @@ class CommissionsMembresController extends AbstractCommissionController {
         return $this->getAll();
     }
 
+    /**
+     * Returns a flat array of commissions membres.
+     * @return array
+     */
     function export() {
         // Export config: order and columns names
         $export_fields = array(

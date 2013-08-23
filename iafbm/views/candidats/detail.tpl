@@ -1,3 +1,4 @@
+<h1>Détail candidat</h1>
 <div id="target"></div>
 
 
