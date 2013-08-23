@@ -516,9 +516,10 @@ Ext.onReady(function() {
             }
         }
     });
-
+    
     var panel = Ext.createWidget('panel', {
         renderTo: 'target',
+        id: 'grid',
         border: false,
         bodyStyle: 'background-color: transparent',
         items: [{
