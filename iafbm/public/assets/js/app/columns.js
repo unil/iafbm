@@ -542,210 +542,113 @@ iafbm.columns.Evaluateur = [{
     }
 }];
 
-/*iafbm.columns.Evaluation = [{
-    xtype: 'ia-actioncolumn-redirect',
-    width: 25,
-    text: 'Détails évaluation',
-    tooltip: 'Détails évaluation',
-    getLocation: function(grid, record, id) {
-        return [
-            x.context.baseuri,
-            'evaluations',
-            record.get('id')
-        ].join('/');
-    }
-},{
-    header: "Nom",
-    dataIndex: 'personne_id',
-    width: 170,
-    xtype: 'ia-combocolumn',
-    editor: {
-        xtype: 'ia-combo',
-        store: new iafbm.store.PersonneActivite({
-            params: {
-                //to avoid having multiples same personnes
-                //xgroup_by: 'personne_id'
-            }
-        }),
-        valueField: 'personne_id',
-        displayField: '_nomPrenom',
-        allowBlank: false,
-        listConfig: {
-            loadingText: 'Recherche...',
-            emptyText: 'Aucun résultat.',
-            // Custom rendering template for each item
-            getInnerTpl: function() {
-                var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
-                return [
-                    '<div>',
-                    '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
-                    '  <h3>{personne_prenom} {personne_nom}</h3>',
-                    '  <div>{activite_nom_abreviation} {section_code}</div>',
-                    '  <div>{[values.personne_date_naissance ? Ext.Date.format(values.personne_date_naissance, "j M Y") : "&nbsp;"]}</div>',
-                    '</div>'
-                ].join('');
-            }
-        },
-        listeners: {
-            select: function(combo, records, eOpts) {
-                record = combo.up().getRecord();
-                personne = records[0].data;
-                field = combo.up().items;
-                mandat_timelapse = Ext.Date.format(personne.debut, 'd.m.Y') + ' - ' + Ext.Date.format(personne.fin, 'd.m.Y');
-                
-                record.set('activite_nom_abreviation', personne.activite_nom_abreviation);
-                record.set('activite_id', personne.activite_id);
-                record.set('section_code', personne.section_code);
-                record.set('section_id', personne.section_id);
-                record.set('_mandat', mandat_timelapse);
-                
-                field.get(3).setValue(personne.activite_nom_abreviation);
-                field.get(4).setValue(mandat_timelapse);
-                field.get(7).setValue(personne.section_code);
-            }
-        }
-    }
-},{
-    header: "Type",
-    dataIndex: 'evaluation_type_id',
-    width: 70,
-    xtype: 'ia-combocolumn',
-    field: {
-        xtype: 'ia-combo',
-        displayField: 'type',
-        valueField: 'id',
-        allowBlank: false,
-        store: new iafbm.store.EvaluationType()
-    }
-},{
-    header: "Mandat",
-    dataIndex: '_mandat',
-    width: 130,
-},{
-    header: "Période début",
-    dataIndex: 'date_periode_debut',
-    width: 70,
-    xtype: 'ia-datecolumn',
-    field: {
-        xtype: 'ia-datefield'
-    }
-},{
-    header: "Période fin",
-    dataIndex: 'date_periode_fin',
-    width: 70,
-    xtype: 'ia-datecolumn',
-    field: {
-        xtype: 'ia-datefield'
-    }
-},{
-    header: "Section",
-    dataIndex: 'section_code',
-    width: 45
-},{
-    header: "Evaluateur(s)",
-    dataIndex: '_evaluateurs',
-    flex: true,
-}];*/
-
 iafbm.columns.Evaluation = [{
-    header: "Informations personnelles",
-    flex: 1,
+    text: 'Informations personnelles',
     columns: [{
-            xtype: 'ia-actioncolumn-redirect',
-            width: 25,
-            text: 'Détails évaluation',
-            tooltip: 'Détails évaluation',
-            getLocation: function(grid, record, id) {
-                return [
-                    x.context.baseuri,
-                    'evaluations',
-                    record.get('id')
-                ].join('/');
-            }
-        },{
-            header: "Nom",
-            dataIndex: 'personne_id',
-            width: 170,
-            //xtype: 'ia-combocolumn',
-            editor: {
-                xtype: 'ia-combo',
-                store: new iafbm.store.PersonneActivite({
-                    params: {
-                        //to avoid having multiples same personnes
-                        //xgroup_by: 'personne_id'
-                    }
-                }),
-                valueField: 'personne_id',
-                displayField: '_nomPrenom',
-                allowBlank: false,
-                listConfig: {
-                    loadingText: 'Recherche...',
-                    emptyText: 'Aucun résultat.',
-                    // Custom rendering template for each item
-                    getInnerTpl: function() {
-                        var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
-                        return [
-                            '<div>',
-                            '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
-                            '  <h3>{personne_prenom} {personne_nom}</h3>',
-                            '  <div>{activite_nom_abreviation} {section_code}</div>',
-                            '  <div>{[values.personne_date_naissance ? Ext.Date.format(values.personne_date_naissance, "j M Y") : "&nbsp;"]}</div>',
-                            '</div>'
-                        ].join('');
-                    }
-                },
-                listeners: {
-                    select: function(combo, records, eOpts) {
-                        record = combo.up().getRecord();
-                        personne = records[0].data;
-                        field = combo.up().items;
-                        mandat_timelapse = Ext.Date.format(personne.debut, 'd.m.Y') + ' - ' + Ext.Date.format(personne.fin, 'd.m.Y');
-                        
-                        record.set('activite_nom_abreviation', personne.activite_nom_abreviation);
-                        record.set('activite_id', personne.activite_id);
-                        record.set('section_code', personne.section_code);
-                        record.set('section_id', personne.section_id);
-                        record.set('_mandat', mandat_timelapse);
-                        
-                        field.get(3).setValue(personne.activite_nom_abreviation);
-                        field.get(4).setValue(mandat_timelapse);
-                        field.get(7).setValue(personne.section_code);
-                    }
+        text: '',
+        xtype: 'ia-actioncolumn-redirect',
+        width: 25,
+        tooltip: 'Détails évaluation',
+        getLocation: function(grid, record, id) {
+            return [
+                x.context.baseuri,
+                'evaluations',
+                record.get('id')
+            ].join('/');
+        } 
+    },{
+        text: "Nom",
+        sortable : true,
+        dataIndex: 'personne_id',
+        width: 170,
+        xtype: 'ia-combocolumn',
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            return record.data._prenom_nom;
+        },
+        editor: {
+            xtype: 'ia-combo',
+            store: new iafbm.store.PersonneActivite({
+                params: {
+                    //to avoid having multiples same personnes
+                    //xgroup_by: 'personne_id'
+                }
+            }),
+            valueField: 'personne_id',
+            displayField: '_nomPrenom',
+            allowBlank: false,
+            listConfig: {
+                loadingText: 'Recherche...',
+                emptyText: 'Aucun résultat.',
+                // Custom rendering template for each item
+                getInnerTpl: function() {
+                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                    return [
+                        '<div>',
+                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                        '  <h3>{personne_prenom} {personne_nom}</h3>',
+                        '  <div>{activite_nom_abreviation} {section_code}</div>',
+                        '  <div>{[values.personne_date_naissance ? Ext.Date.format(values.personne_date_naissance, "j M Y") : "&nbsp;"]}</div>',
+                        '</div>'
+                    ].join('');
+                }
+            },
+            listeners: {
+                select: function(combo, records, eOpts) {
+                    record = combo.up().getRecord();
+                    personne = records[0].data;
+                    field = combo.up().items;
+                    mandat_timelapse = Ext.Date.format(personne.debut, 'd.m.Y') + ' - ' + Ext.Date.format(personne.fin, 'd.m.Y');
+                    
+                    record.set('activite_nom_abreviation', personne.activite_nom_abreviation);
+                    record.set('activite_id', personne.activite_id);
+                    record.set('section_code', personne.section_code);
+                    record.set('section_id', personne.section_id);
+                    record.set('_mandat', mandat_timelapse);
+                    
+                    field.get(3).setValue(personne.activite_nom_abreviation);
+                    field.get(4).setValue(mandat_timelapse);
+                    field.get(7).setValue(personne.section_code);
                 }
             }
-        },{
-            header: "Section",
-            dataIndex: 'section_code',
-            width: 45
-        }]
-},{
-    header: "Mandat",
-    flex: 1,
-    columns: [{
-        header: "Titre académique",
-        dataIndex: 'activite_nom_abreviation',
+        }
     },{
-        header: "Durée",
+        text: 'Section',
+        sortable : true,
+        dataIndex: 'section_code',
+        width: 45
+    }]
+},{
+    text: 'Mandat',
+    sortable : true,
+    columns: [{
+        text     : 'Titre académique',
+        dataIndex: 'activite_nom_abreviation',
+    }, {
+        text     : 'Durée',
         dataIndex: '_mandat',
         width: 130,
     }]
 },{
-    header: "Évaluation",
-    flex: 1,
+    text: 'Évaluation',
     columns: [{
-        header: "Type",
+        text     : 'Type',
+        sortable : true,
         dataIndex: 'evaluation_type_id',
         width: 70,
-        //xtype: 'ia-combocolumn',
+        xtype: 'ia-combocolumn',
         field: {
             xtype: 'ia-combo',
             displayField: 'type',
             valueField: 'id',
             allowBlank: false,
             store: new iafbm.store.EvaluationType()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            return record.data.evaluation_type_type;
         }
     },{
-        header: "Début",
+        text     : 'Début',
+        sortable : true,
         dataIndex: 'date_periode_debut',
         width: 70,
         xtype: 'ia-datecolumn',
@@ -753,7 +656,8 @@ iafbm.columns.Evaluation = [{
             xtype: 'ia-datefield'
         }
     },{
-        header: "Fin",
+        text     : 'Fin',
+        sortable : true,
         dataIndex: 'date_periode_fin',
         width: 70,
         xtype: 'ia-datecolumn',
@@ -761,11 +665,12 @@ iafbm.columns.Evaluation = [{
             xtype: 'ia-datefield'
         }
     },{
-        header: "Evaluateur(s)",
+        text     : 'Évaluateurs',
+        sortable : false,
         dataIndex: '_evaluateurs',
         width: 150
     },{
-        header: "État",
-        
+        text     : 'État',
+        sortable : true,
     }]
 }];

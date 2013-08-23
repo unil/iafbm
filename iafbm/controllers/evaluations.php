@@ -44,6 +44,8 @@ class EvaluationsController extends AbstractEvaluationController {
     
     public $model = 'evaluation';
     
+    var $query_fields = array('personne_nom', 'personne_prenom', 'section_code', 'evaluation_type_type', 'activite_nom_abreviation', 'date_periode_debut', 'date_periode_fin');
+    
     function indexAction() {
         $data = array(
             'title' => 'Gestion des évaluations',

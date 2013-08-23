@@ -36,7 +36,12 @@ class EvaluationModel extends iaModelMysql {
     );
 
     var $join = array('activite', 'activite_nom', 'evaluation_type', 'personne', 'section');
-
+    
+    
+    var $wheres = array(
+        'query' => 'common/model/query',
+    );
+    
     var $validation = array(
         'evaluation_type_id' => array('mandatory'),
         'personne_id' => array('mandatory'),
