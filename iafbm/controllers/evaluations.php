@@ -93,7 +93,6 @@ class EvaluationsController extends AbstractEvaluationController {
         //Ajout de la fonctionnalité des filtres.
         $this->meta['js'] = xUtil::array_merge($this->meta, array(
             xUtil::url('a/js/app/combofilter.js'),
-            xUtil::url('a/js/app/plugins/filters.js'),
         ));
         
         return xView::load('common/extjs/grid', $data, $this->meta)->render();

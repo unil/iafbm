@@ -619,14 +619,15 @@ iafbm.columns.Evaluation = [{
     }]
 },{
     text: 'Mandat',
-    sortable : true,
     columns: [{
         text     : 'Titre académique',
         dataIndex: 'activite_nom_abreviation',
+        sortable : true,
     }, {
         text     : 'Durée',
         dataIndex: '_mandat',
         width: 130,
+        sortable : false,
     }]
 },{
     text: 'Évaluation',

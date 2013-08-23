@@ -25,6 +25,9 @@ Ext.define('Ext.ia.Combofilter', {
         ret = new Array();
         
         Ext.Array.each(this.filters.items, function(item) {
+            /*
+             * Default comboBox
+             */
             ret.push( 
                 {
                     xtype: 'combo',
@@ -81,14 +84,12 @@ Ext.define('Ext.ia.Combofilter', {
             var itemValue = Ext.getCmp(item.itemId).getValue();
             if(itemValue !== null) result[item.filterColumn] = itemValue;
         });
-        console.log(result);
         return result;
         
     },
     applyFilterData: function(filterData, store) {
         Ext.Array.each(this.filters.items, function(item) {
             delete store.params[item.filterColumn];
-            console.log('delete store.params['+item.filterColumn+'];');
         });
         Ext.apply(store.params, filterData);
         store.load();
