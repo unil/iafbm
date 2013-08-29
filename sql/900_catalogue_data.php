@@ -650,4 +650,26 @@ $catalogue_data = array(
                         'nom' => 'En suspens'
                 ),
         ),
+        'evaluation_etat' => array(
+                array(
+                        'id' => '1',
+                        'actif' => '1',
+                        'etat' => 'En cours',
+                ),
+                array(
+                        'id' => '2',
+                        'actif' => '1',
+                        'nom' => 'Suspendue',
+                ),
+                array(
+                        'id' => '3',
+                        'actif' => '1',
+                        'nom' => 'Arrêtée',
+                ),
+                array(
+                        'id' => '4',
+                        'actif' => '1',
+                        'nom' => 'Clôturée',
+                )
+        ),
 );

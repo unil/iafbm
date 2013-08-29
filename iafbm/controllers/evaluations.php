@@ -143,7 +143,7 @@ class EvaluationsController extends AbstractEvaluationController {
         $t->start();
         $result = parent::post();
         // Archives evaluation if state becomes 'closed'
-        if (@$this->params['items']['evaluation_etat_id'] == 3) {
+        if (@$this->params['items']['evaluation_etat_id'] == 4) {
             xModel::load('evaluation', array(
                 'id' => $this->params['id']
             ))->archive();
@@ -159,10 +159,13 @@ class EvaluationsController extends AbstractEvaluationController {
         $t = new xTransaction();
         $t->start();
         // Inserts the evaluation model
+        $params['evaluation_etat_id'] = 1;
         $t->execute(xModel::load('evaluation', $params), 'put');
         $insertid = $t->insertid();
         // Inserts related items
         $items = array(
+            xModel::load('evaluation_apercu', array('evaluation_id'=>$insertid)),
+            xModel::load('evaluation_rapport', array('evaluation_id'=>$insertid)),
             xModel::load('evaluation_cdir', array('evaluation_id'=>$insertid)),
             xModel::load('evaluation_evaluation', array('evaluation_id'=>$insertid)),
             xModel::load('evaluation_contrat', array('evaluation_id'=>$insertid)),

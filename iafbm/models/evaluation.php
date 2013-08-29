@@ -14,15 +14,6 @@ class EvaluationModel extends iaModelMysql {
         'personne_id' => 'personne_id',
         'activite_id' => 'activite_id',
         'evaluation_etat_id' => 'evaluation_etat_id',
-        'date_biblio_demandee' => 'date_biblio_demandee',
-        'date_biblio_recue' => 'date_biblio_recue',
-        'date_relance' => 'date_relance',
-        'date_rapport_recu' => 'date_rapport_recu',
-        'date_transmis_evaluateur' => 'date_transmis_evaluateur',
-        'date_entretien' => 'date_entretien',
-        'date_accuse_lettre' => 'date_accuse_lettre',
-        'date_accuse_email' => 'date_accuse_email',
-        'commentaire' => 'commentaire'
     );
 
     var $primary = array('id');
@@ -51,6 +42,8 @@ class EvaluationModel extends iaModelMysql {
     var $archivable = true;
     
     var $archive_foreign_models = array(
+        'evaluation_apercu' => 'evaluation_id',
+        'evaluation_rapport' => 'evaluation_id',
         'evaluation_evaluation' => 'evaluation_id',
         'evaluation_cdir' => 'evaluation_id',
         'evaluation_contrat' => 'evaluation_id',

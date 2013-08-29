@@ -69,7 +69,7 @@ Ext.onReady(function() {
                         // TODO: Effectué plusieurs fois, certains à double, tester avec des console.log(form)
                         form.on('load', function() {
                             fields = form.getValues();
-                            if (fields[fieldModelName] == 3){// 3 means clôturé
+                            if (fields[fieldModelName] == 4){// 4 means clôturé
                                 Ext.each(formFields, function(c){
                                     c.setReadOnly(true);
                                 });
@@ -82,10 +82,95 @@ Ext.onReady(function() {
         }]
     });
     
-    var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
-        store: Ext.create('iafbm.store.Evaluation'),
+    var form_apercuGeneral = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+        store: Ext.create('iafbm.store.EvaluationApercu'),
         fetch: {
-            model: iafbm.model.Evaluation,
+            model: iafbm.model.EvaluationApercu,
+            params: { id:<?php echo $d['id'] ?> }
+        },
+        id: "apercuGeneral",
+        layout: 'column',
+        items: [{
+            xtype: 'container',
+            defaults: {
+                labelStyle: 'font-weight:bold',
+                labelWidth: '190',
+                labelAlign: 'left',
+            },
+            items: [{
+                baseCls: 'title',
+                html: 'Aperçu Général',
+                labelWidth: '250'
+            },{
+                xtype: 'ia-combo',
+                store: new iafbm.store.EvaluationEtat(),
+                valueField: 'id',
+                displayField: 'etat',
+                fieldLabel: 'État',
+                name: 'evaluation_evaluation_etat_id',
+            },{
+                xtype: 'ia-textarea',
+                fieldLabel: 'Remarques diveres',
+                emptyText: 'Remarques diverses',
+                name: 'commentaire',
+                grow: true,
+            }]
+        },{
+            xtype: 'container',
+            margin: '0 0 0 20',
+            items: [{
+                    baseCls: 'title',
+                    html: 'Evaluateurs'
+                },new Ext.ia.selectiongrid.Panel({
+                    width: 480,
+                    height: 250,
+                    id: 'evaluateur-gridpanel',
+                    //editable: false,
+                    combo: {
+                        store: new iafbm.store.Personne({
+                            params: {
+                                xjoin: 'pays',
+                                xreturn: 'id,nom,prenom,date_naissance,pays.nom AS pays_nom,pays.code AS pays_code',
+                                xwhere: 'onlyUnchoosedPerson'
+                            },
+                            listeners: {
+                                beforeload: function(s, operation, eOpts) {
+                                    var grid = Ext.getCmp('evaluateur-gridpanel'),
+                                        idsToAvoid = Array();
+                                    Ext.each(grid.store.data.items,function(name){
+                                        idsToAvoid.push(name.data.personne_id);
+                                    });
+                                    s.params.idsToAvoid = idsToAvoid.join();
+                                }
+                            }
+                        })
+                    },
+                    grid: {
+                        store: new iafbm.store.EvaluationEvaluateur({
+                            params: { evaluation_id: <?php echo $d['id'] ?> }
+                        }),
+                        columns: iafbm.columns.Evaluateur
+                    },
+                    makeData: function(record) {
+                        console.log(record);
+                        return {
+                            personne_id: record.get('id'),
+                            evaluation_id: <?php echo $d['id']; ?>,
+                            personne_nom: record.get('nom'),
+                            personne_prenom: record.get('prenom'),
+                            personne_date_naissance: record.get('date_naissance')
+                        }
+                    }
+                }) 
+            ]
+        }]
+    });
+    
+    
+    var form_rapportActivite = Ext.create('Ext.ia.form.CommissionPhasePanel', {
+        store: Ext.create('iafbm.store.EvaluationRapport'),
+        fetch: {
+            model: iafbm.model.EvaluationRapport,
             params: { id:<?php echo $d['id'] ?> }
         },
         id: "rapportActivite",
@@ -156,7 +241,7 @@ Ext.onReady(function() {
                 name: 'evaluation_etat_id',
                 hidden: true
             }]
-        },{
+        }/*,{
             xtype: 'container',
             margin: '0 0 0 20',
             items: [{
@@ -204,7 +289,7 @@ Ext.onReady(function() {
                     }
                 }) 
             ]
-        }]
+        }*/]
     });
     
     var form_evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -483,6 +568,11 @@ Ext.onReady(function() {
             autoScroll: true,
         },
         items: [{
+                id: 'apercu_general',
+                title: 'Aperçu Général',
+                items: form_apercuGeneral,
+                iconCls: 'tab-icon-unknown'
+            },{
                 id: 'rapport_activite',
                 title: 'Rapport d\'activité',
                 items: form_rapportActivite,

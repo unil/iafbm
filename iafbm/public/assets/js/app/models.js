@@ -858,7 +858,6 @@ Ext.define('iafbm.model.EvaluationType', {
     }
 });
 
-//Normally unuseful if EvaluationMembre works. Delete the model and controller too
 Ext.define('iafbm.model.Evaluation', {
     extend: 'Ext.data.Model',
     fields: [
@@ -871,14 +870,6 @@ Ext.define('iafbm.model.Evaluation', {
         {name: 'personne_id', type: 'int'},
         {name: 'activite_id', type: 'int'},
         {name: 'evaluation_etat_id', type: 'int'},
-        {name: 'date_biblio_demandee', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_biblio_recue', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_relance', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_rapport_recu', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_transmis_evaluateur', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_entretien', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_accuse_lettre', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'date_accuse_email', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'activite_nom_abreviation', type: 'string'},
         {name: 'evaluation_type_type', type: 'string'},
         {name: 'section_id', type: 'int'},
@@ -893,6 +884,61 @@ Ext.define('iafbm.model.Evaluation', {
     proxy:{
         type: 'ia-rest',
         url: x.context.baseuri+'/api/evaluations',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationEtat', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'etat', type: 'string'}
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_etats',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationApercu', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'termine', type: 'boolean', defaultValue: true},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'commentaire', type: 'string'},
+        {name: 'evaluation_evaluation_etat_id', type: 'int', defaultValue: 1},
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_apercus',
+    }
+});
+
+Ext.define('iafbm.model.EvaluationRapport', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'termine', type: 'boolean', defaultValue: true},
+        {name: 'evaluation_id', type: 'int'},
+        {name: 'date_biblio_demandee', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_biblio_recue', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_relance', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_rapport_recu', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_transmis_evaluateur', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_entretien', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_accuse_lettre', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'date_accuse_email', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'commentaire', type: 'string'},
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_rapports',
     }
 });
 
