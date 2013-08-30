@@ -910,6 +910,7 @@ Ext.define('iafbm.model.EvaluationApercu', {
         {name: 'evaluation_id', type: 'int'},
         {name: 'commentaire', type: 'string'},
         {name: 'evaluation_evaluation_etat_id', type: 'int', defaultValue: 1},
+        {name: 'evaluation_activite_id', type: 'int'},
     ],
     validations: [],
     proxy:{

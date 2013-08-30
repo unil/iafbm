@@ -1874,7 +1874,7 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                 var me = this,
                     form_apercu = this.up('tabpanel').items.getAt(0).down('form');
                 form_apercu.on('load', function() {
-                    if (this.getRecord().get('commission_etat_id') == 3) {
+                    if (this.getRecord().get('commission_etat_id') == 4) {
                         me.show();
                     }
                 });
@@ -1927,17 +1927,18 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
             }
         });
         // Updates fields disablement
-        // Waits for Commission records to load (for it contains type information)
+        // Waits for records to load (for it contains type information)
         // and runs disableFields() on each tab form
         me.items.get(0).down('form').on({load: function() {
             // Fetches commission type id
-            var type = this.record.get(this.up().up().getTypeId());
+            var type = this.getRecord().data[me.getTypeFieldName()];
             this.up('tabpanel').items.each(function(tab) {
                 tab.down('form').disableFields(type);
             })
         }});
     },
-    getTypeId: function(){
+    // return the name of the field
+    getTypeFieldName: function(){
         return this.type_id;
     }
 });

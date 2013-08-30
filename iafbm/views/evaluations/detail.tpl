@@ -152,7 +152,6 @@ Ext.onReady(function() {
                         columns: iafbm.columns.Evaluateur
                     },
                     makeData: function(record) {
-                        console.log(record);
                         return {
                             personne_id: record.get('id'),
                             evaluation_id: <?php echo $d['id']; ?>,
@@ -563,7 +562,7 @@ Ext.onReady(function() {
         modelName: 'evaluation',
         activeTab: 0,
         plain: true,
-        type_id: 'activite_id',
+        type_id: 'evaluation_activite_id', // Name of field containing the activite_id @see Ext.ia.tab.CommissionPanel initComponent
         defaults: {
             autoScroll: true,
         },
