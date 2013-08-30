@@ -86,7 +86,7 @@ Ext.onReady(function() {
         store: Ext.create('iafbm.store.EvaluationApercu'),
         fetch: {
             model: iafbm.model.EvaluationApercu,
-            params: { id:<?php echo $d['id'] ?> }
+            params: { evaluation_id:<?php echo $d['id'] ?> }
         },
         id: "apercuGeneral",
         layout: 'column',
@@ -170,7 +170,7 @@ Ext.onReady(function() {
         store: Ext.create('iafbm.store.EvaluationRapport'),
         fetch: {
             model: iafbm.model.EvaluationRapport,
-            params: { id:<?php echo $d['id'] ?> }
+            params: { evaluation_id:<?php echo $d['id'] ?> }
         },
         id: "rapportActivite",
         layout: 'column',
