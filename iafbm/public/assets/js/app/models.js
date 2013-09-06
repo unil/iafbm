@@ -844,6 +844,21 @@ Ext.define('iafbm.model.EvaluationPreavis', {
     }
 });
 
+Ext.define('iafbm.model.EvaluationDecision', {
+    extend: 'Ext.data.Model',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'actif', type: 'boolean', defaultValue: true},
+        {name: 'decision', type: 'string'},
+        {name: 'commentaire', type: 'string'},
+    ],
+    validations: [],
+    proxy:{
+        type: 'ia-rest',
+        url: x.context.baseuri+'/api/evaluations_decisions',
+    }
+});
+
 Ext.define('iafbm.model.EvaluationType', {
     extend: 'Ext.data.Model',
     fields: [
@@ -911,6 +926,7 @@ Ext.define('iafbm.model.EvaluationApercu', {
         {name: 'commentaire', type: 'string'},
         {name: 'evaluation_evaluation_etat_id', type: 'int', defaultValue: 1},
         {name: 'evaluation_activite_id', type: 'int'},
+        {name: 'evaluation_evaluation_type_id', type: 'int'},
     ],
     validations: [],
     proxy:{
@@ -992,7 +1008,8 @@ Ext.define('iafbm.model.EvaluationEvaluation', {
         {name: 'preavis_decanat_id', type: 'int', useNull: true},
         {name: 'date_liste_transmise', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'date_dossier_transmis', type: 'date', dateFormat: 'Y-m-d'},
-        {name: 'commentaire', type: 'string'}
+        {name: 'commentaire', type: 'string'},
+        {name: 'evaluation_evaluation_type_id', type: 'int'},
     ],
     validations: [],
     proxy:{
@@ -1009,13 +1026,9 @@ Ext.define('iafbm.model.EvaluationCdir', {
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
         {name: 'seance_cdir', type: 'date', dateFormat: 'Y-m-d'},
-        // Confirmation and renouvellement fields types are boolean in database
-        // but they are declared as int in Ext Model
-        // in order to allow the value 0. With a boolean field,
-        // is converted to false by Ext and stored as null by Xfm.
-        {name: 'confirmation', type: 'int', useNull: true},
-        {name: 'renouvellement', type: 'int', useNull: true},
-        {name: 'commentaire', type: 'string'}
+        {name: 'commentaire', type: 'string'},
+        {name: 'decision_id', type: 'int'},
+        {name: 'evaluation_evaluation_type_id', type: 'int'},
     ],
     validations: [],
     proxy:{
@@ -1031,7 +1044,7 @@ Ext.define('iafbm.model.EvaluationContrat', {
         {name: 'actif', type: 'boolean', defaultValue: true},
         {name: 'termine', type: 'boolean', defaultValue: false},
         {name: 'evaluation_id', type: 'int'},
-        // Confirmation and renouvellement fields types are boolean in database
+        // copie_nouveau_contrat fields types are boolean in database
         // but they are declared as int in Ext Model
         // in order to allow the value 0. With a boolean field,
         // is converted to false by Ext and stored as null by Xfm.

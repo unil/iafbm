@@ -12,7 +12,8 @@ class EvaluationCdirModel extends iaModelMysql {
         'seance_cdir' => 'seance_cdir',
         'confirmation' => 'confirmation',
         'renouvellement' => 'renouvellement',
-        'commentaire' => 'commentaire'
+        'commentaire' => 'commentaire',
+        'decision_id' => 'decision_id'
     );
 
     var $primary = array('id');

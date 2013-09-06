@@ -1,8 +1,17 @@
-<h1><?php echo "Evaluation - {$d['personne_prenom']} {$d['personne_nom']}"?></h1>
+<h1>
+    <?php
+    printf('Évaluation %s - %s %s',
+        strtolower($d['evaluation_type_type']),
+        $d['personne_prenom'],
+        $d['personne_nom'])
+    ?>
+</h1>
 <div id="target"></div>
 
 <script type="text/javascript">
 Ext.onReady(function() {
+    
+    var decisionStore = null;
     
     var trueFalse = Ext.create('Ext.data.Store', {
         fields: ['value', 'name'],
@@ -240,55 +249,7 @@ Ext.onReady(function() {
                 name: 'evaluation_etat_id',
                 hidden: true
             }]
-        }/*,{
-            xtype: 'container',
-            margin: '0 0 0 20',
-            items: [{
-                    baseCls: 'title',
-                    html: 'Evaluateurs'
-                },new Ext.ia.selectiongrid.Panel({
-                    width: 480,
-                    height: 250,
-                    id: 'evaluateur-gridpanel',
-                    //editable: false,
-                    combo: {
-                        store: new iafbm.store.Personne({
-                            params: {
-                                xjoin: 'pays',
-                                xreturn: 'id,nom,prenom,date_naissance,pays.nom AS pays_nom,pays.code AS pays_code',
-                                xwhere: 'onlyUnchoosedPerson'
-                            },
-                            listeners: {
-                                beforeload: function(s, operation, eOpts) {
-                                    var grid = Ext.getCmp('evaluateur-gridpanel'),
-                                        idsToAvoid = Array();
-                                    Ext.each(grid.store.data.items,function(name){
-                                        idsToAvoid.push(name.data.personne_id);
-                                    });
-                                    s.params.idsToAvoid = idsToAvoid.join();
-                                }
-                            }
-                        })
-                    },
-                    grid: {
-                        store: new iafbm.store.EvaluationEvaluateur({
-                            params: { evaluation_id: <?php echo $d['id'] ?> }
-                        }),
-                        columns: iafbm.columns.Evaluateur
-                    },
-                    makeData: function(record) {
-                        console.log(record);
-                        return {
-                            personne_id: record.get('id'),
-                            evaluation_id: <?php echo $d['id']; ?>,
-                            personne_nom: record.get('nom'),
-                            personne_prenom: record.get('prenom'),
-                            personne_date_naissance: record.get('date_naissance')
-                        }
-                    }
-                }) 
-            ]
-        }*/]
+        }]
     });
     
     var form_evaluation = Ext.create('Ext.ia.form.CommissionPhasePanel', {
@@ -296,7 +257,10 @@ Ext.onReady(function() {
         id: "formEvaluation",
         fetch: {
             model: iafbm.model.EvaluationEvaluation,
-            params: { evaluation_id:<?php echo $d['id'] ?> }
+            params: {
+                evaluation_id:<?php echo $d['id'] ?>,
+                xjoin: 'evaluation'
+            }
         },
         layout: 'column',
         items: [{
@@ -317,18 +281,18 @@ Ext.onReady(function() {
                 iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc, typeId_Pd)
             },{
                 xtype: 'ia-combo',
-                store: new iafbm.store.EvaluationPreavis(),
+                store: makeDecisionStore(),
                 valueField: 'id',
-                displayField: 'preavis',
+                displayField: 'decision',
                 fieldLabel: 'Préavis Evaluateur',
                 name: 'preavis_evaluateur_id',
                 editable: false,
                 iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-combo',
-                store: new iafbm.store.EvaluationPreavis(),
+                store: makeDecisionStore(),
                 valueField: 'id',
-                displayField: 'preavis',
+                displayField: 'decision',
                 fieldLabel: 'Préavis Décanat',
                 name: 'preavis_decanat_id',
                 editable: false
@@ -360,8 +324,65 @@ Ext.onReady(function() {
                 name: 'commentaire',
                 grow: true,
             }]
-        }]
+        }],
     });
+    
+    /*
+     * Kind of Singleton to return the same store.
+     */
+    function makeDecisionStore() {
+        var result = null;
+        
+        if(decisionStore == null){
+            var result = new iafbm.store.EvaluationDecision({
+                listeners: {
+                    /*
+                     * Getting the corrects decisions in function of
+                     * the type of the evaluation. (Régulière)
+                     */
+                    beforeload: function() {
+                        // Getting the loaded store
+                        var s = Ext.getCmp('apercuGeneral').store;
+                        if(!s.loaded){
+                            s.load({
+                                params: {
+                                    evaluation_id:<?php echo $d['id'] ?>
+                                }
+                            });
+                        }
+                        
+                        //load EvaluationDecision store with correct ids
+                        var me = this;
+                        s.on('load', function(record) {
+                            var evaluation_type_id = record.getAt(0).data.evaluation_evaluation_type_id;
+                            switch(evaluation_type_id){
+                                case 2: //Probatoire
+                                    me.params = {
+                                        "id[]": Array(1,4,5,6)
+                                    };
+                                    break;
+                                case 1: //Réguilière
+                                    me.params = {
+                                        "id[]": Array(1,2,3)
+                                    };
+                                    break;
+                            }
+                            if(!me.reloadedOnce || me.reloadedOnce == undefined){
+                                me.load();
+                                me.reloadedOnce = true;
+                            }
+                        });
+                    }
+                }
+            });
+            decisionStore = result;
+        }else{
+            result = decisionStore;
+        }
+        
+        return result;
+    }
+    
     
     var form_cdir = Ext.create('Ext.ia.form.CommissionPhasePanel', {
         store: Ext.create('iafbm.store.EvaluationCdir'),
@@ -391,21 +412,12 @@ Ext.onReady(function() {
                     iaDisableFor: typeId_Pd
                 },{
                     xtype: 'ia-combo',
-                    store: trueFalse,
-                    valueField: 'value',
-                    displayField: 'name',
-                    fieldLabel: 'Confirmation',
-                    name: 'confirmation',
+                    store: makeDecisionStore(),
+                    valueField: 'id',
+                    displayField: 'decision',
+                    fieldLabel: 'Décision',
+                    name: 'decision_id',
                     editable: false,
-                    iaDisableFor: [].concat(typeId_Ptit, typeId_Pd)
-            },{
-                    xtype: 'ia-combo',
-                    store: trueFalse,
-                    valueField: 'value',
-                    displayField: 'name',
-                    fieldLabel: 'Renouvellement',
-                    name: 'renouvellement',
-                    editable: false
                 }]
         },{
             xtype: 'container',
@@ -428,11 +440,10 @@ Ext.onReady(function() {
          * Renomme le champ "Séance Cdir du" en "Sécance Direction du"
          * Renomme le titre du formulaire (fieldSet) en Décision de la Direction de l'UNIL
          *
-         * TODO: L'événemenent déclanché n'est pas correcte (déclanche aléatoirement). Cela créer des erreurs javascript.
          * Thank you Damien !
          */
         renameFields: function() {
-            s = new iafbm.store.Evaluation({params:{id:<?php echo $d['id'] ?>}});
+            var s = new iafbm.store.Evaluation({params:{id:<?php echo $d['id'] ?>}});
             s.on('load', function(record) {
                 // Fetches activite_id
                 var activite_id = record.getAt(0).get('activite_id');
