@@ -87,6 +87,22 @@ class EvaluationsController extends AbstractEvaluationController {
                         'filterColumn' => 'section_id'
                     )
                 )
+            ),
+            'toolbarButtons' => array('delete', 'save', 'searchPeople', 'search'),
+            'makeData' => array(
+                'keyValue' => array(
+                    'personne_id' => 'personne_id',
+                    'personne_nom' => 'personne_nom',
+                    'personne_prenom' => 'personne_prenom',
+                    'section_id' => 'section_id',
+                    'section_code' => 'section_code',
+                    'activite_id' => 'activite_id',
+                    'activite_nom_abreviation' => 'activite_nom_abreviation',
+                ),
+                'value' => array(
+                    '_mandat' => "(Ext.Date.format(new Date(record.get('debut')),'d.m.Y') + ' - ' + Ext.Date.format(new Date(record.get('fin')),'d.m.Y'))",
+                    'evaluation_etat_id' => 1,
+                )
             )
         );
         

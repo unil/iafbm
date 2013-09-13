@@ -6,7 +6,7 @@ class PersonnesActivitesController extends iaExtRestController {
 
     var $query_fields = array(
         'personne_nom',
-        'personne_presnom',
+        'personne_prenom',
         'activite_abreviation',
         'activite_nom',
         'departement_nom',
@@ -25,6 +25,10 @@ class PersonnesActivitesController extends iaExtRestController {
         'rattachement_id' => array(
             'field' => 'rattachement_nom',
             'join' => 'rattachement'
+        ),
+        'personne_id' => array(
+            'field' => 'personne_nom',
+            'join' => 'personne'
         )
     );
     

@@ -556,7 +556,7 @@ iafbm.columns.Evaluation = [{
                 record.get('id')
             ].join('/');
         } 
-    },{
+    },/*{
         text: "Nom",
         sortable : true,
         dataIndex: 'personne_id',
@@ -611,6 +611,16 @@ iafbm.columns.Evaluation = [{
                 }
             }
         }
+    }*/{
+        text: 'Prénom',
+        sortable : true,
+        dataIndex: 'personne_prenom',
+        width: 60
+    },{
+        text: 'Nom',
+        sortable : true,
+        dataIndex: 'personne_nom',
+        width: 80
     },{
         text: 'Section',
         sortable : true,
@@ -671,7 +681,37 @@ iafbm.columns.Evaluation = [{
         dataIndex: '_evaluateurs',
         width: 150
     },{
+        /*text     : 'État',
+        sortable : true,
+        dataIndex: 'evaluation_etat_id',
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            displayField: 'etat',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationEtat()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            return record.data.etat;
+        },*/
+        
         text     : 'État',
         sortable : true,
+        dataIndex: 'evaluation_etat_id',
+        width: 70,
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            displayField: 'etat',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationEtat()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            //console.log(record.data.evaluation_etat_id);
+            tata = this;
+            return record.data.evaluation_etat_id;
+        }
     }]
 }];

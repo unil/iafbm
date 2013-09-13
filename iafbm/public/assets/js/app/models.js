@@ -279,6 +279,8 @@ Ext.define('iafbm.model.PersonneActivite', {
     fields: [
         {name: 'id', type: 'int'},
         {name: 'personne_id', type: 'int', useNull: true},
+        {name: 'debut', type: 'date', dateFormat: 'Y-m-d'},
+        {name: 'fin', type: 'date', dateFormat: 'Y-m-d'},
         {name: 'personne_nom', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
         {name: 'activite_id', type: 'int', useNull: true},
