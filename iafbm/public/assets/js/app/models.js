@@ -893,7 +893,7 @@ Ext.define('iafbm.model.Evaluation', {
         {name: 'section_code', type: 'string'},
         {name: 'personne_prenom', type: 'string'},
         {name: 'personne_nom', type: 'string'},
-        {name: '_prenom_nom', type: 'string'},
+        {name: 'evaluation_etat_etat', type: 'string'},
         {name: '_evaluateurs', type: 'string'},
         {name: '_mandat', type: 'string'},
     ],

@@ -127,10 +127,7 @@ class EvaluationsController extends AbstractEvaluationController {
      */
     function get() {
         $evaluations = parent::get();
-        foreach ($evaluations['items'] as &$evaluation) {
-            //add '_prenom_nom' ghost field
-            $evaluation['_prenom_nom'] = $evaluation['personne_prenom'].' '.$evaluation['personne_nom'];
-            
+        foreach ($evaluations['items'] as &$evaluation) {          
             
             //add '_evaluateurs' ghost field
             $evaluateurs = xModel::load('evaluation_evaluateur', array('evaluation_id' => $evaluation['id']))->get();
@@ -188,8 +185,51 @@ class EvaluationsController extends AbstractEvaluationController {
         );
         foreach ($items as $item) $t->execute($item, 'put');
         $r = $t->end();
-        $r['items'] = @array_shift(xModel::load('evaluation', array('id' => $insertid))->get());
+        //Need ghost field which not present in the get model
+        $this->params['id'] = $insertid;
+        $inputRow = $this->get();
+        $r['items'] = $inputRow['items'][0];
         return $r;
+    }
+    
+    /*
+     * Soft delete the rows in tables.
+     * 
+     * @TODO: Le fonctionnement du soft delete est directement implémenté dans cette page car il y a un problème
+     *        Le problème se situe dans la méthode "_is_deletable()" de la classe "iaModelMysql".
+     *        Voici la requête effectuée pour tester si l'enregistrement peut être supprimé:
+     *        DELETE FROM evaluation WHERE id = {$id}
+     *        La requête  ne permet pas d'utiliser un autre paramètre que "id" pour la clause where.
+     *        Dans notre cas, le paramètre à mettre dans le where est "evaluation_id"
+     */
+    function delete() {
+        if (!in_array('delete', $this->allow)) throw new xException("Method not allowed", 403);
+        $t = new xTransaction();
+        $t->start();
+        //Models to soft delete
+        $models = array(
+            'evaluation_apercu',
+            'evaluation_rapport',
+            'evaluation_cdir',
+            'evaluation_evaluation',
+            'evaluation_contrat'
+        );
+        //Soft delete models
+        foreach($models as $model){
+            $result = xModel::load($model, array('evaluation_id' => $this->params['id']))->get();
+            $id = $result[0]['id'];
+            $t->execute(xModel::load($model, array(
+                'id' => $id,
+                'actif' => 0,
+            )), 'post');
+        }
+        //soft delete the evaluation
+        $t->execute(xModel::load('evaluation', array(
+                'id' => $this->params['id'],
+                'actif' => 0)
+        ), 'post');
+        
+        return $t->end();
     }
 }
 ?>

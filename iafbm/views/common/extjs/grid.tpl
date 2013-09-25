@@ -35,7 +35,6 @@ Ext.onReady(function(){
         
         <?php if (isset($d['makeData'])): ?>
             makeData: function(record) {
-                toto = record;
                 return {
                 <?php
                     foreach($d['makeData']['keyValue'] as $newStoreField => $existStoreField){

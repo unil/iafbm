@@ -5,7 +5,7 @@
 Ext.define('Ext.ia.Combofilter', {
     extend: 'Ext.form.Panel',
     alias: 'widget.ia-combofilter',
-    id: "toto",
+    id: "comboFilter",
     // grille à filtrer
     gridId: null,
     items: [],

@@ -969,7 +969,6 @@ Ext.define('Ext.ia.grid.EditPanel', {
     dockedItems: [],
     bbar: new Ext.ia.toolbar.Paging(),
     initComponent: function() {
-        toto2 = this;
         this.addEvents(
             /**
             * @event beforeload

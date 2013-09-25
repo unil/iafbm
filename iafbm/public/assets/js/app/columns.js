@@ -636,6 +636,7 @@ iafbm.columns.Evaluation = [{
     }, {
         text     : 'Durée',
         dataIndex: '_mandat',
+        name: '_mandat',
         width: 130,
         sortable : false,
     }]
@@ -645,17 +646,23 @@ iafbm.columns.Evaluation = [{
         text     : 'Type',
         sortable : true,
         dataIndex: 'evaluation_type_id',
-        width: 70,
+        width: 80,
         xtype: 'ia-combocolumn',
         field: {
             xtype: 'ia-combo',
+            editable: false,
             displayField: 'type',
             valueField: 'id',
             allowBlank: false,
             store: new iafbm.store.EvaluationType()
         },
         renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-            return record.data.evaluation_type_type;
+            var combo   = this.editingPlugin.getEditor().getForm().getFields().get(colIndex),
+                type_id = record.data.evaluation_type_id;
+            
+            if(type_id == 0) //doesn't yet affected
+                return 'undefined';
+            return combo.store.data.items[record.data.evaluation_type_id-1].data.type;
         }
     },{
         text     : 'Début',
@@ -679,7 +686,7 @@ iafbm.columns.Evaluation = [{
         text     : 'Évaluateurs',
         sortable : false,
         dataIndex: '_evaluateurs',
-        width: 150
+        width: 210,
     },{
         /*text     : 'État',
         sortable : true,
@@ -699,19 +706,19 @@ iafbm.columns.Evaluation = [{
         text     : 'État',
         sortable : true,
         dataIndex: 'evaluation_etat_id',
-        width: 70,
+        width: 65,
         xtype: 'ia-combocolumn',
         field: {
             xtype: 'ia-combo',
+            editable: false,
             displayField: 'etat',
             valueField: 'id',
             allowBlank: false,
             store: new iafbm.store.EvaluationEtat()
         },
         renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-            //console.log(record.data.evaluation_etat_id);
-            tata = this;
-            return record.data.evaluation_etat_id;
+            var combo = this.editingPlugin.getEditor().getForm().getFields().get(colIndex);
+            return combo.store.data.items[record.data.evaluation_etat_id-1].data.etat;
         }
     }]
 }];
