@@ -40,20 +40,21 @@
     </div>
 <?php endforeach ?>
   <br/>
-  <h2>Sélectionnez les champs à exporter:</h2>
+<h2>Sélectionnez les champs à exporter:</h2>
 <?php foreach ($fields_labels as $field => $label): ?>
 <?php
     $id = "export-fields-{$field}";
     $checked = in_array($field, $fields_checked) ? ' checked="checked"' : null;
 ?>
-    <div id="fields-list">
+    <div id="fields-list" style="width: 150px; float: left;">
       <input type="checkbox" id="<?php echo $id ?>" name="fields[]" value="<?php echo $field ?>"<?php echo $checked ?>/>
       <label for="<?php echo $id ?>"><?php echo $label ?></label>
     </div>
 <?php endforeach ?>
-    <br/>
+    <div style="clear: both"></div>
+    <br />
     <a href="javascript:void(0)" id="select-all-fields">Sélectionner tous les champs</a>
-    <br/><br/> 
+    <br/><br/>
     <div id="filter1"></div><br />
     <div id="filter2"></div>    
     <br/><br/>
