@@ -180,6 +180,25 @@ class PersonnesController extends iaExtRestController {
             '       AND personnes_activites.actif = 1',
             'WHERE personnes.actif = 1'
         ));
+        // Create WHERE clause for date filters
+        $begin = new DateTime(@$this->params['begin']);
+        $begin = $begin->format('Y-m-d');
+        $end = new DateTime(@$this->params['end']);
+        $end = $end->format('Y-m-d');
+        $date = new DateTime(@$this->params['date']);
+        $date = $date->format('Y-m-d');
+        if(@$this->params['begin'] && @$this->params['end']){
+            // Filter 1: returns all persons who were contractually active between two dates.
+            //           This filter is prioritary
+            $q .= " AND ((personnes_activites.debut BETWEEN '{$begin}' AND '{$end}')
+            OR	(personnes_activites.fin BETWEEN '{$begin}' AND '{$end}')
+	    OR (personnes_activites.debut < '{$begin}' AND personnes_activites.fin > '{$end}')
+            )";
+        }elseif(@$this->params['date']){
+            // Filter 2: returns all persons who were active at a certain date.
+            $q .= " AND (personnes_activites.debut <= '{$date}' AND personnes_activites.fin >= '{$date}')";
+        }
+        
         // Creates 'personne' result array
         $r = xModel::q($q);
         while ($row = mysql_fetch_assoc($r)) $rows[] = $row;
