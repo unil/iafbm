@@ -33,7 +33,7 @@ class EvaluationsEvaluateursController extends AbstractEvaluationController {
                 $exists = true;
             }
         }
-        if($exists) throw new xException(500);
+        if(@$exists) throw new xException(500);
         
         
         return parent::put();

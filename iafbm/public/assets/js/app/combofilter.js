@@ -9,7 +9,8 @@ Ext.define('Ext.ia.Combofilter', {
     // grille à filtrer
     gridId: null,
     items: [],
-    filters: [],    
+    filters: [], //filters from php
+    extFilters: [], //filters in functions
     initComponent: function() {
         this.items.items = this.makeItems();
         this.callParent();
@@ -38,21 +39,33 @@ Ext.define('Ext.ia.Combofilter', {
                     fieldLabel: item.fieldLabel,
                     labelSeparator: ': ',
                     labelAlign: 'top',
-                    labelWidth: 150,
-                    width: 150,
+                    labelWidth: 140,
+                    width: 140,
                     editable: false,
                     displayField: item.displayField,
                     valueField: item.valueField,
                     // événement quand on séléctionne une valeur dans le combobox
                     listeners: {
                         change: {
+                            /*fn: function(obj, newValue, oldValue, eOpts) {
+                                 pnl = this.up('form'), // le panel
+                                    store = Ext.getCmp(pnl.gridId).store;
+                                if(item.specialFilter){
+                                    store.filterBy(eval(item.specialFilter));
+                                }else{
+                                    // former le filtre
+                                    var f = pnl.parseFilterData();
+                                    // recharger les données avec le nouveau filtre
+                                    pnl.applyFilterData(f, store);
+                                }
+                            }*/
                             fn: function(obj, newValue, oldValue, eOpts) {
-                                // la panel
-                                var pnl = this.up('form');
+                                pnl = this.up('form'), // le panel
+                                    store = Ext.getCmp(pnl.gridId).store;
+                                    
                                 // former le filtre
                                 var f = pnl.parseFilterData();
                                 // recharger les données avec le nouveau filtre
-                                var store = Ext.getCmp(pnl.gridId).store;
                                 pnl.applyFilterData(f, store);
                             }
                         }
@@ -72,12 +85,12 @@ Ext.define('Ext.ia.Combofilter', {
         
         return ret;
     },    
-    parseFilterData: function(resetFlag) {
+    /*parseFilterData: function(resetFlag) {
         /**
         * Création du filtre de recherche.
         * On récupère les données des combobox, et on crée l'objet en fonction.
         * Si les données sont null, on ne les ajoute pas au filtre.
-        */        
+        *//*      
         var result = {};
         
         Ext.Array.each(this.filters.items, function(item) {
@@ -93,5 +106,35 @@ Ext.define('Ext.ia.Combofilter', {
         });
         Ext.apply(store.params, filterData);
         store.load();
+    }*/
+    parseFilterData: function(resetFlag) {
+        /**
+        * Création du filtre de recherche.
+        * On récupère les données des combobox, et on crée l'objet en fonction.
+        * Si les données sont null, on ne les ajoute pas au filtre.
+        */
+        var result = new Array();
+        
+        Ext.Array.each(this.filters.items, function(item) {
+            var itemValue = Ext.getCmp(item.itemId).getValue();
+            var f;
+            
+            if(itemValue !== null){
+                if(item.specialFilter){
+                    f = Ext.create('Ext.util.Filter', {id: item.itemId, filterFn: eval(item.specialFilter), root: 'data'});
+                    result.push(f);
+                }else{
+                    f = Ext.create('Ext.util.Filter', {id: item.itemId, property: item.filterColumn, value: itemValue, exactMatch: true, caseSensitive: false, root: 'data'});
+                    result.push(f);
+                }
+            }
+        });
+        return result;
+        
+    },
+    
+    applyFilterData: function(filterData, store) {
+        store.clearFilter();
+        store.filter(filterData);
     }
 });

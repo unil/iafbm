@@ -47,6 +47,20 @@ class EvaluationsController extends AbstractEvaluationController {
     var $query_fields = array('personne_nom', 'personne_prenom', 'section_code', 'evaluation_type_type', 'activite_nom_abreviation', 'date_periode_debut', 'date_periode_fin');
     
     function indexAction() {
+        
+        //create the dataset for the storeFilter "année"
+        $yearsData = "";
+        foreach($this->getEndYears() as $year){
+            $yearsData .= "{'year':'{$year}'},";
+        }
+        
+        //create the dataset for the storeFilter "évaluateurs"
+        $evaluatorsData = "";
+        foreach($this->getEvaluators() as $evaluator){
+            $evaluatorsData .= "{'evaluateur':'{$evaluator}'},";
+        }
+        
+        
         $data = array(
             'title' => 'Gestion des évaluations',
             'id' => 'évaluations',
@@ -75,8 +89,8 @@ class EvaluationsController extends AbstractEvaluationController {
                                 })
                         ",
                         'displayField' => 'abreviation',
-                        'valueField' => 'id',
-                        'filterColumn' => 'activite_nom_id'
+                        'valueField' => 'abreviation',
+                        'filterColumn' => 'activite_nom_abreviation'
                     ),
                     array(
                         'itemId' => 'section',
@@ -85,6 +99,48 @@ class EvaluationsController extends AbstractEvaluationController {
                         'displayField' => 'code',
                         'valueField' => 'id',
                         'filterColumn' => 'section_id'
+                    ),
+                    array(
+                        'itemId' => 'annee',
+                        'fieldLabel' => 'Année',
+                        'store' => "Ext.create('Ext.data.Store', {
+                            fields: ['year'],
+                            data : [".$yearsData."]
+                        });",
+                        'displayField' => 'year',
+                        'valueField' => 'year',
+                        'filterColumn' => 'date_periode_fin',
+                        'specialFilter' => "(function(rec, id){
+                            var dateToFilter = new Date(itemValue, 1,1),
+                                date = rec.data.date_periode_fin;
+                            
+                            if(dateToFilter.getFullYear() == date.getFullYear()){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        })"
+                    ),
+                    array(
+                        'itemId' => 'filterEvaluateur',
+                        'fieldLabel' => 'Évaluateurs',
+                        'store' => "Ext.create('Ext.data.Store', {
+                            fields: ['evaluateur'],
+                            data : [".$evaluatorsData."]
+                        });",
+                        'displayField' => 'evaluateur',
+                        'valueField' => 'evaluateur',
+                        'filterColumn' => '_evaluateurs',
+                        'specialFilter' => "(function(rec, id){
+                            evaluateurs = rec.data._evaluateurs;
+                            // check if the filter parameter is in each row of the store
+                            // this filter is local only
+                            if(evaluateurs.indexOf(itemValue) !== -1){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        })"
                     )
                 )
             ),
@@ -230,6 +286,42 @@ class EvaluationsController extends AbstractEvaluationController {
         ), 'post');
         
         return $t->end();
+    }
+    
+    private function getEndYears(){
+        //Get all évaluation end date
+        $yearsRows = xModel::load('evaluation', array(
+            'actif' => 1,
+            'xreturn' => array('date_periode_fin'),
+            'xorder' => 'ASC',
+            'xorder_by' => 'date_periode_fin',
+            'xjoin' => array()
+        ))->get();
+        
+        $years = array();
+        foreach($yearsRows as $year){
+            $years[] = strstr($year['date_periode_fin'], '-', true);
+        }
+        
+        //return without duplicates
+        return array_unique($years);
+    }
+    
+    private function getEvaluators(){
+        //Get all évaluation evaluators
+        $evaluateursRows = xModel::load('evaluation_evaluateur', array(
+            'actif' => 1,
+            'xreturn' => array('DISTINCT personnes.nom, personnes.prenom'),
+            'xorder' => 'ASC',
+            'xorder_by' => 'personnes.prenom',
+        ))->get();
+        
+        $eval = array();
+        foreach($evaluateursRows as $evaluateur){
+            $eval[] = $evaluateur['prenom'].' '.$evaluateur['nom'];
+        }
+        
+        return $eval;
     }
 }
 ?>
