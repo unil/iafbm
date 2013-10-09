@@ -47,18 +47,6 @@ Ext.define('Ext.ia.Combofilter', {
                     // événement quand on séléctionne une valeur dans le combobox
                     listeners: {
                         change: {
-                            /*fn: function(obj, newValue, oldValue, eOpts) {
-                                 pnl = this.up('form'), // le panel
-                                    store = Ext.getCmp(pnl.gridId).store;
-                                if(item.specialFilter){
-                                    store.filterBy(eval(item.specialFilter));
-                                }else{
-                                    // former le filtre
-                                    var f = pnl.parseFilterData();
-                                    // recharger les données avec le nouveau filtre
-                                    pnl.applyFilterData(f, store);
-                                }
-                            }*/
                             fn: function(obj, newValue, oldValue, eOpts) {
                                 pnl = this.up('form'), // le panel
                                     store = Ext.getCmp(pnl.gridId).store;
@@ -84,29 +72,7 @@ Ext.define('Ext.ia.Combofilter', {
         });
         
         return ret;
-    },    
-    /*parseFilterData: function(resetFlag) {
-        /**
-        * Création du filtre de recherche.
-        * On récupère les données des combobox, et on crée l'objet en fonction.
-        * Si les données sont null, on ne les ajoute pas au filtre.
-        *//*      
-        var result = {};
-        
-        Ext.Array.each(this.filters.items, function(item) {
-            var itemValue = Ext.getCmp(item.itemId).getValue();
-            if(itemValue !== null) result[item.filterColumn] = itemValue;
-        });
-        return result;
-        
     },
-    applyFilterData: function(filterData, store) {
-        Ext.Array.each(this.filters.items, function(item) {
-            delete store.params[item.filterColumn];
-        });
-        Ext.apply(store.params, filterData);
-        store.load();
-    }*/
     parseFilterData: function(resetFlag) {
         /**
         * Création du filtre de recherche.
@@ -130,9 +96,7 @@ Ext.define('Ext.ia.Combofilter', {
             }
         });
         return result;
-        
     },
-    
     applyFilterData: function(filterData, store) {
         store.clearFilter();
         store.filter(filterData);
