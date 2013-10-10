@@ -55,6 +55,8 @@
     <br />
     <a href="javascript:void(0)" id="select-all-fields">Sélectionner tous les champs</a>
     <br/><br/>
+    <h2>Filtres</h2>
+    <span>Les filtre ne sont pas cumulatifs (un seul filtre actif pour l'exportation)</span>
     <div id="filter1"></div><br />
     <div id="filter2"></div>    
     <br/><br/>
