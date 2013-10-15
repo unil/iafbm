@@ -181,6 +181,7 @@ class PersonnesController extends iaExtRestController {
             'WHERE personnes.actif = 1'
         ));
         // Create WHERE clause for date filters
+        date_default_timezone_set('Europe/Berlin');
         $begin = new DateTime(@$this->params['begin']);
         $begin = $begin->format('Y-m-d');
         $end = new DateTime(@$this->params['end']);
