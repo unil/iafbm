@@ -1932,7 +1932,7 @@ Ext.define('Ext.ia.tab.CommissionPanel', {
                 var me = this,
                     form_apercu = this.up('tabpanel').items.getAt(0).down('form');
                 form_apercu.on('load', function() {
-                    if (this.getRecord().get('commission_etat_id') == 4) {
+                    if (this.getRecord().get('commission_etat_id') == 3) {
                         me.show();
                     }
                 });

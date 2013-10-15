@@ -78,7 +78,7 @@ Ext.onReady(function() {
                         // TODO: Effectué plusieurs fois, certains à double, tester avec des console.log(form)
                         form.on('load', function() {
                             fields = form.getValues();
-                            if (fields[fieldModelName] == 4){// 4 means clôturé
+                            if (fields['evaluation_evaluation_etat_id'] == 4){// 4 means clôturé
                                 Ext.each(formFields, function(c){
                                     c.setReadOnly(true);
                                 });
@@ -116,6 +116,7 @@ Ext.onReady(function() {
                 valueField: 'id',
                 displayField: 'etat',
                 fieldLabel: 'État',
+                readOnly: true,
                 name: 'evaluation_evaluation_etat_id',
             },{
                 xtype: 'ia-textarea',
@@ -539,7 +540,7 @@ Ext.onReady(function() {
                     // Disables 'close' button
                     // if commission not already closed & form is not versioned
                     var versioned = store && store.params.xversion;
-                    var enable = record.get('evaluation_etat_id')!=3 && !versioned;
+                    var enable = record.get('evaluation_evaluation_etat_id')!=4 && !versioned;
                     this.setDisabled(!enable);
                 },
                 // Click logic
@@ -558,7 +559,8 @@ Ext.onReady(function() {
                 archiveEvaluation: function() {
                     var form = Ext.getCmp('tabPanelEvaluation').down('form'),
                         record = form.getRecord();
-                    record.set('evaluation_etat_id', 0);
+                    record.set('evaluation_evaluation_etat_id', 0);
+                    console.log(record);
                     record.save();
                     form.loadRecord();
                 }

@@ -212,7 +212,7 @@ class EvaluationsController extends AbstractEvaluationController {
         $t->start();
         $result = parent::post();
         // Archives evaluation if state becomes 'closed'
-        if (@$this->params['items']['evaluation_etat_id'] == 4) {
+        if (@$this->params['items']['evaluation_evaluation_etat_id'] == 0) {
             xModel::load('evaluation', array(
                 'id' => $this->params['id']
             ))->archive();
