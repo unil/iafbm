@@ -10,8 +10,6 @@ class EvaluationCdirModel extends iaModelMysql {
         'termine' => 'termine',
         'evaluation_id' => 'evaluation_id',
         'seance_cdir' => 'seance_cdir',
-        'confirmation' => 'confirmation',
-        'renouvellement' => 'renouvellement',
         'commentaire' => 'commentaire',
         'decision_id' => 'decision_id'
     );

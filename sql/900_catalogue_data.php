@@ -659,17 +659,67 @@ $catalogue_data = array(
                 array(
                         'id' => '2',
                         'actif' => '1',
-                        'nom' => 'Suspendue',
+                        'etat' => 'Suspendue',
                 ),
                 array(
                         'id' => '3',
                         'actif' => '1',
-                        'nom' => 'Arrêtée',
+                        'etat' => 'Arrêtée',
                 ),
                 array(
                         'id' => '4',
                         'actif' => '1',
-                        'nom' => 'Clôturée',
+                        'etat' => 'Clôturée',
                 )
         ),
+        'evaluation_decision' => array(
+                array(
+                        'id' => '1',
+                        'actif' => '1',
+                        'decision' => ' ',
+                        'commentaire' => ''
+                ),
+                array(
+                        'id' => '2',
+                        'actif' => '1',
+                        'decision' => 'Renouveller',
+                        'commentaire' => ''
+                ),
+                array(
+                        'id' => '3',
+                        'actif' => '1',
+                        'decision' => 'Ne pas renouveller',
+                        'commentaire' => ''
+                ),
+                array(
+                        'id' => '4',
+                        'actif' => '1',
+                        'decision' => 'Confirmer',
+                        'commentaire' => ''
+                ),
+                array(
+                        'id' => '5',
+                        'actif' => '1',
+                        'decision' => 'Prolongation',
+                        'commentaire' => ''
+                ),
+                array(
+                        'id' => '6',
+                        'actif' => '1',
+                        'decision' => 'Ne pas confirmer',
+                        'commentaire' => ''
+                ),
+        ),
+        'evaluation_type' => array(
+                array(
+                        'id' => '1',
+                        'actif' => '1',
+                        'type' => 'Régulière',
+                ),
+                array(
+                        'id' => '2',
+                        'actif' => '1',
+                        'type' => 'Probatoire',
+                )
+        )
 );

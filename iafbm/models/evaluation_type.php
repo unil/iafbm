@@ -17,6 +17,4 @@ class EvaluationTypeModel extends iaModelMysql {
         'actif' => array('mandatory'),
         'type' => array('mandatory'),
     );
-    
-    //TODO: Archivable infos 
 }

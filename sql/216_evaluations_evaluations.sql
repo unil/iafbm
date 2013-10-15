@@ -12,6 +12,6 @@ CREATE  TABLE evaluations_evaluations (
     commentaire TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (evaluation_id) REFERENCES evaluations(id),
-    FOREIGN KEY (preavis_evaluateur_id) REFERENCES evaluations_preavis(id),
-    FOREIGN KEY (preavis_decanat_id) REFERENCES evaluations_preavis(id)
+    FOREIGN KEY (preavis_evaluateur_id) REFERENCES evaluations_decisions(id),
+    FOREIGN KEY (preavis_decanat_id) REFERENCES evaluations_decisions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

@@ -5,9 +5,9 @@ CREATE  TABLE evaluations_cdirs (
     termine BOOLEAN NOT NULL DEFAULT false,
     evaluation_id INT NOT NULL,
     seance_cdir DATE DEFAULT NULL,
-    confirmation BOOLEAN DEFAULT NULL,
-    renouvellement BOOLEAN DEFAULT NULL,
     commentaire TEXT,
+    decision_id INT NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
-    FOREIGN KEY (evaluation_id) REFERENCES evaluations(id)
+    FOREIGN KEY (evaluation_id) REFERENCES evaluations(id),
+    FOREIGN KEY (decision_id) REFERENCES evaluations_decisions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
