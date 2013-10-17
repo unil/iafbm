@@ -273,7 +273,7 @@ class iaExtRestController extends xWebController {
     protected function handle_sort() {
         $params = $this->params;
         if (strlen(@$params['xsort']) > 0) {
-            $info = array_shift(json_decode($params['xsort']));
+            $info = array_shift(xUtil::arrize(json_decode(stripslashes($params['xsort']))));
             $property = @$info->property;
             $direction = @$info->direction;
             // Manages substitutions

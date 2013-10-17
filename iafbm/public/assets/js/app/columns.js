@@ -497,3 +497,228 @@ iafbm.columns.Rattachement = [{
         allowBlank: false
     }
 }];
+
+// TODO versions
+iafbm.columns.Evaluateur = [{
+    xtype: 'ia-actioncolumn-detailform',
+    form: iafbm.form.Personne,
+    getRecord: function(gridView, rowIndex, colIndex, item) {
+        return null;
+    },
+    getFetch: function(gridView, rowIndex, colIndex, item) {
+        var commission_membre = gridView.getStore().getAt(rowIndex),
+            personne_id = commission_membre.get('personne_id');
+            //version = commission_membre.get('version_id');
+        // Loads versioned record (if applicable, eg. xversion > 0)
+        return {
+            model: iafbm.model.Personne,
+            id: personne_id,
+            //xversion: version
+        };
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+},{
+    header: "Date de naissance",
+    dataIndex: 'personne_date_naissance',
+    flex: 1,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
+}];
+
+iafbm.columns.Evaluation = [{
+    text: 'Informations personnelles',
+    columns: [{
+        text: '',
+        xtype: 'ia-actioncolumn-redirect',
+        width: 25,
+        tooltip: 'Détails évaluation',
+        getLocation: function(grid, record, id) {
+            return [
+                x.context.baseuri,
+                'evaluations',
+                record.get('id')
+            ].join('/');
+        } 
+    },/*{
+        text: "Nom",
+        sortable : true,
+        dataIndex: 'personne_id',
+        width: 170,
+        xtype: 'ia-combocolumn',
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            return record.data._prenom_nom;
+        },
+        editor: {
+            xtype: 'ia-combo',
+            store: new iafbm.store.PersonneActivite({
+                params: {
+                    //to avoid having multiples same personnes
+                    //xgroup_by: 'personne_id'
+                }
+            }),
+            valueField: 'personne_id',
+            displayField: '_nomPrenom',
+            allowBlank: false,
+            listConfig: {
+                loadingText: 'Recherche...',
+                emptyText: 'Aucun résultat.',
+                // Custom rendering template for each item
+                getInnerTpl: function() {
+                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                    return [
+                        '<div>',
+                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                        '  <h3>{personne_prenom} {personne_nom}</h3>',
+                        '  <div>{activite_nom_abreviation} {section_code}</div>',
+                        '  <div>{[values.personne_date_naissance ? Ext.Date.format(values.personne_date_naissance, "j M Y") : "&nbsp;"]}</div>',
+                        '</div>'
+                    ].join('');
+                }
+            },
+            listeners: {
+                select: function(combo, records, eOpts) {
+                    record = combo.up().getRecord();
+                    personne = records[0].data;
+                    field = combo.up().items;
+                    mandat_timelapse = Ext.Date.format(personne.debut, 'd.m.Y') + ' - ' + Ext.Date.format(personne.fin, 'd.m.Y');
+                    
+                    record.set('activite_nom_abreviation', personne.activite_nom_abreviation);
+                    record.set('activite_id', personne.activite_id);
+                    record.set('section_code', personne.section_code);
+                    record.set('section_id', personne.section_id);
+                    record.set('_mandat', mandat_timelapse);
+                    
+                    field.get(3).setValue(personne.activite_nom_abreviation);
+                    field.get(4).setValue(mandat_timelapse);
+                    field.get(7).setValue(personne.section_code);
+                }
+            }
+        }
+    }*/{
+        text: 'Prénom',
+        sortable : true,
+        dataIndex: 'personne_prenom',
+        width: 60
+    },{
+        text: 'Nom',
+        sortable : true,
+        dataIndex: 'personne_nom',
+        width: 80
+    },{
+        text: 'Section',
+        sortable : true,
+        dataIndex: 'section_code',
+        width: 45
+    }]
+},{
+    text: 'Mandat',
+    columns: [{
+        text     : 'Titre académique',
+        dataIndex: 'activite_nom_abreviation',
+        sortable : true,
+    }, {
+        text     : 'Durée',
+        dataIndex: '_mandat',
+        name: '_mandat',
+        width: 130,
+        sortable : false,
+    }]
+},{
+    text: 'Évaluation',
+    columns: [{
+        text     : 'Type',
+        sortable : true,
+        dataIndex: 'evaluation_type_id',
+        width: 80,
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            editable: false,
+            displayField: 'type',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationType()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            var combo   = this.editingPlugin.getEditor().getForm().getFields().get(colIndex),
+                type_id = record.data.evaluation_type_id;
+            
+            if(type_id == 0) //doesn't yet affected
+                return 'undefined';
+            return combo.store.data.items[record.data.evaluation_type_id-1].data.type;
+        }
+    },{
+        text     : 'Début',
+        sortable : true,
+        dataIndex: 'date_periode_debut',
+        width: 70,
+        xtype: 'ia-datecolumn',
+        field: {
+            xtype: 'ia-datefield'
+        }
+    },{
+        text     : 'Fin',
+        sortable : true,
+        dataIndex: 'date_periode_fin',
+        width: 70,
+        xtype: 'ia-datecolumn',
+        field: {
+            xtype: 'ia-datefield'
+        }
+    },{
+        text     : 'Évaluateurs',
+        sortable : false,
+        dataIndex: '_evaluateurs',
+        width: 210,
+    },{
+        /*text     : 'État',
+        sortable : true,
+        dataIndex: 'evaluation_etat_id',
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            displayField: 'etat',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationEtat()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            return record.data.etat;
+        },*/
+        
+        text     : 'État',
+        sortable : true,
+        dataIndex: 'evaluation_etat_id',
+        width: 65,
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            editable: false,
+            displayField: 'etat',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationEtat()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            var combo = this.editingPlugin.getEditor().getForm().getFields().get(colIndex);
+            return combo.store.data.items[record.data.evaluation_etat_id-1].data.etat;
+        }
+    }]
+}];

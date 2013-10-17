@@ -796,6 +796,7 @@ Ext.onReady(function() {
     var tabPanel = Ext.createWidget('ia-tabpanel-commission', {
         activeTab: 0,
         plain: true,
+        type_id: 'commission_type_id',
         // Disabling deferredRender avoids sizing glitches (mostly on firefox)
         deferredRender: false,
         defaults: {

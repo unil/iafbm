@@ -512,7 +512,7 @@ abstract class iaModelMysql extends xModelMysql {
                     $foreign_records = xModel::load($via_modelname, $foreign_params)->get();
                     $foreign_ids = array();
                     foreach ($foreign_records as $foreign_record) {
-                        $foreign_ids[] = $foreign_record[$foreign_field_name];
+                        $foreign_ids[] = @$foreign_record[$foreign_field_name];
                     }
                     $foreign_ids = array_unique($foreign_ids, SORT_NUMERIC);
                     // Fetches impacted records

@@ -34,6 +34,10 @@ class PersonneActiviteModel extends iaModelMysql {
     );
 
     var $join = array('personne', 'rattachement', 'activite', 'activite_type', 'activite_nom', 'section');
+    
+    var $wheres = array(
+        'query' => 'common/model/query',
+    );
 
     var $archive_foreign_models = array(
         'rattachement' => array('rattachement_id' => 'id'),

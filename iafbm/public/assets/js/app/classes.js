@@ -163,6 +163,14 @@ Ext.define('Ext.ia.data.Store', {
         this.callParent(arguments);
         // Ensures store.params is a hashtable
         this.params = this.params || {};
+        // ExtJS 3.0 Store.params simulation
+        this.on({
+            beforeload: function() { this.applyParamsToProxy() },
+            beforesync: function() { this.applyParamsToProxy() },
+            beforeprefetch: function() { this.applyParamsToProxy() },
+            // Loaded flag (TODO: is it used/necessary ?)
+            load: function() { this.loaded = true }            
+        });
     },
     applyParamsToProxy: function() {
         // Fix: this.proxy.extraParams is sometimes set to undefined,
@@ -178,14 +186,6 @@ Ext.define('Ext.ia.data.Store', {
             this.getUpdatedRecords(),
             this.getRemovedRecords()
         );
-    },
-    listeners: {
-        // ExtJS 3.0 Store.params simulation
-        beforeload: function() { this.applyParamsToProxy() },
-        beforesync: function() { this.applyParamsToProxy() },
-        beforeprefetch: function() { this.applyParamsToProxy() },
-        // Loaded flag (TODO: is it used/necessary ?)
-        load: function() { this.loaded = true }
     }
 });
 
@@ -956,12 +956,13 @@ Ext.define('Ext.ia.grid.EditPanel', {
         newRecordValues: {},
         searchParams: {}
     },
-    toolbarButtons: ['add', 'delete', 'save', 'search'],
+    toolbarButtons: ['add', 'delete', 'save', 'search', 'searchPeople'],
     toolbarLabels: {
         add: 'Ajouter',
         delete: 'Supprimer',
         save: 'Enregistrer les modifications',
-        search: 'Rechercher'
+        search: 'Rechercher',
+        searchPeople: 'Ajouter',
     },
     pageSize: 10,
     editable: true,
@@ -1068,8 +1069,65 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 this.setDisabled(me.store && me.store.params.xversion);
             }
         });
+        /*
+         * Search people activity.
+         * @TODO: Generalize the component
+         */
+        var searchPeople = new Ext.form.field.ComboBox({
+            store: new iafbm.store.PersonneActivite({
+                params: {
+                    xreturn: 'personne_id, personne_nom, personne_prenom, activite_id, activite_nom_abreviation, section_id, section_code, debut, fin',
+                    xwhere: 'query'
+                    // @TODO: ne marche pas car recherche soumise à xquery.
+                    //'activite_nom_id[]': [1,2,4,5,11,14,15,16,17,22],
+                },
+            }),
+            pageSize: true, // Should equal the store.pageSize, but it works well like that...
+            queryParam: 'xquery',
+            typeAhead: false,
+            minChars: 1,
+            hideTrigger: true,
+            fieldLabel: 'Ajouter',
+            labelWidth: 50,
+            listConfig: {
+                loadingText: 'Recherche...',
+                emptyText: 'Aucun résultat.',
+                // Custom rendering template for each item
+                getInnerTpl: function() {
+                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
+                    return [
+                        '<div>',
+                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
+                        '  <h3>{personne_prenom} {personne_nom}</h3>',
+                        '  <div>{activite_nom_abreviation}</div><br />',
+                        '</div>'
+                    ].join('');
+                }
+            },
+            listeners: {
+                select: function(combo, selection) {
+                    // Inserts record into grid store
+                    var grid = this.up('gridpanel'),
+                        records = [];
+                    Ext.each(selection, function(record) {
+                        records.push(new grid.store.model(grid.makeData(record)));
+                    });
+                    grid.store.insert(0, records);
+                    grid.getEditingPlugin().startEdit(0, 0);
+                    Ext.defer(this.clearValue, 250, this);
+                },
+                blur: function() { this.clearValue() }
+            },
+            updateState: function() {
+                var grid = this.up('grid');
+                // Disables if grid is not editable (see this.editable)
+                this.setDisabled(!grid.editable);
+            }
+        });
         // Adds items conditionally
         var items = [];
+        if (Ext.Array.contains(this.toolbarButtons, 'searchPeople'))
+            items.push(searchPeople);
         if (Ext.Array.contains(this.toolbarButtons, 'add'))
             items.push(add);
         if (Ext.Array.contains(this.toolbarButtons, 'delete'))
@@ -1078,6 +1136,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
             items.push('-', save);
         if (Ext.Array.contains(this.toolbarButtons, 'search'))
             items.push('->', '-', this.toolbarLabels.search, search);
+        
         // Creates and returns the toolbar with its items
         return [{
             xtype: 'toolbar',
@@ -1185,7 +1244,6 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
         // Sets pageSize to combo store
         this.combo.store.pageSize = this.combo.pageSize || this.config.combo.pageSize;
         // Creates combo instance
-        //return new Ext.ia.form.field.ComboBox({
         return new Ext.form.field.ComboBox({
             store: this.combo.store,
             pageSize: true, // Should equal the store.pageSize, but it works well like that...
@@ -1193,7 +1251,8 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             typeAhead: false,
             minChars: 1,
             hideTrigger: true,
-            width: 350,
+            width: '350',
+            //columnWidth:,
             listConfig: {
                 loadingText: 'Recherche...',
                 emptyText: 'Aucun résultat.',
@@ -1897,15 +1956,19 @@ Ext.define('Ext.ia.tab.Panel', {
             }
         });
         // Updates fields disablement
-        // Waits for Commission records to load (for it contains type information)
+        // Waits for records to load (for it contains type information)
         // and runs disableFields() on each tab form
-        this.items.get(0).down('form').on({load: function() {
+        me.items.get(0).down('form').on({load: function() {
             // Fetches commission type id
-            var type = this.record.get('commission_type_id');
+            var type = this.getRecord().data[me.getTypeFieldName()];
             this.up('tabpanel').items.each(function(tab) {
                 tab.down('form').disableFields(type);
             })
         }});
+    },
+    // return the name of the field
+    getTypeFieldName: function(){
+        return this.type_id;
     }
 });
 
