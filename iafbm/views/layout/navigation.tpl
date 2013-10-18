@@ -25,10 +25,10 @@ $navigation = array(
          'evaluations' => array(
             'url' => u('evaluations'),
             'label' => 'Gestion des évaluations'
-         ),'generation_evaluation' => array(
+         )/*,'generation_evaluation' => array(
             'url' => u('generation_evaluation'),
             'label' => 'Génération des évaluations'
-         )
+         )*/
     ),
     'Autres' => array(
         'personnes-export' => array(
