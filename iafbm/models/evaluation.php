@@ -25,6 +25,8 @@ class EvaluationModel extends iaModelMysql {
         'personne' => 'LEFT JOIN personnes ON (evaluations.personne_id = personnes.id)',
         'section' => 'LEFT JOIN sections ON (activites.section_id = sections.id)',
         'evaluation_etat' => 'LEFT JOIN evaluations_etats ON (evaluations.evaluation_etat_id = evaluations_etats.id)',
+        'evaluation_cdir' => 'LEFT JOIN evaluations_cdirs ON (evaluations_cdirs.evaluation_id = evaluations.id )',
+        'evaluation_decision' => 'LEFT JOIN evaluations_decisions ON (evaluations_cdirs.decision_id = evaluations_decisions.id)'
     );
 
     var $join = array('activite', 'activite_nom', 'evaluation_type', 'personne', 'section', 'evaluation_etat');

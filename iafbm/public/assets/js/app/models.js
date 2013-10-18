@@ -894,6 +894,7 @@ Ext.define('iafbm.model.Evaluation', {
         {name: 'personne_prenom', type: 'string'},
         {name: 'personne_nom', type: 'string'},
         {name: 'evaluation_etat_etat', type: 'string'},
+        {name: 'evaluation_decision_decision', type: 'string'},
         {name: '_evaluateurs', type: 'string'},
         {name: '_mandat', type: 'string'},
     ],

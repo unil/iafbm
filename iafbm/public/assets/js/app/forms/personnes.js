@@ -526,10 +526,10 @@ Ext.define('iafbm.form.Personne.Evaluations', {
         store = new iafbm.store.Evaluation({
             params: {
                 personne_id: personne_id,
-                //xjoin: 'commission,commission_fonction,section,commission_etat,commission_type',
-                // TODO: FIXME: Default sort should be specified on the ExtJS column definition
-                //xorder_by: 'commission_etat_id',
-                //xorder: 'ASC'
+                xjoin: 'activite,activite_nom,evaluation_type,personne,section,evaluation_etat,evaluation_cdir,evaluation_decision',
+                xreturn: "id, personne_id, evaluation_type_type, activite_id, activite_nom_abreviation, section_code, date_periode_debut, date_periode_fin, evaluation_decision_decision, evaluation_etat_etat",
+                xorder_by: 'date_periode_fin',
+                xorder: 'ASC'
             }
         });
         
@@ -585,7 +585,7 @@ Ext.define('iafbm.form.Personne.Evaluations', {
                     width: 67
                 },{
                     header: "Décision",
-                    dataIndex: 'activite_nom_abreviation',
+                    dataIndex: 'evaluation_decision_decision',
                     width: 70
                 },{
                     header: "Evaluateur(s)",
