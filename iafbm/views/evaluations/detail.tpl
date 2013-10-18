@@ -560,7 +560,7 @@ Ext.onReady(function() {
                     var form = Ext.getCmp('tabPanelEvaluation').down('form'),
                         record = form.getRecord();
                     record.set('evaluation_evaluation_etat_id', 0);
-                    console.log(record);
+                    // Affect evaluations_apercus->post() controller
                     record.save();
                     form.loadRecord();
                 }

@@ -66,7 +66,7 @@ class EvaluationsController extends AbstractEvaluationController {
             'id' => 'évaluations',
             'model' => 'Evaluation',
             'columns' => 'iafbm.columns.Evaluation',
-            'store-params' => array('actif' => 1),
+            'store-params' => array('actif' => 1, 'evaluation_etat_id[]' => array(4), 'evaluation_etat_id_comparator' => 'NOT IN'),
             'filters' => array(
                 'gridId' => 'évaluation',
                 'items' => array(
@@ -206,16 +206,14 @@ class EvaluationsController extends AbstractEvaluationController {
      * @see AbstractCommissionController
      */
     function post() {
+        $result = null;
         $this->check_closed();
         // Actual commission modification
         $t = new xTransaction();
         $t->start();
-        $result = parent::post();
-        // Archives evaluation if state becomes 'closed'
-        if (@$this->params['items']['evaluation_evaluation_etat_id'] == 0) {
-            xModel::load('evaluation', array(
-                'id' => $this->params['id']
-            ))->archive();
+        // Cannot 'close' an evaluation by this panel
+        if (@$this->params['items']['evaluation_etat_id'] != 4) {
+             $result = parent::post();
         }
         $t->end();
         // Returns operation result
