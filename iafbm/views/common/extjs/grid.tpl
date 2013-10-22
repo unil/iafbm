@@ -10,7 +10,6 @@ Ext.onReady(function(){
     var filters = Ext.createWidget('ia-combofilter', {
         gridId: '<?php echo $d['id'] ?>',
         renderTo: 'editor-grid',
-        title: 'Filtres',
         filters: <?php echo json_encode($d['filters'])?>
     });
     <?php endif ?>

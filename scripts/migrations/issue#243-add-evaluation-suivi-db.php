@@ -2,7 +2,7 @@
 
 require_once(dirname(__file__).'/../Script.php');
 
-class iafbmIssue223 extends iafbmScript {
+class iafbmIssue243 extends iafbmScript {
 
     function run() {
         // Single run test
@@ -244,4 +244,4 @@ class iafbmIssue223 extends iafbmScript {
     }
 }
 
-new iafbmIssue223();
+new iafbmIssue243();
