@@ -605,8 +605,15 @@ iafbm.columns.Evaluation = [{
             var combo   = this.editingPlugin.getEditor().getForm().getFields().get(colIndex),
                 type_id = record.data.evaluation_type_id;
             
+            //return a string to bugfix the adding of an evaluation. Can be any string.
+            if (type_id == 0)
+                return 'undefined';
+            
+            //return the combo value (user choice)
             if (combo.store.loaded)
                 return combo.store.data.items[value-1].data.type;
+            
+            //return the record value
             return record.data.evaluation_type_type;
         }
     },{
@@ -648,8 +655,12 @@ iafbm.columns.Evaluation = [{
         },
         renderer: function(value, metaData, record, rowIndex, colIndex, store) {
             combo = this.editingPlugin.getEditor().getForm().getFields().get(colIndex);
+            
+            //return the combo value (user choice)
             if (combo.store.loaded)
                 return combo.store.data.items[value-1].data.etat;
+            
+            //return the record value
             return record.data.evaluation_etat_etat;
         }
     }]
