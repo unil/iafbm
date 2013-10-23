@@ -57,8 +57,8 @@
     <br/><br/>
     <h2>Filtres</h2>
     <span>Les filtre ne sont pas cumulatifs (un seul filtre actif pour l'exportation)</span>
-    <div id="filter1"></div><br />
-    <div id="filter2"></div>    
+    <div id="btw2datesFilter"></div><br />
+    <div id="activeOnDateFilter"></div>    
     <br/><br/>
     <input type="button" id="do-export" value="Télécharger le fichier" style="padding:10px"/>
   </form>
@@ -99,9 +99,11 @@ Ext.get('do-export').on('mouseup', function() {
     }
 });
 
-var filtre1 = Ext.create('Ext.FormPanel', {
-    renderTo: 'filter1',
-    id:"toto",
+/*
+ * Filter active people between two dates.
+ */
+Ext.create('Ext.FormPanel', {
+    renderTo: 'btw2datesFilter',
     frame: true,
     title: 'Filtre: Personnes active entre deux dates',
     bodyPadding: '5px 5px 5px',
@@ -150,9 +152,11 @@ var filtre1 = Ext.create('Ext.FormPanel', {
     ]
 });
 
-var filtre2 = Ext.create('Ext.FormPanel', {
-    renderTo: 'filter2',
-    id:"toto2",
+/*
+ * Filter active people to a certain date.
+ */
+Ext.create('Ext.FormPanel', {
+    renderTo: 'activeOnDateFilter',
     frame: true,
     title: 'Filtre: Personnes active à cette dates',
     bodyPadding: '5px 5px 5px',
@@ -172,7 +176,7 @@ var filtre2 = Ext.create('Ext.FormPanel', {
             name: 'date',
             id: 'field_date',
             listeners: {
-                focus: function (t,n,o) {
+                focus: function () {
                     var begin = Ext.getCmp('field_begin'),
                         end = Ext.getCmp('field_end'),
                         panel = begin.up();
@@ -186,6 +190,9 @@ var filtre2 = Ext.create('Ext.FormPanel', {
     ]
 });
 
+/*
+ * Javascript validation of the two filters.
+ */
 function validFilters(){
     var filter1 = {used:false, errors:false},
         filter2 = {used:false, errors:false},
