@@ -556,62 +556,7 @@ iafbm.columns.Evaluation = [{
                 record.get('id')
             ].join('/');
         } 
-    },/*{
-        text: "Nom",
-        sortable : true,
-        dataIndex: 'personne_id',
-        width: 170,
-        xtype: 'ia-combocolumn',
-        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-            return record.data._prenom_nom;
-        },
-        editor: {
-            xtype: 'ia-combo',
-            store: new iafbm.store.PersonneActivite({
-                params: {
-                    //to avoid having multiples same personnes
-                    //xgroup_by: 'personne_id'
-                }
-            }),
-            valueField: 'personne_id',
-            displayField: '_nomPrenom',
-            allowBlank: false,
-            listConfig: {
-                loadingText: 'Recherche...',
-                emptyText: 'Aucun résultat.',
-                // Custom rendering template for each item
-                getInnerTpl: function() {
-                    var img = x.context.baseuri+'/a/img/icons/trombi_empty.png';
-                    return [
-                        '<div>',
-                        '  <img src="'+img+'" style="float:left;height:39px;margin-right:5px"/>',
-                        '  <h3>{personne_prenom} {personne_nom}</h3>',
-                        '  <div>{activite_nom_abreviation} {section_code}</div>',
-                        '  <div>{[values.personne_date_naissance ? Ext.Date.format(values.personne_date_naissance, "j M Y") : "&nbsp;"]}</div>',
-                        '</div>'
-                    ].join('');
-                }
-            },
-            listeners: {
-                select: function(combo, records, eOpts) {
-                    record = combo.up().getRecord();
-                    personne = records[0].data;
-                    field = combo.up().items;
-                    mandat_timelapse = Ext.Date.format(personne.debut, 'd.m.Y') + ' - ' + Ext.Date.format(personne.fin, 'd.m.Y');
-                    
-                    record.set('activite_nom_abreviation', personne.activite_nom_abreviation);
-                    record.set('activite_id', personne.activite_id);
-                    record.set('section_code', personne.section_code);
-                    record.set('section_id', personne.section_id);
-                    record.set('_mandat', mandat_timelapse);
-                    
-                    field.get(3).setValue(personne.activite_nom_abreviation);
-                    field.get(4).setValue(mandat_timelapse);
-                    field.get(7).setValue(personne.section_code);
-                }
-            }
-        }
-    }*/{
+    },{
         text: 'Prénom',
         sortable : true,
         dataIndex: 'personne_prenom',
@@ -637,7 +582,7 @@ iafbm.columns.Evaluation = [{
         text     : 'Durée',
         dataIndex: '_mandat',
         name: '_mandat',
-        width: 130,
+        width: 135,
         sortable : false,
     }]
 },{
@@ -660,9 +605,9 @@ iafbm.columns.Evaluation = [{
             var combo   = this.editingPlugin.getEditor().getForm().getFields().get(colIndex),
                 type_id = record.data.evaluation_type_id;
             
-            if(type_id == 0) //doesn't yet affected
-                return 'undefined';
-            return combo.store.data.items[record.data.evaluation_type_id-1].data.type;
+            if (combo.store.loaded)
+                return combo.store.data.items[value-1].data.type;
+            return record.data.evaluation_type_type;
         }
     },{
         text     : 'Début',
@@ -686,23 +631,8 @@ iafbm.columns.Evaluation = [{
         text     : 'Évaluateurs',
         sortable : false,
         dataIndex: '_evaluateurs',
-        width: 210,
-    },{
-        /*text     : 'État',
-        sortable : true,
-        dataIndex: 'evaluation_etat_id',
-        xtype: 'ia-combocolumn',
-        field: {
-            xtype: 'ia-combo',
-            displayField: 'etat',
-            valueField: 'id',
-            allowBlank: false,
-            store: new iafbm.store.EvaluationEtat()
-        },
-        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-            return record.data.etat;
-        },*/
-        
+        width: 204,
+    },{        
         text     : 'État',
         sortable : true,
         dataIndex: 'evaluation_etat_id',
@@ -717,8 +647,10 @@ iafbm.columns.Evaluation = [{
             store: new iafbm.store.EvaluationEtat()
         },
         renderer: function(value, metaData, record, rowIndex, colIndex, store) {
-            var combo = this.editingPlugin.getEditor().getForm().getFields().get(colIndex);
-            return combo.store.data.items[record.data.evaluation_etat_id-1].data.etat;
+            combo = this.editingPlugin.getEditor().getForm().getFields().get(colIndex);
+            if (combo.store.loaded)
+                return combo.store.data.items[value-1].data.etat;
+            return record.data.evaluation_etat_etat;
         }
     }]
 }];

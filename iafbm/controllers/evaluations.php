@@ -33,7 +33,7 @@ abstract class AbstractEvaluationController extends iaExtRestController {
             'id' => $id
         ))->get(0);
         if (!$evaluation) throw new xException("Evaluations does not exist (id: {$id})", 500, $params);
-        if ($evaluation['evaluation_etat_id'] == 3) {
+        if ($evaluation['evaluation_etat_id'] == 4) {
             throw new xException('Cannot modify a closed evaluation', 403, $evaluation);
         }
     }
