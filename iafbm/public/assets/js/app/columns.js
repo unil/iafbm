@@ -498,7 +498,6 @@ iafbm.columns.Rattachement = [{
     }
 }];
 
-// TODO versions
 iafbm.columns.Evaluateur = [{
     xtype: 'ia-actioncolumn-detailform',
     form: iafbm.form.Personne,
@@ -506,14 +505,14 @@ iafbm.columns.Evaluateur = [{
         return null;
     },
     getFetch: function(gridView, rowIndex, colIndex, item) {
-        var commission_membre = gridView.getStore().getAt(rowIndex),
-            personne_id = commission_membre.get('personne_id');
-            //version = commission_membre.get('version_id');
+        var evaluation = gridView.getStore().getAt(rowIndex),
+            personne_id = evaluation.get('personne_id');
+            version = evaluation.get('version_id');
         // Loads versioned record (if applicable, eg. xversion > 0)
         return {
             model: iafbm.model.Personne,
             id: personne_id,
-            //xversion: version
+            xversion: version
         };
     }
 }, {

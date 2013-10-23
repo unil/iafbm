@@ -22,8 +22,8 @@ Ext.onReady(function() {
         ]
     });
     
-    // Tableau des valeurs des champs à cacher en fonction du type_id de l'évaluation
-    // relatif au champs "id" de la table "activite" ou du champs "activite_id" de iafbm.store.Evaluation
+    // Arrays of activite_ids to know which field to hide
+    // relation to "activite_id" from iafbm.store.Evaluation
     var typeId_Po           = Array(1,2,3),
         typeId_PoAdPersonam = Array(4,5,6),
         typeId_Pas          = Array(13,14,15),
@@ -75,10 +75,9 @@ Ext.onReady(function() {
                         f.each(function(a){
                             formFields.push(a);
                         });
-                        // TODO: Effectué plusieurs fois, certains à double, tester avec des console.log(form)
                         form.on('load', function() {
                             fields = form.getValues();
-                            if (fields['evaluation_evaluation_etat_id'] == 4){// 4 means clôturé
+                            if (fields['evaluation_evaluation_etat_id'] == 4){// 4 means "closed"
                                 Ext.each(formFields, function(c){
                                     c.setReadOnly(true);
                                 });
@@ -135,7 +134,6 @@ Ext.onReady(function() {
                     width: 480,
                     height: 250,
                     id: 'evaluateur-gridpanel',
-                    //editable: false,
                     combo: {
                         store: new iafbm.store.Personne({
                             params: {
@@ -437,9 +435,9 @@ Ext.onReady(function() {
         }],
         /*
          *
-         * Renomme l'onglet "Cdir" en "Décision de la Direction de l'UNIL"
-         * Renomme le champ "Séance Cdir du" en "Sécance Direction du"
-         * Renomme le titre du formulaire (fieldSet) en Décision de la Direction de l'UNIL
+         * Rename "Cdir" tab in "Décision de la Direction de l'UNIL"
+         * Rename field "Séance Cdir du" in "Sécance Direction du"
+         * Rename formular title (fieldSet) in "Décision de la Direction de l'UNIL"
          *
          * Thank you Damien !
          */

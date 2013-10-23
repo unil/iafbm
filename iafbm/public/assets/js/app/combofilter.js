@@ -6,7 +6,7 @@ Ext.define('Ext.ia.Combofilter', {
     extend: 'Ext.form.Panel',
     alias: 'widget.ia-combofilter',
     id: "comboFilter",
-    // grille à filtrer
+    // grid to filter
     gridId: null,
     items: [],
     filters: [], //filters from php
@@ -44,16 +44,16 @@ Ext.define('Ext.ia.Combofilter', {
                     editable: false,
                     displayField: item.displayField,
                     valueField: item.valueField,
-                    // événement quand on séléctionne une valeur dans le combobox
+                    // event on valueSelected in combobox
                     listeners: {
                         change: {
                             fn: function(obj, newValue, oldValue, eOpts) {
                                 pnl = this.up('form'), // le panel
                                     store = Ext.getCmp(pnl.gridId).store;
                                     
-                                // former le filtre
+                                // create filter
                                 var f = pnl.parseFilterData();
-                                // recharger les données avec le nouveau filtre
+                                // reload data with the filter
                                 pnl.applyFilterData(f, store);
                             }
                         }
@@ -75,9 +75,9 @@ Ext.define('Ext.ia.Combofilter', {
     },
     parseFilterData: function(resetFlag) {
         /**
-        * Création du filtre de recherche.
-        * On récupère les données des combobox, et on crée l'objet en fonction.
-        * Si les données sont null, on ne les ajoute pas au filtre.
+        * Creation of the search filter.
+        * Get data from combobox and create the object filter.
+        * if datas are null, no filter.
         */
         var result = new Array();
         
