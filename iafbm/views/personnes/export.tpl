@@ -105,11 +105,11 @@ Ext.get('do-export').on('mouseup', function() {
 Ext.create('Ext.FormPanel', {
     renderTo: 'btw2datesFilter',
     frame: true,
-    title: 'Filtre: Personnes active entre deux dates',
+    title: 'Mandat/Contrat actif',
     bodyPadding: '5px 5px 5px',
     width: 260,
     fieldDefaults: {
-        labelWidth: 50,
+        labelWidth: 70,
         msgTarget: 'side',
         autoFitErrors: false
     },
@@ -119,7 +119,7 @@ Ext.create('Ext.FormPanel', {
     defaultType: 'ia-datefield',
     items: [
         {
-            fieldLabel: 'Du',
+            fieldLabel: 'À partir du',
             name: 'begin',
             id: 'field_begin',
             listeners: {
@@ -134,7 +134,7 @@ Ext.create('Ext.FormPanel', {
                 }
             }
         },{
-            fieldLabel: 'Au',
+            fieldLabel: 'Jusqu\' au',
             name: 'end',
             id: 'field_end',
             listeners: {
@@ -158,11 +158,11 @@ Ext.create('Ext.FormPanel', {
 Ext.create('Ext.FormPanel', {
     renderTo: 'activeOnDateFilter',
     frame: true,
-    title: 'Filtre: Personnes active à cette dates',
+    title: 'Mandat/Contrat actif',
     bodyPadding: '5px 5px 5px',
     width: 260,
     fieldDefaults: {
-        labelWidth: 50,
+        labelWidth: 70,
         msgTarget: 'side',
         autoFitErrors: false
     },
@@ -172,7 +172,7 @@ Ext.create('Ext.FormPanel', {
     defaultType: 'ia-datefield',
     items: [
         {
-            fieldLabel: 'Actif le',
+            fieldLabel: 'Le',
             name: 'date',
             id: 'field_date',
             listeners: {
