@@ -84,7 +84,7 @@ Ext.get('do-export').on('mouseup', function() {
                 html: 'Patientez pendant la préparation des données'
             }]
         });
-        //Ext.get('export-form').dom.submit();
+        Ext.get('export-form').dom.submit();
     }else{
         Ext.Msg.show({
             title: validation.title,
