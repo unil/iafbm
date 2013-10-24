@@ -49,7 +49,18 @@ class iaAuth extends xAuth {
                 'version_data' => 'CR',
                 'version_relation' => 'CR',
                 'archive' => 'CR',
-                'archive_data' => 'CR'
+                'archive_data' => 'CR',
+                'evaluation' => null,
+                'evaluation_apercu' => null,
+                'evaluation_cdir' => null,
+                'evaluation_contrat' => null,
+                'evaluation_decision' => null,
+                'evaluation_etat' => null,
+                'evaluation_evaluateur' => null,
+                'evaluation_evaluation' => null,
+                'evaluation_preavis' => null,
+                'evaluation_rapport' => null,
+                'evaluation_type' => null
             )
         ),
         'fbm-iafbm-personnes-g' => array(
