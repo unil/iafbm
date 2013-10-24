@@ -79,16 +79,12 @@ Ext.get('do-export').on('mouseup', function() {
             tag: 'div',
             style: 'font-weight:bold',
             children: [{
-                tag: 'img',
-                src: '<?php echo u('a/img/icons/spinner-32x32.gif') ?>',
-                style: 'width:32px;height:32px'
-            }, {
                 tag: 'span',
-                style: 'position:relative; left:15px; bottom:12px',
+                style: 'position:relative',
                 html: 'Patientez pendant la préparation des données'
             }]
         });
-        Ext.get('export-form').dom.submit();
+        //Ext.get('export-form').dom.submit();
     }else{
         Ext.Msg.show({
             title: validation.title,
