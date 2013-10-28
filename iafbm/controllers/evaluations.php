@@ -47,119 +47,12 @@ class EvaluationsController extends AbstractEvaluationController {
     var $query_fields = array('personne_nom', 'personne_prenom', 'section_code', 'evaluation_type_type', 'activite_nom_abreviation', 'date_periode_debut', 'date_periode_fin');
     
     function indexAction() {
-        
-        //create the dataset for the storeFilter "année"
-        $yearsData = "";
-        foreach($this->getEndYears() as $year){
-            $yearsData .= "{'year':'{$year}'},";
-        }
-        
-        //create the dataset for the storeFilter "évaluateurs"
-        $evaluatorsData = "";
-        foreach($this->getEvaluators() as $evaluator){
-            $evaluatorsData .= "{'evaluateur':'{$evaluator}'},";
-        }
-        
-        
         $data = array(
             'title' => 'Gestion des évaluations',
             'id' => 'évaluations',
             'model' => 'Evaluation',
-            'columns' => 'iafbm.columns.Evaluation',
-            'store-params' => array('actif' => 1, 'evaluation_etat_id[]' => array(4), 'evaluation_etat_id_comparator' => 'NOT IN'),
-            'filters' => array(
-                'gridId' => 'évaluation',
-                'items' => array(
-                    array(
-                        'itemId' => 'type',
-                        'fieldLabel' => 'Type',
-                        'store' => 'new iafbm.store.EvaluationType()',
-                        'displayField' => 'type',
-                        'valueField' => 'id',
-                        'filterColumn' => 'evaluation_type_id'
-                    ),
-                    array(
-                        'itemId' => 'titre',
-                        'fieldLabel' => 'Titre académique',
-                        'store' => "
-                                new iafbm.store.ActiviteNom({
-                                    params: {
-                                        'id[]': [1,2,4,5,11,14,15,16,17,22],
-                                    }
-                                })
-                        ",
-                        'displayField' => 'abreviation',
-                        'valueField' => 'abreviation',
-                        'filterColumn' => 'activite_nom_abreviation'
-                    ),
-                    array(
-                        'itemId' => 'section',
-                        'fieldLabel' => 'Section',
-                        'store' => 'new iafbm.store.Section()',
-                        'displayField' => 'code',
-                        'valueField' => 'id',
-                        'filterColumn' => 'section_id'
-                    ),
-                    array(
-                        'itemId' => 'annee',
-                        'fieldLabel' => 'Année',
-                        'store' => "Ext.create('Ext.data.Store', {
-                            fields: ['year'],
-                            data : [".$yearsData."]
-                        });",
-                        'displayField' => 'year',
-                        'valueField' => 'year',
-                        'filterColumn' => 'date_periode_fin',
-                        'specialFilter' => "(function(rec, id){
-                            var dateToFilter = new Date(itemValue, 1,1),
-                                date = rec.data.date_periode_fin;
-                            
-                            if(dateToFilter.getFullYear() == date.getFullYear()){
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        })"
-                    ),
-                    array(
-                        'itemId' => 'filterEvaluateur',
-                        'fieldLabel' => 'Évaluateurs',
-                        'store' => "Ext.create('Ext.data.Store', {
-                            fields: ['evaluateur'],
-                            data : [".$evaluatorsData."]
-                        });",
-                        'displayField' => 'evaluateur',
-                        'valueField' => 'evaluateur',
-                        'filterColumn' => '_evaluateurs',
-                        'specialFilter' => "(function(rec, id){
-                            evaluateurs = rec.data._evaluateurs;
-                            // check if the filter parameter is in each row of the store
-                            // this filter is local only
-                            if(evaluateurs.indexOf(itemValue) !== -1){
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        })"
-                    )
-                )
-            ),
-            'toolbarButtons' => array('delete', 'save', 'searchPeople', 'search'),
-            'makeData' => array(
-                'keyValue' => array(
-                    'personne_id' => 'personne_id',
-                    'personne_nom' => 'personne_nom',
-                    'personne_prenom' => 'personne_prenom',
-                    'section_id' => 'section_id',
-                    'section_code' => 'section_code',
-                    'activite_id' => 'activite_id',
-                    'activite_nom_abreviation' => 'activite_nom_abreviation',
-                ),
-                'value' => array(
-                    '_mandat' => "(Ext.Date.format(new Date(record.get('debut')),'d.m.Y') + ' - ' + Ext.Date.format(new Date(record.get('fin')),'d.m.Y'))",
-                    'evaluation_etat_id' => 1,
-                )
-            )
+            'evaluators' => $this->getEvaluators(),
+            'endYears' => $this->getEndYears()
         );
         
         //Ajout de la fonctionnalité des filtres.
@@ -167,7 +60,7 @@ class EvaluationsController extends AbstractEvaluationController {
             xUtil::url('a/js/app/combofilter.js'),
         ));
         
-        return xView::load('common/extjs/grid', $data, $this->meta)->render();
+        return xView::load('evaluations/grid', $data, $this->meta)->render();
     }
 
     function detailAction() {
