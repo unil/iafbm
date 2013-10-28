@@ -119,7 +119,7 @@ Ext.onReady(function() {
                 name: 'evaluation_evaluation_etat_id',
             },{
                 xtype: 'ia-textarea',
-                fieldLabel: 'Remarques diveres',
+                fieldLabel: 'Remarques diverses',
                 emptyText: 'Remarques diverses',
                 name: 'commentaire',
                 grow: true,
@@ -207,9 +207,9 @@ Ext.onReady(function() {
                 iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc)
             },{
                 xtype: 'ia-datefield',
-                fieldLabel: 'Relancé le',
+                fieldLabel: 'Evalué relancé le',
                 name: 'date_relance',
-                emptyText: 'Relancé le',
+                emptyText: 'Evalué relancé le',
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Rapport et annexes reçus le',
@@ -239,7 +239,7 @@ Ext.onReady(function() {
                 iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-textarea',
-                fieldLabel: 'Remarques diveres',
+                fieldLabel: 'Remarques diverses',
                 emptyText: 'Remarques diverses',
                 name: 'commentaire',
                 grow: true,

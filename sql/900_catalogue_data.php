@@ -700,7 +700,7 @@ $catalogue_data = array(
                 array(
                         'id' => '5',
                         'actif' => '1',
-                        'decision' => 'Prolongation',
+                        'decision' => 'Prolonger',
                         'commentaire' => ''
                 ),
                 array(
