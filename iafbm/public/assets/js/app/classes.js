@@ -1074,14 +1074,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
          * @TODO: Generalize the component
          */
         var searchPeople = new Ext.form.field.ComboBox({
-            store: new iafbm.store.PersonneActivite({
-                params: {
-                    xreturn: 'personne_id, personne_nom, personne_prenom, activite_id, activite_nom_abreviation, section_id, section_code, debut, fin',
-                    xwhere: 'query'
-                    // @TODO: ne marche pas car recherche soumise à xquery.
-                    //'activite_nom_id[]': [1,2,4,5,11,14,15,16,17,22],
-                },
-            }),
+            store: null,
             pageSize: true, // Should equal the store.pageSize, but it works well like that...
             queryParam: 'xquery',
             typeAhead: false,
@@ -1116,7 +1109,10 @@ Ext.define('Ext.ia.grid.EditPanel', {
                     grid.getEditingPlugin().startEdit(0, 0);
                     Ext.defer(this.clearValue, 250, this);
                 },
-                blur: function() { this.clearValue() }
+                blur: function() { this.clearValue() },
+                beforerender: function() {
+                    this.store = eval(this.up('gridpanel').toolbarButtonsParams.searchPeople.store);
+                },
             },
             updateState: function() {
                 var grid = this.up('grid');

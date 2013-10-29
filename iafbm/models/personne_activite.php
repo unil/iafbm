@@ -37,6 +37,7 @@ class PersonneActiviteModel extends iaModelMysql {
     
     var $wheres = array(
         'query' => 'common/model/query',
+        'evaluateAllowed' => 'evaluations/model/evaluateAllowed'
     );
 
     var $archive_foreign_models = array(

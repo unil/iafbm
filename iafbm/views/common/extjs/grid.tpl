@@ -32,6 +32,10 @@ Ext.onReady(function(){
             toolbarButtons: <?php echo json_encode($d['toolbarButtons']) ?>,
         <?php endif ?>
         
+        <?php if (isset($d['toolbarButtonsParams'])): ?>
+            toolbarButtonsParams: <?php echo json_encode($d['toolbarButtonsParams']) ?>,
+        <?php endif ?>
+        
         <?php if (isset($d['makeData'])): ?>
             makeData: function(record) {
                 return {

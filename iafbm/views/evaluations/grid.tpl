@@ -92,6 +92,16 @@ $data = array_merge($d, array(
         )
     ),
     'toolbarButtons' => array('delete', 'save', 'searchPeople', 'search'),
+    'toolbarButtonsParams' => array(
+        'searchPeople' => array(
+            'store' => "new iafbm.store.PersonneActivite({
+                params: {
+                    xreturn: 'personne_id, personne_nom, personne_prenom, activite_id, activite_nom_abreviation, section_id, section_code, debut, fin',
+                    xwhere: 'evaluateAllowed'
+                }
+            })"
+        )
+    ),
     'makeData' => array(
         'keyValue' => array(
             'personne_id' => 'personne_id',
@@ -106,8 +116,7 @@ $data = array_merge($d, array(
             '_mandat' => "(Ext.Date.format(new Date(record.get('debut')),'d.m.Y') + ' - ' + Ext.Date.format(new Date(record.get('fin')),'d.m.Y'))",
             'evaluation_etat_id' => 1,
         )
-    )
+    ),
 ));
 echo xView::load('common/extjs/grid', $data, $this->meta)->render();
-
 ?>
