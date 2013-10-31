@@ -9,7 +9,7 @@ class iafbmIssue235 extends iafbmScript {
         if ($this->already_run()) {
             throw new Exception('This script has already run');
         }
-        //
+        //DB update
         $t = new xTransaction();
         $t->start();
         $this->add_records($t);
@@ -51,7 +51,7 @@ class iafbmIssue235 extends iafbmScript {
                 'id_unil' => null,
                 'id_chuv' => null,
                 'section_id' => 1,
-                'nom' => "Direction du Dpt d'oncologie (DO)",
+                'nom' => "Direction du Département d'oncologie (DO)",
                 'abreviation' => 'DDO'
             )),
             xModel::load('rattachement', array(
