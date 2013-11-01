@@ -95,6 +95,22 @@ class iaAuth extends xAuth {
                 'archive_data' => 'CR'
             )
         ),
+        	
+        'fbm-iafbm-evaluations-lecture-g' => array(
+            'models' => array(
+                'evaluation' => 'R',
+                'evaluation_apercu' => 'R',
+                'evaluation_cdir' => 'R',
+                'evaluation_contrat' => 'R',
+                'evaluation_decision' => 'R',
+                'evaluation_etat' => 'R',
+                'evaluation_evaluateur' => 'R',
+                'evaluation_evaluation' => 'R',
+                'evaluation_preavis' => 'R',
+                'evaluation_rapport' => 'R',
+                'evaluation_type' => 'R'
+            )
+        ),
         'fbm-iafbm-releve-g, fbm-iafbm-admin-g' => array(
             'models' => array(
                 '*' => 'CRUD'
