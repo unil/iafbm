@@ -1111,7 +1111,8 @@ Ext.define('Ext.ia.grid.EditPanel', {
                 },
                 blur: function() { this.clearValue() },
                 beforerender: function() {
-                    this.store = eval(this.up('gridpanel').toolbarButtonsParams.searchPeople.store);
+                    var searchPeopleStore = (this.up('gridpanel').toolbarButtonsParams) ? this.up('gridpanel').toolbarButtonsParams.searchPeople.store : "new iafbm.store.PersonneActivite()";
+                    this.store = eval(searchPeopleStore);
                 },
             },
             updateState: function() {
