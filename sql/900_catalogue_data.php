@@ -568,6 +568,20 @@ $catalogue_data = array(
                         'description' => 'A entendre',
                         'position' => '11'
                 ),
+                array(
+                        'id' => '12',
+                        'actif' => '1',
+                        'nom' => 'Autre',
+                        'description' => 'Autre',
+                        'position' => '12'
+                ),
+                array(
+                        'id' => '13',
+                        'actif' => '1',
+                        'nom' => 'Délégué facultaire permanent dans les commissions de titularisation FBM',
+                        'description' => 'Délégué facultaire permanent dans les commissions de titularisation FBM',
+                        'position' => '13'
+                )
         ),
         'commission_etat' => array(
                 array(
