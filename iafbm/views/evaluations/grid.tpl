@@ -61,11 +61,14 @@ $data = array_merge($d, array(
                     var dateToFilter = new Date(itemValue, 1,1),
                         date = rec.data.date_periode_fin;
                     
-                    if(dateToFilter.getFullYear() == date.getFullYear()){
-                        return true;
-                    }else{
-                        return false;
+                    if(date != null){
+                        if(dateToFilter.getFullYear() == date.getFullYear()){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }
+                    
                 })"
             ),
             array(

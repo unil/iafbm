@@ -183,6 +183,8 @@ class EvaluationsController extends AbstractEvaluationController {
         //Get all évaluation end date
         $yearsRows = xModel::load('evaluation', array(
             'actif' => 1,
+            'evaluation_etat_id' => array(4),
+            'evaluation_etat_id_comparator' => 'NOT IN',
             'xreturn' => array('date_periode_fin'),
             'xorder' => 'ASC',
             'xorder_by' => 'date_periode_fin',
