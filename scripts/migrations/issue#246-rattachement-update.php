@@ -15,22 +15,63 @@ class iafbmIssue246 extends iafbmScript {
         
         $t = new xTransaction();
         $t->start();
-            //Creation of new services
-            $this->addRattachements($t); echo "Added new rattachements\n";
-            $this->addChuvIdToExistingRattachement($t); echo "Added of id_chuv to certains services\n";
-            //personne_activite model
-            $this->moveSYLpersonToGER($t); echo "Moved persons from SYL to GER\n";
-            $this->moveCEPOpersonToOncologie($t); echo "Moved persons from CePO to different 'oncologie' services\n";
+            //Create new services
+            $this->log("Add new rattachements");
+                $this->addRattachements($t);   
+            $this->log("Add of id_chuv to certains services");
+                $this->addChuvIdToExistingRattachement($t);
+            $this->log("Move persons from SYL to GE");
+                $this->moveSYLpersonToGER($t);
+            //Update name of existing services
+            $this->log("Update name of existing services");
+                $this->updateServicesName($t);
             //commission_membre model
-            $this->moveCEPOcommissionMembre($t); echo "Moved CEPO commission members to 'oncologie'\n";
+            $this->log("Move CEPO commission members to 'oncologie'");
+                $this->moveCEPOcommissionMembre($t);
+            //personne_activite model
+            $this->log("Move persons from CePO to different 'oncologie' services");
+                $this->moveCEPOpersonToOncologie($t);
             //deletation of old services (soft-delete)
-            $this->deleteServices($t); echo "Deleted (soft delete) services\n";
+            $this->log("Delete (soft delete) services");
+                $this->deleteServices($t);
         $t->end();
     }
 
     function addRattachements(xTransaction $t) {
         // Inserts 2 new positions
         $put = array(
+            xModel::load('rattachement', array(
+                'id' => 168,
+                'id_chuv' => 'DDO',
+                'actif' => 1,
+                'section_id' => '1',
+                'nom' => "Direction du Département d'oncologie (DO)",
+                'abreviation' => 'DDO'
+            )),
+            xModel::load('rattachement', array(
+                'id' => 169,
+                'id_chuv' => 'ONM',
+                'actif' => 1,
+                'section_id' => '1',
+                'nom' => "Service d'oncologie médicale",
+                'abreviation' => 'ONM'
+            )),
+            xModel::load('rattachement', array(
+                'id' => 170,
+                'id_chuv' => 'PDO',
+                'section_id' => '1',
+                'nom' => "Plateformes du Département d'oncologie",
+                'abreviation' => 'PDO'
+            )),
+            xModel::load('rattachement', array(
+                'id' => 171,
+                'id_unil' => null,
+                'id_chuv' => null,
+                'actif' => '1',
+                'section_id' => '2',
+                'nom' => "École de formation postgraduée",
+                'abreviation' => 'EFPG'
+            )),
             xModel::load('rattachement', array(
                 'id' => 172,
                 'id_chuv' => 'GER',
@@ -210,6 +251,24 @@ class iafbmIssue246 extends iafbmScript {
             xModel::load('rattachement', array(
                 'id' => 138,
                 'actif' => 0
+            )),
+        );
+        foreach ($post as $model) $t->execute($model, 'post');
+    }
+    
+    function updateServicesName(xTransaction $t){
+        $post = array(
+            xModel::load('rattachement', array(
+                'id' => 63,
+                'nom' => 'Service de chirurgie cardiaque'
+            )),
+            xModel::load('rattachement', array(
+                'id' => 119,
+                'nom' => 'Service de médecine nucléaire et imagerie moléculaire'
+            )),
+            xModel::load('rattachement', array(
+                'id' => 100,
+                'nom' => 'Service de chirurgie plastique et de la main'
             )),
         );
         foreach ($post as $model) $t->execute($model, 'post');
