@@ -13,7 +13,7 @@ foreach($d['evaluators'] as $evaluator){
 
 $data = array_merge($d, array(
     'columns' => 'iafbm.columns.Evaluation',
-    'store-params' => array('actif' => 1, 'evaluation_etat_id[]' => array(4), 'evaluation_etat_id_comparator' => 'NOT IN'),
+    'store-params' => array('actif' => 1, 'xorder' => 'ASC', 'xorder_by' => 'evaluation_etat_id'),
     'filters' => array(
         'gridId' => 'évaluation',
         'items' => array(
