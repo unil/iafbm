@@ -17,3 +17,4 @@ foreach ($d['where'] as $where) {
 // Issues WHERE statement
 $extraCondition = 'AND activites_noms.id IN ('.$activityNameIdSearchFor.')';
 print 'WHERE personnes.actif = 1 AND ('.implode("\nOR ", $conditions).') '.$extraCondition;
+print ' AND (personnes_activites.fin > NOW() AND personnes_activites.debut < NOW())'; // get only active contracts.
