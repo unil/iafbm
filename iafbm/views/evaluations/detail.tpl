@@ -198,13 +198,11 @@ Ext.onReady(function() {
                 fieldLabel: 'Biblio. demandée le',
                 emptyText: 'Biblio. demandée le',
                 name: 'date_biblio_demandee',
-                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Biblio reçue le',
                 emptyText: 'Biblio reçue le',
                 name: 'date_biblio_recue',
-                iaDisableFor: [].concat(typeId_Mer1Ssc, typeId_Mer2Ssc)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Evalué relancé le',
@@ -286,7 +284,6 @@ Ext.onReady(function() {
                 fieldLabel: 'Préavis Evaluateur',
                 name: 'preavis_evaluateur_id',
                 editable: false,
-                iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-combo',
                 store: makeDecisionStore(),
@@ -300,7 +297,6 @@ Ext.onReady(function() {
                 fieldLabel: 'Liste transmise à la Direction de l\'UNIL le',
                 emptyText: 'Liste transmis à la Direction de l\'UNIL le',
                 name: 'date_liste_transmise',
-                iaDisableFor: [].concat(typeId_Grp_PoPas, typeId_Ptit, typeId_Mer1Ssf, typeId_Mer2Ssf)
             },{
                 xtype: 'ia-datefield',
                 fieldLabel: 'Dossier transmis à la Direction de l\'UNIL le',
