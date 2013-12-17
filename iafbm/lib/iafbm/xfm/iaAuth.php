@@ -60,7 +60,18 @@ class iaAuth extends xAuth {
                 'version_data' => 'CR',
                 'version_relation' => 'CR',
                 'archive' => 'CR',
-                'archive_data' => 'CR'
+                'archive_data' => 'CR',
+                'evaluation' => null,
+                'evaluation_apercu' => null,
+                'evaluation_cdir' => null,
+                'evaluation_contrat' => null,
+                'evaluation_decision' => null,
+                'evaluation_etat' => null,
+                'evaluation_evaluateur' => null,
+                'evaluation_evaluation' => null,
+                'evaluation_preavis' => null,
+                'evaluation_rapport' => null,
+                'evaluation_type' => null
             )
         ),
         //PERSONNES READ
@@ -189,6 +200,22 @@ class iaAuth extends xAuth {
                 'commission_validation' => 'CRUD',
                 'commission_validation_etat' => 'R',
                 'grandeur' => 'R',
+            )
+        ),
+        	
+        'fbm-iafbm-evaluations-lecture-g' => array(
+            'models' => array(
+                'evaluation' => 'R',
+                'evaluation_apercu' => 'R',
+                'evaluation_cdir' => 'R',
+                'evaluation_contrat' => 'R',
+                'evaluation_decision' => 'R',
+                'evaluation_etat' => 'R',
+                'evaluation_evaluateur' => 'R',
+                'evaluation_evaluation' => 'R',
+                'evaluation_preavis' => 'R',
+                'evaluation_rapport' => 'R',
+                'evaluation_type' => 'R'
             )
         ),
         'fbm-iafbm-releve-g, fbm-iafbm-admin-g' => array(

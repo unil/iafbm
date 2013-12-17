@@ -497,3 +497,170 @@ iafbm.columns.Rattachement = [{
         allowBlank: false
     }
 }];
+
+iafbm.columns.Evaluateur = [{
+    xtype: 'ia-actioncolumn-detailform',
+    form: iafbm.form.Personne,
+    getRecord: function(gridView, rowIndex, colIndex, item) {
+        return null;
+    },
+    getFetch: function(gridView, rowIndex, colIndex, item) {
+        var evaluation = gridView.getStore().getAt(rowIndex),
+            personne_id = evaluation.get('personne_id');
+            version = evaluation.get('version_id');
+        // Loads versioned record (if applicable, eg. xversion > 0)
+        return {
+            model: iafbm.model.Personne,
+            id: personne_id,
+            xversion: version
+        };
+    }
+}, {
+    header: "Nom",
+    dataIndex: 'personne_nom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+}, {
+    header: "Prénom",
+    dataIndex: 'personne_prenom',
+    flex: 1,
+    field: {
+        xtype: 'textfield',
+        allowBlank: false
+    }
+},{
+    header: "Date de naissance",
+    dataIndex: 'personne_date_naissance',
+    flex: 1,
+    xtype: 'ia-datecolumn',
+    field: {
+        xtype: 'ia-datefield'
+    }
+}];
+
+iafbm.columns.Evaluation = [{
+    text: 'Informations personnelles',
+    columns: [{
+        text: '',
+        xtype: 'ia-actioncolumn-redirect',
+        width: 25,
+        tooltip: 'Détails évaluation',
+        getLocation: function(grid, record, id) {
+            return [
+                x.context.baseuri,
+                'evaluations',
+                record.get('id')
+            ].join('/');
+        } 
+    },{
+        text: 'Prénom',
+        sortable : true,
+        dataIndex: 'personne_prenom',
+        width: 60
+    },{
+        text: 'Nom',
+        sortable : true,
+        dataIndex: 'personne_nom',
+        width: 80
+    },{
+        text: 'Section',
+        sortable : true,
+        dataIndex: 'section_code',
+        width: 45
+    }]
+},{
+    text: 'Mandat',
+    columns: [{
+        text     : 'Titre académique',
+        dataIndex: 'activite_nom_abreviation',
+        sortable : true,
+    }, {
+        text     : 'Durée',
+        dataIndex: '_mandat',
+        name: '_mandat',
+        width: 135,
+        sortable : false,
+    }]
+},{
+    text: 'Évaluation',
+    columns: [{
+        text     : 'Type',
+        sortable : true,
+        dataIndex: 'evaluation_type_id',
+        width: 80,
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            editable: false,
+            displayField: 'type',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationType()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            var combo   = this.editingPlugin.getEditor().getForm().getFields().get(colIndex),
+                type_id = record.data.evaluation_type_id;
+            
+            //return a string to bugfix the adding of an evaluation. Can be any string.
+            if (type_id == 0)
+                return 'undefined';
+            
+            //return the combo value (user choice)
+            if (combo.store.loaded)
+                return combo.store.data.items[value-1].data.type;
+            
+            //return the record value
+            return record.data.evaluation_type_type;
+        }
+    },{
+        text     : 'Début',
+        sortable : true,
+        dataIndex: 'date_periode_debut',
+        width: 70,
+        xtype: 'ia-datecolumn',
+        field: {
+            xtype: 'ia-datefield'
+        }
+    },{
+        text     : 'Fin',
+        sortable : true,
+        dataIndex: 'date_periode_fin',
+        width: 70,
+        xtype: 'ia-datecolumn',
+        field: {
+            xtype: 'ia-datefield'
+        }
+    },{
+        text     : 'Évaluateurs',
+        sortable : false,
+        dataIndex: '_evaluateurs',
+        width: 204,
+    },{        
+        text     : 'État',
+        sortable : true,
+        dataIndex: 'evaluation_etat_id',
+        width: 65,
+        xtype: 'ia-combocolumn',
+        field: {
+            xtype: 'ia-combo',
+            editable: false,
+            displayField: 'etat',
+            valueField: 'id',
+            allowBlank: false,
+            store: new iafbm.store.EvaluationEtat()
+        },
+        renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+            combo = this.editingPlugin.getEditor().getForm().getFields().get(colIndex);
+            
+            //return the combo value (user choice)
+            if (combo.store.loaded)
+                return combo.store.data.items[value-1].data.etat;
+            
+            //return the record value
+            return record.data.evaluation_etat_etat;
+        }
+    }]
+}];
