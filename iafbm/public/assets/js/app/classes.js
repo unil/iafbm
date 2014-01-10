@@ -956,7 +956,7 @@ Ext.define('Ext.ia.grid.EditPanel', {
         newRecordValues: {},
         searchParams: {}
     },
-    toolbarButtons: ['add', 'delete', 'save', 'search', 'searchPeople'],
+    toolbarButtons: ['add', 'delete', 'save', 'search'],
     toolbarLabels: {
         add: 'Ajouter',
         delete: 'Supprimer',
@@ -1248,7 +1248,7 @@ Ext.define('Ext.ia.selectiongrid.Panel', {
             typeAhead: false,
             minChars: 1,
             hideTrigger: true,
-            width: '350',
+            width: 350,
             //columnWidth:,
             listConfig: {
                 loadingText: 'Recherche...',
