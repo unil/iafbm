@@ -40,11 +40,22 @@ class iaAuth extends xAuth {
     * @see compute_permissions()
     * @var array
     */
+   
+    /* 
+     * Permission group managment
+     * 
+     * Groups availables are:
+     *  fbm-iafbm-personnes-lecture-g
+     *  fbm-iafbm-personnes-ecriture-g
+     *  fbm-iafbm-commissions-lecture-g
+     *  fbm-iafbm-commissions-ecriture-g
+     *  fbm-iafbm-evaluations-lecture-g
+     *  fbm-iafbm-evaluations-ecriture-g
+     */    
     protected $permissions = array(
+        //EVERYBODY
         'fbm-iafbm-g' => array(
             'models' => array(
-                '*' => 'R',
-                'candidat' => null,
                 'version' => 'CR',
                 'version_data' => 'CR',
                 'version_relation' => 'CR',
@@ -63,7 +74,36 @@ class iaAuth extends xAuth {
                 'evaluation_type' => null
             )
         ),
-        'fbm-iafbm-personnes-g' => array(
+        //PERSONNES READ
+        'fbm-iafbm-personnes-lecture-g' => array(
+            'models' => array(
+                'personne' => 'R',
+                'personne_activite' => 'R',
+                'personne_adresse' => 'R',
+                'personne_denomination' => 'R',
+                'personne_email' => 'R',
+                'personne_formation' => 'R',
+                'personne_telephone' => 'R',
+                'personne_type' => 'R',
+                'commission_membre' => 'R',
+                'commission' => 'R',
+                'activite' => 'R',
+                'activite_nom' => 'R',
+                'activite_type' => 'R',
+                'adresse' => 'R',
+                'adresse_type' => 'R',
+                'canton' => 'R',
+                'etatcivil' => 'R',
+                'formation' => 'R',
+                'genre' => 'R',
+                'pays' => 'R',
+                'permis' => 'R',
+                'rattachement' => 'R',
+                'section' => 'R',
+            )
+        ),
+        //PERSONNES WRITE
+        'fbm-iafbm-personnes-ecriture-g' => array(
             'models' => array(
                 'personne' => 'CRUD',
                 'personne_activite' => 'CRUD',
@@ -88,11 +128,78 @@ class iaAuth extends xAuth {
                 'permis' => 'R',
                 'rattachement' => 'R',
                 'section' => 'R',
-                'version' => 'CR',
-                'version_data' => 'CR',
-                'version_relation' => 'CR',
-                'archive' => 'CR',
-                'archive_data' => 'CR'
+            )
+        ),
+        //CANDIDATS READ
+        'fbm-iafbm-candidats-lecture-g' => array(
+            'models' => array(
+                'candidat' => 'R',
+                'candidat_formation' => 'R',
+                'commission' => 'R',
+                'commission_travail' => 'R',
+                'genre' => 'R'
+            )
+        ),
+        //CANDIDATS WRITE
+        'fbm-iafbm-candidats-ecriture-g' => array(
+            'models' => array(
+                'candidat' => 'CRUD',
+                'candidat_formation' => 'CRUD',
+                'commission' => 'R',
+                'commission_travail' => 'R',
+                'genre' => 'R'
+            )
+        ),
+        //COMMISSIONS READ
+        /*
+         * This groupe is automaticaly include in "fbm-iafbm-personnes-lecture"
+         * in the UNIL group management (Not in this application).
+         */
+        'fbm-iafbm-commissions-lecture-g' => array(
+            'models' => array(
+                'commission' => 'R',
+                'commission_candidat_commentaire' => 'R',
+                'commission_creation' => 'R',
+                'commission_creation_etat' => 'R',
+                'commission_etat' => 'R',
+                'commission_finalisation' => 'R',
+                'commission_fonction' => 'R',
+                'commission_membre' => 'R',
+                'commission_membre_nonominatif' => 'R',
+                'commission_proposition_nomination' => 'R',
+                'commission_travail' => 'R',
+                'commission_travail_evenement' => 'R',
+                'commission_travail_evenement_type' => 'R',
+                'commission_type' => 'R',
+                'commission_validation' => 'R',
+                'commission_validation_etat' => 'R',
+                'grandeur' => 'R',
+            )
+        ),
+        //COMMISSIONS WRITE
+        /*
+         * This groupe is automaticaly include in "fbm-iafbm-personnes-lecture"
+         * in the UNIL group management (Not in this application).
+         */
+        'fbm-iafbm-commissions-ecriture-g' => array(
+            'models' => array(
+                'commission' => 'CRUD',
+                'commission_candidat_commentaire' => 'CRUD',
+                'commission_creation' => 'CRUD',
+                'commission_creation_etat' => 'R',
+                'commission_etat' => 'R',
+                'commission_finalisation' => 'CRUD',
+                'commission_fonction' => 'R',
+                'commission_membre' => 'CRUD',
+                'commission_membre_nonominatif' => 'CRUD',
+                'commission_proposition_nomination' => 'CRUD',
+                'commission_travail' => 'CRUD',
+                'commission_travail_evenement' => 'CRUD',
+                'commission_travail_evenement_type' => 'R',
+                'commission_type' => 'R',
+                'commission_validation' => 'CRUD',
+                'commission_validation_etat' => 'R',
+                'grandeur' => 'R',
             )
         ),
         	
