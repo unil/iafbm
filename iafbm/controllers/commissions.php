@@ -66,14 +66,21 @@ class CommissionsController extends AbstractCommissionController {
 
     /**
      * Displays a grid of commissions.
-     */
+     */    
     function indexAction() {
         $data = array(
             'title' => 'Gestion des commissions',
             'id' => 'commissions',
-            'model' => 'Commission'
+            'model' => 'Commission',
+            'presidents' => $this->getPresidents(),
         );
-        return xView::load('common/extjs/grid', $data, $this->meta)->render();
+        
+        //Ajout de la fonctionnalité des filtres.
+        $this->meta['js'] = xUtil::array_merge($this->meta, array(
+            xUtil::url('a/js/app/combofilter.js'),
+        ));
+        
+        return xView::load('commissions/grid', $data, $this->meta)->render();
     }
 
     /**
@@ -180,5 +187,23 @@ class CommissionsController extends AbstractCommissionController {
         $t->execute(xModel::load('candidat', $params), 'delete');
         $t->execute(xModel::load('commission', $this->params), 'delete');
         return $t->end();
+    }
+    
+    private function getPresidents(){
+        //Get all évaluation evaluators
+        $presidentsRows = xModel::load('commission_membre', array(
+            'actif' => 1,
+            'commission_fonction_id' => 1,
+            'xreturn' => array('DISTINCT personnes.prenom AS personne_prenom, personnes.nom AS personne_nom'),
+            'xorder' => 'ASC',
+            'xorder_by' => 'personnes.prenom',
+        ))->get();
+        
+        $pres = array();
+        foreach($presidentsRows as $president){
+            $pres[] = $president['personne_prenom'].' '.$president['personne_nom'];
+        }
+        
+        return $pres;
     }
 }
