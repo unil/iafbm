@@ -9,60 +9,42 @@ require_once(dirname(__file__).'/chuvLog.php');
 class chuvStructImport extends iafbmScript {
     
     private $deltaDirectory = "./deltaStruct/";
-    private $enteteMessageUser = "Les modifications suivantes ont été appliquées à l'iafbm:\n\n\n";
-    private $enteteMessageAdmin = "- Lors d'une erreur de création de rattachement, la modification id ne sera plus prise en compte dans les prochaines exécutions du script\n
-- Lors de la création, d'une entité, il faut ajouter le service dans le script d'import.\n\n\n";
+    private $_releveEmailAddr = "mathieu.noverraz@unil.ch";
+    private $_iafbmAdminEmailAddr = "mathieu.noverraz@unil.ch";
     
     function run() {
-        // Single run test
-        /*if ($this->already_run()) {
-            throw new Exception('This script has already run');
-        }*/
-        //$xml = $this->importXml('deltaStruct/delta_diffusion_00035.xml');
-        
-        //$modifs = $this->getSpecialFlag(array('S','C','L'),$this->getUbModifications($xml));
-        
-        
-        
-        //$this->printModifs($modifs);
-        /*$echo = "";
-        
-        $allModifs = array();
-        foreach($this->listDirectory($this->deltaDirectory) as $file){
-            $xml = $this->importXml($file);
-            $modif = $this->getSpecialFlag(array('C','S','U'),$this->getUbModificationsFromXml($xml));
-            
-            //Array merge to have a whole array.
-            if($modif)
-            $allModifs = array_merge($allModifs, $modif);
-            
-            //print result
-            echo $file." => ".count($modif)." modifications\n";
-            $echo .= $this->printModif($modif);
-        }*/
-        
+        //Get all modifications in XML files
         $modifs = $this->getUbModifications();
-        $modifs = $this->filterModifications($modifs, $this->getIgnoredModifs());
+        //Remove modifications already executed
+        //$modifs = $this->filterModifications($modifs, $this->getIgnoredModifs());
+        //Processing modifications and return a log
         $logs = $this->processModifs($modifs);
-        
-        $messageAdmin=$this->enteteMessageAdmin;
-        $messageUser=$this->enteteMessageUser;
-        foreach($logs as $log){
-            $messageAdmin .= $log->toString('admin');
-            $messageUser .= $log->toString('user');
+        //Send a feedback email to the Administrator and the "Relève"
+        $this->sendEmail($this->_releveEmailAddr, "[iafbm][user] - Changement de la structure CHUV appliquée à l'iafbm",$this->makeMessage($logs, 'user'));
+        $this->sendEmail($this->_iafbmAdminEmailAddr, "[iafbm][admin] - Changement de la structure CHUV appliquée à l'iafbm",$this->makeMessage($logs, 'admin'));
+    }
+    
+    /*
+     * Make and format the message to send to users
+     * @param ChuvLog $log Log of the modification.
+     * @oaram string $mode Mode of log (user,admin).
+     * @return string The message to send.
+     */
+    private function makeMessage($logs, $mode){
+        switch($mode){
+            case 'admin';
+                $head = "Lire l'article concernant le comportement du script d'import de la structure CHUV avant la lecture de cet email. https://wwwfbm.unil.ch/wiki/iafbm/iafbm:documentation:script_de_modification_de_la_structure_organisationnelle_du_chuv\n\n\n";
+                break;
+            case 'user':
+                $head = "Les modifications suivantes ont été appliquées à l'iafbm:\n\n\n";
+                break;
         }
-
-        //$this->sendEmail('severine.morel@unil.ch',"[iafbm] - Changement de la structure CHUV appliquée à l'iafbm",$messageUser);
-        $this->sendEmail('mathieu.noverraz@unil.ch', "[iafbm][user] - Changement de la structure CHUV appliquée à l'iafbm",$messageUser);
-        $this->sendEmail('mathieu.noverraz@unil.ch', "[iafbm][admin] - Changement de la structure CHUV appliquée à l'iafbm",$messageAdmin);
-        
-        
-        //var_dump($log->modifId);
-        
-        //echo $echo;
-        //$this->sendEmail('test',$echo);
-
-        
+        $content = "Début des modifications\n\n";
+        foreach($logs as $log){
+            $content .= $log->toString($mode);
+        }
+        $content .= "\nFin des modifications.";
+        return $head.$content;
     }
     
     /*
@@ -73,7 +55,7 @@ class chuvStructImport extends iafbmScript {
         $model = xModel::load('script_chuv')->get();
         $modifsToIgnore = array();
         foreach($model as $modif){
-            $modifsToIgnore[] = $modif['id'];
+            $modifsToIgnore[] = $modif['modif_id'];
         }
         return $modifsToIgnore;
     }
@@ -86,21 +68,30 @@ class chuvStructImport extends iafbmScript {
      */
     private function ignoreModif($log){       
         if(xModel::load('script_chuv', array('modif_id'=>$log->modifId))->get()){ //exists already in table
-            echo "La modification ".$log->modifId." existe déjà en table et a été jouée une nouvelle fois. Il faut contrôler.";
+            echo "La modification ".$log->modifId." existe déjà en table et a été jouée une nouvelle fois. Il faut contrôler.\n";
         }else{
-            
-            $rattachement_id = ($log->transaction->last_insert_id) ? $log->transaction->last_insert_id : null;
             $model = xModel::load('script_chuv',array(
                     'modif_id' => $log->modifId,
                     'operation' => $log->modifType,
                     'log' => $log->toString('admin'),
-                    'date' => date('Y-m-d'),
-                    'rattachement_id' => $rattachement_id
+                    'date' => date("Y-m-d"),
             ))->put();
-            if($model[results][0]['result']['xsuccess'])
+            if(@$model[results][0]['result']['xsuccess'])
                 return true;
         }
         return false;
+    }
+
+    /*
+     * Get persons who is active in the service
+     * @param int $id_chuv Id for the service like (CCV, PMU)
+     * @return array Array of persons 
+     */
+    private function personsInService($id_chuv){
+        return xModel::load('personne_activite', array(
+            'rattachement_id_chuv' => $id_chuv,
+            'actif' => 1
+        ))->get();
     }
     
     /*
@@ -113,7 +104,7 @@ class chuvStructImport extends iafbmScript {
         $id_chuv = $modif->getElementsByTagName('entityCode')->item(0)->nodeValue;
         $nom = $modif->getElementsByTagName('longLabel')->item(0)->nodeValue;
         $abreviation = $id_chuv;
-        $chuvComment = ($modif->getElementsByTagName('entityComments')) ? $modif->getElementsByTagName('entityComments')->item(0)->nodeValue : null;
+        $chuvComment = (@$modif->getElementsByTagName('entityComments')) ? @$modif->getElementsByTagName('entityComments')->item(0)->nodeValue : null;
         $modifId = $modif->getElementsByTagName('modifId')->item(0)->nodeValue;
         //log
         $log = new ChuvLog($modifId);
@@ -125,29 +116,26 @@ class chuvStructImport extends iafbmScript {
         $log->chuvComment = $chuvComment;
         
         $exists = $this->rowExists('rattachement', 'id_chuv', $id_chuv);
-        $personnesInService = xModel::load('personne_activite', array('rattachement_id_chuv' => $id_chuv, 'actif' => 1))->get();
-        $log->rattachementRelations = $personnesInService;
+        $personsInService = $this->personsInService($id_chuv);
+        $log->rattachementRelations = $personsInService;
         
         if($exists){
-            
-            if(!$personnesInService){
+            if(!$personsInService){
                 try{
                     $t = new xTransaction();
                     $t->start();
                         $model = xModel::load('rattachement', array(
                                 'id' => $exists,
                                 'actif' => 0,
-                            )
-                        );
+                        ));
                         $t->execute($model, 'post');
                     $t->end();
-                    
                     if($t->results[0]['result']['xsuccess']){
                         $log->status = true;
                         $log->statusComment = "Le service a correctement été supprimé dans l'iafbm";
                     }else{
                         $log->status = false;
-                        $log->modifTypeLibelle = '!!!ERROR!!! Suppression de service !!!ERROR!!!';
+                        $log->modifTypeLibelle = 'Suppression de service';
                         $log->statusComment = "Un problème a été détecté";
                     }
                     $log->transaction = $t;
@@ -157,16 +145,14 @@ class chuvStructImport extends iafbmScript {
                 }
             }else{
                 $log->status = false;
-                $log->modifTypeLibelle = '!!!ERROR!!! Suppression de service !!!ERROR!!!';
+                $log->modifTypeLibelle = 'Suppression de service';
                 $log->statusComment = "Des personnes sont encore rattachées au service, il est donc impossible de supprimer le service.";
             }
-            
         }else{
             $log->status = false;
-            $log->modifTypeLibelle = '!!!ERROR!!! Suppression de service !!!ERROR!!!';
+            $log->modifTypeLibelle = 'Suppression de service';
             $log->statusComment = "Le rattachement '".$nom."' n'existait pas et n'a donc pas pu être supprimé";
         }
-        
         return $log;
     }
     
@@ -180,7 +166,7 @@ class chuvStructImport extends iafbmScript {
         $id_chuv = $modif->getElementsByTagName('entityCode')->item(0)->nodeValue;
         $nom = $modif->getElementsByTagName('longLabel')->item(0)->nodeValue;
         $abreviation = $id_chuv;
-        $chuvComment = ($modif->getElementsByTagName('entityComments')) ? $modif->getElementsByTagName('entityComments')->item(0)->nodeValue : null;
+        $chuvComment = (@$modif->getElementsByTagName('entityComments')) ? @$modif->getElementsByTagName('entityComments')->item(0)->nodeValue : null;
         $modifId = $modif->getElementsByTagName('modifId')->item(0)->nodeValue;
         //log
         $log = new ChuvLog($modifId);
@@ -204,17 +190,15 @@ class chuvStructImport extends iafbmScript {
                             'id' => $exists,
                             'nom' => $nom,
                             'abreviation' => $abreviation
-                        )
-                    );
+                    ));
                     $t->execute($model, 'post');
                 $t->end();
-                
                 if($t->results[0]['result']['xsuccess']){
                     $log->status = true;
                     $log->statusComment = "Le libellé du service a correctement été modifié dans l'iafbm";
                 }else{
                     $log->status = false;
-                    $log->modifTypeLibelle = '!!!ERROR!!! Changement de libellé de service !!!ERROR!!!';
+                    $log->modifTypeLibelle = 'Changement de libellé de service';
                     $log->statusComment = "Un problème a été détecté";
                 }
                 $log->transaction = $t;
@@ -223,10 +207,9 @@ class chuvStructImport extends iafbmScript {
             }
         }else{
             $log->status = false;
-            $log->modifTypeLibelle = '!!!ERROR!!! Changement de libellé de service !!!ERROR!!!';
+            $log->modifTypeLibelle = 'Changement de libellé de service';
             $log->statusComment = "Le rattachement '".$nom."' n'existait pas et n'a donc pas pu être mis à jour";
         }
-        
         return $log;
     }
     
@@ -242,7 +225,7 @@ class chuvStructImport extends iafbmScript {
         $nom = $modif->getElementsByTagName('longLabel')->item(0)->nodeValue;
         $responsable = $modif->getElementsByTagName('respTitle')->item(0)->nodeValue." ".$modif->getElementsByTagName('entityResp')->item(0)->nodeValue." (".$modif->getElementsByTagName('respFunct')->item(0)->nodeValue.")";
         $abreviation = $id_chuv;
-        $chuvComment = ($modif->getElementsByTagName('entityComments')) ? $modif->getElementsByTagName('entityComments')->item(0)->nodeValue : null;
+        $chuvComment = (@$modif->getElementsByTagName('entityComments')) ? @$modif->getElementsByTagName('entityComments')->item(0)->nodeValue : null;
         $modifId = $modif->getElementsByTagName('modifId')->item(0)->nodeValue;
         //log
         $log = new ChuvLog($modifId);
@@ -265,8 +248,7 @@ class chuvStructImport extends iafbmScript {
                             'section_id' => 1,
                             'nom' => $nom,
                             'abreviation' => $abreviation
-                        )
-                    );
+                    ));
                     $t->execute($model, 'put');
                 $t->end();
                 
@@ -275,35 +257,32 @@ class chuvStructImport extends iafbmScript {
                     $log->statusComment = "Le service a correctement été créé dans l'iafbm";
                 }else{
                     $log->status = false;
-                    $log->modifTypeLibelle = '!!!ERROR!!! Création de service !!!ERROR!!!';
+                    $log->modifTypeLibelle = 'Création de service';
                     $log->statusComment = "Un problème a été détecté";
                 }
                 $log->transaction = $t;
             }catch(xException $e){
                 $log->status = false;
-                $log->modifTypeLibelle = '!!!ERROR!!! Création de service !!!ERROR!!!';
+                $log->modifTypeLibelle = 'Création de service';
                 $log->statusComment = "Un problème a été détecté";
                 $log->exception = $e;
                 return $log;
             }
-            
-            
         }else{
             $log->status = false;
-            $log->modifTypeLibelle = '!!!ERROR!!! Création de service !!!ERROR!!!';
+            $log->modifTypeLibelle = 'Création de service';
             $log->statusComment = "Le rattachement existait déjà";
         }
-        
-        
-        
         return $log;
     }
     
-    
-    
-    
-    
-    
+    /*
+     * Send an email
+     * @param string $to
+     * @param string $subject
+     * @param string $message
+     * @return bool Returns true if send, false otherwise.
+     */
     function sendEmail($to,$subject, $message){
         $headers   = array();
         $headers[] = "MIME-Version: 1.0";
@@ -313,15 +292,12 @@ class chuvStructImport extends iafbmScript {
         $headers[] = "Subject: {$subject}";
         $headers[] = "X-Mailer: PHP/".phpversion();
         
-        
-        
         $accepted = mail($to, $subject, $message, implode("\r\n", $headers));
-        
         if($accepted){
-            echo "Le message à été envoyé";
+            echo "The email has been send\n";
             return true;
         }else{
-            echo "Le messge n'a pas été envoyé";
+            echo "The email hasn't been send. An error occured.\n";
             return false;
         }
     }
@@ -337,12 +313,9 @@ class chuvStructImport extends iafbmScript {
         $rows = xModel::load($model, array(
             $fieldName => $fieldValue
         ))->get();
-        
-        if(!!$rows){
+        if(!!$rows)
             return (int)$rows[0]['id'];
-        }else{
-            return false;
-        }
+        return false;
     }
     
     /*
@@ -362,8 +335,9 @@ class chuvStructImport extends iafbmScript {
                 case 'S':
                     $l = $this->deleteService($modif);
                     $log[] = $l;
-                    //Keep modif when an error happens
                     if($l->status){
+                        $this->ignoreModif($l);
+                    }elseif (!$this->personsInService($l->id_chuv)) {
                         $this->ignoreModif($l);
                     }
                     break;
@@ -419,7 +393,7 @@ class chuvStructImport extends iafbmScript {
         $doc = new DOMDocument();
         //File opening
         if(file_exists($file)){
-            return $doc::load($file);
+            return @$doc::load($file);
         } else {
             exit('Echec lors de l\'ouverture du fichier');
         }    

@@ -12,9 +12,8 @@ class ScriptChuvModel extends iaModelMysql {
         'id' => 'id',
         'modif_id' => 'modif_id',
         'operation' => 'operation',
-        'log' => 'log',
-        'rattachement_id' => 'rattachement_id',
-        
+        'date' => 'date',
+        'log' => 'log',        
     );
 
     var $order_by = array('date');

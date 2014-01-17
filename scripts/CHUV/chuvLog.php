@@ -26,134 +26,96 @@ class ChuvLog {
     public function toString($mode){
         switch($this->_modifType){
             case "C":
-                return $this->toStringCreate($mode);
+                return $this->makeMessage($this->toStringCreate($mode),$mode);
                 break;
             case "S":
-                return $this->toStringDelete($mode);
+                return $this->makeMessage($this->toStringDelete($mode),$mode);
                 break;
             case "U":
-                return $this->toStringUpdate($mode);
+                return $this->makeMessage($this->toStringUpdate($mode),$mode);
                 break;
         }
     }
     
-    public function toStringDelete($mode){
-        $ret = "----------------\n";
-        $ret .= "$this->_modifTypeLibelle \n\n";
-        $ret .= "Nom du service:\t\t\t $this->_serviceName\n";
-        $ret .= "Abréviation du service: \t $this->_serviceAbreviation\n";
-        $ret .= "Commentaire: \t\t\t\t $this->_statusComment\n";
+    public function makeMessage($specificMessage, $mode){
+        //returns only successfull operations to basics users
+        //if(!$this->_status && $mode == 'user' && $this->_modifType != 'S') return null;
+        if($mode == 'user'){
+            if(!$this->_status && $this->_rattachementRelations){
+                //Display the error to the user. Because he need to modify record
+                //(people in a service which is planned to be deleted)
+            }else{
+                //Other error are not display to the user.
+                return null;
+            }
+        }
+
+        $ret = "--------------------------------------------------------------------------------------------------------------------------------\n";
+        $ret .= "Action: \t\t\t\t\t\t\t $this->_modifTypeLibelle \n";
+        
+        $ret .= "Etat: \t\t\t\t\t\t\t ";
+        if($this->_status){
+            $ret .= "OK\n";
+        }else{
+            $ret .= "Erreur\n";
+            $ret .= "Message: \t\t\t\t\t\t ".$this->_statusComment."\n";
+        }
+        $ret .= "\n";
+        
+        $ret .= "Nom du service: \t\t\t\t\t $this->_serviceName\n";
+        $ret .= "Abréviation du service: \t\t\t $this->_serviceAbreviation\n";
         if($this->_chuvComment){
             $ret .= "Commentaire du CHUV : \t\t\t $this->_chuvComment\n";
         }
         
+        $ret .= $specificMessage;
+        
+        if($mode == 'admin'){
+            $ret .= "\n";
+            $ret .= "Modif ID: \t\t\t\t\t\t $this->_modifId\n";
+            $ret .= "id_chuv: \t\t\t\t\t\t $this->_serviceAbreviation\n";
+            $ret .= "Table: \t\t\t\t\t\t\t Rattachements\n";
+            if(@$this->_transaction->last_insert_id){
+                $ret .= "id: \t\t\t\t\t\t\t\t ".$this->_transaction->last_insert_id."\n";
+            }
+            if(@$this->_transaction->results[0]['xparams']['id']){
+                $ret .= "id: \t\t\t\t\t\t\t\t ".$this->_transaction->results[0]['xparams']['id']."\n"; 
+            }
+            if($this->_exception){
+                $ret .= "Exception: \t\t\t\t\t\t ".$this->_exception->__toString()."\n";
+            }
+        }
+        
+        $ret .= "--------------------------------------------------------------------------------------------------------------------------------\n";
+        return $ret;
+    }
+    
+    public function toStringDelete($mode){
+        
+        $ret = "";
         if($this->_rattachementRelations){
-            $ret .= "\nPersonnes dont le rattachement doit être changé avant suppression:\n";
+            $ret = "\nAction relève:\t\t\t\t\tPersonnes dont le rattachement doit être changé avant suppression:\n";
             foreach($this->_rattachementRelations as $p){
-                $ret .= "\t\t\t- ".$p['personne_prenom']." ".$p['personne_nom']." (".$p['activite_nom_nom'].") -> https://wwwfbm.unil.ch/iafbm/personnes/".$p['personne_id']."\n";
+                $ret .= "\t\t\t\t\t\t\t\t\t\t\t- ".$p['personne_prenom']." ".$p['personne_nom']." (".$p['activite_nom_nom'].") -> https://wwwfbm.unil.ch/iafbm/personnes/".$p['personne_id']."\n";
             }
-            $ret .= "Veuillez svp informer l'administrateur de l'iafbm lorsque vous aurez rattaché ces personnes à un nouveau service. Merci\n";
+            $ret .= "\t\t\t\t\t\t\t\tVeuillez svp informer l'administrateur de l'iafbm lorsque vous aurez rattaché ces personnes à un nouveau service. Merci\n";
         }
         
-        if($this->_status){
-            if($mode == 'admin'){
-                $ret .= "Modif ID: \t\t\t\t $this->_modifId\n";
-                $ret .= "Table: \t\t\t\t\t Rattachements\n";
-                $ret .= "id: \t\t\t\t\t ".$this->_transaction->results[0]['xparams']['id']."\n";
-                if($this->_exception){
-                    $ret .= "Exception: \t\t ".$this->_exception->__toString()."\n";
-                }
-            }
-        }else{
-            if($mode == 'user'){
-                return null;
-            }elseif($mode = 'admin'){
-                $ret .= "Modif ID: \t\t\t\t $this->_modifId\n";
-                $ret .= "id_chuv: \t\t\t\t $this->_serviceAbreviation\n";
-                $ret .= "Table: \t\t\t\t\t Rattachements\n";
-                if($this->_exception){
-                    $ret .= "Exception: \t\t ".$this->_exception->__toString()."\n";
-                }
-            }
-        }
         
-        $ret .= "----------------\n";
         return $ret;
     }
     
     public function toStringUpdate($mode){
-        $ret = "----------------\n";
-        $ret .= "$this->_modifTypeLibelle \n\n";
-        $ret .= "Nouveau nom du service:\t\t\t $this->_serviceName\n";
-        $ret .= "Ancien nom du service: \t\t\t $this->_beforeModifServiceName\n";
-        $ret .= "Nouvelle abréviation du service: \t $this->_serviceAbreviation\n";
+        $ret = "Ancien nom du service: \t\t\t $this->_beforeModifServiceName\n";
         $ret .= "Ancienne abréviation du service: \t $this->_beforeModifServiceAbreviation\n";
-        $ret .= "Commentaire: \t\t\t\t $this->_statusComment\n";
-        if($this->_chuvComment){
-            $ret .= "Commentaire du CHUV : \t\t\t $this->_chuvComment\n";
-        }
         
-        if($this->_status){
-            if($mode == 'admin'){
-                $ret .= "Modif ID: \t\t\t\t $this->_modifId\n";
-                $ret .= "Table: \t\t\t\t\t Rattachements\n";
-                $ret .= "id: \t\t\t\t\t ".$this->_transaction->results[0]['xparams']['id']."\n";
-                if($this->_exception){
-                    $ret .= "Exception: \t\t ".$this->_exception->__toString()."\n";
-                }
-            }
-        }else{
-            if($mode == 'user'){
-                return null;
-            }elseif($mode = 'admin'){
-                $ret .= "Modif ID: \t\t\t\t $this->_modifId\n";
-                $ret .= "id_chuv: \t\t\t\t $this->_serviceAbreviation\n";
-                $ret .= "Table: \t\t\t\t\t Rattachements\n";
-                if($this->_exception){
-                    $ret .= "Exception: \t\t ".$this->_exception->__toString()."\n";
-                }
-            }
-        }
-        
-        $ret .= "----------------\n";
         return $ret;
     }
     
     public function toStringCreate($mode){
-        $ret = "----------------\n";
-        $ret .= "$this->_modifTypeLibelle \n\n";
-        $ret .= "Nom du service: \t $this->_serviceName\n";
-        $ret .= "Abréviation: \t\t $this->_serviceAbreviation\n";
-        $ret .= "Responsable: \t\t $this->_serviceResponsable\n";
-        if($this->_chuvComment){
-            $ret .= "Commentaire du CHUV : \t $this->_chuvComment\n";
-        }
-        $ret .= "Commentaire: \t\t $this->_statusComment\n";
+        $ret = "";
+        $ret .= "Responsable: \t\t\t\t\t $this->_serviceResponsable\n";
         
-        if($this->_status){
-            if($mode == 'admin'){
-                $ret .= "Modif ID: \t\t $this->_modifId\n";
-                $ret .= "id_chuv: \t\t $this->_serviceAbreviation\n";
-                $ret .= "Table: \t\t\t Rattachements\n";
-                $ret .= "id: \t\t\t ".$this->_transaction->last_insert_id."\n";
-                if($this->_exception){
-                    $ret .= "Exception: \t\t ".$this->_exception->__toString()."\n";
-                }
-            }
-        }else{
-            if($mode == 'user'){
-                return null;
-            }elseif($mode = 'admin'){
-                $ret .= "Modif ID: \t\t $this->_modifId\n";
-                $ret .= "id_chuv: \t\t $this->_serviceAbreviation\n";
-                $ret .= "Table: \t\t\t Rattachements\n";
-                if($this->_exception){
-                    $ret .= "Exception: \t\t ".$this->_exception->__toString()."\n";
-                }
-            }
-        }
-        
-        $ret .= "----------------\n";
         return $ret;
     }
     
