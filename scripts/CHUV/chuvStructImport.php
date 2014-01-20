@@ -16,7 +16,7 @@ class chuvStructImport extends iafbmScript {
         //Get all modifications in XML files
         $modifs = $this->getUbModifications();
         //Remove modifications already executed
-        //$modifs = $this->filterModifications($modifs, $this->getIgnoredModifs());
+        $modifs = $this->filterModifications($modifs, $this->getIgnoredModifs());
         //Processing modifications and return a log
         $logs = $this->processModifs($modifs);
         //Send a feedback email to the Administrator and the "Relève"
@@ -424,7 +424,7 @@ class chuvStructImport extends iafbmScript {
      */
     function getUbModificationsFromXml($xml){
         $ubModifs = array();
-        
+        if($xml == null) return null;
         $modifs = $xml->documentElement->getElementsByTagName('modif');
         
         foreach($modifs as $modif){
@@ -442,6 +442,8 @@ class chuvStructImport extends iafbmScript {
      */
     function getSpecialFlag($flagList, $modifs){
         $r= array();
+
+        if($modifs == null) return null;
         
         foreach($modifs as $modif){
             $addElt = false;
