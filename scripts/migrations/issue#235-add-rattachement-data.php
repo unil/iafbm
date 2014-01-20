@@ -10,97 +10,48 @@ class iafbmIssue235 extends iafbmScript {
             throw new Exception('This script has already run');
         }
         //DB update
-        $t = new xTransaction();
-        $t->start();
-        $this->add_records($t);
-        $t->end();
+        try {
+            $t = new xTransaction();
+            $t->start();
+                $this->createScriptDeltaChuv($t);
+                echo "Table crée avec succès\n\n";
+            $t->end();
+        } catch (Exception $e) {
+            echo "There is a problem to create table script_deltaChuv";
+            var_dump($e);
+        }
+        
     }
 
-    function add_records(xTransaction $t) {
-        // Adds:
-        //      SSC
-        //          - HEM (Service d'hématologie)
-        //          - RTH (Service de radio-oncologie) 
-        //          - DDO (Direction du Dpt d'oncologie (DO))
-        //          - ONM (Service d'oncologie médicale) 
-        //          - PDO (Plateformes du Département d'oncologie)
-        //      SSF
-        //          - École de formation postgraduée
-        
-        $put = array(
-            //SSC
-            // Commented models were already in production database.
-            /*xModel::load('rattachement', array(
-                'actif' => 1,
-                'id_unil' => null,
-                'id_chuv' => null,
-                'section_id' => 1,
-                'nom' => "Service d'hématologie",
-                'abreviation' => 'HEM'
-            )),
-            xModel::load('rattachement', array(
-                'actif' => 1,
-                'id_unil' => null,
-                'id_chuv' => null,
-                'section_id' => 1,
-                'nom' => "Service de radio-oncologie",
-                'abreviation' => 'RTH'
-            )),*/
-            xModel::load('rattachement', array(
-                'actif' => 1,
-                'id_unil' => null,
-                'id_chuv' => null,
-                'section_id' => 1,
-                'nom' => "Direction du Département d'oncologie (DO)",
-                'abreviation' => 'DDO'
-            )),
-            xModel::load('rattachement', array(
-                'actif' => 1,
-                'id_unil' => null,
-                'id_chuv' => null,
-                'section_id' => 1,
-                'nom' => "Service d'oncologie médicale",
-                'abreviation' => 'ONM'
-            )),
-            xModel::load('rattachement', array(
-                'actif' => 1,
-                'id_unil' => null,
-                'id_chuv' => null,
-                'section_id' => 1,
-                'nom' => "Plateformes du Département d'oncologie",
-                'abreviation' => 'PDO'
-            )),
-            //SSF
-            // IMPORTANT NOTE: "Ecole de formation postgraduée" is an SSC section but for IAFBM convention, this is in SSF
-            //                  same remark with "Ecole de médecine" which not added in this script.
-            xModel::load('rattachement', array(
-                'actif' => 1,
-                'id_unil' => null,
-                'id_chuv' => null,
-                'section_id' => 2,
-                'nom' => "École de formation postgraduée",
-                'abreviation' => 'EFPG'
-            )),
-        );
-        //
-        foreach ($put as $model) $t->execute($model, 'put');
+    public function createScriptDeltaChuv(xTransaction $t){
+        // Creates commissions_creations_etats table
+        $t->execute_sql("
+            CREATE TABLE scripts_deltaChuv (
+              id int(11) NOT NULL AUTO_INCREMENT,
+              modif_id int(11) NOT NULL COMMENT 'Identificateur de la modification récupérée dans noeud modifId du fichier XML de la modification',
+              operation varchar(45) NOT NULL COMMENT 'C = création d''un service en table\nS = suppresion d''un service en table\nU = modification d''un libellé de service',
+              log text NOT NULL COMMENT 'Log admin de la modification',
+              date date NOT NULL COMMENT 'Date à laquelle la modification a été appliquée en table',
+              PRIMARY KEY (`id`),
+              UNIQUE KEY `modif_id_UNIQUE` (`modif_id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+        ");
+
+        return $t;
     }
+
 
     /**
      * Returns true if the data already exist.
      * This means the script has already been run on this instance.
      */
     function already_run() {
-        $rows = xModel::load('rattachement', array(
-            // Commented models were already in production database.
-            'abreviation' => array(/*'HEM', 'RTH', */'DDO', 'ONM', 'PDO', 'EFPG')
-        ))->get();
-        //Display which "rattachements" are already in DB
-        if(!!$rows){
-            echo "Les rattachements suivants existent déjà:\n";
-            foreach ($rows as $r) echo "\t- ".$r['abreviation']."\n";
+        $result = array();
+        $r = xModel::q("SHOW TABLES LIKE '%scripts_deltaChuv%';");
+        while ($row = mysql_fetch_assoc($r)) {
+            $result[] = $row['Field'];
         }
-        return !!$rows;
+        return !!$result;
     }
 }
 
