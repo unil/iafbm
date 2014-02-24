@@ -1,9 +1,11 @@
 <?php
+$epiceneLanguageTypePhrase = "| Par facilité de lecture du document, le masculin générique est utilisé pour désigner les deux sexes.";
+
 // Transforms members structure (this feels dirty, sorry)
 function concat($m) {
     $membres = array();
-    $fields_to_keep = array('id', 'personne_id', 'personne_denomination_abreviation', 'nom_prenom', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement', 'version_id');
-    $fields_to_concat = array('personne_denomination_abreviation', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
+    $fields_to_keep = array('id', 'personne_id', 'personne_denomination_abreviation_masculin', 'nom_prenom', 'personne_nom', 'personne_prenom', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement', 'version_id');
+    $fields_to_concat = array('personne_denomination_abreviation_masculin', 'commission_fonction_id', 'commission_fonction_nom', 'fonction_complement');
     foreach ($m as $membre) {
         $membre = xUtil::filter_keys($membre, $fields_to_keep);
         // Selects member unique id (personne_id for members, id for non-members)
@@ -59,7 +61,7 @@ tr.president {
 <?php if ($d['membres']) foreach(concat($d['membres']) as $membre): ?>
   <tr class="<?php echo cssclass($membre) ?>">
     <td style="width:15%">
-        <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
+        <?php echo implode('<br/>', $membre['personne_denomination_abreviation_masculin']) ?>
     </td>
     <td style="width:30%">
         <?php echo $membre['nom_prenom'] ?>
@@ -82,7 +84,7 @@ tr.president {
 </table>
 <hr/>
 <div style="font-size:8pt <?php if (isset($_REQUEST['html'])) echo ";visibility:hidden;height:30px" ?>">
-  Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'] ?>
+  Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'].' '.$epiceneLanguageTypePhrase ?>
 </div>
 
 <div style="page-break-before:always"/>
@@ -93,7 +95,7 @@ tr.president {
 <?php if ($d['non-membres']) foreach(concat($d['non-membres']) as $membre): ?>
   <tr class="<?php echo cssclass($membre) ?>">
     <td style="width:15%">
-        <?php echo implode('<br/>', $membre['personne_denomination_abreviation']) ?>
+        <?php echo implode('<br/>', $membre['personne_denomination_abreviation_masculin']) ?>
     </td>
     <td style="width:30%">
         <?php echo $membre['nom_prenom'] ?>
@@ -116,5 +118,5 @@ tr.president {
 </table>
 <hr/>
 <div style="font-size:8pt">
-  Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'] ?>
+  Décanat/Unité Relève/Réf. <?php echo $d['commission']['id'].' '.$epiceneLanguageTypePhrase ?> 
 </div>

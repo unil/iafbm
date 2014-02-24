@@ -39,9 +39,8 @@ class ChuvLog {
     
     public function makeMessage($specificMessage, $mode){
         //returns only successfull operations to basics users
-        //if(!$this->_status && $mode == 'user' && $this->_modifType != 'S') return null;
-        if($mode == 'user'){
-            if(!$this->_status && $this->_rattachementRelations){
+        if($mode == 'user' && !$this->_status){
+            if($this->_rattachementRelations && $this->_modifType == 'S'){
                 //Display the error to the user. Because he need to modify record
                 //(people in a service which is planned to be deleted)
             }else{
