@@ -4,7 +4,7 @@
  * Select only searched persons with $activityNameIdSearchFor
  */
 
-$activityNameIdSearchFor = '1,2,4,5,11,14,15,16,17,22';
+$activityNameIdSearchFor = '1,2,4,5,11,14,15,16,17,22,51';
 
 // Creates conditions SQL strings
 $conditions = array();
