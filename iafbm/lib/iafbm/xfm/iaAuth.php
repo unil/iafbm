@@ -128,6 +128,8 @@ class iaAuth extends xAuth {
                 'permis' => 'R',
                 'rattachement' => 'R',
                 'section' => 'R',
+                'evaluation_evaluateur' => 'R',
+                'evaluation' => 'R',
             )
         ),
         //CANDIDATS READ
